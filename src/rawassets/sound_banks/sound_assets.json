@@ -1,0 +1,11 @@
+{
+  "filenames": [
+    // SoundDefs must be in the order specified by the SoundId enum.
+    // See zooshi_common.fbs for the SoundId enum.
+
+    // MusicMenu
+    "sounds/music_menu.bin",
+
+
+  ]
+}

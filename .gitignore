@@ -1,0 +1,9 @@
+# Git ignore file for zooshi:
+
+CMakeFiles/*
+CMakeLists.txt.user
+
+
+
+# Unit test executables:
+tests/sample_test

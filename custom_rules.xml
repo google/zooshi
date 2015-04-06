@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Google Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<project name="copy-google-play-games_lib" default="debug">
+
+  <!-- Location of the Android SDL activity. -->
+  <property name="sdlactivity" value="org/libsdl/app/SDLActivity.java" />
+
+  <condition property="android_exe" value="android.bat" else="android">
+    <os family="windows" />
+  </condition>
+  <condition property="ndkbuild_exe" value="ndk-build.cmd" else="ndk-build">
+    <os family="windows" />
+  </condition>
+
+  <target name="initialize-google-play-games_lib"
+          description="Initialize Google Play Games library in the project.">
+    <!-- Copy the library to the project. -->
+    <!-- Temporarily disable this while we use a debug version of the lib -->
+    <!--
+    <copy todir="google-play-services_lib">
+      <fileset dir="${sdk.dir}/extras/google/google_play_services/libproject/google-play-services_lib"/>
+    </copy>
+    -->
+    <!-- Create an ant project for the library. -->
+    <exec executable="${android_exe}">
+      <arg value="update"/>
+      <arg value="project"/>
+      <arg value="-p"/>
+      <arg value="google-play-services_lib"/>
+      <arg value="-t"/>
+      <arg value="${target}"/>
+    </exec>
+  </target>
+
+  <target name="get-sdl-path"
+          description="Get SDL's location and save it in sdlpath.">
+    <exec executable="${ndkbuild_exe}" outputproperty="sdlpath">
+      <arg value="print_dependency"/>
+      <arg value="DEP_DIR=SDL"/>
+    </exec>
+  </target>
+
+  <target name="copy-sdl-activity"
+          description="Copy SDL activity into the source directory."
+          depends="get-sdl-path">
+    <copy tofile="src_java/${sdlactivity}"
+          file="${sdlpath}/android-project/src/${sdlactivity}"/>
+  </target>
+
+  <target name="get-cardboard-path"
+          description="Save the Cardboard SDK's location in cardboardpath.">
+    <exec executable="${ndkbuild_exe}" outputproperty="cardboardpath">
+      <arg value="print_dependency"/>
+      <arg value="DEP_DIR=CARDBOARD"/>
+    </exec>
+  </target>
+
+  <target name="copy-cardboard-libs"
+          description="Copy the Cardboard sdk into the libs directory."
+          depends="get-cardboard-path">
+    <copy todir="libs/">
+      <fileset dir="${cardboardpath}/libs"/>
+    </copy>
+  </target>
+
+  <!-- Override the -pre-compile target in sdk/tools/ant/build.xml to copy
+       the Google Play Games library and SDL Android activity to this
+       directory before the build process starts. -->
+  <target name="-pre-build"
+          depends="initialize-google-play-games_lib, copy-sdl-activity,
+                  copy-cardboard-libs" />
+</project>
