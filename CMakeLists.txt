@@ -207,6 +207,8 @@ endif()
 set(zooshi_SRCS
     src/async_loader.cpp
     src/async_loader.h
+    src/camera.cpp
+    src/camera.h
     src/common.h
     src/flatbufferschemas
     src/glplatform.h

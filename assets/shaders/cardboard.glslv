@@ -36,8 +36,8 @@ void main()
     vTexCoord = aTexCoord;
 
     // Warning, Fragile: This ONLY works because our model data is passed in
-    // aligned with the XY plane.
-    vNormalmapCoord = aPosition.xy * normalmap_scale;
+    // aligned with the XZ plane.
+    vNormalmapCoord = aPosition.xz * normalmap_scale;
 
     vNormal = aNormal;
     vTangent = vec3(aTangent.xyz);

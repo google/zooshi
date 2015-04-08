@@ -21,6 +21,7 @@
 #include "game.h"
 #include "pindrop/pindrop.h"
 #include "utilities.h"
+#include <math.h>
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -49,7 +50,7 @@ static const int kAndroidMaxScreenWidth = 1920;
 static const int kAndroidMaxScreenHeight = 1080;
 #endif
 
-static const float kViewportAngle = 0.7853975f;
+static const float kViewportAngle = M_PI/4.0f; // 45 degrees
 static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 100.0f;
 // static const float kPixelToWorldScale = 0.008f;
@@ -85,8 +86,6 @@ Game::Game()
       prev_world_time_(0),
       ambience_channel_(nullptr) {
   version_ = kVersion;
-  camera_pos_ = kCameraPos;
-  camera_orientation_ = kCameraOrientation;
 }
 
 Game::~Game() {}
@@ -127,11 +126,11 @@ static void CreateVerticalQuad(const vec3& offset, const vec2& geo_size,
                                NormalMappedVertex* vertices) {
   const float half_width = geo_size[0] * 0.5f;
   const vec3 bottom_left = offset + vec3(-half_width, 0.0f, 0.0f);
-  const vec3 top_right = offset + vec3(half_width, geo_size[1], 0.0f);
+  const vec3 top_right = offset + vec3(half_width, 0.0f,  geo_size[1]);
 
   vertices[0].pos = bottom_left;
-  vertices[1].pos = vec3(top_right[0], bottom_left[1], offset[2]);
-  vertices[2].pos = vec3(bottom_left[0], top_right[1], offset[2]);
+  vertices[1].pos = vec3(top_right[0], offset[1], bottom_left[2]);
+  vertices[2].pos = vec3(bottom_left[0], offset[1], top_right[2]);
   vertices[3].pos = top_right;
 
   const float coord_half_width = texture_coord_size[0] * 0.5f;
@@ -260,33 +259,23 @@ bool Game::Initialize(const char* const binary_directory) {
   return true;
 }
 
-void Game::Render(vec2i resolution) {
+void Game::Render(const Camera& camera) {
 
   renderer_.AdvanceFrame(input_.minimized_);
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
 
-  mat4 perspective_matrix_ = mat4::Perspective(
-      kViewportAngle, resolution.x() / static_cast<float>(resolution.y()),
-      kViewportNearPlane, kViewportFarPlane, -1.0f);
-
-  mat4 camera_matrix =
-      mat4::LookAt(vec3(0, 3, 0), camera_pos_, mathfu::kAxisY3f);
-
-  const mat4 camera_transform = perspective_matrix_ * camera_matrix;
-
+  mat4 camera_transform = camera.GetTransformMatrix();
   renderer_.model_view_projection() = camera_transform;
   renderer_.color() = mathfu::kOnes4f;
   renderer_.DepthTest(true);
   renderer_.model_view_projection() = camera_transform;
 
-
   for (int x = -100; x < 100; x += 5) {
     for (int y = -100; y < 100; y += 5) {
 
-
-      vec3 obj_orientation = vec3(0, model_angle_ + x/83.0f + y * 117.0f, 0);
-      vec3 obj_position = vec3(x, 0, y);
-      vec3 light_pos = vec3(-10, 10, -10);
+      vec3 obj_orientation = vec3(0, 0, model_angle_ + x/83.0f + y * 117.0f);
+      vec3 obj_position = vec3(x, y, 0);
+      vec3 light_pos = vec3(-10, -10, 10);
 
       mat4 object_world_matrix =
                      mat4::FromTranslationVector(obj_position) *
@@ -300,7 +289,7 @@ void Game::Render(vec2i resolution) {
       const mat4 world_matrix_inverse = object_world_matrix.Inverse();
 
       shader_cardboard->Set(renderer_);
-      renderer_.camera_pos() = world_matrix_inverse * camera_pos_;
+      renderer_.camera_pos() = world_matrix_inverse * camera.position();
       renderer_.light_pos() = world_matrix_inverse * light_pos;
       renderer_.model_view_projection() = mvp;
 
@@ -351,6 +340,8 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
 // Main update function.
 void Game::Update(WorldTime delta_time) {
   model_angle_ += 0.0005f * delta_time;
+  main_camera_.set_position(vec3(0, 0, 5));
+  main_camera_.set_facing(vec3(3, 3, 0));
 }
 
 static inline WorldTime CurrentWorldTime() { return SDL_GetTicks(); }
@@ -365,8 +356,9 @@ void Game::Run() {
   }
   billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
                                       vec2(256, 256), kPixelToWorldScale);
-  pindrop::Channel blah = audio_engine_.PlaySound("MusicMenu");
-  (void) blah;  //compilers arre dum.
+
+  main_camera_.Init(kViewportAngle, vec2(renderer_.window_size()),
+                    kViewportNearPlane, kViewportFarPlane);
 
   while (!input_.exit_requested_ &&
          !input_.GetButton(SDLK_ESCAPE).went_down()) {
@@ -381,7 +373,9 @@ void Game::Run() {
       continue;
     }
 
-    Render(renderer_.window_size());
+
+
+    Render(main_camera_);
     Render2DElements(renderer_.window_size());
     audio_engine_.AdvanceFrame(delta_time/1000.0f);
     // Process input device messages since the last game loop.

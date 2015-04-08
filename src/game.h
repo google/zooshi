@@ -15,6 +15,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "camera.h"
 #include "input.h"
 #include "material_manager.h"
 #include "pindrop/pindrop.h"
@@ -41,7 +42,7 @@ class Game {
   Mesh* CreateVerticalQuadMesh(const char* material_name, const vec3& offset,
                                const vec2& pixel_bounds,
                                float pixel_to_world_scale);
-  void Render(mathfu::vec2i resolution);
+  void Render(const Camera& camera);
   void Render2DElements(mathfu::vec2i resolution);
   void Update(WorldTime delta_time);
   const Config& GetConfig() const;
@@ -79,10 +80,10 @@ class Game {
 
   // String version number of the game.
   const char* version_;
-  mathfu::vec3 camera_pos_;
-  mathfu::vec3 camera_orientation_;
   Mesh* billboard_;
   pindrop::AudioConfig* audioConfig_;
+  Camera main_camera_;
+
 
   float model_angle_;
 };
