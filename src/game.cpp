@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "precompiled.h"
-#include "SDL_timer.h"
 #include "audio_config_generated.h"
 #include "motive/io/flatbuffers.h"
 #include "motive/init.h"
@@ -21,6 +19,7 @@
 #include "game.h"
 #include "pindrop/pindrop.h"
 #include "utilities.h"
+#include "input.h"
 #include <math.h>
 
 using mathfu::vec2i;
@@ -50,7 +49,7 @@ static const int kAndroidMaxScreenWidth = 1920;
 static const int kAndroidMaxScreenHeight = 1080;
 #endif
 
-static const float kViewportAngle = M_PI/4.0f; // 45 degrees
+static const float kViewportAngle = M_PI / 4.0f;  // 45 degrees
 static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 100.0f;
 // static const float kPixelToWorldScale = 0.008f;
@@ -77,7 +76,7 @@ static const int kMaxUpdateTime = 1000 / 30;
 /// scanned for this version string.  We track which applications are using it
 /// to measure popularity.  You are free to remove it (of course) but we would
 /// appreciate if you left it in.
-static const char kVersion[] = "FPL Project 0.0.0";
+static const char kVersion[] = "FPL Project 0.0.1";
 
 Game::Game()
     : matman_(renderer_),
@@ -92,7 +91,7 @@ Game::~Game() {}
 
 bool Game::InitializeConfig() {
   if (!LoadFile(kConfigFileName, &config_source_)) {
-    SDL_LogError(SDL_LOG_CATEGORY_ERROR, "can't load config.bin\n");
+    LogError("can't load config.bin\n");
     return false;
   }
   return true;
@@ -108,8 +107,8 @@ bool Game::InitializeRenderer() {
   const vec2i window_size = vec2i(1200, 800);
 #endif
   if (!renderer_.Initialize(window_size, "Window Title!")) {
-    SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Renderer initialization error: %s\n",
-                 renderer_.last_error().c_str());
+    LogError("Renderer initialization error: %s\n",
+             renderer_.last_error().c_str());
     return false;
   }
 
@@ -126,7 +125,7 @@ static void CreateVerticalQuad(const vec3& offset, const vec2& geo_size,
                                NormalMappedVertex* vertices) {
   const float half_width = geo_size[0] * 0.5f;
   const vec3 bottom_left = offset + vec3(-half_width, 0.0f, 0.0f);
-  const vec3 top_right = offset + vec3(half_width, 0.0f,  geo_size[1]);
+  const vec3 top_right = offset + vec3(half_width, 0.0f, geo_size[1]);
 
   vertices[0].pos = bottom_left;
   vertices[1].pos = vec3(top_right[0], offset[1], bottom_left[2]);
@@ -205,31 +204,11 @@ const Config& Game::GetConfig() const {
   return *fpl::fpl_project::GetConfig(config_source_.c_str());
 }
 
-class AudioEngineVolumeControl {
- public:
-  AudioEngineVolumeControl(pindrop::AudioEngine* audio) : audio_(audio) {}
-  void operator()(SDL_Event* event) {
-    switch (event->type) {
-      case SDL_APP_WILLENTERBACKGROUND:
-        audio_->Pause(true);
-        break;
-      case SDL_APP_DIDENTERFOREGROUND:
-        audio_->Pause(false);
-        break;
-      default:
-        break;
-    }
-  }
-
- private:
-  pindrop::AudioEngine* audio_;
-};
-
 // Initialize each member in turn. This is logically just one function, since
 // the order of initialization cannot be changed. However, it's nice for
 // debugging and readability to have each section lexographically separate.
 bool Game::Initialize(const char* const binary_directory) {
-  SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Zooshi initializing...\n");
+  // SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Zooshi initializing...\n");
 
   if (!ChangeToUpstreamDir(binary_directory, kAssetsDir)) return false;
 
@@ -245,22 +224,18 @@ bool Game::Initialize(const char* const binary_directory) {
   // strictly necessary for gameplay, so don't die if the audio engine fails to
   // initialize.
   if (!audio_engine_.Initialize(GetConfig().audio())) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                 "Failed to initialize audio engine.\n");
+    LogError("Failed to initialize audio engine.\n");
   }
 
   if (!audio_engine_.LoadSoundBank("sound_banks/sound_assets.bin")) {
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to load sound bank.\n");
+    LogError("Failed to load sound bank.\n");
   }
 
-  input_.AddAppEventCallback(AudioEngineVolumeControl(&audio_engine_));
-
-  SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Initialization complete\n");
+  LogInfo("Initialization complete\n");
   return true;
 }
 
 void Game::Render(const Camera& camera) {
-
   renderer_.AdvanceFrame(input_.minimized_);
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
 
@@ -272,15 +247,14 @@ void Game::Render(const Camera& camera) {
 
   for (int x = -100; x < 100; x += 5) {
     for (int y = -100; y < 100; y += 5) {
-
-      vec3 obj_orientation = vec3(0, 0, model_angle_ + x/83.0f + y * 117.0f);
+      vec3 obj_orientation = vec3(0, 0, model_angle_ + x / 83.0f + y * 117.0f);
       vec3 obj_position = vec3(x, y, 0);
       vec3 light_pos = vec3(-10, -10, 10);
 
       mat4 object_world_matrix =
-                     mat4::FromTranslationVector(obj_position) *
+          mat4::FromTranslationVector(obj_position) *
           mat4::FromRotationMatrix(
-               Quat::FromEulerAngles(obj_orientation).ToMatrix());
+              Quat::FromEulerAngles(obj_orientation).ToMatrix());
 
       const mat4 mvp = camera_transform * object_world_matrix;
       renderer_.model_view_projection() = mvp;
@@ -301,7 +275,6 @@ void Game::Render(const Camera& camera) {
       shader_cardboard->SetUniform("normalmap_scale", kCardboardNormalMapScale);
 
       billboard_->Render(renderer_);
-
     }
   }
 }
@@ -344,11 +317,10 @@ void Game::Update(WorldTime delta_time) {
   main_camera_.set_facing(vec3(3, 3, 0));
 }
 
-static inline WorldTime CurrentWorldTime() { return SDL_GetTicks(); }
+static inline WorldTime CurrentWorldTime() { return GetTicks(); }
 
 void Game::Run() {
   // Initialize so that we don't sleep the first time through the loop.
-  // const Config& config = GetConfig();
   prev_world_time_ = CurrentWorldTime() - kMinUpdateTime;
 
   // Wait for everything to finish loading...
@@ -360,8 +332,10 @@ void Game::Run() {
   main_camera_.Init(kViewportAngle, vec2(renderer_.window_size()),
                     kViewportNearPlane, kViewportFarPlane);
 
+  audio_engine_.PlaySound("MusicMenu");
+
   while (!input_.exit_requested_ &&
-         !input_.GetButton(SDLK_ESCAPE).went_down()) {
+         !input_.GetButton(FPLK_ESCAPE).went_down()) {
     // Milliseconds elapsed since last update. To avoid burning through the
     // CPU, enforce a minimum time between updates. For example, if
     // min_update_time is 1, we will not exceed 1000Hz update time.
@@ -369,20 +343,17 @@ void Game::Run() {
     const WorldTime delta_time =
         std::min(world_time - prev_world_time_, kMaxUpdateTime);
     if (delta_time < kMinUpdateTime) {
-      SDL_Delay(kMinUpdateTime - delta_time);
+      Delay(kMinUpdateTime - delta_time);
       continue;
     }
 
-
-
     Render(main_camera_);
     Render2DElements(renderer_.window_size());
-    audio_engine_.AdvanceFrame(delta_time/1000.0f);
+    audio_engine_.AdvanceFrame(delta_time / 1000.0f);
     // Process input device messages since the last game loop.
     // Update render window size.
     input_.AdvanceFrame(&renderer_.window_size());
     Update(delta_time);
-
   }
 }
 

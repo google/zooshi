@@ -14,7 +14,6 @@
 
 #include "camera.h"
 
-
 using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;
@@ -22,15 +21,12 @@ using mathfu::vec4;
 using mathfu::mat3;
 using mathfu::mat4;
 
-
-static const float kDefaultViewportAngle = 0.7853975f; // 45 degrees
+static const float kDefaultViewportAngle = 0.7853975f;  // 45 degrees
 static const vec2 kViewportResolution = vec2(640, 480);
 static const float kDefaultViewportNearPlane = 1.0f;
 static const float kDefaultViewportFarPlane = 100.0f;
 
-
-Camera::Camera() : position_(mathfu::kOnes3f), facing_(mathfu::kAxisY3f)
-{
+Camera::Camera() : position_(mathfu::kOnes3f), facing_(mathfu::kAxisY3f) {
   Init(kDefaultViewportAngle, kViewportResolution, kDefaultViewportNearPlane,
        kDefaultViewportFarPlane);
 }
@@ -38,13 +34,11 @@ Camera::Camera() : position_(mathfu::kOnes3f), facing_(mathfu::kAxisY3f)
 // returns a matrix representing our camera.
 mathfu::mat4 Camera::GetTransformMatrix() const {
   mat4 perspective_matrix_ = mat4::Perspective(
-      viewport_angle_, viewport_resolution_.x() /
-        viewport_resolution_.y(),
+      viewport_angle_, viewport_resolution_.x() / viewport_resolution_.y(),
       viewport_near_plane_, viewport_far_plane_, 1.0f);
 
   mat4 camera_matrix =
       mat4::LookAt(position_ + facing_, position_, mathfu::kAxisZ3f);
-
 
   mat4 camera_transform = perspective_matrix_ * camera_matrix;
 

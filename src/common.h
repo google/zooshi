@@ -83,16 +83,7 @@ namespace fpl {
 
 typedef mathfu::Quaternion<float> Quat;
 
-// 1 WorldTime = 1 millisecond.
-typedef int WorldTime;
-
 const int kMillisecondsPerSecond = 1000;
-
-typedef int CharacterId;
-
-typedef int ControllerId;
-const ControllerId kUndefinedController = -1;
-const ControllerId kTouchController = -2;
 
 }  // namespace fpl
 

@@ -49,6 +49,8 @@ set(dependencies_fplutil_dir "${fpl_root}/fplutil"
     CACHE PATH "Directory containing the fplutil library.")
 set(dependencies_pindrop_dir "${fpl_root}/audio_engine"
     CACHE PATH "Directory containing the pindrop library.")
+set(dependencies_fplbase_dir "${fpl_root}/fplbase"
+    CACHE PATH "Directory containing the FPLBase library.")
 set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
 set(dependencies_sdl_dir "${third_party_root}/sdl"
@@ -71,14 +73,6 @@ set(dependencies_webp_cmake_dir "${CMAKE_MODULE_PATH}/webp"
     CACHE PATH "Directory containing the Webp cmake project.")
 set(dependencies_webp_distr_dir "${third_party_root}/webp"
     CACHE PATH "Directory containing the Webp distribution.")
-#set(dependencies_harfbuzz_cmake_dir "${CMAKE_MODULE_PATH}/harfbuzz"
-#    CACHE PATH "Directory containing the harfbuzz cmake project.")
-#set(dependencies_harfbuzz_distr_dir "${third_party_root}/harfbuzz"
-#    CACHE PATH "Directory containing the harfbuzz library.")
-#set(dependencies_freetype_cmake_dir "${CMAKE_MODULE_PATH}/freetype"
-#    CACHE PATH "Directory containing the freetype cmake project.")
-#set(dependencies_freetype_distr_dir "${third_party_root}/freetype"
-#    CACHE PATH "Directory containing the freetype library.")
 
 # Option to enable / disable the test build.
 option(zooshi_build_tests "Build tests for this project." ON)
@@ -96,14 +90,9 @@ if(zooshi_build_cwebp)
   set(webp_build_cwebp ON CACHE BOOL "")
 endif()
 
-# Include MathFu in this project with test and benchmark builds disabled.
-set(mathfu_build_benchmarks OFF CACHE BOOL "")
-set(mathfu_build_tests OFF CACHE BOOL "")
-add_subdirectory(${dependencies_mathfu_dir} ${tmp_dir}/mathfu)
-
 # Include SDL in this project while working around SDL requirement of out of
 # tree builds.
-set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library")
+#set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library")
 # (hack) We redefine install to stop SDL's CMakeLists.txt from referring to SDL2 lib
 function(install)
 endfunction(install)
@@ -135,24 +124,23 @@ endif()
 
 # Include libogg.
 if(NOT zooshi_only_flatc AND NOT TARGET libogg)
-  add_subdirectory("${dependencies_libogg_cmake_dir}" ${tmp_dir}/libogg)
+#  add_subdirectory("${dependencies_libogg_cmake_dir}" ${tmp_dir}/libogg)
 endif()
 
 # Include libvorbis.
 if(NOT zooshi_only_flatc AND NOT TARGET libvorbis)
-  add_subdirectory("${dependencies_libvorbis_cmake_dir}" ${tmp_dir}/libvorbis)
+#  add_subdirectory("${dependencies_libvorbis_cmake_dir}" ${tmp_dir}/libvorbis)
 endif()
 
-# Include harfbuzz and freetype.
-#if(NOT zooshi_only_flatc)
-#  add_subdirectory("${dependencies_harfbuzz_cmake_dir}" ${tmp_dir}/harfbuzz)
-#  add_subdirectory("${dependencies_freetype_cmake_dir}" ${tmp_dir}/freetype)
-#endif()
+# Include fplbase.
+if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
+  add_subdirectory("${dependencies_fplbase_dir}" ${tmp_dir}/fplbase)
+endif()
 
 # Include SDL Mixer.
 set(SDL_MIXER_OGG_SUPPORT ON CACHE BOOL "Compile in Ogg Vorbis support")
 if(NOT zooshi_only_flatc AND NOT TARGET sdl_mixer)
-  add_subdirectory("${dependencies_sdl_mixer_cmake_dir}" ${tmp_dir}/sdl_mixer)
+#  add_subdirectory("${dependencies_sdl_mixer_cmake_dir}" ${tmp_dir}/sdl_mixer)
 endif()
 
 # Include Webp in this project, and force build in release mode for speed.
@@ -205,34 +193,14 @@ endif()
 
 # zooshi source files.
 set(zooshi_SRCS
-    src/async_loader.cpp
-    src/async_loader.h
     src/camera.cpp
     src/camera.h
     src/common.h
     src/flatbufferschemas
-    src/glplatform.h
-    src/glyph_cache.h
-    src/input.cpp
-    src/input.h
     src/main.cpp
-    src/material.cpp
-    src/material.h
-    src/material_manager.cpp
-    src/material_manager.h
-    src/mesh.cpp
-    src/mesh.h
     src/game.cpp
     src/game.h
-    src/precompiled.cpp
-    src/precompiled.h
     src/rawassets
-    src/renderer.cpp
-    src/renderer.h
-    src/shader.cpp
-    src/shader.h
-    src/utilities.cpp
-    src/utilities.h
 )
 
 # Includes for this project.
@@ -249,9 +217,7 @@ include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_webp_distr_dir}/include)
 include_directories(${dependencies_webp_distr_dir}/src)
-
-# SDL includes.
-include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
+include_directories(${dependencies_fplbase_dir}/include)
 
 # libogg includes.
 include_directories(${dependencies_libogg_distr_dir}/include)
@@ -292,7 +258,7 @@ if(ZOOSHI_DEBUG)
   #add_definitions(-D_DEBUG)
 endif()
 
-set (SDL_LIBRARIES SDL2-static)
+#set (SDL_LIBRARIES SDL2-static)
 if(WIN32)
   add_definitions(-D_USE_MATH_DEFINES)
   set(OPENGL_LIBRARIES opengl32)
@@ -309,12 +275,11 @@ add_dependencies(zooshi generated_includes assets)
 target_link_libraries(zooshi
   ${SDL_LIBRARIES}
   motive
+  fplbase
   pindrop
   sdl_mixer
   libvorbis
   libogg
-#  libharfbuzz
-#  libfreetype
   ${OPENGL_LIBRARIES}
   webp)
 

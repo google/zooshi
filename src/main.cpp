@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "precompiled.h"
 #include "game.h"
+#include "utilities.h"
 
 int main(int argc, char* argv[]) {
   fpl::fpl_project::Game game;
   const char* binary_directory = argc > 0 ? argv[0] : "";
   if (!game.Initialize(binary_directory)) {
-    SDL_LogError(SDL_LOG_CATEGORY_ERROR, "FPL Game: init failed, exiting!");
+    fpl::LogError("FPL Game: init failed, exiting!");
     return 1;
   }
 

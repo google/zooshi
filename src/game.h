@@ -12,16 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GAME_H
-#define GAME_H
+#ifndef ZOOSHI_GAME_H
+#define ZOOSHI_GAME_H
 
 #include "camera.h"
 #include "input.h"
 #include "material_manager.h"
+#include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "renderer.h"
 #include "flatbuffers/flatbuffers.h"
+#include "utilities.h"
 #include "config_generated.h"
+#include "common.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -39,8 +42,10 @@ class Game {
   bool InitializeConfig();
   bool InitializeRenderer();
   bool InitializeAssets();
-  Mesh* CreateVerticalQuadMesh(const char* material_name, const vec3& offset,
-                               const vec2& pixel_bounds,
+
+  Mesh* CreateVerticalQuadMesh(const char* material_name,
+                               const mathfu::vec3& offset,
+                               const mathfu::vec2& pixel_bounds,
                                float pixel_to_world_scale);
   void Render(const Camera& camera);
   void Render2DElements(mathfu::vec2i resolution);
@@ -84,11 +89,10 @@ class Game {
   pindrop::AudioConfig* audioConfig_;
   Camera main_camera_;
 
-
   float model_angle_;
 };
 
 }  // game
-}  // fpl
+}  // fplproject
 
-#endif  // GAME_H
+#endif  // ZOOSHI_GAME_H

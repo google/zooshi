@@ -47,15 +47,25 @@ PINDROP_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                             os.path.pardir, os.path.pardir,
                                             'libs', "audio_engine"))
 
+FPLBASE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
+                                            os.path.pardir, os.path.pardir,
+                                            'libs', "fplbase"))
+
 MOTIVE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                            os.path.pardir, os.path.pardir,
                                            'libs', "motive"))
+
+FLATBUFFERS_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
+                                               os.path.pardir, os.path.pardir,
+                                              'libs', "flatbuffers"))
 
 # Directories that may contains the FlatBuffers compiler.
 FLATBUFFERS_PATHS = [
     os.path.join(PROJECT_ROOT, 'bin'),
     os.path.join(PROJECT_ROOT, 'bin', 'Release'),
-    os.path.join(PROJECT_ROOT, 'bin', 'Debug')
+    os.path.join(PROJECT_ROOT, 'bin', 'Debug'),
+    os.path.join(FLATBUFFERS_ROOT, 'Debug'),
+    os.path.join(FLATBUFFERS_ROOT, 'Release')
 ]
 
 # Directory that contains the cwebp tool.
@@ -91,6 +101,7 @@ RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, 'textures')
 # Directory where unprocessed assets can be found.
 SCHEMA_PATHS = [
     os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas'),
+    os.path.join(FPLBASE_ROOT, 'src', 'flatbufferschema'),
     os.path.join(PINDROP_ROOT, 'schemas'),
     os.path.join(MOTIVE_ROOT, 'schemas')
 ]

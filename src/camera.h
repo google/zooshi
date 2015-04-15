@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef ZOOSHI_CAMERA_H
+#define ZOOSHI_CAMERA_H
 
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/constants.h"
 
-class Camera
-{
-public:
+class Camera {
+ public:
   Camera();
 
   mathfu::mat4 GetTransformMatrix() const;
@@ -54,7 +53,6 @@ public:
   }
   float viewport_far_plane() const { return viewport_far_plane_; }
 
-
   void Init(float viewport_angle, mathfu::vec2 viewport_resolution,
             float viewport_near_plane, float viewport_far_plane) {
     viewport_angle_ = viewport_angle;
@@ -63,8 +61,7 @@ public:
     viewport_far_plane_ = viewport_far_plane;
   }
 
-
-private:
+ private:
   mathfu::vec3 position_;
   mathfu::vec3 facing_;
   float viewport_angle_;
@@ -73,4 +70,4 @@ private:
   float viewport_far_plane_;
 };
 
-#endif // CAMERA_H
+#endif  // ZOOSHI_CAMERA_H
