@@ -1,7 +1,7 @@
 {
   "package": {
     "name": "zooshi",
-    "url": "http://github.com/google/pienoon.git",
+    "url": "http://github.com/google/zooshi.git",
     "branch": "develop",
     "is_library": 0,
     "third_party": 0,
