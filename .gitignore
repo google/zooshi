@@ -1,9 +1,51 @@
 # Git ignore file for zooshi:
+*.bin
+*.webp
+apks/
+bin/
+fplbase_assets/
+gen/
+libs/
+obj/
 
+# CMake files
+CMakeCache.txt
 CMakeFiles/*
 CMakeLists.txt.user
+Makefile
+cmake_install.cmake
+tests/CMakeFiles/*
+tests/Makefile
+tests/cmake_install.cmake
 
+# Visual Studio files
+*.opensdf
+*.pdb
+*.sdf
+*.sln
+*.suo
+*.user
+*.vcxproj
+*.vcxproj.filters
+Debug/
+Win32/
+build/
+pingme.txt
 
+# qt creator
+*.cbp
+CMakeLists.txt.user.*
 
 # Unit test executables:
 tests/sample_test
+
+# android build files
+build.xml
+gen/
+local.properties
+proguard-project.txt
+src_java/org/
+
+# symlink to the Google Play Services library.
+google-play-services_lib
+

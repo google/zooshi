@@ -55,9 +55,9 @@ main() {
   update_package 'Android SDK Build-tools,' "${latest_build_tools}"
 
   # Install the required SDK.
-  android list sdk -a -u
-  update_package 'SDK Platform Android 5.0, API 21' \
-    "${ANDROID_SDK_HOME}/platforms/android-21"
+  APK_NEEDED=$(android list sdk -a -u | grep "SDK Platform" | grep "API 21")
+  update_package $APK_NEEDED "${ANDROID_SDK_HOME}/platforms/android-21"
+
   update_package 'Google APIs, Android API 21,' \
     "${ANDROID_SDK_HOME}/add-ons/addon-google_apis-google-21"
 
@@ -70,13 +70,13 @@ main() {
 
   # Build release.
   cd "$(dirname "$(readlink -f $0)")/.."
-  rm -rf bin
+
   # Copy default libogg config_types.h if none exists
   if [ ! -r ../../../../external/libogg/include/ogg/config_types.h ]; then
     cp -fv external/include/ogg/config_types.h.default \
         ../../../../external/libogg/include/ogg/config_types.h
   fi
-  INSTALL=0 LAUNCH=0 ./build_install_run.sh
+  INSTALL=0 LAUNCH=0 ./build_install_run.sh --verbose -A ''
   if [[ -n "${dist_dir}" ]]; then
     # Archive unsigned release build.
     cp ./bin/pie_noon-release-unsigned.apk ${dist_dir}/PieNoon.apk
@@ -86,7 +86,8 @@ main() {
 
   # Build and archive the debug build.
   rm -rf bin
-  INSTALL=0 LAUNCH=0 ./build_install_run.sh -T debug -f 'NDK_DEBUG=1'
+  INSTALL=0 LAUNCH=0 ./build_install_run.sh -T debug -f 'NDK_DEBUG=1' \
+    --verbose -A ''
   if [[ -n "${dist_dir}" ]]; then
     cp ./bin/pie_noon-debug.apk ${dist_dir}/PieNoon-Debug.apk
   fi

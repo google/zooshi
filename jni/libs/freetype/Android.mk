@@ -15,10 +15,11 @@
 LOCAL_PATH:=$(call my-dir)
 
 # Project directory relative to this file.
-PIE_NOON_DIR:=$(LOCAL_PATH)/../../..
-include $(PIE_NOON_DIR)/jni/android_config.mk
+UP_DIR:=../../..
+ZOOSHI_DIR:=$(LOCAL_PATH)/$(UP_DIR)
+include $(ZOOSHI_DIR)/jni/android_config.mk
 
-FREETYPE_DIR := ../../../../../../../external/freetype/
+FREETYPE_DIR := $(UP_DIR)/${THIRD_PARTY_ROOT}/freetype
 
 ###########################
 #
@@ -34,7 +35,6 @@ FREETYPE_SRC_FILES = \
     ${FREETYPE_DIR}/src/base/ftlcdfil.c \
     ${FREETYPE_DIR}/src/base/ftstroke.c \
     ${FREETYPE_DIR}/src/base/fttype1.c \
-    ${FREETYPE_DIR}/src/base/ftxf86.c \
     ${FREETYPE_DIR}/src/base/ftbase.c \
     ${FREETYPE_DIR}/src/base/ftsystem.c \
     ${FREETYPE_DIR}/src/base/ftinit.c \
@@ -59,10 +59,10 @@ LOCAL_ARM_MODE := arm
 LOCAL_SRC_FILES := \
     $(FREETYPE_SRC_FILES)
 LOCAL_C_INCLUDES += \
-    $(PIE_NOON_DIR) \
+    $(ZOOSHI_DIR) \
     ${DEPENDENCIES_FREETYPE_DIR}/include
 
-LOCAL_CFLAGS += -DFT2_BUILD_LIBRARY -DFT_CONFIG_MODULES_H=\"$(PIE_NOON_DIR)/cmake/freetype/ftmodule.h\"
+LOCAL_CFLAGS += -DFT2_BUILD_LIBRARY -DFT_CONFIG_MODULES_H=\"$(ZOOSHI_DIR)/cmake/freetype/ftmodule.h\"
 LOCAL_MODULE := libfreetype
 LOCAL_MODULE_FILENAME := libfreetype
 

@@ -101,10 +101,9 @@ bool Game::InitializeConfig() {
 // this point.
 bool Game::InitializeRenderer() {
 #ifdef __ANDROID__
-  const vec2i window_size =
-      vec2(kAndroidMaxScreenWidth, kAndroidMaxScreenHeight);
+  const vec2i window_size(kAndroidMaxScreenWidth, kAndroidMaxScreenHeight);
 #else
-  const vec2i window_size = vec2i(1200, 800);
+  const vec2i window_size(1200, 800);
 #endif
   if (!renderer_.Initialize(window_size, "Window Title!")) {
     LogError("Renderer initialization error: %s\n",
