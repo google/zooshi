@@ -16,12 +16,19 @@
 #define ZOOSHI_GAME_H
 
 #include "camera.h"
+#include "components/player.h"
+#include "components/rail_denizen.h"
+#include "components/transform.h"
+#include "config_generated.h"
+#include "entity/entity_manager.h"
+#include "flatbuffers/flatbuffers.h"
 #include "input.h"
 #include "material_manager.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
+#include "motive/engine.h"
+#include "rail_def_generated.h"
 #include "renderer.h"
-#include "flatbuffers/flatbuffers.h"
 #include "utilities.h"
 #include "config_generated.h"
 
@@ -29,6 +36,12 @@ namespace fpl {
 namespace fpl_project {
 
 struct Config;
+
+class ZooshiEntityFactory : public entity::EntityFactoryInterface {
+ public:
+  virtual entity::EntityRef CreateEntityFromData(
+      const void* data, entity::EntityManager* entity_manager);
+};
 
 class Game {
  public:
@@ -46,10 +59,13 @@ class Game {
                                const mathfu::vec3& offset,
                                const mathfu::vec2& pixel_bounds,
                                float pixel_to_world_scale);
+  Mesh* CreateCubeMesh(const char* material_name, const vec3& offset,
+                       const float pixel_bounds, float pixel_to_world_scale);
   void Render(const Camera& camera);
   void Render2DElements(mathfu::vec2i resolution);
   void Update(WorldTime delta_time);
   const Config& GetConfig() const;
+  const RailDef& GetRailDef() const;
   Mesh* GetCardboardFront(int renderable_id);
 
   // Hold configuration binary data.
@@ -72,20 +88,31 @@ class Game {
   Shader* shader_lit_textured_normal_;
   Shader* shader_textured_;
 
-  // World time of previous update. We use this to calculate the delta_time
-  // of the current update. This value is tied to the real-world clock.
-  // Note that it is distict from game_state_.time_, which is *not* tied to the
-  // real-world clock. If the game is paused, game_state.time_ will pause, but
+  // World time of previous update. We use this to calculate the delta_time of
+  // the current update. This value is tied to the real-world clock.  Note that
+  // it is distict from game_state_.time_, which is *not* tied to the real-world
+  // clock. If the game is paused, game_state.time_ will pause, but
   // prev_world_time_ will keep chugging.
   WorldTime prev_world_time_;
 
-  // Channel used to play the ambience sound effect.
-  pindrop::Channel ambience_channel_;
+  entity::EntityManager entity_manager_;
+  ZooshiEntityFactory entity_factory_;
+
+  std::string rail_source_;
+
+  // Components
+  // TODO(amablue): move these to a proper GameState class.
+  motive::MotiveEngine motive_engine_;
+  TransformComponent transform_component_;
+  RailDenizenComponent rail_denizen_component_;
+  PlayerComponent player_component_;
+  entity::EntityRef player_entity_;
 
   // String version number of the game.
   const char* version_;
   Mesh* billboard_;
-  pindrop::AudioConfig* audioConfig_;
+  Mesh* cube_;
+  pindrop::AudioConfig* audio_config_;
   Camera main_camera_;
 
   float model_angle_;

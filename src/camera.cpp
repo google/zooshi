@@ -37,8 +37,10 @@ mathfu::mat4 Camera::GetTransformMatrix() const {
       viewport_angle_, viewport_resolution_.x() / viewport_resolution_.y(),
       viewport_near_plane_, viewport_far_plane_, 1.0f);
 
+  // Subtract the facting vector because we need to be right handed.
+  // TODO(amablue): add handedness to LookAt function (b/19229170)
   mat4 camera_matrix =
-      mat4::LookAt(position_ + facing_, position_, mathfu::kAxisZ3f);
+      mat4::LookAt(position_ - facing_, position_, mathfu::kAxisZ3f);
 
   mat4 camera_transform = perspective_matrix_ * camera_matrix;
 

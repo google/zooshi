@@ -195,10 +195,24 @@ endif()
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
+    src/components/player.cpp
+    src/components/player.h
+    src/components/rail_denizen.cpp
+    src/components/rail_denizen.h
+    src/components/transform.cpp
+    src/components/transform.h
+    src/entity/component.h
+    src/entity/component_id_lookup.h
+    src/entity/component_interface.h
+    src/entity/entity.h
+    src/entity/entity_common.h
+    src/entity/entity_manager.cpp
+    src/entity/entity_manager.h
+    src/entity/vector_pool.h
     src/flatbufferschemas
-    src/main.cpp
     src/game.cpp
     src/game.h
+    src/main.cpp
     src/rawassets
 )
 

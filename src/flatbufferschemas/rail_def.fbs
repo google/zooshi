@@ -12,16 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "audio_config.fbs";
-include "components.fbs";
-
 namespace fpl.fpl_project;
 
-table Config {
-  // Audio engine configuration.
-  audio:AudioConfig;
-
-  entity_list:[EntityDef];
+struct Vec3 {
+  x:float;
+  y:float;
+  z:float;
 }
 
-root_type Config;
+table Node {
+  time:float;
+  position:Vec3;
+  tangent:Vec3;
+}
+
+table RailDef {
+  nodes:[Node];
+}
+

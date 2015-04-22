@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "audio_config.fbs";
-include "components.fbs";
+#include "components/player.h"
 
-namespace fpl.fpl_project;
+#include "entity/entity_common.h"
 
-table Config {
-  // Audio engine configuration.
-  audio:AudioConfig;
+namespace fpl {
 
-  entity_list:[EntityDef];
-}
+void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 
-root_type Config;
+void PlayerComponent::AddFromRawData(entity::EntityRef& /*entity*/,
+                                     const void* /*raw_data*/) {}
+
+void PlayerComponent::InitEntity(entity::EntityRef& /*entity*/) {}
+
+}  // fpl
+

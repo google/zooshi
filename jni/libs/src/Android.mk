@@ -57,13 +57,19 @@ LOCAL_SRC_FILES := \
   $(subst $(LOCAL_PATH)/,,$(DEPENDENCIES_SDL_DIR))/src/main/android/SDL_android_main.c \
   $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp
+  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 
 ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/materials.fbs
+  $(ZOOSHI_SCHEMA_DIR)/components.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/materials.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs
 
 # Make each source file dependent upon the assets
 $(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): build_assets))

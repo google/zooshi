@@ -1,12 +1,51 @@
 {
-
   "audio": {
     "output_frequency": 44100,
     "output_channels": "Stereo",
     "output_buffer_size": 2048,
     "mixer_channels": 16,
     "bus_file": "buses.bin"
-  }
+  },
 
+  "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "RailDenizenDef",
+          "data" : {
+            "rail_def": {
+              "nodes" :[
+                {
+                  "time" : 0,
+                  "position" : {"x" : 0, "y" : -10, "z" : 10},
+                  "tangent" : {"x" : -0.003, "y" : 0, "z" : 0}
+                },
+                {
+                  "time" : 5000,
+                  "position" : {"x" : -10, "y" : 0, "z" : 10},
+                  "tangent" : {"x" : 0, "y" : 0.003, "z" : 0}
+                },
+                {
+                  "time" : 10000,
+                  "position" : {"x" : 0, "y" : 10, "z" : 10},
+                  "tangent" : {"x" : 0.003, "y" : 0, "z" : 0}
+                },
+                {
+                  "time" : 15000,
+                  "position" : {"x" : 10, "y" : 0, "z" : 10},
+                  "tangent" : {"x" : 0, "y" : -0.003, "z" : 0}
+                },
+                {
+                  "time" : 20000,
+                  "position" : {"x" : 0, "y" : -10, "z" : 10},
+                  "tangent" : {"x" : -0.003, "y" : 0, "z" : 0}
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
 }
 

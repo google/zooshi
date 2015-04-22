@@ -12,16 +12,5 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "audio_config.fbs";
-include "components.fbs";
+#include "components/transform.h"
 
-namespace fpl.fpl_project;
-
-table Config {
-  // Audio engine configuration.
-  audio:AudioConfig;
-
-  entity_list:[EntityDef];
-}
-
-root_type Config;

@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "game.h"
+
+#include <math.h>
+
 #include "audio_config_generated.h"
 #include "input.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/io/flatbuffers.h"
+#include "mathfu/vector.h"
 #include "motive/init.h"
+#include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
-#include "game.h"
 #include "pindrop/pindrop.h"
 #include "utilities.h"
 #include <math.h>
@@ -36,8 +41,19 @@ namespace fpl_project {
 
 static const int kQuadNumVertices = 4;
 static const int kQuadNumIndices = 6;
+static const int kCubeNumVertices = 24;
+static const int kCubeNumIndices = 36;
 
 static const unsigned int kQuadIndices[] = {0, 1, 2, 2, 1, 3};
+// clang-format off
+static const unsigned int kCubeIndices[] = {
+    0,  3,  2,  2,  1,  0,
+    9,  10, 6,  6,  5,  9,
+    11, 7,  14, 14, 18, 11,
+    13, 22, 15, 15, 4,  13,
+    12, 23, 19, 19, 8,  12,
+    16, 17, 21, 21, 20, 16 };
+// clang-format on
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
                                             kTangent4f, kEND};
@@ -80,12 +96,30 @@ static const int kMaxUpdateTime = 1000 / 30;
 /// appreciate if you left it in.
 static const char kVersion[] = "FPL Project 0.0.1";
 
+// Factory method for the entity manager, for converting data (in our case.
+// flatbuffer definitions) into entities and sticking them into the system.
+entity::EntityRef ZooshiEntityFactory::CreateEntityFromData(
+    const void* data, entity::EntityManager* entity_manager) {
+  const EntityDef* def = static_cast<const EntityDef*>(data);
+  assert(def != nullptr);
+  entity::EntityRef entity = entity_manager->AllocateNewEntity();
+  for (size_t i = 0; i < def->component_list()->size(); i++) {
+    const ComponentDefInstance* currentInstance = def->component_list()->Get(i);
+    entity::ComponentInterface* component =
+        entity_manager->GetComponent(currentInstance->data_type());
+    assert(component != nullptr);
+    component->AddFromRawData(entity, currentInstance);
+  }
+  return entity;
+}
+
 Game::Game()
     : matman_(renderer_),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       prev_world_time_(0),
-      ambience_channel_() {
+      motive_engine_(),
+      rail_denizen_component_(&motive_engine_) {
   version_ = kVersion;
 }
 
@@ -183,12 +217,78 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   return mesh;
 }
 
+static void CreateCube(const vec3& offset, const float size, const vec2&,
+                       NormalMappedVertex* vertices) {
+  const float half_width = size * 0.5f;
+  const vec3 low = offset + vec3(-half_width, -half_width, 0.0f);
+  const vec3 high = offset + vec3(half_width, half_width, size);
+
+  for (int i = 0; i < 3; i++) {
+    vertices[0 + (i * 8)].pos = vec3(low[0], low[1], low[2]);
+    vertices[1 + (i * 8)].pos = vec3(high[0], low[1], low[2]);
+    vertices[2 + (i * 8)].pos = vec3(high[0], high[1], low[2]);
+    vertices[3 + (i * 8)].pos = vec3(low[0], high[1], low[2]);
+    vertices[4 + (i * 8)].pos = vec3(low[0], low[1], high[2]);
+    vertices[5 + (i * 8)].pos = vec3(high[0], low[1], high[2]);
+    vertices[6 + (i * 8)].pos = vec3(high[0], high[1], high[2]);
+    vertices[7 + (i * 8)].pos = vec3(low[0], high[1], high[2]);
+  }
+
+  for (int i = 0; i < 36; i += 6) {
+    vertices[kCubeIndices[i]].tc = vec2(1, 1);
+    vertices[kCubeIndices[i + 1]].tc = vec2(1, 0);
+    vertices[kCubeIndices[i + 2]].tc = vec2(0, 0);
+    vertices[kCubeIndices[i + 4]].tc = vec2(0, 1);
+  }
+
+  Mesh::ComputeNormalsTangents(vertices, &kCubeIndices[0], kCubeNumVertices,
+                               kCubeNumIndices);
+}
+
+// Creates a mesh of a single quad (two triangles) vertically upright.
+// The quad's has x and y size determined by the size of the texture.
+// The quad is offset in (x,y,z) space by the 'offset' variable.
+// Returns a mesh with the quad and texture, or nullptr if anything went wrong.
+Mesh* Game::CreateCubeMesh(const char* material_name, const vec3& offset,
+                           const float pixel_bounds,
+                           float pixel_to_world_scale) {
+  // Don't try to load obviously invalid materials. Suppresses error logs from
+  // the material manager.
+  if (material_name == nullptr || material_name[0] == '\0') return nullptr;
+
+  // Load the material from file, and check validity.
+  Material* material = matman_.LoadMaterial(material_name);
+  bool material_valid = material != nullptr && material->textures().size() > 0;
+  if (!material_valid) return nullptr;
+
+  // Create vertex geometry in proportion to the texture size.
+  // This is nice for the artist since everything is at the scale of the
+  // original artwork.
+  assert(pixel_bounds);
+  const vec2 texture_size = vec2(mathfu::RoundUpToPowerOf2(pixel_bounds),
+                                 mathfu::RoundUpToPowerOf2(pixel_bounds));
+  const vec2 texture_coord_size = pixel_bounds / texture_size;
+  const float geo_size = pixel_bounds * pixel_to_world_scale;
+
+  // Initialize a vertex array in the requested position.
+  NormalMappedVertex vertices[kCubeNumVertices];
+  CreateCube(offset, geo_size, texture_coord_size, vertices);
+
+  // Create mesh and add in quad indices.
+  Mesh* mesh = new Mesh(vertices, kCubeNumVertices, sizeof(NormalMappedVertex),
+                        kQuadMeshFormat);
+  mesh->AddIndices(kCubeIndices, kCubeNumIndices, material);
+  return mesh;
+}
+
+static const char* kCubeMaterial = "materials/pixel1x1.bin";
 static const char* kGuyMaterial = "materials/guy.bin";
 static const char* kGuyBackMaterial = "materials/guy_back.bin";
 
 // Load textures for cardboard into 'materials_'. The 'renderer_' and 'matman_'
 // members have been initialized at this point.
 bool Game::InitializeAssets() {
+  matman_.LoadMaterial(kCubeMaterial);
   matman_.LoadMaterial(kGuyMaterial);
   matman_.LoadMaterial(kGuyBackMaterial);
   matman_.StartLoadingTextures();
@@ -232,6 +332,38 @@ bool Game::Initialize(const char* const binary_directory) {
     LogError("Failed to load sound bank.\n");
   }
 
+  // Wait for everything to finish loading...
+  while (!matman_.TryFinalize()) {
+  }
+
+  cube_ = CreateCubeMesh(kCubeMaterial, vec3(0, 0, 0), 128, kPixelToWorldScale);
+
+  billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
+                                      vec2(256, 256), kPixelToWorldScale);
+
+  main_camera_.Init(kViewportAngle, vec2(renderer_.window_size()),
+                    kViewportNearPlane, kViewportFarPlane);
+
+  motive::SmoothInit::Register();
+
+  entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
+  entity_manager_.RegisterComponent<RailDenizenComponent>(
+      &rail_denizen_component_);
+  entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);
+
+  entity_manager_.set_entity_factory(&entity_factory_);
+
+  for (size_t i = 0; i < GetConfig().entity_list()->size(); i++) {
+    entity::EntityRef ref =
+        entity_manager_.CreateEntityFromData(GetConfig().entity_list()->Get(i));
+
+    // For now, the camera follows the first entity defined.
+    // TODO(amablue): come up with a better solution.
+    if (i == 0) {
+      player_entity_ = ref;
+    }
+  }
+
   LogInfo("Initialization complete\n");
   return true;
 }
@@ -250,10 +382,13 @@ void Game::Render(const Camera& camera) {
     for (int y = -100; y < 100; y += 5) {
       vec3 obj_orientation = vec3(0, 0, model_angle_ + x / 83.0f + y * 117.0f);
       vec3 obj_position = vec3(x, y, 0);
+      float scale_factor = 1;
+      vec3 obj_scale = vec3(scale_factor, scale_factor, scale_factor);
       vec3 light_pos = vec3(-10, -10, 10);
 
       mat4 object_world_matrix =
           mat4::FromTranslationVector(obj_position) *
+          mat4::FromScaleVector(obj_scale) *
           mat4::FromRotationMatrix(
               quat::FromEulerAngles(obj_orientation).ToMatrix());
 
@@ -274,8 +409,10 @@ void Game::Render(const Camera& camera) {
       shader_cardboard->SetUniform("specular_material", kCardboardSpecular);
       shader_cardboard->SetUniform("shininess", kCardboardShininess);
       shader_cardboard->SetUniform("normalmap_scale", kCardboardNormalMapScale);
+      shader_cardboard->SetUniform("color",
+                                   vec4(x / 100.f, y / 100.f, 1.f, 1.f));
 
-      billboard_->Render(renderer_);
+      cube_->Render(renderer_);
     }
   }
 }
@@ -313,9 +450,16 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
 
 // Main update function.
 void Game::Update(WorldTime delta_time) {
-  model_angle_ += 0.0005f * delta_time;
-  main_camera_.set_position(vec3(0, 0, 5));
-  main_camera_.set_facing(vec3(3, 3, 0));
+  motive_engine_.AdvanceFrame(delta_time);
+  entity_manager_.UpdateComponents(delta_time);
+
+  float seconds = delta_time / 1000.f;
+  model_angle_ += 1.0f * seconds;
+
+  RailDenizenData* rail_denizen =
+      rail_denizen_component_.GetEntityData(player_entity_);
+  main_camera_.set_position(rail_denizen->Position());
+  main_camera_.set_facing(rail_denizen->Velocity());
 }
 
 static inline WorldTime CurrentWorldTime() { return GetTicks(); }
@@ -323,17 +467,6 @@ static inline WorldTime CurrentWorldTime() { return GetTicks(); }
 void Game::Run() {
   // Initialize so that we don't sleep the first time through the loop.
   prev_world_time_ = CurrentWorldTime() - kMinUpdateTime;
-
-  // Wait for everything to finish loading...
-  while (!matman_.TryFinalize()) {
-  }
-  billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
-                                      vec2(256, 256), kPixelToWorldScale);
-
-  main_camera_.Init(kViewportAngle, vec2(renderer_.window_size()),
-                    kViewportNearPlane, kViewportFarPlane);
-
-  audio_engine_.PlaySound("MusicMenu");
 
   while (!input_.exit_requested_ &&
          !input_.GetButton(FPLK_ESCAPE).went_down()) {
@@ -343,12 +476,13 @@ void Game::Run() {
     const WorldTime world_time = CurrentWorldTime();
     const WorldTime delta_time =
         std::min(world_time - prev_world_time_, kMaxUpdateTime);
+    prev_world_time_ = world_time;
     if (delta_time < kMinUpdateTime) {
       Delay(kMinUpdateTime - delta_time);
-      continue;
     }
 
     Update(delta_time);
+
     Render(main_camera_);
     Render2DElements(renderer_.window_size());
     audio_engine_.AdvanceFrame(delta_time / 1000.0f);

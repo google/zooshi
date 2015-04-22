@@ -1,0 +1,59 @@
+// Copyright 2015 Google Inc. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+include "rail_def.fbs";
+
+namespace fpl;
+
+// Data definitions for all of components:
+// ---------------------------------------------
+table TransformDef {
+  // position:Vec3;
+  // scale:Vec3;
+  // orientation:Vec3;
+  // origin_point:Vec3;
+}
+
+// no data yet, (never loaded from raw data) but we need it to be a thing so
+// that it ends up in the enum.
+table RailDenizenDef {
+  rail_def:RailDef;
+}
+
+// no data, (never loaded from raw data) but we need it to be a thing so
+// that it ends up in the enum.
+table PlayerDef {}
+
+//-----------------------------------
+// Data for defining the entities themselves:
+// Union containing every possible component.
+// Note: This will also be the order the components execute their updates in.
+union ComponentDataUnion {
+  TransformDef,
+  RailDenizenDef,
+  PlayerDef
+}
+
+// Actual definition for each component.  Wrapped in a table because
+// you can't make arrays of raw unions.
+table ComponentDefInstance {
+  data:ComponentDataUnion;
+}
+
+// An entity is just a list of what components it has, and what their
+// starting values should be.
+table EntityDef {
+  component_list:[ComponentDefInstance];
+}
+
