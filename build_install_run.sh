@@ -60,12 +60,13 @@ main() {
   local -r key_dir=$(cd ${this_dir}/../../libraries/certs/pienoon && pwd)
   if [[ "${key_dir}" != "" ]]; then
     ${FPLUTIL}/bin/build_all_android.py \
-      --apk_keypk8 ${key_dir}/pienoon.pk8 \
-      --apk_keypem ${key_dir}/pienoon.x509.pem -S "$@" ${additional_args}
+      --apk_keypk8 ${key_dir}/zooshi.pk8 \
+      --apk_keypem ${key_dir}/zooshi.x509.pem -E dependencies \
+      -S "$@" ${additional_args}
   else
     echo "${key_dir} not found, skipping signing step." >&2
-    ${FPLUTIL}/bin/build_all_android.py -E google-play-services_lib \
-      "$@" ${additional_args}
+    ${FPLUTIL}/bin/build_all_android.py -E dependencies \
+      google-play-services_lib "$@" ${additional_args}
   fi
 }
 

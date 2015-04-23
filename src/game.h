@@ -24,7 +24,6 @@
 #include "flatbuffers/flatbuffers.h"
 #include "utilities.h"
 #include "config_generated.h"
-#include "common.h"
 
 namespace fpl {
 namespace fpl_project {

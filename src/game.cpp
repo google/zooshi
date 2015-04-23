@@ -35,7 +35,7 @@ namespace fpl_project {
 static const int kQuadNumVertices = 4;
 static const int kQuadNumIndices = 6;
 
-static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
+static const unsigned int kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
                                             kTangent4f, kEND};
@@ -83,7 +83,7 @@ Game::Game()
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       prev_world_time_(0),
-      ambience_channel_(nullptr) {
+      ambience_channel_() {
   version_ = kVersion;
 }
 
@@ -346,13 +346,13 @@ void Game::Run() {
       continue;
     }
 
+    Update(delta_time);
     Render(main_camera_);
     Render2DElements(renderer_.window_size());
     audio_engine_.AdvanceFrame(delta_time / 1000.0f);
     // Process input device messages since the last game loop.
     // Update render window size.
     input_.AdvanceFrame(&renderer_.window_size());
-    Update(delta_time);
   }
 }
 
