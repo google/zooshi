@@ -195,7 +195,6 @@ endif()
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
-    src/common.h
     src/flatbufferschemas
     src/main.cpp
     src/game.cpp

@@ -13,13 +13,14 @@
 // limitations under the License.
 
 #include "audio_config_generated.h"
+#include "input.h"
+#include "mathfu/glsl_mappings.h"
 #include "motive/io/flatbuffers.h"
 #include "motive/init.h"
 #include "motive/math/angle.h"
 #include "game.h"
 #include "pindrop/pindrop.h"
 #include "utilities.h"
-#include "input.h"
 #include <math.h>
 
 using mathfu::vec2i;
@@ -28,6 +29,7 @@ using mathfu::vec3;
 using mathfu::vec4;
 using mathfu::mat3;
 using mathfu::mat4;
+using mathfu::quat;
 
 namespace fpl {
 namespace fpl_project {
@@ -253,7 +255,7 @@ void Game::Render(const Camera& camera) {
       mat4 object_world_matrix =
           mat4::FromTranslationVector(obj_position) *
           mat4::FromRotationMatrix(
-              Quat::FromEulerAngles(obj_orientation).ToMatrix());
+              quat::FromEulerAngles(obj_orientation).ToMatrix());
 
       const mat4 mvp = camera_transform * object_world_matrix;
       renderer_.model_view_projection() = mvp;
