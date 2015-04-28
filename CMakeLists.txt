@@ -219,6 +219,8 @@ set(zooshi_SRCS
     src/flatbufferschemas
     src/game.cpp
     src/game.h
+    src/gui.cpp
+    src/gui.h
     src/main.cpp
     src/rawassets
 )
