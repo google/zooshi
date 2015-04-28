@@ -38,10 +38,8 @@ DEPENDENCIES_PINDROP_DIR?=$(FPL_ROOT)/audio_engine
 DEPENDENCIES_FPLBASE_DIR?=$(FPL_ROOT)/fplbase
 # Location of the fplutil library.
 DEPENDENCIES_FPLUTIL_DIR?=$(FPL_ROOT)/fplutil
-# Location of the Freetype library.
-DEPENDENCIES_FREETYPE_DIR?=$(THIRD_PARTY_ROOT)/freetype
-# Location of the HarfBuzz library.
-DEPENDENCIES_HARFBUZZ_DIR?=$(THIRD_PARTY_ROOT)/harfbuzz
+# Location of the imgui library.
+DEPENDENCIES_IMGUI_DIR?=$(FPL_ROOT)/imgui
 # Location of the MathFu library.
 DEPENDENCIES_MATHFU_DIR?=$(FPL_ROOT)/mathfu
 # Location of the Motive library.

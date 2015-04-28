@@ -51,6 +51,8 @@ set(dependencies_pindrop_dir "${fpl_root}/audio_engine"
     CACHE PATH "Directory containing the pindrop library.")
 set(dependencies_fplbase_dir "${fpl_root}/fplbase"
     CACHE PATH "Directory containing the FPLBase library.")
+set(dependencies_imgui_dir "${fpl_root}/imgui"
+    CACHE PATH "Directory containing the IMGUI library.")
 set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
 set(dependencies_sdl_dir "${third_party_root}/sdl"
@@ -137,6 +139,11 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
   add_subdirectory("${dependencies_fplbase_dir}" ${tmp_dir}/fplbase)
 endif()
 
+# Include imgui.
+if(NOT zooshi_only_flatc AND NOT TARGET imgui)
+  add_subdirectory("${dependencies_imgui_dir}" ${tmp_dir}/imgui)
+endif()
+
 # Include SDL Mixer.
 set(SDL_MIXER_OGG_SUPPORT ON CACHE BOOL "Compile in Ogg Vorbis support")
 if(NOT zooshi_only_flatc AND NOT TARGET sdl_mixer)
@@ -220,7 +227,6 @@ set(zooshi_SRCS
 include_directories(src)
 if(WIN32)
   include_directories(external/include/windows)
-  include_directories(external/include/harfbuzz)
 endif()
 
 include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
@@ -234,6 +240,9 @@ include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_webp_distr_dir}/include)
 include_directories(${dependencies_webp_distr_dir}/src)
 include_directories(${dependencies_fplbase_dir}/include)
+include_directories(${dependencies_sdl_dir}/include)
+include_directories(${dependencies_imgui_dir}/include)
+
 
 # libogg includes.
 include_directories(${dependencies_libogg_distr_dir}/include)
@@ -243,12 +252,6 @@ include_directories(${dependencies_libvorbis_distr_dir}/include)
 
 # SDL Mixer includes.
 include_directories(${dependencies_sdl_mixer_distr_dir})
-
-# harfbuzz includes.
-#include_directories(${dependencies_harfbuzz_distr_dir}/src)
-
-# freetype includes.
-#include_directories(${dependencies_freetype_distr_dir}/include)
 
 # Detect clang
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -292,6 +295,7 @@ target_link_libraries(zooshi
   ${SDL_LIBRARIES}
   motive
   fplbase
+  imgui
   pindrop
   sdl_mixer
   libvorbis

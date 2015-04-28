@@ -25,6 +25,7 @@
 #include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
 #include "pindrop/pindrop.h"
+#include "imgui/imgui.h"
 #include "utilities.h"
 #include <math.h>
 
@@ -489,6 +490,18 @@ void Game::Run() {
     // Process input device messages since the last game loop.
     // Update render window size.
     input_.AdvanceFrame(&renderer_.window_size());
+
+    // TEMP: testing GUI on top of everything else.
+#if (IMGUI_TEST)
+    // Open OpenType font
+    static FontManager fontman;
+    if (!fontman.FontLoaded()) {
+      fontman.Open("fonts/NotoSansCJKjp-Bold.otf");
+      fontman.SetRenderer(renderer_);
+    }
+    gui::TestGUI(matman_, fontman, input_);
+#endif  // IMGUI_TEST
+
   }
 }
 
