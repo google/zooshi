@@ -18,6 +18,7 @@
 
 #include "audio_config_generated.h"
 #include "input.h"
+#include "entity/entity.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/io/flatbuffers.h"
 #include "mathfu/vector.h"
@@ -295,7 +296,7 @@ bool Game::InitializeAssets() {
 
   shader_lit_textured_normal_ =
       matman_.LoadShader("shaders/lit_textured_normal");
-  shader_cardboard = matman_.LoadShader("shaders/cardboard");
+  shader_cardboard_ = matman_.LoadShader("shaders/cardboard");
   shader_textured_ = matman_.LoadShader("shaders/textured");
 
   return true;
@@ -350,6 +351,8 @@ bool Game::Initialize(const char* const binary_directory) {
   entity_manager_.RegisterComponent<RailDenizenComponent>(
       &rail_denizen_component_);
   entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);
+  entity_manager_.RegisterComponent<RenderMeshComponent>(
+      &render_mesh_component_);
 
   entity_manager_.set_entity_factory(&entity_factory_);
 
@@ -364,6 +367,23 @@ bool Game::Initialize(const char* const binary_directory) {
     }
   }
 
+  for (int x = -3; x < 4; x++) {
+    for (int y = -3; y < 4; y++) {
+      // Let's make an entity!
+      entity::EntityRef large_cube = entity_manager_.AllocateNewEntity();
+      RenderMeshData* cube_data = render_mesh_component_.AddEntity(large_cube);
+      TransformData* transform_data =
+          entity_manager_.GetComponentData<TransformData>(large_cube);
+
+      cube_data->mesh = cube_;
+      cube_data->shader = shader_cardboard_;
+      transform_data->set_transform(vec3(x * 20, y * 20, 0), vec3(3, 3, 3),
+                                    mathfu::kQuatIdentityf);
+    }
+  }
+
+  render_mesh_component_.set_light_position(vec3(-10, -10, 10));
+
   LogInfo("Initialization complete\n");
   return true;
 }
@@ -377,6 +397,13 @@ void Game::Render(const Camera& camera) {
   renderer_.color() = mathfu::kOnes4f;
   renderer_.DepthTest(true);
   renderer_.model_view_projection() = camera_transform;
+
+  // uniforms:
+  shader_cardboard_->SetUniform("ambient_material", kCardboardAmbient);
+  shader_cardboard_->SetUniform("diffuse_material", kCardboardDiffuse);
+  shader_cardboard_->SetUniform("specular_material", kCardboardSpecular);
+  shader_cardboard_->SetUniform("shininess", kCardboardShininess);
+  shader_cardboard_->SetUniform("normalmap_scale", kCardboardNormalMapScale);
 
   for (int x = -100; x < 100; x += 5) {
     for (int y = -100; y < 100; y += 5) {
@@ -398,23 +425,19 @@ void Game::Render(const Camera& camera) {
       // Set the camera and light positions in object space.
       const mat4 world_matrix_inverse = object_world_matrix.Inverse();
 
-      shader_cardboard->Set(renderer_);
+      shader_cardboard_->Set(renderer_);
       renderer_.camera_pos() = world_matrix_inverse * camera.position();
       renderer_.light_pos() = world_matrix_inverse * light_pos;
       renderer_.model_view_projection() = mvp;
 
-      // uniforms:
-      shader_cardboard->SetUniform("ambient_material", kCardboardAmbient);
-      shader_cardboard->SetUniform("diffuse_material", kCardboardDiffuse);
-      shader_cardboard->SetUniform("specular_material", kCardboardSpecular);
-      shader_cardboard->SetUniform("shininess", kCardboardShininess);
-      shader_cardboard->SetUniform("normalmap_scale", kCardboardNormalMapScale);
-      shader_cardboard->SetUniform("color",
+      shader_cardboard_->SetUniform("color",
                                    vec4(x / 100.f, y / 100.f, 1.f, 1.f));
 
       cube_->Render(renderer_);
     }
   }
+
+  render_mesh_component_.RenderAllEntities(renderer_, camera);
 }
 
 void Game::Render2DElements(mathfu::vec2i resolution) {

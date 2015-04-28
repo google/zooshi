@@ -31,7 +31,16 @@ struct TransformData {
   // Position, orientation, and scale (in world-space) of the object.
   // TODO: Store this using vectors and quats so scale, position, rotation, etc.
   // can be accessed and mutated individually. b/20554361
-  mathfu::mat4 matrix; };
+  mathfu::mat4 matrix;
+
+  void set_transform(mathfu::vec3 position, mathfu::vec3 scale,
+                     mathfu::quat orientation) {
+    matrix = mathfu::mat4::FromTranslationVector(position) *
+             mathfu::mat4::FromScaleVector(scale) *
+             mathfu::mat4::FromRotationMatrix(orientation.ToMatrix());
+  }
+
+};
 
 class TransformComponent : public entity::Component<TransformData> {
  public:

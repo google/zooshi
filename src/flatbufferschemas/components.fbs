@@ -35,6 +35,10 @@ table RailDenizenDef {
 // that it ends up in the enum.
 table PlayerDef {}
 
+// no data, (never loaded from raw data) but we need it to be a thing so
+// that it ends up in the enum.
+table RenderMeshDef {}
+
 //-----------------------------------
 // Data for defining the entities themselves:
 // Union containing every possible component.
@@ -42,7 +46,8 @@ table PlayerDef {}
 union ComponentDataUnion {
   TransformDef,
   RailDenizenDef,
-  PlayerDef
+  PlayerDef,
+  RenderMeshDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because
