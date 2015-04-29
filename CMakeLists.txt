@@ -206,6 +206,8 @@ set(zooshi_SRCS
     src/components/player.h
     src/components/rail_denizen.cpp
     src/components/rail_denizen.h
+    src/components/rendermesh.cpp
+    src/components/rendermesh.h
     src/components/transform.cpp
     src/components/transform.h
     src/entity/component.h

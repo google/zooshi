@@ -18,6 +18,7 @@
 #include "camera.h"
 #include "components/player.h"
 #include "components/rail_denizen.h"
+#include "components/rendermesh.h"
 #include "components/transform.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
@@ -84,7 +85,7 @@ class Game {
   pindrop::AudioEngine audio_engine_;
 
   // Shaders we use.
-  Shader* shader_cardboard;
+  Shader* shader_cardboard_;
   Shader* shader_lit_textured_normal_;
   Shader* shader_textured_;
 
@@ -106,6 +107,7 @@ class Game {
   TransformComponent transform_component_;
   RailDenizenComponent rail_denizen_component_;
   PlayerComponent player_component_;
+  RenderMeshComponent render_mesh_component_;
   entity::EntityRef player_entity_;
 
   // String version number of the game.
