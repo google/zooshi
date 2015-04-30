@@ -45,6 +45,7 @@ gen/
 local.properties
 proguard-project.txt
 src_java/org/
+src_java/com/google/fpl/fpl_base/
 
 # symlink to the Google Play Services library.
 google-play-services_lib

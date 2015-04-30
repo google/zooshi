@@ -13,10 +13,10 @@
 // limitations under the License.
 
 // An activity for AndroidTV.
-// Just extending FPLActivty without any changes.
+// Just extending ZooshiActivity without any changes.
 
 package com.google.fpl.zooshi;
 
-public class FPLTvActivity extends FPLActivity {
+public class ZooshiTvActivity extends ZooshiActivity {
 }
 

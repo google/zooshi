@@ -18,6 +18,9 @@ limitations under the License.
   <!-- Location of the Android SDL activity. -->
   <property name="sdlactivity" value="org/libsdl/app/SDLActivity.java" />
 
+  <!-- Directory of the Android FPLBase activities -->
+  <property name="fplbaseactivity" value="com/google/fpl/fpl_base/FPLActivity.java" />
+
   <condition property="android_exe" value="android.bat" else="android">
     <os family="windows" />
   </condition>
@@ -58,6 +61,21 @@ limitations under the License.
           file="${sdlpath}/android-project/src/${sdlactivity}"/>
   </target>
 
+  <target name="get-fplbase-path"
+          description="Get FPLBase's location and save it in fplbasepath.">
+    <exec executable="${ndkbuild_exe}" outputproperty="fplbasepath">
+      <arg value="print_dependency"/>
+      <arg value="DEP_DIR=FPLBASE"/>
+    </exec>
+  </target>
+
+  <target name="copy-fplbase-activity"
+          description="Copy FPLBase activity into the source directory."
+          depends="get-fplbase-path">
+    <copy tofile="src_java/${fplbaseactivity}"
+          file="${fplbasepath}/src_java/${fplbaseactivity}"/>
+  </target>
+
   <target name="get-cardboard-path"
           description="Save the Cardboard SDK's location in cardboardpath.">
     <exec executable="${ndkbuild_exe}" outputproperty="cardboardpath">
@@ -79,7 +97,7 @@ limitations under the License.
        directory before the build process starts. -->
   <target name="-pre-build"
           depends="initialize-google-play-games_lib, copy-sdl-activity,
-                  copy-cardboard-libs" />
+                  copy-fplbase-activity, copy-cardboard-libs" />
 
   <target name="-pre-clean" depends="initialize-google-play-games_lib" />
 
