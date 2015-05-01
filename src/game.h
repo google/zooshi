@@ -37,6 +37,7 @@ namespace fpl {
 namespace fpl_project {
 
 struct Config;
+struct InputConfig;
 
 class ZooshiEntityFactory : public entity::EntityFactoryInterface {
  public:
@@ -52,7 +53,6 @@ class Game {
   void Run();
 
  private:
-  bool InitializeConfig();
   bool InitializeRenderer();
   bool InitializeAssets();
 
@@ -65,12 +65,17 @@ class Game {
   void Render(const Camera& camera);
   void Render2DElements(mathfu::vec2i resolution);
   void Update(WorldTime delta_time);
+  void UpdateMainCamera();
   const Config& GetConfig() const;
+  const InputConfig& GetInputConfig() const;
   const RailDef& GetRailDef() const;
   Mesh* GetCardboardFront(int renderable_id);
 
   // Hold configuration binary data.
   std::string config_source_;
+
+  // Hold the configuration for the input system data.
+  std::string input_config_source_;
 
   // Report touches, button presses, keyboard presses.
   InputSystem input_;

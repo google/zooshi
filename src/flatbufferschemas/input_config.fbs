@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "audio_config.fbs";
-include "components.fbs";
-
 namespace fpl.fpl_project;
 
-table Config {
-  // Audio engine configuration file.
-  audio_config:string;
-
-  // Input configuration file.
-  input_config:string;
-
-  entity_list:[EntityDef];
+table InputConfig {
+  mouse_sensitivity:float;
+  invert_x:bool;
+  invert_y:bool;
 }
 
-root_type Config;
+root_type InputConfig;
 

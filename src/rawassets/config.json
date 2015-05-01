@@ -1,15 +1,16 @@
 {
-  "audio": {
-    "output_frequency": 44100,
-    "output_channels": "Stereo",
-    "output_buffer_size": 2048,
-    "mixer_channels": 16,
-    "bus_file": "buses.bin"
-  },
+  "audio_config": "audio_config.bin",
+
+  "input_config": "input_config.bin",
 
   "entity_list": [
     {
       "component_list": [
+        {
+          "data_type": "PlayerDef",
+          "data": {
+          }
+        },
         {
           "data_type": "RailDenizenDef",
           "data" : {

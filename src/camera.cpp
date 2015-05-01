@@ -26,7 +26,7 @@ static const vec2 kViewportResolution = vec2(640, 480);
 static const float kDefaultViewportNearPlane = 1.0f;
 static const float kDefaultViewportFarPlane = 100.0f;
 
-Camera::Camera() : position_(mathfu::kOnes3f), facing_(mathfu::kAxisY3f) {
+Camera::Camera() : position_(mathfu::kZeros3f), facing_(mathfu::kAxisY3f) {
   Init(kDefaultViewportAngle, kViewportResolution, kDefaultViewportNearPlane,
        kDefaultViewportFarPlane);
 }

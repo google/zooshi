@@ -20,10 +20,19 @@ namespace fpl {
 
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 
-void PlayerComponent::AddFromRawData(entity::EntityRef& /*entity*/,
-                                     const void* /*raw_data*/) {}
+void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
+                                     const void* raw_data) {
+  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
+  assert(component_data->data_type() == ComponentDataUnion_PlayerDef);
+  AddEntity(entity);
+}
 
-void PlayerComponent::InitEntity(entity::EntityRef& /*entity*/) {}
+void PlayerComponent::InitEntity(entity::EntityRef& entity) {
+  entity_manager_->AddEntityToComponent(entity,
+                                        ComponentDataUnion_TransformDef);
+  entity_manager_->AddEntityToComponent(entity,
+                                        ComponentDataUnion_RailDenizenDef);
+}
 
 }  // fpl
 

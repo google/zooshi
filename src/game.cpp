@@ -17,18 +17,18 @@
 #include <math.h>
 
 #include "audio_config_generated.h"
+#include "input_config_generated.h"
 #include "input.h"
 #include "entity/entity.h"
 #include "mathfu/glsl_mappings.h"
-#include "motive/io/flatbuffers.h"
 #include "mathfu/vector.h"
 #include "motive/init.h"
+#include "motive/io/flatbuffers.h"
 #include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
 #include "pindrop/pindrop.h"
 #include "gui.h"
 #include "utilities.h"
-#include <math.h>
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -126,14 +126,6 @@ Game::Game()
 }
 
 Game::~Game() {}
-
-bool Game::InitializeConfig() {
-  if (!LoadFile(kConfigFileName, &config_source_)) {
-    LogError("can't load config.bin\n");
-    return false;
-  }
-  return true;
-}
 
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
@@ -307,6 +299,10 @@ const Config& Game::GetConfig() const {
   return *fpl::fpl_project::GetConfig(config_source_.c_str());
 }
 
+const InputConfig& Game::GetInputConfig() const {
+  return *fpl::fpl_project::GetInputConfig(input_config_source_.c_str());
+}
+
 // Initialize each member in turn. This is logically just one function, since
 // the order of initialization cannot be changed. However, it's nice for
 // debugging and readability to have each section lexographically separate.
@@ -315,18 +311,19 @@ bool Game::Initialize(const char* const binary_directory) {
 
   if (!ChangeToUpstreamDir(binary_directory, kAssetsDir)) return false;
 
-  if (!InitializeConfig()) return false;
+  if (!LoadFile(kConfigFileName, &config_source_)) return false;
 
   if (!InitializeRenderer()) return false;
 
   if (!InitializeAssets()) return false;
 
-  input_.Initialize();
+  if (!LoadFile(GetConfig().input_config()->c_str(), &input_config_source_))
+    return false;
 
   // Some people are having trouble loading the audio engine, and it's not
   // strictly necessary for gameplay, so don't die if the audio engine fails to
   // initialize.
-  if (!audio_engine_.Initialize(GetConfig().audio())) {
+  if (!audio_engine_.Initialize(GetConfig().audio_config()->c_str())) {
     LogError("Failed to initialize audio engine.\n");
   }
 
@@ -385,6 +382,8 @@ bool Game::Initialize(const char* const binary_directory) {
 
   render_mesh_component_.set_light_position(vec3(-10, -10, 10));
 
+  input_.SetRelativeMouseMode(true);
+
   LogInfo("Initialization complete\n");
   return true;
 }
@@ -409,7 +408,7 @@ void Game::Render(const Camera& camera) {
   for (int x = -100; x < 100; x += 5) {
     for (int y = -100; y < 100; y += 5) {
       vec3 obj_orientation = vec3(0, 0, model_angle_ + x / 83.0f + y * 117.0f);
-      vec3 obj_position = vec3(x, y, 0);
+      vec3 obj_position = vec3(x, y, (x + y) % 2 == 0 ? 20 : 0);
       float scale_factor = 1;
       vec3 obj_scale = vec3(scale_factor, scale_factor, scale_factor);
       vec3 light_pos = vec3(-10, -10, 10);
@@ -432,7 +431,7 @@ void Game::Render(const Camera& camera) {
       renderer_.model_view_projection() = mvp;
 
       shader_cardboard_->SetUniform("color",
-                                   vec4(x / 100.f, y / 100.f, 1.f, 1.f));
+                                    vec4(x / 100.f, y / 100.f, 1.f, 1.f));
 
       cube_->Render(renderer_);
     }
@@ -472,6 +471,51 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
                            vec2(1, 0));
 }
 
+// Quaternion conjugation rotates p about q when both p and q are unit vectors.
+// For more information:
+//     http://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
+quat QuaternionConjugation(const quat& p, const quat& q) {
+  return (q * p * q.Inverse()).Normalized();
+}
+
+static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
+                               const InputConfig& input_config) {
+  vec2 delta(raw_delta);
+  delta *= input_config.mouse_sensitivity();
+  if (!input_config.invert_x()) {
+    delta.x() *= -1.0f;
+  }
+  if (!input_config.invert_y()) {
+    delta.y() *= -1.0f;
+  }
+  return delta;
+}
+
+void Game::UpdateMainCamera() {
+  // Get Mouse delta and apply sensitivity and inversions if necessary.
+  vec2 delta =
+      AdjustedMouseDelta(input_.pointers_[0].mousedelta, GetInputConfig());
+
+  PlayerData* player = player_component_.GetEntityData(player_entity_);
+  RailDenizenData* rail_denizen =
+      rail_denizen_component_.GetEntityData(player_entity_);
+
+  // Find the side vector, so we know the axis to rotate about for the pitch
+  // adjustment
+  vec3 side_vector =
+      quat::FromAngleAxis(M_PI / 2, player->facing.vector()) * mathfu::kAxisZ3f;
+
+  // This math seems a little more complicated than it needs to be and ought to
+  // be revisted. However, it works for now. b/20830557
+  quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
+  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);
+  player->facing = QuaternionConjugation(player->facing, pitch_adjustment);
+  player->facing = QuaternionConjugation(player->facing, yaw_adjustment);
+
+  main_camera_.set_position(rail_denizen->Position());
+  main_camera_.set_facing(player->facing.vector());
+}
+
 // Main update function.
 void Game::Update(WorldTime delta_time) {
   motive_engine_.AdvanceFrame(delta_time);
@@ -480,10 +524,7 @@ void Game::Update(WorldTime delta_time) {
   float seconds = delta_time / 1000.f;
   model_angle_ += 1.0f * seconds;
 
-  RailDenizenData* rail_denizen =
-      rail_denizen_component_.GetEntityData(player_entity_);
-  main_camera_.set_position(rail_denizen->Position());
-  main_camera_.set_facing(rail_denizen->Velocity());
+  UpdateMainCamera();
 }
 
 static inline WorldTime CurrentWorldTime() { return GetTicks(); }
@@ -514,7 +555,7 @@ void Game::Run() {
     // Update render window size.
     input_.AdvanceFrame(&renderer_.window_size());
 
-    // TEMP: testing GUI on top of everything else.
+// TEMP: testing GUI on top of everything else.
 #if (IMGUI_TEST)
     // Open OpenType font
     static FontManager fontman;
@@ -524,7 +565,6 @@ void Game::Run() {
     }
     gui::TestGUI(matman_, fontman, input_);
 #endif  // IMGUI_TEST
-
   }
 }
 

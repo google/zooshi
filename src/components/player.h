@@ -17,11 +17,17 @@
 
 #include "components_generated.h"
 #include "entity/component.h"
+#include "mathfu/glsl_mappings.h"
 
 namespace fpl {
 
 class PlayerData {
  public:
+  PlayerData() : facing(0, 0, 1, 0) {}
+
+  // The direction of the Turret
+  mathfu::quat facing;
+
  private:
 };
 

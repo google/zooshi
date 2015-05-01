@@ -151,6 +151,12 @@ FLATBUFFERS_CONVERSION_DATA = [
         schema=find_in_paths('config.fbs', SCHEMA_PATHS),
         input_files=[os.path.join(RAW_ASSETS_PATH, 'config.json')]),
     FlatbuffersConversionData(
+        schema=find_in_paths('audio_config.fbs', SCHEMA_PATHS),
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'audio_config.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('input_config.fbs', SCHEMA_PATHS),
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'input_config.json')]),
+    FlatbuffersConversionData(
         schema=find_in_paths('common.fbs', SCHEMA_PATHS),
         input_files=[]),
     FlatbuffersConversionData(

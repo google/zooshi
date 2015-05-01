@@ -27,11 +27,11 @@ class Camera {
   void set_position(mathfu::vec3 position) { position_ = position; }
   mathfu::vec3 position() const { return position_; }
 
-  void set_facing(const mathfu::vec3 facing) {
+  void set_facing(const mathfu::vec3& facing) {
     assert(facing.LengthSquared() != 0);
     facing_ = facing;
   }
-  mathfu::vec3 facing() const { return facing_; }
+  const mathfu::vec3& facing() const { return facing_; }
 
   void set_viewport_angle(float viewport_angle) {
     viewport_angle_ = viewport_angle;
