@@ -16,6 +16,7 @@
 #define ZOOSHI_GAME_H
 
 #include "camera.h"
+#include "components/physics.h"
 #include "components/player.h"
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
@@ -113,6 +114,7 @@ class Game {
   RailDenizenComponent rail_denizen_component_;
   PlayerComponent player_component_;
   RenderMeshComponent render_mesh_component_;
+  PhysicsComponent physics_component_;
   entity::EntityRef player_entity_;
 
   // String version number of the game.

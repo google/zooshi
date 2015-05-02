@@ -56,10 +56,8 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
     RailDenizenData* rail_denizen_data = GetEntityData(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
-    mathfu::vec3 look_at =
-        rail_denizen_data->Position() + rail_denizen_data->Velocity();
-    mathfu::vec3 up = mathfu::kAxisY3f;
-    transform_data->matrix.LookAt(look_at, rail_denizen_data->Position(), up);
+    transform_data->orientation = mathfu::quat::RotateFromTo(
+          mathfu::vec3(1, 0, 0), rail_denizen_data->Velocity());
   }
 }
 

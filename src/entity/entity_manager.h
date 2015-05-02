@@ -78,6 +78,16 @@ class EntityManager {
     return static_cast<const T*>(components_[id]);
   }
 
+  // Helper function for adding a component to an entity, given its datatype.
+  // Asserts if the component doesn't exist.
+  template <typename T>
+  void AddEntityToComponent(EntityRef entity) {
+    ComponentId id = ComponentIdLookup<T>::kComponentId;
+    assert(id != kInvalidComponent);
+    assert(id < kMaxComponentCount);
+    AddEntityToComponent(entity, id);
+  }
+
   // Helper function for getting a particular component, given the component ID.
   inline ComponentInterface* GetComponent(ComponentId id) {
     assert(id < kMaxComponentCount);

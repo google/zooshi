@@ -351,6 +351,7 @@ bool Game::Initialize(const char* const binary_directory) {
   entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);
   entity_manager_.RegisterComponent<RenderMeshComponent>(
       &render_mesh_component_);
+  entity_manager_.RegisterComponent<PhysicsComponent>(&physics_component_);
 
   entity_manager_.set_entity_factory(&entity_factory_);
 
@@ -375,8 +376,12 @@ bool Game::Initialize(const char* const binary_directory) {
 
       cube_data->mesh = cube_;
       cube_data->shader = shader_cardboard_;
-      transform_data->set_transform(vec3(x * 20, y * 20, 0), vec3(3, 3, 3),
-                                    mathfu::kQuatIdentityf);
+
+      transform_data->position = vec3(x * 20, y * 20, 0);
+      transform_data->orientation = mathfu::quat::identity;
+      transform_data->scale = vec3(3, 3, 3);
+
+      physics_component_.AddEntity(large_cube);
     }
   }
 

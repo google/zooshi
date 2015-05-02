@@ -34,10 +34,8 @@ table RailDenizenDef {
 // no data, (never loaded from raw data) but we need it to be a thing so
 // that it ends up in the enum.
 table PlayerDef {}
-
-// no data, (never loaded from raw data) but we need it to be a thing so
-// that it ends up in the enum.
 table RenderMeshDef {}
+table PhysicsDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
@@ -47,6 +45,7 @@ union ComponentDataUnion {
   TransformDef,
   RailDenizenDef,
   PlayerDef,
+  PhysicsDef,
   RenderMeshDef,
 }
 

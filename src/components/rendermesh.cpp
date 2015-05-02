@@ -21,17 +21,9 @@ using mathfu::mat4;
 namespace fpl {
 namespace fpl_project {
 
-
-static const vec3 kCardboardAmbient = vec3(0.75f);
-static const vec3 kCardboardDiffuse = vec3(0.85f);
-static const vec3 kCardboardSpecular = vec3(0.3f);
-static const float kCardboardShininess = 32.0f;
-static const float kCardboardNormalMapScale = 0.3f;
-
 // Rendermesh depends on transform:
 void RenderMeshComponent::InitEntity(entity::EntityRef& entity) {
-  entity_manager_->AddEntityToComponent(entity,
-                                        ComponentDataUnion_TransformDef);
+  entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
 void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
@@ -42,7 +34,7 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
     TransformData* transform_data = Data<TransformData>(iter->entity);
     RenderMeshData* rendermesh_data = Data<RenderMeshData>(iter->entity);
 
-    mat4 object_world_matrix = transform_data->matrix;
+    mat4 object_world_matrix = transform_data->GetTransformMatrix();
 
     const mat4 mvp = camera.GetTransformMatrix() * object_world_matrix;
     const mat4 world_matrix_inverse = object_world_matrix.Inverse();

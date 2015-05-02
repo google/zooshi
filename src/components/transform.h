@@ -25,19 +25,40 @@ namespace fpl {
 
 // Data for scene object components.
 struct TransformData {
- public:
-  TransformData() : matrix(mathfu::mat4::Identity()) {}
+  TransformData()
+    : position(mathfu::kZeros3f),
+      scale(mathfu::kOnes3f),
+      orientation(mathfu::quat::identity) {}
 
-  // Position, orientation, and scale (in world-space) of the object.
-  // TODO: Store this using vectors and quats so scale, position, rotation, etc.
-  // can be accessed and mutated individually. b/20554361
-  mathfu::mat4 matrix;
+  mathfu::vec3 position;
+  mathfu::vec3 scale;
+  mathfu::quat orientation;
 
-  void set_transform(mathfu::vec3 position, mathfu::vec3 scale,
-                     mathfu::quat orientation) {
-    matrix = mathfu::mat4::FromTranslationVector(position) *
-             mathfu::mat4::FromScaleVector(scale) *
-             mathfu::mat4::FromRotationMatrix(orientation.ToMatrix());
+  // We construct the matrix by hand here, because we know that it will
+  // always be a composition of rotation, scale, and translation, so we
+  // can do things a bit more cleanly than 3 4x4 matrix multiplications.
+  mathfu::mat4 GetTransformMatrix() {
+    // Start with rotation:
+    mathfu::mat3 rot = orientation.ToMatrix();
+
+    // Break it up into columns:
+    mathfu::vec4 c0 = mathfu::vec4(rot[0], rot[3], rot[6], 0);
+    mathfu::vec4 c1 = mathfu::vec4(rot[1], rot[4], rot[7], 0);
+    mathfu::vec4 c2 = mathfu::vec4(rot[2], rot[5], rot[8], 0);
+    mathfu::vec4 c3 = mathfu::vec4(0, 0, 0, 1);
+
+    // Apply scale:
+    c0 *= scale.x();
+    c1 *= scale.y();
+    c2 *= scale.z();
+
+    // Apply translation:
+    c3[0] = position.x();
+    c3[1] = position.y();
+    c3[2] = position.z();
+
+    // Compose and return result:
+    return mathfu::mat4(c0, c1, c2, c3);
   }
 
 };

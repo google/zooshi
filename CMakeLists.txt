@@ -202,6 +202,8 @@ endif()
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
+    src/components/physics.cpp
+    src/components/physics.h
     src/components/player.cpp
     src/components/player.h
     src/components/rail_denizen.cpp
