@@ -80,6 +80,13 @@ CWEBP_PATHS = [
     os.path.dirname(CWEBP_BINARY_IN_PATH) if CWEBP_BINARY_IN_PATH else '',
 ]
 
+# Directories that may contains the mesh_pipeline.
+MESH_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('mesh_pipeline')
+MESH_PIPELINE_PATHS = [
+    os.path.join(FPLBASE_ROOT, 'bin', platform.system()),
+    os.path.dirname(MESH_PIPELINE_BINARY_IN_PATH) if MESH_PIPELINE_BINARY_IN_PATH else '',
+]
+
 # Directory to place processed assets.
 ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
 
@@ -98,6 +105,9 @@ RAW_MATERIAL_PATH = os.path.join(RAW_ASSETS_PATH, 'materials')
 # Directory where unprocessed textures can be found.
 RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, 'textures')
 
+# Directory where unprocessed FBX files can be found.
+RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, 'meshes')
+
 # Directory where unprocessed assets can be found.
 SCHEMA_PATHS = [
     os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas'),
@@ -114,6 +124,9 @@ FLATC_EXECUTABLE_NAME = 'flatc' + EXECUTABLE_EXTENSION
 
 # Name of the cwebp executable.
 CWEBP_EXECUTABLE_NAME = 'cwebp' + EXECUTABLE_EXTENSION
+
+# Name of the mesh_pipeline executable.
+MESH_PIPELINE_EXECUTABLE_NAME = 'mesh_pipeline' + EXECUTABLE_EXTENSION
 
 # What level of quality we want to apply to the webp files.
 # Ranges from 0 to 100.
@@ -183,14 +196,14 @@ def processed_texture_path(path, target_directory):
   return path.replace(RAW_ASSETS_PATH, target_directory).replace('png', 'webp')
 
 
-# PNG files to convert to webp.
-PNG_TEXTURES = glob.glob(os.path.join(RAW_TEXTURE_PATH, '*.png'))
-
 # Location of FlatBuffers compiler.
 FLATC = find_in_paths(FLATC_EXECUTABLE_NAME, FLATBUFFERS_PATHS)
 
 # Location of webp compression tool.
 CWEBP = find_in_paths(CWEBP_EXECUTABLE_NAME, CWEBP_PATHS)
+
+# Location of mesh_pipeline conversion tool.
+MESH_PIPELINE = find_in_paths(MESH_PIPELINE_EXECUTABLE_NAME, MESH_PIPELINE_PATHS)
 
 
 class BuildError(Exception):
@@ -248,6 +261,22 @@ def convert_png_image_to_webp(png, out, quality=80):
   run_subprocess(command)
 
 
+def convert_fbx_mesh_to_flatbuffer_binary(fbx, mesh_dir, material_dir, texture_dir):
+  """Run the mesh_pipeline on the given fbx file.
+
+  Args:
+    fbx: The path to the fbx file to convert into a flatbuffer binary.
+    mesh_dir: The path of the flatbuffer binary to write to.
+    material_dir: The path where the final material binary files exist.
+    texture_dir: The path of the mesh textures to write to.
+
+  Raises:
+    BuildError: Process return code was nonzero.
+  """
+  command = [MESH_PIPELINE, '-o', mesh_dir, '-m', material_dir, '-t', texture_dir, fbx]
+  run_subprocess(command)
+
+
 def needs_rebuild(source, target):
   """Checks if the source file needs to be rebuilt.
 
@@ -262,6 +291,13 @@ def needs_rebuild(source, target):
   return not os.path.isfile(target) or (
       os.path.getmtime(source) > os.path.getmtime(target))
 
+def processed_mesh_path(path, mesh_dir):
+  """Take the path to an fbx asset and convert it to target mesh path.
+
+  Args:
+    mesh_dir: Path to the target assets directory.
+  """
+  return path.replace(RAW_ASSETS_PATH, mesh_dir).replace('.fbx', '.fplmesh')
 
 def processed_json_path(path, target_directory):
   """Take the path to a raw json asset and convert it to target bin path.
@@ -271,6 +307,29 @@ def processed_json_path(path, target_directory):
   """
   return path.replace(RAW_ASSETS_PATH, target_directory).replace(
     '.json', '.bin')
+
+def fbx_files_to_convert():
+  """ FBX files to convert to webp. """
+  return glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx'))
+
+def png_files_to_convert():
+  """ PNG files to convert to webp. """
+  return glob.glob(os.path.join(RAW_TEXTURE_PATH, '*.png'))
+
+def generate_mesh_binaries(target_directory):
+  """Run the mesh pipeline on the all of the FBX files.
+
+  Args:
+    target_directory: Path to the target assets directory.
+  """
+  input_files = fbx_files_to_convert()
+  for fbx in input_files:
+    mesh_dir = os.path.join(target_directory, 'meshes')
+    target = processed_mesh_path(fbx, target_directory)
+    material_dir = os.path.join(target_directory, 'materials')
+
+    if needs_rebuild(fbx, target):
+      convert_fbx_mesh_to_flatbuffer_binary(fbx, mesh_dir, material_dir, RAW_TEXTURE_PATH)
 
 
 def generate_flatbuffer_binaries(flatc, target_directory):
@@ -294,10 +353,13 @@ def generate_flatbuffer_binaries(flatc, target_directory):
 def generate_webp_textures(target_directory):
   """Run the webp converter on off of the png files.
 
+  Search for the PNG files lazily, since the mesh pipeline may
+  create PNG files that need to be processed.
+
   Args:
     target_directory: Path to the target assets directory.
   """
-  input_files = PNG_TEXTURES
+  input_files = png_files_to_convert()
   for png in input_files:
     out = processed_texture_path(png, target_directory)
     out_dir = os.path.dirname(out)
@@ -332,9 +394,11 @@ def copy_assets(target_directory):
              os.path.getmtime(source_filename))):
           shutil.copy2(source_filename, target_filename)
 
-def clean_webp_textures():
+def clean_webp_textures(target_directory):
   """Delete all the processed webp textures."""
-  for webp in PNG_TEXTURES['output_files']:
+  intput_files = png_files_to_convert()
+  for png in input_files:
+    webp = processed_texture_path(png, target_directory)
     if os.path.isfile(webp):
       os.remove(webp)
 
@@ -352,10 +416,10 @@ def clean_flatbuffer_binaries(target_directory):
         os.remove(path)
 
 
-def clean():
+def clean(target_directory):
   """Delete all the processed files."""
-  clean_flatbuffer_binaries()
-  clean_webp_textures()
+  clean_flatbuffer_binaries(target_directory)
+  clean_webp_textures(target_directory)
 
 
 def handle_build_error(error):
@@ -387,11 +451,20 @@ def main(argv):
   parser.add_argument('args', nargs=argparse.REMAINDER)
   args = parser.parse_args()
   target = args.args[1] if len(args.args) >= 2 else 'all'
-  if target not in ('all', 'flatbuffers', 'webp', 'clean'):
+  if target not in ('all', 'mesh', 'flatbuffers', 'webp', 'clean'):
     sys.stderr.write('No rule to build target %s.\n' % target)
 
   if target != 'clean':
     copy_assets(args.output)
+  # The mesh pipeline must run before the webp texture converter,
+  # since the mesh pipeline might create textures that need to be
+  # converted.
+  if target in ('all', 'mesh'):
+    try:
+      generate_mesh_binaries(args.output)
+    except BuildError as error:
+      handle_build_error(error)
+      return 1
   if target in ('all', 'flatbuffers'):
     try:
       generate_flatbuffer_binaries(args.flatc, args.output)
@@ -406,7 +479,7 @@ def main(argv):
       return 1
   if target == 'clean':
     try:
-      clean()
+      clean(args.output)
     except OSError as error:
       sys.stderr.write('Error cleaning: %s' % str(error))
       return 1

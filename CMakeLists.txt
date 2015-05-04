@@ -136,6 +136,9 @@ endif()
 
 # Include fplbase.
 if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
+  # By default, don't build the mesh_pipeline. Use the one that's prebuilt.
+  # We do this to avoid having to install the FBX SDK.
+  set(fplbase_build_mesh_pipeline OFF CACHE BOOL "")
   add_subdirectory("${dependencies_fplbase_dir}" ${tmp_dir}/fplbase)
 endif()
 
