@@ -15,7 +15,7 @@ limitations under the License.
 -->
 <!-- BEGIN_INCLUDE(manifest) -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.google.fpl.pie_noon"
+          package="com.google.fpl.zooshi"
           android:versionCode="4"
           android:versionName="1.0">
 
@@ -32,7 +32,7 @@ limitations under the License.
                   android:configChanges="orientation|keyboardHidden|screenSize">
             <!-- Tell NativeActivity the name of the .so -->
             <meta-data android:name="android.app.lib_name"
-                       android:value="pie_noon" />
+                       android:value="zooshi" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

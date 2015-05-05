@@ -24,6 +24,7 @@ void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
   assert(component_data->data_type() == ComponentDataUnion_PlayerDef);
+  (void)component_data;
   AddEntity(entity);
 }
 

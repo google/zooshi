@@ -65,8 +65,9 @@ LOCAL_SRC_FILES := \
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 
 ZOOSHI_SCHEMA_FILES := \
-  $(ZOOSHI_SCHEMA_DIR)/config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/config.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/materials.fbs \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs
 
@@ -98,6 +99,7 @@ LOCAL_STATIC_LIBRARIES := \
   SDL2 \
   SDL2_mixer \
   libfplbase \
+  libimgui \
   libpindrop \
   libmotive \
   libfreetype \
@@ -111,16 +113,18 @@ LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -lz -lEGL -landroid
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-add-path,$(DEPENDENCIES_FLATBUFFERS_DIR)/..)
+$(call import-add-path,$(DEPENDENCIES_FPLBASE_DIR)/..)
+$(call import-add-path,$(DEPENDENCIES_IMGUI_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MATHFU_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MOTIVE_DIR)/..)
-$(call import-add-path,$(DEPENDENCIES_FPLBASE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 
-$(call import-module,flatbuffers/android/jni)
 $(call import-module,audio_engine/jni)
-$(call import-module,motive/jni)
-$(call import-module,mathfu/jni)
+$(call import-module,flatbuffers/android/jni)
 $(call import-module,fplbase/jni)
+$(call import-module,imgui/jni)
+$(call import-module,mathfu/jni)
+$(call import-module,motive/jni)
 $(call import-module,webp)
 

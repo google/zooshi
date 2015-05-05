@@ -57,7 +57,7 @@ main() {
                       ${logcat_filter}"
   fi
   # Build and sign with the test key if it's found.
-  local -r key_dir=$(cd ${this_dir}/../../libraries/certs/pienoon && pwd)
+  local -r key_dir=$(cd ${this_dir}/../../libraries/certs/zooshi && pwd)
   if [[ "${key_dir}" != "" ]]; then
     ${FPLUTIL}/bin/build_all_android.py \
       --apk_keypk8 ${key_dir}/zooshi.pk8 \
@@ -66,7 +66,7 @@ main() {
   else
     echo "${key_dir} not found, skipping signing step." >&2
     ${FPLUTIL}/bin/build_all_android.py -E dependencies \
-      google-play-services_lib "$@" ${additional_args}
+      google-play-services_lib -S "$@" ${additional_args}
   fi
 }
 

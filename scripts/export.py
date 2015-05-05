@@ -14,7 +14,7 @@
 
 """Export the game and all necessary assets.
 
-This script will find the pie_noon and flatc executable and package them along
+This script will find the zooshi and flatc executable and package them along
 with all other assets required the play the game.
 """
 
@@ -94,7 +94,7 @@ def main():
   """Zips up all files needed to run the game.
 
   Zips up all files listed in EXPORT_FILES, all directories listed in
-  EXPORT_DIRECTORIES, and the binary executables `pie_noon` and `flatc`, which
+  EXPORT_DIRECTORIES, and the binary executables `zooshi` and `flatc`, which
   have different locations when built using different tool chains.
 
   Returns:
@@ -130,7 +130,7 @@ def main():
       return 1
 
   try:
-    zip_binary(zip_file, 'bin', 'pie_noon', dir_name)
+    zip_binary(zip_file, 'bin', 'zooshi', dir_name)
     zip_binary(zip_file, 'bin', 'flatc', dir_name)
     if platform.system() == 'Windows':
       zip_binary(zip_file, 'bin', 'SDL2.dll', dir_name)

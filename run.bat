@@ -22,6 +22,6 @@ rem Process .json files.
 python .\scripts\build_assets.py
 
 rem Run the game.
-for %%A IN (.\bin\pie_noon.exe .\bin\Release\pie_noon.exe .\bin\Debug\pie_noon.exe)^
+for %%A IN (.\bin\zooshi.exe .\bin\Release\zooshi.exe .\bin\Debug\zooshi.exe)^
 DO if exist %%A (%%A && goto :break)
 :break

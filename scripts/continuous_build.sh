@@ -79,9 +79,9 @@ main() {
   INSTALL=0 LAUNCH=0 ./build_install_run.sh --verbose -A ''
   if [[ -n "${dist_dir}" ]]; then
     # Archive unsigned release build.
-    cp ./bin/pie_noon-release-unsigned.apk ${dist_dir}/PieNoon.apk
+    cp ./bin/zooshi-release-unsigned.apk ${dist_dir}/Zooshi.apk
     # Archive release build signed with the test key.
-    cp ./apks/pie_noon.apk ${dist_dir}/PieNoon-Test.apk
+    cp ./apks/zooshi.apk ${dist_dir}/Zooshi-Test.apk
   fi
 
   # Build and archive the debug build.
@@ -89,7 +89,7 @@ main() {
   INSTALL=0 LAUNCH=0 ./build_install_run.sh -T debug -f 'NDK_DEBUG=1' \
     --verbose -A ''
   if [[ -n "${dist_dir}" ]]; then
-    cp ./bin/pie_noon-debug.apk ${dist_dir}/PieNoon-Debug.apk
+    cp ./bin/zooshi-debug.apk ${dist_dir}/Zooshi-Debug.apk
   fi
 }
 
