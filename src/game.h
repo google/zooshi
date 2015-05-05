@@ -67,6 +67,8 @@ class Game {
   void Render2DElements(mathfu::vec2i resolution);
   void Update(WorldTime delta_time);
   void UpdateMainCamera();
+  void UpdateMainCameraAndroid();
+  void UpdateMainCameraMouse();
   const Config& GetConfig() const;
   const InputConfig& GetInputConfig() const;
   const RailDef& GetRailDef() const;

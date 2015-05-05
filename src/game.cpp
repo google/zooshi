@@ -490,6 +490,35 @@ static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
 }
 
 void Game::UpdateMainCamera() {
+// Update the camera based on the platform being used
+#ifdef __ANDROID__
+  UpdateMainCameraAndroid();
+#else
+  UpdateMainCameraMouse();
+#endif
+}
+
+void Game::UpdateMainCameraAndroid() {
+  PlayerData* player = player_component_.GetEntityData(player_entity_);
+  RailDenizenData* rail_denizen =
+      rail_denizen_component_.GetEntityData(player_entity_);
+
+#ifdef ANDROID_CARDBOARD
+  const vec3 cardboard_forward = input_.cardboard_input().forward();
+  const vec3 forward = vec3(cardboard_forward.x(), -cardboard_forward.z(),
+                            cardboard_forward.y());
+  player->facing = quat::RotateFromTo(mathfu::kAxisX3f, forward);
+
+  const vec3 cardboard_up = input_.cardboard_input().up();
+  const vec3 up = vec3(cardboard_up.x(), -cardboard_up.z(), cardboard_up.y());
+  main_camera_.set_up(up);
+#endif
+
+  main_camera_.set_position(rail_denizen->Position());
+  main_camera_.set_facing(player->facing * mathfu::kAxisX3f);
+}
+
+void Game::UpdateMainCameraMouse() {
   // Get Mouse delta and apply sensitivity and inversions if necessary.
   vec2 delta =
       AdjustedMouseDelta(input_.pointers_[0].mousedelta, GetInputConfig());
@@ -501,8 +530,8 @@ void Game::UpdateMainCamera() {
   // We assume that the player is looking along the x axis, before
   // camera transformations are applied:
   vec3 player_facing_vector = player->facing * mathfu::kAxisX3f;
-  vec3 side_vector = quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) *
-      player_facing_vector;
+  vec3 side_vector =
+      quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) * player_facing_vector;
 
   quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
   quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);

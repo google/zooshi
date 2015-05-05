@@ -26,7 +26,10 @@ static const vec2 kViewportResolution = vec2(640, 480);
 static const float kDefaultViewportNearPlane = 1.0f;
 static const float kDefaultViewportFarPlane = 100.0f;
 
-Camera::Camera() : position_(mathfu::kZeros3f), facing_(mathfu::kAxisY3f) {
+Camera::Camera()
+    : position_(mathfu::kZeros3f),
+      facing_(mathfu::kAxisY3f),
+      up_(mathfu::kAxisZ3f) {
   Init(kDefaultViewportAngle, kViewportResolution, kDefaultViewportNearPlane,
        kDefaultViewportFarPlane);
 }
@@ -39,8 +42,7 @@ mathfu::mat4 Camera::GetTransformMatrix() const {
 
   // Subtract the facting vector because we need to be right handed.
   // TODO(amablue): add handedness to LookAt function (b/19229170)
-  mat4 camera_matrix =
-      mat4::LookAt(position_ - facing_, position_, mathfu::kAxisZ3f);
+  mat4 camera_matrix = mat4::LookAt(position_ - facing_, position_, up_);
 
   mat4 camera_transform = perspective_matrix_ * camera_matrix;
 
