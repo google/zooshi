@@ -476,13 +476,6 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
                            vec2(1, 0));
 }
 
-// Quaternion conjugation rotates p about q when both p and q are unit vectors.
-// For more information:
-//     http://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
-quat QuaternionConjugation(const quat& p, const quat& q) {
-  return (q * p * q.Inverse()).Normalized();
-}
-
 static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
                                const InputConfig& input_config) {
   vec2 delta(raw_delta);
@@ -505,20 +498,18 @@ void Game::UpdateMainCamera() {
   RailDenizenData* rail_denizen =
       rail_denizen_component_.GetEntityData(player_entity_);
 
-  // Find the side vector, so we know the axis to rotate about for the pitch
-  // adjustment
-  vec3 side_vector =
-      quat::FromAngleAxis(M_PI / 2, player->facing.vector()) * mathfu::kAxisZ3f;
+  // We assume that the player is looking along the x axis, before
+  // camera transformations are applied:
+  vec3 player_facing_vector = player->facing * mathfu::kAxisX3f;
+  vec3 side_vector = quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) *
+      player_facing_vector;
 
-  // This math seems a little more complicated than it needs to be and ought to
-  // be revisted. However, it works for now. b/20830557
   quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
   quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);
-  player->facing = QuaternionConjugation(player->facing, pitch_adjustment);
-  player->facing = QuaternionConjugation(player->facing, yaw_adjustment);
+  player->facing = pitch_adjustment * yaw_adjustment * player->facing;
 
   main_camera_.set_position(rail_denizen->Position());
-  main_camera_.set_facing(player->facing.vector());
+  main_camera_.set_facing(player->facing * mathfu::kAxisX3f);
 }
 
 // Main update function.
