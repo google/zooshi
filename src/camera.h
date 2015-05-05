@@ -33,6 +33,12 @@ class Camera {
   }
   const mathfu::vec3& facing() const { return facing_; }
 
+  void set_up(const mathfu::vec3& up) {
+    assert(up.LengthSquared() != 0);
+    up_ = up;
+  }
+  const mathfu::vec3& up() const { return up_; }
+
   void set_viewport_angle(float viewport_angle) {
     viewport_angle_ = viewport_angle;
   }
@@ -64,6 +70,7 @@ class Camera {
  private:
   mathfu::vec3 position_;
   mathfu::vec3 facing_;
+  mathfu::vec3 up_;
   float viewport_angle_;
   mathfu::vec2 viewport_resolution_;
   float viewport_near_plane_;
