@@ -30,8 +30,8 @@ Camera::Camera()
     : position_(mathfu::kZeros3f),
       facing_(mathfu::kAxisY3f),
       up_(mathfu::kAxisZ3f) {
-  Init(kDefaultViewportAngle, kViewportResolution, kDefaultViewportNearPlane,
-       kDefaultViewportFarPlane);
+  Initialize(kDefaultViewportAngle, kViewportResolution,
+             kDefaultViewportNearPlane, kDefaultViewportFarPlane);
 }
 
 // returns a matrix representing our camera.

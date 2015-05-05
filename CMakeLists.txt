@@ -223,6 +223,8 @@ set(zooshi_SRCS
     src/flatbufferschemas
     src/game.cpp
     src/game.h
+    src/game_state.cpp
+    src/game_state.h
     src/gui.cpp
     src/gui.h
     src/main.cpp

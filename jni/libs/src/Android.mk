@@ -54,6 +54,7 @@ LOCAL_SRC_FILES := \
   $(subst $(LOCAL_PATH)/,,$(DEPENDENCIES_SDL_DIR))/src/main/android/SDL_android_main.c \
   $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/game_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \

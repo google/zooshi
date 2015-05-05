@@ -17,18 +17,20 @@
 #include <math.h>
 
 #include "audio_config_generated.h"
-#include "input_config_generated.h"
 #include "entity/entity.h"
 #include "fplbase/input.h"
+#include "fplbase/input.h"
 #include "fplbase/utilities.h"
+#include "fplbase/utilities.h"
+#include "game_state.h"
+#include "gui.h"
+#include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
 #include "motive/init.h"
 #include "motive/io/flatbuffers.h"
-#include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
 #include "pindrop/pindrop.h"
-#include "gui.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -69,9 +71,6 @@ static const int kAndroidMaxScreenWidth = 1920;
 static const int kAndroidMaxScreenHeight = 1080;
 #endif
 
-static const float kViewportAngle = M_PI / 4.0f;  // 45 degrees
-static const float kViewportNearPlane = 1.0f;
-static const float kViewportFarPlane = 100.0f;
 // static const float kPixelToWorldScale = 0.008f;
 static const float kPixelToWorldScale = 4.0f / 256.0f;
 
@@ -120,8 +119,7 @@ Game::Game()
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       prev_world_time_(0),
-      motive_engine_(),
-      rail_denizen_component_(&motive_engine_) {
+      game_state_() {
   version_ = kVersion;
 }
 
@@ -292,6 +290,13 @@ bool Game::InitializeAssets() {
   shader_cardboard_ = matman_.LoadShader("shaders/cardboard");
   shader_textured_ = matman_.LoadShader("shaders/textured");
 
+  // uniforms:
+  shader_cardboard_->SetUniform("ambient_material", kCardboardAmbient);
+  shader_cardboard_->SetUniform("diffuse_material", kCardboardDiffuse);
+  shader_cardboard_->SetUniform("specular_material", kCardboardSpecular);
+  shader_cardboard_->SetUniform("shininess", kCardboardShininess);
+  shader_cardboard_->SetUniform("normalmap_scale", kCardboardNormalMapScale);
+
   return true;
 }
 
@@ -340,109 +345,18 @@ bool Game::Initialize(const char* const binary_directory) {
   billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
                                       vec2(256, 256), kPixelToWorldScale);
 
-  main_camera_.Init(kViewportAngle, vec2(renderer_.window_size()),
-                    kViewportNearPlane, kViewportFarPlane);
-
-  motive::SmoothInit::Register();
-
-  entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
-  entity_manager_.RegisterComponent<RailDenizenComponent>(
-      &rail_denizen_component_);
-  entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);
-  entity_manager_.RegisterComponent<RenderMeshComponent>(
-      &render_mesh_component_);
-  entity_manager_.RegisterComponent<PhysicsComponent>(&physics_component_);
-
-  entity_manager_.set_entity_factory(&entity_factory_);
-
-  for (size_t i = 0; i < GetConfig().entity_list()->size(); i++) {
-    entity::EntityRef ref =
-        entity_manager_.CreateEntityFromData(GetConfig().entity_list()->Get(i));
-
-    // For now, the camera follows the first entity defined.
-    // TODO(amablue): come up with a better solution.
-    if (i == 0) {
-      player_entity_ = ref;
-    }
-  }
-
-  for (int x = -3; x < 4; x++) {
-    for (int y = -3; y < 4; y++) {
-      // Let's make an entity!
-      entity::EntityRef large_cube = entity_manager_.AllocateNewEntity();
-      RenderMeshData* cube_data = render_mesh_component_.AddEntity(large_cube);
-      TransformData* transform_data =
-          entity_manager_.GetComponentData<TransformData>(large_cube);
-
-      cube_data->mesh = cube_;
-      cube_data->shader = shader_cardboard_;
-
-      transform_data->position = vec3(x * 20, y * 20, 0);
-      transform_data->orientation = mathfu::quat::identity;
-      transform_data->scale = vec3(3, 3, 3);
-
-      physics_component_.AddEntity(large_cube);
-    }
-  }
-
-  render_mesh_component_.set_light_position(vec3(-10, -10, 10));
-
   input_.SetRelativeMouseMode(true);
+
+  game_state_.Initialize(renderer_.window_size(), GetConfig(), cube_, shader_cardboard_);
 
   LogInfo("Initialization complete\n");
   return true;
 }
 
-void Game::Render(const Camera& camera) {
+void Game::Render() {
   renderer_.AdvanceFrame(input_.minimized_);
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
-
-  mat4 camera_transform = camera.GetTransformMatrix();
-  renderer_.model_view_projection() = camera_transform;
-  renderer_.color() = mathfu::kOnes4f;
-  renderer_.DepthTest(true);
-  renderer_.model_view_projection() = camera_transform;
-
-  // uniforms:
-  shader_cardboard_->SetUniform("ambient_material", kCardboardAmbient);
-  shader_cardboard_->SetUniform("diffuse_material", kCardboardDiffuse);
-  shader_cardboard_->SetUniform("specular_material", kCardboardSpecular);
-  shader_cardboard_->SetUniform("shininess", kCardboardShininess);
-  shader_cardboard_->SetUniform("normalmap_scale", kCardboardNormalMapScale);
-
-  for (int x = -100; x < 100; x += 5) {
-    for (int y = -100; y < 100; y += 5) {
-      vec3 obj_orientation = vec3(0, 0, model_angle_ + x / 83.0f + y * 117.0f);
-      vec3 obj_position = vec3(x, y, (x + y) % 2 == 0 ? 20 : 0);
-      float scale_factor = 1;
-      vec3 obj_scale = vec3(scale_factor, scale_factor, scale_factor);
-      vec3 light_pos = vec3(-10, -10, 10);
-
-      mat4 object_world_matrix =
-          mat4::FromTranslationVector(obj_position) *
-          mat4::FromScaleVector(obj_scale) *
-          mat4::FromRotationMatrix(
-              quat::FromEulerAngles(obj_orientation).ToMatrix());
-
-      const mat4 mvp = camera_transform * object_world_matrix;
-      renderer_.model_view_projection() = mvp;
-
-      // Set the camera and light positions in object space.
-      const mat4 world_matrix_inverse = object_world_matrix.Inverse();
-
-      shader_cardboard_->Set(renderer_);
-      renderer_.camera_pos() = world_matrix_inverse * camera.position();
-      renderer_.light_pos() = world_matrix_inverse * light_pos;
-      renderer_.model_view_projection() = mvp;
-
-      shader_cardboard_->SetUniform("color",
-                                    vec4(x / 100.f, y / 100.f, 1.f, 1.f));
-
-      cube_->Render(renderer_);
-    }
-  }
-
-  render_mesh_component_.RenderAllEntities(renderer_, camera);
+  game_state_.Render(&renderer_);
 }
 
 void Game::Render2DElements(mathfu::vec2i resolution) {
@@ -476,82 +390,6 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
                            vec2(1, 0));
 }
 
-static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
-                               const InputConfig& input_config) {
-  vec2 delta(raw_delta);
-  delta *= input_config.mouse_sensitivity();
-  if (!input_config.invert_x()) {
-    delta.x() *= -1.0f;
-  }
-  if (!input_config.invert_y()) {
-    delta.y() *= -1.0f;
-  }
-  return delta;
-}
-
-void Game::UpdateMainCamera() {
-// Update the camera based on the platform being used
-#ifdef __ANDROID__
-  UpdateMainCameraAndroid();
-#else
-  UpdateMainCameraMouse();
-#endif
-}
-
-void Game::UpdateMainCameraAndroid() {
-  PlayerData* player = player_component_.GetEntityData(player_entity_);
-  RailDenizenData* rail_denizen =
-      rail_denizen_component_.GetEntityData(player_entity_);
-
-#ifdef ANDROID_CARDBOARD
-  const vec3 cardboard_forward = input_.cardboard_input().forward();
-  const vec3 forward = vec3(cardboard_forward.x(), -cardboard_forward.z(),
-                            cardboard_forward.y());
-  player->facing = quat::RotateFromTo(mathfu::kAxisX3f, forward);
-
-  const vec3 cardboard_up = input_.cardboard_input().up();
-  const vec3 up = vec3(cardboard_up.x(), -cardboard_up.z(), cardboard_up.y());
-  main_camera_.set_up(up);
-#endif
-
-  main_camera_.set_position(rail_denizen->Position());
-  main_camera_.set_facing(player->facing * mathfu::kAxisX3f);
-}
-
-void Game::UpdateMainCameraMouse() {
-  // Get Mouse delta and apply sensitivity and inversions if necessary.
-  vec2 delta =
-      AdjustedMouseDelta(input_.pointers_[0].mousedelta, GetInputConfig());
-
-  PlayerData* player = player_component_.GetEntityData(player_entity_);
-  RailDenizenData* rail_denizen =
-      rail_denizen_component_.GetEntityData(player_entity_);
-
-  // We assume that the player is looking along the x axis, before
-  // camera transformations are applied:
-  vec3 player_facing_vector = player->facing * mathfu::kAxisX3f;
-  vec3 side_vector =
-      quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) * player_facing_vector;
-
-  quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
-  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);
-  player->facing = pitch_adjustment * yaw_adjustment * player->facing;
-
-  main_camera_.set_position(rail_denizen->Position());
-  main_camera_.set_facing(player->facing * mathfu::kAxisX3f);
-}
-
-// Main update function.
-void Game::Update(WorldTime delta_time) {
-  motive_engine_.AdvanceFrame(delta_time);
-  entity_manager_.UpdateComponents(delta_time);
-
-  float seconds = delta_time / 1000.f;
-  model_angle_ += 1.0f * seconds;
-
-  UpdateMainCamera();
-}
-
 static inline WorldTime CurrentWorldTime() { return GetTicks(); }
 
 void Game::Run() {
@@ -571,9 +409,9 @@ void Game::Run() {
       Delay(kMinUpdateTime - delta_time);
     }
 
-    Update(delta_time);
+    game_state_.Update(delta_time, input_, GetInputConfig());
 
-    Render(main_camera_);
+    Render();
     Render2DElements(renderer_.window_size());
     audio_engine_.AdvanceFrame(delta_time / 1000.0f);
     // Process input device messages since the last game loop.
@@ -595,3 +433,4 @@ void Game::Run() {
 
 }  // fpl_project
 }  // fpl
+

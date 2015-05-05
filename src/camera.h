@@ -15,8 +15,8 @@
 #ifndef ZOOSHI_CAMERA_H
 #define ZOOSHI_CAMERA_H
 
-#include "mathfu/glsl_mappings.h"
 #include "mathfu/constants.h"
+#include "mathfu/glsl_mappings.h"
 
 class Camera {
  public:
@@ -59,8 +59,8 @@ class Camera {
   }
   float viewport_far_plane() const { return viewport_far_plane_; }
 
-  void Init(float viewport_angle, mathfu::vec2 viewport_resolution,
-            float viewport_near_plane, float viewport_far_plane) {
+  void Initialize(float viewport_angle, mathfu::vec2 viewport_resolution,
+                  float viewport_near_plane, float viewport_far_plane) {
     viewport_angle_ = viewport_angle;
     viewport_resolution_ = viewport_resolution;
     viewport_near_plane_ = viewport_near_plane;
