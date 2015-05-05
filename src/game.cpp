@@ -18,8 +18,9 @@
 
 #include "audio_config_generated.h"
 #include "input_config_generated.h"
-#include "input.h"
 #include "entity/entity.h"
+#include "fplbase/input.h"
+#include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
 #include "motive/init.h"
@@ -28,7 +29,6 @@
 #include "motive/math/angle.h"
 #include "pindrop/pindrop.h"
 #include "gui.h"
-#include "utilities.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;

@@ -24,14 +24,14 @@
 #include "config_generated.h"
 #include "entity/entity_manager.h"
 #include "flatbuffers/flatbuffers.h"
-#include "input.h"
-#include "material_manager.h"
+#include "fplbase/input.h"
+#include "fplbase/material_manager.h"
+#include "fplbase/renderer.h"
+#include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "motive/engine.h"
 #include "rail_def_generated.h"
-#include "renderer.h"
-#include "utilities.h"
 #include "config_generated.h"
 
 namespace fpl {

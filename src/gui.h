@@ -16,7 +16,7 @@
 #define ZOOSHI_GUI_H
 
 #include "imgui/imgui.h"
-#include "material_manager.h"
+#include "fplbase/material_manager.h"
 
 namespace fpl {
 namespace gui {

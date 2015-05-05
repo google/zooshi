@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "game.h"
-#include "utilities.h"
+#include "fplbase/utilities.h"
 
 int FPL_main(int argc, char* argv[]) {
   fpl::fpl_project::Game game;

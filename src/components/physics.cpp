@@ -14,7 +14,7 @@
 
 #include "components/physics.h"
 #include "components/transform.h"
-#include "utilities.h"
+#include "fplbase/utilities.h"
 
 using mathfu::vec3;
 using mathfu::quat;

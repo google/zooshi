@@ -21,9 +21,9 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
-#include "mesh.h"
-#include "renderer.h"
-#include "shader.h"
+#include "fplbase/mesh.h"
+#include "fplbase/renderer.h"
+#include "fplbase/shader.h"
 
 namespace fpl {
 namespace fpl_project {
