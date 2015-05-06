@@ -26,9 +26,9 @@ namespace fpl {
 // Data for scene object components.
 struct TransformData {
   TransformData()
-    : position(mathfu::kZeros3f),
-      scale(mathfu::kOnes3f),
-      orientation(mathfu::quat::identity) {}
+      : position(mathfu::kZeros3f),
+        scale(mathfu::kOnes3f),
+        orientation(mathfu::quat::identity) {}
 
   mathfu::vec3 position;
   mathfu::vec3 scale;
@@ -60,15 +60,13 @@ struct TransformData {
     // Compose and return result:
     return mathfu::mat4(c0, c1, c2, c3);
   }
-
 };
 
 class TransformComponent : public entity::Component<TransformData> {
  public:
   TransformComponent() {}
 
-  virtual void AddFromRawData(entity::EntityRef& /*entity*/,
-                              const void* /*raw_data*/) {}
+  virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
 };
@@ -79,3 +77,4 @@ FPL_ENTITY_REGISTER_COMPONENT(TransformComponent, TransformData,
                               ComponentDataUnion_TransformDef)
 
 #endif  // COMPONENTS_TRANSFORM_H_
+

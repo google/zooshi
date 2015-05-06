@@ -21,7 +21,9 @@ namespace fpl {
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
-    player_data->input_controller()->Update();
+    if (player_data->input_controller()) {
+      player_data->input_controller()->Update();
+    }
   }
 }
 
@@ -38,10 +40,9 @@ void PlayerComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
-  (void) source;
+  (void)source;
   return entity::EntityRef();
 }
-
 
 }  // fpl
 

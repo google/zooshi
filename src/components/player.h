@@ -24,7 +24,7 @@ namespace fpl {
 
 class PlayerData {
  public:
-  PlayerData() {}
+  PlayerData() : input_controller_(nullptr) {}
 
   mathfu::vec3 GetFacing() {
     return input_controller_->facing().GetValue();

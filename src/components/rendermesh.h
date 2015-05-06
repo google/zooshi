@@ -17,6 +17,7 @@
 
 #include "camera.h"
 #include "components_generated.h"
+#include "components/transform.h"
 #include "entity/component.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
@@ -27,7 +28,6 @@
 
 namespace fpl {
 namespace fpl_project {
-
 
 // Data for scene object components.
 struct RenderMeshData {
@@ -51,15 +51,15 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
 
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
-  virtual void Init() {
-    assert(entity_manager_ != nullptr);
-  }
+  virtual void Init() { assert(entity_manager_ != nullptr); }
 
   // Nothing really happens per-update to these things.
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 
   // Here's where the real stuff goes on.  Called directly by
   // the render function.
+  void RenderEntity(entity::EntityRef& entity, mat4 transform,
+                    Renderer& renderer, const Camera& camera);
   void RenderAllEntities(Renderer& renderer, const Camera& camera);
 
   // Get and set the light position.  This is a special uniform that is sent
@@ -73,7 +73,8 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
  private:
   // todo(ccornell) expand this if needed - make an array for multiple lights.
   // Also maybe make this into a full fledged struct to store things like
-  // intensity, color, etc.  (Low priority - none of our shaders support these.)
+  // intensity, color, etc.  (Low priority - none of our shaders support
+  // these.)
   mathfu::vec3 light_position_;
 };
 
@@ -81,6 +82,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RenderMeshComponent,
-    fpl::fpl_project::RenderMeshData, ComponentDataUnion_RenderMeshDef)
+                              fpl::fpl_project::RenderMeshData,
+                              ComponentDataUnion_RenderMeshDef)
 
 #endif  // COMPONENTS_RENDERMESH_H_

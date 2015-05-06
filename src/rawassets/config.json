@@ -9,7 +9,46 @@
       "component_list": [
         {
           "data_type": "PlayerDef",
+          "data": {}
+        },
+        {
+          "data_type": "RailDenizenDef",
+          "data" : {
+            "start_time": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "PlayerDef",
           "data": {
+          }
+        },
+        {
+          "data_type": "FamilyDef",
+          "data": {
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "position": {
+                        "x": 5.0,
+                        "y": 0.0,
+                        "z": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {}
+                  }
+                ]
+              }
+            ]
           }
         },
         {
@@ -17,6 +56,10 @@
           "data" : {
             "start_time": 0
           }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {}
         }
       ]
     }

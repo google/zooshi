@@ -19,10 +19,14 @@ namespace fpl;
 // Data definitions for all of components:
 // ---------------------------------------------
 table TransformDef {
-  // position:Vec3;
+  position:Vec3;
   // scale:Vec3;
   // orientation:Vec3;
   // origin_point:Vec3;
+}
+
+table FamilyDef {
+  children:[EntityDef];
 }
 
 table RailDenizenDef {
@@ -31,7 +35,7 @@ table RailDenizenDef {
 
 // no data, (never loaded from raw data) but we need it to be a thing so
 // that it ends up in the enum.
-table PlayerDef {}
+table PlayerDef { }
 table RenderMeshDef {}
 table PhysicsDef {}
 
@@ -41,6 +45,7 @@ table PhysicsDef {}
 // Note: This will also be the order the components execute their updates in.
 union ComponentDataUnion {
   TransformDef,
+  FamilyDef,
   RailDenizenDef,
   PlayerDef,
   PhysicsDef,

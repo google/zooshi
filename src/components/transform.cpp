@@ -12,5 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "components/transform.h"
+#include "transform.h"
+
+namespace fpl {
+
+void TransformComponent::AddFromRawData(entity::EntityRef& entity,
+                                        const void* raw_data) {
+  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
+  assert(component_data->data_type() == ComponentDataUnion_TransformDef);
+  auto transform_def = static_cast<const TransformDef*>(component_data->data());
+  auto pos = transform_def->position();
+  auto transform_data = AddEntity(entity);
+  // TODO: Add support for scale and orientation. b/20921057
+  transform_data->position = mathfu::vec3(pos->x(), pos->y(), pos->z());
+}
+
+}  // fpl
 

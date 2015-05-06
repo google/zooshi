@@ -56,12 +56,13 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/family.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rendermesh.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas

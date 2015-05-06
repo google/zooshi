@@ -43,6 +43,7 @@ GameState::GameState()
       entity_factory_(),
       motive_engine_(),
       transform_component_(),
+      family_component_(&entity_factory_),
       rail_denizen_component_(&motive_engine_),
       player_component_(),
       render_mesh_component_(),
@@ -50,8 +51,8 @@ GameState::GameState()
 
 void GameState::Initialize(const vec2i& window_size, const Config& config,
                            const InputConfig& input_config,
-                           InputSystem* input_system,
-                           Mesh* mesh, Shader* shader) {
+                           InputSystem* input_system, Mesh* mesh,
+                           Shader* shader) {
   main_camera_.Initialize(kViewportAngle, vec2(window_size), kViewportNearPlane,
                           kViewportFarPlane);
 
@@ -63,6 +64,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_system_ = input_system;
 
   entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
+  entity_manager_.RegisterComponent<FamilyComponent>(&family_component_);
   entity_manager_.RegisterComponent<RailDenizenComponent>(
       &rail_denizen_component_);
   entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);
@@ -90,28 +92,35 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
     }
   }
 
-  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)->
-      set_input_controller(&input_controller_);
+  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
+      ->set_input_controller(&input_controller_);
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
 
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
       // Let's make an entity!
-      entity::EntityRef large_entity = entity_manager_.AllocateNewEntity();
-      RenderMeshData* render_data =
-          render_mesh_component_.AddEntity(large_entity);
+      entity::EntityRef entity = entity_manager_.AllocateNewEntity();
+      transform_component_.AddEntity(entity);
       TransformData* transform_data =
-          entity_manager_.GetComponentData<TransformData>(large_entity);
-
-      render_data->mesh = mesh;
-      render_data->shader = shader;
+          entity_manager_.GetComponentData<TransformData>(entity);
 
       transform_data->position = vec3(x * 20 + 10, y * 20 + 10, 1);
       transform_data->orientation = mathfu::quat::identity;
       transform_data->scale = vec3(3, 3, 3);
 
-      physics_component_.AddEntity(large_entity);
+      physics_component_.AddEntity(entity);
+      render_mesh_component_.AddEntity(entity);
+    }
+  }
+
+  for (auto iter = render_mesh_component_.begin();
+       iter != render_mesh_component_.end(); ++iter) {
+    if (iter->entity != active_player_entity_) {
+      RenderMeshData* render_data =
+          render_mesh_component_.AddEntity(iter->entity);
+      render_data->mesh = mesh;
+      render_data->shader = shader;
     }
   }
 

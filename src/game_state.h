@@ -16,6 +16,7 @@
 #define ZOOSHI_GAME_STATE_H_
 
 #include "components/physics.h"
+#include "components/family.h"
 #include "components/player.h"
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
@@ -72,6 +73,7 @@ class GameState {
   // Components
   motive::MotiveEngine motive_engine_;
   TransformComponent transform_component_;
+  FamilyComponent family_component_;
   RailDenizenComponent rail_denizen_component_;
   PlayerComponent player_component_;
   RenderMeshComponent render_mesh_component_;
