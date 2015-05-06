@@ -48,9 +48,9 @@ static const int kQuadNumIndices = 6;
 static const int kCubeNumVertices = 24;
 static const int kCubeNumIndices = 36;
 
-static const unsigned int kQuadIndices[] = {0, 1, 2, 2, 1, 3};
+static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 // clang-format off
-static const unsigned int kCubeIndices[] = {
+static const unsigned short kCubeIndices[] = {
     0,  3,  2,  2,  1,  0,
     9,  10, 6,  6,  5,  9,
     11, 7,  14, 14, 18, 11,
