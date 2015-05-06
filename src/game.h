@@ -49,8 +49,6 @@ class Game {
                                const mathfu::vec3& offset,
                                const mathfu::vec2& pixel_bounds,
                                float pixel_to_world_scale);
-  Mesh* CreateCubeMesh(const char* material_name, const vec3& offset,
-                       const float pixel_bounds, float pixel_to_world_scale);
   void Render();
   void Render2DElements(mathfu::vec2i resolution);
   void Update(WorldTime delta_time);

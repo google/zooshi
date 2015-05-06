@@ -50,14 +50,6 @@ static const int kCubeNumIndices = 36;
 
 static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 // clang-format off
-static const unsigned short kCubeIndices[] = {
-    0,  3,  2,  2,  1,  0,
-    9,  10, 6,  6,  5,  9,
-    11, 7,  14, 14, 18, 11,
-    13, 22, 15, 15, 4,  13,
-    12, 23, 19, 19, 8,  12,
-    16, 17, 21, 21, 20, 16 };
-// clang-format on
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
                                             kTangent4f, kEND};
@@ -119,8 +111,11 @@ Game::Game()
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       prev_world_time_(0),
-      game_state_() {
-  version_ = kVersion;
+      audio_config_(nullptr),
+      billboard_(nullptr),
+      cube_(nullptr),
+      game_state_(),
+      version_(kVersion) {
 }
 
 Game::~Game() {}
@@ -209,70 +204,8 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   return mesh;
 }
 
-static void CreateCube(const vec3& offset, const float size, const vec2&,
-                       NormalMappedVertex* vertices) {
-  const float half_width = size * 0.5f;
-  const vec3 low = offset + vec3(-half_width, -half_width, 0.0f);
-  const vec3 high = offset + vec3(half_width, half_width, size);
 
-  for (int i = 0; i < 3; i++) {
-    vertices[0 + (i * 8)].pos = vec3(low[0], low[1], low[2]);
-    vertices[1 + (i * 8)].pos = vec3(high[0], low[1], low[2]);
-    vertices[2 + (i * 8)].pos = vec3(high[0], high[1], low[2]);
-    vertices[3 + (i * 8)].pos = vec3(low[0], high[1], low[2]);
-    vertices[4 + (i * 8)].pos = vec3(low[0], low[1], high[2]);
-    vertices[5 + (i * 8)].pos = vec3(high[0], low[1], high[2]);
-    vertices[6 + (i * 8)].pos = vec3(high[0], high[1], high[2]);
-    vertices[7 + (i * 8)].pos = vec3(low[0], high[1], high[2]);
-  }
-
-  for (int i = 0; i < 36; i += 6) {
-    vertices[kCubeIndices[i]].tc = vec2(1, 1);
-    vertices[kCubeIndices[i + 1]].tc = vec2(1, 0);
-    vertices[kCubeIndices[i + 2]].tc = vec2(0, 0);
-    vertices[kCubeIndices[i + 4]].tc = vec2(0, 1);
-  }
-
-  Mesh::ComputeNormalsTangents(vertices, &kCubeIndices[0], kCubeNumVertices,
-                               kCubeNumIndices);
-}
-
-// Creates a mesh of a single quad (two triangles) vertically upright.
-// The quad's has x and y size determined by the size of the texture.
-// The quad is offset in (x,y,z) space by the 'offset' variable.
-// Returns a mesh with the quad and texture, or nullptr if anything went wrong.
-Mesh* Game::CreateCubeMesh(const char* material_name, const vec3& offset,
-                           const float pixel_bounds,
-                           float pixel_to_world_scale) {
-  // Don't try to load obviously invalid materials. Suppresses error logs from
-  // the material manager.
-  if (material_name == nullptr || material_name[0] == '\0') return nullptr;
-
-  // Load the material from file, and check validity.
-  Material* material = matman_.LoadMaterial(material_name);
-  bool material_valid = material != nullptr && material->textures().size() > 0;
-  if (!material_valid) return nullptr;
-
-  // Create vertex geometry in proportion to the texture size.
-  // This is nice for the artist since everything is at the scale of the
-  // original artwork.
-  assert(pixel_bounds);
-  const vec2 texture_size = vec2(mathfu::RoundUpToPowerOf2(pixel_bounds),
-                                 mathfu::RoundUpToPowerOf2(pixel_bounds));
-  const vec2 texture_coord_size = pixel_bounds / texture_size;
-  const float geo_size = pixel_bounds * pixel_to_world_scale;
-
-  // Initialize a vertex array in the requested position.
-  NormalMappedVertex vertices[kCubeNumVertices];
-  CreateCube(offset, geo_size, texture_coord_size, vertices);
-
-  // Create mesh and add in quad indices.
-  Mesh* mesh = new Mesh(vertices, kCubeNumVertices, sizeof(NormalMappedVertex),
-                        kQuadMeshFormat);
-  mesh->AddIndices(kCubeIndices, kCubeNumIndices, material);
-  return mesh;
-}
-
+static const char* kCubeMesh = "meshes/cube.fplmesh";
 static const char* kCubeMaterial = "materials/pixel1x1.fplmat";
 static const char* kGuyMaterial = "materials/guy.fplmat";
 static const char* kGuyBackMaterial = "materials/guy_back.fplmat";
@@ -340,7 +273,7 @@ bool Game::Initialize(const char* const binary_directory) {
   while (!matman_.TryFinalize()) {
   }
 
-  cube_ = CreateCubeMesh(kCubeMaterial, vec3(0, 0, 0), 128, kPixelToWorldScale);
+  cube_ = matman_.LoadMesh(kCubeMesh);
 
   billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
                                       vec2(256, 256), kPixelToWorldScale);

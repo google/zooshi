@@ -99,7 +99,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       render_data->mesh = mesh;
       render_data->shader = shader;
 
-      transform_data->position = vec3(x * 20 + 10, y * 20 + 10, 0);
+      transform_data->position = vec3(x * 20 + 10, y * 20 + 10, 1);
       transform_data->orientation = mathfu::quat::identity;
       transform_data->scale = vec3(3, 3, 3);
 
