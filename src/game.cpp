@@ -273,9 +273,9 @@ Mesh* Game::CreateCubeMesh(const char* material_name, const vec3& offset,
   return mesh;
 }
 
-static const char* kCubeMaterial = "materials/pixel1x1.bin";
-static const char* kGuyMaterial = "materials/guy.bin";
-static const char* kGuyBackMaterial = "materials/guy_back.bin";
+static const char* kCubeMaterial = "materials/pixel1x1.fplmat";
+static const char* kGuyMaterial = "materials/guy.fplmat";
+static const char* kGuyBackMaterial = "materials/guy_back.fplmat";
 
 // Load textures for cardboard into 'materials_'. The 'renderer_' and 'matman_'
 // members have been initialized at this point.

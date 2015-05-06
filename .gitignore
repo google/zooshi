@@ -1,5 +1,6 @@
 # Git ignore file for zooshi:
 *.bin
+*.fplmat
 *.webp
 apks/
 bin/

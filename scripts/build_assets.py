@@ -111,7 +111,7 @@ RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, 'meshes')
 # Directory where unprocessed assets can be found.
 SCHEMA_PATHS = [
     os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas'),
-    os.path.join(FPLBASE_ROOT, 'src', 'flatbufferschema'),
+    os.path.join(FPLBASE_ROOT, 'schemas'),
     os.path.join(PINDROP_ROOT, 'schemas'),
     os.path.join(MOTIVE_ROOT, 'schemas')
 ]
@@ -141,9 +141,10 @@ class FlatbuffersConversionData(object):
     input_files: A list of input files to convert.
   """
 
-  def __init__(self, schema, input_files):
+  def __init__(self, schema, extension, input_files):
     """Initializes this object's schema and input_files."""
     self.schema = schema
+    self.extension = extension
     self.input_files = input_files
 
 
@@ -162,27 +163,35 @@ def find_in_paths(name, paths):
 FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('config.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'config.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('audio_config.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'audio_config.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('input_config.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'input_config.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('common.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=[]),
     FlatbuffersConversionData(
         schema=find_in_paths('buses.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'buses.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('sound_bank_def.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=glob.glob(os.path.join(RAW_SOUND_BANK_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('sound_collection_def.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=glob.glob(os.path.join(RAW_SOUND_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('materials.fbs', SCHEMA_PATHS),
+        extension='.fplmat',
         input_files=glob.glob(os.path.join(RAW_MATERIAL_PATH, '*.json')))
 ]
 
@@ -299,14 +308,14 @@ def processed_mesh_path(path, mesh_dir):
   """
   return path.replace(RAW_ASSETS_PATH, mesh_dir).replace('.fbx', '.fplmesh')
 
-def processed_json_path(path, target_directory):
+def processed_json_path(path, target_directory, target_extension):
   """Take the path to a raw json asset and convert it to target bin path.
 
   Args:
     target_directory: Path to the target assets directory.
   """
   return path.replace(RAW_ASSETS_PATH, target_directory).replace(
-    '.json', '.bin')
+    '.json', target_extension)
 
 def fbx_files_to_convert():
   """ FBX files to convert to webp. """
@@ -342,7 +351,7 @@ def generate_flatbuffer_binaries(flatc, target_directory):
   for element in FLATBUFFERS_CONVERSION_DATA:
     schema = element.schema
     for json in element.input_files:
-      target = processed_json_path(json, target_directory)
+      target = processed_json_path(json, target_directory, element.extension)
       target_file_dir = os.path.dirname(target)
       if not os.path.exists(target_file_dir):
         os.makedirs(target_file_dir)
@@ -411,7 +420,7 @@ def clean_flatbuffer_binaries(target_directory):
   """
   for element in FLATBUFFERS_CONVERSION_DATA:
     for json in element.input_files:
-      path = processed_json_path(json, target_directory)
+      path = processed_json_path(json, target_directory, element.extension)
       if os.path.isfile(path):
         os.remove(path)
 
