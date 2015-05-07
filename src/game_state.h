@@ -24,6 +24,12 @@
 #include "fplbase/utilities.h"
 #include "motive/engine.h"
 
+#ifdef __ANDROID__
+#include "inputcontrollers/android_cardboard_controller.h"
+#else
+#include "inputcontrollers/mouse_controller.h"
+#endif
+
 namespace fpl {
 
 class InputSystem;
@@ -43,15 +49,18 @@ class GameState {
  public:
   GameState();
 
-  void Initialize(const vec2i& window_size, const Config& config, Mesh* mesh,
-                  Shader* shader);
+  // TODO: We need to remove Mesh and Shader here, and replace them
+  // with a reference to meshrenderer, and load things from that.
+  // (rather than passing in the shader and mesh)
+  void Initialize(const vec2i& window_size, const Config& config,
+                  const InputConfig& input_config,
+                  InputSystem* input_system_,
+                  Mesh* mesh, Shader* shader);
 
   void Render(Renderer* renderer);
 
-  void UpdateMainCameraMouse(const mathfu::vec2& delta);
-  void UpdateMainCameraAndroid();
-  void Update(WorldTime delta_time, const InputSystem& input,
-              const InputConfig& input_config);
+  void UpdateMainCamera();
+  void Update(WorldTime delta_time);
 
  private:
   Camera main_camera_;
@@ -68,8 +77,20 @@ class GameState {
   RenderMeshComponent render_mesh_component_;
   PhysicsComponent physics_component_;
 
+  // Input controller for mouse
+#ifdef __ANDROID__
+  AndroidCardboardController input_controller_;
+#else
+  MouseController input_controller_;
+#endif
+
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity_;
+
+  const Config* config_;
+  const InputConfig* input_config_;
+
+  InputSystem* input_system_;
 };
 
 }  // fpl_project

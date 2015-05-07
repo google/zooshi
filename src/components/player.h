@@ -18,17 +18,31 @@
 #include "components_generated.h"
 #include "entity/component.h"
 #include "mathfu/glsl_mappings.h"
+#include "inputcontrollers/base_player_controller.h"
 
 namespace fpl {
 
 class PlayerData {
  public:
-  PlayerData() : facing(0, 0, 1, 0) {}
+  PlayerData() {}
 
-  // The direction of the Turret
-  mathfu::quat facing;
+  mathfu::vec3 GetFacing() {
+    return input_controller_->logical_inputs().facing.GetValue();
+  }
+  mathfu::vec3 GetUp() {
+    return input_controller_->logical_inputs().up.GetValue();
+  }
+
+  fpl_project::BasePlayerController* input_controller() const {
+    return input_controller_;
+  }
+  void set_input_controller(
+      fpl_project::BasePlayerController* input_controller) {
+    input_controller_ = input_controller;
+  }
 
  private:
+  fpl_project::BasePlayerController* input_controller_;
 };
 
 class PlayerComponent : public entity::Component<PlayerData> {
@@ -37,6 +51,7 @@ class PlayerComponent : public entity::Component<PlayerData> {
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 
+  entity::EntityRef SpawnProjectile(entity::EntityRef source);
  private:
 };
 

@@ -1,0 +1,82 @@
+// Copyright 2015 Google Inc. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#include "mouse_controller.h"
+#include "mathfu/glsl_mappings.h"
+#include "camera.h"
+
+using mathfu::vec2i;
+using mathfu::vec2;
+using mathfu::vec3;
+using mathfu::quat;
+
+namespace fpl {
+namespace fpl_project {
+
+void MouseController::Update() {
+  UpdateFacing();
+  UpdateButtons();
+}
+
+static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
+                               const InputConfig& input_config) {
+  vec2 delta(raw_delta);
+  delta *= input_config.mouse_sensitivity();
+  if (!input_config.invert_x()) {
+    delta.x() *= -1.0f;
+  }
+  if (!input_config.invert_y()) {
+    delta.y() *= -1.0f;
+  }
+  return delta;
+}
+
+void MouseController::UpdateFacing() {
+  logical_inputs_.facing.Update();
+  logical_inputs_.up.Update();
+
+  logical_inputs_.up.SetValue(kCameraUp);
+  vec2 delta = vec2(input_system_->pointers_[0].mousedelta);
+
+  delta *= input_config_->mouse_sensitivity();
+
+  if (!input_config_->invert_x()) {
+    delta.x() *= -1.0f;
+  }
+  if (!input_config_->invert_y()) {
+    delta.y() *= -1.0f;
+  }
+
+  // We assume that the player is looking along the x axis, before
+  // camera transformations are applied:
+  vec3 facing_vector = logical_inputs_.facing.GetValue();
+  vec3 side_vector =
+      quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) * facing_vector;
+
+  quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
+  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);
+
+  facing_vector = pitch_adjustment * yaw_adjustment * facing_vector;
+
+  logical_inputs_.facing.SetValue(facing_vector);
+}
+
+void MouseController::UpdateButtons() {
+  for (int i = 0; i < kLogicalButtonCount; i++) {
+    logical_inputs_.buttons[i].Update();
+  }
+}
+
+}  // fpl_base
+}  // fpl

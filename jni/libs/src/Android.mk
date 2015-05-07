@@ -61,7 +61,8 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rendermesh.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp
+  $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 

@@ -165,6 +165,9 @@ set(zooshi_SRCS
     src/entity/entity_manager.cpp
     src/entity/entity_manager.h
     src/entity/vector_pool.h
+    src/inputcontrollers/base_player_controller.h
+    src/inputcontrollers/mouse_controller.cpp
+    src/inputcontrollers/mouse_controller.h
     src/flatbufferschemas
     src/game.cpp
     src/game.h

@@ -13,12 +13,17 @@
 // limitations under the License.
 
 #include "components/player.h"
-
 #include "entity/entity_common.h"
+#include "components/transform.h"
 
 namespace fpl {
 
-void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
+void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+    PlayerData* player_data = Data<PlayerData>(iter->entity);
+    player_data->input_controller()->Update();
+  }
+}
 
 void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
@@ -29,11 +34,14 @@ void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 void PlayerComponent::InitEntity(entity::EntityRef& entity) {
-  entity_manager_->AddEntityToComponent(entity,
-                                        ComponentDataUnion_TransformDef);
-  entity_manager_->AddEntityToComponent(entity,
-                                        ComponentDataUnion_RailDenizenDef);
+  entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
+
+entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
+  (void) source;
+  return entity::EntityRef();
+}
+
 
 }  // fpl
 

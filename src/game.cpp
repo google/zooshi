@@ -347,7 +347,9 @@ bool Game::Initialize(const char* const binary_directory) {
 
   input_.SetRelativeMouseMode(true);
 
-  game_state_.Initialize(renderer_.window_size(), GetConfig(), cube_, shader_cardboard_);
+  game_state_.Initialize(renderer_.window_size(), GetConfig(),
+                         GetInputConfig(), &input_, cube_,
+                         shader_cardboard_);
 
   LogInfo("Initialization complete\n");
   return true;
@@ -409,7 +411,7 @@ void Game::Run() {
       Delay(kMinUpdateTime - delta_time);
     }
 
-    game_state_.Update(delta_time, input_, GetInputConfig());
+    game_state_.Update(delta_time);
 
     Render();
     Render2DElements(renderer_.window_size());

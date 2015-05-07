@@ -18,6 +18,12 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 
+namespace fpl {
+namespace fpl_project {
+static const mathfu::vec3 kCameraForward = mathfu::kAxisX3f;
+static const mathfu::vec3 kCameraSide = mathfu::kAxisY3f;
+static const mathfu::vec3 kCameraUp = mathfu::kAxisZ3f;
+
 class Camera {
  public:
   Camera();
@@ -76,5 +82,9 @@ class Camera {
   float viewport_near_plane_;
   float viewport_far_plane_;
 };
+
+}  // fpl_project
+}  // fpl
+
 
 #endif  // ZOOSHI_CAMERA_H

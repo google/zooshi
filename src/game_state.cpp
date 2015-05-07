@@ -48,11 +48,18 @@ GameState::GameState()
       active_player_entity_() {}
 
 void GameState::Initialize(const vec2i& window_size, const Config& config,
+                           const InputConfig& input_config,
+                           InputSystem* input_system,
                            Mesh* mesh, Shader* shader) {
   main_camera_.Initialize(kViewportAngle, vec2(window_size), kViewportNearPlane,
                           kViewportFarPlane);
 
   motive::SmoothInit::Register();
+
+  config_ = &config;
+  input_config_ = &input_config;
+
+  input_system_ = input_system;
 
   entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
   entity_manager_.RegisterComponent<RailDenizenComponent>(
@@ -74,6 +81,11 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       active_player_entity_ = ref;
     }
   }
+
+  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)->
+      set_input_controller(&input_controller_);
+  input_controller_.set_input_config(input_config_);
+  input_controller_.set_input_system(input_system_);
 
   for (int x = -3; x < 4; x++) {
     for (int y = -3; y < 4; y++) {
@@ -111,55 +123,20 @@ static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
   return delta;
 }
 
-void GameState::UpdateMainCameraAndroid() {
+void GameState::UpdateMainCamera() {
   PlayerData* player = player_component_.GetEntityData(active_player_entity_);
   RailDenizenData* rail_denizen =
       rail_denizen_component_.GetEntityData(active_player_entity_);
 
-#ifdef ANDROID_CARDBOARD
-  const vec3 cardboard_forward = input_.cardboard_input().forward();
-  const vec3 forward = vec3(cardboard_forward.x(), -cardboard_forward.z(),
-                            cardboard_forward.y());
-  player->facing = quat::RotateFromTo(mathfu::kAxisX3f, forward);
-
-  const vec3 cardboard_up = input_.cardboard_input().up();
-  const vec3 up = vec3(cardboard_up.x(), -cardboard_up.z(), cardboard_up.y());
-  main_camera_.set_up(up);
-#endif
-
   main_camera_.set_position(rail_denizen->Position());
-  main_camera_.set_facing(player->facing * mathfu::kAxisX3f);
+  main_camera_.set_facing(player->GetFacing());
+  main_camera_.set_up(player->GetUp());
 }
 
-void GameState::UpdateMainCameraMouse(const vec2& delta) {
-  PlayerData* player = player_component_.GetEntityData(active_player_entity_);
-  RailDenizenData* rail_denizen =
-      rail_denizen_component_.GetEntityData(active_player_entity_);
-
-  // We assume that the player is looking along the x axis, before
-  // camera transformations are applied:
-  vec3 player_facing_vector = player->facing * mathfu::kAxisX3f;
-  vec3 side_vector =
-      quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) * player_facing_vector;
-
-  quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
-  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);
-  player->facing = pitch_adjustment * yaw_adjustment * player->facing;
-
-  main_camera_.set_position(rail_denizen->Position());
-  main_camera_.set_facing(player->facing * mathfu::kAxisX3f);
-}
-
-void GameState::Update(WorldTime delta_time, const InputSystem& input,
-                       const InputConfig& input_config) {
+void GameState::Update(WorldTime delta_time) {
   motive_engine_.AdvanceFrame(delta_time);
   entity_manager_.UpdateComponents(delta_time);
-#ifdef __ANDROID__
-  UpdateMainCameraAndroid();
-#else
-  vec2 delta = AdjustedMouseDelta(input.pointers_[0].mousedelta, input_config);
-  UpdateMainCameraMouse(delta);
-#endif
+  UpdateMainCamera();
 }
 
 void GameState::Render(Renderer* renderer) {

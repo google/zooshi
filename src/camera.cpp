@@ -21,6 +21,9 @@ using mathfu::vec4;
 using mathfu::mat3;
 using mathfu::mat4;
 
+namespace fpl {
+namespace fpl_project {
+
 static const float kDefaultViewportAngle = 0.7853975f;  // 45 degrees
 static const vec2 kViewportResolution = vec2(640, 480);
 static const float kDefaultViewportNearPlane = 1.0f;
@@ -48,3 +51,6 @@ mathfu::mat4 Camera::GetTransformMatrix() const {
 
   return camera_transform;
 }
+
+}  // fpl_project
+}  // fpl
