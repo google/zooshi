@@ -55,32 +55,19 @@ set(dependencies_imgui_dir "${fpl_root}/imgui"
     CACHE PATH "Directory containing the IMGUI library.")
 set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
-set(dependencies_sdl_dir "${third_party_root}/sdl"
-    CACHE PATH "Directory containing the SDL library.")
-set(dependencies_libogg_cmake_dir "${CMAKE_MODULE_PATH}/libogg"
-    CACHE PATH "Directory containing the libogg cmake project.")
-set(dependencies_libogg_distr_dir "${third_party_root}/libogg"
-    CACHE PATH "Directory containing the libogg library.")
-set(dependencies_libvorbis_cmake_dir "${CMAKE_MODULE_PATH}/libvorbis"
-    CACHE PATH "Directory containing the libvorbis cmake project.")
-set(dependencies_libvorbis_distr_dir "${third_party_root}/libvorbis"
-    CACHE PATH "Directory containing the libvorbis library.")
 set(dependencies_motive_dir "${fpl_root}/motive"
     CACHE PATH "Directory containing the motive animation library.")
-set(dependencies_sdl_mixer_cmake_dir "${CMAKE_MODULE_PATH}/sdl_mixer"
-    CACHE PATH "Directory containing the SDL Mixer cmake project.")
-set(dependencies_sdl_mixer_distr_dir "${third_party_root}/sdl_mixer"
-    CACHE PATH "Directory containing the SDL Mixer library.")
-set(dependencies_webp_cmake_dir "${CMAKE_MODULE_PATH}/webp"
-    CACHE PATH "Directory containing the Webp cmake project.")
+# Needed by cwebp
 set(dependencies_webp_distr_dir "${third_party_root}/webp"
-    CACHE PATH "Directory containing the Webp distribution.")
+    CACHE PATH "Directory containing the Webp distribution.")    
+set(dependencies_webp_cmake_dir "${fpl_root}/fplbase/cmake/webp"
+    CACHE PATH "Directory containing the Webp cmake project.")    
 
 # Option to enable / disable the test build.
 option(zooshi_build_tests "Build tests for this project." ON)
 
 # Option to enable / disable the build of cwebp from source.
-option(zooshi_build_cwebp "Build cwebp from source." OFF)
+option(zooshi_build_cwebp "Build cwebp from source." ON)
 
 # Option to only build flatc
 option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
@@ -90,27 +77,11 @@ if(zooshi_build_cwebp)
   set(CWEBP_TARGET cwebp)
   # Enable the build of cwebp from source.
   set(webp_build_cwebp ON CACHE BOOL "")
-endif()
-
-# Include SDL in this project while working around SDL requirement of out of
-# tree builds.
-#set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library")
-# (hack) We redefine install to stop SDL's CMakeLists.txt from referring to SDL2 lib
-function(install)
-endfunction(install)
-# For some reason SDL defaults to these not being defined, and then defines their own,
-# causing linker errors.
-add_definitions(-DHAVE_LIBC)
-add_definitions(-DHAVE_STDIO_H)
-set(BIN_DIR ${CMAKE_BINARY_DIR})
-set(CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}/.)
-if(APPLE)
-  set(SDL_AUDIO_DRIVER_COREAUDIO 1)
-endif(APPLE)
-if(NOT zooshi_only_flatc AND NOT TARGET SDL2-static)
-  add_subdirectory(${dependencies_sdl_dir} ${tmp_dir}/sdl)
-endif()
-set(CMAKE_BINARY_DIR ${BIN_DIR})
+  set(original_build_type ${CMAKE_BUILD_TYPE})
+  set(CMAKE_BUILD_TYPE Release)
+  add_subdirectory("${dependencies_webp_cmake_dir}" ${tmp_dir}/webp)
+  set(CMAKE_BUILD_TYPE ${original_build_type})
+endif()  
 
 # Include pindrop.
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
@@ -122,16 +93,6 @@ if(NOT zooshi_only_flatc AND NOT TARGET motive)
   set(motive_build_samples OFF CACHE BOOL "")
   set(motive_build_tests OFF CACHE BOOL "")
   add_subdirectory("${dependencies_motive_dir}" ${tmp_dir}/motive)
-endif()
-
-# Include libogg.
-if(NOT zooshi_only_flatc AND NOT TARGET libogg)
-#  add_subdirectory("${dependencies_libogg_cmake_dir}" ${tmp_dir}/libogg)
-endif()
-
-# Include libvorbis.
-if(NOT zooshi_only_flatc AND NOT TARGET libvorbis)
-#  add_subdirectory("${dependencies_libvorbis_cmake_dir}" ${tmp_dir}/libvorbis)
 endif()
 
 # Include fplbase.
@@ -146,20 +107,6 @@ endif()
 if(NOT zooshi_only_flatc AND NOT TARGET imgui)
   add_subdirectory("${dependencies_imgui_dir}" ${tmp_dir}/imgui)
 endif()
-
-# Include SDL Mixer.
-set(SDL_MIXER_OGG_SUPPORT ON CACHE BOOL "Compile in Ogg Vorbis support")
-if(NOT zooshi_only_flatc AND NOT TARGET sdl_mixer)
-#  add_subdirectory("${dependencies_sdl_mixer_cmake_dir}" ${tmp_dir}/sdl_mixer)
-endif()
-
-# Include Webp in this project, and force build in release mode for speed.
-set(original_build_type ${CMAKE_BUILD_TYPE})
-set(CMAKE_BUILD_TYPE Release)
-if(NOT zooshi_only_flatc AND NOT TARGET webp)
-  add_subdirectory("${dependencies_webp_cmake_dir}" ${tmp_dir}/webp)
-endif()
-set(CMAKE_BUILD_TYPE ${original_build_type})
 
 # Include FlatBuffers in this project.
 set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "")
@@ -195,11 +142,6 @@ add_custom_target(assets
   COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
                  --flatc ${flatc_location} --output ${CMAKE_BINARY_DIR}/assets
   DEPENDS flatc ${CWEBP_TARGET})
-
-if(APPLE)
-  find_library(OPENGL_LIBRARIES NAMES GL GLU)
-  SET(CMAKE_CXX_LINK_FLAGS "-framework OpenGL")
-endif()
 
 # zooshi source files.
 set(zooshi_SRCS
@@ -248,21 +190,8 @@ include_directories(${dependencies_flatbuffers_dir}/include)
 include_directories(${dependencies_fplutil_dir}/libfplutil/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
-include_directories(${dependencies_webp_distr_dir}/include)
-include_directories(${dependencies_webp_distr_dir}/src)
 include_directories(${dependencies_fplbase_dir}/include)
-include_directories(${dependencies_sdl_dir}/include)
 include_directories(${dependencies_imgui_dir}/include)
-
-
-# libogg includes.
-include_directories(${dependencies_libogg_distr_dir}/include)
-
-# libvorbis includes.
-include_directories(${dependencies_libvorbis_distr_dir}/include)
-
-# SDL Mixer includes.
-include_directories(${dependencies_sdl_mixer_distr_dir})
 
 # Detect clang
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -288,14 +217,6 @@ if(ZOOSHI_DEBUG)
   #add_definitions(-D_DEBUG)
 endif()
 
-#set (SDL_LIBRARIES SDL2-static)
-if(WIN32)
-  add_definitions(-D_USE_MATH_DEFINES)
-  set(OPENGL_LIBRARIES opengl32)
-  set(SDL_LIBRARIES SDL2main ${SDL_LIBRARIES})
-  link_directories("$ENV{DXSDK_DIR}/Lib/$ENV{PROCESSOR_ARCHITECTURE}")
-endif()
-
 # Executable target.
 add_executable(zooshi ${zooshi_SRCS})
 # Additional flags for the target.
@@ -303,16 +224,10 @@ mathfu_configure_flags(zooshi)
 # Dependencies for the executable target.
 add_dependencies(zooshi generated_includes assets)
 target_link_libraries(zooshi
-  ${SDL_LIBRARIES}
   motive
   fplbase
   imgui
-  pindrop
-  sdl_mixer
-  libvorbis
-  libogg
-  ${OPENGL_LIBRARIES}
-  webp)
+  pindrop)
 
 # Tests.
 if(NOT zooshi_only_flatc)

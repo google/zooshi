@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "gui.h"
+#include "utilities.h"
 
 namespace fpl {
 namespace gui {
@@ -42,7 +43,7 @@ void TestGUI(MaterialManager &matman, FontManager &fontman,
   auto click_about_example = [&](const char *id, bool about_on)
   {
     if (ImageButton("textures/guy.webp", 50, id) == EVENT_WENT_UP) {
-      SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "You clicked: %s", id);
+      fpl::LogInfo("You clicked: %s", id);
       show_about = about_on;
     }
   };
