@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "gui.h"
-#include "utilities.h"
+#include "fplbase/utilities.h"
 
 namespace fpl {
 namespace gui {
