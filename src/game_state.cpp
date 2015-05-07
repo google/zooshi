@@ -87,8 +87,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
 
-  for (int x = -3; x < 4; x++) {
-    for (int y = -3; y < 4; y++) {
+  for (int x = -3; x < 3; x++) {
+    for (int y = -3; y < 3; y++) {
       // Let's make an entity!
       entity::EntityRef large_entity = entity_manager_.AllocateNewEntity();
       RenderMeshData* render_data =
@@ -99,7 +99,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       render_data->mesh = mesh;
       render_data->shader = shader;
 
-      transform_data->position = vec3(x * 20, y * 20, 0);
+      transform_data->position = vec3(x * 20 + 10, y * 20 + 10, 0);
       transform_data->orientation = mathfu::quat::identity;
       transform_data->scale = vec3(3, 3, 3);
 
@@ -107,7 +107,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
     }
   }
 
-  render_mesh_component_.set_light_position(vec3(-10, -10, 10));
+  render_mesh_component_.set_light_position(vec3(-10, -20, 20));
 }
 
 static vec2 AdjustedMouseDelta(const vec2i& raw_delta,

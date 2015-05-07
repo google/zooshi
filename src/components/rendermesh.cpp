@@ -39,14 +39,13 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
     const mat4 mvp = camera.GetTransformMatrix() * object_world_matrix;
     const mat4 world_matrix_inverse = object_world_matrix.Inverse();
 
-    rendermesh_data->shader->Set(renderer);
-
     renderer.camera_pos() = world_matrix_inverse * camera.position();
     renderer.light_pos() = world_matrix_inverse * light_position_;
     renderer.model_view_projection() = mvp;
 
+    rendermesh_data->shader->Set(renderer);
     rendermesh_data->mesh->Render(renderer);
-  }
+ }
 }
 
 }  // fpl_project
