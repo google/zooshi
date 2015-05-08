@@ -128,4 +128,3 @@ void RailDenizenComponent::Initialize(const RailDef* rail_def) {
 
 }  // fpl_project
 }  // fpl
-

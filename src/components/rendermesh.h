@@ -25,6 +25,7 @@
 #include "fplbase/mesh.h"
 #include "fplbase/renderer.h"
 #include "fplbase/shader.h"
+#include "fplbase/material_manager.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -35,20 +36,14 @@ struct RenderMeshData {
   RenderMeshData() : mesh(nullptr) {}
   Mesh* mesh;
   Shader* shader;
-  mathfu::mat4 tint;
+  mathfu::vec4 tint;
 };
 
 class RenderMeshComponent : public entity::Component<RenderMeshData> {
  public:
-  RenderMeshComponent() {}
+  RenderMeshComponent() : material_manager_(nullptr) {}
 
-  // todo(ccornell): Write this so we can specify things from
-  // flatbuffer data files!  Either via a flatbuffer mesh
-  // format, or loading things up from disk once the importer
-  // pipeline is working!
-  virtual void AddFromRawData(entity::EntityRef& /*entity*/,
-                              const void* /*raw_data*/) {}
-
+  virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
   virtual void Init() { assert(entity_manager_ != nullptr); }
@@ -70,12 +65,17 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
     light_position_ = light_position;
   }
 
+  void set_material_manager(MaterialManager* material_manager) {
+    material_manager_ = material_manager;
+  }
+
  private:
   // todo(ccornell) expand this if needed - make an array for multiple lights.
   // Also maybe make this into a full fledged struct to store things like
   // intensity, color, etc.  (Low priority - none of our shaders support
   // these.)
   mathfu::vec3 light_position_;
+  MaterialManager* material_manager_;
 };
 
 }  // fpl_project

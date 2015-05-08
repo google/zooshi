@@ -28,6 +28,9 @@ table Config {
   rail_filename:string;
 
   entity_list:[fpl.EntityDef];
+  projectile_def: fpl.EntityDef;
+  projectile_speed: float;
+
 }
 
 root_type Config;

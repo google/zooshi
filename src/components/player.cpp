@@ -14,15 +14,22 @@
 
 #include "components/player.h"
 #include "entity/entity_common.h"
+#include "components/physics.h"
+#include "components/rendermesh.h"
 #include "components/transform.h"
+#include "components/player_projectile.h"
+#include "fplbase/utilities.h"
 
 namespace fpl {
+namespace fpl_project {
 
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
-    if (player_data->input_controller()) {
-      player_data->input_controller()->Update();
+    player_data->input_controller()->Update();
+    if (player_data->input_controller()->Button(kFireProjectile).Value() &&
+        player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
+      SpawnProjectile(iter->entity);
     }
   }
 }
@@ -40,9 +47,33 @@ void PlayerComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
-  (void)source;
+  entity::EntityRef projectile =
+      entity_manager_->CreateEntityFromData(config_->projectile_def());
+
+  TransformData* transform_data =
+      entity_manager_->GetComponentData<TransformData>(projectile);
+  PhysicsData* physics_data =
+      entity_manager_->GetComponentData<PhysicsData>(projectile);
+  PlayerProjectileData* projectile_data =
+      entity_manager_->GetComponentData<PlayerProjectileData>(projectile);
+
+  TransformData* source_transform_data = Data<TransformData>(source);
+  transform_data->position = source_transform_data->position;
+  transform_data->orientation = source_transform_data->orientation;
+
+  PlayerData* source_player_data = Data<PlayerData>(source);
+
+  physics_data->velocity = config_->projectile_speed() *
+      source_player_data->GetFacing();
+  physics_data->angular_velocity =
+      mathfu::quat::FromEulerAngles(mathfu::vec3(
+                                      mathfu::RandomInRange(0.05f, 0.1f),
+                                      mathfu::RandomInRange(0.05f, 0.1f),
+                                      mathfu::RandomInRange(0.05f, 0.1f)));
+  projectile_data->owner = source;
+
   return entity::EntityRef();
 }
 
+}  // fpl_project
 }  // fpl
-

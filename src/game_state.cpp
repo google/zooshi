@@ -35,7 +35,7 @@ namespace fpl_project {
 
 static const float kViewportAngle = M_PI / 4.0f;  // 45 degrees
 static const float kViewportNearPlane = 1.0f;
-static const float kViewportFarPlane = 100.0f;
+static const float kViewportFarPlane = 500.0f;
 
 GameState::GameState()
     : main_camera_(),
@@ -51,8 +51,8 @@ GameState::GameState()
 
 void GameState::Initialize(const vec2i& window_size, const Config& config,
                            const InputConfig& input_config,
-                           InputSystem* input_system, Mesh** meshes,
-                           int num_meshes, Shader* shader) {
+                           InputSystem* input_system,
+                           MaterialManager* material_manager, Shader* shader) {
   main_camera_.Initialize(kViewportAngle, vec2(window_size), kViewportNearPlane,
                           kViewportFarPlane);
 
@@ -62,12 +62,15 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_config_ = &input_config;
 
   input_system_ = input_system;
+  material_manager_ = material_manager;
 
   entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
   entity_manager_.RegisterComponent<FamilyComponent>(&family_component_);
   entity_manager_.RegisterComponent<RailDenizenComponent>(
       &rail_denizen_component_);
   entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);
+  entity_manager_.RegisterComponent<PlayerProjectileComponent>(
+      &player_projectile_component_);
   entity_manager_.RegisterComponent<RenderMeshComponent>(
       &render_mesh_component_);
   entity_manager_.RegisterComponent<PhysicsComponent>(&physics_component_);
@@ -80,24 +83,16 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   rail_denizen_component_.Initialize(rail_def);
 
   entity_manager_.set_entity_factory(&entity_factory_);
-
-  for (size_t i = 0; i < config.entity_list()->size(); i++) {
-    entity::EntityRef ref =
-        entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));
-
-    // For now, the camera follows the first entity defined.
-    // TODO(amablue): come up with a better solution.
-    if (i == 0) {
-      active_player_entity_ = ref;
-    }
-  }
-
-  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
-      ->set_input_controller(&input_controller_);
+  render_mesh_component_.set_material_manager(material_manager);
+  player_component_.set_config(config_);
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
 
-  int mesh_idx = 0;
+  for (size_t i = 0; i < config.entity_list()->size(); i++) {
+    entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));
+  }
+
+
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
       // Let's make an entity!
@@ -115,17 +110,24 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
     }
   }
 
+  for (auto iter = player_component_.begin();
+       iter != player_component_.end(); ++iter) {
+    active_player_entity_ = iter->entity;
+    entity_manager_.GetComponentData<PlayerData>(active_player_entity_)->
+        set_input_controller(&input_controller_);
+  }
+
+
+
   for (auto iter = render_mesh_component_.begin();
        iter != render_mesh_component_.end(); ++iter) {
     if (iter->entity != active_player_entity_) {
       RenderMeshData* render_data =
           render_mesh_component_.AddEntity(iter->entity);
-      render_data->mesh = meshes[mesh_idx];
+      render_data->mesh = material_manager_->LoadMesh("meshes/sushi_a.fplmesh");
       render_data->shader = shader;
-      mesh_idx = (mesh_idx + 1) % num_meshes;
     }
   }
-
   render_mesh_component_.set_light_position(vec3(-10, -20, 20));
 }
 

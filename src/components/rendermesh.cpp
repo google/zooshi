@@ -15,6 +15,7 @@
 #include "components/rendermesh.h"
 #include "components/transform.h"
 #include "components/family.h"
+#include "components_generated.h"
 
 using mathfu::vec3;
 using mathfu::mat4;
@@ -70,6 +71,25 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
       RenderEntity(iter->entity, mat4::Identity(), renderer, camera);
     }
   }
+}
+
+void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
+                                          const void* raw_data) {
+  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
+  assert(component_data->data_type() == ComponentDataUnion_RenderMeshDef);
+  auto rendermesh_def = static_cast<const RenderMeshDef*>
+      (component_data->data());
+
+  // You need to call set_material_manager before you can add from raw data,
+  // otherwise it can't load up new meshes!
+  assert(material_manager_ != nullptr);
+
+  RenderMeshData* rendermesh_data = AddEntity(entity);
+  rendermesh_data->mesh = material_manager_->LoadMesh(
+        rendermesh_def->source_file()->c_str());
+  rendermesh_data->shader = material_manager_->LoadShader(
+        rendermesh_def->shader()->c_str());
+  rendermesh_data->tint = mathfu::kOnes4f;
 }
 
 }  // fpl_project

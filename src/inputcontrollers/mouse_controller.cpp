@@ -64,7 +64,7 @@ void MouseController::UpdateFacing() {
 
   // We assume that the player is looking along the x axis, before
   // camera transformations are applied:
-  vec3 facing_vector = facing_.GetValue();
+  vec3 facing_vector = facing_.Value();
   vec3 side_vector =
       quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) * facing_vector;
 
@@ -79,6 +79,10 @@ void MouseController::UpdateFacing() {
 void MouseController::UpdateButtons() {
   for (int i = 0; i < kLogicalButtonCount; i++) {
     buttons_[i].Update();
+  }
+  const fpl::Button& mouse_button = input_system_->GetPointerButton(0);
+  if (mouse_button.went_down() ||  mouse_button.went_up()) {
+    buttons_[kFireProjectile].SetValue(mouse_button.is_down());
   }
 }
 

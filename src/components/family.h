@@ -21,6 +21,7 @@
 #include "intrusive_list.h"
 
 namespace fpl {
+namespace fpl_project {
 
 // Data for scene object components.
 struct FamilyData {
@@ -56,9 +57,11 @@ class FamilyComponent : public entity::Component<FamilyData> {
   entity::EntityFactoryInterface* entity_factory_;
 };
 
+}  // fpl_project
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(FamilyComponent, FamilyData,
+FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::FamilyComponent,
+                              fpl::fpl_project::FamilyData,
                               ComponentDataUnion_FamilyDef)
 
 #endif  // COMPONENTS_FAMILY_H_

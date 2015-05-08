@@ -77,7 +77,7 @@ class RailDenizenComponent : public entity::Component<RailDenizenData> {
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RailDenizenComponent,
                               fpl::fpl_project::RailDenizenData,
-                              fpl::ComponentDataUnion_RailDenizenDef)
+                              ComponentDataUnion_RailDenizenDef)
 
 #endif  // COMPONENTS_RAIL_DENIZEN_H_
 

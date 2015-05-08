@@ -20,9 +20,23 @@ using mathfu::vec3;
 using mathfu::quat;
 
 namespace fpl {
+namespace fpl_project {
 
 static const float kBounceHeight = 0.8f;
 static const float kStartingVelocity = 0.5f;
+
+void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
+                                          const void* raw_data) {
+  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
+  assert(component_data->data_type() == ComponentDataUnion_PhysicsDef);
+  auto physics_def = static_cast<const PhysicsDef*>(component_data->data());
+  PhysicsData* physics_data = AddEntity(entity);
+
+  (void) physics_def;
+  (void) physics_data;
+
+  // TODO - populate data here.
+}
 
 void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
@@ -55,4 +69,5 @@ void PhysicsComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 
+}  // fpl_project
 }  // fpl

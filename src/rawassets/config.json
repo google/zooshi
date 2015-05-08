@@ -9,20 +9,6 @@
       "component_list": [
         {
           "data_type": "PlayerDef",
-          "data": {}
-        },
-        {
-          "data_type": "RailDenizenDef",
-          "data" : {
-            "start_time": 0.0
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "PlayerDef",
           "data": {
           }
         },
@@ -44,7 +30,10 @@
                   },
                   {
                     "data_type": "RenderMeshDef",
-                    "data" : {}
+                    "data" : {
+                      "source_file":"meshes/sushi_a.fplmesh",
+                      "shader": "shaders/cardboard"
+                    }
                   }
                 ]
               }
@@ -59,10 +48,46 @@
         },
         {
           "data_type": "RenderMeshDef",
-          "data" : {}
+          "data" : {
+            "source_file":"meshes/sushi_a.fplmesh",
+            "shader": "shaders/cardboard"
+          }
         }
       ]
     }
-  ]
+  ],
+
+
+  "projectile_speed": 2.0,
+  "projectile_def": {
+    "component_list": [
+      {
+        "data_type": "PhysicsDef",
+        "data": {}
+      },
+      {
+        "data_type": "TransformDef",
+        "data": {
+          "scale": {
+            "x": 50.0,
+            "y": 50.0,
+            "z": 50.0
+          }
+        }
+      },
+      {
+        "data_type": "RenderMeshDef",
+        "data": {
+          "source_file": "meshes/sushi_a.fplmesh",
+          "shader": "shaders/cardboard"
+        }
+      },
+      {
+        "data_type": "PlayerProjectileDef",
+        "data": {}
+      },
+
+    ]
+  }
 }
 

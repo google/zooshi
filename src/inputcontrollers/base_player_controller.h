@@ -24,7 +24,7 @@ namespace fpl_project {
 template <class T>
 class LogicalInput {
  public:
-  T GetValue() const { return current_value_; }
+  T Value() const { return current_value_; }
   bool HasChanged() const { return changed_; }
   void SetValue(T new_value) {
     current_value_ = new_value;

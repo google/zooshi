@@ -15,6 +15,7 @@
 #include "components/family.h"
 
 namespace fpl {
+namespace fpl_project {
 
 void FamilyComponent::AddFromRawData(entity::EntityRef& parent,
                                      const void* raw_data) {
@@ -37,5 +38,6 @@ void FamilyComponent::InitEntity(entity::EntityRef& entity) {
   family_data->owner = entity;
 }
 
+}  // fpl_project
 }  // fpl
 
