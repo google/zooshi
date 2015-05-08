@@ -57,11 +57,6 @@ set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
 set(dependencies_motive_dir "${fpl_root}/motive"
     CACHE PATH "Directory containing the motive animation library.")
-# Needed by cwebp
-set(dependencies_webp_distr_dir "${third_party_root}/webp"
-    CACHE PATH "Directory containing the Webp distribution.")    
-set(dependencies_webp_cmake_dir "${fpl_root}/fplbase/cmake/webp"
-    CACHE PATH "Directory containing the Webp cmake project.")    
 
 # Option to enable / disable the test build.
 option(zooshi_build_tests "Build tests for this project." ON)
@@ -71,17 +66,6 @@ option(zooshi_build_cwebp "Build cwebp from source." ON)
 
 # Option to only build flatc
 option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
-
-if(zooshi_build_cwebp)
-  # Depend upon the cwebp target to build assets.
-  set(CWEBP_TARGET cwebp)
-  # Enable the build of cwebp from source.
-  set(webp_build_cwebp ON CACHE BOOL "")
-  set(original_build_type ${CMAKE_BUILD_TYPE})
-  set(CMAKE_BUILD_TYPE Release)
-  add_subdirectory("${dependencies_webp_cmake_dir}" ${tmp_dir}/webp)
-  set(CMAKE_BUILD_TYPE ${original_build_type})
-endif()  
 
 # Include pindrop.
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
@@ -100,18 +84,16 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
   # By default, don't build the mesh_pipeline. Use the one that's prebuilt.
   # We do this to avoid having to install the FBX SDK.
   set(fplbase_build_mesh_pipeline OFF CACHE BOOL "")
+  if(zooshi_build_cwebp)
+    # enable cwebp build included in fplbase.
+    set(webp_build_cwebp ON)  
+  endif()  
   add_subdirectory("${dependencies_fplbase_dir}" ${tmp_dir}/fplbase)
 endif()
 
 # Include imgui.
 if(NOT zooshi_only_flatc AND NOT TARGET imgui)
   add_subdirectory("${dependencies_imgui_dir}" ${tmp_dir}/imgui)
-endif()
-
-# Include FlatBuffers in this project.
-set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "")
-if(NOT TARGET flatc)
-  add_subdirectory("${dependencies_flatbuffers_dir}" ${tmp_dir}/flatbuffers)
 endif()
 
 # Generate source files for all FlatBuffers schema files under the src
@@ -141,7 +123,7 @@ get_property(flatc_location TARGET flatc PROPERTY LOCATION)
 add_custom_target(assets
   COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
                  --flatc ${flatc_location} --output ${CMAKE_BINARY_DIR}/assets
-  DEPENDS flatc ${CWEBP_TARGET})
+  DEPENDS flatc cwebp)
 
 # zooshi source files.
 set(zooshi_SRCS
