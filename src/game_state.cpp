@@ -14,6 +14,7 @@
 
 #include "components/transform.h"
 #include "config_generated.h"
+#include "rail_def_generated.h"
 #include "fplbase/input.h"
 #include "game_state.h"
 #include "input_config_generated.h"
@@ -68,6 +69,13 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.RegisterComponent<RenderMeshComponent>(
       &render_mesh_component_);
   entity_manager_.RegisterComponent<PhysicsComponent>(&physics_component_);
+
+  std::string rail_def_source;
+  if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
+    return;
+  }
+  const RailDef* rail_def = GetRailDef(rail_def_source.c_str());
+  rail_denizen_component_.Initialize(rail_def);
 
   entity_manager_.set_entity_factory(&entity_factory_);
 

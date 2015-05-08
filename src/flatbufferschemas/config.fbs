@@ -24,6 +24,9 @@ table Config {
   // Input configuration file.
   input_config:string;
 
+  // The rail definition file to load.
+  rail_filename:string;
+
   entity_list:[fpl.EntityDef];
 }
 

@@ -15,7 +15,6 @@
 #include "components/rail_denizen.h"
 
 #include <algorithm>
-#include <limits>
 
 #include "components/transform.h"
 #include "entity/component.h"
@@ -24,57 +23,16 @@
 #include "components_generated.h"
 
 namespace fpl {
+namespace fpl_project {
 
-void RailDenizenData::Initialize(const motive::MotivatorInit& x_init,
-                                 const motive::MotivatorInit& y_init,
-                                 const motive::MotivatorInit& z_init,
-                                 motive::MotiveEngine* engine) {
-  fpl::SplinePlayback x_playback(x_spline, 0.0f, true);
-  x_motivator.Initialize(x_init, engine);
-  x_motivator.SetSpline(x_playback);
-
-  fpl::SplinePlayback y_playback(y_spline, 0.0f, true);
-  y_motivator.Initialize(y_init, engine);
-  y_motivator.SetSpline(y_playback);
-
-  fpl::SplinePlayback z_playback(z_spline, 0.0f, true);
-  z_motivator.Initialize(z_init, engine);
-  z_motivator.SetSpline(z_playback);
-}
-
-mathfu::vec3 RailDenizenData::Position() const {
-  return mathfu::vec3(x_motivator.Value(), y_motivator.Value(),
-                      z_motivator.Value());
-}
-
-mathfu::vec3 RailDenizenData::Velocity() const {
-  return mathfu::vec3(x_motivator.Velocity(), y_motivator.Velocity(),
-                      z_motivator.Velocity());
-}
-
-void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
-    RailDenizenData* rail_denizen_data = GetEntityData(iter->entity);
-    TransformData* transform_data = Data<TransformData>(iter->entity);
-    transform_data->orientation = mathfu::quat::RotateFromTo(
-          mathfu::vec3(1, 0, 0), rail_denizen_data->Velocity());
-  }
-}
-
-void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
-                                          const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_RailDenizenDef);
-  auto rail_denizen_def =
-      static_cast<const RailDenizenDef*>(component_data->data());
-  auto rail_def = rail_denizen_def->rail_def();
-
-  RailDenizenData* data = AddEntity(entity);
-
-  const float infinity = std::numeric_limits<float>::infinity();
-  fpl::RangeT<float> x_range(infinity, -infinity);
-  fpl::RangeT<float> y_range(infinity, -infinity);
-  fpl::RangeT<float> z_range(infinity, -infinity);
+void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
+  // Initialize to +inf and -inf so that min and max can be set appropriately.
+  x_range.set_start(std::numeric_limits<float>::infinity());
+  x_range.set_end(-std::numeric_limits<float>::infinity());
+  y_range.set_start(std::numeric_limits<float>::infinity());
+  y_range.set_end(-std::numeric_limits<float>::infinity());
+  z_range.set_start(std::numeric_limits<float>::infinity());
+  z_range.set_end(-std::numeric_limits<float>::infinity());
   for (auto iter = rail_def->nodes()->begin(); iter != rail_def->nodes()->end();
        ++iter) {
     if (iter->position()->x() < x_range.start()) {
@@ -96,23 +54,65 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
       z_range.set_end(iter->position()->z());
     }
   }
-  data->x_spline.Init(x_range, 10.0f);
-  data->y_spline.Init(y_range, 10.0f);
-  data->z_spline.Init(z_range, 10.0f);
+
+  x_spline.Init(x_range, spline_granularity);
+  y_spline.Init(y_range, spline_granularity);
+  z_spline.Init(z_range, spline_granularity);
+
   for (auto iter = rail_def->nodes()->begin(); iter != rail_def->nodes()->end();
        ++iter) {
     auto node = *iter;
-    data->x_spline.AddNode(node->time(), node->position()->x(),
-                           node->tangent()->x());
-    data->y_spline.AddNode(node->time(), node->position()->y(),
-                           node->tangent()->y());
-    data->z_spline.AddNode(node->time(), node->position()->z(),
-                           node->tangent()->z());
+    x_spline.AddNode(node->time(), node->position()->x(), node->tangent()->x());
+    y_spline.AddNode(node->time(), node->position()->y(), node->tangent()->y());
+    z_spline.AddNode(node->time(), node->position()->z(), node->tangent()->z());
   }
-  motive::SmoothInit x_init(x_range, false);
-  motive::SmoothInit y_init(y_range, false);
-  motive::SmoothInit z_init(z_range, false);
-  data->Initialize(x_init, y_init, z_init, engine_);
+}
+
+void RailDenizenData::Initialize(Rail& rail, float start_time,
+                                 motive::MotiveEngine* engine) {
+  motive::SmoothInit x_init(rail.x_range, false);
+  fpl::SplinePlayback x_playback(rail.x_spline, start_time, true);
+  x_motivator.Initialize(x_init, engine);
+  x_motivator.SetSpline(x_playback);
+
+  motive::SmoothInit y_init(rail.y_range, false);
+  fpl::SplinePlayback y_playback(rail.y_spline, start_time, true);
+  y_motivator.Initialize(y_init, engine);
+  y_motivator.SetSpline(y_playback);
+
+  motive::SmoothInit z_init(rail.z_range, false);
+  fpl::SplinePlayback z_playback(rail.z_spline, start_time, true);
+  z_motivator.Initialize(z_init, engine);
+  z_motivator.SetSpline(z_playback);
+}
+
+mathfu::vec3 RailDenizenData::Position() const {
+  return mathfu::vec3(x_motivator.Value(), y_motivator.Value(),
+                      z_motivator.Value());
+}
+
+mathfu::vec3 RailDenizenData::Velocity() const {
+  return mathfu::vec3(x_motivator.Velocity(), y_motivator.Velocity(),
+                      z_motivator.Velocity());
+}
+
+void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+    RailDenizenData* rail_denizen_data = GetEntityData(iter->entity);
+    TransformData* transform_data = Data<TransformData>(iter->entity);
+    transform_data->orientation = mathfu::quat::RotateFromTo(
+        mathfu::vec3(1, 0, 0), rail_denizen_data->Velocity());
+  }
+}
+
+void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
+                                          const void* raw_data) {
+  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
+  assert(component_data->data_type() == ComponentDataUnion_RailDenizenDef);
+  auto rail_denizen_def =
+      static_cast<const RailDenizenDef*>(component_data->data());
+  RailDenizenData* data = AddEntity(entity);
+  data->Initialize(rail_, rail_denizen_def->start_time(), engine_);
 }
 
 void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
@@ -120,5 +120,11 @@ void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
                                         ComponentDataUnion_TransformDef);
 }
 
+void RailDenizenComponent::Initialize(const RailDef* rail_def) {
+  static const float kSplineGranularity = 10.0f;
+  rail_.Initialize(rail_def, kSplineGranularity);
+}
+
+}  // fpl_project
 }  // fpl
 

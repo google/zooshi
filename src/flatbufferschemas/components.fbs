@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "rail_def.fbs";
+include "common.fbs";
 
 namespace fpl;
 
@@ -25,10 +25,8 @@ table TransformDef {
   // origin_point:Vec3;
 }
 
-// no data yet, (never loaded from raw data) but we need it to be a thing so
-// that it ends up in the enum.
 table RailDenizenDef {
-  rail_def:fpl.fpl_project.RailDef;
+  start_time:float;
 }
 
 // no data, (never loaded from raw data) but we need it to be a thing so

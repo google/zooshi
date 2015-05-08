@@ -15,28 +15,39 @@
 #ifndef COMPONENTS_RAIL_DENIZEN_H_
 #define COMPONENTS_RAIL_DENIZEN_H_
 
+#include <map>
+#include <limits>
+
 #include "components_generated.h"
+#include "rail_def_generated.h"
 #include "entity/component.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/motivator.h"
 #include "motive/math/compact_spline.h"
 
 namespace fpl {
+namespace fpl_project {
 
-// TODO(amablue): RailDenizens should have a reference to the track rather than
-// a complete copy of it. b/20553810
-struct RailDenizenData {
-  void Initialize(const motive::MotivatorInit& x_init,
-                  const motive::MotivatorInit& y_init,
-                  const motive::MotivatorInit& z_init,
-                  motive::MotiveEngine* engine);
-
-  mathfu::vec3 Position() const;
-  mathfu::vec3 Velocity() const;
+struct Rail {
+  Rail()
+      : x_spline(), y_spline(), z_spline(), x_range(), y_range(), z_range() {}
 
   fpl::CompactSpline x_spline;
   fpl::CompactSpline y_spline;
   fpl::CompactSpline z_spline;
+
+  fpl::RangeT<float> x_range;
+  fpl::RangeT<float> y_range;
+  fpl::RangeT<float> z_range;
+
+  void Initialize(const RailDef* rail_def, float spline_granularity);
+};
+
+struct RailDenizenData {
+  void Initialize(Rail& rail, float start_time, motive::MotiveEngine* engine);
+
+  mathfu::vec3 Position() const;
+  mathfu::vec3 Velocity() const;
 
   motive::Motivator1f x_motivator;
   motive::Motivator1f y_motivator;
@@ -51,14 +62,21 @@ class RailDenizenComponent : public entity::Component<RailDenizenData> {
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 
+  void Initialize(const RailDef* rail_def);
+
  private:
   // A pointer to the MotiveEngine used to spawn motivators.
   motive::MotiveEngine* engine_;
+
+  // The rail that will define the path to follow.
+  Rail rail_;
 };
 
+}  // fpl_project
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::RailDenizenComponent, fpl::RailDenizenData,
+FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RailDenizenComponent,
+                              fpl::fpl_project::RailDenizenData,
                               fpl::ComponentDataUnion_RailDenizenDef)
 
 #endif  // COMPONENTS_RAIL_DENIZEN_H_

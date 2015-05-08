@@ -111,6 +111,7 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
   add_custom_command(
     OUTPUT ${flatbuffers_include}
     COMMAND flatc --gen-includes -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
+        -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas -c ${flatbuffers_schema}
     DEPENDS flatc motive pindrop ${flatbuffers_schema})

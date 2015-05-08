@@ -93,6 +93,9 @@ ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
 # Directory where unprocessed assets can be found.
 RAW_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'src', 'rawassets')
 
+# Directory where unprocessed rail flatbuffer data can be found.
+RAW_RAIL_PATH = os.path.join(RAW_ASSETS_PATH, 'rails')
+
 # Directory where unprocessed sound flatbuffer data can be found.
 RAW_SOUND_PATH = os.path.join(RAW_ASSETS_PATH, 'sounds')
 
@@ -165,6 +168,10 @@ FLATBUFFERS_CONVERSION_DATA = [
         schema=find_in_paths('config.fbs', SCHEMA_PATHS),
         extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'config.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('rail_def.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=glob.glob(os.path.join(RAW_RAIL_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('audio_config.fbs', SCHEMA_PATHS),
         extension='.bin',
