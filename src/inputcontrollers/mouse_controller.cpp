@@ -43,11 +43,15 @@ static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
 }
 
 void MouseController::UpdateFacing() {
-  logical_inputs_.facing.Update();
-  logical_inputs_.up.Update();
+  facing_.Update();
+  up_.Update();
 
-  logical_inputs_.up.SetValue(kCameraUp);
+  up_.SetValue(kCameraUp);
   vec2 delta = vec2(input_system_->pointers_[0].mousedelta);
+
+  // If the mouse hasn't moved, return.
+  if (delta.x() == 0 && delta.y() == 0)
+    return;
 
   delta *= input_config_->mouse_sensitivity();
 
@@ -60,7 +64,7 @@ void MouseController::UpdateFacing() {
 
   // We assume that the player is looking along the x axis, before
   // camera transformations are applied:
-  vec3 facing_vector = logical_inputs_.facing.GetValue();
+  vec3 facing_vector = facing_.GetValue();
   vec3 side_vector =
       quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) * facing_vector;
 
@@ -69,12 +73,12 @@ void MouseController::UpdateFacing() {
 
   facing_vector = pitch_adjustment * yaw_adjustment * facing_vector;
 
-  logical_inputs_.facing.SetValue(facing_vector);
+  facing_.SetValue(facing_vector);
 }
 
 void MouseController::UpdateButtons() {
   for (int i = 0; i < kLogicalButtonCount; i++) {
-    logical_inputs_.buttons[i].Update();
+    buttons_[i].Update();
   }
 }
 

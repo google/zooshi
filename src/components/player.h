@@ -27,10 +27,10 @@ class PlayerData {
   PlayerData() {}
 
   mathfu::vec3 GetFacing() {
-    return input_controller_->logical_inputs().facing.GetValue();
+    return input_controller_->facing().GetValue();
   }
   mathfu::vec3 GetUp() {
-    return input_controller_->logical_inputs().up.GetValue();
+    return input_controller_->up().GetValue();
   }
 
   fpl_project::BasePlayerController* input_controller() const {

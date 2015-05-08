@@ -30,8 +30,8 @@ void AndroidCardboardController::Update() {
 }
 
 void AndroidCardboardController::UpdateOrientation() {
-  logical_inputs_.facing.Update();
-  logical_inputs_.up.Update();
+  facing_.Update();
+  up_.Update();
 
 #ifdef ANDROID_CARDBOARD
   // Cardboard uses a different coordinate space than we use, so we have to
@@ -42,17 +42,17 @@ void AndroidCardboardController::UpdateOrientation() {
                             cardboard_forward.y());
   const vec3 cardboard_up = input_system_->cardboard_input().up();
   const vec3 up = vec3(cardboard_up.x(), -cardboard_up.z(), cardboard_up.y());
-  logical_inputs_.facing.SetValue(forward);
-  logical_inputs_.up.SetValue(up);
+  facing_.SetValue(forward);
+  up_.SetValue(up);
 #endif  // ANDROID_CARDBOARD
 }
 
 void AndroidCardboardController::UpdateButtons() {
   for (int i = 0; i < kLogicalButtonCount; i++) {
-    logical_inputs_.buttons[i].Update();
+    buttons_[i].Update();
   }
 #ifdef ANDROID_CARDBOARD
-  logical_inputs_.buttons[kFireProjectile].SetValue(
+  buttons_[kFireProjectile].SetValue(
       input_system_->cardboard_input().triggered());
 #endif  // ANDROID_CARDBOARD
 }

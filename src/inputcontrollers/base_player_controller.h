@@ -51,32 +51,37 @@ enum LogicalButtonTypes {
   kLogicalButtonCount  // This needs to be last.
 };
 
-struct LogicalInputs {
-  LogicalButton buttons[kLogicalButtonCount];
-  // TODO: Turn these into a quaternion?
-  LogicalVector facing;
-  LogicalVector up;
-};
-
 class BasePlayerController {
  public:
   BasePlayerController() {
-    logical_inputs_.facing.SetValue(kCameraForward);
-    logical_inputs_.facing.Update();
-    logical_inputs_.up.SetValue(kCameraUp);
-    logical_inputs_.up.Update();
+    facing_.SetValue(kCameraForward);
+    facing_.Update();
+    up_.SetValue(kCameraUp);
+    up_.Update();
     for (int i = 0; i < kLogicalButtonCount; i++) {
-      logical_inputs_.buttons[i].SetValue(false);
-      logical_inputs_.buttons[i].Update();
+      buttons_[i].SetValue(false);
+      buttons_[i].Update();
     }
   }
 
   virtual void Update() = 0;
 
-  LogicalInputs logical_inputs() { return logical_inputs_; }
+  LogicalButton& Button(int index) {
+    return buttons_[index];
+  }
+
+  LogicalVector& facing() {
+    return facing_;
+  }
+
+  LogicalVector& up() {
+    return up_;
+  }
 
  protected:
-  LogicalInputs logical_inputs_;
+  LogicalButton buttons_[kLogicalButtonCount];
+  LogicalVector facing_;
+  LogicalVector up_;
 };
 
 }  // fpl_project
