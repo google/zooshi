@@ -70,7 +70,6 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/materials.fbs \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs
 
 # Make each source file dependent upon the assets
