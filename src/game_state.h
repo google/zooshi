@@ -56,7 +56,7 @@ class GameState {
   void Initialize(const vec2i& window_size, const Config& config,
                   const InputConfig& input_config,
                   InputSystem* input_system_,
-                  Mesh* mesh, Shader* shader);
+                  Mesh** meshes, int num_meshes, Shader* shader);
 
   void Render(Renderer* renderer);
 

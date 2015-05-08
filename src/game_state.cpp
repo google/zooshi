@@ -51,8 +51,8 @@ GameState::GameState()
 
 void GameState::Initialize(const vec2i& window_size, const Config& config,
                            const InputConfig& input_config,
-                           InputSystem* input_system, Mesh* mesh,
-                           Shader* shader) {
+                           InputSystem* input_system, Mesh** meshes,
+                           int num_meshes, Shader* shader) {
   main_camera_.Initialize(kViewportAngle, vec2(window_size), kViewportNearPlane,
                           kViewportFarPlane);
 
@@ -97,6 +97,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
 
+  int mesh_idx = 0;
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
       // Let's make an entity!
@@ -107,7 +108,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
       transform_data->position = vec3(x * 20 + 10, y * 20 + 10, 1);
       transform_data->orientation = mathfu::quat::identity;
-      transform_data->scale = vec3(3, 3, 3);
+      transform_data->scale = vec3(100.0f, 100.0f, 100.0f);
 
       physics_component_.AddEntity(entity);
       render_mesh_component_.AddEntity(entity);
@@ -119,8 +120,9 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
     if (iter->entity != active_player_entity_) {
       RenderMeshData* render_data =
           render_mesh_component_.AddEntity(iter->entity);
-      render_data->mesh = mesh;
+      render_data->mesh = meshes[mesh_idx];
       render_data->shader = shader;
+      mesh_idx = (mesh_idx + 1) % num_meshes;
     }
   }
 

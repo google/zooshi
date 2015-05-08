@@ -42,6 +42,17 @@ class Game {
   void Run();
 
  private:
+  enum MeshModel {
+    kMeshFernA,
+    kMeshFernB,
+    kMeshFernC,
+    kMeshSushiA,
+    kMeshSushiB,
+    kMeshSushiC,
+    kMeshTreeA,
+    kNumMeshes
+  };
+
   bool InitializeRenderer();
   bool InitializeAssets();
 
@@ -95,7 +106,7 @@ class Game {
   pindrop::AudioConfig* audio_config_;
 
   Mesh* billboard_;
-  Mesh* cube_;
+  Mesh* meshes_[kNumMeshes];
   GameState game_state_;
 
   // String version number of the game.

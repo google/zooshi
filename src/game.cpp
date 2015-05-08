@@ -111,7 +111,6 @@ Game::Game()
       prev_world_time_(0),
       audio_config_(nullptr),
       billboard_(nullptr),
-      cube_(nullptr),
       game_state_(),
       version_(kVersion) {
 }
@@ -202,18 +201,29 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   return mesh;
 }
 
-
-static const char* kCubeMesh = "meshes/cube.fplmesh";
-static const char* kCubeMaterial = "meshes/cube.fplmat";
 static const char* kGuyMaterial = "materials/guy.fplmat";
 static const char* kGuyBackMaterial = "materials/guy_back.fplmat";
+static const char* kMeshes[] = {
+  "meshes/fern_a.fplmesh",    // kMeshFernA
+  "meshes/fern_b.fplmesh",    // kMeshFernB
+  "meshes/fern_c.fplmesh",    // kMeshFernC
+  "meshes/sushi_a.fplmesh",   // kMeshSushiA
+  "meshes/sushi_b.fplmesh",   // kMeshSushiB
+  "meshes/sushi_c.fplmesh",   // kMeshSushiC
+  "meshes/tree_a.fplmesh"     // kMeshTreeA
+};
 
 // Load textures for cardboard into 'materials_'. The 'renderer_' and 'matman_'
 // members have been initialized at this point.
 bool Game::InitializeAssets() {
-  matman_.LoadMaterial(kCubeMaterial);
+  static_assert(FPL_ARRAYSIZE(kMeshes) == kNumMeshes,
+                "kMeshes missing entries");
   matman_.LoadMaterial(kGuyMaterial);
   matman_.LoadMaterial(kGuyBackMaterial);
+  for (size_t i = 0; i < kNumMeshes; ++i) {
+    meshes_[i] = matman_.LoadMesh(kMeshes[i]);
+    assert(meshes_[i] != nullptr);
+  }
   matman_.StartLoadingTextures();
 
   shader_lit_textured_normal_ =
@@ -271,16 +281,13 @@ bool Game::Initialize(const char* const binary_directory) {
   while (!matman_.TryFinalize()) {
   }
 
-  cube_ = matman_.LoadMesh(kCubeMesh);
-  assert(cube_ != nullptr);
-
   billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
                                       vec2(256, 256), kPixelToWorldScale);
 
   input_.SetRelativeMouseMode(true);
 
   game_state_.Initialize(renderer_.window_size(), GetConfig(),
-                         GetInputConfig(), &input_, cube_,
+                         GetInputConfig(), &input_, meshes_, kNumMeshes,
                          shader_cardboard_);
 
   LogInfo("Initialization complete\n");

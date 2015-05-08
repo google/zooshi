@@ -342,7 +342,7 @@ def generate_mesh_binaries(target_directory):
   for fbx in input_files:
     target = processed_mesh_path(fbx, target_directory)
 
-    if needs_rebuild(fbx, target):
+    if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
       mesh_relative_directory = os.path.dirname(os.path.relpath(fbx, RAW_ASSETS_PATH))
       convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, mesh_relative_directory)
 
@@ -462,7 +462,7 @@ def main(argv):
   parser.add_argument('--flatc', default=FLATC,
                       help='Location of the flatbuffers compiler.')
   parser.add_argument('--cwebp', default=CWEBP,
-                      help='Location of the webp compressor.')  
+                      help='Location of the webp compressor.')
   parser.add_argument('--output', default=ASSETS_PATH,
                       help='Assets output directory.')
   parser.add_argument('args', nargs=argparse.REMAINDER)
