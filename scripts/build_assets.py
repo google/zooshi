@@ -254,7 +254,7 @@ def convert_json_to_flatbuffer_binary(flatc, json, schema, out_dir):
   run_subprocess(command)
 
 
-def convert_png_image_to_webp(png, out, quality=80):
+def convert_png_image_to_webp(cwebp, png, out, quality=80):
   """Run the webp converter on the given png file.
 
   Args:
@@ -266,7 +266,7 @@ def convert_png_image_to_webp(png, out, quality=80):
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [CWEBP, '-q', str(quality), png, '-o', out]
+  command = [cwebp, '-q', str(quality), png, '-o', out]
   run_subprocess(command)
 
 
@@ -359,7 +359,7 @@ def generate_flatbuffer_binaries(flatc, target_directory):
         convert_json_to_flatbuffer_binary(flatc, json, schema, target_file_dir)
 
 
-def generate_webp_textures(target_directory):
+def generate_webp_textures(cwebp, target_directory):
   """Run the webp converter on off of the png files.
 
   Search for the PNG files lazily, since the mesh pipeline may
@@ -375,7 +375,7 @@ def generate_webp_textures(target_directory):
     if not os.path.exists(out_dir):
       os.makedirs(out_dir)
     if needs_rebuild(png, out):
-      convert_png_image_to_webp(png, out, WEBP_QUALITY)
+      convert_png_image_to_webp(cwebp, png, out, WEBP_QUALITY)
 
 def copy_assets(target_directory):
   """Copy modified assets to the target assets directory.
@@ -455,6 +455,8 @@ def main(argv):
   parser = argparse.ArgumentParser()
   parser.add_argument('--flatc', default=FLATC,
                       help='Location of the flatbuffers compiler.')
+  parser.add_argument('--cwebp', default=CWEBP,
+                      help='Location of the webp compressor.')  
   parser.add_argument('--output', default=ASSETS_PATH,
                       help='Assets output directory.')
   parser.add_argument('args', nargs=argparse.REMAINDER)
@@ -482,7 +484,7 @@ def main(argv):
       return 1
   if target in ('all', 'webp'):
     try:
-      generate_webp_textures(args.output)
+      generate_webp_textures(args.cwebp, args.output)
     except BuildError as error:
       handle_build_error(error)
       return 1
