@@ -45,8 +45,6 @@ namespace fpl_project {
 
 static const int kQuadNumVertices = 4;
 static const int kQuadNumIndices = 6;
-static const int kCubeNumVertices = 24;
-static const int kCubeNumIndices = 36;
 
 static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 // clang-format off
@@ -206,7 +204,7 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
 
 
 static const char* kCubeMesh = "meshes/cube.fplmesh";
-static const char* kCubeMaterial = "materials/pixel1x1.fplmat";
+static const char* kCubeMaterial = "meshes/cube.fplmat";
 static const char* kGuyMaterial = "materials/guy.fplmat";
 static const char* kGuyBackMaterial = "materials/guy_back.fplmat";
 
@@ -274,6 +272,7 @@ bool Game::Initialize(const char* const binary_directory) {
   }
 
   cube_ = matman_.LoadMesh(kCubeMesh);
+  assert(cube_ != nullptr);
 
   billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
                                       vec2(256, 256), kPixelToWorldScale);
