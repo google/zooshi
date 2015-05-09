@@ -86,8 +86,8 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
   set(fplbase_build_mesh_pipeline OFF CACHE BOOL "")
   if(zooshi_build_cwebp)
     # enable cwebp build included in fplbase.
-    set(webp_build_cwebp ON)  
-  endif()  
+    set(webp_build_cwebp ON CACHE BOOL "")
+  endif()
   add_subdirectory("${dependencies_fplbase_dir}" ${tmp_dir}/fplbase)
 endif()
 
