@@ -24,7 +24,7 @@ table Config {
   // Input configuration file.
   input_config:string;
 
-  entity_list:[EntityDef];
+  entity_list:[fpl.EntityDef];
 }
 
 root_type Config;
