@@ -15,6 +15,7 @@
 #include "transform.h"
 
 namespace fpl {
+namespace fpl_project {
 
 void TransformComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
@@ -22,10 +23,22 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
   assert(component_data->data_type() == ComponentDataUnion_TransformDef);
   auto transform_def = static_cast<const TransformDef*>(component_data->data());
   auto pos = transform_def->position();
+  auto orientation = transform_def->orientation();
+  auto scale = transform_def->scale();
   auto transform_data = AddEntity(entity);
   // TODO: Add support for scale and orientation. b/20921057
-  transform_data->position = mathfu::vec3(pos->x(), pos->y(), pos->z());
+  // TODO: Move vector loading into a function in fplbase.
+  if (pos != nullptr) {
+    transform_data->position = mathfu::vec3(pos->x(), pos->y(), pos->z());
+  }
+  if (orientation != nullptr) {
+    transform_data->orientation = mathfu::quat::FromEulerAngles(
+          mathfu::vec3(orientation->x(), orientation->y(), orientation->z()));
+  }
+  if (scale != nullptr) {
+    transform_data->scale = mathfu::vec3(scale->x(), scale->y(), scale->z());
+  }
 }
 
+}  // fpl_project
 }  // fpl
-

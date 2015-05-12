@@ -139,6 +139,8 @@ set(zooshi_SRCS
     src/components/player.h
     src/components/family.cpp
     src/components/family.h
+    src/components/player_projectile.cpp
+    src/components/player_projectile.h
     src/components/rail_denizen.cpp
     src/components/rail_denizen.h
     src/components/rendermesh.cpp

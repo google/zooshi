@@ -59,6 +59,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/family.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/player_projectile.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rendermesh.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \

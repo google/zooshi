@@ -71,6 +71,9 @@ class Game {
   const RailDef& GetRailDef() const;
   Mesh* GetCardboardFront(int renderable_id);
 
+  void SetRelativeMouseMode(bool relative_mouse_mode);
+  void ToggleRelativeMouseMode();
+
   // Hold configuration binary data.
   std::string config_source_;
 
@@ -108,6 +111,7 @@ class Game {
   Mesh* billboard_;
   Mesh* meshes_[kNumMeshes];
   GameState game_state_;
+  bool relative_mouse_mode_;
 
   // String version number of the game.
   const char* version_;

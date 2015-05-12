@@ -19,19 +19,17 @@
 #include "entity/component.h"
 #include "mathfu/glsl_mappings.h"
 #include "inputcontrollers/base_player_controller.h"
+#include "config_generated.h"
 
 namespace fpl {
+namespace fpl_project {
 
 class PlayerData {
  public:
   PlayerData() : input_controller_(nullptr) {}
 
-  mathfu::vec3 GetFacing() {
-    return input_controller_->facing().GetValue();
-  }
-  mathfu::vec3 GetUp() {
-    return input_controller_->up().GetValue();
-  }
+  mathfu::vec3 GetFacing() const { return input_controller_->facing().Value(); }
+  mathfu::vec3 GetUp() const { return input_controller_->up().Value(); }
 
   fpl_project::BasePlayerController* input_controller() const {
     return input_controller_;
@@ -52,13 +50,19 @@ class PlayerComponent : public entity::Component<PlayerData> {
   virtual void InitEntity(entity::EntityRef& entity);
 
   entity::EntityRef SpawnProjectile(entity::EntityRef source);
+
+  void set_config(const Config* config) { config_ = config; }
+
  private:
+  const Config* config_;
+
 };
 
+}  // fpl_project
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::PlayerComponent, fpl::PlayerData,
-                              fpl::ComponentDataUnion_PlayerDef)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PlayerComponent,
+                              fpl::fpl_project::PlayerData,
+                              ComponentDataUnion_PlayerDef)
 
 #endif  // COMPONENTS_PLAYER_H_
-

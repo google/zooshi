@@ -284,14 +284,23 @@ bool Game::Initialize(const char* const binary_directory) {
   billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
                                       vec2(256, 256), kPixelToWorldScale);
 
-  input_.SetRelativeMouseMode(true);
+  SetRelativeMouseMode(true);
 
-  game_state_.Initialize(renderer_.window_size(), GetConfig(),
-                         GetInputConfig(), &input_, meshes_, kNumMeshes,
-                         shader_cardboard_);
+  game_state_.Initialize(renderer_.window_size(), GetConfig(), GetInputConfig(),
+                         &input_, &matman_, shader_cardboard_);
 
   LogInfo("Initialization complete\n");
   return true;
+}
+
+void Game::SetRelativeMouseMode(bool relative_mouse_mode) {
+  relative_mouse_mode_ = relative_mouse_mode;
+  input_.SetRelativeMouseMode(relative_mouse_mode);
+}
+
+void Game::ToggleRelativeMouseMode() {
+  relative_mouse_mode_ = !relative_mouse_mode_;
+  input_.SetRelativeMouseMode(relative_mouse_mode_);
 }
 
 void Game::Render() {
@@ -351,6 +360,10 @@ void Game::Run() {
     }
 
     game_state_.Update(delta_time);
+
+    if (input_.GetButton(fpl::FPLK_BACKQUOTE).went_down()) {
+      ToggleRelativeMouseMode();
+    }
 
     Render();
     Render2DElements(renderer_.window_size());

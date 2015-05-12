@@ -18,10 +18,12 @@
 #include "components/physics.h"
 #include "components/family.h"
 #include "components/player.h"
+#include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/transform.h"
 #include "entity/entity_manager.h"
+#include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
 #include "motive/engine.h"
 
@@ -54,9 +56,8 @@ class GameState {
   // with a reference to meshrenderer, and load things from that.
   // (rather than passing in the shader and mesh)
   void Initialize(const vec2i& window_size, const Config& config,
-                  const InputConfig& input_config,
-                  InputSystem* input_system_,
-                  Mesh** meshes, int num_meshes, Shader* shader);
+                  const InputConfig& input_config, InputSystem* input_system_,
+                  MaterialManager* material_manager, Shader* shader);
 
   void Render(Renderer* renderer);
 
@@ -76,6 +77,7 @@ class GameState {
   FamilyComponent family_component_;
   RailDenizenComponent rail_denizen_component_;
   PlayerComponent player_component_;
+  PlayerProjectileComponent player_projectile_component_;
   RenderMeshComponent render_mesh_component_;
   PhysicsComponent physics_component_;
 
@@ -93,6 +95,7 @@ class GameState {
   const InputConfig* input_config_;
 
   InputSystem* input_system_;
+  MaterialManager* material_manager_;
 };
 
 }  // fpl_project

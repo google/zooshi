@@ -20,9 +20,8 @@ namespace fpl;
 // ---------------------------------------------
 table TransformDef {
   position:Vec3;
-  // scale:Vec3;
-  // orientation:Vec3;
-  // origin_point:Vec3;
+  scale:Vec3;
+  orientation:Vec3;
 }
 
 table FamilyDef {
@@ -33,10 +32,15 @@ table RailDenizenDef {
   start_time:float;
 }
 
+table RenderMeshDef {
+  source_file:string;
+  shader:string;
+}
+
 // no data, (never loaded from raw data) but we need it to be a thing so
 // that it ends up in the enum.
-table PlayerDef { }
-table RenderMeshDef {}
+table PlayerDef {}
+table PlayerProjectileDef {}
 table PhysicsDef {}
 
 //-----------------------------------
@@ -48,6 +52,7 @@ union ComponentDataUnion {
   FamilyDef,
   RailDenizenDef,
   PlayerDef,
+  PlayerProjectileDef,
   PhysicsDef,
   RenderMeshDef,
 }

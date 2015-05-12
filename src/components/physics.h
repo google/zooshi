@@ -20,6 +20,7 @@
 #include "mathfu/glsl_mappings.h"
 
 namespace fpl {
+namespace fpl_project {
 
 // Data for scene object components.
 struct PhysicsData {
@@ -34,17 +35,20 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
  public:
   PhysicsComponent() {}
 
-  virtual void AddFromRawData(entity::EntityRef& /*entity*/,
-                              const void* /*raw_data*/) {}
+  virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 };
 
+}  // fpl_project
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(PhysicsComponent, PhysicsData,
+FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PhysicsComponent,
+                              fpl::fpl_project::PhysicsData,
                               ComponentDataUnion_PhysicsDef)
+
+
 
 #endif  // COMPONENTS_PHYSICS_H_
