@@ -129,6 +129,12 @@ add_custom_target(assets
   --output ${CMAKE_BINARY_DIR}/assets
   DEPENDS flatc cwebp)
 
+# Copy imgui resource files (font files, shaders)
+add_custom_command(TARGET assets POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${dependencies_imgui_dir}/assets
+                       ${CMAKE_BINARY_DIR}/assets)
+
 # zooshi source files.
 set(zooshi_SRCS
     src/camera.cpp
