@@ -3,7 +3,7 @@
 
   "input_config": "input_config.bin",
 
-  "rail_filename": "rails/circle.bin",
+  "rail_filename": "rails/long_path.bin",
   "entity_list": [
     {
       "component_list": [
