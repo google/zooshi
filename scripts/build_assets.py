@@ -181,6 +181,10 @@ FLATBUFFERS_CONVERSION_DATA = [
         extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'input_config.json')]),
     FlatbuffersConversionData(
+        schema=find_in_paths('assets.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'assets.json')]),
+    FlatbuffersConversionData(
         schema=find_in_paths('common.fbs', SCHEMA_PATHS),
         extension='.bin',
         input_files=[]),

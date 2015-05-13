@@ -17,6 +17,7 @@
 #include <math.h>
 
 #include "audio_config_generated.h"
+#include "assets_generated.h"
 #include "entity/entity.h"
 #include "fplbase/input.h"
 #include "fplbase/input.h"
@@ -77,6 +78,8 @@ static const float kCardboardNormalMapScale = 0.3f;
 static const int kMinUpdateTime = 1000 / 60;
 static const int kMaxUpdateTime = 1000 / 30;
 
+static const char* kGuyMaterial = "materials/guy.fplmat";
+
 /// kVersion is used by Google developers to identify which
 /// applications uploaded to Google Play are derived from this application.
 /// This allows the development team at Google to determine the popularity of
@@ -110,7 +113,6 @@ Game::Game()
       shader_textured_(nullptr),
       prev_world_time_(0),
       audio_config_(nullptr),
-      billboard_(nullptr),
       game_state_(),
       version_(kVersion) {
 }
@@ -201,28 +203,21 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   return mesh;
 }
 
-static const char* kGuyMaterial = "materials/guy.fplmat";
-static const char* kGuyBackMaterial = "materials/guy_back.fplmat";
-static const char* kMeshes[] = {
-  "meshes/fern_a.fplmesh",    // kMeshFernA
-  "meshes/fern_b.fplmesh",    // kMeshFernB
-  "meshes/fern_c.fplmesh",    // kMeshFernC
-  "meshes/sushi_a.fplmesh",   // kMeshSushiA
-  "meshes/sushi_b.fplmesh",   // kMeshSushiB
-  "meshes/sushi_c.fplmesh",   // kMeshSushiC
-  "meshes/tree_a.fplmesh"     // kMeshTreeA
-};
-
 // Load textures for cardboard into 'materials_'. The 'renderer_' and 'matman_'
 // members have been initialized at this point.
 bool Game::InitializeAssets() {
-  static_assert(FPL_ARRAYSIZE(kMeshes) == kNumMeshes,
-                "kMeshes missing entries");
-  matman_.LoadMaterial(kGuyMaterial);
-  matman_.LoadMaterial(kGuyBackMaterial);
-  for (size_t i = 0; i < kNumMeshes; ++i) {
-    meshes_[i] = matman_.LoadMesh(kMeshes[i]);
-    assert(meshes_[i] != nullptr);
+  // Load up all of our assets, as defined in the manifest.
+  // TODO - put this into an asynchronous loding function, like we
+  // had in pie noon.
+  const AssetManifest& asset_manifest = GetAssetManifest();
+  for (size_t i = 0; i < asset_manifest.mesh_list()->size(); i++) {
+    matman_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
+  }
+  for (size_t i = 0; i < asset_manifest.shader_list()->size(); i++) {
+    matman_.LoadShader(asset_manifest.shader_list()->Get(i)->c_str());
+  }
+  for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
+    matman_.LoadMaterial(asset_manifest.material_list()->Get(i)->c_str());
   }
   matman_.StartLoadingTextures();
 
@@ -231,7 +226,7 @@ bool Game::InitializeAssets() {
   shader_cardboard_ = matman_.LoadShader("shaders/cardboard");
   shader_textured_ = matman_.LoadShader("shaders/textured");
 
-  // uniforms:
+  // Set shader uniforms:
   shader_cardboard_->SetUniform("ambient_material", kCardboardAmbient);
   shader_cardboard_->SetUniform("diffuse_material", kCardboardDiffuse);
   shader_cardboard_->SetUniform("specular_material", kCardboardSpecular);
@@ -249,6 +244,10 @@ const InputConfig& Game::GetInputConfig() const {
   return *fpl::fpl_project::GetInputConfig(input_config_source_.c_str());
 }
 
+const AssetManifest& Game::GetAssetManifest() const {
+  return *fpl::fpl_project::GetAssetManifest(asset_manifest_source_.c_str());
+}
+
 // Initialize each member in turn. This is logically just one function, since
 // the order of initialization cannot be changed. However, it's nice for
 // debugging and readability to have each section lexographically separate.
@@ -261,10 +260,15 @@ bool Game::Initialize(const char* const binary_directory) {
 
   if (!InitializeRenderer()) return false;
 
-  if (!InitializeAssets()) return false;
-
   if (!LoadFile(GetConfig().input_config()->c_str(), &input_config_source_))
     return false;
+
+  if (!LoadFile(GetConfig().assets_filename()->c_str(),
+                &asset_manifest_source_)) {
+    return false;
+  }
+
+  if (!InitializeAssets()) return false;
 
   // Some people are having trouble loading the audio engine, and it's not
   // strictly necessary for gameplay, so don't die if the audio engine fails to
@@ -281,13 +285,10 @@ bool Game::Initialize(const char* const binary_directory) {
   while (!matman_.TryFinalize()) {
   }
 
-  billboard_ = CreateVerticalQuadMesh(kGuyMaterial, vec3(0, 0, 0),
-                                      vec2(256, 256), kPixelToWorldScale);
-
   SetRelativeMouseMode(true);
 
   game_state_.Initialize(renderer_.window_size(), GetConfig(), GetInputConfig(),
-                         &input_, &matman_, shader_cardboard_, &audio_engine_);
+                         &input_, &matman_, &audio_engine_);
 
   LogInfo("Initialization complete\n");
   return true;
@@ -305,7 +306,6 @@ void Game::ToggleRelativeMouseMode() {
 
 void Game::Render() {
   renderer_.AdvanceFrame(input_.minimized_);
-  renderer_.ClearFrameBuffer(mathfu::kZeros4f);
   game_state_.Render(&renderer_);
 }
 

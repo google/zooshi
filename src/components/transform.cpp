@@ -13,9 +13,12 @@
 // limitations under the License.
 
 #include "transform.h"
+#include <math.h>
 
 namespace fpl {
 namespace fpl_project {
+
+static const float kDegreesToRadians = M_PI/180.0f;
 
 void TransformComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
@@ -33,7 +36,8 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
   }
   if (orientation != nullptr) {
     transform_data->orientation = mathfu::quat::FromEulerAngles(
-          mathfu::vec3(orientation->x(), orientation->y(), orientation->z()));
+          mathfu::vec3(orientation->x(), orientation->y(), orientation->z()) *
+                       kDegreesToRadians);
   }
   if (scale != nullptr) {
     transform_data->scale = mathfu::vec3(scale->x(), scale->y(), scale->z());

@@ -1,0 +1,21 @@
+{
+  "mesh_list" : [
+    "meshes/sushi_a.fplmesh",
+    "meshes/sushi_b.fplmesh",
+    "meshes/sushi_c.fplmesh",
+    "meshes/fern_a.fplmesh",
+    "meshes/fern_b.fplmesh",
+    "meshes/fern_c.fplmesh",
+    "meshes/tree_c.fplmesh"
+  ],
+  "material_list": [
+    "materials/guy.fplmat",
+    "materials/guy_back.fplmat",
+    "materials/pixel1x1.fplmat"
+  ],
+  "shader_list": [
+    "shaders/cardboard",
+    "shaders/lit_textured_normal",
+    "shaders/normal"
+  ]
+}

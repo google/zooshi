@@ -33,6 +33,7 @@ namespace fpl_project {
 
 struct Config;
 struct InputConfig;
+struct AssetManifest;
 
 class Game {
  public:
@@ -42,17 +43,6 @@ class Game {
   void Run();
 
  private:
-  enum MeshModel {
-    kMeshFernA,
-    kMeshFernB,
-    kMeshFernC,
-    kMeshSushiA,
-    kMeshSushiB,
-    kMeshSushiC,
-    kMeshTreeA,
-    kNumMeshes
-  };
-
   bool InitializeRenderer();
   bool InitializeAssets();
 
@@ -69,6 +59,7 @@ class Game {
   const Config& GetConfig() const;
   const InputConfig& GetInputConfig() const;
   const RailDef& GetRailDef() const;
+  const AssetManifest& GetAssetManifest() const;
   Mesh* GetCardboardFront(int renderable_id);
 
   void SetRelativeMouseMode(bool relative_mouse_mode);
@@ -79,6 +70,9 @@ class Game {
 
   // Hold the configuration for the input system data.
   std::string input_config_source_;
+
+  // Hold the configuration for the asset manifest source.
+  std::string asset_manifest_source_;
 
   // Report touches, button presses, keyboard presses.
   InputSystem input_;
@@ -108,8 +102,6 @@ class Game {
 
   pindrop::AudioConfig* audio_config_;
 
-  Mesh* billboard_;
-  Mesh* meshes_[kNumMeshes];
   GameState game_state_;
   bool relative_mouse_mode_;
 

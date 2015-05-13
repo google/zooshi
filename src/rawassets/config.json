@@ -4,6 +4,9 @@
   "input_config": "input_config.bin",
 
   "rail_filename": "rails/long_path.bin",
+
+  "assets_filename": "assets.bin",
+
   "entity_list": [
     {
       "component_list": [
@@ -57,7 +60,6 @@
     }
   ],
 
-
   "projectile_speed": 2.0,
   "projectile_def": {
     "component_list": [
@@ -86,7 +88,33 @@
         "data_type": "PlayerProjectileDef",
         "data": {}
       },
+    ]
+  },
 
+  "fern_def": {
+    "component_list": [
+      {
+        "data_type": "TransformDef",
+        "data": {
+          "scale": {
+            "x": 350.0,
+            "y": 350.0,
+            "z": 350.0
+          },
+          "orientation": {
+            "x": 0.0,
+            "y": -90.0,
+            "z": 0.0
+          }
+        }
+      },
+      {
+        "data_type": "RenderMeshDef",
+        "data": {
+          "source_file": "meshes/fern_c.fplmesh",
+          "shader": "shaders/cardboard"
+        }
+      }
     ]
   }
 }

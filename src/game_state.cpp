@@ -36,6 +36,7 @@ namespace fpl_project {
 static const float kViewportAngle = M_PI / 4.0f;  // 45 degrees
 static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 500.0f;
+static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
 
 // The sound effect to play when throwing projectiles.
 static const char* kProjectileWhooshSoundName = "whoosh";
@@ -57,7 +58,7 @@ GameState::GameState()
 void GameState::Initialize(const vec2i& window_size, const Config& config,
                            const InputConfig& input_config,
                            InputSystem* input_system,
-                           MaterialManager* material_manager, Shader* shader,
+                           MaterialManager* material_manager,
                            pindrop::AudioEngine* audio_engine) {
   main_camera_.Initialize(kViewportAngle, vec2(window_size), kViewportNearPlane,
                           kViewportFarPlane);
@@ -103,17 +104,13 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
-      // Let's make an entity!
-      entity::EntityRef entity = entity_manager_.AllocateNewEntity();
-      transform_component_.AddEntity(entity);
+      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
+            config.fern_def());
+
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
 
-      transform_data->position = vec3(x * 20 + 10, y * 20 + 10, 1);
-      transform_data->orientation = mathfu::quat::identity;
-      transform_data->scale = vec3(100.0f, 100.0f, 100.0f);
-
-      render_mesh_component_.AddEntity(entity);
+      transform_data->position = vec3(x * 24 + 12, y * 24 + 12, 1);
     }
   }
 
@@ -123,19 +120,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
     entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
         ->set_input_controller(&input_controller_);
   }
-  active_player_entity_ = player_component_.begin()->entity;
-  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
-      ->set_listener(audio_engine->AddListener());
 
-  for (auto iter = render_mesh_component_.begin();
-       iter != render_mesh_component_.end(); ++iter) {
-    if (iter->entity != active_player_entity_) {
-      RenderMeshData* render_data =
-          render_mesh_component_.AddEntity(iter->entity);
-      render_data->mesh = material_manager_->LoadMesh("meshes/sushi_a.fplmesh");
-      render_data->shader = shader;
-    }
-  }
   render_mesh_component_.set_light_position(vec3(-10, -20, 20));
 }
 
@@ -169,6 +154,7 @@ void GameState::Update(WorldTime delta_time) {
 }
 
 void GameState::Render(Renderer* renderer) {
+  renderer->ClearFrameBuffer(kGreenishColor);
   mat4 camera_transform = main_camera_.GetTransformMatrix();
   renderer->model_view_projection() = camera_transform;
   renderer->color() = mathfu::kOnes4f;

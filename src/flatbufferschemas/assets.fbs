@@ -12,30 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "audio_config.fbs";
-include "components.fbs";
-
 namespace fpl.fpl_project;
 
-table Config {
-  // Audio engine configuration file.
-  audio_config:string;
-
-  // Input configuration file.
-  input_config:string;
-
-  // The rail definition file to load.
-  rail_filename:string;
-
-  // The manifest of assets to load.
-  assets_filename:string;
-
-  entity_list:[fpl.EntityDef];
-  projectile_def: fpl.EntityDef;
-  projectile_speed: float;
-
-  fern_def: fpl.EntityDef;
+// List of paths to all the assets we care about:
+table AssetManifest {
+  mesh_list:[string];
+  material_list:[string];
+  shader_list:[string];
 }
 
-root_type Config;
+
+root_type AssetManifest;
 

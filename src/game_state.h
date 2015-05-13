@@ -63,7 +63,7 @@ class GameState {
   // (rather than passing in the shader and mesh)
   void Initialize(const vec2i& window_size, const Config& config,
                   const InputConfig& input_config, InputSystem* input_system_,
-                  MaterialManager* material_manager, Shader* shader,
+                  MaterialManager* material_manager,
                   pindrop::AudioEngine* audio_engine);
 
   void Render(Renderer* renderer);
