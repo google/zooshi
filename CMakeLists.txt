@@ -165,6 +165,7 @@ set(zooshi_SRCS
     src/game_state.h
     src/gui.cpp
     src/gui.h
+    src/intrusive_list.h
     src/main.cpp
     src/rawassets
 )

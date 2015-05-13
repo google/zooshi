@@ -17,6 +17,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include "fplbase/fpl_common.h"
 
 namespace fpl {
 // Whether to enable IntrusiveList::ValidateList().  Be careful when enabling
@@ -68,6 +69,19 @@ class IntrusiveListNode {
 #if INTRUSIVE_LIST_VALIDATE
     magic_ = k_magic;
 #endif  // INTRUSIVE_LIST_VALIDATE
+  }
+
+  IntrusiveListNode(IntrusiveListNode&& node) {
+    if (node.InList()) {
+      next_ = node.next_;
+      prev_ = node.prev_;
+      node.next_->prev_ = this;
+      node.prev_->next_ = this;
+    } else {
+      // If the other node was not in a list (i.e. pointing to itself), this
+      // node should point to itself as well.
+      Initialize();
+    }
   }
 
   // If the node is in a list, remove it from the list.
@@ -180,6 +194,8 @@ class IntrusiveListNode {
   }
 
  private:
+  FPL_DISALLOW_COPY_AND_ASSIGN(IntrusiveListNode);
+
 #if INTRUSIVE_LIST_VALIDATE
   std::uint32_t magic_;
 #endif  // INTRUSIVE_LIST_VALIDATE
@@ -196,8 +212,8 @@ class IntrusiveListNode {
 typedef IntrusiveListNode IntrusiveList;
 
 // Declares a member function to retrieve a pointer to NodeMemberName.
-#define INTRUSIVE_GET_NODE_ACCESSOR(NodeMemberName, FunctionName)         \
-  IntrusiveListNode* FunctionName() { return &NodeMemberName; }           \
+#define INTRUSIVE_GET_NODE_ACCESSOR(NodeMemberName, FunctionName) \
+  IntrusiveListNode* FunctionName() { return &NodeMemberName; }   \
   const IntrusiveListNode* FunctionName() const { return &NodeMemberName; }
 
 // Declares a member function GetListNode() to retrieve a pointer to
@@ -208,20 +224,20 @@ typedef IntrusiveListNode IntrusiveList;
 // Declares the member function FunctionName of Class to retrieve a pointer
 // to a Class instance from a list node pointer.  NodeMemberName references
 // the name of the IntrusiveListNode member of Class.
-#define INTRUSIVE_LIST_NODE_GET_CLASS_ACCESSOR(Class, NodeMemberName,         \
-                                                       FunctionName)          \
-  static Class* FunctionName(IntrusiveListNode* node) {                       \
-    Class* cls = nullptr;                                                     \
-    /* This effectively performs offsetof(Class, NodeMemberName) */           \
-    /* which ends up in the undefined behavior realm of C++ but in */         \
-    /* practice this works with most compilers. */                            \
-    return reinterpret_cast<Class*>(                                          \
-        reinterpret_cast<std::uint8_t*>(node) -                               \
-        reinterpret_cast<std::uint8_t*>(&cls->NodeMemberName));               \
-  }                                                                           \
-                                                                              \
-  static const Class* FunctionName(const IntrusiveListNode* node) {           \
-    return FunctionName(const_cast<IntrusiveListNode*>(node));                \
+#define INTRUSIVE_LIST_NODE_GET_CLASS_ACCESSOR(Class, NodeMemberName, \
+                                               FunctionName)          \
+  static Class* FunctionName(IntrusiveListNode* node) {               \
+    Class* cls = nullptr;                                             \
+    /* This effectively performs offsetof(Class, NodeMemberName) */   \
+    /* which ends up in the undefined behavior realm of C++ but in */ \
+    /* practice this works with most compilers. */                    \
+    return reinterpret_cast<Class*>(                                  \
+        reinterpret_cast<std::uint8_t*>(node) -                       \
+        reinterpret_cast<std::uint8_t*>(&cls->NodeMemberName));       \
+  }                                                                   \
+                                                                      \
+  static const Class* FunctionName(const IntrusiveListNode* node) {   \
+    return FunctionName(const_cast<IntrusiveListNode*>(node));        \
   }
 
 // Declares the member function GetInstanceFromListNode() of Class to retrieve
@@ -229,145 +245,20 @@ typedef IntrusiveListNode IntrusiveList;
 // reference the name of the IntrusiveListNode member of Class.
 #define INTRUSIVE_LIST_NODE_GET_CLASS(Class, NodeMemberName)    \
   INTRUSIVE_LIST_NODE_GET_CLASS_ACCESSOR(Class, NodeMemberName, \
-                                                 GetInstanceFromListNode)
+                                         GetInstanceFromListNode)
 
 // Declares the macro to iterate over a typed intrusive list.
-#define INTRUSIVE_LIST_NODE_ITERATOR(type, listptr, iteidentifier_,         \
-                                             statement)                     \
-  {                                                                         \
-    type* terminator = (listptr).GetTerminator();                           \
-    for (type* iteidentifier_ = (listptr).GetNext();                        \
-         iteidentifier_ != terminator;                                      \
-         iteidentifier_ = iteidentifier_->GetNext()) {                      \
-      statement;                                                            \
-    }                                                                       \
+#define INTRUSIVE_LIST_NODE_ITERATOR(type, listptr, iteidentifier_, statement) \
+  {                                                                            \
+    type* terminator = (listptr).GetTerminator();                              \
+    for (type* iteidentifier_ = (listptr).GetNext();                           \
+         iteidentifier_ != terminator;                                         \
+         iteidentifier_ = iteidentifier_->GetNext()) {                         \
+      statement;                                                               \
+    }                                                                          \
   }
-
-// TypedIntrusiveListNode which supports inserting an object into a single
-// doubly linked list.  For objects that need to be inserted in multiple
-// doubly linked lists, use IntrusiveListNode.
-//
-// For example:
-//
-// class IntegerItem : public TypedIntrusiveListNode<IntegerItem> {
-//  public:
-//   IntegerItem(std::int32_t value) : value_(value) {}
-//   ~IntegerItem() { }
-//   std::int32_t GetValue() const { return value_; }
-//  private:
-//   std::int32_t value_;
-// };
-//
-// int main(int argc, const char *arvg[]) {
-//   TypedIntrusiveListNode<IntegerItem> list;
-//   IntegerItem a(1);
-//   IntegerItem b(2);
-//   IntegerItem c(3);
-//   list.InsertBefore(&a);
-//   list.InsertBefore(&b);
-//   list.InsertBefore(&c);
-//   for (IntegerItem* item = list.GetNext();
-//        item != list.GetTerminator(); item = item->GetNext()) {
-//     printf("%d\n", item->GetValue());
-//   }
-// }
-template <typename T>
-class TypedIntrusiveListNode {
- public:
-  TypedIntrusiveListNode() {}
-  ~TypedIntrusiveListNode() {}
-
-  // Insert this object after the specified object.
-  void InsertAfter(T* const obj) {
-    assert(obj);
-    GetListNode()->InsertAfter(obj->GetListNode());
-  }
-
-  // Insert this object before the specified object.
-  void InsertBefore(T* const obj) {
-    assert(obj);
-    GetListNode()->InsertBefore(obj->GetListNode());
-  }
-
-  template <class Comparitor>
-  void Sort(Comparitor comparitor) {
-    // Sort using insertion sort.
-    // http://en.wikipedia.org/wiki/Insertion_sort
-    T* next;
-    for (T* i = GetNext()->GetNext(); i != GetTerminator(); i = next) {
-      // Cache the `next` node because `i` might move.
-      next = i->GetNext();
-      T* j = i;
-      while (j != GetNext() && comparitor(*i, *j->GetPrevious())) {
-        j = j->GetPrevious();
-      }
-      if (i != j) {
-        j->InsertBefore(i->Remove());
-      }
-    }
-  }
-
-  // Get the next object in the list.
-  // Check against GetTerminator() before deferencing the object.
-  T* GetNext() const {
-    return GetInstanceFromListNode(GetListNode()->GetNext());
-  }
-
-  // Get the previous object in the list.
-  // Check against GetTerminator() before deferencing the object.
-  T* GetPrevious() const {
-    return GetInstanceFromListNode(GetListNode()->GetPrevious());
-  }
-
-  // Get the terminator of the list.
-  // This should not be dereferenced as it is a pointer to
-  // TypedIntrusiveListNode<T> *not* T.
-  T* GetTerminator() const {
-    return GetInstanceFromListNode(
-        const_cast<IntrusiveListNode*>(GetListNode()));
-  }
-
-  // Remove this object from the list it's currently in.
-  T* Remove() {
-    GetListNode()->Remove();
-    return GetInstanceFromListNode(GetListNode());
-  }
-
-  // Determine whether this object is in a list.
-  bool InList() const { return GetListNode()->InList(); }
-
-  // Determine whether this list is empty.
-  bool IsEmpty() const { return GetListNode()->IsEmpty(); }
-
-  // Calculate the length of the list.
-  std::uint32_t GetLength() const { return GetListNode()->GetLength(); }
-
-  INTRUSIVE_GET_NODE(node_);
-
-  // Get a pointer to the instance of T that contains "node".
-  static T* GetInstanceFromListNode(IntrusiveListNode* const node) {
-    assert(node);
-    // Calculate the pointer to T from the offset.
-    return (T*)((std::uint8_t*)node - GetNodeOffset(node));
-  }
-
- private:
-  // Node within an intrusive list.
-  IntrusiveListNode node_;
-
-  // Get the offset of node_ within this class.
-  static std::int32_t GetNodeOffset(IntrusiveListNode* const node) {
-    assert(node);
-    // Perform some type punning to calculate the offset of node_ in T.
-    // WARNING: This could result in undefined behavior with some C++
-    // compilers.
-    T* obj = (T*)node;
-    std::int32_t node_offset =
-        (std::int32_t)((std::uint8_t*)(&obj->node_) - (std::uint8_t*)(obj));
-    return node_offset;
-  }
-};
 
 }  // namespace fpl
+
 #endif  // INTRUSIVE_LIST_H_
 
