@@ -173,6 +173,12 @@ class Component : public ComponentInterface {
   // Override this with code that we want to execute when an entity is added.
   virtual void InitEntity(EntityRef& /*entity*/) {}
 
+  // By default, components don't support this functionality. If you do
+  // support it, override this to return raw data that you can read back later.
+  virtual RawDataUniquePtr ExportRawData(EntityRef& /*unused*/) const {
+    return nullptr;
+  }
+
   // Override this with code that executes when this component is removed from
   // the entity manager.  (i. e. usually when the game/state is over and
   // everythingis shutting down.)

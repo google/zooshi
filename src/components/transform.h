@@ -22,7 +22,7 @@
 #include "mathfu/matrix_4x4.h"
 
 namespace fpl {
-namespace fpl_project{
+namespace fpl_project {
 
 // Data for scene object components.
 struct TransformData {
@@ -69,6 +69,8 @@ class TransformComponent : public entity::Component<TransformData> {
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
 };
 
@@ -80,4 +82,3 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::TransformComponent,
                               ComponentDataUnion_TransformDef)
 
 #endif  // COMPONENTS_TRANSFORM_H_
-

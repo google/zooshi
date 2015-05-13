@@ -18,7 +18,7 @@
 namespace fpl {
 namespace fpl_project {
 
-static const float kDegreesToRadians = M_PI/180.0f;
+static const float kDegreesToRadians = M_PI / 180.0f;
 
 void TransformComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
@@ -29,19 +29,34 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
   auto orientation = transform_def->orientation();
   auto scale = transform_def->scale();
   auto transform_data = AddEntity(entity);
-  // TODO: Add support for scale and orientation. b/20921057
   // TODO: Move vector loading into a function in fplbase.
   if (pos != nullptr) {
     transform_data->position = mathfu::vec3(pos->x(), pos->y(), pos->z());
   }
   if (orientation != nullptr) {
     transform_data->orientation = mathfu::quat::FromEulerAngles(
-          mathfu::vec3(orientation->x(), orientation->y(), orientation->z()) *
-                       kDegreesToRadians);
+        mathfu::vec3(orientation->x(), orientation->y(), orientation->z()) *
+        kDegreesToRadians);
   }
   if (scale != nullptr) {
     transform_data->scale = mathfu::vec3(scale->x(), scale->y(), scale->z());
   }
+}
+
+entity::ComponentInterface::RawDataUniquePtr TransformComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  flatbuffers::FlatBufferBuilder builder;
+  const TransformData* data = GetEntityData(entity);
+  mathfu::vec3 euler = data->orientation.ToEulerAngles();
+  fpl::Vec3 position{data->position.x(), data->position.y(),
+                     data->position.z()};
+  fpl::Vec3 scale{data->scale.x(), data->scale.y(), data->scale.z()};
+  fpl::Vec3 orientation{euler.x(), euler.y(), euler.z()};
+  auto transform_def =
+      CreateTransformDef(builder, &position, &scale, &orientation);
+  builder.Finish(transform_def);
+
+  return builder.ReleaseBufferPointer();
 }
 
 }  // fpl_project
