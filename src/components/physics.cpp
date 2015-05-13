@@ -15,6 +15,7 @@
 #include "components/physics.h"
 #include "components/transform.h"
 #include "fplbase/utilities.h"
+#include "pindrop/pindrop.h"
 
 using mathfu::vec3;
 using mathfu::quat;
@@ -25,15 +26,21 @@ namespace fpl_project {
 static const float kBounceHeight = 0.8f;
 static const float kStartingVelocity = 0.5f;
 
+void PhysicsComponent::InitializeAudio(pindrop::AudioEngine* audio_engine,
+                                       const char* bounce) {
+  audio_engine_ = audio_engine;
+  bounce_handle_ = audio_engine_->GetSoundHandle(bounce);
+}
+
 void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
-                                          const void* raw_data) {
+                                      const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
   assert(component_data->data_type() == ComponentDataUnion_PhysicsDef);
   auto physics_def = static_cast<const PhysicsDef*>(component_data->data());
   PhysicsData* physics_data = AddEntity(entity);
 
-  (void) physics_def;
-  (void) physics_data;
+  (void)physics_def;
+  (void)physics_data;
 
   // TODO - populate data here.
 }
@@ -44,10 +51,19 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     TransformData* transform_data = Data<TransformData>(iter->entity);
 
     transform_data->position += physics_data->velocity;
-    transform_data->orientation = physics_data->angular_velocity *
-        transform_data->orientation;
+    transform_data->orientation =
+        physics_data->angular_velocity * transform_data->orientation;
 
     if (transform_data->position.z() < 0) {
+      // Once an event system is in place, fire an event rather than play a
+      // sound directly. b/21117936
+      if (audio_engine_) {
+        pindrop::Channel channel = audio_engine_->PlaySound(bounce_handle_);
+        if (channel.Valid()) {
+          channel.SetLocation(transform_data->position);
+        }
+      }
+
       transform_data->position.z() = 0;
       float abs_vel = fabs(physics_data->velocity.z());
       if (abs_vel < 0.01) {
@@ -57,10 +73,8 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
       }
     }
     physics_data->velocity += vec3(0.0f, 0.0f, -0.03f);
-
   }
 }
-
 
 // Physics component requires that you have a transform component:
 void PhysicsComponent::InitEntity(entity::EntityRef& entity) {
@@ -68,6 +82,6 @@ void PhysicsComponent::InitEntity(entity::EntityRef& entity) {
   GetEntityData(entity)->velocity = vec3(0, 0, kStartingVelocity);
 }
 
-
 }  // fpl_project
 }  // fpl
+

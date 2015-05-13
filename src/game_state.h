@@ -33,6 +33,12 @@
 #include "inputcontrollers/mouse_controller.h"
 #endif
 
+namespace pindrop {
+
+class AudioEngine;
+
+}  // namespace pindrop
+
 namespace fpl {
 
 class InputSystem;
@@ -57,7 +63,8 @@ class GameState {
   // (rather than passing in the shader and mesh)
   void Initialize(const vec2i& window_size, const Config& config,
                   const InputConfig& input_config, InputSystem* input_system_,
-                  MaterialManager* material_manager, Shader* shader);
+                  MaterialManager* material_manager, Shader* shader,
+                  pindrop::AudioEngine* audio_engine);
 
   void Render(Renderer* renderer);
 
@@ -81,7 +88,7 @@ class GameState {
   RenderMeshComponent render_mesh_component_;
   PhysicsComponent physics_component_;
 
-  // Input controller for mouse
+// Input controller for mouse
 #ifdef __ANDROID__
   AndroidCardboardController input_controller_;
 #else

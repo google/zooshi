@@ -37,6 +37,11 @@ static const float kViewportAngle = M_PI / 4.0f;  // 45 degrees
 static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 500.0f;
 
+// The sound effect to play when throwing projectiles.
+static const char* kProjectileWhooshSoundName = "whoosh";
+// The sound effect to play when a projectile bounces.
+static const char* kProjectileBounceSoundName = "paper_bounce";
+
 GameState::GameState()
     : main_camera_(),
       entity_manager_(),
@@ -52,7 +57,8 @@ GameState::GameState()
 void GameState::Initialize(const vec2i& window_size, const Config& config,
                            const InputConfig& input_config,
                            InputSystem* input_system,
-                           MaterialManager* material_manager, Shader* shader) {
+                           MaterialManager* material_manager, Shader* shader,
+                           pindrop::AudioEngine* audio_engine) {
   main_camera_.Initialize(kViewportAngle, vec2(window_size), kViewportNearPlane,
                           kViewportFarPlane);
 
@@ -87,11 +93,13 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   player_component_.set_config(config_);
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
+  physics_component_.InitializeAudio(audio_engine, kProjectileBounceSoundName);
+  player_projectile_component_.InitializeAudio(audio_engine,
+                                               kProjectileWhooshSoundName);
 
   for (size_t i = 0; i < config.entity_list()->size(); i++) {
     entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));
   }
-
 
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
@@ -105,19 +113,19 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       transform_data->orientation = mathfu::quat::identity;
       transform_data->scale = vec3(100.0f, 100.0f, 100.0f);
 
-      physics_component_.AddEntity(entity);
       render_mesh_component_.AddEntity(entity);
     }
   }
 
-  for (auto iter = player_component_.begin();
-       iter != player_component_.end(); ++iter) {
+  for (auto iter = player_component_.begin(); iter != player_component_.end();
+       ++iter) {
     active_player_entity_ = iter->entity;
-    entity_manager_.GetComponentData<PlayerData>(active_player_entity_)->
-        set_input_controller(&input_controller_);
+    entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
+        ->set_input_controller(&input_controller_);
   }
-
-
+  active_player_entity_ = player_component_.begin()->entity;
+  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
+      ->set_listener(audio_engine->AddListener());
 
   for (auto iter = render_mesh_component_.begin();
        iter != render_mesh_component_.end(); ++iter) {

@@ -20,6 +20,7 @@
 #include "mathfu/glsl_mappings.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "config_generated.h"
+#include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -39,8 +40,16 @@ class PlayerData {
     input_controller_ = input_controller;
   }
 
+  pindrop::Listener listener() {
+    return listener_;
+  }
+  void set_listener(pindrop::Listener listener) {
+    listener_ = listener;
+  }
+
  private:
   fpl_project::BasePlayerController* input_controller_;
+  pindrop::Listener listener_;
 };
 
 class PlayerComponent : public entity::Component<PlayerData> {

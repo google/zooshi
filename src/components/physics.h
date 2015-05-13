@@ -18,6 +18,7 @@
 #include "components_generated.h"
 #include "entity/component.h"
 #include "mathfu/glsl_mappings.h"
+#include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -35,11 +36,17 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
  public:
   PhysicsComponent() {}
 
+  void InitializeAudio(pindrop::AudioEngine* audio_engine, const char* bounce);
+
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
+
+ private:
+  pindrop::AudioEngine* audio_engine_;
+  pindrop::SoundHandle bounce_handle_;
 };
 
 }  // fpl_project
@@ -49,6 +56,5 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PhysicsComponent,
                               fpl::fpl_project::PhysicsData,
                               ComponentDataUnion_PhysicsDef)
 
-
-
 #endif  // COMPONENTS_PHYSICS_H_
+

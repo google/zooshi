@@ -1,25 +1,32 @@
 {
-  "name": "PaperBump",
+  "name": "paper_bounce",
   "bus": "sound_effects",
   "stream": false,
   "loop": false,
+  "gain": 0.5,
+
+  "mode": "Positional",
+  "max_audible_radius": 250.0,
+  "roll_out_radius": 0.0,
+  "roll_out_curve_factor": 0.5,
+
   "audio_sample_set": [
     {
       "playback_probability": 1.0,
       "audio_sample": {
-        "filename": "sounds/paper_bump1.ogg"
+        "filename": "sounds/paper_bounce1.ogg"
       }
     },
     {
       "playback_probability": 1.0,
       "audio_sample": {
-        "filename": "sounds/paper_bump2.ogg"
+        "filename": "sounds/paper_bounce2.ogg"
       }
     },
     {
       "playback_probability": 1.0,
       "audio_sample": {
-        "filename": "sounds/paper_bump3.ogg"
+        "filename": "sounds/paper_bounce3.ogg"
       }
     }
   ]

@@ -19,6 +19,7 @@
 #include "components/transform.h"
 #include "components/player_projectile.h"
 #include "fplbase/utilities.h"
+#include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -30,6 +31,10 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
+    }
+    if (player_data->listener().Valid()) {
+      TransformData* transform_data = Data<TransformData>(iter->entity);
+      player_data->listener().SetLocation(transform_data->position);
     }
   }
 }
@@ -63,13 +68,11 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
   PlayerData* source_player_data = Data<PlayerData>(source);
 
-  physics_data->velocity = config_->projectile_speed() *
-      source_player_data->GetFacing();
-  physics_data->angular_velocity =
-      mathfu::quat::FromEulerAngles(mathfu::vec3(
-                                      mathfu::RandomInRange(0.05f, 0.1f),
-                                      mathfu::RandomInRange(0.05f, 0.1f),
-                                      mathfu::RandomInRange(0.05f, 0.1f)));
+  physics_data->velocity =
+      config_->projectile_speed() * source_player_data->GetFacing();
+  physics_data->angular_velocity = mathfu::quat::FromEulerAngles(mathfu::vec3(
+      mathfu::RandomInRange(0.05f, 0.1f), mathfu::RandomInRange(0.05f, 0.1f),
+      mathfu::RandomInRange(0.05f, 0.1f)));
   projectile_data->owner = source;
 
   return entity::EntityRef();
@@ -77,3 +80,4 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
 }  // fpl_project
 }  // fpl
+

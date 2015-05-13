@@ -287,7 +287,7 @@ bool Game::Initialize(const char* const binary_directory) {
   SetRelativeMouseMode(true);
 
   game_state_.Initialize(renderer_.window_size(), GetConfig(), GetInputConfig(),
-                         &input_, &matman_, shader_cardboard_);
+                         &input_, &matman_, shader_cardboard_, &audio_engine_);
 
   LogInfo("Initialization complete\n");
   return true;
