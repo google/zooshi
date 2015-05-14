@@ -25,6 +25,7 @@ namespace fpl_project {
 
 static const float kBounceHeight = 0.8f;
 static const float kStartingVelocity = 0.5f;
+static const float kGroundPlane = -20.0f;
 
 void PhysicsComponent::InitializeAudio(pindrop::AudioEngine* audio_engine,
                                        const char* bounce) {
@@ -54,7 +55,7 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     transform_data->orientation =
         physics_data->angular_velocity * transform_data->orientation;
 
-    if (transform_data->position.z() < 0) {
+    if (transform_data->position.z() < kGroundPlane) {
       // Once an event system is in place, fire an event rather than play a
       // sound directly. b/21117936
       if (audio_engine_) {
@@ -64,13 +65,9 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
         }
       }
 
-      transform_data->position.z() = 0;
+      transform_data->position.z() = kGroundPlane;
       float abs_vel = fabs(physics_data->velocity.z());
-      if (abs_vel < 0.01) {
-        physics_data->velocity.z() = kStartingVelocity;
-      } else {
-        physics_data->velocity.z() = kBounceHeight * abs_vel;
-      }
+      physics_data->velocity.z() = kBounceHeight * abs_vel;
     }
     physics_data->velocity += vec3(0.0f, 0.0f, -0.03f);
   }

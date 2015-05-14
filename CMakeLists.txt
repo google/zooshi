@@ -145,12 +145,16 @@ set(zooshi_SRCS
     src/components/player.h
     src/components/family.cpp
     src/components/family.h
+    src/components/patron.cpp
+    src/components/patron.h
     src/components/player_projectile.cpp
     src/components/player_projectile.h
     src/components/rail_denizen.cpp
     src/components/rail_denizen.h
     src/components/rendermesh.cpp
     src/components/rendermesh.h
+    src/components/time_limit.cpp
+    src/components/time_limit.h
     src/components/transform.cpp
     src/components/transform.h
     src/editor/world_editor.h
@@ -173,7 +177,6 @@ set(zooshi_SRCS
     src/game_state.h
     src/gui.cpp
     src/gui.h
-    src/intrusive_list.h
     src/main.cpp
     src/rawassets
 )

@@ -251,7 +251,7 @@ const AssetManifest& Game::GetAssetManifest() const {
 // the order of initialization cannot be changed. However, it's nice for
 // debugging and readability to have each section lexographically separate.
 bool Game::Initialize(const char* const binary_directory) {
-  // SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, "Zooshi initializing...\n");
+  LogInfo("Zooshi Initializing...");
 
   if (!ChangeToUpstreamDir(binary_directory, kAssetsDir)) return false;
 

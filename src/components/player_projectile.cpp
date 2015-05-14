@@ -26,15 +26,10 @@ void PlayerProjectileComponent::InitializeAudio(
 }
 
 void PlayerProjectileComponent::UpdateAllEntities(
-    entity::WorldTime delta_time) {
+    entity::WorldTime /*delta_time*/) {
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
     PlayerProjectileData* projectile_data =
         Data<PlayerProjectileData>(iter->entity);
-    if (projectile_data->fuse < delta_time) {
-      entity_manager_->DeleteEntity(iter->entity);
-    } else {
-      projectile_data->fuse -= delta_time;
-    }
 
     // Once an event system is in place, fire an event rather than play a sound
     // directly. b/21117936

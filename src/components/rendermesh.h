@@ -26,6 +26,7 @@
 #include "fplbase/renderer.h"
 #include "fplbase/shader.h"
 #include "fplbase/material_manager.h"
+#include <memory>
 
 namespace fpl {
 namespace fpl_project {
@@ -33,7 +34,7 @@ namespace fpl_project {
 // Data for scene object components.
 struct RenderMeshData {
  public:
-  RenderMeshData() : mesh(nullptr) {}
+  RenderMeshData() : mesh(nullptr), shader(nullptr), tint(mathfu::kOnes4f) {}
   Mesh* mesh;
   Shader* shader;
   mathfu::vec4 tint;
@@ -41,12 +42,11 @@ struct RenderMeshData {
 
 class RenderMeshComponent : public entity::Component<RenderMeshData> {
  public:
-  RenderMeshComponent() : material_manager_(nullptr) {}
+  RenderMeshComponent() : material_manager_(nullptr), empty_mesh_ptr(nullptr) {}
 
+  virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& /*entity*/);
-
-  virtual void Init() { assert(entity_manager_ != nullptr); }
 
   // Nothing really happens per-update to these things.
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
@@ -76,6 +76,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
   // these.)
   mathfu::vec3 light_position_;
   MaterialManager* material_manager_;
+  std::unique_ptr<Mesh> empty_mesh_ptr;
 };
 
 }  // fpl_project

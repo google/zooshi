@@ -27,10 +27,9 @@ static const WorldTime kMaxProjectileDuration = 3 * kMillisecondsPerSecond;
 
 // Data for scene object components.
 struct PlayerProjectileData {
-  PlayerProjectileData() : fuse(kMaxProjectileDuration) {}
+  PlayerProjectileData() {}
 
   entity::EntityRef owner;  // The player that "owns" this projectile.
-  WorldTime fuse;  // How long until the projectile vanishes on its own.
 
   pindrop::Channel whoosh_channel;
 };

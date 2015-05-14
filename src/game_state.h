@@ -17,11 +17,13 @@
 
 #include "components/physics.h"
 #include "components/family.h"
+#include "components/patron.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/transform.h"
+#include "components/time_limit.h"
 #include "editor/world_editor.h"
 #include "entity/entity_manager.h"
 #include "fplbase/material_manager.h"
@@ -88,6 +90,8 @@ class GameState {
   PlayerProjectileComponent player_projectile_component_;
   RenderMeshComponent render_mesh_component_;
   PhysicsComponent physics_component_;
+  PatronComponent patron_component_;
+  TimeLimitComponent time_limit_component_;
 
 // Input controller for mouse
 #ifdef __ANDROID__

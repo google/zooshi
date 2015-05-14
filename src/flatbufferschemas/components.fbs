@@ -24,6 +24,10 @@ table TransformDef {
   orientation:Vec3;
 }
 
+table TimeLimitDef {
+  timelimit:float;
+}
+
 table FamilyDef {
   children:[EntityDef];
 }
@@ -39,6 +43,7 @@ table RenderMeshDef {
 
 // no data, (never loaded from raw data) but we need it to be a thing so
 // that it ends up in the enum.
+table PatronDef {}
 table PlayerDef {}
 table PlayerProjectileDef {}
 table PhysicsDef {}
@@ -52,8 +57,10 @@ union ComponentDataUnion {
   FamilyDef,
   RailDenizenDef,
   PlayerDef,
+  PatronDef,
   PlayerProjectileDef,
   PhysicsDef,
+  TimeLimitDef,
   RenderMeshDef,
 }
 

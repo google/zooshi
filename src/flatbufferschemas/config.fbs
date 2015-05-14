@@ -35,9 +35,14 @@ table Config {
   projectile_def: fpl.EntityDef;
   projectile_speed: float;
 
+  patron_def: fpl.EntityDef;
+  splatter_particle_def: fpl.EntityDef;
+
   fern_def: fpl.EntityDef;
+  fern2_def: fpl.EntityDef;
 
   world_editor_config: fpl.editor.WorldEditorConfig;
+
 }
 
 root_type Config;

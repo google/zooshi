@@ -81,6 +81,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.RegisterComponent<RenderMeshComponent>(
       &render_mesh_component_);
   entity_manager_.RegisterComponent<PhysicsComponent>(&physics_component_);
+  entity_manager_.RegisterComponent<PatronComponent>(&patron_component_);
+  entity_manager_.RegisterComponent<TimeLimitComponent>(&time_limit_component_);
 
   std::string rail_def_source;
   if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
@@ -92,6 +94,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.set_entity_factory(&entity_factory_);
   render_mesh_component_.set_material_manager(material_manager);
   player_component_.set_config(config_);
+  patron_component_.set_config(config_);
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
   physics_component_.InitializeAudio(audio_engine, kProjectileBounceSoundName);
@@ -102,15 +105,40 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
     entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));
   }
 
+
+  // Some placeholder code to generate a world.
+  // TODO - load this from a flatbuffer.
+
+  // Place some patrons:  (Basically big leaves at the moment)
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
-      entity::EntityRef entity =
-          entity_manager_.CreateEntityFromData(config.fern_def());
+      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
+            config.patron_def());
 
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
 
-      transform_data->position = vec3(x * 24 + 12, y * 24 + 12, 1);
+      transform_data->position = vec3(x * 24 + 12, y * 24 + 12, -20);
+      transform_data->orientation = quat::FromEulerAngles(
+            vec3(0.0f, 0.0f, mathfu::RandomInRange(-M_PI, M_PI)));
+    }
+  }
+
+
+  // Add some ground foliage:
+  for (int x = -6; x < 6; x++) {
+    for (int y = -6; y < 6; y++) {
+      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
+            mathfu::Random<double>() < 0.5f ? config.fern_def() :
+                                              config.fern2_def());
+
+      TransformData* transform_data =
+          entity_manager_.GetComponentData<TransformData>(entity);
+
+      transform_data->position = vec3(x * 22 + 11, y * 22 + 11, -20);
+      transform_data->orientation = quat::FromEulerAngles(vec3(
+          0.0f, mathfu::RandomInRange(-M_PI/6.0, 0.0),
+          mathfu::RandomInRange(-M_PI, M_PI)));
     }
   }
 
