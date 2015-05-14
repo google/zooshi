@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 #include <memory>
+#include <functional>
 #include "entity.h"
 #include "entity_common.h"
 #include "entity_manager.h"

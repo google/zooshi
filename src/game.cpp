@@ -62,8 +62,7 @@ static const int kAndroidMaxScreenWidth = 1920;
 static const int kAndroidMaxScreenHeight = 1080;
 #endif
 
-// static const float kPixelToWorldScale = 0.008f;
-static const float kPixelToWorldScale = 4.0f / 256.0f;
+//static const float kPixelToWorldScale = 4.0f / 256.0f;
 
 static const vec3 kCameraPos = vec3(4, 5, -10);
 static const vec3 kCameraOrientation = vec3(0, 0, 0);
