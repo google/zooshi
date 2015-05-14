@@ -24,6 +24,7 @@ include $(DEPENDENCIES_FLATBUFFERS_DIR)/android/jni/include.mk
 ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 .PHONY: build_assets
 build_assets: $(flatc_target)
+	cp -f -r $(DEPENDENCIES_IMGUI_DIR)/assets $(ZOOSHI_DIR)
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py
 
 .PHONY: clean_assets
