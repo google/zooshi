@@ -1,0 +1,7 @@
+{
+  texture_filenames: [
+    "textures/croc_moustache.webp",
+  ],
+  "blendmode": "ALPHA"
+}
+

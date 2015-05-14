@@ -175,18 +175,18 @@
                   "data_type": "TransformDef",
                   "data": {
                     "scale": {
-                      "x": 350.0,
-                      "y": 350.0,
-                      "z": 350.0
+                      "x": 10.0,
+                      "y": 10.0,
+                      "z": 10.0
                     },
                     "position": {
                         "x": 0.0,
                         "y": 0.0,
-                        "z": 20.0
+                        "z": 0.0
                       },
                     "orientation": {
                       "x": 0.0,
-                      "y": -90.0,
+                      "y": 0.0,
                       "z": 0.0
                     }
                   }
@@ -194,7 +194,7 @@
                 {
                   "data_type": "RenderMeshDef",
                   "data": {
-                    "source_file": "meshes/fern_leafy.fplmesh",
+                    "source_file": "meshes/croc_moustache.fplmesh",
                     "shader": "shaders/textured"
                   }
                 },
@@ -252,5 +252,5 @@
          }
       },
     ]
-  }
+        }
 }
