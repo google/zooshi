@@ -15,6 +15,8 @@
 #ifndef FPL_BASE_COMPONENT_H_
 #define FPL_BASE_COMPONENT_H_
 
+#include <stdint.h>
+#include <memory>
 #include "entity.h"
 #include "entity_common.h"
 #include "entity_manager.h"
@@ -32,6 +34,10 @@ typedef VectorPool<entity::Entity>::VectorPoolReference EntityRef;
 // type it is.
 class ComponentInterface {
  public:
+  // Pointer type for exported raw data.
+  typedef std::unique_ptr<uint8_t, std::function<void(uint8_t*)>>
+      RawDataUniquePtr;
+
   virtual ~ComponentInterface() {}
 
   // Add an entity to the component.  (Note - usually you'll want to use
@@ -58,6 +64,9 @@ class ComponentInterface {
   virtual void InitEntity(EntityRef& entity) = 0;
   // Used to build entities from data.  All components need to implement one.
   virtual void AddFromRawData(EntityRef& entity, const void* data) = 0;
+  // Export current state to raw data to be later reimported via AddFromRawData.
+  // If you don't support this functionality, return nullptr here.
+  virtual RawDataUniquePtr ExportRawData(EntityRef& entity) const = 0;
   // Called just before removal from the entitymanager.
   virtual void Cleanup() = 0;
   // Called when the entity is removed from the manager.
