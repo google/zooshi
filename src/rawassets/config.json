@@ -34,7 +34,7 @@
                   {
                     "data_type": "RenderMeshDef",
                     "data" : {
-                      "source_file":"meshes/sushi_a.fplmesh",
+                      "source_file":"meshes/sushi_rice.fplmesh",
                       "shader": "shaders/textured"
                     }
                   }
@@ -52,7 +52,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/sushi_a.fplmesh",
+            "source_file":"meshes/sushi_rice.fplmesh",
             "shader": "shaders/textured"
           }
         }
@@ -86,7 +86,7 @@
       {
         "data_type": "RenderMeshDef",
         "data": {
-          "source_file": "meshes/sushi_b.fplmesh",
+          "source_file": "meshes/sushi_salmon.fplmesh",
           "shader": "shaders/textured"
         }
       },
@@ -123,7 +123,7 @@
       {
         "data_type": "RenderMeshDef",
         "data": {
-          "source_file": "meshes/sushi_a.fplmesh",
+          "source_file": "meshes/sushi_rice.fplmesh",
           "shader": "shaders/textured"
         }
       }
@@ -180,7 +180,7 @@
                 {
                   "data_type": "RenderMeshDef",
                   "data": {
-                    "source_file": "meshes/fern_c.fplmesh",
+                    "source_file": "meshes/fern_leafy.fplmesh",
                     "shader": "shaders/textured"
                   }
                 },
@@ -211,7 +211,7 @@
       {
         "data_type": "RenderMeshDef",
         "data": {
-          "source_file": "meshes/fern_b.fplmesh",
+          "source_file": "meshes/fern_short.fplmesh",
           "shader": "shaders/textured"
          }
       },
@@ -233,7 +233,7 @@
       {
         "data_type": "RenderMeshDef",
         "data": {
-          "source_file": "meshes/fern_a.fplmesh",
+          "source_file": "meshes/fern_oak.fplmesh",
           "shader": "shaders/textured"
          }
       },
