@@ -2,27 +2,27 @@
   "nodes" :[
     {
       "time" : 0,
-      "position" : {"x" : 0, "y" : -10, "z" : 10},
+      "position" : {"x" : 0, "y" : -10, "z" : 15},
       "tangent" : {"x" : -0.003, "y" : 0, "z" : 0}
     },
     {
       "time" : 5000,
-      "position" : {"x" : -10, "y" : 0, "z" : 10},
+      "position" : {"x" : -10, "y" : 0, "z" : 15},
       "tangent" : {"x" : 0, "y" : 0.003, "z" : 0}
     },
     {
       "time" : 10000,
-      "position" : {"x" : 0, "y" : 10, "z" : 10},
+      "position" : {"x" : 0, "y" : 10, "z" : 15},
       "tangent" : {"x" : 0.003, "y" : 0, "z" : 0}
     },
     {
       "time" : 15000,
-      "position" : {"x" : 10, "y" : 0, "z" : 10},
+      "position" : {"x" : 10, "y" : 0, "z" : 15},
       "tangent" : {"x" : 0, "y" : -0.003, "z" : 0}
     },
     {
       "time" : 20000,
-      "position" : {"x" : 0, "y" : -10, "z" : 10},
+      "position" : {"x" : 0, "y" : -10, "z" : 15},
       "tangent" : {"x" : -0.003, "y" : 0, "z" : 0}
     }
   ]

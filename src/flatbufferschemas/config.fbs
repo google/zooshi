@@ -43,6 +43,10 @@ table Config {
 
   world_editor_config: fpl.editor.WorldEditorConfig;
 
+  ground_def: fpl.EntityDef;
+  fern_garden_def: fpl.EntityDef;
+  sushi_garden_def: fpl.EntityDef;
+  tree_garden_def: fpl.EntityDef;
 }
 
 root_type Config;
