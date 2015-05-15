@@ -38,6 +38,20 @@ void FamilyComponent::InitEntity(entity::EntityRef& entity) {
   family_data->owner = entity;
 }
 
+void FamilyComponent::CleanupEntity(entity::EntityRef& entity) {
+  // Remove and cleanup children, if any exist:
+  FamilyData* family_data = GetEntityData(entity);
+  if (family_data) {
+    for (IntrusiveListNode* node = family_data->children.GetNext();
+         node != family_data->children.GetTerminator();
+         node = node->GetNext()) {
+      FamilyData* child_family_data =
+          FamilyData::GetInstanceFromChildNode(node);
+      entity_manager_->DeleteEntity(child_family_data->owner);
+    }
+  }
+}
+
 }  // fpl_project
 }  // fpl
 
