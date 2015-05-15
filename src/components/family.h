@@ -50,8 +50,8 @@ class FamilyComponent : public entity::Component<FamilyData> {
       : entity_factory_(entity_factory) {}
 
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
-
   virtual void InitEntity(entity::EntityRef& entity);
+  virtual void CleanupEntity(entity::EntityRef& entity);
 
  private:
   entity::EntityFactoryInterface* entity_factory_;
