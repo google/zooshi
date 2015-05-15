@@ -22,6 +22,7 @@
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/transform.h"
+#include "editor/world_editor.h"
 #include "entity/entity_manager.h"
 #include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
@@ -103,10 +104,11 @@ class GameState {
 
   InputSystem* input_system_;
   MaterialManager* material_manager_;
+
+  std::unique_ptr<editor::WorldEditor> world_editor_;
 };
 
 }  // fpl_project
 }  // fpl
 
 #endif  // ZOOSHI_GAME_STATE_H_
-

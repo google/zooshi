@@ -153,6 +153,8 @@ set(zooshi_SRCS
     src/components/rendermesh.h
     src/components/transform.cpp
     src/components/transform.h
+    src/editor/world_editor.h
+    src/editor/world_editor.cpp
     src/entity/component.h
     src/entity/component_id_lookup.h
     src/entity/component_interface.h

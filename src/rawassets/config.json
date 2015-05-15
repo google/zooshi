@@ -116,6 +116,11 @@
         }
       }
     ]
-  }
-}
+  },
 
+  "world_editor_config" : {
+    "viewport_angle_degrees":90,
+    "movement_speed":1
+  }
+
+}

@@ -12,33 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "audio_config.fbs";
-include "components.fbs";
-include "world_editor.fbs";
+include "common.fbs";
 
-namespace fpl.fpl_project;
+namespace fpl.editor;
 
-table Config {
-  // Audio engine configuration file.
-  audio_config:string;
+table WorldEditorConfig {
+  // Camera viewport angle.
+  viewport_angle_degrees:float;
 
-  // Input configuration file.
-  input_config:string;
-
-  // The rail definition file to load.
-  rail_filename:string;
-
-  // The manifest of assets to load.
-  assets_filename:string;
-
-  entity_list:[fpl.EntityDef];
-  projectile_def: fpl.EntityDef;
-  projectile_speed: float;
-
-  fern_def: fpl.EntityDef;
-
-  world_editor_config: fpl.editor.WorldEditorConfig;
+  // Camera movement speed, in units per frame.
+  movement_speed:float;
 }
 
-root_type Config;
-
+root_type WorldEditorConfig;

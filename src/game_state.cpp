@@ -104,8 +104,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
-      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
-            config.fern_def());
+      entity::EntityRef entity =
+          entity_manager_.CreateEntityFromData(config.fern_def());
 
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
@@ -121,6 +121,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
         ->set_input_controller(&input_controller_);
   }
 
+  world_editor_.reset(new editor::WorldEditor());
+  world_editor_->Initialize(config.world_editor_config(), input_system_);
   render_mesh_component_.set_light_position(vec3(-10, -20, 20));
 }
 
@@ -148,22 +150,40 @@ void GameState::UpdateMainCamera() {
 }
 
 void GameState::Update(WorldTime delta_time) {
-  motive_engine_.AdvanceFrame(delta_time);
-  entity_manager_.UpdateComponents(delta_time);
-  UpdateMainCamera();
+  if (world_editor_->is_active()) {
+    world_editor_->Update(delta_time);  // also updates camera
+
+    if (input_system_->GetButton(fpl::FPLK_F10).went_down()) {
+      world_editor_->Deactivate();
+    }
+  } else {
+    motive_engine_.AdvanceFrame(delta_time);
+    entity_manager_.UpdateComponents(delta_time);
+    UpdateMainCamera();
+
+    if (input_system_->GetButton(fpl::FPLK_F10).went_down()) {
+      world_editor_->Activate(main_camera_);
+    }
+  }
 }
 
 void GameState::Render(Renderer* renderer) {
+  const Camera* render_camera =
+      world_editor_->is_active() ? world_editor_->GetCamera() : &main_camera_;
+
   renderer->ClearFrameBuffer(kGreenishColor);
-  mat4 camera_transform = main_camera_.GetTransformMatrix();
+  mat4 camera_transform = render_camera->GetTransformMatrix();
   renderer->model_view_projection() = camera_transform;
   renderer->color() = mathfu::kOnes4f;
   renderer->DepthTest(true);
   renderer->model_view_projection() = camera_transform;
 
-  render_mesh_component_.RenderAllEntities(*renderer, main_camera_);
+  render_mesh_component_.RenderAllEntities(*renderer, *render_camera);
+
+  if (world_editor_->is_active()) {
+    world_editor_->Render(renderer);
+  }
 }
 
 }  // fpl_project
 }  // fpl
-

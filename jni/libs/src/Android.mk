@@ -73,6 +73,7 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/assets.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/world_editor_config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs
 
