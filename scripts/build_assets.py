@@ -189,6 +189,10 @@ FLATBUFFERS_CONVERSION_DATA = [
         extension='.bin',
         input_files=[]),
     FlatbuffersConversionData(
+        schema=find_in_paths('world_editor.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[]),
+    FlatbuffersConversionData(
         schema=find_in_paths('buses.fbs', SCHEMA_PATHS),
         extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'buses.json')]),

@@ -66,6 +66,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rendermesh.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/editor/world_editor.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp
 
@@ -75,7 +76,7 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/assets.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/world_editor_config.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/world_editor.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs
 
