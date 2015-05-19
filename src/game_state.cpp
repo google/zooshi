@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "components/transform.h"
+#include "components/sound.h"
 #include "config_generated.h"
 #include "events/audio_event.h"
 #include "events/event_ids.h"
@@ -40,8 +41,6 @@ static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 500.0f;
 static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
 
-// The sound effect to play when throwing projectiles.
-static const char* kProjectileWhooshSoundName = "whoosh";
 // The sound effect to play when a projectile bounces.
 static const char* kProjectileBounceSoundName = "paper_bounce";
 
@@ -92,6 +91,9 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.RegisterComponent<PhysicsComponent>(&physics_component_);
   entity_manager_.RegisterComponent<PatronComponent>(&patron_component_);
   entity_manager_.RegisterComponent<TimeLimitComponent>(&time_limit_component_);
+  entity_manager_.RegisterComponent<AudioListenerComponent>(
+      &audio_listener_component_);
+  entity_manager_.RegisterComponent<SoundComponent>(&sound_component_);
 
   std::string rail_def_source;
   if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
@@ -109,8 +111,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   physics_component_.set_bounce_handle(
       audio_engine_->GetSoundHandle(kProjectileBounceSoundName));
   physics_component_.set_event_manager(&event_manager_);
-  player_projectile_component_.InitializeAudio(audio_engine,
-                                               kProjectileWhooshSoundName);
+  audio_listener_component_.Initialize(audio_engine);
+  sound_component_.Initialize(audio_engine);
 
   for (size_t i = 0; i < config.entity_list()->size(); i++) {
     entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));

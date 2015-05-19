@@ -55,6 +55,10 @@
             "source_file":"meshes/sushi_rice.fplmesh",
             "shader": "shaders/textured"
           }
+        },
+        {
+          "data_type": "ListenerDef",
+          "data" : {}
         }
       ]
     }
@@ -94,6 +98,12 @@
         "data_type": "PlayerProjectileDef",
         "data": {}
       },
+      {
+        "data_type": "SoundDef",
+        "data": {
+          "sound": "whoosh"
+        }
+      }
     ]
   },
 

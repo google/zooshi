@@ -41,12 +41,17 @@ table RenderMeshDef {
   shader:string;
 }
 
-// no data, (never loaded from raw data) but we need it to be a thing so
-// that it ends up in the enum.
+table SoundDef {
+  sound:string;
+}
+
+// No data, (never loaded from raw data) but we need it to be a thing so that it
+// ends up in the enum.
 table PatronDef {}
 table PlayerDef {}
 table PlayerProjectileDef {}
 table PhysicsDef {}
+table ListenerDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
@@ -62,6 +67,8 @@ union ComponentDataUnion {
   PhysicsDef,
   TimeLimitDef,
   RenderMeshDef,
+  ListenerDef,
+  SoundDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

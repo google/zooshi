@@ -20,8 +20,6 @@
 #include "assets_generated.h"
 #include "entity/entity.h"
 #include "fplbase/input.h"
-#include "fplbase/input.h"
-#include "fplbase/utilities.h"
 #include "fplbase/utilities.h"
 #include "game_state.h"
 #include "gui.h"

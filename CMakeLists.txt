@@ -139,6 +139,8 @@ add_custom_command(TARGET assets POST_BUILD
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
+    src/components/audio_listener.cpp
+    src/components/audio_listener.h
     src/components/family.cpp
     src/components/family.h
     src/components/patron.cpp
@@ -153,6 +155,8 @@ set(zooshi_SRCS
     src/components/rail_denizen.h
     src/components/rendermesh.cpp
     src/components/rendermesh.h
+    src/components/sound.cpp
+    src/components/sound.h
     src/components/time_limit.cpp
     src/components/time_limit.h
     src/components/transform.cpp

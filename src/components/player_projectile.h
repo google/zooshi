@@ -30,8 +30,6 @@ struct PlayerProjectileData {
   PlayerProjectileData() {}
 
   entity::EntityRef owner;  // The player that "owns" this projectile.
-
-  pindrop::Channel whoosh_channel;
 };
 
 class PlayerProjectileComponent
@@ -39,17 +37,11 @@ class PlayerProjectileComponent
  public:
   PlayerProjectileComponent() {}
 
-  void InitializeAudio(pindrop::AudioEngine* audio_engine, const char* whoosh);
-
-  virtual void InitEntity(entity::EntityRef& entity);
-  virtual void CleanupEntity(entity::EntityRef& entity);
+  virtual void InitEntity(entity::EntityRef& /*entity*/) {}
+  virtual void CleanupEntity(entity::EntityRef& /*entity*/) {}
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
-
- private:
-  pindrop::AudioEngine* audio_engine_;
-  pindrop::SoundHandle whoosh_handle_;
+  virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 };
 
 }  // fpl_project
