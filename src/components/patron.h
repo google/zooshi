@@ -60,4 +60,3 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PatronComponent,
                               ComponentDataUnion_PatronDef)
 
 #endif  // COMPONENTS_PATRON_H_
-

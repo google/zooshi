@@ -43,13 +43,11 @@ void PatronComponent::AddFromRawData(entity::EntityRef& parent,
   auto patron_def = static_cast<const PatronDef*>(component_data->data());
   PatronData* patron_data = AddEntity(parent);
 
-  (void) patron_data;
-  (void) patron_def;
+  (void)patron_data;
+  (void)patron_def;
 }
 
-void PatronComponent::InitEntity(entity::EntityRef& entity) {
-  (void) entity;
-}
+void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
@@ -82,16 +80,15 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         // top part, you knock it over.
         if (projectile_height <= kHitMaxHeight &&
             (projectile_pos - patron_pos).LengthSquared() < kHitRadiusSquared) {
-
           // have to hit it near the top to actually knock it over
           if (projectile_height >= kHitMinHeight) {
-            vec3 spin_direction_vector = entity_manager_->
-                GetComponentData<PhysicsData>(projectile)->velocity;
+            vec3 spin_direction_vector =
+                entity_manager_->GetComponentData<PhysicsData>(projectile)
+                    ->velocity;
             spin_direction_vector.z() = 0;  // flatten so it's on the XY plane.
 
-            patron_data->falling_rotation =
-                quat::RotateFromTo(spin_direction_vector,
-                                   vec3(0.0f, 0.0f, 1.0f));
+            patron_data->falling_rotation = quat::RotateFromTo(
+                spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
             patron_data->fallen = true;
             patron_data->y = 1.0f;
             patron_data->dy = 0.0f;
@@ -112,14 +109,13 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       // Again, should be handled a bit better once we get bullet physics in.
 
       float y = patron_data->y;
-      float dy= patron_data->dy;
+      float dy = patron_data->dy;
       dy -= static_cast<float>(delta_time) * kGravity;
       y += dy;
       if (y < 0) {
         dy *= -kBounceFactor;
         y = 0.0f;
-        if (dy < kAtRestThreshold)
-          patron_data->at_rest = true;
+        if (dy < kAtRestThreshold) patron_data->at_rest = true;
       }
       patron_data->y = y;
       patron_data->dy = dy;
@@ -132,8 +128,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   }
 }
 
-void PatronComponent::SpawnSplatter(const mathfu::vec3& position,
-                                                 int count) {
+void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
   for (int i = 0; i < count; i++) {
     entity::EntityRef particle =
         entity_manager_->CreateEntityFromData(config_->splatter_particle_def());
@@ -145,10 +140,9 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position,
 
     transform_data->position = position;
 
-    physics_data->velocity =
-        vec3(mathfu::RandomInRange(-0.25f, 0.25f),
-             mathfu::RandomInRange(-0.25f, 0.25f),
-             mathfu::RandomInRange(0.0f, 0.5f));
+    physics_data->velocity = vec3(mathfu::RandomInRange(-0.25f, 0.25f),
+                                  mathfu::RandomInRange(-0.25f, 0.25f),
+                                  mathfu::RandomInRange(0.0f, 0.5f));
     physics_data->angular_velocity = mathfu::quat::FromEulerAngles(mathfu::vec3(
         mathfu::RandomInRange(0.05f, 0.1f), mathfu::RandomInRange(0.05f, 0.1f),
         mathfu::RandomInRange(0.05f, 0.1f)));
@@ -157,4 +151,3 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position,
 
 }  // fpl_project
 }  // fpl
-

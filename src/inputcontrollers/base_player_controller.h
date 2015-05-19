@@ -66,17 +66,11 @@ class BasePlayerController {
 
   virtual void Update() = 0;
 
-  LogicalButton& Button(int index) {
-    return buttons_[index];
-  }
+  LogicalButton& Button(int index) { return buttons_[index]; }
 
-  LogicalVector& facing() {
-    return facing_;
-  }
+  LogicalVector& facing() { return facing_; }
 
-  LogicalVector& up() {
-    return up_;
-  }
+  LogicalVector& up() { return up_; }
 
  protected:
   LogicalButton buttons_[kLogicalButtonCount];

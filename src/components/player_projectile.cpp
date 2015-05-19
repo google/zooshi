@@ -62,4 +62,3 @@ void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
 
 }  // fpl_project
 }  // fpl
-

@@ -80,4 +80,3 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
 }  // fpl_project
 }  // fpl
-

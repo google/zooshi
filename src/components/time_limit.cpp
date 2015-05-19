@@ -18,17 +18,16 @@
 namespace fpl {
 namespace fpl_project {
 
-
 void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
-                                      const void* raw_data) {
+                                        const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
   assert(component_data->data_type() == ComponentDataUnion_TimeLimitDef);
   auto time_limit_def =
       static_cast<const TimeLimitDef*>(component_data->data());
   TimeLimitData* time_limit_data = AddEntity(entity);
   // Time limit is specified in seconds in the data files.
-  time_limit_data->time_limit = time_limit_def->timelimit() *
-      kMillisecondsPerSecond;
+  time_limit_data->time_limit =
+      time_limit_def->timelimit() * kMillisecondsPerSecond;
 }
 
 void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {
@@ -40,7 +39,6 @@ void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     }
   }
 }
-
 
 }  // fpl_project
 }  // fpl

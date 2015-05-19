@@ -60,4 +60,3 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PlayerProjectileComponent,
                               ComponentDataUnion_PlayerProjectileDef)
 
 #endif  // COMPONENTS_PLAYER_PROJECTILE_H_
-

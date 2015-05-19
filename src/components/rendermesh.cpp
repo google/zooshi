@@ -88,11 +88,11 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
 }
 
 void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
-                                          const void* raw_data) {
+                                         const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
   assert(component_data->data_type() == ComponentDataUnion_RenderMeshDef);
-  auto rendermesh_def = static_cast<const RenderMeshDef*>
-      (component_data->data());
+  auto rendermesh_def =
+      static_cast<const RenderMeshDef*>(component_data->data());
 
   // You need to call set_material_manager before you can add from raw data,
   // otherwise it can't load up new meshes!
@@ -100,16 +100,16 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
 
   RenderMeshData* rendermesh_data = AddEntity(entity);
   if (rendermesh_def->source_file() != nullptr) {
-    rendermesh_data->mesh = material_manager_->LoadMesh(
-          rendermesh_def->source_file()->c_str());
+    rendermesh_data->mesh =
+        material_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
   } else {
     // Rendermeshes with null meshes don't draw, but are important
     // because they might have children.
     rendermesh_data->mesh = empty_mesh_ptr.get();
   }
   if (rendermesh_def->shader() != nullptr) {
-    rendermesh_data->shader = material_manager_->LoadShader(
-          rendermesh_def->shader()->c_str());
+    rendermesh_data->shader =
+        material_manager_->LoadShader(rendermesh_def->shader()->c_str());
   }
 
   // TODO: Load this from a flatbuffer file instead of setting it.
@@ -118,4 +118,3 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
 
 }  // fpl_project
 }  // fpl
-

@@ -86,5 +86,4 @@ class Camera {
 }  // fpl_project
 }  // fpl
 
-
 #endif  // ZOOSHI_CAMERA_H

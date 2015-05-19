@@ -57,4 +57,3 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PhysicsComponent,
                               ComponentDataUnion_PhysicsDef)
 
 #endif  // COMPONENTS_PHYSICS_H_
-

@@ -261,4 +261,3 @@ typedef IntrusiveListNode IntrusiveList;
 }  // namespace fpl
 
 #endif  // INTRUSIVE_LIST_H_
-

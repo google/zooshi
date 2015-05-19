@@ -54,4 +54,3 @@ void FamilyComponent::CleanupEntity(entity::EntityRef& entity) {
 
 }  // fpl_project
 }  // fpl
-

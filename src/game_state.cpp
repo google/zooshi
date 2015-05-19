@@ -105,40 +105,38 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
     entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));
   }
 
-
   // Some placeholder code to generate a world.
   // TODO - load this from a flatbuffer.
 
   // Place some patrons:  (Basically big leaves at the moment)
   for (int x = -3; x < 3; x++) {
     for (int y = -3; y < 3; y++) {
-      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
-            config.patron_def());
+      entity::EntityRef entity =
+          entity_manager_.CreateEntityFromData(config.patron_def());
 
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
 
       transform_data->position = vec3(x * 24 + 12, y * 24 + 12, -20);
       transform_data->orientation = quat::FromEulerAngles(
-            vec3(0.0f, 0.0f, mathfu::RandomInRange(-M_PI, M_PI)));
+          vec3(0.0f, 0.0f, mathfu::RandomInRange(-M_PI, M_PI)));
     }
   }
-
 
   // Add some ground foliage:
   for (int x = -6; x < 6; x++) {
     for (int y = -6; y < 6; y++) {
       entity::EntityRef entity = entity_manager_.CreateEntityFromData(
-            mathfu::Random<double>() < 0.5f ? config.fern_def() :
-                                              config.fern2_def());
+          mathfu::Random<double>() < 0.5f ? config.fern_def()
+                                          : config.fern2_def());
 
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
 
       transform_data->position = vec3(x * 22 + 11, y * 22 + 11, -20);
-      transform_data->orientation = quat::FromEulerAngles(vec3(
-          0.0f, mathfu::RandomInRange(-M_PI/6.0, 0.0),
-          mathfu::RandomInRange(-M_PI, M_PI)));
+      transform_data->orientation = quat::FromEulerAngles(
+          vec3(0.0f, mathfu::RandomInRange(-M_PI / 6.0, 0.0),
+               mathfu::RandomInRange(-M_PI, M_PI)));
     }
   }
 

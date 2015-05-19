@@ -40,12 +40,8 @@ class PlayerData {
     input_controller_ = input_controller;
   }
 
-  pindrop::Listener listener() {
-    return listener_;
-  }
-  void set_listener(pindrop::Listener listener) {
-    listener_ = listener;
-  }
+  pindrop::Listener listener() { return listener_; }
+  void set_listener(pindrop::Listener listener) { listener_ = listener; }
 
  private:
   fpl_project::BasePlayerController* input_controller_;
@@ -64,7 +60,6 @@ class PlayerComponent : public entity::Component<PlayerData> {
 
  private:
   const Config* config_;
-
 };
 
 }  // fpl_project

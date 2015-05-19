@@ -50,8 +50,7 @@ void MouseController::UpdateFacing() {
   vec2 delta = vec2(input_system_->pointers_[0].mousedelta);
 
   // If the mouse hasn't moved, return.
-  if (delta.x() == 0 && delta.y() == 0)
-    return;
+  if (delta.x() == 0 && delta.y() == 0) return;
 
   delta *= input_config_->mouse_sensitivity();
 
@@ -81,7 +80,7 @@ void MouseController::UpdateButtons() {
     buttons_[i].Update();
   }
   const fpl::Button& mouse_button = input_system_->GetPointerButton(0);
-  if (mouse_button.went_down() ||  mouse_button.went_up()) {
+  if (mouse_button.went_down() || mouse_button.went_up()) {
     buttons_[kFireProjectile].SetValue(mouse_button.is_down());
   }
 }

@@ -80,4 +80,3 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RailDenizenComponent,
                               ComponentDataUnion_RailDenizenDef)
 
 #endif  // COMPONENTS_RAIL_DENIZEN_H_
-
