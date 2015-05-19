@@ -14,13 +14,15 @@
 
 #include "components/transform.h"
 #include "config_generated.h"
-#include "rail_def_generated.h"
+#include "events/audio_event.h"
+#include "events/event_ids.h"
 #include "fplbase/input.h"
 #include "game_state.h"
 #include "input_config_generated.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/init.h"
+#include "rail_def_generated.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -45,6 +47,8 @@ static const char* kProjectileBounceSoundName = "paper_bounce";
 
 GameState::GameState()
     : main_camera_(),
+      audio_engine_(),
+      event_manager_(kEventIdCount),
       entity_manager_(),
       entity_factory_(),
       motive_engine_(),
@@ -52,7 +56,9 @@ GameState::GameState()
       family_component_(&entity_factory_),
       rail_denizen_component_(&motive_engine_),
       player_component_(),
+      player_projectile_component_(),
       render_mesh_component_(),
+      physics_component_(),
       active_player_entity_() {}
 
 void GameState::Initialize(const vec2i& window_size, const Config& config,
@@ -68,8 +74,11 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   config_ = &config;
   input_config_ = &input_config;
 
+  audio_engine_ = audio_engine;
   input_system_ = input_system;
   material_manager_ = material_manager;
+
+  event_manager_.RegisterListener(kEventIdPlayAudio, this);
 
   entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
   entity_manager_.RegisterComponent<FamilyComponent>(&family_component_);
@@ -97,7 +106,9 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   patron_component_.set_config(config_);
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
-  physics_component_.InitializeAudio(audio_engine, kProjectileBounceSoundName);
+  physics_component_.set_bounce_handle(
+      audio_engine_->GetSoundHandle(kProjectileBounceSoundName));
+  physics_component_.set_event_manager(&event_manager_);
   player_projectile_component_.InitializeAudio(audio_engine,
                                                kProjectileWhooshSoundName);
 
@@ -142,14 +153,29 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   for (auto iter = player_component_.begin(); iter != player_component_.end();
        ++iter) {
-    active_player_entity_ = iter->entity;
-    entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
+    entity_manager_.GetComponentData<PlayerData>(iter->entity)
         ->set_input_controller(&input_controller_);
   }
+  active_player_entity_ = player_component_.begin()->entity;
+  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
+      ->set_listener(audio_engine->AddListener());
 
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(config.world_editor_config(), input_system_);
   render_mesh_component_.set_light_position(vec3(-10, -20, 20));
+}
+
+void GameState::OnEvent(int event_id,
+                        const event::EventPayload& event_payload) {
+  switch (event_id) {
+    case kEventIdPlayAudio: {
+      LogInfo("Played audio event");
+      auto* audio_payload = event_payload.ToData<AudioEventPayload>();
+      audio_engine_->PlaySound(audio_payload->handle, audio_payload->location);
+      break;
+    }
+    default: { assert(false); }
+  }
 }
 
 static vec2 AdjustedMouseDelta(const vec2i& raw_delta,

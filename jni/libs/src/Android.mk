@@ -68,6 +68,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/editor/world_editor.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/event_system/event_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas

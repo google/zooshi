@@ -14,7 +14,12 @@
 
 #include "components/physics.h"
 #include "components/transform.h"
+#include "event_system/event_manager.h"
+#include "events/audio_event.h"
+#include "events/event_ids.h"
 #include "fplbase/utilities.h"
+#include "mathfu/glsl_mappings.h"
+#include "mathfu/vector.h"
 #include "pindrop/pindrop.h"
 
 using mathfu::vec3;
@@ -26,12 +31,6 @@ namespace fpl_project {
 static const float kBounceHeight = 0.8f;
 static const float kStartingVelocity = 0.5f;
 static const float kGroundPlane = -20.0f;
-
-void PhysicsComponent::InitializeAudio(pindrop::AudioEngine* audio_engine,
-                                       const char* bounce) {
-  audio_engine_ = audio_engine;
-  bounce_handle_ = audio_engine_->GetSoundHandle(bounce);
-}
 
 void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
                                       const void* raw_data) {
@@ -56,14 +55,9 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
         physics_data->angular_velocity * transform_data->orientation;
 
     if (transform_data->position.z() < kGroundPlane) {
-      // Once an event system is in place, fire an event rather than play a
-      // sound directly. b/21117936
-      if (audio_engine_) {
-        pindrop::Channel channel = audio_engine_->PlaySound(bounce_handle_);
-        if (channel.Valid()) {
-          channel.SetLocation(transform_data->position);
-        }
-      }
+      event_manager_->BroadcastEvent(
+          kEventIdPlayAudio,
+          AudioEventPayload(bounce_handle_, transform_data->position));
 
       transform_data->position.z() = kGroundPlane;
       float abs_vel = fabs(physics_data->velocity.z());
