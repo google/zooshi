@@ -9,6 +9,8 @@ fplbase_assets/
 gen/
 libs/
 obj/
+assets/fonts/
+assets/shaders/font.*
 
 # CMake files
 CMakeCache.txt
