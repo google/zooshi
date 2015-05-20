@@ -17,6 +17,7 @@
 
 #include "components_generated.h"
 #include "entity/component.h"
+#include "event_system/event_manager.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 
@@ -36,7 +37,12 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
  public:
   PhysicsComponent() {}
 
-  void InitializeAudio(pindrop::AudioEngine* audio_engine, const char* bounce);
+  void set_event_manager(event::EventManager* event_manager) {
+    event_manager_ = event_manager;
+  }
+  void set_bounce_handle(pindrop::SoundHandle bounce_handle) {
+    bounce_handle_ = bounce_handle;
+  }
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 
@@ -45,7 +51,7 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
  private:
-  pindrop::AudioEngine* audio_engine_;
+  event::EventManager* event_manager_;
   pindrop::SoundHandle bounce_handle_;
 };
 

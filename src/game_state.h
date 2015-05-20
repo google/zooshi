@@ -15,15 +15,15 @@
 #ifndef ZOOSHI_GAME_STATE_H_
 #define ZOOSHI_GAME_STATE_H_
 
-#include "components/physics.h"
 #include "components/family.h"
 #include "components/patron.h"
+#include "components/physics.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
-#include "components/transform.h"
 #include "components/time_limit.h"
+#include "components/transform.h"
 #include "editor/world_editor.h"
 #include "entity/entity_manager.h"
 #include "fplbase/material_manager.h"
@@ -57,7 +57,7 @@ class ZooshiEntityFactory : public entity::EntityFactoryInterface {
       const void* data, entity::EntityManager* entity_manager);
 };
 
-class GameState {
+class GameState : event::EventListener {
  public:
   GameState();
 
@@ -74,8 +74,15 @@ class GameState {
   void UpdateMainCamera();
   void Update(WorldTime delta_time);
 
+  virtual void OnEvent(int event_id, const event::EventPayload& event_payload);
+
  private:
   Camera main_camera_;
+
+  pindrop::AudioEngine* audio_engine_;
+
+  // Game-wide event manager.
+  event::EventManager event_manager_;
 
   // Entity manager
   entity::EntityManager entity_manager_;

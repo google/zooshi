@@ -139,14 +139,14 @@ add_custom_command(TARGET assets POST_BUILD
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
-    src/components/physics.cpp
-    src/components/physics.h
-    src/components/player.cpp
-    src/components/player.h
     src/components/family.cpp
     src/components/family.h
     src/components/patron.cpp
     src/components/patron.h
+    src/components/physics.cpp
+    src/components/physics.h
+    src/components/player.cpp
+    src/components/player.h
     src/components/player_projectile.cpp
     src/components/player_projectile.h
     src/components/rail_denizen.cpp
@@ -157,8 +157,8 @@ set(zooshi_SRCS
     src/components/time_limit.h
     src/components/transform.cpp
     src/components/transform.h
-    src/editor/world_editor.h
     src/editor/world_editor.cpp
+    src/editor/world_editor.h
     src/entity/component.h
     src/entity/component_id_lookup.h
     src/entity/component_interface.h
@@ -167,9 +167,13 @@ set(zooshi_SRCS
     src/entity/entity_manager.cpp
     src/entity/entity_manager.h
     src/entity/vector_pool.h
-    src/inputcontrollers/base_player_controller.h
-    src/inputcontrollers/mouse_controller.cpp
-    src/inputcontrollers/mouse_controller.h
+    src/event_system/event_listener.h
+    src/event_system/event_manager.cpp
+    src/event_system/event_manager.h
+    src/event_system/event_payload.h
+    src/event_system/event_registry.h
+    src/events/audio_event.h
+    src/events/event_ids.h
     src/flatbufferschemas
     src/game.cpp
     src/game.h
@@ -177,6 +181,9 @@ set(zooshi_SRCS
     src/game_state.h
     src/gui.cpp
     src/gui.h
+    src/inputcontrollers/base_player_controller.h
+    src/inputcontrollers/mouse_controller.cpp
+    src/inputcontrollers/mouse_controller.h
     src/main.cpp
     src/rawassets
 )
