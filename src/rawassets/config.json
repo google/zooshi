@@ -16,8 +16,13 @@
           }
         },
         {
-          "data_type": "FamilyDef",
+          "data_type": "TransformDef",
           "data": {
+            "position": {
+              "x": 5.0,
+              "y": 0.0,
+              "z": 0.0
+            },
             "children": [
               {
                 "component_list": [
@@ -107,7 +112,6 @@
     ]
   },
 
-
   "splatter_particle_def": {
     "component_list": [
       {
@@ -155,15 +159,6 @@
             "y": 1.0,
             "z": 1.0
           },
-        }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {}
-      },
-      {
-        "data_type": "FamilyDef",
-        "data": {
           "children": [
             {
               "component_list": [

@@ -58,7 +58,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/game_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/family.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \

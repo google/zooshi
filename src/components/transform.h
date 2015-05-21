@@ -20,6 +20,7 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
+#include "intrusive_list.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -29,11 +30,29 @@ struct TransformData {
   TransformData()
       : position(mathfu::kZeros3f),
         scale(mathfu::kOnes3f),
-        orientation(mathfu::quat::identity) {}
+        orientation(mathfu::quat::identity),
+        owner(),
+        parent(),
+        children(),
+        child_node_() {}
 
   mathfu::vec3 position;
   mathfu::vec3 scale;
   mathfu::quat orientation;
+  mathfu::mat4 world_transform;
+
+  // A reference to the entity that owns this entity data.
+  entity::EntityRef owner;
+
+  // A reference to the parent entity.
+  entity::EntityRef parent;
+
+  // The list of children.
+  IntrusiveList children;
+
+  INTRUSIVE_GET_NODE_ACCESSOR(child_node_, child_node);
+  INTRUSIVE_LIST_NODE_GET_CLASS_ACCESSOR(TransformData, child_node_,
+                                         GetInstanceFromChildNode)
 
   // We construct the matrix by hand here, because we know that it will
   // always be a composition of rotation, scale, and translation, so we
@@ -61,17 +80,29 @@ struct TransformData {
     // Compose and return result:
     return mathfu::mat4(c0, c1, c2, c3);
   }
+
+ private:
+  IntrusiveListNode child_node_;
+
 };
 
 class TransformComponent : public entity::Component<TransformData> {
  public:
-  TransformComponent() {}
+  TransformComponent(entity::EntityFactoryInterface* entity_factory)
+      : entity_factory_(entity_factory) {}
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-
   virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
 
-  virtual void InitEntity(entity::EntityRef& /*entity*/) {}
+  virtual void InitEntity(entity::EntityRef& entity);
+  virtual void CleanupEntity(entity::EntityRef& entity);
+  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+
+
+ private:
+  entity::EntityFactoryInterface* entity_factory_;
+  void UpdateWorldPosition(entity::EntityRef& entity, mathfu::mat4 transform);
+
 };
 
 }  // fpl_project

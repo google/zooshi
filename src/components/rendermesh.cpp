@@ -14,7 +14,6 @@
 
 #include "components/rendermesh.h"
 #include "components/transform.h"
-#include "components/family.h"
 #include "components_generated.h"
 #include "fplbase/mesh.h"
 
@@ -24,16 +23,6 @@ using mathfu::mat4;
 namespace fpl {
 namespace fpl_project {
 
-void RenderMeshComponent::Init() {
-  assert(entity_manager_ != nullptr);
-
-  // Construct an empty mesh.  We can't do this in the constructor (or
-  // as a static constant) because the mesh constructor requires openGL to be
-  // set up, so it can register VBOs etc.
-  // TODO - remove this once we merge families and transforms: /b/21273331
-  Attribute end = kEND;
-  empty_mesh_ptr = std::unique_ptr<Mesh>(new Mesh(nullptr, 0, 0, &end));
-}
 
 // Rendermesh depends on transform:
 void RenderMeshComponent::InitEntity(entity::EntityRef& entity) {
@@ -41,16 +30,15 @@ void RenderMeshComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
-                                       mat4 transform, Renderer& renderer,
+                                       Renderer& renderer,
                                        const Camera& camera) {
-  FamilyData* family_data = Data<FamilyData>(entity);
   TransformData* transform_data = Data<TransformData>(entity);
   RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
 
-  transform *= transform_data->GetTransformMatrix();
+  mat4 world_transform = transform_data->world_transform;
 
-  const mat4 mvp = camera.GetTransformMatrix() * transform;
-  const mat4 world_matrix_inverse = transform.Inverse();
+  const mat4 mvp = camera.GetTransformMatrix() * world_transform;
+  const mat4 world_matrix_inverse = world_transform.Inverse();
 
   renderer.camera_pos() = world_matrix_inverse * camera.position();
   renderer.light_pos() = world_matrix_inverse * light_position_;
@@ -60,17 +48,6 @@ void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
     rendermesh_data->shader->Set(renderer);
   }
   rendermesh_data->mesh->Render(renderer);
-
-  // Render children, if any exist.
-  if (family_data) {
-    for (IntrusiveListNode* node = family_data->children.GetNext();
-         node != family_data->children.GetTerminator();
-         node = node->GetNext()) {
-      FamilyData* child_family_data =
-          FamilyData::GetInstanceFromChildNode(node);
-      RenderEntity(child_family_data->owner, transform, renderer, camera);
-    }
-  }
 }
 
 void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
@@ -78,12 +55,7 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
   // todo(ccornell) - instead of iterating like this, sort by
   // z depth and alpha blend mode.
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
-    FamilyData* family_data = Data<FamilyData>(iter->entity);
-    // Only draw root level entities. Children (i.e. entities with a parent)
-    // will be drawn recursively.
-    if (!family_data || !family_data->parent.IsValid()) {
-      RenderEntity(iter->entity, mat4::Identity(), renderer, camera);
-    }
+    RenderEntity(iter->entity, renderer, camera);
   }
 }
 
@@ -97,20 +69,15 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
   // You need to call set_material_manager before you can add from raw data,
   // otherwise it can't load up new meshes!
   assert(material_manager_ != nullptr);
+  assert(rendermesh_def->source_file() != nullptr);
+  assert(rendermesh_def->shader() != nullptr);
 
   RenderMeshData* rendermesh_data = AddEntity(entity);
-  if (rendermesh_def->source_file() != nullptr) {
-    rendermesh_data->mesh =
-        material_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
-  } else {
-    // Rendermeshes with null meshes don't draw, but are important
-    // because they might have children.
-    rendermesh_data->mesh = empty_mesh_ptr.get();
-  }
-  if (rendermesh_def->shader() != nullptr) {
-    rendermesh_data->shader =
-        material_manager_->LoadShader(rendermesh_def->shader()->c_str());
-  }
+
+  rendermesh_data->mesh =
+      material_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
+  rendermesh_data->shader =
+      material_manager_->LoadShader(rendermesh_def->shader()->c_str());
 
   // TODO: Load this from a flatbuffer file instead of setting it.
   rendermesh_data->tint = mathfu::kOnes4f;

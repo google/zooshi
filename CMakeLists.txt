@@ -141,8 +141,6 @@ set(zooshi_SRCS
     src/camera.h
     src/components/audio_listener.cpp
     src/components/audio_listener.h
-    src/components/family.cpp
-    src/components/family.h
     src/components/patron.cpp
     src/components/patron.h
     src/components/physics.cpp
