@@ -20,6 +20,50 @@ namespace fpl_project {
 
 static const float kDegreesToRadians = M_PI / 180.0f;
 
+void TransformComponent::InitEntity(entity::EntityRef& entity) {
+  TransformData* transform_data = Data<TransformData>(entity);
+  transform_data->owner = entity;
+}
+
+void TransformComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+    TransformData* transform_data = Data<TransformData>(iter->entity);
+    // Go through and start updating everything that has no parent:
+    if (!transform_data->parent.IsValid()) {
+      UpdateWorldPosition(iter->entity, mathfu::mat4::Identity());
+    }
+  }
+}
+
+void TransformComponent::UpdateWorldPosition(entity::EntityRef& entity,
+                                             mathfu::mat4 transform) {
+  TransformData* transform_data = GetEntityData(entity);
+  transform_data->world_transform = transform *
+      transform_data->GetTransformMatrix();
+
+  for (IntrusiveListNode* node = transform_data->children.GetNext();
+           node != transform_data->children.GetTerminator();
+           node = node->GetNext()) {
+        TransformData* child_transform_data =
+            TransformData::GetInstanceFromChildNode(node);
+        UpdateWorldPosition(child_transform_data->owner, transform_data->world_transform);
+  }
+}
+
+void TransformComponent::CleanupEntity(entity::EntityRef& entity) {
+  // Remove and cleanup children, if any exist:
+  TransformData* transform_data = GetEntityData(entity);
+  if (transform_data) {
+    for (IntrusiveListNode* node = transform_data->children.GetNext();
+         node != transform_data->children.GetTerminator();
+         node = node->GetNext()) {
+      TransformData* child_transform_data =
+          TransformData::GetInstanceFromChildNode(node);
+      entity_manager_->DeleteEntity(child_transform_data->owner);
+    }
+  }
+}
+
 void TransformComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
@@ -28,7 +72,7 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
   auto pos = transform_def->position();
   auto orientation = transform_def->orientation();
   auto scale = transform_def->scale();
-  auto transform_data = AddEntity(entity);
+  TransformData* transform_data = AddEntity(entity);
   // TODO: Move vector loading into a function in fplbase.
   if (pos != nullptr) {
     transform_data->position = mathfu::vec3(pos->x(), pos->y(), pos->z());
@@ -40,6 +84,16 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
   }
   if (scale != nullptr) {
     transform_data->scale = mathfu::vec3(scale->x(), scale->y(), scale->z());
+  }
+
+  if (transform_def->children() != nullptr) {
+    for (size_t i = 0; i < transform_def->children()->size(); i++) {
+      entity::EntityRef child = entity_factory_->CreateEntityFromData(
+          transform_def->children()->Get(i), entity_manager_);
+      TransformData* child_transform_data = AddEntity(child);
+      transform_data->children.InsertBefore(child_transform_data->child_node());
+      child_transform_data->parent = entity;
+    }
   }
 }
 

@@ -22,14 +22,11 @@ table TransformDef {
   position:Vec3;
   scale:Vec3;
   orientation:Vec3;
+  children:[EntityDef];
 }
 
 table TimeLimitDef {
   timelimit:float;
-}
-
-table FamilyDef {
-  children:[EntityDef];
 }
 
 table RailDenizenDef {
@@ -58,8 +55,6 @@ table ListenerDef {}
 // Union containing every possible component.
 // Note: This will also be the order the components execute their updates in.
 union ComponentDataUnion {
-  TransformDef,
-  FamilyDef,
   RailDenizenDef,
   PlayerDef,
   PatronDef,
@@ -69,6 +64,9 @@ union ComponentDataUnion {
   RenderMeshDef,
   ListenerDef,
   SoundDef,
+  // The transform component should update after any other components that
+  // might spawn or modify entities with transforms.
+  TransformDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

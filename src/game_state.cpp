@@ -51,8 +51,7 @@ GameState::GameState()
       entity_manager_(),
       entity_factory_(),
       motive_engine_(),
-      transform_component_(),
-      family_component_(&entity_factory_),
+      transform_component_(&entity_factory_),
       rail_denizen_component_(&motive_engine_),
       player_component_(),
       player_projectile_component_(),
@@ -80,7 +79,6 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   event_manager_.RegisterListener(kEventIdPlayAudio, this);
 
   entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
-  entity_manager_.RegisterComponent<FamilyComponent>(&family_component_);
   entity_manager_.RegisterComponent<RailDenizenComponent>(
       &rail_denizen_component_);
   entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);

@@ -26,7 +26,6 @@
 #include "fplbase/renderer.h"
 #include "fplbase/shader.h"
 #include "fplbase/material_manager.h"
-#include <memory>
 
 namespace fpl {
 namespace fpl_project {
@@ -42,9 +41,8 @@ struct RenderMeshData {
 
 class RenderMeshComponent : public entity::Component<RenderMeshData> {
  public:
-  RenderMeshComponent() : material_manager_(nullptr), empty_mesh_ptr(nullptr) {}
+  RenderMeshComponent() : material_manager_(nullptr) {}
 
-  virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
@@ -53,8 +51,8 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
 
   // Here's where the real stuff goes on.  Called directly by
   // the render function.
-  void RenderEntity(entity::EntityRef& entity, mat4 transform,
-                    Renderer& renderer, const Camera& camera);
+  void RenderEntity(entity::EntityRef& entity, Renderer& renderer,
+                    const Camera& camera);
   void RenderAllEntities(Renderer& renderer, const Camera& camera);
 
   // Get and set the light position.  This is a special uniform that is sent
@@ -76,7 +74,6 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
   // these.)
   mathfu::vec3 light_position_;
   MaterialManager* material_manager_;
-  std::unique_ptr<Mesh> empty_mesh_ptr;
 };
 
 }  // fpl_project
