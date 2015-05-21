@@ -12,31 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUDIO_EVENT_H_
-#define AUDIO_EVENT_H_
+#ifndef FPL_EVENTS_ENTITY_EVENT_H_
+#define FPL_EVENTS_ENTITY_EVENT_H_
 
-#include "event_system/event_registry.h"
-#include "events/event_ids.h"
-#include "mathfu/glsl_mappings.h"
-#include "mathfu/vector.h"
-#include "pindrop/pindrop.h"
+#include "entity/entity_manager.h"
 
 namespace fpl {
 namespace fpl_project {
 
-struct AudioEventPayload {
-  AudioEventPayload(pindrop::SoundHandle handle_, mathfu::vec3 location_)
-      : handle(handle_), location(location_) {}
-
-  pindrop::SoundHandle handle;
-  mathfu::vec3 location;
+// This is not an event payload for any specific entity. This is meant to be
+// inherited by anything that wants to send a specific entity an event.
+struct EntityEventPayload {
+  EntityEventPayload(entity::EntityRef& target_) : target(target_) {}
+  entity::EntityRef target;
 };
 
 }  // fpl_project
 }  // fpl
 
-FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdPlayAudio,
-                      fpl::fpl_project::AudioEventPayload)
-
-#endif  // AUDIO_EVENT_H_
+#endif  // FPL_EVENTS_ENTITY_EVENT_H_
 

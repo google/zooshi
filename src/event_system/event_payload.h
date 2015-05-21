@@ -15,6 +15,8 @@
 #ifndef FPL_EVENT_PAYLOAD_H_
 #define FPL_EVENT_PAYLOAD_H_
 
+#include <cassert>
+
 #include "event_system/event_registry.h"
 
 namespace fpl {

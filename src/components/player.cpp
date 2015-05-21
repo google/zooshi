@@ -14,6 +14,8 @@
 
 #include "components/player.h"
 #include "entity/entity_common.h"
+#include "events/projectile_fired_event.h"
+#include "event_system/event_manager.h"
 #include "components/physics.h"
 #include "components/rendermesh.h"
 #include "components/transform.h"
@@ -30,7 +32,10 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     player_data->input_controller()->Update();
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
-      SpawnProjectile(iter->entity);
+      entity::EntityRef projectile = SpawnProjectile(iter->entity);
+      event_manager_->BroadcastEvent(
+          kEventIdProjectileFired,
+          ProjectileFiredEventPayload(iter->entity, projectile));
     }
     if (player_data->listener().Valid()) {
       TransformData* transform_data = Data<TransformData>(iter->entity);

@@ -153,6 +153,8 @@ set(zooshi_SRCS
     src/components/rail_denizen.h
     src/components/rendermesh.cpp
     src/components/rendermesh.h
+    src/components/score.cpp
+    src/components/score.h
     src/components/sound.cpp
     src/components/sound.h
     src/components/time_limit.cpp
@@ -175,7 +177,11 @@ set(zooshi_SRCS
     src/event_system/event_payload.h
     src/event_system/event_registry.h
     src/events/audio_event.h
+    src/events/entity_event.h
     src/events/event_ids.h
+    src/events/patron_collision_event.h
+    src/events/patron_fed_event.h
+    src/events/projectile_fired_event.h
     src/flatbufferschemas
     src/game.cpp
     src/game.h

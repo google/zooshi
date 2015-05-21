@@ -23,6 +23,12 @@
 #include "mathfu/constants.h"
 
 namespace fpl {
+namespace event {
+
+class EventManager;
+
+}  // event
+
 namespace fpl_project {
 
 // Data for scene object components.
@@ -46,10 +52,15 @@ class PatronComponent : public entity::Component<PatronData> {
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
   void set_config(const Config* config) { config_ = config; }
+  void set_event_manager(event::EventManager* event_manager) {
+    event_manager_ = event_manager;
+  }
 
  private:
-  const Config* config_;
   void SpawnSplatter(const mathfu::vec3& position, int count);
+
+  const Config* config_;
+  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

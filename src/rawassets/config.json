@@ -64,6 +64,10 @@
         {
           "data_type": "ListenerDef",
           "data" : {}
+        },
+        {
+          "data_type": "ScoreDef",
+          "data" : {}
         }
       ]
     }

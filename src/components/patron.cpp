@@ -15,7 +15,11 @@
 #include "components/patron.h"
 #include "components/physics.h"
 #include "components/player_projectile.h"
+#include "components/score.h"
 #include "components/transform.h"
+#include "events/hit_patron.h"
+#include "events/hit_patron_body.h"
+#include "events/hit_patron_mouth.h"
 #include "mathfu/glsl_mappings.h"
 
 using mathfu::vec3;
@@ -80,6 +84,10 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         // top part, you knock it over.
         if (projectile_height <= kHitMaxHeight &&
             (projectile_pos - patron_pos).LengthSquared() < kHitRadiusSquared) {
+          PlayerProjectileData* projectile_data =
+              Data<PlayerProjectileData>(projectile);
+          entity::EntityRef& projectile_owner = projectile_data->owner;
+
           // have to hit it near the top to actually knock it over
           if (projectile_height >= kHitMinHeight) {
             vec3 spin_direction_vector =
@@ -93,7 +101,19 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             patron_data->y = 1.0f;
             patron_data->dy = 0.0f;
             patron_data->original_orientation = transform_data->orientation;
+            event_manager_->BroadcastEvent(
+                kEventIdHitPatronMouth,
+                HitPatronMouthEventPayload(projectile_owner, projectile,
+                                           patron));
+          } else {
+            event_manager_->BroadcastEvent(
+                kEventIdHitPatronBody,
+                HitPatronBodyEventPayload(projectile_owner, projectile,
+                                          patron));
           }
+          event_manager_->BroadcastEvent(
+              kEventIdHitPatron,
+              HitPatronEventPayload(projectile_owner, projectile, patron));
 
           // Even if you didn't hit the top, if got here, you got some
           // kind of collision, so you get a splatter.

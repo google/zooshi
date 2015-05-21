@@ -23,6 +23,12 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
+namespace event {
+
+class EventManager;
+
+}  // event
+
 namespace fpl_project {
 
 class PlayerData {
@@ -50,16 +56,23 @@ class PlayerData {
 
 class PlayerComponent : public entity::Component<PlayerData> {
  public:
+  PlayerComponent() : event_manager_(nullptr) {}
+
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 
   entity::EntityRef SpawnProjectile(entity::EntityRef source);
 
+  void set_event_manager(event::EventManager* event_manager) {
+    event_manager_ = event_manager;
+  }
+
   void set_config(const Config* config) { config_ = config; }
 
  private:
   const Config* config_;
+  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

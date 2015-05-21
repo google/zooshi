@@ -53,7 +53,7 @@ class EventManager {
   // registered to `event_id`.
   template <typename T>
   void BroadcastEvent(int event_id, const T& event_data) {
-    std::vector<EventListener*> list = listener_lists_[event_id];
+    std::vector<EventListener*>& list = listener_lists_[event_id];
     for (auto iter = list.begin(); iter != list.end(); ++iter) {
       EventManager::SendEvent(*iter, event_id, event_data);
     }

@@ -49,6 +49,7 @@ table PlayerDef {}
 table PlayerProjectileDef {}
 table PhysicsDef {}
 table ListenerDef {}
+table ScoreDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
@@ -67,6 +68,7 @@ union ComponentDataUnion {
   // The transform component should update after any other components that
   // might spawn or modify entities with transforms.
   TransformDef,
+  ScoreDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

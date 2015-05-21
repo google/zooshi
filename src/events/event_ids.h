@@ -22,6 +22,10 @@ namespace fpl_project {
 enum EventId {
   kEventIdInvalid,
   kEventIdPlayAudio,
+  kEventIdProjectileFired,
+  kEventIdHitPatron,
+  kEventIdHitPatronBody,
+  kEventIdHitPatronMouth,
   kEventIdCount
 };
 

@@ -45,7 +45,7 @@ class EntityManager {
   // Helper function for marshalling data from a component.
   // Returns nullptr if it couldn't find it for any reason.
   template <typename T>
-  T* GetComponentData(EntityRef& entity) {
+  T* GetComponentData(const EntityRef& entity) {
     return static_cast<T*>(
         GetComponentDataAsVoid(entity, ComponentIdLookup<T>::kComponentId));
   }

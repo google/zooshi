@@ -12,31 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef AUDIO_EVENT_H_
-#define AUDIO_EVENT_H_
+#ifndef FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
+#define FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
 
 #include "event_system/event_registry.h"
 #include "events/event_ids.h"
-#include "mathfu/glsl_mappings.h"
-#include "mathfu/vector.h"
-#include "pindrop/pindrop.h"
+#include "events/entity_event.h"
+#include "entity/entity_manager.h"
 
 namespace fpl {
 namespace fpl_project {
 
-struct AudioEventPayload {
-  AudioEventPayload(pindrop::SoundHandle handle_, mathfu::vec3 location_)
-      : handle(handle_), location(location_) {}
+struct ProjectileFiredEventPayload : public EntityEventPayload {
+  ProjectileFiredEventPayload(entity::EntityRef& target_,
+                              entity::EntityRef& projectile_)
+      : EntityEventPayload(target_), projectile(projectile_) {}
 
-  pindrop::SoundHandle handle;
-  mathfu::vec3 location;
+  // The projectile that was fired;
+  entity::EntityRef projectile;
 };
 
 }  // fpl_project
 }  // fpl
 
-FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdPlayAudio,
-                      fpl::fpl_project::AudioEventPayload)
+FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdProjectileFired,
+                      fpl::fpl_project::ProjectileFiredEventPayload)
 
-#endif  // AUDIO_EVENT_H_
+#endif  // FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
 
