@@ -73,12 +73,22 @@ class GameState : event::EventListener {
   void Render(Renderer* renderer);
 
   void UpdateMainCamera();
+  void UpdateCardboardCameras();
   void Update(WorldTime delta_time);
 
   virtual void OnEvent(int event_id, const event::EventPayload& event_payload);
 
+  bool is_in_cardboard() const { return is_in_cardboard_; }
+  void set_is_in_cardboard(bool b) { is_in_cardboard_ = b; }
+
  private:
+  void RenderForCardboard(Renderer* renderer);
+
   Camera main_camera_;
+#ifdef ANDROID_CARDBOARD
+  Camera left_eye_camera_;
+  Camera right_eye_camera_;
+#endif
 
   pindrop::AudioEngine* audio_engine_;
 
@@ -119,6 +129,9 @@ class GameState : event::EventListener {
   MaterialManager* material_manager_;
 
   std::unique_ptr<editor::WorldEditor> world_editor_;
+
+  // Determines if the game is in Cardboard mode (for special rendering)
+  bool is_in_cardboard_;
 };
 
 }  // fpl_project

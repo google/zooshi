@@ -30,6 +30,9 @@
 #include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
 #include "pindrop/pindrop.h"
+#ifdef __ANDROID__
+#include "fplbase/renderer_android.h"
+#endif
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -133,6 +136,13 @@ bool Game::InitializeRenderer() {
   renderer_.color() = mathfu::kOnes4f;
   // Initialize the first frame as black.
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
+
+#ifdef ANDROID_CARDBOARD
+  vec2i size = AndroidGetScalerResolution();
+  const vec2i viewport_size =
+      size.x() && size.y() ? size : renderer_.window_size();
+  InitializeUndistortFramebuffer(viewport_size.x(), viewport_size.y());
+#endif
   return true;
 }
 
