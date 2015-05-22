@@ -179,8 +179,9 @@ set(zooshi_SRCS
     src/events/audio_event.h
     src/events/entity_event.h
     src/events/event_ids.h
-    src/events/patron_collision_event.h
-    src/events/patron_fed_event.h
+    src/events/hit_patron.h
+    src/events/hit_patron_body.h
+    src/events/hit_patron_mouth.h
     src/events/projectile_fired_event.h
     src/flatbufferschemas
     src/game.cpp
