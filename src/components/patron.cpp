@@ -40,6 +40,12 @@ static const float kGravity = 0.00005f;
 static const float kAtRestThreshold = 0.005f;
 static const float kBounceFactor = 0.4f;
 
+void PatronComponent::Initialize(const Config* config,
+                                 event::EventManager* event_manager) {
+  config_ = config;
+  event_manager_ = event_manager;
+}
+
 void PatronComponent::AddFromRawData(entity::EntityRef& parent,
                                      const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);

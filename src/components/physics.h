@@ -37,12 +37,8 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
  public:
   PhysicsComponent() {}
 
-  void set_event_manager(event::EventManager* event_manager) {
-    event_manager_ = event_manager;
-  }
-  void set_bounce_handle(pindrop::SoundHandle bounce_handle) {
-    bounce_handle_ = bounce_handle;
-  }
+  void Initialize(event::EventManager* event_manager,
+                  pindrop::SoundHandle bounce_handle);
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 

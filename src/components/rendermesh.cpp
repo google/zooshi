@@ -23,6 +23,11 @@ using mathfu::mat4;
 namespace fpl {
 namespace fpl_project {
 
+void RenderMeshComponent::Initialize(mathfu::vec3 light_position,
+                                     MaterialManager* material_manager) {
+  light_position_ = light_position;
+  material_manager_ = material_manager;
+}
 
 // Rendermesh depends on transform:
 void RenderMeshComponent::InitEntity(entity::EntityRef& entity) {

@@ -99,10 +99,6 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   material_manager_ = material_manager;
 
   event_manager_.RegisterListener(kEventIdPlayAudio, this);
-  event_manager_.RegisterListener(kEventIdProjectileFired, &score_component_);
-  event_manager_.RegisterListener(kEventIdHitPatronMouth, &score_component_);
-  event_manager_.RegisterListener(kEventIdHitPatronBody, &score_component_);
-  event_manager_.RegisterListener(kEventIdHitPatron, &score_component_);
 
   entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
   entity_manager_.RegisterComponent<RailDenizenComponent>(
@@ -131,16 +127,16 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
 
+  pindrop::SoundHandle bounce_handle =
+      audio_engine_->GetSoundHandle(kProjectileBounceSoundName);
+
   audio_listener_component_.Initialize(audio_engine);
-  patron_component_.set_config(config_);
-  patron_component_.set_event_manager(&event_manager_);
-  physics_component_.set_bounce_handle(
-      audio_engine_->GetSoundHandle(kProjectileBounceSoundName));
-  physics_component_.set_event_manager(&event_manager_);
-  player_component_.set_config(config_);
-  player_component_.set_event_manager(&event_manager_);
+  patron_component_.Initialize(config_, &event_manager_);
+  physics_component_.Initialize(&event_manager_, bounce_handle);
+  player_component_.Initialize(&event_manager_, config_);
   rail_denizen_component_.Initialize(rail_def);
-  render_mesh_component_.set_material_manager(material_manager);
+  render_mesh_component_.Initialize(vec3(-10, -20, 20), material_manager);
+  score_component_.Initialize(&event_manager_);
   sound_component_.Initialize(audio_engine);
 
   for (size_t i = 0; i < config.entity_list()->size(); i++) {
@@ -193,7 +189,6 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(config.world_editor_config(), input_system_);
-  render_mesh_component_.set_light_position(vec3(-10, -20, 20));
 }
 
 void GameState::OnEvent(int event_id,
