@@ -26,6 +26,12 @@
 namespace fpl {
 namespace fpl_project {
 
+void PlayerComponent::Initialize(event::EventManager* event_manager,
+                                 const Config* config) {
+  event_manager_ = event_manager;
+  config_ = config;
+}
+
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);

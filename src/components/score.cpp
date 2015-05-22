@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "components/score.h"
+#include "event_system/event_manager.h"
 #include "event_system/event_payload.h"
 #include "events/event_ids.h"
 #include "events/hit_patron.h"
@@ -50,6 +51,13 @@ void ScoreData::OnEvent(int event_id,
     }
     default: { assert(0); }
   }
+}
+
+void ScoreComponent::Initialize(event::EventManager* event_manager) {
+  event_manager->RegisterListener(kEventIdProjectileFired, this);
+  event_manager->RegisterListener(kEventIdHitPatronMouth, this);
+  event_manager->RegisterListener(kEventIdHitPatronBody, this);
+  event_manager->RegisterListener(kEventIdHitPatron, this);
 }
 
 void ScoreComponent::OnEvent(int event_id,

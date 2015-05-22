@@ -58,17 +58,13 @@ class PlayerComponent : public entity::Component<PlayerData> {
  public:
   PlayerComponent() : event_manager_(nullptr) {}
 
+  void Initialize(event::EventManager* event_manager, const Config* config);
+
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 
   entity::EntityRef SpawnProjectile(entity::EntityRef source);
-
-  void set_event_manager(event::EventManager* event_manager) {
-    event_manager_ = event_manager;
-  }
-
-  void set_config(const Config* config) { config_ = config; }
 
  private:
   const Config* config_;

@@ -47,14 +47,11 @@ class PatronComponent : public entity::Component<PatronData> {
  public:
   PatronComponent() {}
 
+  void Initialize(const Config* config, event::EventManager* event_manager);
+
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
-
-  void set_config(const Config* config) { config_ = config; }
-  void set_event_manager(event::EventManager* event_manager) {
-    event_manager_ = event_manager;
-  }
 
  private:
   void SpawnSplatter(const mathfu::vec3& position, int count);

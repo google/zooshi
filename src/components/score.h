@@ -21,6 +21,11 @@
 #include "event_system/event_listener.h"
 
 namespace fpl {
+namespace event {
+
+class EventManager;
+
+}  // event
 namespace fpl_project {
 
 // Data for scene object components.
@@ -40,6 +45,8 @@ class ScoreComponent : public entity::Component<ScoreData>,
                        public event::EventListener {
  public:
   ScoreComponent() {}
+
+  void Initialize(event::EventManager* event_manager);
 
   virtual void OnEvent(int event_id, const event::EventPayload& event_payload);
 

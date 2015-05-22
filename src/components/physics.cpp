@@ -32,6 +32,12 @@ static const float kBounceHeight = 0.8f;
 static const float kStartingVelocity = 0.5f;
 static const float kGroundPlane = -20.0f;
 
+void PhysicsComponent::Initialize(event::EventManager* event_manager,
+                                  pindrop::SoundHandle bounce_handle) {
+  event_manager_ = event_manager;
+  bounce_handle_ = bounce_handle;
+}
+
 void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
                                       const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
