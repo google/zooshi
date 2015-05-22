@@ -27,6 +27,9 @@
 #include "mathfu/glsl_mappings.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
+#ifdef ANDROID_CARDBOARD
+#include "fplbase/renderer_android.h"
+#endif
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -39,7 +42,8 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
-static const float kViewportAngle = M_PI / 4.0f;  // 45 degrees
+static const float kViewportAngle = M_PI / 4.0f;           // 45 degrees
+static const float kViewportAngleCardboard = M_PI / 2.0f;  // 90 degrees
 static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 500.0f;
 static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
@@ -49,6 +53,10 @@ static const char* kProjectileBounceSoundName = "paper_bounce";
 
 GameState::GameState()
     : main_camera_(),
+#ifdef ANDROID_CARDBOARD
+      left_eye_camera_(),
+      right_eye_camera_(),
+#endif
       audio_engine_(),
       event_manager_(kEventIdCount),
       entity_manager_(),
@@ -60,7 +68,9 @@ GameState::GameState()
       player_projectile_component_(),
       render_mesh_component_(),
       physics_component_(),
-      active_player_entity_() {}
+      active_player_entity_(),
+      is_in_cardboard_(false) {
+}
 
 void GameState::Initialize(const vec2i& window_size, const Config& config,
                            const InputConfig& input_config,
@@ -69,6 +79,15 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
                            pindrop::AudioEngine* audio_engine) {
   main_camera_.Initialize(kViewportAngle, vec2(window_size), kViewportNearPlane,
                           kViewportFarPlane);
+#ifdef ANDROID_CARDBOARD
+  int half_width = window_size.x() / 2;
+  left_eye_camera_.Initialize(kViewportAngleCardboard,
+                              vec2(half_width, window_size.y()),
+                              kViewportNearPlane, kViewportFarPlane);
+  right_eye_camera_.Initialize(kViewportAngleCardboard,
+                               vec2(half_width, window_size.y()),
+                               kViewportNearPlane, kViewportFarPlane);
+#endif
 
   motive::SmoothInit::Register();
 
@@ -212,7 +231,35 @@ void GameState::UpdateMainCamera() {
   main_camera_.set_up(player->GetUp());
 }
 
+void GameState::UpdateCardboardCameras() {
+#ifdef ANDROID_CARDBOARD
+  // Update the two cardboard cameras, using the main camera as a base.
+  // The cameras have an additional position offset, which must be converted
+  // the the game's axes.
+  const vec3 cardboard_left =
+      input_system_->cardboard_input().left_eye_rotated_translation();
+  const vec3 left =
+      vec3(cardboard_left.x(), -cardboard_left.z(), cardboard_left.y());
+  left_eye_camera_.set_position(main_camera_.position() + left);
+  left_eye_camera_.set_facing(main_camera_.facing());
+  left_eye_camera_.set_up(main_camera_.up());
+
+  const vec3 cardboard_right =
+      input_system_->cardboard_input().right_eye_rotated_translation();
+  const vec3 right =
+      vec3(cardboard_right.x(), -cardboard_right.z(), cardboard_right.y());
+  right_eye_camera_.set_position(main_camera_.position() + right);
+  right_eye_camera_.set_facing(main_camera_.facing());
+  right_eye_camera_.set_up(main_camera_.up());
+#endif
+}
+
 void GameState::Update(WorldTime delta_time) {
+// TODO: Determine cardboard mode thru a menu item, instead of inserting it
+#ifdef ANDROID_CARDBOARD
+  set_is_in_cardboard(input_system_->cardboard_input().is_in_cardboard());
+#endif
+
   if (world_editor_->is_active()) {
     world_editor_->Update(delta_time);  // also updates camera
 
@@ -223,6 +270,9 @@ void GameState::Update(WorldTime delta_time) {
     motive_engine_.AdvanceFrame(delta_time);
     entity_manager_.UpdateComponents(delta_time);
     UpdateMainCamera();
+    if (is_in_cardboard_) {
+      UpdateCardboardCameras();
+    }
 
     if (input_system_->GetButton(fpl::FPLK_F10).went_down()) {
       world_editor_->Activate(main_camera_);
@@ -231,6 +281,12 @@ void GameState::Update(WorldTime delta_time) {
 }
 
 void GameState::Render(Renderer* renderer) {
+  if (is_in_cardboard_) {
+    // If in Cardboard, use the specialized Render function instead
+    RenderForCardboard(renderer);
+    return;
+  }
+
   const Camera* render_camera =
       world_editor_->is_active() ? world_editor_->GetCamera() : &main_camera_;
 
@@ -246,6 +302,39 @@ void GameState::Render(Renderer* renderer) {
   if (world_editor_->is_active()) {
     world_editor_->Render(renderer);
   }
+}
+
+void GameState::RenderForCardboard(Renderer* renderer) {
+#ifdef ANDROID_CARDBOARD
+  BeginUndistortFramebuffer();
+
+  renderer->ClearFrameBuffer(kGreenishColor);
+  renderer->color() = mathfu::kOnes4f;
+  renderer->DepthTest(true);
+
+  vec2i size = AndroidGetScalerResolution();
+  const vec2i viewport_size =
+      size.x() && size.y() ? size : renderer->window_size();
+  float window_width = viewport_size.x();
+  float half_width = window_width / 2.0f;
+  float window_height = viewport_size.y();
+
+  // Render for the left side
+  GL_CALL(glViewport(0, 0, half_width, window_height));
+  mat4 camera_transform = left_eye_camera_.GetTransformMatrix();
+  renderer->model_view_projection() = camera_transform;
+  render_mesh_component_.RenderAllEntities(*renderer, left_eye_camera_);
+  // Render for the right side
+  GL_CALL(glViewport(half_width, 0, half_width, window_height));
+  camera_transform = right_eye_camera_.GetTransformMatrix();
+  renderer->model_view_projection() = camera_transform;
+  render_mesh_component_.RenderAllEntities(*renderer, right_eye_camera_);
+  GL_CALL(glViewport(0, 0, window_width, window_height));
+
+  FinishUndistortFramebuffer();
+#else
+  (void)renderer;
+#endif  // ANDROID_CARDBOARD
 }
 
 }  // fpl_project
