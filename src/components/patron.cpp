@@ -156,8 +156,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 
 void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
   for (int i = 0; i < count; i++) {
-    entity::EntityRef particle =
-        entity_manager_->CreateEntityFromData(config_->splatter_particle_def());
+    entity::EntityRef particle = entity_manager_->CreateEntityFromData(
+        config_->entity_defs()->Get(EntityDefs_kSplatterParticle));
 
     TransformData* transform_data =
         entity_manager_->GetComponentData<TransformData>(particle);

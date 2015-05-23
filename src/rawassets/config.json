@@ -7,6 +7,18 @@
 
   "assets_filename": "assets.bin",
 
+  "projectile_speed": 2.0,
+
+  "world_editor_config" : {
+    "viewport_angle_degrees":90,
+    "movement_speed":0.08,
+    "input_config": {
+      "mouse_sensitivity": 0.001,
+      "invert_x": false,
+      "invert_y": false
+    }
+  },
+
   "entity_list": [
     {
       "component_list": [
@@ -73,188 +85,139 @@
     }
   ],
 
-  "projectile_speed": 2.0,
-  "projectile_def": {
-    "component_list": [
-      {
-        "data_type": "PhysicsDef",
-        "data": {}
-      },
-      {
-        "data_type": "TimeLimitDef",
-        "data": {
-          "timelimit": 3.0
-        }
-      },
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "scale": {
-            "x": 50.0,
-            "y": 50.0,
-            "z": 50.0
-          }
-        }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {
-          "source_file": "meshes/sushi_salmon.fplmesh",
-          "shader": "shaders/textured"
-        }
-      },
-      {
-        "data_type": "PlayerProjectileDef",
-        "data": {}
-      },
-      {
-        "data_type": "SoundDef",
-        "data": {
-          "sound": "whoosh"
-        }
-      }
-    ]
-  },
+  "entity_defs": [
 
-  "splatter_particle_def": {
-    "component_list": [
-      {
-        "data_type": "PhysicsDef",
-        "data": {}
-      },
-      {
-        "data_type": "TimeLimitDef",
-        "data": {
-          "timelimit": 1.5
-        }
-      },
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "scale": {
-            "x": 20.0,
-            "y": 20.0,
-            "z": 20.0
-          }
-        }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {
-          "source_file": "meshes/sushi_rice.fplmesh",
-          "shader": "shaders/textured"
-        }
-      }
-    ]
-  },
-
-  "world_editor_config" : {
-    "viewport_angle_degrees":90,
-    "movement_speed":0.08,
-    "input_config": {
-      "mouse_sensitivity": 0.001,
-      "invert_x": false,
-      "invert_y": false
-    }
-  },
-
-  "patron_def": {
-    "component_list": [
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "position": {
-            "x": 0,
-            "y": 0,
-            "z": -14.0
-          },
-          "children": [
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": {
-                      "x": 10.0,
-                      "y": 10.0,
-                      "z": 10.0
-                    },
-                    "position": {
+    // kPatron
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": -14.0
+            },
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": {
+                        "x": 10.0,
+                        "y": 10.0,
+                        "z": 10.0
+                      },
+                      "position": {
+                          "x": 0.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        },
+                      "orientation": {
                         "x": 0.0,
                         "y": 0.0,
                         "z": 0.0
-                      },
-                    "orientation": {
-                      "x": 0.0,
-                      "y": 0.0,
-                      "z": 0.0
+                      }
                     }
-                  }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data": {
-                    "source_file": "meshes/croc_moustache.fplmesh",
-                    "shader": "shaders/textured"
-                  }
-                },
-              ]
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data": {
+                      "source_file": "meshes/croc_moustache.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  },
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {}
+        }
+      ]
+    },
+
+    // kProjectile
+    {
+      "component_list": [
+        {
+          "data_type": "PhysicsDef",
+          "data": {}
+        },
+        {
+          "data_type": "TimeLimitDef",
+          "data": {
+            "timelimit": 3.0
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 50.0,
+              "y": 50.0,
+              "z": 50.0
             }
-          ]
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/sushi_salmon.fplmesh",
+            "shader": "shaders/textured"
+          }
+        },
+        {
+          "data_type": "PlayerProjectileDef",
+          "data": {}
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "whoosh"
+          }
         }
-      },
-      {
-        "data_type": "PatronDef",
-        "data": { }
-      }
-    ]
-  },
+      ]
+    },
 
-  "fern_def": {
-    "component_list": [
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "scale": {
-            "x": 400.0,
-            "y": 400.0,
-            "z": 400.0
-          },
+    // kSplatterParticle
+    {
+      "component_list": [
+        {
+          "data_type": "PhysicsDef",
+          "data": {}
+        },
+        {
+          "data_type": "TimeLimitDef",
+          "data": {
+            "timelimit": 1.5
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 20.0,
+              "y": 20.0,
+              "z": 20.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/sushi_rice.fplmesh",
+            "shader": "shaders/textured"
+          }
         }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {
-          "source_file": "meshes/fern_short.fplmesh",
-          "shader": "shaders/textured"
-         }
-      },
-    ]
-  },
+      ]
+    },
 
-  "fern2_def": {
-    "component_list": [
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "scale": {
-            "x": 400.0,
-            "y": 400.0,
-            "z": 400.0
-          },
-        }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {
-          "source_file": "meshes/fern_oak.fplmesh",
-          "shader": "shaders/textured"
-         }
-      },
-    ]
-  },
-
-  "ground_def": {
+    // kGround
+    {
       "component_list": [
         {
           "data_type": "TransformDef",
@@ -271,208 +234,345 @@
           }
         }
       ]
-  },
+    },
 
-  "fern_garden_def": {
-    "component_list": [
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "scale": { "x": 1.7, "y": 1.7, "z": 1.7 },
-          "position": { "x": 0, "y": 0, "z": 3.2 },
+    // kBackground
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/background.fplmesh",
+            "shader": "shaders/textured"
+          }
         }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {}
-      },
-      {
-        "data_type": "FamilyDef",
-        "data": {
-          "children": [
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
-                    "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
-                    "orientation": { "x": 10.0, "y": -90.0, "z": 0.0 }
-                  }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data" : {
-                    "source_file":"meshes/fern_oak.fplmesh",
-                    "shader": "shaders/textured"
-                  }
-                }
-              ]
-            },
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
-                    "position": { "x": 0.7, "y": 1.0, "z": 0.0 },
-                    "orientation": { "x": -60.0, "y": -90.0, "z": 60.0 }
-                  }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data" : {
-                    "source_file":"meshes/fern_short.fplmesh",
-                    "shader": "shaders/textured"
-                  }
-                }
-              ]
-            },
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
-                    "position": { "x": 0.2, "y": 1.5, "z": 1.0 },
-                    "orientation": { "x": -90.0, "y": -90.0, "z": 90.0 }
-                  }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data" : {
-                    "source_file":"meshes/fern_leafy.fplmesh",
-                    "shader": "shaders/textured"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      }
-    ]
-  },
+      ]
+    },
 
-  "sushi_garden_def": {
-    "component_list": [
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "position": { "x": 0, "y": 0, "z": -2.2 },
-          "scale": { "x": 1.1, "y": 1.1, "z": 1.1 },
+    // kMidGroundTree
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/mid_ground_tree.fplmesh",
+            "shader": "shaders/textured"
+          }
         }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {}
-      },
-      {
-        "data_type": "FamilyDef",
-        "data": {
-          "children": [
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
-                    "position": { "x": 2.0, "y": 5.0, "z": 1.0 },
-                    "orientation": { "x": 0.0, "y": 0.0, "z": 40.0 }
-                  }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data" : {
-                    "source_file":"meshes/sushi_rice.fplmesh",
-                    "shader": "shaders/textured"
-                  }
-                }
-              ]
-            },
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
-                    "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
-                    "orientation": { "x": 0.0, "y": 0.0, "z": -10.0 }
-                  }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data" : {
-                    "source_file":"meshes/sushi_salmon.fplmesh",
-                    "shader": "shaders/textured"
-                  }
-                }
-              ]
-            },
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
-                    "position": { "x": -4.0, "y": 4.0, "z": 1.0 },
-                    "orientation": { "x": 0.0, "y": 0.0, "z": 70.0 }
-                  }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data" : {
-                    "source_file":"meshes/sushi_shrimp.fplmesh",
-                    "shader": "shaders/textured"
-                  }
-                }
-              ]
-            },
-          ]
-        }
-      }
-    ]
-  },
+      ]
+    },
 
-  "tree_garden_def": {
-    "component_list": [
-      {
-        "data_type": "TransformDef",
-        "data": {
-          "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
-          "position": { "x": -1.0, "y": 13.0, "z": 4.0 },
-        }
-      },
-      {
-        "data_type": "RenderMeshDef",
-        "data": {}
-      },
-      {
-        "data_type": "FamilyDef",
-        "data": {
-          "children": [
-            {
-              "component_list": [
-                {
-                  "data_type": "TransformDef",
-                  "data": {
-                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
-                    "position": { "x": 0.0, "y": -20.0, "z": 1.0 },
-                    "orientation": { "x": 0.0, "y": 0.0, "z": 0.0 }
+    // kFernGarden
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 1.7, "y": 1.7, "z": 1.7 },
+            "position": { "x": 0, "y": 0, "z": 3.2 },
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                      "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
+                      "orientation": { "x": 10.0, "y": -90.0, "z": 0.0 }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/fern_oak.fplmesh",
+                      "shader": "shaders/textured"
+                    }
                   }
-                },
-                {
-                  "data_type": "RenderMeshDef",
-                  "data" : {
-                    "source_file":"meshes/tree_a.fplmesh",
-                    "shader": "shaders/textured"
+                ]
+              },
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                      "position": { "x": 0.7, "y": 1.0, "z": 0.0 },
+                      "orientation": { "x": -60.0, "y": -90.0, "z": 60.0 }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/fern_short.fplmesh",
+                      "shader": "shaders/textured"
+                    }
                   }
-                }
-              ]
-            },
-          ]
+                ]
+              },
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                      "position": { "x": 0.2, "y": 1.5, "z": 1.0 },
+                      "orientation": { "x": -90.0, "y": -90.0, "z": 90.0 }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/fern_leafy.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
         }
-      }
-    ]
-  }
+      ]
+    },
 
+    // kSushiGarden
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": 0, "z": -2.2 },
+            "scale": { "x": 1.1, "y": 1.1, "z": 1.1 },
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+                      "position": { "x": 2.0, "y": 5.0, "z": 1.0 },
+                      "orientation": { "x": 0.0, "y": 0.0, "z": 40.0 }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/sushi_rice.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  }
+                ]
+              },
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+                      "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
+                      "orientation": { "x": 0.0, "y": 0.0, "z": -10.0 }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/sushi_salmon.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  }
+                ]
+              },
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+                      "position": { "x": -4.0, "y": 4.0, "z": 1.0 },
+                      "orientation": { "x": 0.0, "y": 0.0, "z": 70.0 }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/sushi_shrimp.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  }
+                ]
+              },
+            ]
+          }
+        }
+      ]
+    },
+
+    // kTreeGarden
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+            "position": { "x": -1.0, "y": 13.0, "z": 4.0 },
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                      "position": { "x": 0.0, "y": -20.0, "z": 1.0 },
+                      "orientation": { "x": 0.0, "y": 0.0, "z": 0.0 }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/tree_a.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  }
+                ]
+              },
+            ]
+          }
+        }
+      ]
+    }
+  ],
+
+  "entity_grid_list": [
+    {
+      "entity": "kGround",
+      "count": { "x": 6, "y": 6, "z": 1 },
+      "separation": { "x": 50, "y": 50, "z": 0 },
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 50, "y": 50, "z": 1 }
+    }
+  ],
+
+  "entity_ring_list": [
+    {
+      "entity": "kBackground",
+      "count": 4,
+      "radius": 150,
+      "orientation_offset_angle": 90,
+      "position_offset_angle": 0,
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 150, "y": 150, "z": 150 }
+    },
+
+    {
+      "entity": "kPatron",
+      "count": 5,
+      "radius": 30,
+      "orientation_offset_angle": 90,
+      "position_offset_angle": 0,
+      "position": { "x": 12, "y": 12, "z": -14 },
+      "scale": { "x": 1, "y": 1, "z": 1 }
+    },
+
+    {
+      "entity": "kPatron",
+      "count": 9,
+      "radius": 50,
+      "orientation_offset_angle": 90,
+      "position_offset_angle": 13,
+      "position": { "x": 12, "y": 0, "z": -14 },
+      "scale": { "x": 1, "y": 1, "z": 1 }
+    },
+
+    {
+      "entity": "kPatron",
+      "count": 6,
+      "radius": 70,
+      "orientation_offset_angle": 90,
+      "position_offset_angle": 26,
+      "position": { "x": 0, "y": 0, "z": -14 },
+      "scale": { "x": 1, "y": 1, "z": 1 }
+    },
+
+    {
+      "entity": "kFernGarden",
+      "count": 13,
+      "radius": 32,
+      "orientation_offset_angle": 180,
+      "position_offset_angle": 0,
+      "position": { "x": 5, "y": 0, "z": 3.2 },
+      "scale": { "x": 1.7, "y": 1.7, "z": 1.7 }
+    },
+
+    {
+      "entity": "kFernGarden",
+      "count": 10,
+      "radius": 50,
+      "orientation_offset_angle": 180,
+      "position_offset_angle": 30,
+      "position": { "x": 0, "y": 0, "z": 3.2 },
+      "scale": { "x": 1.7, "y": 1.7, "z": 3 }
+    },
+
+    {
+      "entity": "kFernGarden",
+      "count": 18,
+      "radius": 75,
+      "orientation_offset_angle": 180,
+      "position_offset_angle": 30,
+      "position": { "x": 0, "y": 5, "z": 5 },
+      "scale": { "x": 2.5, "y": 3, "z": 3 }
+    },
+
+    {
+      "entity": "kMidGroundTree",
+      "count": 5,
+      "radius": 65,
+      "position_offset_angle": 30,
+      "orientation_offset_angle": 90,
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 8, "y": 8, "z": 8 }
+    },
+
+    {
+      "entity": "kMidGroundTree",
+      "count": 13,
+      "radius": 100,
+      "position_offset_angle": 0,
+      "orientation_offset_angle": 90,
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 15, "y": 15, "z": 15 }
+    },
+
+    {
+      "entity": "kMidGroundTree",
+      "count": 9,
+      "radius": 100,
+      "position_offset_angle": 15,
+      "orientation_offset_angle": 90,
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 20, "y": 20, "z": 20 }
+    },
+
+    {
+      "entity": "kMidGroundTree",
+      "count": 17,
+      "radius": 100,
+      "position_offset_angle": 45,
+      "orientation_offset_angle": 90,
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 25, "y": 25, "z": 25 }
+    }
+  ]
 }
