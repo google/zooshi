@@ -146,7 +146,12 @@
 
   "world_editor_config" : {
     "viewport_angle_degrees":90,
-    "movement_speed":1
+    "movement_speed":0.08,
+    "input_config": {
+      "mouse_sensitivity": 0.001,
+      "invert_x": false,
+      "invert_y": false
+    }
   },
 
   "patron_def": {
