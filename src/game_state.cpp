@@ -45,7 +45,9 @@ namespace fpl {
 namespace fpl_project {
 
 static const float kViewportAngle = M_PI / 4.0f;           // 45 degrees
+#ifdef ANDROID_CARDBOARD
 static const float kViewportAngleCardboard = M_PI / 2.0f;  // 90 degrees
+#endif // ANDROID_CARDBOARD
 static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 500.0f;
 static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
