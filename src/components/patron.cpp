@@ -31,7 +31,7 @@ namespace fpl_project {
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kHitRadius = 6.0f;
 static const float kHitRadiusSquared = kHitRadius * kHitRadius;
-static const float kHitMinHeight = 5.0;
+static const float kHitMinHeight = 8.0;
 static const float kHitMaxHeight = 20.0;
 
 static const float kSplatterCount = 10;

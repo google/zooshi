@@ -26,6 +26,7 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/init.h"
+#include "motive/math/angle.h"
 #include "rail_def_generated.h"
 #ifdef ANDROID_CARDBOARD
 #include "fplbase/renderer_android.h"
@@ -155,7 +156,10 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
 
-      transform_data->position = vec3(x * 24 + 12, y * 24 + 12, -20);
+      static const float kPatronSpacing = 24.0f;
+      static const float kPatronOffset = 12.0f;
+      transform_data->position.x() = x * kPatronSpacing + kPatronOffset,
+      transform_data->position.y() = y * kPatronSpacing + kPatronOffset,
       transform_data->orientation = quat::FromEulerAngles(
           vec3(0.0f, 0.0f, mathfu::RandomInRange(-M_PI, M_PI)));
     }
@@ -164,17 +168,44 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   // Add some ground foliage:
   for (int x = -6; x < 6; x++) {
     for (int y = -6; y < 6; y++) {
+      static const float kSushiGardenProbability = 0.3f;
+      const bool sushi_garden = mathfu::Random<float>() <
+                                kSushiGardenProbability;
+      const fpl::EntityDef* garden_entity = sushi_garden ?
+                                            config.sushi_garden_def() :
+                                            config.fern_garden_def();
+
       entity::EntityRef entity = entity_manager_.CreateEntityFromData(
-          mathfu::Random<double>() < 0.5f ? config.fern_def()
-                                          : config.fern2_def());
+          garden_entity);
 
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
 
-      transform_data->position = vec3(x * 22 + 11, y * 22 + 11, -20);
+      static const float kGardenSpacing = 22.0f;
+      static const float kGardenOffset = 11.0f;
+      transform_data->position.x() = x * kGardenSpacing + kGardenOffset;
+      transform_data->position.y() = y * kGardenSpacing + kGardenOffset;
+
+      static const float kFernGardenMaxLean = static_cast<float>(M_PI / 12.0);
+      const float max_lean = sushi_garden ? 0.0f : kFernGardenMaxLean;
       transform_data->orientation = quat::FromEulerAngles(
-          vec3(0.0f, mathfu::RandomInRange(-M_PI / 6.0, 0.0),
-               mathfu::RandomInRange(-M_PI, M_PI)));
+          vec3(0.0f, mathfu::RandomInRange(max_lean, 0.0f),
+               mathfu::RandomInRange(-kPi, kPi)));
+    }
+  }
+
+  // Add the ground plane
+  for (int x = -3; x < 3; x++) {
+    for (int y = -3; y < 3; y++) {
+      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
+          config.ground_def());
+
+      TransformData* transform_data =
+          entity_manager_.GetComponentData<TransformData>(entity);
+
+      const float spacing = transform_data->scale.x();
+      transform_data->position.x() = x * spacing;
+      transform_data->position.y() = y * spacing;
     }
   }
 

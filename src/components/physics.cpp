@@ -30,7 +30,7 @@ namespace fpl_project {
 
 static const float kBounceHeight = 0.8f;
 static const float kStartingVelocity = 0.5f;
-static const float kGroundPlane = -20.0f;
+static const float kGroundPlane = 0.0f;
 
 void PhysicsComponent::Initialize(event::EventManager* event_manager,
                                   pindrop::SoundHandle bounce_handle) {

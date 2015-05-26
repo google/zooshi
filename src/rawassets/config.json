@@ -163,10 +163,10 @@
       {
         "data_type": "TransformDef",
         "data": {
-          "scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": -14.0
           },
           "children": [
             {
@@ -252,5 +252,227 @@
          }
       },
     ]
+  },
+
+  "ground_def": {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 50.0, "y": 50.0, "z": 50.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/ground.fplmesh",
+            "shader": "shaders/textured"
+          }
         }
+      ]
+  },
+
+  "fern_garden_def": {
+    "component_list": [
+      {
+        "data_type": "TransformDef",
+        "data": {
+          "scale": { "x": 1.7, "y": 1.7, "z": 1.7 },
+          "position": { "x": 0, "y": 0, "z": 3.2 },
+        }
+      },
+      {
+        "data_type": "RenderMeshDef",
+        "data": {}
+      },
+      {
+        "data_type": "FamilyDef",
+        "data": {
+          "children": [
+            {
+              "component_list": [
+                {
+                  "data_type": "TransformDef",
+                  "data": {
+                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                    "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
+                    "orientation": { "x": 10.0, "y": -90.0, "z": 0.0 }
+                  }
+                },
+                {
+                  "data_type": "RenderMeshDef",
+                  "data" : {
+                    "source_file":"meshes/fern_oak.fplmesh",
+                    "shader": "shaders/textured"
+                  }
+                }
+              ]
+            },
+            {
+              "component_list": [
+                {
+                  "data_type": "TransformDef",
+                  "data": {
+                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                    "position": { "x": 0.7, "y": 1.0, "z": 0.0 },
+                    "orientation": { "x": -60.0, "y": -90.0, "z": 60.0 }
+                  }
+                },
+                {
+                  "data_type": "RenderMeshDef",
+                  "data" : {
+                    "source_file":"meshes/fern_short.fplmesh",
+                    "shader": "shaders/textured"
+                  }
+                }
+              ]
+            },
+            {
+              "component_list": [
+                {
+                  "data_type": "TransformDef",
+                  "data": {
+                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                    "position": { "x": 0.2, "y": 1.5, "z": 1.0 },
+                    "orientation": { "x": -90.0, "y": -90.0, "z": 90.0 }
+                  }
+                },
+                {
+                  "data_type": "RenderMeshDef",
+                  "data" : {
+                    "source_file":"meshes/fern_leafy.fplmesh",
+                    "shader": "shaders/textured"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  "sushi_garden_def": {
+    "component_list": [
+      {
+        "data_type": "TransformDef",
+        "data": {
+          "position": { "x": 0, "y": 0, "z": -2.2 },
+          "scale": { "x": 1.1, "y": 1.1, "z": 1.1 },
+        }
+      },
+      {
+        "data_type": "RenderMeshDef",
+        "data": {}
+      },
+      {
+        "data_type": "FamilyDef",
+        "data": {
+          "children": [
+            {
+              "component_list": [
+                {
+                  "data_type": "TransformDef",
+                  "data": {
+                    "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+                    "position": { "x": 2.0, "y": 5.0, "z": 1.0 },
+                    "orientation": { "x": 0.0, "y": 0.0, "z": 40.0 }
+                  }
+                },
+                {
+                  "data_type": "RenderMeshDef",
+                  "data" : {
+                    "source_file":"meshes/sushi_rice.fplmesh",
+                    "shader": "shaders/textured"
+                  }
+                }
+              ]
+            },
+            {
+              "component_list": [
+                {
+                  "data_type": "TransformDef",
+                  "data": {
+                    "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+                    "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
+                    "orientation": { "x": 0.0, "y": 0.0, "z": -10.0 }
+                  }
+                },
+                {
+                  "data_type": "RenderMeshDef",
+                  "data" : {
+                    "source_file":"meshes/sushi_salmon.fplmesh",
+                    "shader": "shaders/textured"
+                  }
+                }
+              ]
+            },
+            {
+              "component_list": [
+                {
+                  "data_type": "TransformDef",
+                  "data": {
+                    "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+                    "position": { "x": -4.0, "y": 4.0, "z": 1.0 },
+                    "orientation": { "x": 0.0, "y": 0.0, "z": 70.0 }
+                  }
+                },
+                {
+                  "data_type": "RenderMeshDef",
+                  "data" : {
+                    "source_file":"meshes/sushi_shrimp.fplmesh",
+                    "shader": "shaders/textured"
+                  }
+                }
+              ]
+            },
+          ]
+        }
+      }
+    ]
+  },
+
+  "tree_garden_def": {
+    "component_list": [
+      {
+        "data_type": "TransformDef",
+        "data": {
+          "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
+          "position": { "x": -1.0, "y": 13.0, "z": 4.0 },
+        }
+      },
+      {
+        "data_type": "RenderMeshDef",
+        "data": {}
+      },
+      {
+        "data_type": "FamilyDef",
+        "data": {
+          "children": [
+            {
+              "component_list": [
+                {
+                  "data_type": "TransformDef",
+                  "data": {
+                    "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                    "position": { "x": 0.0, "y": -20.0, "z": 1.0 },
+                    "orientation": { "x": 0.0, "y": 0.0, "z": 0.0 }
+                  }
+                },
+                {
+                  "data_type": "RenderMeshDef",
+                  "data" : {
+                    "source_file":"meshes/tree_a.fplmesh",
+                    "shader": "shaders/textured"
+                  }
+                }
+              ]
+            },
+          ]
+        }
+      }
+    ]
+  }
+
 }
