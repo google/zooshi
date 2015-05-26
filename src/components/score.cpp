@@ -62,7 +62,7 @@ void ScoreComponent::Initialize(event::EventManager* event_manager) {
 
 void ScoreComponent::OnEvent(int event_id,
                              const event::EventPayload& event_payload) {
-  const EntityEventPayload* entity_event;
+  const EntityEventPayload* entity_event = nullptr;
   switch (event_id) {
     case kEventIdProjectileFired: {
       entity_event = event_payload.ToData<ProjectileFiredEventPayload>();
@@ -93,6 +93,7 @@ void ScoreComponent::OnEvent(int event_id,
 void ScoreComponent::AddFromRawData(entity::EntityRef& entity,
                                     const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
+  (void)component_data;
   assert(component_data->data_type() == ComponentDataUnion_ScoreDef);
   AddEntity(entity);
 }
