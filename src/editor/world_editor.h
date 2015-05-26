@@ -20,7 +20,11 @@
 #include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
 #include "mathfu/vector_3.h"
+#ifdef __ANDROID__
+#include "inputcontrollers/android_cardboard_controller.h"
+#else
 #include "inputcontrollers/mouse_controller.h"
+#endif
 #include "world_editor_generated.h"
 
 namespace fpl {
@@ -48,7 +52,11 @@ class WorldEditor {
 
   const WorldEditorConfig* config_;
   InputSystem* input_system_;
-  fpl_project::MouseController mouse_controller_;
+#ifdef __ANDROID__
+  fpl_project::AndroidCardboardController input_controller_;
+#else
+  fpl_project::MouseController input_controller_;
+#endif
   fpl_project::Camera camera_;
   bool is_active_;
 };

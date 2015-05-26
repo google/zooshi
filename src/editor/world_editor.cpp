@@ -24,16 +24,16 @@ void WorldEditor::Initialize(const WorldEditorConfig* config,
                              InputSystem* input_system) {
   config_ = config;
   input_system_ = input_system;
-  mouse_controller_.set_input_system(input_system_);
-  mouse_controller_.set_input_config(config_->input_config());
+  input_controller_.set_input_system(input_system_);
+  input_controller_.set_input_config(config_->input_config());
 }
 
 void WorldEditor::Update(WorldTime delta_time) {
   if (input_mode_ == kMoving) {
     // Allow the camera to look around and move.
-    mouse_controller_.Update();
-    camera_.set_facing(mouse_controller_.facing().Value());
-    camera_.set_up(mouse_controller_.up().Value());
+    input_controller_.Update();
+    camera_.set_facing(input_controller_.facing().Value());
+    camera_.set_up(input_controller_.up().Value());
 
     mathfu::vec3 movement = GetMovement();
     camera_.set_position(camera_.position() + movement * (float)delta_time);
@@ -52,8 +52,8 @@ void WorldEditor::Activate(const fpl_project::Camera& initial_camera) {
   camera_ = initial_camera;
   camera_.set_viewport_angle(config_->viewport_angle_degrees() *
                              (M_PI / 180.0f));
-  mouse_controller_.facing().SetValue(camera_.facing());
-  mouse_controller_.up().SetValue(camera_.up());
+  input_controller_.facing().SetValue(camera_.facing());
+  input_controller_.up().SetValue(camera_.up());
 
   input_mode_ = kMoving;
 }
