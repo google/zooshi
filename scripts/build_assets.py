@@ -59,6 +59,10 @@ FLATBUFFERS_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                                os.path.pardir, os.path.pardir,
                                               'libs', "flatbuffers"))
 
+INTERNAL_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
+                                             os.path.pardir, 'fpl_internal'))
+
+
 # Directories that may contains the FlatBuffers compiler.
 FLATBUFFERS_PATHS = [
     os.path.join(PROJECT_ROOT, 'bin'),
@@ -93,6 +97,9 @@ ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
 # Directory where unprocessed assets can be found.
 RAW_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'src', 'rawassets')
 
+# Directory for unprocessed assets not in the main code-base.
+INTERNAL_ASSETS_PATH = os.path.join(INTERNAL_ROOT, 'zooshi', 'rawassets')
+
 # Directory where unprocessed rail flatbuffer data can be found.
 RAW_RAIL_PATH = os.path.join(RAW_ASSETS_PATH, 'rails')
 
@@ -110,6 +117,9 @@ RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, 'textures')
 
 # Directory where unprocessed FBX files can be found.
 RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, 'meshes')
+
+# Directory for textures outside of the main code-base.
+INTERNAL_TEXTURE_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'textures')
 
 # Directory where unprocessed assets can be found.
 SCHEMA_PATHS = [
@@ -207,7 +217,11 @@ FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('materials.fbs', SCHEMA_PATHS),
         extension='.fplmat',
-        input_files=glob.glob(os.path.join(RAW_MATERIAL_PATH, '*.json')))
+        input_files=glob.glob(os.path.join(RAW_MATERIAL_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=find_in_paths('mesh.fbs', SCHEMA_PATHS),
+        extension='.fplmesh',
+        input_files=glob.glob(os.path.join(RAW_MESH_PATH, '*.json')))
 ]
 
 
@@ -217,7 +231,7 @@ def processed_texture_path(path, target_directory):
   Args:
     target_directory: Path to the target assets directory.
   """
-  return path.replace(RAW_ASSETS_PATH, target_directory).replace('png', 'webp')
+  return path.replace(RAW_ASSETS_PATH, target_directory).replace(INTERNAL_ASSETS_PATH, target_directory).replace('png', 'webp')
 
 
 # Location of FlatBuffers compiler.
@@ -290,9 +304,8 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, mesh_relative_d
 
   Args:
     fbx: The path to the fbx file to convert into a flatbuffer binary.
-    mesh_dir: The path of the flatbuffer binary to write to.
-    material_dir: The path where the final material binary files exist.
-    texture_dir: The path of the mesh textures to write to.
+    target_directory: The path of the flatbuffer binary to write to.
+    mesh_relative_directory: The path relative to the base assets directory where we should look for texture files.
 
   Raises:
     BuildError: Process return code was nonzero.
@@ -333,12 +346,14 @@ def processed_json_path(path, target_directory, target_extension):
     '.json', target_extension)
 
 def fbx_files_to_convert():
-  """ FBX files to convert to webp. """
+  """ FBX files to convert to fplmesh. """
   return glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx'))
 
 def png_files_to_convert():
   """ PNG files to convert to webp. """
-  return glob.glob(os.path.join(RAW_TEXTURE_PATH, '*.png')) + glob.glob(os.path.join(RAW_MESH_PATH, '*.png'))
+  return (glob.glob(os.path.join(RAW_TEXTURE_PATH, '*.png')) +
+          glob.glob(os.path.join(RAW_MESH_PATH, '*.png')) +
+          glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, '*.png')))
 
 def generate_mesh_binaries(target_directory):
   """Run the mesh pipeline on the all of the FBX files.
