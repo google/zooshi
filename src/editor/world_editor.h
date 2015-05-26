@@ -16,10 +16,12 @@
 #define FPL_WORLD_EDITOR_H_
 
 #include "camera.h"
-#include "world_editor_generated.h"
 #include "fplbase/input.h"
 #include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
+#include "mathfu/vector_3.h"
+#include "inputcontrollers/mouse_controller.h"
+#include "world_editor_generated.h"
 
 namespace fpl {
 namespace editor {
@@ -39,8 +41,14 @@ class WorldEditor {
   const fpl_project::Camera* GetCamera() const { return &camera_; }
 
  private:
+  enum { kMoving, kEditing } input_mode_;
+
+  // get camera movement via W-A-S-D
+  mathfu::vec3 GetMovement();
+
   const WorldEditorConfig* config_;
   InputSystem* input_system_;
+  fpl_project::MouseController mouse_controller_;
   fpl_project::Camera camera_;
   bool is_active_;
 };

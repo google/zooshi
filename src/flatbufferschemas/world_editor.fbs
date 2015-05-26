@@ -13,6 +13,7 @@
 // limitations under the License.
 
 include "common.fbs";
+include "input_config.fbs";
 
 namespace fpl.editor;
 
@@ -22,6 +23,8 @@ table WorldEditorConfig {
 
   // Camera movement speed, in units per frame.
   movement_speed:float;
+
+  input_config:fpl.fpl_project.InputConfig;
 }
 
 root_type WorldEditorConfig;
