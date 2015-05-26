@@ -63,8 +63,8 @@ void PlayerComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
-  entity::EntityRef projectile =
-      entity_manager_->CreateEntityFromData(config_->projectile_def());
+  entity::EntityRef projectile = entity_manager_->CreateEntityFromData(
+      config_->entity_defs()->Get(EntityDefs_kProjectile));
 
   TransformData* transform_data =
       entity_manager_->GetComponentData<TransformData>(projectile);

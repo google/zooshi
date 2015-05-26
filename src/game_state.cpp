@@ -21,6 +21,7 @@
 #include "events/hit_patron_body.h"
 #include "events/hit_patron_mouth.h"
 #include "fplbase/input.h"
+#include "fplbase/flatbuffer_utils.h"
 #include "game_state.h"
 #include "input_config_generated.h"
 #include "mathfu/constants.h"
@@ -71,6 +72,12 @@ GameState::GameState()
       physics_component_(),
       active_player_entity_(),
       is_in_cardboard_(false) {
+}
+
+// count = 5  ==>  low = -2, high = 3  ==> range -2..2
+// count = 6  ==>  low = -3, high = 3  ==> range -2..3
+static RangeInt GridRange(int count) {
+  return RangeInt(-count / 2, (count + 1) / 2);
 }
 
 void GameState::Initialize(const vec2i& window_size, const Config& config,
@@ -140,72 +147,66 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   score_component_.Initialize(&event_manager_);
   sound_component_.Initialize(audio_engine);
 
+  // Create entities that are explicitly detailed in `entity_list`.
   for (size_t i = 0; i < config.entity_list()->size(); i++) {
     entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));
   }
 
-  // Some placeholder code to generate a world.
-  // TODO - load this from a flatbuffer.
+  // Create entities in a grid formation, as specified by `entity_grid_list`.
+  for (size_t i = 0; i < config.entity_grid_list()->size(); i++) {
+    auto grid = config.entity_grid_list()->Get(i);
+    auto entity_def = config.entity_defs()->Get(grid->entity());
 
-  // Place some patrons:  (Basically big leaves at the moment)
-  for (int x = -3; x < 3; x++) {
-    for (int y = -3; y < 3; y++) {
+    const vec3i count = LoadVec3i(grid->count());
+    const RangeInt x_range = GridRange(count.x());
+    const RangeInt y_range = GridRange(count.y());
+    const RangeInt z_range = GridRange(count.z());
+    const vec3 grid_position = LoadVec3(grid->position());
+    const vec3 grid_separation = LoadVec3(grid->separation());
+    const vec3 grid_scale = LoadVec3(grid->scale());
+
+    for (int x = x_range.start(); x < x_range.end(); ++x) {
+      for (int y = y_range.start(); y < y_range.end(); ++y) {
+        for (int z = z_range.start(); z < z_range.end(); ++z) {
+          entity::EntityRef entity =
+              entity_manager_.CreateEntityFromData(entity_def);
+
+          TransformData* transform_data =
+              entity_manager_.GetComponentData<TransformData>(entity);
+
+          const vec3 coord(static_cast<float>(x), static_cast<float>(y),
+                           static_cast<float>(z));
+          transform_data->position = grid_position + coord * grid_separation;
+          transform_data->scale = grid_scale;
+        }
+      }
+    }
+  }
+
+  // Create entities in a ring formation, as specified by `entity_ring_list`.
+  for (size_t i = 0; i < config.entity_ring_list()->size(); i++) {
+    auto ring = config.entity_ring_list()->Get(i);
+    auto entity_def = config.entity_defs()->Get(ring->entity());
+    const vec3 ring_position = LoadVec3(ring->position());
+    const vec3 ring_scale = LoadVec3(ring->scale());
+
+    for (int j = 0; j < ring->count(); ++j) {
       entity::EntityRef entity =
-          entity_manager_.CreateEntityFromData(config.patron_def());
+          entity_manager_.CreateEntityFromData(entity_def);
 
       TransformData* transform_data =
           entity_manager_.GetComponentData<TransformData>(entity);
 
-      static const float kPatronSpacing = 24.0f;
-      static const float kPatronOffset = 12.0f;
-      transform_data->position.x() = x * kPatronSpacing + kPatronOffset,
-      transform_data->position.y() = y * kPatronSpacing + kPatronOffset,
-      transform_data->orientation = quat::FromEulerAngles(
-          vec3(0.0f, 0.0f, mathfu::RandomInRange(-M_PI, M_PI)));
-    }
-  }
-
-  // Add some ground foliage:
-  for (int x = -6; x < 6; x++) {
-    for (int y = -6; y < 6; y++) {
-      static const float kSushiGardenProbability = 0.3f;
-      const bool sushi_garden = mathfu::Random<float>() <
-                                kSushiGardenProbability;
-      const fpl::EntityDef* garden_entity = sushi_garden ?
-                                            config.sushi_garden_def() :
-                                            config.fern_garden_def();
-
-      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
-          garden_entity);
-
-      TransformData* transform_data =
-          entity_manager_.GetComponentData<TransformData>(entity);
-
-      static const float kGardenSpacing = 22.0f;
-      static const float kGardenOffset = 11.0f;
-      transform_data->position.x() = x * kGardenSpacing + kGardenOffset;
-      transform_data->position.y() = y * kGardenSpacing + kGardenOffset;
-
-      static const float kFernGardenMaxLean = static_cast<float>(M_PI / 12.0);
-      const float max_lean = sushi_garden ? 0.0f : kFernGardenMaxLean;
-      transform_data->orientation = quat::FromEulerAngles(
-          vec3(0.0f, mathfu::RandomInRange(max_lean, 0.0f),
-               mathfu::RandomInRange(-kPi, kPi)));
-    }
-  }
-
-  // Add the ground plane
-  for (int x = -3; x < 3; x++) {
-    for (int y = -3; y < 3; y++) {
-      entity::EntityRef entity = entity_manager_.CreateEntityFromData(
-          config.ground_def());
-
-      TransformData* transform_data =
-          entity_manager_.GetComponentData<TransformData>(entity);
-
-      const float spacing = transform_data->scale.x();
-      transform_data->position.x() = x * spacing;
-      transform_data->position.y() = y * spacing;
+      const Angle position_angle =
+          Angle::FromDegrees(ring->position_offset_angle()) +
+          Angle::FromWithinThreePi(j * kTwoPi / ring->count());
+      const Angle orientation_angle =
+          Angle::FromDegrees(ring->orientation_offset_angle()) - position_angle;
+      transform_data->position = ring_position +
+                                 ring->radius() * position_angle.ToXYVector();
+      transform_data->scale = ring_scale;
+      transform_data->orientation =
+          quat::FromAngleAxis(orientation_angle.ToRadians(), mathfu::kAxisZ3f);
     }
   }
 
@@ -365,3 +366,113 @@ void GameState::RenderForCardboard(Renderer* renderer) {
 
 }  // fpl_project
 }  // fpl
+
+
+
+
+  // Some placeholder code to generate a world.
+  // TODO - load this from a flatbuffer.
+
+  // Place some patrons:  (Basically big leaves at the moment)
+  // for (int x = -3; x < 3; x++) {
+  //   for (int y = -3; y < 3; y++) {
+  //     entity::EntityRef entity =
+  //         entity_manager_.CreateEntityFromData(config.entity_defs()->Get(EntityDefs_kPatron));
+
+  //     TransformData* transform_data =
+  //         entity_manager_.GetComponentData<TransformData>(entity);
+
+  //     static const float kPatronSpacing = 24.0f;
+  //     static const float kPatronOffset = 12.0f;
+  //     transform_data->position.x() = x * kPatronSpacing + kPatronOffset,
+  //     transform_data->position.y() = y * kPatronSpacing + kPatronOffset,
+  //     transform_data->orientation = quat::FromEulerAngles(
+  //         vec3(0.0f, 0.0f, mathfu::RandomInRange(-M_PI, M_PI)));
+  //   }
+  // }
+
+  // Add some ground foliage:
+  // for (int x = -6; x < 6; x++) {
+  //   for (int y = -6; y < 6; y++) {
+  //     static const float kSushiGardenProbability = 0.3f;
+  //     const bool sushi_garden = mathfu::Random<float>() <
+  //                               kSushiGardenProbability;
+  //     const fpl::EntityDef* garden_entity = sushi_garden ?
+  //                                           config.entity_defs()->Get(EntityDefs_kSushiGarden) :
+  //                                           config.entity_defs()->Get(EntityDefs_kFernGarden);
+
+  //     entity::EntityRef entity = entity_manager_.CreateEntityFromData(
+  //         garden_entity);
+
+  //     TransformData* transform_data =
+  //         entity_manager_.GetComponentData<TransformData>(entity);
+
+  //     static const float kGardenSpacing = 22.0f;
+  //     static const float kGardenOffset = 11.0f;
+  //     transform_data->position.x() = x * kGardenSpacing + kGardenOffset;
+  //     transform_data->position.y() = y * kGardenSpacing + kGardenOffset;
+
+  //     static const float kFernGardenMaxLean = static_cast<float>(M_PI / 12.0);
+  //     const float max_lean = sushi_garden ? 0.0f : kFernGardenMaxLean;
+  //     transform_data->orientation = quat::FromEulerAngles(
+  //         vec3(0.0f, mathfu::RandomInRange(max_lean, 0.0f),
+  //              mathfu::RandomInRange(-kPi, kPi)));
+  //   }
+  // }
+
+
+  // // Add the background
+  // static const float kBackgroundDist = 150.0f;
+  // static const vec2 kBackgoundPositions[] = {
+  //   vec2(1.f, 0.f),
+  //   vec2(0.f, 1.f),
+  //   vec2(-1.f, 0.f),
+  //   vec2(0.f, -1.f)
+  // };
+  // for (int i = 0; i < 4; ++i) {
+  //   entity::EntityRef entity = entity_manager_.CreateEntityFromData(
+  //       config.entity_defs()->Get(EntityDefs_kBackground));
+
+  //   TransformData* transform_data =
+  //       entity_manager_.GetComponentData<TransformData>(entity);
+
+  //   const vec2 position = kBackgroundDist * kBackgoundPositions[i];
+  //   const float angle = kHalfPi * (i - 1);
+  //   transform_data->position = vec3(position.x(), position.y(), 0.0f);
+  //   transform_data->scale = vec3(kBackgroundDist, kBackgroundDist, 100.0f);
+  //   transform_data->orientation = quat::FromAngleAxis(angle, mathfu::kAxisZ3f);
+  // }
+
+  // struct TreeLevel {
+  //   int num_trees;
+  //   float distance;
+  //   float offset_angle;
+  //   float scale;
+  // };
+  // static const TreeLevel kTreeLevels[] = {
+  //   { 5, 65.0f, 0.4f, 8.0f },
+  //   { 9, 70.0f, 0.01f, 15.0f },
+  //   { 14, 100.0f, 0.1f, 20.0f },
+  //   { 30, 130.0f, 0.3f, 30.0f }
+  // };
+  // for (size_t i = 0; i < FPL_ARRAYSIZE(kTreeLevels); ++i) {
+  //   const TreeLevel& level = kTreeLevels[i];
+
+  //   for (int j = 0; j < level.num_trees; ++j) {
+  //     entity::EntityRef entity = entity_manager_.CreateEntityFromData(
+  //         config.entity_defs()->Get(EntityDefs_kMidGroundTree));
+
+  //     TransformData* transform_data =
+  //         entity_manager_.GetComponentData<TransformData>(entity);
+
+  //     const Angle angle = Angle(level.offset_angle) +
+  //                         Angle::FromWithinThreePi(j * kTwoPi / level.num_trees);
+  //     transform_data->position = level.distance * angle.ToXYVector();
+  //     transform_data->scale = vec3(level.scale);
+  //     transform_data->orientation = quat::FromAngleAxis((Angle(kHalfPi) - angle).ToRadians(), mathfu::kAxisZ3f);
+
+  //     printf("tree: %.0f, (%.1f, %.1f, %.1f)\n", angle.ToDegrees(),
+  //            transform_data->position.x(), transform_data->position.y(),
+  //            transform_data->position.z());
+  //   }
+  // }

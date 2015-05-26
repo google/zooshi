@@ -8,7 +8,9 @@
     "meshes/fern_leafy.fplmesh",
     "meshes/tree_a.fplmesh",
     "meshes/croc_moustache.fplmesh",
-    "meshes/ground.fplmesh"
+    "meshes/ground.fplmesh",
+    "meshes/background.fplmesh",
+    "meshes/mid_ground_tree.fplmesh"
   ],
   "material_list": [
     "materials/guy.fplmat",
