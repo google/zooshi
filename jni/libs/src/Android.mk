@@ -132,7 +132,7 @@ $(call import-add-path,$(DEPENDENCIES_MOTIVE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 
-$(call import-module,audio_engine/jni)
+$(call import-module,pindrop/jni)
 $(call import-module,flatbuffers/android/jni)
 $(call import-module,fplbase/jni)
 $(call import-module,imgui/jni)

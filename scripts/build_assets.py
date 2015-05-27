@@ -45,7 +45,7 @@ PREBUILTS_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
 
 PINDROP_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                             os.path.pardir, os.path.pardir,
-                                            'libs', "audio_engine"))
+                                            'libs', "pindrop"))
 
 FPLBASE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                             os.path.pardir, os.path.pardir,

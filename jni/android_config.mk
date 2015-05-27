@@ -33,7 +33,7 @@ DEPENDENCIES_SDL_MIXER_DIR?=$(THIRD_PARTY_ROOT)/sdl_mixer
 # Location of the Flatbuffers library.
 DEPENDENCIES_FLATBUFFERS_DIR?=$(FPL_ROOT)/flatbuffers
 # Location of the Pindrop library.
-DEPENDENCIES_PINDROP_DIR?=$(FPL_ROOT)/audio_engine
+DEPENDENCIES_PINDROP_DIR?=$(FPL_ROOT)/pindrop
 # Location of the fplbase library.
 DEPENDENCIES_FPLBASE_DIR?=$(FPL_ROOT)/fplbase
 # Location of the fplutil library.
