@@ -251,9 +251,10 @@ static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
 }
 
 void GameState::UpdateMainCamera() {
-  PlayerData* player = player_component_.GetEntityData(active_player_entity_);
+  PlayerData* player =
+      player_component_.GetComponentData(active_player_entity_);
   RailDenizenData* rail_denizen =
-      rail_denizen_component_.GetEntityData(active_player_entity_);
+      rail_denizen_component_.GetComponentData(active_player_entity_);
 
   main_camera_.set_position(rail_denizen->Position());
   main_camera_.set_facing(player->GetFacing());

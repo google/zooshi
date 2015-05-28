@@ -41,7 +41,7 @@ struct TransformData {
   mathfu::quat orientation;
   mathfu::mat4 world_transform;
 
-  // A reference to the entity that owns this entity data.
+  // A reference to the entity that owns this component data.
   entity::EntityRef owner;
 
   // A reference to the parent entity.

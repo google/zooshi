@@ -97,8 +97,9 @@ mathfu::vec3 RailDenizenData::Velocity() const {
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
-    RailDenizenData* rail_denizen_data = GetEntityData(iter->entity);
+  for (auto iter = component_data_.begin();
+       iter != component_data_.end(); ++iter) {
+    RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
     transform_data->position = rail_denizen_data->Position();
     transform_data->orientation = mathfu::quat::RotateFromTo(

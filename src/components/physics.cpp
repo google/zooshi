@@ -52,7 +52,8 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin();
+       iter != component_data_.end(); ++iter) {
     PhysicsData* physics_data = Data<PhysicsData>(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
 
@@ -76,7 +77,7 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 // Physics component requires that you have a transform component:
 void PhysicsComponent::InitEntity(entity::EntityRef& entity) {
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
-  GetEntityData(entity)->velocity = vec3(0, 0, kStartingVelocity);
+  GetComponentData(entity)->velocity = vec3(0, 0, kStartingVelocity);
 }
 
 }  // fpl_project

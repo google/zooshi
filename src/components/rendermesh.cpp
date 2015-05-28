@@ -59,7 +59,8 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
                                             const Camera& camera) {
   // todo(ccornell) - instead of iterating like this, sort by
   // z depth and alpha blend mode.
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin();
+       iter != component_data_.end(); ++iter) {
     RenderEntity(iter->entity, renderer, camera);
   }
 }

@@ -85,14 +85,14 @@ void EntityManager::RegisterComponentHelper(ComponentInterface* new_component,
 void* EntityManager::GetComponentDataAsVoid(EntityRef entity,
                                             ComponentId component_id) {
   return components_[component_id]
-             ? components_[component_id]->GetEntityDataAsVoid(entity)
+             ? components_[component_id]->GetComponentDataAsVoid(entity)
              : nullptr;
 }
 
 const void* EntityManager::GetComponentDataAsVoid(
     EntityRef entity, ComponentId component_id) const {
   return components_[component_id]
-             ? components_[component_id]->GetEntityDataAsVoid(entity)
+             ? components_[component_id]->GetComponentDataAsVoid(entity)
              : nullptr;
 }
 
@@ -107,7 +107,7 @@ void EntityManager::UpdateComponents(WorldTime delta_time) {
 void EntityManager::Clear() {
   for (size_t i = 0; i < kMaxComponentCount; i++) {
     if (components_[i]) {
-      components_[i]->ClearEntityData();
+      components_[i]->ClearComponentData();
       components_[i]->Cleanup();
     }
     components_[i] = nullptr;

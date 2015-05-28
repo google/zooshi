@@ -24,7 +24,8 @@ void SoundComponent::Initialize(pindrop::AudioEngine* audio_engine) {
 }
 
 void SoundComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin();
+       iter != component_data_.end(); ++iter) {
     SoundData* sound_data = Data<SoundData>(iter->entity);
     if (sound_data->channel.Valid()) {
       TransformData* transform_data = Data<TransformData>(iter->entity);

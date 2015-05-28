@@ -49,16 +49,19 @@ class ComponentInterface {
   virtual void RemoveEntity(EntityRef& entity) = 0;
   // Update all entities that contain this component.
   virtual void UpdateAllEntities(WorldTime delta_time) = 0;
-  // Clear all entity data, effectively disassociating this component
+  // Clear all component data, effectively disassociating this component
   // from any entities.  (Note that this does NOT change entities, so they may
   // still think we have data for them.)  Normally this isn't something you
   // want to invoke directly.  It's usually used by things like Entity.Clear(),
   // when something wants to nuke all the data everywhere and start over.
-  virtual void ClearEntityData() = 0;
-  // Return the entity data as a void* pointer.  (The caller is responsible for
-  // casting it into something useful.)
-  virtual void* GetEntityDataAsVoid(const EntityRef&) = 0;
-  virtual const void* GetEntityDataAsVoid(const EntityRef&) const = 0;
+  virtual void ClearComponentData() = 0;
+  // Return the component data as a void* pointer.  (The caller is responsible
+  // for casting it into something useful.)
+  // WARNING: This pointer is NOT stable in memory.  Calls to
+  // AddEntityGenerically may force the storage class to resize, shuffling
+  // around the location of this data.
+  virtual void* GetComponentDataAsVoid(const EntityRef&) = 0;
+  virtual const void* GetComponentDataAsVoid(const EntityRef&) const = 0;
   // Called just after addition to the entitymanager
   virtual void Init() = 0;
   // Called just after an entity is added to this component.

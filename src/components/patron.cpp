@@ -60,7 +60,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& parent,
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin();
+       iter != component_data_.end(); ++iter) {
     entity::EntityRef patron = iter->entity;
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);

@@ -26,7 +26,8 @@ void TransformComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 void TransformComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin();
+       iter != component_data_.end(); ++iter) {
     TransformData* transform_data = Data<TransformData>(iter->entity);
     // Go through and start updating everything that has no parent:
     if (!transform_data->parent.IsValid()) {
@@ -37,7 +38,7 @@ void TransformComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 
 void TransformComponent::UpdateWorldPosition(entity::EntityRef& entity,
                                              mathfu::mat4 transform) {
-  TransformData* transform_data = GetEntityData(entity);
+  TransformData* transform_data = GetComponentData(entity);
   transform_data->world_transform = transform *
       transform_data->GetTransformMatrix();
 
@@ -46,13 +47,14 @@ void TransformComponent::UpdateWorldPosition(entity::EntityRef& entity,
            node = node->GetNext()) {
         TransformData* child_transform_data =
             TransformData::GetInstanceFromChildNode(node);
-        UpdateWorldPosition(child_transform_data->owner, transform_data->world_transform);
+        UpdateWorldPosition(child_transform_data->owner,
+                            transform_data->world_transform);
   }
 }
 
 void TransformComponent::CleanupEntity(entity::EntityRef& entity) {
   // Remove and cleanup children, if any exist:
-  TransformData* transform_data = GetEntityData(entity);
+  TransformData* transform_data = GetComponentData(entity);
   if (transform_data) {
     for (IntrusiveListNode* node = transform_data->children.GetNext();
          node != transform_data->children.GetTerminator();
@@ -92,7 +94,7 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
           transform_def->children()->Get(i), entity_manager_);
       // CreateEntityFromData can resize the underlying data, invalidating the
       // pointer to the transform data of the parent entity, so refresh it.
-      transform_data = GetEntityData(entity);
+      transform_data = GetComponentData(entity);
       TransformData* child_transform_data = AddEntity(child);
       transform_data->children.InsertBefore(child_transform_data->child_node());
       child_transform_data->parent = entity;
@@ -103,7 +105,7 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
 entity::ComponentInterface::RawDataUniquePtr TransformComponent::ExportRawData(
     entity::EntityRef& entity) const {
   flatbuffers::FlatBufferBuilder builder;
-  const TransformData* data = GetEntityData(entity);
+  const TransformData* data = GetComponentData(entity);
   mathfu::vec3 euler = data->orientation.ToEulerAngles();
   fpl::Vec3 position{data->position.x(), data->position.y(),
                      data->position.z()};

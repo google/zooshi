@@ -35,11 +35,11 @@ class Component : public ComponentInterface {
   // Structure associated with each entity.
   // Contains the template struct, as well as a pointer back to the
   // entity that owns this data.
-  struct EntityData {
+  struct ComponentData {
     EntityRef entity;
     T data;
   };
-  typedef typename VectorPool<EntityData>::Iterator EntityIterator;
+  typedef typename VectorPool<ComponentData>::Iterator EntityIterator;
 
   Component() : entity_manager_(nullptr) {}
 
@@ -58,16 +58,16 @@ class Component : public ComponentInterface {
   // will just return a reference to the existing data and not change anything.
   T* AddEntity(EntityRef& entity, AllocationLocation alloc_location) {
     if (entity->IsRegisteredForComponent(GetComponentId())) {
-      return GetEntityData(entity);
+      return GetComponentData(entity);
     }
     // No existing data, so we allocate some and return it:
-    size_t index = entity_data_.GetNewElement(alloc_location).index();
+    size_t index = component_data_.GetNewElement(alloc_location).index();
     entity->SetComponentDataIndex(GetComponentId(), index);
-    EntityData* entity_data = entity_data_.GetElementData(index);
-    entity_data->entity = entity;
-    new (&(entity_data->data)) T();
+    ComponentData* component_data = component_data_.GetElementData(index);
+    component_data->entity = entity;
+    new (&(component_data->data)) T();
     InitEntity(entity);
-    return &(entity_data->data);
+    return &(component_data->data);
   }
 
   T* AddEntity(EntityRef entity) { return AddEntity(entity, kAddToBack); }
@@ -77,7 +77,7 @@ class Component : public ComponentInterface {
   // the memory to the memory pool.
   virtual void RemoveEntity(EntityRef& entity) {
     RemoveEntityInternal(entity);
-    entity_data_.FreeElement(GetEntityDataIndex(entity));
+    component_data_.FreeElement(GetComponentDataIndex(entity));
     entity->SetComponentDataIndex(GetComponentId(), kUnusedComponentIndex);
   }
 
@@ -85,18 +85,18 @@ class Component : public ComponentInterface {
   // the one we've just removed.
   virtual EntityIterator RemoveEntity(EntityIterator iter) {
     RemoveEntityInternal(iter->entity);
-    auto new_iter = entity_data_.FreeElement(iter);
+    auto new_iter = component_data_.FreeElement(iter);
     iter->entity->SetComponentDataIndex(GetComponentId(),
                                         kUnusedComponentIndex);
     return new_iter;
   }
 
   // Gets an iterator that will iterate over every entity in the component.
-  virtual EntityIterator begin() { return entity_data_.begin(); }
+  virtual EntityIterator begin() { return component_data_.begin(); }
 
   // Gets an iterator which points to the end of the list of all entities in the
   // component.
-  virtual EntityIterator end() { return entity_data_.end(); }
+  virtual EntityIterator end() { return component_data_.end(); }
 
   // Updates all entities.  Normally called by EntityManager, once per frame.
   virtual void UpdateAllEntities(WorldTime /*delta_time*/) {}
@@ -104,48 +104,54 @@ class Component : public ComponentInterface {
   // Returns the data for an entity as a void pointer.  The calling function
   // is expected to know what to do with it.
   // Returns null if the data does not exist.
-  virtual void* GetEntityDataAsVoid(const EntityRef& entity) {
-    return GetEntityData(entity);
+  virtual void* GetComponentDataAsVoid(const EntityRef& entity) {
+    return GetComponentData(entity);
   }
-  virtual const void* GetEntityDataAsVoid(const EntityRef& entity) const {
-    return GetEntityData(entity);
+  virtual const void* GetComponentDataAsVoid(const EntityRef& entity) const {
+    return GetComponentData(entity);
   }
 
   // Return the data we have stored at a given index.
   // Returns null if data_index indicates this component isn't present.
-  T* GetEntityData(size_t data_index) {
+  T* GetComponentData(size_t data_index) {
     if (data_index == kUnusedComponentIndex) {
       return nullptr;
     }
-    EntityData* element_data = entity_data_.GetElementData(data_index);
+    ComponentData* element_data = component_data_.GetElementData(data_index);
     return (element_data != nullptr) ? &(element_data->data) : nullptr;
   }
 
   // Return the data we have stored at a given index.
   // Returns null if data_index indicates this component isn't present.
-  T* GetEntityData(const EntityRef& entity) {
-    size_t data_index = GetEntityDataIndex(entity);
-    if (data_index >= entity_data_.Size()) {
+  T* GetComponentData(const EntityRef& entity) {
+    size_t data_index = GetComponentDataIndex(entity);
+    if (data_index >= component_data_.Size()) {
       return nullptr;
     }
-    return GetEntityData(data_index);
+    return GetComponentData(data_index);
   }
 
   // Return the data we have stored at a given index.
   // Returns null if the data does not exist.
-  const T* GetEntityData(size_t data_index) const {
-    return const_cast<Component*>(this)->GetEntityData(data_index);
+  // WARNING: This pointer is NOT stable in memory.  Calls to AddEntity and
+  // AddEntityGenerically may force the storage class to resize,
+  // shuffling around the location of this data.
+  const T* GetComponentData(size_t data_index) const {
+    return const_cast<Component*>(this)->GetComponentData(data_index);
   }
 
   // Return our data for a given entity.
   // Returns null if the data does not exist.
-  const T* GetEntityData(const EntityRef& entity) const {
-    return const_cast<Component*>(this)->GetEntityData(entity);
+  // WARNING: This pointer is NOT stable in memory.  Calls to AddEntity and
+  // AddEntityGenerically may force the storage class to resize,
+  // shuffling around the location of this data.
+  const T* GetComponentData(const EntityRef& entity) const {
+    return const_cast<Component*>(this)->GetComponentData(entity);
   }
 
-  // Clears all tracked entity data.
-  void virtual ClearEntityData() {
-    for (auto iter = entity_data_.begin(); iter != entity_data_.end();
+  // Clears all tracked component data.
+  void virtual ClearComponentData() {
+    for (auto iter = component_data_.begin(); iter != component_data_.end();
          iter = RemoveEntity(iter)) {
     }
   }
@@ -206,21 +212,21 @@ class Component : public ComponentInterface {
 
     // Manually call the destructor on the data, since it is not actually being
     // freed, just returned to the pool.
-    const size_t data_index = GetEntityDataIndex(entity);
-    EntityData* entity_data = entity_data_.GetElementData(data_index);
-    entity_data->data.~T();
+    const size_t data_index = GetComponentDataIndex(entity);
+    ComponentData* component_data = component_data_.GetElementData(data_index);
+    component_data->data.~T();
 
     // Add a reference destructor is empty and the line above is implicitly
     // removed.
-    (void)entity_data;
+    (void)component_data;
   }
 
  protected:
-  size_t GetEntityDataIndex(const EntityRef& entity) const {
+  size_t GetComponentDataIndex(const EntityRef& entity) const {
     return entity->GetComponentDataIndex(GetComponentId());
   }
 
-  VectorPool<EntityData> entity_data_;
+  VectorPool<ComponentData> component_data_;
   EntityManager* entity_manager_;
 };
 

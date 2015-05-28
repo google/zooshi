@@ -33,7 +33,8 @@ void PlayerComponent::Initialize(event::EventManager* event_manager,
 }
 
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = entity_data_.begin(); iter != entity_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin();
+       iter != component_data_.end(); ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
     player_data->input_controller()->Update();
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
