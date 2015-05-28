@@ -90,6 +90,9 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
     for (size_t i = 0; i < transform_def->children()->size(); i++) {
       entity::EntityRef child = entity_factory_->CreateEntityFromData(
           transform_def->children()->Get(i), entity_manager_);
+      // CreateEntityFromData can resize the underlying data, invalidating the
+      // pointer to the transform data of the parent entity, so refresh it.
+      transform_data = GetEntityData(entity);
       TransformData* child_transform_data = AddEntity(child);
       transform_data->children.InsertBefore(child_transform_data->child_node());
       child_transform_data->parent = entity;
