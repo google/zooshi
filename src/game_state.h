@@ -32,6 +32,11 @@
 #include "fplbase/utilities.h"
 #include "motive/engine.h"
 
+#ifdef USING_GOOGLE_PLAY_GAMES
+#include "gpg_manager.h"
+#include "gpg_multiplayer.h"
+#endif
+
 #ifdef __ANDROID__
 #include "inputcontrollers/android_cardboard_controller.h"
 #else
@@ -81,6 +86,13 @@ class GameState : event::EventListener {
 
   bool is_in_cardboard() const { return is_in_cardboard_; }
   void set_is_in_cardboard(bool b) { is_in_cardboard_ = b; }
+
+#ifdef USING_GOOGLE_PLAY_GAMES
+  void set_gpg_manager(GPGManager * gpg_manager) { gpg_manager_ = gpg_manager; }
+  void set_gpg_multiplayer(GPGMultiplayer *gpg_multiplayer) {
+    gpg_multiplayer_ = gpg_multiplayer;
+  }
+#endif
 
  private:
   void RenderForCardboard(Renderer* renderer);
@@ -134,6 +146,14 @@ class GameState : event::EventListener {
 
   // Determines if the game is in Cardboard mode (for special rendering)
   bool is_in_cardboard_;
+
+#ifdef USING_GOOGLE_PLAY_GAMES
+  GPGManager *gpg_manager;
+
+  // Network multiplayer library for multi-screen version
+  GPGMultiplayer *gpg_multiplayer_;
+#endif
+
 };
 
 }  // fpl_project

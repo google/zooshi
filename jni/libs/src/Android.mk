@@ -56,6 +56,8 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/gpg_multiplayer.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \

@@ -15,6 +15,10 @@
 #ifndef ZOOSHI_GAME_H
 #define ZOOSHI_GAME_H
 
+#ifdef PLATFORM_MOBILE
+#define USING_GOOGLE_PLAY_GAMES
+#endif
+
 #include "camera.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
@@ -28,6 +32,12 @@
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
+
+#ifdef USING_GOOGLE_PLAY_GAMES
+#include "gpg_manager.h"
+#include "gpg_multiplayer.h"
+#endif
+
 
 namespace fpl {
 namespace fpl_project {
@@ -110,6 +120,13 @@ class Game {
 
   // String version number of the game.
   const char* version_;
+
+#ifdef USING_GOOGLE_PLAY_GAMES
+  GPGManager gpg_manager_;
+
+  // Network multiplayer library for multi-screen version
+  GPGMultiplayer gpg_multiplayer_;
+#endif
 };
 
 }  // fpl_project
