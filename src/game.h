@@ -16,17 +16,18 @@
 #define ZOOSHI_GAME_H
 
 #include "camera.h"
-#include "game_state.h"
+#include "config_generated.h"
 #include "entity/entity_manager.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/material_manager.h"
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
+#include "game_state.h"
+#include "imgui/font_manager.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
-#include "config_generated.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -81,7 +82,9 @@ class Game {
   Renderer renderer_;
 
   // Load and own rendering resources.
-  MaterialManager matman_;
+  MaterialManager material_manager_;
+
+  FontManager font_manager_;
 
   // Manage ownership and playing of audio assets.
   pindrop::AudioEngine audio_engine_;

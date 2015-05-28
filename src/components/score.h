@@ -21,6 +21,11 @@
 #include "event_system/event_listener.h"
 
 namespace fpl {
+
+class InputSystem;
+class MaterialManager;
+class FontManager;
+
 namespace event {
 
 class EventManager;
@@ -46,14 +51,20 @@ class ScoreComponent : public entity::Component<ScoreData>,
  public:
   ScoreComponent() {}
 
-  void Initialize(event::EventManager* event_manager);
+  void Initialize(InputSystem* input_system, MaterialManager* material_manager,
+                  FontManager* font_manager,
+                  event::EventManager* event_manager);
 
   virtual void OnEvent(int event_id, const event::EventPayload& event_payload);
 
   virtual void Init() {}
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
-  virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
+  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+
+  InputSystem* input_system_;
+  MaterialManager* material_manager_;
+  FontManager* font_manager_;
 };
 
 }  // fpl_project

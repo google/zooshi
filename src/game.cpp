@@ -80,6 +80,8 @@ static const int kMaxUpdateTime = 1000 / 30;
 
 static const char* kGuyMaterial = "materials/guy.fplmat";
 
+static const char* kOpenTypeFontFile = "fonts/NotoSansCJKjp-Bold.otf";
+
 /// kVersion is used by Google developers to identify which
 /// applications uploaded to Google Play are derived from this application.
 /// This allows the development team at Google to determine the popularity of
@@ -108,7 +110,7 @@ entity::EntityRef ZooshiEntityFactory::CreateEntityFromData(
 }
 
 Game::Game()
-    : matman_(renderer_),
+    : material_manager_(renderer_),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       prev_world_time_(0),
@@ -186,7 +188,7 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   if (material_name == nullptr || material_name[0] == '\0') return nullptr;
 
   // Load the material from file, and check validity.
-  Material* material = matman_.LoadMaterial(material_name);
+  Material* material = material_manager_.LoadMaterial(material_name);
   bool material_valid = material != nullptr && material->textures().size() > 0;
   if (!material_valid) return nullptr;
 
@@ -210,28 +212,28 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   return mesh;
 }
 
-// Load textures for cardboard into 'materials_'. The 'renderer_' and 'matman_'
-// members have been initialized at this point.
+// Load textures for cardboard into 'materials_'. The 'renderer_' and
+// 'material_manager_' members have been initialized at this point.
 bool Game::InitializeAssets() {
   // Load up all of our assets, as defined in the manifest.
   // TODO - put this into an asynchronous loding function, like we
   // had in pie noon.
   const AssetManifest& asset_manifest = GetAssetManifest();
   for (size_t i = 0; i < asset_manifest.mesh_list()->size(); i++) {
-    matman_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
+    material_manager_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.shader_list()->size(); i++) {
-    matman_.LoadShader(asset_manifest.shader_list()->Get(i)->c_str());
+    material_manager_.LoadShader(asset_manifest.shader_list()->Get(i)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
-    matman_.LoadMaterial(asset_manifest.material_list()->Get(i)->c_str());
+    material_manager_.LoadMaterial(asset_manifest.material_list()->Get(i)->c_str());
   }
-  matman_.StartLoadingTextures();
+  material_manager_.StartLoadingTextures();
 
   shader_lit_textured_normal_ =
-      matman_.LoadShader("shaders/lit_textured_normal");
-  shader_cardboard_ = matman_.LoadShader("shaders/cardboard");
-  shader_textured_ = matman_.LoadShader("shaders/textured");
+      material_manager_.LoadShader("shaders/lit_textured_normal");
+  shader_cardboard_ = material_manager_.LoadShader("shaders/cardboard");
+  shader_textured_ = material_manager_.LoadShader("shaders/textured");
 
   // Set shader uniforms:
   shader_cardboard_->SetUniform("ambient_material", kCardboardAmbient);
@@ -289,13 +291,16 @@ bool Game::Initialize(const char* const binary_directory) {
   }
 
   // Wait for everything to finish loading...
-  while (!matman_.TryFinalize()) {
+  while (!material_manager_.TryFinalize()) {
   }
+
+  font_manager_.Open(kOpenTypeFontFile);
+  font_manager_.SetRenderer(renderer_);
 
   SetRelativeMouseMode(true);
 
   game_state_.Initialize(renderer_.window_size(), GetConfig(), GetInputConfig(),
-                         &input_, &matman_, &audio_engine_);
+                         &input_, &material_manager_, &font_manager_, &audio_engine_);
 
   LogInfo("Initialization complete\n");
   return true;
@@ -328,7 +333,7 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
   // Update the currently drawing Google Play Games image. Displays "Sign In"
   // when currently signed-out, and "Sign Out" when currently signed in.
 
-  Material* material = matman_.LoadMaterial(kGuyMaterial);
+  Material* material = material_manager_.LoadMaterial(kGuyMaterial);
   const vec2 window_size = vec2(resolution);
   const float texture_scale = 1.0f;
   const vec2 texture_size =
@@ -381,13 +386,7 @@ void Game::Run() {
 
 // TEMP: testing GUI on top of everything else.
 #if (IMGUI_TEST)
-    // Open OpenType font
-    static FontManager fontman;
-    if (!fontman.FontLoaded()) {
-      fontman.Open("fonts/NotoSansCJKjp-Bold.otf");
-      fontman.SetRenderer(renderer_);
-    }
-    gui::TestGUI(matman_, fontman, input_);
+    gui::TestGUI(material_manager_, fontman, input_);
 #endif  // IMGUI_TEST
   }
 }

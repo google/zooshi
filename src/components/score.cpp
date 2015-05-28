@@ -20,7 +20,9 @@
 #include "events/hit_patron_body.h"
 #include "events/hit_patron_mouth.h"
 #include "events/projectile_fired_event.h"
+#include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
+#include "imgui/imgui.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -53,7 +55,13 @@ void ScoreData::OnEvent(int event_id,
   }
 }
 
-void ScoreComponent::Initialize(event::EventManager* event_manager) {
+void ScoreComponent::Initialize(InputSystem* input_system,
+                                MaterialManager* material_manager,
+                                FontManager* font_manager,
+                                event::EventManager* event_manager) {
+  input_system_ = input_system;
+  font_manager_ = font_manager;
+  material_manager_ = material_manager;
   event_manager->RegisterListener(kEventIdProjectileFired, this);
   event_manager->RegisterListener(kEventIdHitPatronMouth, this);
   event_manager->RegisterListener(kEventIdHitPatronBody, this);
@@ -88,6 +96,22 @@ void ScoreComponent::OnEvent(int event_id,
       score_data->OnEvent(event_id, event_payload);
     }
   }
+}
+
+void ScoreComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+  auto component_data = &component_data_;
+  gui::Run(*material_manager_, *font_manager_, *input_system_,
+           [component_data]() {
+             for (auto iter = component_data->begin();
+                  iter != component_data->end(); ++iter) {
+               ScoreData* score_data = &iter->data;
+               gui::StartGroup(gui::LAYOUT_HORIZONTAL_TOP, 10);
+               gui::Margin margin(8);
+               gui::SetMargin(margin);
+               gui::Label(std::to_string(score_data->patrons_fed).c_str(), 100);
+               gui::EndGroup();
+             }
+           });
 }
 
 void ScoreComponent::AddFromRawData(entity::EntityRef& entity,

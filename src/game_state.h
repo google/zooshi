@@ -67,8 +67,8 @@ class GameState : event::EventListener {
   // with a reference to meshrenderer, and load things from that.
   // (rather than passing in the shader and mesh)
   void Initialize(const vec2i& window_size, const Config& config,
-                  const InputConfig& input_config, InputSystem* input_system_,
-                  MaterialManager* material_manager,
+                  const InputConfig& input_config, InputSystem* input_system,
+                  MaterialManager* material_manager, FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine);
 
   void Render(Renderer* renderer);
