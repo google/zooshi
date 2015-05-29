@@ -142,7 +142,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   audio_listener_component_.Initialize(audio_engine);
   patron_component_.Initialize(config_, &event_manager_);
-  physics_component_.Initialize(&event_manager_, bounce_handle);
+  physics_component_.Initialize(&event_manager_, bounce_handle, config_);
   player_component_.Initialize(&event_manager_, config_);
   rail_denizen_component_.Initialize(rail_def);
   render_mesh_component_.Initialize(vec3(-10, -20, 20), material_manager);

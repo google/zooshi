@@ -15,7 +15,9 @@
 #ifndef COMPONENTS_PHYSICS_H_
 #define COMPONENTS_PHYSICS_H_
 
+#include "btBulletDynamicsCommon.h"
 #include "components_generated.h"
+#include "config_generated.h"
 #include "entity/component.h"
 #include "event_system/event_manager.h"
 #include "mathfu/glsl_mappings.h"
@@ -27,28 +29,64 @@ namespace fpl_project {
 // Data for scene object components.
 struct PhysicsData {
  public:
-  mathfu::vec3 velocity;
-  mathfu::quat angular_velocity;
-  // TODO: Later, replace this stuff with a binding to a bullet physics object.
-  // b/20176055
+  std::unique_ptr<btCollisionShape> shape;
+  std::unique_ptr<btMotionState> motion_state;
+  std::unique_ptr<btRigidBody> rigid_body;
+
+  mathfu::vec3 Velocity() const {
+    const btVector3 vel = rigid_body->getLinearVelocity();
+    return mathfu::vec3(vel.x(), vel.y(), vel.z());
+  }
+  void SetVelocity(mathfu::vec3 velocity) {
+    const btVector3 vel(velocity.x(), velocity.y(), velocity.z());
+    rigid_body->setLinearVelocity(vel);
+  }
+  mathfu::vec3 AngularVelocity() const {
+    const btVector3 vel = rigid_body->getAngularVelocity();
+    return mathfu::vec3(vel.x(), vel.y(), vel.z());
+  }
+  void SetAngularVelocity(mathfu::vec3 velocity) {
+    const btVector3 vel(velocity.x(), velocity.y(), velocity.z());
+    rigid_body->setAngularVelocity(vel);
+  }
 };
 
 class PhysicsComponent : public entity::Component<PhysicsData> {
  public:
   PhysicsComponent() {}
+  virtual ~PhysicsComponent();
 
   void Initialize(event::EventManager* event_manager,
-                  pindrop::SoundHandle bounce_handle);
+                  pindrop::SoundHandle bounce_handle, const Config* config);
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
+  virtual void CleanupEntity(entity::EntityRef& entity);
+
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
+
+  void UpdatePhysicsFromTransform(entity::EntityRef& entity);
+
+  btDiscreteDynamicsWorld* bullet_world() { return bullet_world_.get(); }
 
  private:
   event::EventManager* event_manager_;
+
   pindrop::SoundHandle bounce_handle_;
+  const Config* config_;
+
+  std::unique_ptr<btDiscreteDynamicsWorld> bullet_world_;
+  std::unique_ptr<btBroadphaseInterface> broadphase_;
+  std::unique_ptr<btDefaultCollisionConfiguration> collision_configuration_;
+  std::unique_ptr<btCollisionDispatcher> collision_dispatcher_;
+  std::unique_ptr<btSequentialImpulseConstraintSolver> constraint_solver_;
+
+  // TODO: Remove these, when the ground is instantiated in data. (b/21502254)
+  std::unique_ptr<btCollisionShape> ground_shape_;
+  std::unique_ptr<btDefaultMotionState> ground_motion_state_;
+  std::unique_ptr<btRigidBody> ground_rigid_body_;
 };
 
 }  // fpl_project

@@ -7,7 +7,9 @@
 
   "assets_filename": "assets.bin",
 
-  "projectile_speed": 2.0,
+  "projectile_speed": 120.0,
+  "gravity": -90.0,
+  "bullet_max_steps": 5,
 
   "world_editor_config" : {
     "viewport_angle_degrees":90,
