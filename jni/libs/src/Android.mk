@@ -48,6 +48,7 @@ LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_SDL_DIR)/include \
   $(DEPENDENCIES_SDL_MIXER_DIR) \
   $(DEPENDENCIES_WEBP_DIR)/src \
+  $(DEPENDENCIES_BULLETPHYSICS_DIR)/src \
   $(ZOOSHI_GENERATED_OUTPUT_DIR) \
   src
 
@@ -118,7 +119,8 @@ LOCAL_STATIC_LIBRARIES := \
   libmotive \
   libfreetype \
   libharfbuzz \
-  libflatbuffers
+  libflatbuffers \
+  libbullet
 
 LOCAL_SHARED_LIBRARIES :=
 

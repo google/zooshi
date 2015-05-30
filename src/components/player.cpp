@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "btBulletDynamicsCommon.h"
 #include "components/player.h"
 #include "entity/entity_common.h"
 #include "events/projectile_fired_event.h"
@@ -33,8 +34,8 @@ void PlayerComponent::Initialize(event::EventManager* event_manager,
 }
 
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = component_data_.begin();
-       iter != component_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
     player_data->input_controller()->Update();
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
@@ -80,11 +81,30 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
   PlayerData* source_player_data = Data<PlayerData>(source);
 
-  physics_data->velocity =
-      config_->projectile_speed() * source_player_data->GetFacing();
-  physics_data->angular_velocity = mathfu::quat::FromEulerAngles(mathfu::vec3(
-      mathfu::RandomInRange(0.05f, 0.1f), mathfu::RandomInRange(0.05f, 0.1f),
-      mathfu::RandomInRange(0.05f, 0.1f)));
+  // TODO: Instantiate physics from raw data (b/21502254)
+  physics_data->shape.reset(new btBoxShape(btVector3(0.5f, 0.5f, 0.5f)));
+  physics_data->motion_state.reset(
+      new btDefaultMotionState(btTransform(btQuaternion(), btVector3())));
+  btScalar mass = 1;
+  btVector3 inertia(0, 0, 0);
+  physics_data->shape->calculateLocalInertia(mass, inertia);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
+      mass, physics_data->motion_state.get(), physics_data->shape.get(),
+      inertia);
+  rigid_body_builder.m_restitution = 1.0f;
+  physics_data->rigid_body.reset(new btRigidBody(rigid_body_builder));
+
+  auto velocity = config_->projectile_speed() * source_player_data->GetFacing();
+  physics_data->SetVelocity(velocity);
+  physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(3.0f, 6.0f),
+                                        mathfu::RandomInRange(3.0f, 6.0f),
+                                        mathfu::RandomInRange(3.0f, 6.0f)));
+
+  auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
+  physics_component->UpdatePhysicsFromTransform(projectile);
+  physics_component->bullet_world()->addRigidBody(
+      physics_data->rigid_body.get());
+
   projectile_data->owner = source;
 
   return entity::EntityRef();

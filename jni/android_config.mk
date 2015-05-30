@@ -48,6 +48,8 @@ DEPENDENCIES_MOTIVE_DIR?=$(FPL_ROOT)/motive
 DEPENDENCIES_GPG_DIR?=$(PREBUILTS_ROOT)/gpg-cpp-sdk/android
 # Location of the webp library.
 DEPENDENCIES_WEBP_DIR?=$(THIRD_PARTY_ROOT)/webp
+# Location of the Bullet Physics library.
+DEPENDENCIES_BULLETPHYSICS_DIR?=$(THIRD_PARTY_ROOT)/bulletphysics
 # Location of the Cardboard library.
 DEPENDENCIES_CARDBOARD_DIR?=$(PREBUILTS_ROOT)/cardboard-java/CardboardSample
 

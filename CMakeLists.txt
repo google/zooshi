@@ -57,6 +57,8 @@ set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
 set(dependencies_motive_dir "${fpl_root}/motive"
     CACHE PATH "Directory containing the motive animation library.")
+set(dependencies_bulletphysics_distr_dir "${third_party_root}/bulletphysics"
+    CACHE PATH "Directory containing the Bullet Physics distribution.")
 
 # Option to enable / disable the test build.
 option(zooshi_build_tests "Build tests for this project." ON)
@@ -94,6 +96,15 @@ endif()
 # Include imgui.
 if(NOT zooshi_only_flatc AND NOT TARGET imgui)
   add_subdirectory("${dependencies_imgui_dir}" ${tmp_dir}/imgui)
+endif()
+
+if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
+  set(BUILD_CPU_DEMOS OFF CACHE BOOL "")
+  set(BUILD_BULLET2_DEMOS OFF CACHE BOOL "")
+  set(BUILD_BULLET3 OFF CACHE BOOL "")
+  set(BUILD_EXTRAS OFF CACHE BOOL "")
+  set(BUILD_UNIT_TESTS OFF CACHE BOOL "")
+  add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
 endif()
 
 # Generate source files for all FlatBuffers schema files under the src
@@ -213,6 +224,7 @@ include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_fplbase_dir}/include)
 include_directories(${dependencies_imgui_dir}/include)
+include_directories(${dependencies_bulletphysics_distr_dir}/src)
 
 # Detect clang
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -248,7 +260,10 @@ target_link_libraries(zooshi
   motive
   fplbase
   imgui
-  pindrop)
+  pindrop
+  BulletDynamics
+  BulletCollision
+  LinearMath)
 
 # Tests.
 if(NOT zooshi_only_flatc)

@@ -83,7 +83,14 @@ table Config {
   // The manifest of assets to load.
   assets_filename:string;
 
+  // The initial speed of the projectiles
   projectile_speed: float;
+
+  // The strength of gravity
+  gravity: float;
+
+  // The maximum number of steps to advance bullet each frame
+  bullet_max_steps: int;
 
   world_editor_config: fpl.editor.WorldEditorConfig;
 

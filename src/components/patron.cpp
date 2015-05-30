@@ -60,8 +60,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& parent,
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
-  for (auto iter = component_data_.begin();
-       iter != component_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
     entity::EntityRef patron = iter->entity;
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
@@ -99,7 +99,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           if (projectile_height >= kHitMinHeight) {
             vec3 spin_direction_vector =
                 entity_manager_->GetComponentData<PhysicsData>(projectile)
-                    ->velocity;
+                    ->Velocity();
             spin_direction_vector.z() = 0;  // flatten so it's on the XY plane.
 
             patron_data->falling_rotation = quat::RotateFromTo(
@@ -167,12 +167,30 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
 
     transform_data->position = position;
 
-    physics_data->velocity = vec3(mathfu::RandomInRange(-0.25f, 0.25f),
-                                  mathfu::RandomInRange(-0.25f, 0.25f),
-                                  mathfu::RandomInRange(0.0f, 0.5f));
-    physics_data->angular_velocity = mathfu::quat::FromEulerAngles(mathfu::vec3(
-        mathfu::RandomInRange(0.05f, 0.1f), mathfu::RandomInRange(0.05f, 0.1f),
-        mathfu::RandomInRange(0.05f, 0.1f)));
+    // TODO: Have physics instantiated from data (b/21502254)
+    physics_data->shape.reset(new btEmptyShape());
+    physics_data->motion_state.reset(
+        new btDefaultMotionState(btTransform(btQuaternion(), btVector3())));
+    btScalar mass = 1;
+    btVector3 inertia(0, 0, 0);
+    physics_data->shape->calculateLocalInertia(mass, inertia);
+    btRigidBody::btRigidBodyConstructionInfo info(
+        mass, physics_data->motion_state.get(), physics_data->shape.get(),
+        inertia);
+    physics_data->rigid_body.reset(new btRigidBody(info));
+
+    physics_data->rigid_body->setLinearVelocity(
+        btVector3(mathfu::RandomInRange(-15.0f, 15.0f),
+                  mathfu::RandomInRange(-15.0f, 15.0f),
+                  mathfu::RandomInRange(0.0f, 30.0f)));
+    physics_data->rigid_body->setAngularVelocity(btVector3(
+        mathfu::RandomInRange(3.0f, 6.0f), mathfu::RandomInRange(3.0f, 6.0f),
+        mathfu::RandomInRange(3.0f, 6.0f)));
+
+    auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
+    physics_component->UpdatePhysicsFromTransform(particle);
+    physics_component->bullet_world()->addRigidBody(
+        physics_data->rigid_body.get());
   }
 }
 
