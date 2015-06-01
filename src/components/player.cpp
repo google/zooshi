@@ -67,12 +67,10 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   entity::EntityRef projectile = entity_manager_->CreateEntityFromData(
       config_->entity_defs()->Get(EntityDefs_kProjectile));
 
-  TransformData* transform_data =
-      entity_manager_->GetComponentData<TransformData>(projectile);
-  PhysicsData* physics_data =
-      entity_manager_->GetComponentData<PhysicsData>(projectile);
+  TransformData* transform_data = Data<TransformData>(projectile);
+  PhysicsData* physics_data = Data<PhysicsData>(projectile);
   PlayerProjectileData* projectile_data =
-      entity_manager_->GetComponentData<PlayerProjectileData>(projectile);
+      Data<PlayerProjectileData>(projectile);
 
   TransformData* source_transform_data = Data<TransformData>(source);
   transform_data->position = source_transform_data->position;
@@ -80,29 +78,13 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
   PlayerData* source_player_data = Data<PlayerData>(source);
 
-  // TODO: Instantiate physics from raw data (b/21502254)
-  physics_data->shape.reset(new btBoxShape(btVector3(0.5f, 0.5f, 0.5f)));
-  physics_data->motion_state.reset(
-      new btDefaultMotionState(btTransform(btQuaternion(), btVector3())));
-  btScalar mass = 1;
-  btVector3 inertia(0, 0, 0);
-  physics_data->shape->calculateLocalInertia(mass, inertia);
-  btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
-      mass, physics_data->motion_state.get(), physics_data->shape.get(),
-      inertia);
-  rigid_body_builder.m_restitution = 1.0f;
-  physics_data->rigid_body.reset(new btRigidBody(rigid_body_builder));
-
   auto velocity = config_->projectile_speed() * source_player_data->GetFacing();
   physics_data->SetVelocity(velocity);
   physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(3.0f, 6.0f),
                                         mathfu::RandomInRange(3.0f, 6.0f),
                                         mathfu::RandomInRange(3.0f, 6.0f)));
-
   auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   physics_component->UpdatePhysicsFromTransform(projectile);
-  physics_component->bullet_world()->addRigidBody(
-      physics_data->rigid_body.get());
 
   projectile_data->owner = source;
 

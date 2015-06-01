@@ -45,27 +45,10 @@ void PhysicsComponent::Initialize(event::EventManager* event_manager,
   bullet_world_.reset(new btDiscreteDynamicsWorld(
       collision_dispatcher_.get(), broadphase_.get(), constraint_solver_.get(),
       collision_configuration_.get()));
-  bullet_world_->setGravity(btVector3(0, 0, config->gravity()));
-
-  // TODO: Create from config data (b/21502254)
-  // Create the ground plane.
-  ground_shape_.reset(new btStaticPlaneShape(btVector3(0, 0, 1), 1));
-
-  ground_motion_state_.reset(new btDefaultMotionState(
-      btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, kGroundPlane))));
-  btVector3 inertia(0, 0, 0);
-  btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
-      0, ground_motion_state_.get(), ground_shape_.get(), inertia);
-  ground_rigid_body_.reset(new btRigidBody(rigid_body_builder));
-  ground_rigid_body_->setRestitution(1.0f);
-  bullet_world_->addRigidBody(ground_rigid_body_.get());
+  bullet_world_->setGravity(btVector3(0.0f, 0.0f, config->gravity()));
 }
 
-PhysicsComponent::~PhysicsComponent() {
-  ClearComponentData();
-
-  bullet_world_->removeRigidBody(ground_rigid_body_.get());
-}
+PhysicsComponent::~PhysicsComponent() { ClearComponentData(); }
 
 void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
                                       const void* raw_data) {
@@ -74,10 +57,75 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
   auto physics_def = static_cast<const PhysicsDef*>(component_data->data());
   PhysicsData* physics_data = AddEntity(entity);
 
-  (void)physics_def;
-  (void)physics_data;
+  if (physics_def->shape() != nullptr) {
+    switch (physics_def->shape()->data_type()) {
+      case BulletShapeUnion_BulletSphereDef: {
+        auto sphere_data =
+            static_cast<const BulletSphereDef*>(physics_def->shape()->data());
+        physics_data->shape.reset(new btSphereShape(sphere_data->radius()));
+        break;
+      }
+      case BulletShapeUnion_BulletBoxDef: {
+        auto box_data =
+            static_cast<const BulletBoxDef*>(physics_def->shape()->data());
+        btVector3 half_extents(box_data->half_extents()->x(),
+                               box_data->half_extents()->y(),
+                               box_data->half_extents()->z());
+        physics_data->shape.reset(new btBoxShape(btVector3(half_extents)));
+        break;
+      }
+      case BulletShapeUnion_BulletCylinderDef: {
+        auto cylinder_data =
+            static_cast<const BulletCylinderDef*>(physics_def->shape()->data());
+        btVector3 half_extents(cylinder_data->half_extents()->x(),
+                               cylinder_data->half_extents()->y(),
+                               cylinder_data->half_extents()->z());
+        physics_data->shape.reset(new btCylinderShape(half_extents));
+        break;
+      }
+      case BulletShapeUnion_BulletCapsuleDef: {
+        auto capsule_data =
+            static_cast<const BulletCapsuleDef*>(physics_def->shape()->data());
+        physics_data->shape.reset(
+            new btCapsuleShape(capsule_data->radius(), capsule_data->height()));
+        break;
+      }
+      case BulletShapeUnion_BulletConeDef: {
+        auto cone_data =
+            static_cast<const BulletConeDef*>(physics_def->shape()->data());
+        physics_data->shape.reset(
+            new btConeShape(cone_data->radius(), cone_data->height()));
+        break;
+      }
+      case BulletShapeUnion_BulletStaticPlaneDef: {
+        auto plane_data = static_cast<const BulletStaticPlaneDef*>(
+            physics_def->shape()->data());
+        btVector3 normal(plane_data->normal()->x(), plane_data->normal()->y(),
+                         plane_data->normal()->z());
+        physics_data->shape.reset(
+            new btStaticPlaneShape(normal, plane_data->constant()));
+        break;
+      }
+      case BulletShapeUnion_BulletNoShapeDef:
+      default: {
+        physics_data->shape.reset(new btEmptyShape());
+        break;
+      }
+    }
+  } else {
+    physics_data->shape.reset(new btEmptyShape());
+  }
+  physics_data->motion_state.reset(new btDefaultMotionState());
+  btScalar mass = physics_def->mass();
+  btVector3 inertia(0.0f, 0.0f, 0.0f);
+  physics_data->shape->calculateLocalInertia(mass, inertia);
+  btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
+      mass, physics_data->motion_state.get(), physics_data->shape.get(),
+      inertia);
+  rigid_body_builder.m_restitution = physics_def->restitution();
+  physics_data->rigid_body.reset(new btRigidBody(rigid_body_builder));
 
-  // TODO - populate data here. (b/21502254)
+  bullet_world_->addRigidBody(physics_data->rigid_body.get());
 }
 
 void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {

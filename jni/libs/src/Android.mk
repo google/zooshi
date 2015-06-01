@@ -80,6 +80,7 @@ ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 
 ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/assets.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/bullet_def.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/world_editor.fbs \

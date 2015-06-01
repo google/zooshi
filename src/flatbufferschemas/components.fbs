@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+include "bullet_def.fbs";
 include "common.fbs";
 
 namespace fpl;
@@ -42,12 +43,17 @@ table SoundDef {
   sound:string;
 }
 
+table PhysicsDef {
+  shape:BulletShapeDef;
+  mass:float = 1;
+  restitution:float;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table PatronDef {}
 table PlayerDef {}
 table PlayerProjectileDef {}
-table PhysicsDef {}
 table ListenerDef {}
 table ScoreDef {}
 
