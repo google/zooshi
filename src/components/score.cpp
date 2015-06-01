@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <cstdio>
+
 #include "components/score.h"
 #include "event_system/event_manager.h"
 #include "event_system/event_payload.h"
@@ -19,7 +21,7 @@
 #include "events/hit_patron.h"
 #include "events/hit_patron_body.h"
 #include "events/hit_patron_mouth.h"
-#include "events/projectile_fired_event.h"
+#include "events/projectile_fired.h"
 #include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
 #include "imgui/imgui.h"
@@ -27,10 +29,8 @@
 namespace fpl {
 namespace fpl_project {
 
-void ScoreData::OnEvent(int event_id,
-                        const event::EventPayload& event_payload) {
-  (void)event_payload;
-  switch (event_id) {
+void ScoreData::OnEvent(const event::EventPayload& event_payload) {
+  switch (event_payload.event_id()) {
     case kEventIdProjectileFired: {
       LogInfo("Fired projectile");
       ++projectiles_fired;
@@ -68,24 +68,23 @@ void ScoreComponent::Initialize(InputSystem* input_system,
   event_manager->RegisterListener(kEventIdHitPatron, this);
 }
 
-void ScoreComponent::OnEvent(int event_id,
-                             const event::EventPayload& event_payload) {
-  const EntityEventPayload* entity_event = nullptr;
-  switch (event_id) {
+void ScoreComponent::OnEvent(const event::EventPayload& event_payload) {
+  const EntityEvent* entity_event = nullptr;
+  switch (event_payload.event_id()) {
     case kEventIdProjectileFired: {
-      entity_event = event_payload.ToData<ProjectileFiredEventPayload>();
+      entity_event = event_payload.ToData<ProjectileFiredEvent>();
       break;
     }
     case kEventIdHitPatronMouth: {
-      entity_event = event_payload.ToData<HitPatronMouthEventPayload>();
+      entity_event = event_payload.ToData<HitPatronMouthEvent>();
       break;
     }
     case kEventIdHitPatronBody: {
-      entity_event = event_payload.ToData<HitPatronBodyEventPayload>();
+      entity_event = event_payload.ToData<HitPatronBodyEvent>();
       break;
     }
     case kEventIdHitPatron: {
-      entity_event = event_payload.ToData<HitPatronEventPayload>();
+      entity_event = event_payload.ToData<HitPatronEvent>();
       break;
     }
     default: { assert(0); }
@@ -93,7 +92,7 @@ void ScoreComponent::OnEvent(int event_id,
   if (entity_event) {
     ScoreData* score_data = Data<ScoreData>(entity_event->target);
     if (score_data) {
-      score_data->OnEvent(event_id, event_payload);
+      score_data->SendEvent(event_payload);
     }
   }
 }
@@ -105,10 +104,12 @@ void ScoreComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
              for (auto iter = component_data->begin();
                   iter != component_data->end(); ++iter) {
                ScoreData* score_data = &iter->data;
+               char label[16] = {0};
+               std::sprintf(label, "%i", score_data->patrons_fed);
                gui::StartGroup(gui::LAYOUT_HORIZONTAL_TOP, 10);
                gui::Margin margin(8);
                gui::SetMargin(margin);
-               gui::Label(std::to_string(score_data->patrons_fed).c_str(), 100);
+               gui::Label(label, 100);
                gui::EndGroup();
              }
            });

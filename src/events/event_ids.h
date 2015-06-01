@@ -21,7 +21,7 @@ namespace fpl_project {
 // The list of all defined event types.
 enum EventId {
   kEventIdInvalid,
-  kEventIdPlayAudio,
+  kEventIdPlaySound,
   kEventIdProjectileFired,
   kEventIdHitPatron,
   kEventIdHitPatronBody,

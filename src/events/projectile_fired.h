@@ -12,23 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_EVENTS_ENTITY_EVENT_H_
-#define FPL_EVENTS_ENTITY_EVENT_H_
+#ifndef FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
+#define FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
 
 #include "entity/entity_manager.h"
+#include "event_system/event_registry.h"
+#include "events/entity.h"
+#include "events/event_ids.h"
 
 namespace fpl {
 namespace fpl_project {
 
-// This is not an event payload for any specific entity. This is meant to be
-// inherited by anything that wants to send a specific entity an event.
-struct EntityEventPayload {
-  EntityEventPayload(entity::EntityRef& target_) : target(target_) {}
-  entity::EntityRef target;
+struct ProjectileFiredEvent : public EntityEvent {
+  ProjectileFiredEvent(entity::EntityRef& target_,
+                       entity::EntityRef& projectile_)
+      : EntityEvent(target_), projectile(projectile_) {}
+
+  // The projectile that was fired;
+  entity::EntityRef projectile;
 };
 
 }  // fpl_project
 }  // fpl
 
-#endif  // FPL_EVENTS_ENTITY_EVENT_H_
+FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdProjectileFired,
+                      fpl::fpl_project::ProjectileFiredEvent)
+
+#endif  // FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
 

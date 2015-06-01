@@ -24,8 +24,8 @@
 namespace fpl {
 namespace fpl_project {
 
-struct AudioEventPayload {
-  AudioEventPayload(pindrop::SoundHandle handle_, mathfu::vec3 location_)
+struct PlaySoundEvent {
+  PlaySoundEvent(pindrop::SoundHandle handle_, mathfu::vec3 location_)
       : handle(handle_), location(location_) {}
 
   pindrop::SoundHandle handle;
@@ -35,8 +35,8 @@ struct AudioEventPayload {
 }  // fpl_project
 }  // fpl
 
-FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdPlayAudio,
-                      fpl::fpl_project::AudioEventPayload)
+FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdPlaySound,
+                      fpl::fpl_project::PlaySoundEvent)
 
 #endif  // AUDIO_EVENT_H_
 

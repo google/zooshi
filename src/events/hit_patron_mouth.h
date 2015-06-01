@@ -17,17 +17,17 @@
 
 #include "entity/entity_manager.h"
 #include "event_system/event_registry.h"
-#include "events/entity_event.h"
+#include "events/entity.h"
 #include "events/event_ids.h"
 
 namespace fpl {
 namespace fpl_project {
 
-struct HitPatronMouthEventPayload : public EntityEventPayload {
-  HitPatronMouthEventPayload(entity::EntityRef& target_,
-                             entity::EntityRef& projectile_,
-                             entity::EntityRef& patron_)
-      : EntityEventPayload(target_), projectile(projectile_), patron(patron_) {}
+struct HitPatronMouthEvent : public EntityEvent {
+  HitPatronMouthEvent(entity::EntityRef& target_,
+                      entity::EntityRef& projectile_,
+                      entity::EntityRef& patron_)
+      : EntityEvent(target_), projectile(projectile_), patron(patron_) {}
 
   // The projectile that fed the patron.
   entity::EntityRef projectile;
@@ -40,7 +40,7 @@ struct HitPatronMouthEventPayload : public EntityEventPayload {
 }  // fpl
 
 FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdHitPatronMouth,
-                      fpl::fpl_project::HitPatronMouthEventPayload)
+                      fpl::fpl_project::HitPatronMouthEvent)
 
 #endif  // FPL_EVENTS_HIT_PATRON_MOUTH_EVENT_H_
 

@@ -15,13 +15,16 @@
 #include "components/sound.h"
 #include "components/transform.h"
 #include "config_generated.h"
-#include "events/audio_event.h"
 #include "events/event_ids.h"
 #include "events/hit_patron.h"
 #include "events/hit_patron_body.h"
 #include "events/hit_patron_mouth.h"
-#include "fplbase/input.h"
+#include "events/play_sound.h"
 #include "fplbase/flatbuffer_utils.h"
+#include "fplbase/input.h"
+#ifdef ANDROID_CARDBOARD
+#include "fplbase/renderer_android.h"
+#endif
 #include "game_state.h"
 #include "input_config_generated.h"
 #include "mathfu/constants.h"
@@ -29,9 +32,6 @@
 #include "motive/init.h"
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
-#ifdef ANDROID_CARDBOARD
-#include "fplbase/renderer_android.h"
-#endif
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -109,7 +109,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_system_ = input_system;
   material_manager_ = material_manager;
 
-  event_manager_.RegisterListener(kEventIdPlayAudio, this);
+  event_manager_.RegisterListener(kEventIdPlaySound, this);
 
   entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
   entity_manager_.RegisterComponent<RailDenizenComponent>(
@@ -227,11 +227,10 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   world_editor_->Initialize(config.world_editor_config(), input_system_);
 }
 
-void GameState::OnEvent(int event_id,
-                        const event::EventPayload& event_payload) {
-  switch (event_id) {
-    case kEventIdPlayAudio: {
-      auto* payload = event_payload.ToData<AudioEventPayload>();
+void GameState::OnEvent(const event::EventPayload& event_payload) {
+  switch (event_payload.event_id()) {
+    case kEventIdPlaySound: {
+      auto* payload = event_payload.ToData<PlaySoundEvent>();
       audio_engine_->PlaySound(payload->handle, payload->location);
       break;
     }

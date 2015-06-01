@@ -15,23 +15,11 @@
 #include <algorithm>
 
 #include "event_system/event_manager.h"
-
 #include "event_system/event_payload.h"
 #include "event_system/event_registry.h"
 
 namespace fpl {
 namespace event {
-
-void EventManager::SendEvent(EventListener* listener, int event_id) {
-  listener->OnEvent(event_id, EventPayload(event_id));
-}
-
-void EventManager::BroadcastEvent(int event_id) {
-  std::vector<EventListener*>& list = listener_lists_[event_id];
-  for (auto iter = list.begin(); iter != list.end(); ++iter) {
-    EventManager::SendEvent(*iter, event_id);
-  }
-}
 
 void EventManager::RegisterListener(int event_id, EventListener* listener) {
   std::vector<EventListener*>& list = listener_lists_[event_id];

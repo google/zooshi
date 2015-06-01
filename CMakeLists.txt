@@ -187,13 +187,13 @@ set(zooshi_SRCS
     src/event_system/event_manager.h
     src/event_system/event_payload.h
     src/event_system/event_registry.h
-    src/events/audio_event.h
-    src/events/entity_event.h
+    src/events/entity.h
     src/events/event_ids.h
     src/events/hit_patron.h
     src/events/hit_patron_body.h
     src/events/hit_patron_mouth.h
-    src/events/projectile_fired_event.h
+    src/events/play_sound.h
+    src/events/projectile_fired.h
     src/flatbufferschemas
     src/game.cpp
     src/game.h

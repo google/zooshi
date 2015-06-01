@@ -19,7 +19,6 @@
 
 #include "event_system/event_listener.h"
 #include "event_system/event_payload.h"
-#include "event_system/event_registry.h"
 
 namespace fpl {
 namespace event {
@@ -34,28 +33,14 @@ class EventManager {
   // All event ids must be in the range [0, size).
   EventManager(int size) : listener_lists_(size) {}
 
-  // Send an event with no payload to a specific EventListener.
-  static void SendEvent(EventListener* listener, int event_id);
-
-  // Send an event with the given payload to a specific EventListener.
-  template <typename T>
-  static void SendEvent(EventListener* listener, int event_id,
-                        const T& payload) {
-    assert(event_id == EventIdRegistry<T>::kEventId);
-    listener->OnEvent(event_id, EventPayload(event_id, &payload));
-  }
-
-  // Broadcast an event with no payload to all events listeners registered to
-  // `event_id`.
-  void BroadcastEvent(int event_id);
-
   // Broadcast an event with the given payload to all events listeners
   // registered to `event_id`.
   template <typename T>
-  void BroadcastEvent(int event_id, const T& event_data) {
-    std::vector<EventListener*>& list = listener_lists_[event_id];
+  void BroadcastEvent(const T& event_data) {
+    std::vector<EventListener*>& list =
+        listener_lists_[EventIdRegistry<T>::kEventId];
     for (auto iter = list.begin(); iter != list.end(); ++iter) {
-      EventManager::SendEvent(*iter, event_id, event_data);
+      (*iter)->SendEvent(event_data);
     }
   }
 

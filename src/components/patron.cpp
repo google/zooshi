@@ -109,18 +109,13 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             patron_data->dy = 0.0f;
             patron_data->original_orientation = transform_data->orientation;
             event_manager_->BroadcastEvent(
-                kEventIdHitPatronMouth,
-                HitPatronMouthEventPayload(projectile_owner, projectile,
-                                           patron));
+                HitPatronMouthEvent(projectile_owner, projectile, patron));
           } else {
             event_manager_->BroadcastEvent(
-                kEventIdHitPatronBody,
-                HitPatronBodyEventPayload(projectile_owner, projectile,
-                                          patron));
+                HitPatronBodyEvent(projectile_owner, projectile, patron));
           }
           event_manager_->BroadcastEvent(
-              kEventIdHitPatron,
-              HitPatronEventPayload(projectile_owner, projectile, patron));
+              HitPatronEvent(projectile_owner, projectile, patron));
 
           // Even if you didn't hit the top, if got here, you got some
           // kind of collision, so you get a splatter.

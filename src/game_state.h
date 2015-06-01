@@ -82,7 +82,7 @@ class GameState : event::EventListener {
   void UpdateCardboardCameras();
   void Update(WorldTime delta_time);
 
-  virtual void OnEvent(int event_id, const event::EventPayload& event_payload);
+  virtual void OnEvent(const event::EventPayload& event_payload);
 
   bool is_in_cardboard() const { return is_in_cardboard_; }
   void set_is_in_cardboard(bool b) { is_in_cardboard_ = b; }

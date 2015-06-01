@@ -15,19 +15,18 @@
 #ifndef FPL_EVENTS_HIT_PATRON_EVENT_H_
 #define FPL_EVENTS_HIT_PATRON_EVENT_H_
 
-#include "event_system/event_registry.h"
-#include "events/event_ids.h"
-#include "events/entity_event.h"
 #include "entity/entity_manager.h"
+#include "event_system/event_registry.h"
+#include "events/entity.h"
+#include "events/event_ids.h"
 
 namespace fpl {
 namespace fpl_project {
 
-struct HitPatronEventPayload : public EntityEventPayload {
-  HitPatronEventPayload(entity::EntityRef& target_,
-                        entity::EntityRef& projectile_,
-                        entity::EntityRef& patron_)
-      : EntityEventPayload(target_), projectile(projectile_), patron(patron_) {}
+struct HitPatronEvent : public EntityEvent {
+  HitPatronEvent(entity::EntityRef& target_, entity::EntityRef& projectile_,
+                 entity::EntityRef& patron_)
+      : EntityEvent(target_), projectile(projectile_), patron(patron_) {}
 
   // The projectile that hit the patron.
   entity::EntityRef projectile;
@@ -40,7 +39,7 @@ struct HitPatronEventPayload : public EntityEventPayload {
 }  // fpl
 
 FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdHitPatron,
-                      fpl::fpl_project::HitPatronEventPayload)
+                      fpl::fpl_project::HitPatronEvent)
 
 #endif  // FPL_EVENTS_HIT_PATRON_EVENT_H_
 

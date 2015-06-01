@@ -15,8 +15,8 @@
 #include "components/physics.h"
 #include "components/transform.h"
 #include "event_system/event_manager.h"
-#include "events/audio_event.h"
 #include "events/event_ids.h"
+#include "events/play_sound.h"
 #include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
@@ -102,8 +102,7 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     // TODO: Generate this event based on the collision (b/21522963)
     if (transform_data->position.z() < kGroundPlane) {
       event_manager_->BroadcastEvent(
-          kEventIdPlayAudio,
-          AudioEventPayload(bounce_handle_, transform_data->position));
+          PlaySoundEvent(bounce_handle_, transform_data->position));
     }
   }
 }
