@@ -21,6 +21,8 @@ include $(ZOOSHI_DIR)/jni/android_config.mk
 LOCAL_PATH:=$(DEPENDENCIES_BULLETPHYSICS_DIR)/src
 
 LOCAL_MODULE := libbullet
+LOCAL_MODULE_FILENAME := libbullet
+
 LOCAL_C_INCLUDES := \
     $(LOCAL_PATH)/ \
     $(LOCAL_PATH)/BulletCollision/BroadphaseCollision \
