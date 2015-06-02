@@ -38,13 +38,12 @@ struct ScoreData : public event::EventListener {
  public:
   ScoreData() : projectiles_fired(0), patrons_fed(0), patrons_hit(0) {}
 
+  virtual void OnEvent(const event::EventPayload& event_payload);
+
   // TODO(amablue): The score should propagate to Google Play services.
   int projectiles_fired;
   int patrons_fed;
   int patrons_hit;
-
- private:
-  virtual void OnEvent(const event::EventPayload& event_payload);
 };
 
 class ScoreComponent : public entity::Component<ScoreData>,
@@ -61,9 +60,9 @@ class ScoreComponent : public entity::Component<ScoreData>,
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
- private:
   virtual void OnEvent(const event::EventPayload& event_payload);
 
+ private:
   InputSystem* input_system_;
   MaterialManager* material_manager_;
   FontManager* font_manager_;

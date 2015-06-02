@@ -28,15 +28,6 @@ class EventPayload;
 // `EventManager` will call the OnEvent function on each registered listener.
 class EventListener {
  public:
-  // Use this function to send an event payload to specific this EventListener.
-  // T must be a type that has been registered with the EventRegistry. See
-  // event_registry.h for details.
-  template <typename T>
-  void SendEvent(const T& payload) {
-    OnEvent(EventPayload(EventIdRegistry<T>::kEventId, &payload));
-  }
-
- private:
   // Override this function to respond to events that have been sent to the
   // event listener. The EventPayload contains an ID and a void pointer which
   // can be cast to the appropriate type using the member function ToData().
@@ -55,6 +46,17 @@ class EventListener {
   //       }
   //     }
   virtual void OnEvent(const EventPayload& event_payload) = 0;
+
+  // Use this function to send an event payload to this EventListener.
+  // T must be a type that has been registered with the EventRegistry. See
+  // event_registry.h for details.
+  template <typename T>
+  void SendEvent(const T& payload) {
+    static_assert(
+        EventIdRegistry<T>::kEventId != kEventIdRegistryInvalidId,
+        "Attempting to send an event with an unregistered event type.");
+    OnEvent(EventPayload(EventIdRegistry<T>::kEventId, &payload));
+  }
 };
 
 }  // event

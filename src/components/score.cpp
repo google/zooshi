@@ -92,7 +92,7 @@ void ScoreComponent::OnEvent(const event::EventPayload& event_payload) {
   if (entity_event) {
     ScoreData* score_data = Data<ScoreData>(entity_event->target);
     if (score_data) {
-      score_data->SendEvent(event_payload);
+      score_data->OnEvent(event_payload);
     }
   }
 }

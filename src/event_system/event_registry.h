@@ -46,8 +46,12 @@ struct EventIdRegistry {
   EventIdRegistry();
 };
 
+// Special value representing an event type that has not been registered with
+// the event system.
+const int kEventIdRegistryInvalidId = -9999;
+
 template <typename T>
-const int EventIdRegistry<T>::kEventId = 0;
+const int EventIdRegistry<T>::kEventId = kEventIdRegistryInvalidId;
 
 }  // event
 }  // fpl
