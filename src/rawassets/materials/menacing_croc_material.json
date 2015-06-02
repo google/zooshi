@@ -1,0 +1,7 @@
+{
+  texture_filenames: [
+    "textures/menacing_croc.webp",
+  ],
+  "blendmode": "ALPHA"
+}
+

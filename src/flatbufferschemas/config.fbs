@@ -19,7 +19,9 @@ include "world_editor.fbs";
 namespace fpl.fpl_project;
 
 enum EntityDefs : byte {
-  kPatron,
+  kPatronLadyMandrill,
+  kPatronMenacingCroc,
+  kPatronMoustacheCroc,
   kProjectile,
   kSplatterParticle,
   kGround,

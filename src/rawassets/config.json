@@ -117,7 +117,7 @@
 
   "entity_defs": [
 
-    // kPatron
+    // kPatronLadyMandrill
     {
       "component_list": [
         {
@@ -126,7 +126,7 @@
             "position": {
               "x": 0,
               "y": 0,
-              "z": -14.0
+              "z": 0
             },
             "children": [
               {
@@ -154,7 +154,113 @@
                   {
                     "data_type": "RenderMeshDef",
                     "data": {
-                      "source_file": "meshes/croc_moustache.fplmesh",
+                      "source_file": "meshes/lady_mandrill.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  },
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {}
+        }
+      ]
+    },
+
+    // kPatronMenacingCroc
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": {
+                        "x": 10.0,
+                        "y": 10.0,
+                        "z": 10.0
+                      },
+                      "position": {
+                          "x": 0.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        },
+                      "orientation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data": {
+                      "source_file": "meshes/menacing_croc.fplmesh",
+                      "shader": "shaders/textured"
+                    }
+                  },
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {}
+        }
+      ]
+    },
+
+    // kPatronMoustacheCroc
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": {
+                        "x": 10.0,
+                        "y": 10.0,
+                        "z": 10.0
+                      },
+                      "position": {
+                          "x": 0.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        },
+                      "orientation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                      }
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data": {
+                      "source_file": "meshes/moustache_croc.fplmesh",
                       "shader": "shaders/textured"
                     }
                   },
@@ -523,32 +629,32 @@
     },
 
     {
-      "entity": "kPatron",
+      "entity": "kPatronLadyMandrill",
       "count": 5,
       "radius": 30,
       "orientation_offset_angle": 90,
       "position_offset_angle": 0,
-      "position": { "x": 12, "y": 12, "z": -14 },
+      "position": { "x": 12, "y": 12, "z": 0 },
       "scale": { "x": 1, "y": 1, "z": 1 }
     },
 
     {
-      "entity": "kPatron",
+      "entity": "kPatronMoustacheCroc",
       "count": 9,
       "radius": 50,
       "orientation_offset_angle": 90,
       "position_offset_angle": 13,
-      "position": { "x": 12, "y": 0, "z": -14 },
+      "position": { "x": 12, "y": 0, "z": 0 },
       "scale": { "x": 1, "y": 1, "z": 1 }
     },
 
     {
-      "entity": "kPatron",
+      "entity": "kPatronMenacingCroc",
       "count": 6,
       "radius": 70,
       "orientation_offset_angle": 90,
       "position_offset_angle": 26,
-      "position": { "x": 0, "y": 0, "z": -14 },
+      "position": { "x": 0, "y": 0, "z": 0 },
       "scale": { "x": 1, "y": 1, "z": 1 }
     },
 
