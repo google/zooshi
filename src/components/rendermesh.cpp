@@ -23,6 +23,11 @@ using mathfu::mat4;
 namespace fpl {
 namespace fpl_project {
 
+// Offset the frustrum by this many world-units.  As long as no objects are
+// larger than this number, they should still all draw, even if their
+// registration points technically fall outside our frustrum.
+static const float kFrustrumOffset = 50.0f;
+
 void RenderMeshComponent::Initialize(mathfu::vec3 light_position,
                                      MaterialManager* material_manager) {
   light_position_ = light_position;
@@ -39,6 +44,20 @@ void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
                                        const Camera& camera) {
   TransformData* transform_data = Data<TransformData>(entity);
   RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
+
+  // Check to make sure objects are inside the frustrum of our view-cone:
+  float max_cos = cos(camera.viewport_angle());
+  vec3 camera_facing = camera.facing();
+  vec3 entity_position = transform_data->world_transform.TranslationVector3D();
+  vec3 pos_relative_to_camera = (entity_position - camera.position()) +
+      camera_facing * kFrustrumOffset;
+
+  if (vec3::DotProduct(pos_relative_to_camera.Normalized(),
+                       camera_facing.Normalized()) < max_cos) {
+    // The origin point for this mesh is not in our field of view.  Cut out
+    // early, and don't bother rendering it.
+    return;
+  }
 
   mat4 world_transform = transform_data->world_transform;
 
