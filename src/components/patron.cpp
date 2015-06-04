@@ -162,18 +162,6 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
 
     transform_data->position = position;
 
-    // TODO: Have physics instantiated from data (b/21502254)
-    physics_data->shape.reset(new btEmptyShape());
-    physics_data->motion_state.reset(
-        new btDefaultMotionState(btTransform(btQuaternion(), btVector3())));
-    btScalar mass = 1;
-    btVector3 inertia(0, 0, 0);
-    physics_data->shape->calculateLocalInertia(mass, inertia);
-    btRigidBody::btRigidBodyConstructionInfo info(
-        mass, physics_data->motion_state.get(), physics_data->shape.get(),
-        inertia);
-    physics_data->rigid_body.reset(new btRigidBody(info));
-
     physics_data->rigid_body->setLinearVelocity(
         btVector3(mathfu::RandomInRange(-15.0f, 15.0f),
                   mathfu::RandomInRange(-15.0f, 15.0f),
@@ -184,8 +172,6 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
 
     auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
     physics_component->UpdatePhysicsFromTransform(particle);
-    physics_component->bullet_world()->addRigidBody(
-        physics_data->rigid_body.get());
   }
 }
 

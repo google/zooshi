@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "transform.h"
+#include "components/physics.h"
 #include <math.h>
 
 namespace fpl {
@@ -26,8 +27,8 @@ void TransformComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 void TransformComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = component_data_.begin();
-       iter != component_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
     TransformData* transform_data = Data<TransformData>(iter->entity);
     // Go through and start updating everything that has no parent:
     if (!transform_data->parent.IsValid()) {
@@ -39,16 +40,16 @@ void TransformComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 void TransformComponent::UpdateWorldPosition(entity::EntityRef& entity,
                                              mathfu::mat4 transform) {
   TransformData* transform_data = GetComponentData(entity);
-  transform_data->world_transform = transform *
-      transform_data->GetTransformMatrix();
+  transform_data->world_transform =
+      transform * transform_data->GetTransformMatrix();
 
   for (IntrusiveListNode* node = transform_data->children.GetNext();
-           node != transform_data->children.GetTerminator();
-           node = node->GetNext()) {
-        TransformData* child_transform_data =
-            TransformData::GetInstanceFromChildNode(node);
-        UpdateWorldPosition(child_transform_data->owner,
-                            transform_data->world_transform);
+       node != transform_data->children.GetTerminator();
+       node = node->GetNext()) {
+    TransformData* child_transform_data =
+        TransformData::GetInstanceFromChildNode(node);
+    UpdateWorldPosition(child_transform_data->owner,
+                        transform_data->world_transform);
   }
 }
 
@@ -86,6 +87,13 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
   }
   if (scale != nullptr) {
     transform_data->scale = mathfu::vec3(scale->x(), scale->y(), scale->z());
+  }
+
+  // The physics component is initialized first, so it needs to be updated with
+  // the correct initial transform.
+  auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
+  if (entity->IsRegisteredForComponent(physics_component->GetComponentId())) {
+    physics_component->UpdatePhysicsFromTransform(entity);
   }
 
   if (transform_def->children() != nullptr) {

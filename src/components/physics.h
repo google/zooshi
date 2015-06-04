@@ -61,6 +61,8 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
 
+  // TODO: Implement ExportRawData function for editor (b/21589546)
+
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
   virtual void CleanupEntity(entity::EntityRef& entity);
@@ -82,11 +84,6 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   std::unique_ptr<btDefaultCollisionConfiguration> collision_configuration_;
   std::unique_ptr<btCollisionDispatcher> collision_dispatcher_;
   std::unique_ptr<btSequentialImpulseConstraintSolver> constraint_solver_;
-
-  // TODO: Remove these, when the ground is instantiated in data. (b/21502254)
-  std::unique_ptr<btCollisionShape> ground_shape_;
-  std::unique_ptr<btDefaultMotionState> ground_motion_state_;
-  std::unique_ptr<btRigidBody> ground_rigid_body_;
 };
 
 }  // fpl_project
