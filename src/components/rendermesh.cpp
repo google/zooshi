@@ -67,6 +67,7 @@ void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
   renderer.camera_pos() = world_matrix_inverse * camera.position();
   renderer.light_pos() = world_matrix_inverse * light_position_;
   renderer.model_view_projection() = mvp;
+  renderer.color() = rendermesh_data->tint;
 
   if (rendermesh_data->shader) {
     rendermesh_data->shader->Set(renderer);
