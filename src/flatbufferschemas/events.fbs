@@ -48,6 +48,15 @@ table ChangeRailSpeed {
   value:float;
 }
 
+enum EditorEventAction : byte {
+  Enter,
+  Exit,
+}
+
+table EditorEvent {
+  action:EditorEventAction;
+}
+
 // Collision events are not meant to be thrown from a data defined event being
 // handled, but are instead thrown only from the Physics component.
 table Collision {}
@@ -61,6 +70,7 @@ union EventSinkUnion {
   ModifyAttribute,
   ChangeRailSpeed,
   Collision,
+  EditorEvent,
   Size,
 }
 

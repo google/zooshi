@@ -39,6 +39,30 @@ void RiverComponent::AddFromRawData(entity::EntityRef& parent,
   AddEntity(parent);
 }
 
+entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* RiverComponent::PopulateRawData(entity::EntityRef& entity,
+                                      void* helper) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+  auto component = CreateComponentDefInstance(*fbb, ComponentDataUnion_RiverDef,
+                                              CreateRiverDef(*fbb).Union());
+  return reinterpret_cast<void*>(component.o);
+}
+
 // Generates the actual mesh for the river, and adds it to this entitiy's
 // rendermesh component.
 void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
@@ -52,8 +76,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   const Config* config =
       entity_manager_->GetComponent<ServicesComponent>()->config();
 
-  Rail* rail = entity_manager_->GetComponent<ServicesComponent>()->
-      rail_manager()->GetRail(config->river_config()->rail_filename()->c_str());
+  Rail* rail = entity_manager_->GetComponent<ServicesComponent>()
+                   ->rail_manager()
+                   ->GetRail(config->river_config()->rail_filename()->c_str());
 
   // Generate the spline data and store it in our track vector:
   rail->Positions(config->river_config()->spline_stepsize(), &track);
@@ -70,16 +95,14 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
   // the normal to where we are on the track right now.  Initialized to
   // our best guess, based on the first two points.
-  vec3 track_normal =
-      vec3::CrossProduct(vec3(track[1]) - vec3(track[0]), mathfu::kAxisZ3f)
-          .Normalized();
+  vec3 track_normal = vec3::CrossProduct(vec3(track[1]) - vec3(track[0]),
+                                         mathfu::kAxisZ3f).Normalized();
 
   // Construct the actual mesh data for the river:
   for (int i = 0; i < segment_count; i++) {
     if (i != 0) {
       track_normal = vec3::CrossProduct(vec3(track[i]) - vec3(track[i - 1]),
-                                        mathfu::kAxisZ3f)
-                         .Normalized();
+                                        mathfu::kAxisZ3f).Normalized();
     }
     track_normal *= config->river_config()->track_half_width();
     vec3 track_pos = vec3(track[i]);
@@ -104,8 +127,8 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
     // Force the beginning and end to line up in their geometry:
     if (i == segment_count - 1) {
-      verts[vertex_count-2].pos = verts[0].pos;
-      verts[vertex_count-1].pos = verts[1].pos;
+      verts[vertex_count - 2].pos = verts[0].pos;
+      verts[vertex_count - 1].pos = verts[1].pos;
     }
 
     // Not counting the first segment, create triangles in our index
@@ -129,14 +152,13 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
   // Load the material from file, and check validity.
-  Material* material = asset_manager->LoadMaterial(
-      config->river_config()->material()->c_str());
+  Material* material =
+      asset_manager->LoadMaterial(config->river_config()->material()->c_str());
 
   // Create the actual mesh object, and stuff all the data we just
   // generated into it.
-  Mesh* mesh =
-      new Mesh(verts.get(), vertex_count, sizeof(NormalMappedVertex),
-               kMeshFormat);
+  Mesh* mesh = new Mesh(verts.get(), vertex_count, sizeof(NormalMappedVertex),
+                        kMeshFormat);
 
   mesh->AddIndices(indexes.get(), index_count, material);
 

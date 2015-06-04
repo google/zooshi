@@ -36,6 +36,9 @@ class TimeLimitComponent : public entity::Component<TimeLimitData> {
   TimeLimitComponent() {}
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
+
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 };
 

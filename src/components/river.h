@@ -29,12 +29,13 @@ namespace fpl_project {
 // All the relevent data for rivers ends up tossed into other components.
 // (Mostly rendermesh at the moment.)  This will probably be less empty
 // once the river gets more animated.
-struct RiverData {
-};
+struct RiverData {};
 
 class RiverComponent : public entity::Component<RiverData> {
  public:
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
 
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}

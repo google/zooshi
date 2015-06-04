@@ -22,9 +22,11 @@
 #include "imgui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
+#include "fplbase/utilities.h"
 #include "motive/engine.h"
 #include "pindrop/pindrop.h"
 #include "railmanager.h"
+#include "zooshi_entity_factory.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -45,7 +47,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
                   InputSystem* input_system, pindrop::AudioEngine* audio_engine,
                   motive::MotiveEngine* motive_engine,
                   event::EventManager* event_manager, FontManager* font_manager,
-                  RailManager* rail_manager) {
+                  RailManager* rail_manager,
+                  ZooshiEntityFactory* zooshi_entity_factory) {
     config_ = config;
     asset_manager_ = asset_manager;
     input_system_ = input_system;
@@ -54,6 +57,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
     event_manager_ = event_manager;
     font_manager_ = font_manager;
     rail_manager_ = rail_manager;
+    zooshi_entity_factory_ = zooshi_entity_factory;
   }
 
   const Config* config() { return config_; }
@@ -66,11 +70,27 @@ class ServicesComponent : public entity::Component<ServicesData> {
   RailManager* rail_manager() { return rail_manager_; }
   entity::EntityRef raft_entity() { return raft_entity_; }
   void set_raft_entity(entity::EntityRef entity) { raft_entity_ = entity; }
-
+  ZooshiEntityFactory* zooshi_entity_factory() {
+    return zooshi_entity_factory_;
+  }
+  const void* component_def_binary_schema() const {
+    if (component_def_binary_schema_ == "") {
+      LogInfo(
+          "ServicesComponent: ComponentDef binary schema not yet loaded, did "
+          "you call LoadComponentDefBinarySchema()?");
+      return nullptr;
+    }
+    return component_def_binary_schema_.c_str();
+  }
   // This component should never be added to an entity.  It is only provided
   // as an interface for other components to access common resources.
   void AddFromRawData(entity::EntityRef& /*entity*/, const void* /*raw_data*/) {
     assert(false);
+  }
+  void LoadComponentDefBinarySchema(const char* filename) {
+    if (!LoadFile(filename, &component_def_binary_schema_)) {
+      LogInfo("Couldn't load ComponentDef binary schema from %s", filename);
+    }
   }
 
  private:
@@ -84,6 +104,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
   FontManager* font_manager_;
   RailManager* rail_manager_;
   entity::EntityRef raft_entity_;
+  ZooshiEntityFactory* zooshi_entity_factory_;
+  std::string component_def_binary_schema_;
 };
 
 }  // fpl_project

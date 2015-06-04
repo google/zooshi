@@ -41,5 +41,33 @@ void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   }
 }
 
+entity::ComponentInterface::RawDataUniquePtr TimeLimitComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* TimeLimitComponent::PopulateRawData(entity::EntityRef& entity,
+                                          void* helper) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  const TimeLimitData* data = GetComponentData(entity);
+  if (data == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+  auto component = CreateComponentDefInstance(
+      *fbb, ComponentDataUnion_TimeLimitDef,
+      CreateTimeLimitDef(*fbb, data->time_limit).Union());
+  return reinterpret_cast<void*>(component.o);
+}
+
 }  // fpl_project
 }  // fpl

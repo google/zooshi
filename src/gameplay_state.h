@@ -43,6 +43,7 @@ class GameplayState : public StateNode {
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
+  virtual void OnEnter();
 
  protected:
   void RenderMonoscopic(Renderer* renderer);

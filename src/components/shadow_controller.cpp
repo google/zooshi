@@ -41,6 +41,10 @@ void ShadowControllerComponent::UpdateAllEntities(
         Data<ShadowControllerData>(iter->entity);
 
     TransformData* transform_data = Data<TransformData>(iter->entity);
+    if (!transform_data->parent) {
+      // No parent yet, don't do anything.
+      continue;
+    }
 
     if (!shadow_data->shadow_caster.IsValid()) {
       shadow_data->shadow_caster = transform_data->parent;
@@ -56,6 +60,31 @@ void ShadowControllerComponent::UpdateAllEntities(
         mathfu::vec3(parent_transform_data->position.x(),
                      parent_transform_data->position.y(), kShadowHeight);
   }
+}
+
+entity::ComponentInterface::RawDataUniquePtr
+ShadowControllerComponent::ExportRawData(entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* ShadowControllerComponent::PopulateRawData(entity::EntityRef& entity,
+                                                 void* helper) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+  auto component =
+      CreateComponentDefInstance(*fbb, ComponentDataUnion_ShadowControllerDef,
+                                 CreateShadowControllerDef(*fbb).Union());
+  return reinterpret_cast<void*>(component.o);
 }
 
 }  // fpl_project

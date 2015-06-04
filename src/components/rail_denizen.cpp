@@ -25,7 +25,10 @@
 #include "events/change_rail_speed.h"
 #include "events/parse_action.h"
 #include "events/utilities.h"
+#include "flatbuffers/flatbuffers.h"
+#include "flatbuffers/reflection.h"
 #include "fplbase/flatbuffer_utils.h"
+#include "fplbase/utilities.h"
 #include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
@@ -135,7 +138,7 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   data->Initialize(
       *rail_manager->GetRail(rail_denizen_def->rail_file()->c_str()),
       rail_denizen_def->start_time(), engine_);
-
+  data->start_time = rail_denizen_def->start_time();
   data->on_new_lap = rail_denizen_def->on_new_lap();
   data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
   data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
@@ -156,6 +159,70 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   data->enabled = rail_denizen_def->enabled();
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
+}
+
+entity::ComponentInterface::RawDataUniquePtr
+RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* RailDenizenComponent::PopulateRawData(entity::EntityRef& entity,
+                                            void* helper) const {
+  const RailDenizenData* data = GetComponentData(entity);
+  if (data == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+
+  Vec3 rail_offset{data->rail_offset.x(), data->rail_offset.y(),
+                   data->rail_offset.z()};
+  mathfu::vec3 euler = data->rail_orientation.ToEulerAngles();
+  Vec3 rail_orientation{euler.x(), euler.y(), euler.z()};
+  Vec3 rail_scale{data->rail_scale.x(), data->rail_scale.y(),
+                  data->rail_scale.z()};
+
+  auto rail_name = fbb->CreateString(data->rail_id);
+
+  auto schema_file = entity_manager_->GetComponent<ServicesComponent>()
+                         ->component_def_binary_schema();
+  auto schema =
+      schema_file != nullptr ? reflection::GetSchema(schema_file) : nullptr;
+  auto table_def =
+      schema != nullptr ? schema->objects()->LookupByKey("ActionDef") : nullptr;
+  auto on_new_lap =
+      data->on_new_lap != nullptr && table_def != nullptr
+          ? flatbuffers::Offset<ActionDef>(
+                flatbuffers::CopyTable(
+                    *fbb, *schema, *table_def,
+                    (const flatbuffers::Table&)(*data->on_new_lap))
+                    .o)
+          : 0;
+
+  RailDenizenDefBuilder builder(*fbb);
+
+  builder.add_start_time(data->start_time);
+  builder.add_initial_playback_rate(data->spline_playback_rate);
+  if (on_new_lap.o != 0) {
+    builder.add_on_new_lap(on_new_lap);
+  }
+  builder.add_rail_file(rail_name);
+  builder.add_rail_offset(&rail_offset);
+  builder.add_rail_orientation(&rail_orientation);
+  builder.add_rail_scale(&rail_scale);
+  builder.add_update_orientation(data->update_orientation);
+  builder.add_enabled(data->enabled);
+
+  auto component = CreateComponentDefInstance(
+      *fbb, ComponentDataUnion_RailDenizenDef, builder.Finish().Union());
+  return reinterpret_cast<void*>(component.o);
 }
 
 void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {

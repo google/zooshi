@@ -21,6 +21,7 @@
 #include "entity/component.h"
 #include "event/event_manager.h"
 #include "fplbase/asset_manager.h"
+#include "flatbuffers/reflection.h"
 #include "fplbase/renderer.h"
 #include "fplbase/shader.h"
 #include "mathfu/glsl_mappings.h"
@@ -103,7 +104,9 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   virtual ~PhysicsComponent();
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-  // TODO: Implement ExportRawData function for editor (b/21589546)
+  // TODO: Implement PopulateRawData function for editor (b/21589546)
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
 
   virtual void Init();
   virtual void InitEntity(entity::EntityRef& /*entity*/);
@@ -117,6 +120,7 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   void EnablePhysics(const entity::EntityRef& entity);
   void DisablePhysics(const entity::EntityRef& entity);
 
+  entity::EntityRef RaycastSingle(mathfu::vec3& start, mathfu::vec3& end);
   void DebugDrawWorld(Renderer* renderer, const mathfu::mat4& camera_transform);
 
   btDiscreteDynamicsWorld* bullet_world() { return bullet_world_.get(); }

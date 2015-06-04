@@ -1,0 +1,1140 @@
+{
+  "entity_list": [
+    // Raft
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Raft"
+          }
+        },
+        {
+          "data_type": "RailDenizenDef",
+          "data" : {
+            "start_time": 0,
+            "rail_file": "rails/player_path.bin",
+            "on_new_lap": {
+              "event_list": [
+                {
+                  "event_type": "ChangeRailSpeed",
+                  "event": {
+                    "entity": "Raft",
+                    "op": "Add",
+                    "value": 0.25
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    // Ground physics
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "GroundPhysics"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {}
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletStaticPlaneDef",
+                "data": {
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "constant": 0
+                },
+                "mass": 0,
+                "restitution": 1.0,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        }
+      ]
+    },
+
+    // PlayerPrototype
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PlayerPrototype",
+          }
+        },
+        {
+          "data_type": "PlayerDef",
+          "data": {
+            "on_fire": {
+              "event_list": [
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                },
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "Source",
+                    "op": "Add",
+                    "attrib": "ProjectilesFired",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "child_ids" : [ "PlayerPrototype_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_rice.fplmesh",
+            "shader": "shaders/textured"
+          }
+        },
+        {
+          "data_type": "ListenerDef",
+          "data" : {}
+        },
+        {
+          "data_type": "AttributesDef",
+          "data" : {}
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PlayerPrototype_RenderMesh",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 5.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_rice.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PatronLadyMandrill_First",
+            "prototype": "PatronLadyMandrill",
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
+            "min_lap": 0,
+            "max_lap": 1,
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "ChangeRailSpeed",
+                  "event": {
+                    "entity": "Raft",
+                    "op": "Set",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Add",
+                    "attrib": "PatronsFed",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    // kPatronLadyMandrill
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PatronLadyMandrill",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "child_ids": [ "PatronLadyMandrill_RenderMesh",
+                           "BlobShadow"],
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.5,
+                    "y": 0.6,
+                    "z": 1.5
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 1.5
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.1,
+                    "y": 0.6,
+                    "z": 1.5
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 4.5
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
+            "min_lap": 0,
+            "max_lap": 1,
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Add",
+                    "attrib": "PatronsFed",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
+        },
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "BlobShadow",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 3.0,
+              "y": 3.0,
+              "z": 3.0
+            },
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/blobshadow.fplmesh",
+            "shader": "shaders/textured",
+            "render_pass" : ["kAlpha"],
+          }
+        },
+        {
+          "data_type": "ShadowControllerDef",
+          "data": {}
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PatronLadyMandrill_RenderMesh",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 3.0,
+              "y": 3.0,
+              "z": 3.0
+            },
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/lady_mandrill.fplmesh",
+            "shader": "shaders/textured",
+            "render_pass" : ["kAlpha"]
+
+          }
+        }
+      ]
+    },
+
+    // kPatronMenacingCroc
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PatronMenacingCroc",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "child_ids": [ "PatronMenacingCroc_RenderMesh",
+                           "BlobShadow" ],
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.8,
+                    "y": 0.6,
+                    "z": 3.6
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 40,
+            "pop_out_radius": 45,
+            "min_lap": 2,
+            "max_lap": 3,
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Add",
+                    "attrib": "PatronsFed",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "data_type": "RailDenizenDef",
+          "data" : {
+            "start_time": 0,
+            "rail_file": "rails/line_loop.bin",
+            "initial_playback_rate": 0.75,
+            "update_orientation": false,
+            "rail_scale": { "x": 5, "y": 5, "z": 5 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PatronMenacingCroc_RenderMesh",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 3.0,
+              "y": 3.0,
+              "z": 3.0
+            },
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/menacing_croc.fplmesh",
+            "shader": "shaders/textured",
+            "render_pass" : ["kAlpha"]
+          }
+        }
+      ]
+    },
+
+    // kPatronMoustacheCroc
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "PatronMoustacheCroc",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "child_ids": [ "PatronMoustacheCroc_RenderMesh",
+                           "BlobShadow"],
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.8,
+                    "y": 0.6,
+                    "z": 3.6
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
+            "min_lap": 1,
+            "max_lap": 2,
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Add",
+                    "attrib": "PatronsFed",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
+        },
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id" : "PatronMoustacheCroc_RenderMesh",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 3.0,
+              "y": 3.0,
+              "z": 3.0
+            },
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/moustache_croc.fplmesh",
+            "shader": "shaders/textured",
+            "render_pass": ["kAlpha"],
+          }
+        }
+      ]
+    },
+
+    // kProjectile
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Projectile",
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.3,
+                    "y": 0.16,
+                    "z": 0.16
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0.16
+                },
+                "restitution": 1.0,
+                "collision_type": "Projectile",
+                "collides_with": [
+                  "Patron",
+                  "Ground"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "data_type": "TimeLimitDef",
+          "data": {
+            "timelimit": 3.0
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 10.0,
+              "y": 10.0,
+              "z": 10.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/sushi_salmon.fplmesh",
+            "shader": "shaders/textured"
+          }
+        },
+        {
+          "data_type": "PlayerProjectileDef",
+          "data": {
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "whoosh"
+          }
+        }
+      ]
+    },
+
+    // kSplatterParticle
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "SplatterParticle",
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletNoShapeDef",
+                "data": {}
+              }
+            ]
+          }
+        },
+        {
+          "data_type": "TimeLimitDef",
+          "data": {
+            "timelimit": 1.5
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 4.0,
+              "y": 4.0,
+              "z": 4.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/sushi_rice.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+
+    // kGround
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Ground",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 50.0, "y": 50.0, "z": 50.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/ground.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+
+    // kBackground
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Background",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/background.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+
+    // kMidGroundTree
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "MidGroundTree",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/tree_saturated.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+
+    // kFernGarden
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "FernGarden",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 1.7, "y": 1.7, "z": 1.7 },
+            "position": { "x": 0, "y": 0, "z": 3.2 },
+            "child_ids":
+            [
+              "FernGarden_Fern1",
+              "FernGarden_Fern2",
+              "FernGarden_Fern3"
+            ],
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id" : "FernGarden_Fern1",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 1.0, "y": 1.0, "z": -1.0 },
+            "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
+            "orientation": { "x": 0.0, "y": 90.0, "z": 0.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/fern_oak.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id" : "FernGarden_Fern2",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 1.0, "y": 1.0, "z": -1.0 },
+            "position": { "x": 0.7, "y": 1.0, "z": 0.0 },
+            "orientation": { "x": 0.0, "y": 90.0, "z": 0.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/fern_short.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id" : "FernGarden_Fern3",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 1.0, "y": 1.0, "z": -1.0 },
+            "position": { "x": 0.2, "y": 1.5, "z": 1.0 },
+            "orientation": { "x": 0.0, "y": 90.0, "z": 0.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/fern_leafy.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+
+    // kSushiGarden
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "SushiGarden",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": 0, "z": -2.2 },
+            "scale": { "x": 1.1, "y": 1.1, "z": 1.1 },
+            "child_ids" :
+            [
+              "SushiGarden_Sushi1",
+              "SushiGarden_Sushi2",
+              "SushiGarden_Sushi3",
+            ],
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id" : "SushiGarden_Sushi1",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+            "position": { "x": 2.0, "y": 5.0, "z": 1.0 },
+            "orientation": { "x": 0.0, "y": 0.0, "z": 40.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_rice.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id" : "SushiGarden_Sushi2",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+            "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
+            "orientation": { "x": 0.0, "y": 0.0, "z": -10.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_salmon.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id" : "SushiGarden_Sushi3",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
+            "position": { "x": -4.0, "y": 4.0, "z": 1.0 },
+            "orientation": { "x": 0.0, "y": 0.0, "z": 70.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_shrimp.fplmesh",
+            "shader": "shaders/textured"
+          }
+        }
+      ]
+    },
+
+    // kSkyBox
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "SkyBox",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": ["SkyBox_RenderMesh"]
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "SkyBox_RenderMesh",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/skybox.fplmesh",
+            "shader": "shaders/textured_opaque",
+            "ignore_culling": true
+          }
+        }
+      ]
+    },
+
+    // kBambooMat
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "BambooMat",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "BambooMat_RenderMesh" ]
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "BambooMat_RenderMesh",
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 3.0, "y": 3.0, "z": 3.0 },
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/bamboo_mat.fplmesh",
+            "shader": "shaders/textured_opaque"
+          }
+        }
+      ]
+    }
+  ]
+}

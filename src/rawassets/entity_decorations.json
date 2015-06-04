@@ -1,0 +1,112 @@
+{
+  entity_list: [
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"SushiGarden"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 2, "y": 55, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 180 },
+            "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"SushiGarden"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 36, "y": 41, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 70 },
+            "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"SushiGarden"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 53, "y": -25, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 130 },
+            "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"SushiGarden"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -6, "y": -19, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 10 },
+            "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"SushiGarden"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -61, "y": -53, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": -40 },
+            "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"SushiGarden"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -48, "y": 11, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 220 },
+            "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+          }
+        }
+      ]
+    }
+  ]
+}

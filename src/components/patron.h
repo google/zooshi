@@ -19,6 +19,7 @@
 #include "components_generated.h"
 #include "entity/entity_manager.h"
 #include "entity/component.h"
+#include "events_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/constants.h"
 
@@ -76,8 +77,10 @@ struct PatronData {
   // optimization, it's stored here as the square of the distance.
   float pop_in_radius_squared;
   float pop_out_radius_squared;
+  float pop_in_radius;
+  float pop_out_radius;
 
-  // Each time the raft makes a lap around the river, it's lap counter is
+  // Each time the raft makes a lap around the river, its lap counter is
   // incremented.  Patrons will only stand up when the lap counter is in the
   // range [min_lap, max_lap].
   int min_lap;
@@ -91,6 +94,8 @@ class PatronComponent : public entity::Component<PatronData>,
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 

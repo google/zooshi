@@ -49,6 +49,8 @@ class AttributesComponent : public entity::Component<AttributesData>,
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
@@ -68,4 +70,3 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::AttributesComponent,
                               ComponentDataUnion_AttributesDef)
 
 #endif  // FPL_COMPONENTS_ATTRIBUTES_H_
-

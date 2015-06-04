@@ -15,6 +15,8 @@
 #ifndef COMPONENTS_TRANSFORM_H_
 #define COMPONENTS_TRANSFORM_H_
 
+#include <vector>
+#include <set>
 #include "components_generated.h"
 #include "entity/component.h"
 #include "mathfu/constants.h"
@@ -48,6 +50,13 @@ struct TransformData {
 
   // A reference to the parent entity.
   entity::EntityRef parent;
+
+  // Child IDs we will need to export.
+  std::set<std::string> child_ids;
+
+  // Child IDs we will be linking up on the next update; we couldn't link
+  // them before because they may not have been loaded.
+  std::vector<std::string> pending_child_ids;
 
   // The list of children.
   intrusive_list_node child_node;
@@ -83,15 +92,13 @@ struct TransformData {
 
 class TransformComponent : public entity::Component<TransformData> {
  public:
-  TransformComponent(entity::EntityFactoryInterface* entity_factory)
-      : entity_factory_(entity_factory) {}
-
   mathfu::vec3 WorldPosition(entity::EntityRef entity);
   mathfu::quat WorldOrientation(entity::EntityRef entity);
   mathfu::mat4 WorldTransform(entity::EntityRef entity);
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
 
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void CleanupEntity(entity::EntityRef& entity);
@@ -100,8 +107,12 @@ class TransformComponent : public entity::Component<TransformData> {
   void AddChild(entity::EntityRef& child, entity::EntityRef& parent);
   void RemoveChild(entity::EntityRef& entity);
 
+  void PostLoadFixup();
+
+  // Take any pending child IDs and set up the child links.
+  void UpdateChildLinks(entity::EntityRef& entity);
+
  private:
-  entity::EntityFactoryInterface* entity_factory_;
   void UpdateWorldPosition(entity::EntityRef& entity, mathfu::mat4 transform);
 };
 

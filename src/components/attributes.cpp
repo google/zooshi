@@ -59,22 +59,21 @@ void AttributesComponent::OnEvent(const event::EventPayload& event_payload) {
 
 void AttributesComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   auto component_data = &component_data_;
-  gui::Run(*asset_manager_, *font_manager_, *input_system_,
-           [component_data]() {
-             for (auto iter = component_data->begin();
-                  iter != component_data->end(); ++iter) {
-               AttributesData* attributes_data = &iter->data;
-               char label[16] = {0};
-               int score = static_cast<int>(
-                   attributes_data->attributes[AttributeDef_PatronsFed]);
-               std::sprintf(label, "%i", score);
-               gui::StartGroup(gui::LAYOUT_HORIZONTAL_TOP, 10);
-               gui::Margin margin(8);
-               gui::SetMargin(margin);
-               gui::Label(label, 100);
-               gui::EndGroup();
-             }
-           });
+  gui::Run(*asset_manager_, *font_manager_, *input_system_, [component_data]() {
+    for (auto iter = component_data->begin(); iter != component_data->end();
+         ++iter) {
+      AttributesData* attributes_data = &iter->data;
+      char label[16] = {0};
+      int score = static_cast<int>(
+          attributes_data->attributes[AttributeDef_PatronsFed]);
+      std::sprintf(label, "%i", score);
+      gui::StartGroup(gui::LAYOUT_HORIZONTAL_TOP, 10);
+      gui::Margin margin(8);
+      gui::SetMargin(margin);
+      gui::Label(label, 100);
+      gui::EndGroup();
+    }
+  });
 }
 
 void AttributesComponent::AddFromRawData(entity::EntityRef& entity,
@@ -85,6 +84,30 @@ void AttributesComponent::AddFromRawData(entity::EntityRef& entity,
   AddEntity(entity);
 }
 
+entity::ComponentInterface::RawDataUniquePtr AttributesComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* AttributesComponent::PopulateRawData(entity::EntityRef& entity,
+                                           void* helper) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+  auto component =
+      CreateComponentDefInstance(*fbb, ComponentDataUnion_AttributesDef,
+                                 CreateAttributesDef(*fbb).Union());
+  return reinterpret_cast<void*>(component.o);
+}
+
 }  // fpl_project
 }  // fpl
-

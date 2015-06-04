@@ -33,6 +33,9 @@ class AudioListenerComponent : public entity::Component<AudioListenerData> {
   virtual void Init();
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
+
   virtual void CleanupEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
@@ -48,4 +51,3 @@ FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::AudioListenerComponent,
                               ComponentDataUnion_ListenerDef)
 
 #endif  // COMPONENTS_LISTENER_H_
-

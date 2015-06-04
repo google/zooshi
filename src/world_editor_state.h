@@ -42,6 +42,9 @@ class WorldEditorState : public StateNode {
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
 
+  virtual void OnEnter();
+  virtual void OnExit();
+
  private:
   void UpdateMainCamera();
 
@@ -55,4 +58,3 @@ class WorldEditorState : public StateNode {
 }  // fpl
 
 #endif  // ZOOSHI_WORLD_EDITOR_STATE_H_
-

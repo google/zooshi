@@ -131,7 +131,12 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
 
   RenderMeshData* rendermesh_data = AddEntity(entity);
 
+  rendermesh_data->mesh_filename = rendermesh_def->source_file()->c_str();
+  rendermesh_data->shader_filename = rendermesh_def->shader()->c_str();
+  rendermesh_data->ignore_culling = rendermesh_def->ignore_culling();
+
   rendermesh_data->mesh =
+
   asset_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
   assert(rendermesh_data->mesh != nullptr);
   rendermesh_data->shader =
@@ -150,8 +155,55 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
     // Anything unspecified is assumed to be opaque.
     rendermesh_data->pass_mask = (1 << RenderPass_kOpaque);
   }
+
   // TODO: Load this from a flatbuffer file instead of setting it.
   rendermesh_data->tint = mathfu::kOnes4f;
+}
+
+entity::ComponentInterface::RawDataUniquePtr RenderMeshComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* RenderMeshComponent::PopulateRawData(entity::EntityRef& entity,
+                                           void* helper) const {
+  const RenderMeshData* data = GetComponentData(entity);
+  if (data == nullptr) return nullptr;
+  if (data->mesh_filename == "" || data->shader_filename == "") {
+    // If we don't have a mesh filename or a shader, we can't be exported;
+    // we were obviously created programatically.
+    return nullptr;
+  }
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+
+  auto source_file =
+      (data->mesh_filename != "") ? fbb->CreateString(data->mesh_filename) : 0;
+  auto shader = (data->shader_filename != "")
+                    ? fbb->CreateString(data->shader_filename)
+                    : 0;
+
+  RenderMeshDefBuilder builder(*fbb);
+  if (data->mesh_filename != "") {
+    builder.add_source_file(source_file);
+  }
+  if (data->shader_filename != "") {
+    builder.add_shader(shader);
+  }
+  builder.add_ignore_culling(data->ignore_culling);
+
+  auto component = CreateComponentDefInstance(
+      *fbb, ComponentDataUnion_RenderMeshDef, builder.Finish().Union());
+
+  return reinterpret_cast<void*>(component.o);
 }
 
 }  // fpl_project

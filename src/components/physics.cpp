@@ -19,6 +19,8 @@
 #include "events/collision.h"
 #include "events_generated.h"
 #include "events/play_sound.h"
+#include "flatbuffers/flatbuffers.h"
+#include "flatbuffers/reflection.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/mesh.h"
 #include "fplbase/utilities.h"
@@ -127,7 +129,9 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
       rb_data->motion_state.reset(new btDefaultMotionState());
       btScalar mass = shape_def->mass();
       btVector3 inertia(0.0f, 0.0f, 0.0f);
-      rb_data->shape->calculateLocalInertia(mass, inertia);
+      if (shape_def->data_type() != BulletShapeUnion_BulletNoShapeDef) {
+        rb_data->shape->calculateLocalInertia(mass, inertia);
+      }
       btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
           mass, rb_data->motion_state.get(), rb_data->shape.get(), inertia);
       rigid_body_builder.m_restitution = shape_def->restitution();
@@ -163,6 +167,35 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
 
   physics_data->enabled = true;
   UpdatePhysicsFromTransform(entity);
+}
+
+entity::ComponentInterface::RawDataUniquePtr PhysicsComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* PhysicsComponent::PopulateRawData(entity::EntityRef& entity,
+                                        void* helper) const {
+  const PhysicsData* data = GetComponentData(entity);
+  if (data == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+  PhysicsDefBuilder builder(*fbb);
+
+  // TODO(amaurice): populate the PhysicsDef
+
+  auto component = CreateComponentDefInstance(
+      *fbb, ComponentDataUnion_PhysicsDef, builder.Finish().Union());
+  return reinterpret_cast<void*>(component.o);
 }
 
 void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
@@ -287,6 +320,8 @@ void PhysicsComponent::UpdatePhysicsFromTransform(entity::EntityRef& entity) {
 
 void PhysicsComponent::UpdatePhysicsObjectsTransform(entity::EntityRef& entity,
                                                      bool kinematic_only) {
+  if (Data<PhysicsData>(entity) == nullptr) return;
+
   PhysicsData* physics_data = Data<PhysicsData>(entity);
   TransformData* transform_data = Data<TransformData>(entity);
 
@@ -310,6 +345,24 @@ void PhysicsComponent::UpdatePhysicsObjectsTransform(entity::EntityRef& entity,
     rb_data->rigid_body->setWorldTransform(transform);
     rb_data->motion_state->setWorldTransform(transform);
   }
+}
+
+entity::EntityRef PhysicsComponent::RaycastSingle(mathfu::vec3& start,
+                                                  mathfu::vec3& end) {
+  btVector3 bt_start = btVector3(start.x(), start.y(), start.z());
+  btVector3 bt_end = btVector3(end.x(), end.y(), end.z());
+  btCollisionWorld::ClosestRayResultCallback ray_results(bt_start, bt_end);
+
+  bullet_world_->rayTest(bt_start, bt_end, ray_results);
+  if (ray_results.hasHit()) {
+    auto container = static_cast<VectorPool<entity::Entity>*>(
+        ray_results.m_collisionObject->getUserPointer());
+    if (container != nullptr) {
+      return entity::EntityRef(container,
+                               ray_results.m_collisionObject->getUserIndex());
+    }
+  }
+  return entity::EntityRef();
 }
 
 void PhysicsComponent::DebugDrawWorld(Renderer* renderer,

@@ -37,12 +37,16 @@ struct RenderMeshData {
       : mesh(nullptr),
         shader(nullptr),
         tint(mathfu::kOnes4f),
+        mesh_filename(""),
+        shader_filename(""),
         ignore_culling(false),
         pass_mask(0),
         z_depth(0) {}
   Mesh* mesh;
   Shader* shader;
   mathfu::vec4 tint;
+  std::string mesh_filename;
+  std::string shader_filename;
   bool ignore_culling;
   unsigned char pass_mask;
   float z_depth;
@@ -70,6 +74,9 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
+
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 
   // Nothing really happens per-update to these things.
@@ -86,7 +93,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
     light_position_ = light_position;
   }
 
-  private:
+ private:
   // todo(ccornell) expand this if needed - make an array for multiple lights.
   // Also maybe make this into a full fledged struct to store things like
   // intensity, color, etc.  (Low priority - none of our shaders support

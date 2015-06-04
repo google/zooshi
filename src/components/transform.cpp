@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <math.h>
 #include "transform.h"
 #include "components/physics.h"
-#include <math.h>
+#include "components/editor.h"
+#include "components/services.h"
+#include "fplbase/utilities.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -58,10 +61,59 @@ void TransformComponent::InitEntity(entity::EntityRef& entity) {
 void TransformComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    TransformData* transform_data = Data<TransformData>(iter->entity);
+    entity::EntityRef entity = iter->entity;
+    TransformData* transform_data = Data<TransformData>(entity);
     // Go through and start updating everything that has no parent:
     if (!transform_data->parent) {
-      UpdateWorldPosition(iter->entity, mathfu::mat4::Identity());
+      UpdateWorldPosition(entity, mathfu::mat4::Identity());
+    }
+  }
+}
+
+void TransformComponent::PostLoadFixup() {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    entity::EntityRef entity = iter->entity;
+    UpdateChildLinks(entity);
+  }
+}
+
+void TransformComponent::UpdateChildLinks(entity::EntityRef& entity) {
+  TransformData* transform_data = Data<TransformData>(entity);
+  if (transform_data->pending_child_ids.size() != 0) {
+    // Now connect up the children we had listed, as they should
+    // all be loaded.
+    std::vector<std::string> pending_child_ids =
+        transform_data->pending_child_ids;
+    // Clear out the original list.
+    transform_data->pending_child_ids.clear();
+
+    for (size_t i = 0; i < pending_child_ids.size(); ++i) {
+      std::string child_id = pending_child_ids[i];
+
+      // Check if there's an active entity with the matching child_id.
+      // If so, just connect it up as a child.
+      // Otherwise, instantiate a prototype with that entity ID and map it
+      // as a child.
+      entity::EntityRef child = entity_manager_->GetComponent<EditorComponent>()
+                                    ->GetEntityFromDictionary(child_id);
+
+      if (!child.IsValid()) {
+        // Do some FlatBuffering to create a nearly-empty EntityDef
+        // which only contains one component: an EditorDef specifying
+        // the prototype to use for the child.
+        child =
+            entity_manager_->GetComponent<ServicesComponent>()
+                ->zooshi_entity_factory()
+                ->CreateEntityFromPrototype(child_id.c_str(), entity_manager_);
+      }
+      // If we got an existing child (or created a new one)...
+      if (child.IsValid()) {
+        AddEntity(child);
+        AddChild(child, entity);
+        // transform_data->children.push_back(*child_transform_data);
+        // child_transform_data->parent = entity;
+      }
     }
   }
 }
@@ -118,34 +170,68 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
     physics_component->UpdatePhysicsFromTransform(entity);
   }
 
-  if (transform_def->children() != nullptr) {
-    for (size_t i = 0; i < transform_def->children()->size(); i++) {
-      entity::EntityRef child = entity_factory_->CreateEntityFromData(
-          transform_def->children()->Get(i), entity_manager_);
-      // CreateEntityFromData can resize the underlying data, invalidating the
-      // pointer to the transform data of the parent entity, so refresh it.
-      transform_data = GetComponentData(entity);
-      TransformData* child_transform_data = AddEntity(child);
-      transform_data->children.push_back(*child_transform_data);
-      child_transform_data->parent = entity;
+  if (transform_def->child_ids() != nullptr) {
+    for (size_t i = 0; i < transform_def->child_ids()->size(); i++) {
+      auto child_id = transform_def->child_ids()->Get(i);
+      // We don't actually add the children until the first update,
+      // to give the other entities in our list time to be loaded.
+      if (transform_data->child_ids.find(child_id->c_str()) ==
+          transform_data->child_ids.end()) {
+        transform_data->pending_child_ids.push_back(child_id->c_str());
+        transform_data->child_ids.insert(child_id->c_str());
+      }
     }
   }
 }
 
 entity::ComponentInterface::RawDataUniquePtr TransformComponent::ExportRawData(
     entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
   flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* TransformComponent::PopulateRawData(entity::EntityRef& entity,
+                                          void* helper) const {
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+
   const TransformData* data = GetComponentData(entity);
-  mathfu::vec3 euler = data->orientation.ToEulerAngles();
+  if (data == nullptr) return nullptr;
+
+  mathfu::vec3 euler = data->orientation.ToEulerAngles() / kDegreesToRadians;
   fpl::Vec3 position{data->position.x(), data->position.y(),
                      data->position.z()};
   fpl::Vec3 scale{data->scale.x(), data->scale.y(), data->scale.z()};
   fpl::Vec3 orientation{euler.x(), euler.y(), euler.z()};
-  auto transform_def =
-      CreateTransformDef(builder, &position, &scale, &orientation);
-  builder.Finish(transform_def);
 
-  return builder.ReleaseBufferPointer();
+  std::vector<flatbuffers::Offset<flatbuffers::String>> child_ids_vector;
+  for (auto iter = data->child_ids.begin(); iter != data->child_ids.end();
+       ++iter) {
+    child_ids_vector.push_back(fbb->CreateString(*iter));
+  }
+
+  auto child_ids =
+      (child_ids_vector.size() > 0) ? fbb->CreateVector(child_ids_vector) : 0;
+
+  TransformDefBuilder builder(*fbb);
+  builder.add_position(&position);
+  builder.add_scale(&scale);
+  builder.add_orientation(&orientation);
+  if (child_ids_vector.size() > 0) {
+    builder.add_child_ids(child_ids);
+  }
+
+  auto component = CreateComponentDefInstance(
+      *fbb, ComponentDataUnion_TransformDef, builder.Finish().Union());
+
+  return reinterpret_cast<void*>(component.o);
 }
 
 void TransformComponent::AddChild(entity::EntityRef& child,

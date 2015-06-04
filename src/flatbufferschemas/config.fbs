@@ -125,19 +125,22 @@ table Config {
   world_editor_config: fpl.editor.WorldEditorConfig;
 
   // Entities to spawn in the scene at start.
-  entity_list:[fpl.EntityDef];
+  entity_list:[fpl.EntityDef] (deprecated);
 
   // Entities to spawn multiple times, at start, in a rectangular pattern.
-  entity_grid_list:[EntityGrid];
+  entity_grid_list:[EntityGrid] (deprecated);
 
   // Entities to spawn multiple times, at start, in a circular pattern.
-  entity_ring_list:[EntityRing];
+  entity_ring_list:[EntityRing] (deprecated);
 
   // Entities to spawn in the scene, from the list of predefined ones.
-  predefined_entity_list:[PredefinedEntity];
+  predefined_entity_list:[PredefinedEntity] (deprecated);
 
   // List of groups of things that can instantiated in the world.
-  entity_defs:[fpl.EntityDef];
+  entity_defs:[fpl.EntityDef] (deprecated);
+
+  // Entity files to load.
+  entity_files:[string];
 
   // Various settings for rendering the river.
   river_config:RiverConfig;
