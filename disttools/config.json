@@ -65,6 +65,14 @@
       "push": 0
     },
     {
+      "name": "fplbase",
+      "url": "http://github.com/google/zooshi.git",
+      "branch": "sdl",
+      "is_library": 1,
+      "third_party": 0,
+      "push": 1
+    },
+    {
       "name": "sdl",
       "url": "http://github.com/google/zooshi.git",
       "branch": "sdl",
@@ -128,6 +136,24 @@
       "url": "http://github.com/behdad/harfbuzz.git",
       "branch": "master",
       "revision": "aee685086c8fde6f6c4590e483a177c19f222540",
+      "is_library": 1,
+      "third_party": 1,
+      "push": 0
+    },
+    {
+      "name": "libunibreak",
+      "url": "https://github.com/adah1972/libunibreak.git",
+      "branch": "master",
+      "revision": "0e8e32dcd0d8f9d2744026bef591b16af1ddd0ff",
+      "is_library": 1,
+      "third_party": 1,
+      "push": 0
+    },
+    {
+      "name": "bulletphysics",
+      "url": "http://github.com/bulletphysics/bullet3.git",
+      "branch": "master",
+      "revision": "30ebb322285809bde98959e10e73e5acb9981efc",
       "is_library": 1,
       "third_party": 1,
       "push": 0
