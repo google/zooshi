@@ -18,6 +18,7 @@
 
 #include "components/transform.h"
 #include "entity/component.h"
+#include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
 #include "components_generated.h"
@@ -97,13 +98,13 @@ mathfu::vec3 RailDenizenData::Velocity() const {
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = component_data_.begin();
-       iter != component_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
     RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
     transform_data->position = rail_denizen_data->Position();
     transform_data->orientation = mathfu::quat::RotateFromTo(
-        mathfu::vec3(1, 0, 0), rail_denizen_data->Velocity());
+        rail_denizen_data->Velocity(), mathfu::kAxisY3f);
   }
 }
 
