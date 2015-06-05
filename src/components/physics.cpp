@@ -17,6 +17,7 @@
 #include "event_system/event_manager.h"
 #include "events/event_ids.h"
 #include "events/play_sound.h"
+#include "fplbase/mesh.h"
 #include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
@@ -29,10 +30,12 @@ namespace fpl {
 namespace fpl_project {
 
 static const float kGroundPlane = 0.0f;
+static const char* kPhysicsShader = "shaders/color";
 
 void PhysicsComponent::Initialize(event::EventManager* event_manager,
                                   pindrop::SoundHandle bounce_handle,
-                                  const Config* config) {
+                                  const Config* config,
+                                  MaterialManager* material_manager) {
   event_manager_ = event_manager;
   bounce_handle_ = bounce_handle;
   config_ = config;
@@ -46,6 +49,8 @@ void PhysicsComponent::Initialize(event::EventManager* event_manager,
       collision_dispatcher_.get(), broadphase_.get(), constraint_solver_.get(),
       collision_configuration_.get()));
   bullet_world_->setGravity(btVector3(0.0f, 0.0f, config->gravity()));
+  bullet_world_->setDebugDrawer(&debug_drawer_);
+  debug_drawer_.set_shader(material_manager->LoadShader(kPhysicsShader));
 }
 
 PhysicsComponent::~PhysicsComponent() { ClearComponentData(); }
@@ -177,6 +182,29 @@ void PhysicsComponent::UpdatePhysicsFromTransform(entity::EntityRef& entity) {
                      transform_data->position.z());
   physics_data->rigid_body->setWorldTransform(
       btTransform(orientation, position));
+}
+
+void PhysicsComponent::DebugDrawWorld(Renderer* renderer,
+                                      const mathfu::mat4& camera_transform) {
+  renderer->model_view_projection() = camera_transform;
+  debug_drawer_.set_renderer(renderer);
+  bullet_world_->debugDrawWorld();
+}
+
+void PhysicsDebugDrawer::drawLine(const btVector3& from, const btVector3& to,
+                                  const btVector3& color) {
+  if (renderer_ != nullptr) {
+    renderer_->color() = vec4(color.x(), color.y(), color.z(), 1.0f);
+    if (shader_ != nullptr) {
+      shader_->Set(*renderer_);
+    }
+  }
+
+  static const Attribute attributes[] = {kPosition3f, kEND};
+  static const unsigned short indices[] = {0, 1};
+  const btVector3 vertices[] = {from, to};
+  Mesh::RenderArray(GL_LINES, 2, attributes, sizeof(btVector3),
+                    reinterpret_cast<const char*>(vertices), indices);
 }
 
 }  // fpl_project

@@ -73,7 +73,8 @@ GameState::GameState()
       render_mesh_component_(),
       physics_component_(),
       active_player_entity_(),
-      is_in_cardboard_(false) {
+      is_in_cardboard_(false),
+      draw_debug_physics_(false) {
 }
 
 // count = 5  ==>  low = -2, high = 3  ==> range -2..2
@@ -139,7 +140,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   audio_listener_component_.Initialize(audio_engine);
   patron_component_.Initialize(config_, &event_manager_);
-  physics_component_.Initialize(&event_manager_, bounce_handle, config_);
+  physics_component_.Initialize(&event_manager_, bounce_handle, config_,
+                                material_manager_);
   player_component_.Initialize(&event_manager_, config_);
   rail_denizen_component_.Initialize(rail_def);
   render_mesh_component_.Initialize(vec3(-10, -20, 20), material_manager);
@@ -305,6 +307,9 @@ void GameState::Update(WorldTime delta_time) {
       world_editor_->Activate(main_camera_);
     }
   }
+  if (input_system_->GetButton(fpl::FPLK_F9).went_down()) {
+    draw_debug_physics_ = !draw_debug_physics_;
+  }
 }
 
 void GameState::Render(Renderer* renderer) {
@@ -328,6 +333,10 @@ void GameState::Render(Renderer* renderer) {
 
   if (world_editor_->is_active()) {
     world_editor_->Render(renderer);
+  }
+
+  if (draw_debug_physics_) {
+    physics_component_.DebugDrawWorld(renderer, camera_transform);
   }
 }
 
@@ -366,4 +375,3 @@ void GameState::RenderForCardboard(Renderer* renderer) {
 
 }  // fpl_project
 }  // fpl
-
