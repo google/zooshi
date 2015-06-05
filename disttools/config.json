@@ -67,7 +67,7 @@
     {
       "name": "fplbase",
       "url": "http://github.com/google/zooshi.git",
-      "branch": "sdl",
+      "branch": "fplbase",
       "is_library": 1,
       "third_party": 0,
       "push": 1
