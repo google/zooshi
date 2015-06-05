@@ -111,21 +111,17 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   event_manager_.RegisterListener(kEventIdPlaySound, this);
 
-  entity_manager_.RegisterComponent<TransformComponent>(&transform_component_);
-  entity_manager_.RegisterComponent<RailDenizenComponent>(
-      &rail_denizen_component_);
-  entity_manager_.RegisterComponent<PlayerComponent>(&player_component_);
-  entity_manager_.RegisterComponent<PlayerProjectileComponent>(
-      &player_projectile_component_);
-  entity_manager_.RegisterComponent<RenderMeshComponent>(
-      &render_mesh_component_);
-  entity_manager_.RegisterComponent<PhysicsComponent>(&physics_component_);
-  entity_manager_.RegisterComponent<PatronComponent>(&patron_component_);
-  entity_manager_.RegisterComponent<TimeLimitComponent>(&time_limit_component_);
-  entity_manager_.RegisterComponent<AudioListenerComponent>(
-      &audio_listener_component_);
-  entity_manager_.RegisterComponent<SoundComponent>(&sound_component_);
-  entity_manager_.RegisterComponent<ScoreComponent>(&score_component_);
+  entity_manager_.RegisterComponent(&transform_component_);
+  entity_manager_.RegisterComponent(&rail_denizen_component_);
+  entity_manager_.RegisterComponent(&player_component_);
+  entity_manager_.RegisterComponent(&player_projectile_component_);
+  entity_manager_.RegisterComponent(&render_mesh_component_);
+  entity_manager_.RegisterComponent(&physics_component_);
+  entity_manager_.RegisterComponent(&patron_component_);
+  entity_manager_.RegisterComponent(&time_limit_component_);
+  entity_manager_.RegisterComponent(&audio_listener_component_);
+  entity_manager_.RegisterComponent(&sound_component_);
+  entity_manager_.RegisterComponent(&score_component_);
 
   std::string rail_def_source;
   if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
