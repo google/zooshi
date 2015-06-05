@@ -74,6 +74,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   entity_manager.RegisterComponent(&sound_component);
   entity_manager.RegisterComponent(&attributes_component);
   entity_manager.RegisterComponent(&river_component);
+  entity_manager.RegisterComponent(&shadow_component_);
 
   entity_manager.set_entity_factory(&entity_factory);
 

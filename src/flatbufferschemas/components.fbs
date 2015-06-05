@@ -80,6 +80,10 @@ table PlayerProjectileDef {
   on_collision:fpl.fpl_project.ActionDef;
 }
 
+table ShadowDef {
+  radius:float;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table ListenerDef {}
@@ -109,6 +113,7 @@ union ComponentDataUnion {
   // The transform component should update after any other components that
   // might spawn or modify entities with transforms.
   TransformDef,
+  ShadowDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

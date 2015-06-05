@@ -63,6 +63,7 @@ void WorldEditorState::Render(Renderer* renderer) {
   renderer->model_view_projection() = camera_transform;
 
   world_->render_mesh_component.RenderAllEntities(*renderer, *camera);
+  world_->shadow_component_.RenderAllEntities(camera_transform);
 
   world_editor_->Render(renderer);
 
