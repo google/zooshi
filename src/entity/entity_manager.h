@@ -116,11 +116,12 @@ class EntityManager {
   // a very good reason for doing so.
   void DeleteEntityImmediately(EntityRef entity);
 
-  // Adds a new component to the entity manager.  The id represents a unique
-  // identifier for that component, which will other code can use to
-  // reference that component.
+  // Adds a new component to the entity manager. The component must inherit from
+  // ComponentInterface.
   template <typename T>
-  void RegisterComponent(ComponentInterface* new_component) {
+  void RegisterComponent(T* new_component) {
+    static_assert(std::is_base_of<ComponentInterface, T>::value,
+                  "'new_component' must inherit from ComponentInterface");
     RegisterComponentHelper(new_component, ComponentIdLookup<T>::kComponentId);
   }
 
