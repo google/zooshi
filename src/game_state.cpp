@@ -15,11 +15,8 @@
 #include "components/sound.h"
 #include "components/transform.h"
 #include "config_generated.h"
-#include "events/event_ids.h"
-#include "events/hit_patron.h"
-#include "events/hit_patron_body.h"
-#include "events/hit_patron_mouth.h"
 #include "events/play_sound.h"
+#include "events_generated.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #ifdef ANDROID_CARDBOARD
@@ -52,9 +49,6 @@ static const float kViewportNearPlane = 1.0f;
 static const float kViewportFarPlane = 500.0f;
 static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
 
-// The sound effect to play when a projectile bounces.
-static const char* kProjectileBounceSoundName = "paper_bounce";
-
 GameState::GameState()
     : main_camera_(),
 #ifdef ANDROID_CARDBOARD
@@ -62,12 +56,12 @@ GameState::GameState()
       right_eye_camera_(),
 #endif
       audio_engine_(),
-      event_manager_(kEventIdCount),
+      event_manager_(EventSinkUnion_Size),
       entity_manager_(),
       entity_factory_(),
       motive_engine_(),
       transform_component_(&entity_factory_),
-      rail_denizen_component_(&motive_engine_),
+      rail_denizen_component_(),
       player_component_(),
       player_projectile_component_(),
       render_mesh_component_(),
@@ -110,7 +104,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_system_ = input_system;
   material_manager_ = material_manager;
 
-  event_manager_.RegisterListener(kEventIdPlaySound, this);
+  event_manager_.RegisterListener(EventSinkUnion_PlaySound, this);
 
   entity_manager_.RegisterComponent(&transform_component_);
   entity_manager_.RegisterComponent(&rail_denizen_component_);
@@ -122,7 +116,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.RegisterComponent(&time_limit_component_);
   entity_manager_.RegisterComponent(&audio_listener_component_);
   entity_manager_.RegisterComponent(&sound_component_);
-  entity_manager_.RegisterComponent(&score_component_);
+  entity_manager_.RegisterComponent(&attributes_component_);
 
   std::string rail_def_source;
   if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
@@ -135,18 +129,15 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
 
-  pindrop::SoundHandle bounce_handle =
-      audio_engine_->GetSoundHandle(kProjectileBounceSoundName);
-
   audio_listener_component_.Initialize(audio_engine);
   patron_component_.Initialize(config_, &event_manager_);
-  physics_component_.Initialize(&event_manager_, bounce_handle, config_,
-                                material_manager_);
+  physics_component_.Initialize(&event_manager_, config_, material_manager_);
   player_component_.Initialize(&event_manager_, config_);
-  rail_denizen_component_.Initialize(rail_def);
+  rail_denizen_component_.Initialize(&motive_engine_, rail_def,
+                                     &event_manager_);
   render_mesh_component_.Initialize(vec3(-10, -20, 20), material_manager);
-  score_component_.Initialize(input_system_, material_manager_, font_manager,
-                              &event_manager_);
+  attributes_component_.Initialize(input_system_, material_manager_,
+                                   font_manager, &event_manager_);
   sound_component_.Initialize(audio_engine);
 
   // Create entities that are explicitly detailed in `entity_list`.
@@ -218,18 +209,16 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
         ->set_input_controller(&input_controller_);
   }
   active_player_entity_ = player_component_.begin()->entity;
-  entity_manager_.GetComponentData<PlayerData>(active_player_entity_)
-      ->set_listener(audio_engine->AddListener());
 
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(config.world_editor_config(), input_system_);
 }
 
 void GameState::OnEvent(const event::EventPayload& event_payload) {
-  switch (event_payload.event_id()) {
-    case kEventIdPlaySound: {
-      auto* payload = event_payload.ToData<PlaySoundEvent>();
-      audio_engine_->PlaySound(payload->handle, payload->location);
+  switch (event_payload.id()) {
+    case EventSinkUnion_PlaySound: {
+      auto* payload = event_payload.ToData<PlaySoundPayload>();
+      audio_engine_->PlaySound(payload->sound_name, payload->location);
       break;
     }
     default: { assert(false); }

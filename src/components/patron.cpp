@@ -12,14 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "components/attributes.h"
 #include "components/patron.h"
 #include "components/physics.h"
 #include "components/player_projectile.h"
-#include "components/score.h"
 #include "components/transform.h"
-#include "events/hit_patron.h"
-#include "events/hit_patron_body.h"
-#include "events/hit_patron_mouth.h"
+#include "events/parse_action.h"
 #include "mathfu/glsl_mappings.h"
 
 using mathfu::vec3;
@@ -52,9 +50,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& parent,
   assert(component_data->data_type() == ComponentDataUnion_PatronDef);
   auto patron_def = static_cast<const PatronDef*>(component_data->data());
   PatronData* patron_data = AddEntity(parent);
-
-  (void)patron_data;
-  (void)patron_def;
+  patron_data->on_collision = patron_def->on_collision();
 }
 
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
@@ -108,14 +104,13 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             patron_data->y = 1.0f;
             patron_data->dy = 0.0f;
             patron_data->original_orientation = transform_data->orientation;
-            event_manager_->BroadcastEvent(
-                HitPatronMouthEvent(projectile_owner, projectile, patron));
-          } else {
-            event_manager_->BroadcastEvent(
-                HitPatronBodyEvent(projectile_owner, projectile, patron));
+            EventContext context;
+            context.source_owner = projectile_owner;
+            context.source = projectile;
+            context.target = patron;
+            ParseAction(patron_data->on_collision, &context, event_manager_,
+                        entity_manager_);
           }
-          event_manager_->BroadcastEvent(
-              HitPatronEvent(projectile_owner, projectile, patron));
 
           // Even if you didn't hit the top, if got here, you got some
           // kind of collision, so you get a splatter.

@@ -55,11 +55,7 @@ LOCAL_C_INCLUDES := \
 LOCAL_SRC_FILES := \
   $(subst $(LOCAL_PATH)/,,$(DEPENDENCIES_SDL_DIR))/src/main/android/SDL_android_main.c \
   $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/game_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/gpg_multiplayer.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \
@@ -67,22 +63,30 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player_projectile.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rendermesh.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/score.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/editor/world_editor.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/event_system/event_manager.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp
+  $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/game_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/gpg_multiplayer.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 
 ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/assets.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/attributes.fbs \
   $(ZOOSHI_SCHEMA_DIR)/bullet_def.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/events.fbs \
   $(ZOOSHI_SCHEMA_DIR)/world_editor.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs

@@ -80,7 +80,7 @@
           "data" : {}
         },
         {
-          "data_type": "ScoreDef",
+          "data_type": "AttributesDef",
           "data" : {}
         }
       ]
@@ -263,7 +263,7 @@
                       "source_file": "meshes/moustache_croc.fplmesh",
                       "shader": "shaders/textured"
                     }
-                  },
+                  }
                 ]
               }
             ]
@@ -271,7 +271,28 @@
         },
         {
           "data_type": "PatronDef",
-          "data": {}
+          "data": {
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Add",
+                    "attrib": "PatronsFed",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -565,7 +586,7 @@
                     }
                   }
                 ]
-              },
+              }
             ]
           }
         }
@@ -599,7 +620,7 @@
                     }
                   }
                 ]
-              },
+              }
             ]
           }
         }
@@ -727,5 +748,17 @@
       "position": { "x": 0, "y": 0, "z": 0 },
       "scale": { "x": 25, "y": 25, "z": 25 }
     }
-  ]
+  ],
+
+  "on_bounce": {
+    "event_list": [
+      {
+        "event_type": "PlaySound",
+        "event": {
+          "entity": "Source",
+          "sound_name": "paper_bounce"
+        }
+      }
+    ]
+  }
 }

@@ -49,8 +49,8 @@ void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
   float max_cos = cos(camera.viewport_angle());
   vec3 camera_facing = camera.facing();
   vec3 entity_position = transform_data->world_transform.TranslationVector3D();
-  vec3 pos_relative_to_camera = (entity_position - camera.position()) +
-      camera_facing * kFrustrumOffset;
+  vec3 pos_relative_to_camera =
+      (entity_position - camera.position()) + camera_facing * kFrustrumOffset;
 
   if (vec3::DotProduct(pos_relative_to_camera.Normalized(),
                        camera_facing.Normalized()) < max_cos) {
@@ -79,8 +79,8 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
                                             const Camera& camera) {
   // todo(ccornell) - instead of iterating like this, sort by
   // z depth and alpha blend mode.
-  for (auto iter = component_data_.begin();
-       iter != component_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
     RenderEntity(iter->entity, renderer, camera);
   }
 }

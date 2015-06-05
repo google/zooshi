@@ -31,6 +31,8 @@ class EventManager;
 
 namespace fpl_project {
 
+struct ActionDef;
+
 class PlayerData {
  public:
   PlayerData() : input_controller_(nullptr) {}
@@ -46,12 +48,12 @@ class PlayerData {
     input_controller_ = input_controller;
   }
 
-  pindrop::Listener listener() { return listener_; }
-  void set_listener(pindrop::Listener listener) { listener_ = listener; }
+  const ActionDef* on_fire() { return on_fire_; }
+  void set_on_fire(const ActionDef* on_fire) { on_fire_ = on_fire; }
 
  private:
+  const ActionDef* on_fire_;
   fpl_project::BasePlayerController* input_controller_;
-  pindrop::Listener listener_;
 };
 
 class PlayerComponent : public entity::Component<PlayerData> {

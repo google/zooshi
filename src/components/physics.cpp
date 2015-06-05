@@ -15,13 +15,13 @@
 #include "components/physics.h"
 #include "components/transform.h"
 #include "event_system/event_manager.h"
-#include "events/event_ids.h"
+#include "events/parse_action.h"
+#include "events_generated.h"
 #include "events/play_sound.h"
 #include "fplbase/mesh.h"
 #include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
-#include "pindrop/pindrop.h"
 
 using mathfu::vec3;
 using mathfu::quat;
@@ -33,11 +33,9 @@ static const float kGroundPlane = 0.0f;
 static const char* kPhysicsShader = "shaders/color";
 
 void PhysicsComponent::Initialize(event::EventManager* event_manager,
-                                  pindrop::SoundHandle bounce_handle,
                                   const Config* config,
                                   MaterialManager* material_manager) {
   event_manager_ = event_manager;
-  bounce_handle_ = bounce_handle;
   config_ = config;
 
   broadphase_.reset(new btDbvtBroadphase());
@@ -158,8 +156,10 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 
     // TODO: Generate this event based on the collision (b/21522963)
     if (transform_data->position.z() < kGroundPlane) {
-      event_manager_->BroadcastEvent(
-          PlaySoundEvent(bounce_handle_, transform_data->position));
+      EventContext context;
+      context.source = iter->entity;
+      ParseAction(config_->on_bounce(), &context, event_manager_,
+                  entity_manager_);
     }
   }
 }

@@ -1,0 +1,71 @@
+// Copyright 2015 Google Inc. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+include "attributes.fbs";
+
+namespace fpl.fpl_project;
+
+enum Operation : byte {
+  Set,
+  Add,
+  Multiply,
+}
+
+enum EntityAffected : byte {
+  Source,
+  SourceOwner,
+  Target,
+  TargetOwner,
+}
+
+table PlaySound {
+  entity:EntityAffected;
+  sound_name:string;
+}
+
+table ModifyAttribute {
+  entity:EntityAffected;
+  op:Operation;
+  attrib:AttributeDef;
+  value:float;
+}
+
+table ChangeRailSpeed {
+  entity:EntityAffected;
+  op:Operation;
+  value:float;
+}
+
+// This is a hack to let me get the size of the EventSinkUnion until there is a
+// proper way to do this. It should not be used directly.
+table Size {}
+
+union EventSinkUnion {
+  PlaySound,
+  ModifyAttribute,
+  ChangeRailSpeed,
+  Size,
+}
+
+// Actual definition for each event. Wrapped in a table because
+// you can't make arrays of raw unions.
+table ActionDefInstance {
+  event:EventSinkUnion;
+}
+
+// An event is a collection of things that can happen.
+table ActionDef {
+  event_list:[ActionDefInstance];
+}
+

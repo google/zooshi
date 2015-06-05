@@ -20,9 +20,8 @@
 #include "components/transform.h"
 #include "entity/entity_common.h"
 #include "event_system/event_manager.h"
-#include "events/projectile_fired.h"
+#include "events/parse_action.h"
 #include "fplbase/utilities.h"
-#include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -40,13 +39,11 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     player_data->input_controller()->Update();
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
-      entity::EntityRef projectile = SpawnProjectile(iter->entity);
-      event_manager_->BroadcastEvent(
-          ProjectileFiredEvent(iter->entity, projectile));
-    }
-    if (player_data->listener().Valid()) {
-      TransformData* transform_data = Data<TransformData>(iter->entity);
-      player_data->listener().SetLocation(transform_data->position);
+      SpawnProjectile(iter->entity);
+      EventContext context;
+      context.source = iter->entity;
+      ParseAction(player_data->on_fire(), &context, event_manager_,
+                  entity_manager_);
     }
   }
 }
@@ -55,8 +52,9 @@ void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
   assert(component_data->data_type() == ComponentDataUnion_PlayerDef);
-  (void)component_data;
-  AddEntity(entity);
+  auto player_def = static_cast<const PlayerDef*>(component_data->data());
+  PlayerData* player_data = AddEntity(entity);
+  player_data->set_on_fire(player_def->on_fire());
 }
 
 void PlayerComponent::InitEntity(entity::EntityRef& entity) {

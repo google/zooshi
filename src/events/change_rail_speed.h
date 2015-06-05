@@ -12,34 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_EVENTS_HIT_PATRON_EVENT_H_
-#define FPL_EVENTS_HIT_PATRON_EVENT_H_
+#ifndef FPL_EVENTS_CHANGE_RAIL_SPEED_EVENT_H_
+#define FPL_EVENTS_CHANGE_RAIL_SPEED_EVENT_H_
 
-#include "entity/entity_manager.h"
 #include "event_system/event_registry.h"
-#include "events/entity.h"
-#include "events/event_ids.h"
+#include "events_generated.h"
 
 namespace fpl {
 namespace fpl_project {
 
-struct HitPatronEvent : public EntityEvent {
-  HitPatronEvent(entity::EntityRef& target_, entity::EntityRef& projectile_,
-                 entity::EntityRef& patron_)
-      : EntityEvent(target_), projectile(projectile_), patron(patron_) {}
+struct ChangeRailSpeedPayload {
+  ChangeRailSpeedPayload(entity::EntityRef entity_,
+                         const ChangeRailSpeed* change_rail_speed_)
+      : entity(entity_), change_rail_speed(change_rail_speed_) {}
 
-  // The projectile that hit the patron.
-  entity::EntityRef projectile;
-
-  // The patron that was fed.
-  entity::EntityRef patron;
+  entity::EntityRef entity;
+  const ChangeRailSpeed* change_rail_speed;
 };
 
 }  // fpl_project
 }  // fpl
 
-FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdHitPatron,
-                      fpl::fpl_project::HitPatronEvent)
+FPL_REGISTER_EVENT_PAYLOAD_ID(fpl::fpl_project::EventSinkUnion_ChangeRailSpeed,
+                              fpl::fpl_project::ChangeRailSpeedPayload)
 
-#endif  // FPL_EVENTS_HIT_PATRON_EVENT_H_
+#endif  // FPL_EVENTS_CHANGE_RAIL_SPEED_EVENT_H_
 

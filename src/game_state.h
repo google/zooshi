@@ -15,6 +15,7 @@
 #ifndef ZOOSHI_GAME_STATE_H_
 #define ZOOSHI_GAME_STATE_H_
 
+#include "components/attributes.h"
 #include "components/audio_listener.h"
 #include "components/patron.h"
 #include "components/physics.h"
@@ -23,7 +24,6 @@
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/sound.h"
-#include "components/score.h"
 #include "components/time_limit.h"
 #include "components/transform.h"
 #include "editor/world_editor.h"
@@ -124,7 +124,7 @@ class GameState : event::EventListener {
   TimeLimitComponent time_limit_component_;
   AudioListenerComponent audio_listener_component_;
   SoundComponent sound_component_;
-  ScoreComponent score_component_;
+  AttributesComponent attributes_component_;
 
 // Input controller for mouse
 #ifdef __ANDROID__

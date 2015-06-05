@@ -24,7 +24,6 @@
 #include "fplbase/renderer.h"
 #include "fplbase/shader.h"
 #include "mathfu/glsl_mappings.h"
-#include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -86,8 +85,7 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   PhysicsComponent() {}
   virtual ~PhysicsComponent();
 
-  void Initialize(event::EventManager* event_manager,
-                  pindrop::SoundHandle bounce_handle, const Config* config,
+  void Initialize(event::EventManager* event_manager, const Config* config,
                   MaterialManager* material_manager);
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
@@ -109,7 +107,6 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
  private:
   event::EventManager* event_manager_;
 
-  pindrop::SoundHandle bounce_handle_;
   const Config* config_;
 
   std::unique_ptr<btDiscreteDynamicsWorld> bullet_world_;

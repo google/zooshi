@@ -31,8 +31,8 @@ void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {
-  for (auto iter = component_data_.begin();
-       iter != component_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
     TimeLimitData* time_limit_data = Data<TimeLimitData>(iter->entity);
     time_limit_data->time_elapsed += delta_time;
     if (time_limit_data->time_elapsed >= time_limit_data->time_limit) {

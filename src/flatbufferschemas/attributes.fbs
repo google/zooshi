@@ -12,25 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_EVENT_IDS_H_
-#define FPL_EVENT_IDS_H_
+namespace fpl.fpl_project;
 
-namespace fpl {
-namespace fpl_project {
-
-// The list of all defined event types.
-enum EventId {
-  kEventIdInvalid,
-  kEventIdPlaySound,
-  kEventIdProjectileFired,
-  kEventIdHitPatron,
-  kEventIdHitPatronBody,
-  kEventIdHitPatronMouth,
-  kEventIdCount
-};
-
-}  // fpl_project
-}  // fpl
-
-#endif  // FPL_EVENT_IDS_H_
+enum AttributeDef : byte {
+  ProjectilesFired,
+  PatronsFed,
+  PatronsHit,
+  Size,
+}
 

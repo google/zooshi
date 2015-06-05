@@ -158,6 +158,8 @@ add_custom_command(TARGET assets POST_BUILD
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
+    src/components/attributes.cpp
+    src/components/attributes.h
     src/components/audio_listener.cpp
     src/components/audio_listener.h
     src/components/patron.cpp
@@ -172,8 +174,6 @@ set(zooshi_SRCS
     src/components/rail_denizen.h
     src/components/rendermesh.cpp
     src/components/rendermesh.h
-    src/components/score.cpp
-    src/components/score.h
     src/components/sound.cpp
     src/components/sound.h
     src/components/time_limit.cpp
@@ -195,13 +195,13 @@ set(zooshi_SRCS
     src/event_system/event_manager.h
     src/event_system/event_payload.h
     src/event_system/event_registry.h
-    src/events/entity.h
-    src/events/event_ids.h
-    src/events/hit_patron.h
-    src/events/hit_patron_body.h
-    src/events/hit_patron_mouth.h
+    src/events/change_rail_speed.h
+    src/events/modify_attribute.h
+    src/events/parse_action.cpp
+    src/events/parse_action.h
     src/events/play_sound.h
-    src/events/projectile_fired.h
+    src/events/utilities.cpp
+    src/events/utilities.h
     src/flatbufferschemas
     src/game.cpp
     src/game.h

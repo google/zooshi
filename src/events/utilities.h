@@ -12,30 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_AUDIO_EVENT_H_
-#define FPL_AUDIO_EVENT_H_
+// This file contains utilities functions that are common to more than one
+// event.
 
-#include "event_system/event_registry.h"
+#ifndef FPL_EVENT_UTILITIES_H_
+#define FPL_EVENT_UTILITIES_H_
+
 #include "events_generated.h"
-#include "mathfu/glsl_mappings.h"
-#include "mathfu/vector.h"
 
 namespace fpl {
 namespace fpl_project {
 
-struct PlaySoundPayload {
-  PlaySoundPayload(const char* sound_name_, mathfu::vec3 location_)
-      : sound_name(sound_name_), location(location_) {}
-
-  const char* sound_name;
-  mathfu::vec3 location;
-};
+void ApplyOperation(float* value, Operation op, float operand);
 
 }  // fpl_project
 }  // fpl
 
-FPL_REGISTER_EVENT_PAYLOAD_ID(fpl::fpl_project::EventSinkUnion_PlaySound,
-                              fpl::fpl_project::PlaySoundPayload)
-
-#endif  // FPL_AUDIO_EVENT_H_
+#endif  // FPL_EVENT_UTILITIES_H_
 

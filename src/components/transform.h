@@ -83,7 +83,6 @@ struct TransformData {
 
  private:
   IntrusiveListNode child_node_;
-
 };
 
 class TransformComponent : public entity::Component<TransformData> {
@@ -98,11 +97,9 @@ class TransformComponent : public entity::Component<TransformData> {
   virtual void CleanupEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
-
  private:
   entity::EntityFactoryInterface* entity_factory_;
   void UpdateWorldPosition(entity::EntityRef& entity, mathfu::mat4 transform);
-
 };
 
 }  // fpl_project

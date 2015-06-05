@@ -21,11 +21,17 @@
 #include "components_generated.h"
 #include "rail_def_generated.h"
 #include "entity/component.h"
+#include "event_system/event_listener.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/motivator.h"
 #include "motive/math/compact_spline.h"
 
 namespace fpl {
+namespace event {
+
+class EventManager;
+
+}  // event
 namespace fpl_project {
 
 struct Rail {
@@ -37,23 +43,30 @@ struct Rail {
 };
 
 struct RailDenizenData {
-  void Initialize(const Rail& rail, float start_time, motive::MotiveEngine* engine);
+  void Initialize(const Rail& rail, float start_time,
+                  motive::MotiveEngine* engine);
 
   mathfu::vec3 Position() const { return motivator.Value(); }
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
 
+  float speed_coefficient;
+
   motive::Motivator3f motivator;
 };
 
-class RailDenizenComponent : public entity::Component<RailDenizenData> {
+class RailDenizenComponent : public entity::Component<RailDenizenData>,
+                             public event::EventListener {
  public:
-  RailDenizenComponent(motive::MotiveEngine* engine) : engine_(engine) {}
+  RailDenizenComponent() {}
+
+  void Initialize(motive::MotiveEngine* engine, const RailDef* rail_def,
+                  event::EventManager* event_manager);
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 
-  void Initialize(const RailDef* rail_def);
+  virtual void OnEvent(const event::EventPayload& event_payload);
 
  private:
   // A pointer to the MotiveEngine used to spawn motivators.

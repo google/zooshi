@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_COMPONENTS_SCORE_H_
-#define FPL_COMPONENTS_SCORE_H_
+#ifndef FPL_COMPONENTS_ATTRIBUTES_H_
+#define FPL_COMPONENTS_ATTRIBUTES_H_
 
 #include "config_generated.h"
+#include "attributes_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
 #include "event_system/event_listener.h"
@@ -34,22 +35,17 @@ class EventManager;
 namespace fpl_project {
 
 // Data for scene object components.
-struct ScoreData : public event::EventListener {
+struct AttributesData {
  public:
-  ScoreData() : projectiles_fired(0), patrons_fed(0), patrons_hit(0) {}
+  AttributesData() {}
 
-  virtual void OnEvent(const event::EventPayload& event_payload);
-
-  // TODO(amablue): The score should propagate to Google Play services.
-  int projectiles_fired;
-  int patrons_fed;
-  int patrons_hit;
+  float attributes[AttributeDef_Size];
 };
 
-class ScoreComponent : public entity::Component<ScoreData>,
-                       public event::EventListener {
+class AttributesComponent : public entity::Component<AttributesData>,
+                            public event::EventListener {
  public:
-  ScoreComponent() {}
+  AttributesComponent() {}
 
   void Initialize(InputSystem* input_system, MaterialManager* material_manager,
                   FontManager* font_manager,
@@ -71,9 +67,9 @@ class ScoreComponent : public entity::Component<ScoreData>,
 }  // fpl_project
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::ScoreComponent,
-                              fpl::fpl_project::ScoreData,
-                              ComponentDataUnion_ScoreDef)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::AttributesComponent,
+                              fpl::fpl_project::AttributesData,
+                              ComponentDataUnion_AttributesDef)
 
-#endif  // FPL_COMPONENTS_SCORE_H_
+#endif  // FPL_COMPONENTS_ATTRIBUTES_H_
 

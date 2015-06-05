@@ -53,9 +53,9 @@ class EventListener {
   template <typename T>
   void SendEvent(const T& payload) {
     static_assert(
-        EventIdRegistry<T>::kEventId != kEventIdRegistryInvalidId,
+        EventPayloadIdRegistry<T>::kEventPayloadId != kEventPayloadInvalidId,
         "Attempting to send an event with an unregistered event type.");
-    OnEvent(EventPayload(EventIdRegistry<T>::kEventId, &payload));
+    OnEvent(EventPayload(EventPayloadIdRegistry<T>::kEventPayloadId, &payload));
   }
 };
 

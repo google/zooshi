@@ -38,7 +38,7 @@ class EventManager {
   template <typename T>
   void BroadcastEvent(const T& event_data) {
     std::vector<EventListener*>& list =
-        listener_lists_[EventIdRegistry<T>::kEventId];
+        listener_lists_[EventPayloadIdRegistry<T>::kEventPayloadId];
     for (auto iter = list.begin(); iter != list.end(); ++iter) {
       (*iter)->SendEvent(event_data);
     }

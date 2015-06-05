@@ -17,12 +17,15 @@
 #include <algorithm>
 
 #include "components/transform.h"
+#include "components_generated.h"
 #include "entity/component.h"
 #include "fplbase/flatbuffer_utils.h"
+#include "event_system/event_manager.h"
+#include "events/change_rail_speed.h"
+#include "events/utilities.h"
 #include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
-#include "components_generated.h"
 
 using mathfu::vec3;
 
@@ -43,7 +46,8 @@ void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
   // Initialize the compact-splines to have the best precision possible,
   // given the range limits.
   for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-    splines[i].Init(Range(position_min[i], position_max[i]), spline_granularity);
+    splines[i].Init(Range(position_min[i], position_max[i]),
+                    spline_granularity);
   }
 
   // Initialize the splines. For now, the splines all have key points at the
@@ -66,9 +70,19 @@ void RailDenizenData::Initialize(const Rail& rail, float start_time,
   motivator.SetSpline(SplinePlayback3f(rail.splines, start_time, true));
 }
 
+void RailDenizenComponent::Initialize(motive::MotiveEngine* engine,
+                                      const RailDef* rail_def,
+                                      event::EventManager* event_manager) {
+  engine_ = engine;
+  static const float kSplineGranularity = 10.0f;
+  rail_.Initialize(rail_def, kSplineGranularity);
+  event_manager->RegisterListener(EventSinkUnion_ChangeRailSpeed, this);
+}
+
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
+    // TODO(amablue): Set up each RailDenizen to respect its speed coefficient.
     RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
     transform_data->position = rail_denizen_data->Position();
@@ -92,9 +106,21 @@ void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
                                         ComponentDataUnion_TransformDef);
 }
 
-void RailDenizenComponent::Initialize(const RailDef* rail_def) {
-  static const float kSplineGranularity = 10.0f;
-  rail_.Initialize(rail_def, kSplineGranularity);
+void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {
+  switch (event_payload.id()) {
+    case EventSinkUnion_ChangeRailSpeed: {
+      auto* speed_event = event_payload.ToData<ChangeRailSpeedPayload>();
+      RailDenizenData* rail_denizen_data =
+          Data<RailDenizenData>(speed_event->entity);
+      if (rail_denizen_data) {
+        ApplyOperation(&rail_denizen_data->speed_coefficient,
+                       speed_event->change_rail_speed->op(),
+                       speed_event->change_rail_speed->value());
+      }
+      break;
+    }
+    default: { assert(0); }
+  }
 }
 
 }  // fpl_project

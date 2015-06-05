@@ -12,31 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
-#define FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
+#ifndef FPL_EVENTS_MODIFY_ATTRIBUTE_EVENT_H_
+#define FPL_EVENTS_MODIFY_ATTRIBUTE_EVENT_H_
 
-#include "entity/entity_manager.h"
 #include "event_system/event_registry.h"
-#include "events/entity.h"
-#include "events/event_ids.h"
+#include "events_generated.h"
 
 namespace fpl {
 namespace fpl_project {
 
-struct ProjectileFiredEvent : public EntityEvent {
-  ProjectileFiredEvent(entity::EntityRef& target_,
-                       entity::EntityRef& projectile_)
-      : EntityEvent(target_), projectile(projectile_) {}
+struct ModifyAttributePayload {
+  ModifyAttributePayload(entity::EntityRef target_,
+                         const ModifyAttribute* modify_attribute_)
+      : target(target_), modify_attribute(modify_attribute_) {}
 
-  // The projectile that was fired;
-  entity::EntityRef projectile;
+  entity::EntityRef target;
+  const ModifyAttribute* modify_attribute;
 };
 
 }  // fpl_project
 }  // fpl
 
-FPL_REGISTER_EVENT_ID(fpl::fpl_project::kEventIdProjectileFired,
-                      fpl::fpl_project::ProjectileFiredEvent)
+FPL_REGISTER_EVENT_PAYLOAD_ID(fpl::fpl_project::EventSinkUnion_ModifyAttribute,
+                              fpl::fpl_project::ModifyAttributePayload)
 
-#endif  // FPL_EVENTS_PROJECTILE_FIRED_EVENT_H_
+#endif  // FPL_EVENTS_MODIFY_ATTRIBUTE_EVENT_H_
 

@@ -33,9 +33,13 @@ namespace fpl_project {
 
 // Data for scene object components.
 struct PatronData {
-  PatronData() : fallen(false), at_rest(false) {}
+  PatronData() : on_collision(nullptr), fallen(false), at_rest(false) {}
+
+  // The event to trigger when a projectile collides with this patron.
+  const ActionDef* on_collision;
   bool fallen;
   bool at_rest;
+
   // misc data for simulating the fall:
   mathfu::quat original_orientation;
   mathfu::quat falling_rotation;

@@ -31,27 +31,25 @@ class EventListener;
 class EventPayload {
  public:
   // Returns the event_id of the associated payload type.
-  int event_id() const { return event_id_; }
+  int id() const { return id_; }
 
   // Cast the payload to the expected type. If there is a mismatch between the
   // event id and the type registered with the event, this function will assert.
   template <typename T>
   const T* ToData() const {
-    assert(event_id_ == EventIdRegistry<T>::kEventId);
-    return static_cast<const T*>(event_data_);
+    assert(id_ == EventPayloadIdRegistry<T>::kEventPayloadId);
+    return static_cast<const T*>(data_);
   }
 
  private:
   friend EventListener;
-  EventPayload(int event_id) : event_id_(event_id), event_data_(nullptr) {}
 
   template <typename T>
-  EventPayload(int event_id, const T* event_data)
-      : event_id_(event_id),
-        event_data_(static_cast<const void*>(event_data)) {}
+  EventPayload(int id, const T* data)
+      : id_(id), data_(static_cast<const void*>(data)) {}
 
-  int event_id_;
-  const void* event_data_;
+  int id_;
+  const void* data_;
 };
 
 }  // event

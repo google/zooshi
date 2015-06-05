@@ -26,8 +26,8 @@ void AudioListenerComponent::Initialize(pindrop::AudioEngine* audio_engine) {
 
 void AudioListenerComponent::UpdateAllEntities(
     entity::WorldTime /*delta_time*/) {
-  for (auto iter = component_data_.begin();
-       iter != component_data_.end(); ++iter) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
     AudioListenerData* listener_data = Data<AudioListenerData>(iter->entity);
     assert(listener_data->listener.Valid());
     TransformData* transform_data = Data<TransformData>(iter->entity);

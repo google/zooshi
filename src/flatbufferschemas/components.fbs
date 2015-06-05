@@ -14,6 +14,7 @@
 
 include "bullet_def.fbs";
 include "common.fbs";
+include "events.fbs";
 
 namespace fpl;
 
@@ -49,13 +50,19 @@ table PhysicsDef {
   restitution:float;
 }
 
+table PatronDef {
+  on_collision:fpl.fpl_project.ActionDef;
+}
+
+table PlayerDef {
+  on_fire:fpl.fpl_project.ActionDef;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
-table PatronDef {}
-table PlayerDef {}
 table PlayerProjectileDef {}
 table ListenerDef {}
-table ScoreDef {}
+table AttributesDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
@@ -74,7 +81,7 @@ union ComponentDataUnion {
   // The transform component should update after any other components that
   // might spawn or modify entities with transforms.
   TransformDef,
-  ScoreDef,
+  AttributesDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because
