@@ -29,29 +29,20 @@ namespace fpl {
 namespace fpl_project {
 
 struct Rail {
-  Rail()
-      : x_spline(), y_spline(), z_spline(), x_range(), y_range(), z_range() {}
+  static const motive::MotiveDimension kDimensions = 3;
 
-  fpl::CompactSpline x_spline;
-  fpl::CompactSpline y_spline;
-  fpl::CompactSpline z_spline;
-
-  fpl::RangeT<float> x_range;
-  fpl::RangeT<float> y_range;
-  fpl::RangeT<float> z_range;
+  fpl::CompactSpline splines[kDimensions];
 
   void Initialize(const RailDef* rail_def, float spline_granularity);
 };
 
 struct RailDenizenData {
-  void Initialize(Rail& rail, float start_time, motive::MotiveEngine* engine);
+  void Initialize(const Rail& rail, float start_time, motive::MotiveEngine* engine);
 
-  mathfu::vec3 Position() const;
-  mathfu::vec3 Velocity() const;
+  mathfu::vec3 Position() const { return motivator.Value(); }
+  mathfu::vec3 Velocity() const { return motivator.Velocity(); }
 
-  motive::Motivator1f x_motivator;
-  motive::Motivator1f y_motivator;
-  motive::Motivator1f z_motivator;
+  motive::Motivator3f motivator;
 };
 
 class RailDenizenComponent : public entity::Component<RailDenizenData> {
