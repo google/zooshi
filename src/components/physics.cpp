@@ -143,9 +143,13 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     transform_data->position =
         mathfu::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(),
                      trans.getOrigin().getZ());
+    // The quaternion provided by Bullet is using a right-handed coordinate
+    // system, while mathfu assumes left. Thus the axes need to be negated.
+    // It also needs to be normalized, as the provided value is not.
     transform_data->orientation =
-        mathfu::quat(trans.getRotation().getW(), trans.getRotation().getX(),
-                     trans.getRotation().getY(), trans.getRotation().getZ());
+        mathfu::quat(trans.getRotation().getW(), -trans.getRotation().getX(),
+                     -trans.getRotation().getY(), -trans.getRotation().getZ());
+    transform_data->orientation.Normalize();
 
     // TODO: Generate this event based on the collision (b/21522963)
     if (transform_data->position.z() < kGroundPlane) {
@@ -169,10 +173,12 @@ void PhysicsComponent::UpdatePhysicsFromTransform(entity::EntityRef& entity) {
   PhysicsData* physics_data = Data<PhysicsData>(entity);
   TransformData* transform_data = Data<TransformData>(entity);
 
-  btQuaternion orientation(transform_data->orientation.scalar(),
-                           transform_data->orientation.vector().x(),
-                           transform_data->orientation.vector().y(),
-                           transform_data->orientation.vector().z());
+  // Bullet assumes a right handed system, while mathfu is left, so the axes
+  // need to be negated.
+  btQuaternion orientation(-transform_data->orientation.vector().x(),
+                           -transform_data->orientation.vector().y(),
+                           -transform_data->orientation.vector().z(),
+                           transform_data->orientation.scalar());
   btVector3 position(transform_data->position.x(), transform_data->position.y(),
                      transform_data->position.z());
   physics_data->rigid_body->setWorldTransform(
