@@ -33,6 +33,9 @@
 #ifdef __ANDROID__
 #include "fplbase/renderer_android.h"
 #endif
+#ifdef ANDROID_CARDBOARD
+#include "fplbase/renderer_hmd.h"
+#endif
 
 using mathfu::vec2i;
 using mathfu::vec2;

@@ -79,7 +79,6 @@ class GameState : event::EventListener {
   void Render(Renderer* renderer);
 
   void UpdateMainCamera();
-  void UpdateCardboardCameras();
   void Update(WorldTime delta_time);
 
   virtual void OnEvent(const event::EventPayload& event_payload);
@@ -99,8 +98,7 @@ class GameState : event::EventListener {
 
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD
-  Camera left_eye_camera_;
-  Camera right_eye_camera_;
+  Camera cardboard_camera_;
 #endif
 
   pindrop::AudioEngine* audio_engine_;
