@@ -18,83 +18,52 @@
 
 #include "components/transform.h"
 #include "entity/component.h"
+#include "fplbase/flatbuffer_utils.h"
 #include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
 #include "components_generated.h"
 
+using mathfu::vec3;
+
 namespace fpl {
 namespace fpl_project {
 
 void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
-  // Initialize to +inf and -inf so that min and max can be set appropriately.
-  x_range.set_start(std::numeric_limits<float>::infinity());
-  x_range.set_end(-std::numeric_limits<float>::infinity());
-  y_range.set_start(std::numeric_limits<float>::infinity());
-  y_range.set_end(-std::numeric_limits<float>::infinity());
-  z_range.set_start(std::numeric_limits<float>::infinity());
-  z_range.set_end(-std::numeric_limits<float>::infinity());
+  // Get position extremes.
+  vec3 position_min(std::numeric_limits<float>::infinity());
+  vec3 position_max(-std::numeric_limits<float>::infinity());
   for (auto iter = rail_def->nodes()->begin(); iter != rail_def->nodes()->end();
        ++iter) {
-    if (iter->position()->x() < x_range.start()) {
-      x_range.set_start(iter->position()->x());
-    }
-    if (iter->position()->y() < y_range.start()) {
-      y_range.set_start(iter->position()->y());
-    }
-    if (iter->position()->z() < z_range.start()) {
-      z_range.set_start(iter->position()->z());
-    }
-    if (iter->position()->x() > x_range.end()) {
-      x_range.set_end(iter->position()->x());
-    }
-    if (iter->position()->y() > y_range.end()) {
-      y_range.set_end(iter->position()->y());
-    }
-    if (iter->position()->z() > x_range.end()) {
-      z_range.set_end(iter->position()->z());
-    }
+    const vec3 position = LoadVec3(iter->position());
+    position_min = vec3::Min(position_min, position);
+    position_max = vec3::Max(position_max, position);
   }
 
-  x_spline.Init(x_range, spline_granularity);
-  y_spline.Init(y_range, spline_granularity);
-  z_spline.Init(z_range, spline_granularity);
+  // Initialize the compact-splines to have the best precision possible,
+  // given the range limits.
+  for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
+    splines[i].Init(Range(position_min[i], position_max[i]), spline_granularity);
+  }
 
+  // Initialize the splines. For now, the splines all have key points at the
+  // same time values, but this is a limitation that we can (and should) lift
+  // to maximize compression.
   for (auto iter = rail_def->nodes()->begin(); iter != rail_def->nodes()->end();
        ++iter) {
-    auto node = *iter;
-    x_spline.AddNode(node->time(), node->position()->x(), node->tangent()->x());
-    y_spline.AddNode(node->time(), node->position()->y(), node->tangent()->y());
-    z_spline.AddNode(node->time(), node->position()->z(), node->tangent()->z());
+    const float t = iter->time();
+    const vec3 position = LoadVec3(iter->position());
+    const vec3 tangent = LoadVec3(iter->tangent());
+    for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
+      splines[i].AddNode(t, position[i], tangent[i]);
+    }
   }
 }
 
-void RailDenizenData::Initialize(Rail& rail, float start_time,
+void RailDenizenData::Initialize(const Rail& rail, float start_time,
                                  motive::MotiveEngine* engine) {
-  motive::SmoothInit x_init(rail.x_range, false);
-  fpl::SplinePlayback x_playback(rail.x_spline, start_time, true);
-  x_motivator.Initialize(x_init, engine);
-  x_motivator.SetSpline(x_playback);
-
-  motive::SmoothInit y_init(rail.y_range, false);
-  fpl::SplinePlayback y_playback(rail.y_spline, start_time, true);
-  y_motivator.Initialize(y_init, engine);
-  y_motivator.SetSpline(y_playback);
-
-  motive::SmoothInit z_init(rail.z_range, false);
-  fpl::SplinePlayback z_playback(rail.z_spline, start_time, true);
-  z_motivator.Initialize(z_init, engine);
-  z_motivator.SetSpline(z_playback);
-}
-
-mathfu::vec3 RailDenizenData::Position() const {
-  return mathfu::vec3(x_motivator.Value(), y_motivator.Value(),
-                      z_motivator.Value());
-}
-
-mathfu::vec3 RailDenizenData::Velocity() const {
-  return mathfu::vec3(x_motivator.Velocity(), y_motivator.Velocity(),
-                      z_motivator.Velocity());
+  motivator.Initialize(motive::SmoothInit(), engine);
+  motivator.SetSpline(SplinePlayback3f(rail.splines, start_time, true));
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
