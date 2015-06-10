@@ -47,6 +47,10 @@ table ChangeRailSpeed {
   value:float;
 }
 
+// Collision events are not meant to be thrown from a data defined event being
+// handled, but are instead thrown only from the Physics component.
+table Collision {}
+
 // This is a hack to let me get the size of the EventSinkUnion until there is a
 // proper way to do this. It should not be used directly.
 table Size {}
@@ -55,6 +59,7 @@ union EventSinkUnion {
   PlaySound,
   ModifyAttribute,
   ChangeRailSpeed,
+  Collision,
   Size,
 }
 

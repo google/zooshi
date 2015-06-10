@@ -196,6 +196,7 @@ set(zooshi_SRCS
     src/event_system/event_payload.h
     src/event_system/event_registry.h
     src/events/change_rail_speed.h
+    src/events/collision.h
     src/events/modify_attribute.h
     src/events/parse_action.cpp
     src/events/parse_action.h

@@ -196,6 +196,11 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       transform_data->scale = ring_scale;
       transform_data->orientation =
           quat::FromAngleAxis(orientation_angle.ToRadians(), mathfu::kAxisZ3f);
+
+      if (entity->IsRegisteredForComponent(
+              physics_component_.GetComponentId())) {
+        physics_component_.UpdatePhysicsFromTransform(entity);
+      }
     }
   }
 

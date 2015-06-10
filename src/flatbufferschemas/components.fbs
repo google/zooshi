@@ -46,8 +46,10 @@ table SoundDef {
 
 table PhysicsDef {
   shape:BulletShapeDef;
+  offset:Vec3;
   mass:float = 1;
   restitution:float;
+  kinematic:bool = false;
 }
 
 table PatronDef {

@@ -141,6 +141,9 @@ class VectorPool {
     // Returns the raw index into the underlying vector for this object.
     size_t index() { return index_; }
 
+    // Returns the pointer to the underlying vector for this object.
+    VectorPool<T>* container() const { return container_; }
+
    private:
     VectorPool<T>* container_;
     size_t index_;

@@ -47,7 +47,8 @@ struct PatronData {
   float dy;
 };
 
-class PatronComponent : public entity::Component<PatronData> {
+class PatronComponent : public entity::Component<PatronData>,
+                        public event::EventListener {
  public:
   PatronComponent() {}
 
@@ -57,7 +58,12 @@ class PatronComponent : public entity::Component<PatronData> {
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
+  virtual void OnEvent(const event::EventPayload& payload);
+
  private:
+  void HandleCollision(const entity::EntityRef& patron_entity,
+                       const entity::EntityRef& proj_entity,
+                       const mathfu::vec3& position);
   void SpawnSplatter(const mathfu::vec3& position, int count);
 
   const Config* config_;

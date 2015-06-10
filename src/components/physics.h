@@ -31,9 +31,13 @@ namespace fpl_project {
 // Data for scene object components.
 struct PhysicsData {
  public:
+  PhysicsData() : enabled(false) {}
+
   std::unique_ptr<btCollisionShape> shape;
   std::unique_ptr<btMotionState> motion_state;
   std::unique_ptr<btRigidBody> rigid_body;
+  mathfu::vec3 offset;
+  bool enabled;
 
   mathfu::vec3 Velocity() const {
     const btVector3 vel = rigid_body->getLinearVelocity();
@@ -89,16 +93,16 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
                   MaterialManager* material_manager);
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-
   // TODO: Implement ExportRawData function for editor (b/21589546)
 
   virtual void InitEntity(entity::EntityRef& /*entity*/);
-
   virtual void CleanupEntity(entity::EntityRef& entity);
-
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
   void UpdatePhysicsFromTransform(entity::EntityRef& entity);
+
+  void EnablePhysics(const entity::EntityRef& entity);
+  void DisablePhysics(const entity::EntityRef& entity);
 
   void DebugDrawWorld(Renderer* renderer, const mathfu::mat4& camera_transform);
 

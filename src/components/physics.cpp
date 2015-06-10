@@ -15,9 +15,11 @@
 #include "components/physics.h"
 #include "components/transform.h"
 #include "event_system/event_manager.h"
+#include "events/collision.h"
 #include "events/parse_action.h"
 #include "events_generated.h"
 #include "events/play_sound.h"
+#include "fplbase/flatbuffer_utils.h"
 #include "fplbase/mesh.h"
 #include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
@@ -127,8 +129,24 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
       inertia);
   rigid_body_builder.m_restitution = physics_def->restitution();
   physics_data->rigid_body.reset(new btRigidBody(rigid_body_builder));
+  physics_data->rigid_body->setUserIndex(entity.index());
+  physics_data->rigid_body->setUserPointer(entity.container());
+  if (physics_def->kinematic()) {
+    physics_data->rigid_body->setCollisionFlags(
+        physics_data->rigid_body->getCollisionFlags() |
+        btCollisionObject::CF_KINEMATIC_OBJECT);
+  }
 
+  if (physics_def->offset()) {
+    physics_data->offset = LoadVec3(physics_def->offset());
+  } else {
+    physics_data->offset = mathfu::kZeros3f;
+  }
+
+  physics_data->enabled = true;
   bullet_world_->addRigidBody(physics_data->rigid_body.get());
+
+  UpdatePhysicsFromTransform(entity);
 }
 
 void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
@@ -142,17 +160,26 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     PhysicsData* physics_data = Data<PhysicsData>(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
 
-    auto trans = physics_data->rigid_body->getWorldTransform();
-    transform_data->position =
-        mathfu::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(),
-                     trans.getOrigin().getZ());
-    // The quaternion provided by Bullet is using a right-handed coordinate
-    // system, while mathfu assumes left. Thus the axes need to be negated.
-    // It also needs to be normalized, as the provided value is not.
-    transform_data->orientation =
-        mathfu::quat(trans.getRotation().getW(), -trans.getRotation().getX(),
-                     -trans.getRotation().getY(), -trans.getRotation().getZ());
-    transform_data->orientation.Normalize();
+    if (!physics_data->rigid_body->isKinematicObject()) {
+      auto trans = physics_data->rigid_body->getWorldTransform();
+      // The quaternion provided by Bullet is using a right-handed coordinate
+      // system, while mathfu assumes left. Thus the axes need to be negated.
+      // It also needs to be normalized, as the provided value is not.
+      transform_data->orientation = mathfu::quat(
+          trans.getRotation().getW(), -trans.getRotation().getX(),
+          -trans.getRotation().getY(), -trans.getRotation().getZ());
+      transform_data->orientation.Normalize();
+
+      vec3 offset =
+          transform_data->orientation.Inverse() * physics_data->offset;
+      transform_data->position =
+          mathfu::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(),
+                       trans.getOrigin().getZ()) -
+          offset;
+    } else {
+      // If it is kinematic, instead copy from the transform into physics.
+      UpdatePhysicsFromTransform(iter->entity);
+    }
 
     // TODO: Generate this event based on the collision (b/21522963)
     if (transform_data->position.z() < kGroundPlane) {
@@ -160,6 +187,43 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       context.source = iter->entity;
       ParseAction(config_->on_bounce(), &context, event_manager_,
                   entity_manager_);
+    }
+  }
+
+  // Check for collisions
+  int num_manifolds = collision_dispatcher_->getNumManifolds();
+  for (int manifold_index = 0; manifold_index < num_manifolds;
+       manifold_index++) {
+    btPersistentManifold* contact_manifold =
+        collision_dispatcher_->getManifoldByIndexInternal(manifold_index);
+
+    int num_contacts = contact_manifold->getNumContacts();
+    for (int contact_index = 0; contact_index < num_contacts; contact_index++) {
+      btManifoldPoint& pt = contact_manifold->getContactPoint(contact_index);
+      if (pt.getDistance() < 0.0f) {
+        auto body_a = contact_manifold->getBody0();
+        auto body_b = contact_manifold->getBody1();
+        auto container_a =
+            static_cast<VectorPool<entity::Entity>*>(body_a->getUserPointer());
+        auto container_b =
+            static_cast<VectorPool<entity::Entity>*>(body_b->getUserPointer());
+        // Only generate events if both containers were defined
+        if (container_a == nullptr || container_b == nullptr) {
+          continue;
+        }
+
+        entity::EntityRef entity_a(container_a, body_a->getUserIndex());
+        entity::EntityRef entity_b(container_b, body_b->getUserIndex());
+        vec3 position_a(pt.getPositionWorldOnA().x(),
+                        pt.getPositionWorldOnA().y(),
+                        pt.getPositionWorldOnA().z());
+        vec3 position_b(pt.getPositionWorldOnB().x(),
+                        pt.getPositionWorldOnB().y(),
+                        pt.getPositionWorldOnB().z());
+
+        event_manager_->BroadcastEvent(
+            CollisionPayload(entity_a, position_a, entity_b, position_b));
+      }
     }
   }
 }
@@ -171,7 +235,26 @@ void PhysicsComponent::InitEntity(entity::EntityRef& entity) {
 
 void PhysicsComponent::CleanupEntity(entity::EntityRef& entity) {
   PhysicsData* physics_data = Data<PhysicsData>(entity);
-  bullet_world_->removeRigidBody(physics_data->rigid_body.get());
+  if (physics_data->enabled) {
+    physics_data->enabled = false;
+    bullet_world_->removeRigidBody(physics_data->rigid_body.get());
+  }
+}
+
+void PhysicsComponent::EnablePhysics(const entity::EntityRef& entity) {
+  PhysicsData* physics_data = Data<PhysicsData>(entity);
+  if (!physics_data->enabled) {
+    physics_data->enabled = true;
+    bullet_world_->addRigidBody(physics_data->rigid_body.get());
+  }
+}
+
+void PhysicsComponent::DisablePhysics(const entity::EntityRef& entity) {
+  PhysicsData* physics_data = Data<PhysicsData>(entity);
+  if (physics_data->enabled) {
+    physics_data->enabled = false;
+    bullet_world_->removeRigidBody(physics_data->rigid_body.get());
+  }
 }
 
 void PhysicsComponent::UpdatePhysicsFromTransform(entity::EntityRef& entity) {
@@ -184,10 +267,13 @@ void PhysicsComponent::UpdatePhysicsFromTransform(entity::EntityRef& entity) {
                            -transform_data->orientation.vector().y(),
                            -transform_data->orientation.vector().z(),
                            transform_data->orientation.scalar());
-  btVector3 position(transform_data->position.x(), transform_data->position.y(),
-                     transform_data->position.z());
-  physics_data->rigid_body->setWorldTransform(
-      btTransform(orientation, position));
+  vec3 offset = transform_data->orientation.Inverse() * physics_data->offset;
+  btVector3 position(transform_data->position.x() + offset.x(),
+                     transform_data->position.y() + offset.y(),
+                     transform_data->position.z() + offset.z());
+  btTransform transform(orientation, position);
+  physics_data->rigid_body->setWorldTransform(transform);
+  physics_data->motion_state->setWorldTransform(transform);
 }
 
 void PhysicsComponent::DebugDrawWorld(Renderer* renderer,
