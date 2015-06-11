@@ -34,12 +34,31 @@ class EventManager;
 }  // event
 namespace fpl_project {
 
-struct Rail {
+class Rail {
+ public:
+  void Initialize(const RailDef* rail_def, float spline_granularity);
+
+  /// Return vector of `positions` that is the rail evaluated every `delta_time`
+  /// for the entire course of the rail. This calculation is much faster than
+  /// calling PositionCalculatedSlowly() multiple times.
+  void Positions(float delta_time,
+                 std::vector<mathfu::vec3_packed>* positions) const;
+
+  /// Return the rail position at `time`. This calculation is fairly slow
+  /// so only use outside a loop. If you need a series of positions, consider
+  /// calling Positions() above instead.
+  mathfu::vec3 PositionCalculatedSlowly(float time) const;
+
+  /// Length of the rail.
+  float EndTime() const { return splines_[0].EndX(); }
+
+  /// Internal structure representing the rails.
+  const fpl::CompactSpline* splines() const { return splines_; }
+
+ private:
   static const motive::MotiveDimension kDimensions = 3;
 
-  fpl::CompactSpline splines[kDimensions];
-
-  void Initialize(const RailDef* rail_def, float spline_granularity);
+  fpl::CompactSpline splines_[kDimensions];
 };
 
 struct RailDenizenData {

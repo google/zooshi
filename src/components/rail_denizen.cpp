@@ -46,7 +46,7 @@ void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
   // Initialize the compact-splines to have the best precision possible,
   // given the range limits.
   for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-    splines[i].Init(Range(position_min[i], position_max[i]),
+    splines_[i].Init(Range(position_min[i], position_max[i]),
                     spline_granularity);
   }
 
@@ -59,15 +59,32 @@ void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
     const vec3 position = LoadVec3(iter->position());
     const vec3 tangent = LoadVec3(iter->tangent());
     for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-      splines[i].AddNode(t, position[i], tangent[i]);
+      splines_[i].AddNode(t, position[i], tangent[i]);
     }
   }
+}
+
+void Rail::Positions(float delta_time,
+                     std::vector<mathfu::vec3_packed>* positions) const {
+  const size_t num_positions = std::floor(EndTime() / delta_time) + 1;
+  positions->resize(num_positions);
+
+  CompactSpline::BulkYs<3>(
+      splines_, 0.0f, delta_time, num_positions, &(*positions)[0]);
+}
+
+vec3 Rail::PositionCalculatedSlowly(float time) const {
+  vec3 position;
+  for (int i = 0; i < kDimensions; ++i) {
+    position[i] = splines_[i].YCalculatedSlowly(time);
+  }
+  return position;
 }
 
 void RailDenizenData::Initialize(const Rail& rail, float start_time,
                                  motive::MotiveEngine* engine) {
   motivator.Initialize(motive::SmoothInit(), engine);
-  motivator.SetSpline(SplinePlayback3f(rail.splines, start_time, true));
+  motivator.SetSpline(SplinePlayback3f(rail.splines(), start_time, true));
 }
 
 void RailDenizenComponent::Initialize(motive::MotiveEngine* engine,
