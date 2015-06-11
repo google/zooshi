@@ -33,6 +33,15 @@ enum EntityDefs : byte {
   kNumEntityDef
 }
 
+table RiverConfig {
+  spline_stepsize: float;
+  track_half_width:float;
+  track_height:float;
+  texture_tile_size:float;
+  material:string;
+  shader:string;
+}
+
 table EntityGrid {
   // Entity to repeat in x-y grid pattern.
   entity:EntityDefs;
@@ -107,6 +116,9 @@ table Config {
 
   // List of groups of things that can instantiated in the world.
   entity_defs:[fpl.EntityDef];
+
+  // Various settings for rendering the river.
+  river_config:RiverConfig;
 }
 
 root_type Config;

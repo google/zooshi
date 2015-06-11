@@ -40,6 +40,7 @@ table RailDenizenDef {
 table RenderMeshDef {
   source_file:string;
   shader:string;
+  ignore_culling:bool = false;
 }
 
 table SoundDef {
@@ -70,12 +71,16 @@ table PlayerProjectileDef {
 // ends up in the enum.
 table ListenerDef {}
 table AttributesDef {}
+table ScoreDef {}
+table RiverDef {}
+table ServicesDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
 // Union containing every possible component.
 // Note: This will also be the order the components execute their updates in.
 union ComponentDataUnion {
+  ServicesDef,
   RailDenizenDef,
   PlayerDef,
   PatronDef,
@@ -84,11 +89,13 @@ union ComponentDataUnion {
   TimeLimitDef,
   RenderMeshDef,
   ListenerDef,
+  RiverDef,
+  ScoreDef,
   SoundDef,
+  AttributesDef,
   // The transform component should update after any other components that
   // might spawn or modify entities with transforms.
   TransformDef,
-  AttributesDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

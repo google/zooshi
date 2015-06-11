@@ -97,6 +97,11 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 
+
+  // TODO - get rid of this once raildenizen is changed to have rail stored
+  // in the component data.
+  Rail* rail() { return &rail_; };
+
  private:
   // A pointer to the MotiveEngine used to spawn motivators.
   motive::MotiveEngine* engine_;

@@ -25,7 +25,7 @@ namespace entity {
 // because it affects the size of each entity.  Ideally this should be set
 // to something that is as close as possible to the actual number of components
 // used by the program.
-#define FPL_ENTITY_MAX_COMPONENT_COUNT 20
+#define FPL_ENTITY_MAX_COMPONENT_COUNT 30
 
 // Pick an index type based on the max number of components.
 #if kMaxComponentCount <= 0xff
