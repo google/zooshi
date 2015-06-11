@@ -33,6 +33,8 @@ table TimeLimitDef {
 
 table RailDenizenDef {
   start_time:float;
+  initial_playback_rate:float;
+  on_new_lap:fpl.fpl_project.ActionDef;
 }
 
 table RenderMeshDef {

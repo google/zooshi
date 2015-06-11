@@ -19,10 +19,11 @@
 #include "components/transform.h"
 #include "components_generated.h"
 #include "entity/component.h"
-#include "fplbase/flatbuffer_utils.h"
 #include "event_system/event_manager.h"
 #include "events/change_rail_speed.h"
+#include "events/parse_action.h"
 #include "events/utilities.h"
+#include "fplbase/flatbuffer_utils.h"
 #include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
@@ -85,6 +86,7 @@ void RailDenizenData::Initialize(const Rail& rail, float start_time,
                                  motive::MotiveEngine* engine) {
   motivator.Initialize(motive::SmoothInit(), engine);
   motivator.SetSpline(SplinePlayback3f(rail.splines(), start_time, true));
+  motivator.SetSplinePlaybackRate(spline_playback_rate);
 }
 
 void RailDenizenComponent::Initialize(motive::MotiveEngine* engine,
@@ -94,17 +96,30 @@ void RailDenizenComponent::Initialize(motive::MotiveEngine* engine,
   static const float kSplineGranularity = 10.0f;
   rail_.Initialize(rail_def, kSplineGranularity);
   event_manager->RegisterListener(EventSinkUnion_ChangeRailSpeed, this);
+  event_manager_ = event_manager;
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    // TODO(amablue): Set up each RailDenizen to respect its speed coefficient.
     RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
     transform_data->position = rail_denizen_data->Position();
     transform_data->orientation = mathfu::quat::RotateFromTo(
         rail_denizen_data->Velocity(), mathfu::kAxisY3f);
+
+    // When the motivator has looped all the way back to the beginning of the
+    // spline, the SplineTime returns back to 0. We can exploit this fact to
+    // determine when a lap has been completed.
+    motive::MotiveTime current_time = rail_denizen_data->motivator.SplineTime();
+    if (current_time < rail_denizen_data->previous_time &&
+        rail_denizen_data->on_new_lap) {
+      EventContext context;
+      context.source = iter->entity;
+      ParseAction(rail_denizen_data->on_new_lap, &context, event_manager_,
+                  entity_manager_);
+    }
+    rail_denizen_data->previous_time = current_time;
   }
 }
 
@@ -116,6 +131,9 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
       static_cast<const RailDenizenDef*>(component_data->data());
   RailDenizenData* data = AddEntity(entity);
   data->Initialize(rail_, rail_denizen_def->start_time(), engine_);
+  data->on_new_lap = rail_denizen_def->on_new_lap();
+  data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
+  data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
 }
 
 void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
@@ -130,9 +148,11 @@ void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {
       RailDenizenData* rail_denizen_data =
           Data<RailDenizenData>(speed_event->entity);
       if (rail_denizen_data) {
-        ApplyOperation(&rail_denizen_data->speed_coefficient,
+        ApplyOperation(&rail_denizen_data->spline_playback_rate,
                        speed_event->change_rail_speed->op(),
                        speed_event->change_rail_speed->value());
+        rail_denizen_data->motivator.SetSplinePlaybackRate(
+            rail_denizen_data->spline_playback_rate);
       }
       break;
     }

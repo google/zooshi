@@ -62,13 +62,23 @@ class Rail {
 };
 
 struct RailDenizenData {
+  RailDenizenData()
+      : spline_playback_rate(1.0f),
+        previous_time(0),
+        on_new_lap(nullptr),
+        motivator() {}
+
   void Initialize(const Rail& rail, float start_time,
                   motive::MotiveEngine* engine);
 
   mathfu::vec3 Position() const { return motivator.Value(); }
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
 
-  float speed_coefficient;
+  float spline_playback_rate;
+
+  motive::MotiveTime previous_time;
+
+  const ActionDef* on_new_lap;
 
   motive::Motivator3f motivator;
 };
@@ -93,6 +103,8 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
   // The rail that will define the path to follow.
   Rail rail_;
+
+  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

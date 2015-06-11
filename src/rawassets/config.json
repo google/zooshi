@@ -27,6 +27,26 @@
         {
           "data_type": "PlayerDef",
           "data": {
+            "on_fire": {
+              "event_list": [
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                },
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "Source",
+                    "op": "Add",
+                    "attrib": "ProjectilesFired",
+                    "value": 1
+                  }
+                }
+              ]
+            }
           }
         },
         {
@@ -65,7 +85,28 @@
         {
           "data_type": "RailDenizenDef",
           "data" : {
-            "start_time": 0
+            "start_time": 0,
+            "on_new_lap": {
+              "event_list": [
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "Source",
+                    "op": "Add",
+                    "attrib": "Lap",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "ChangeRailSpeed",
+                  "event": {
+                    "entity": "Source",
+                    "op": "Add",
+                    "value": 0.25
+                  }
+                }
+              ]
+            }
           }
         },
         {
@@ -157,7 +198,7 @@
                       "source_file": "meshes/lady_mandrill.fplmesh",
                       "shader": "shaders/textured"
                     }
-                  },
+                  }
                 ]
               }
             ]
@@ -188,7 +229,36 @@
         },
         {
           "data_type": "PatronDef",
-          "data": {}
+          "data": {
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "ChangeRailSpeed",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Set",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Add",
+                    "attrib": "PatronsFed",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
@@ -233,7 +303,7 @@
                       "source_file": "meshes/menacing_croc.fplmesh",
                       "shader": "shaders/textured"
                     }
-                  },
+                  }
                 ]
               }
             ]
@@ -264,7 +334,28 @@
         },
         {
           "data_type": "PatronDef",
-          "data": {}
+          "data": {
+            "on_collision": {
+              "event_list": [
+                {
+                  "event_type": "ModifyAttribute",
+                  "event": {
+                    "entity": "SourceOwner",
+                    "op": "Add",
+                    "attrib": "PatronsFed",
+                    "value": 1
+                  }
+                },
+                {
+                  "event_type": "PlaySound",
+                  "event": {
+                    "entity": "Source",
+                    "sound_name": "paper_bounce"
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },
