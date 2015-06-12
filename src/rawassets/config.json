@@ -832,7 +832,7 @@
       "radius": 30,
       "orientation_offset_angle": 90,
       "position_offset_angle": 0,
-      "position": { "x": 12, "y": 12, "z": 0 },
+      "position": { "x": 12, "y": 12, "z": 0.01 },
       "scale": { "x": 1, "y": 1, "z": 1 }
     },
 
@@ -842,7 +842,7 @@
       "radius": 50,
       "orientation_offset_angle": 90,
       "position_offset_angle": 13,
-      "position": { "x": 12, "y": 0, "z": 0 },
+      "position": { "x": 12, "y": 0, "z": 0.01 },
       "scale": { "x": 1, "y": 1, "z": 1 }
     },
 
@@ -852,7 +852,7 @@
       "radius": 70,
       "orientation_offset_angle": 90,
       "position_offset_angle": 26,
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": { "x": 0, "y": 0, "z": 0.01 },
       "scale": { "x": 1, "y": 1, "z": 1 }
     },
 

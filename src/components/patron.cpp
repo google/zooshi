@@ -32,7 +32,7 @@ static const float kHitMinHeight = 8.0;
 
 static const float kSplatterCount = 10;
 
-static const float kGravity = 0.00005f;
+static const float kGravity = 0.05f;
 static const float kAtRestThreshold = 0.005f;
 static const float kBounceFactor = 0.4f;
 
@@ -60,24 +60,42 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     entity::EntityRef patron = iter->entity;
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
-    if (patron_data->fallen && !patron_data->at_rest) {
+
+    float seconds = static_cast<float>(delta_time) / kMillisecondsPerSecond;
+    if (patron_data->state == kPatronStateLayingDown) {
+    } else if (patron_data->state == kPatronStateFalling) {
       // Some basic math to fake a convincing fall + bounce on a hinge joint.
-      float y = patron_data->y;
-      float dy = patron_data->dy;
-      dy -= static_cast<float>(delta_time) * kGravity;
-      y += dy;
-      if (y < 0) {
-        dy *= -kBounceFactor;
-        y = 0.0f;
-        if (dy < kAtRestThreshold) patron_data->at_rest = true;
+      patron_data->dy -= seconds * kGravity;
+      patron_data->y += patron_data->dy;
+      if (patron_data->y < 0.0f) {
+        patron_data->dy *= -kBounceFactor;
+        patron_data->y = 0.0f;
+        if (patron_data->dy < kAtRestThreshold) {
+          patron_data->dy = 0.0f;
+          patron_data->state = kPatronStateGettingUp;
+        }
       }
-      patron_data->y = y;
-      patron_data->dy = dy;
       // For our simple simulation of falling and bouncing, Y is always
       // guaranteed to be between 0 and 1.
       transform_data->orientation =
           patron_data->original_orientation *
-          quat::Slerp(quat::identity, patron_data->falling_rotation, 1.0 - y);
+          quat::Slerp(quat::identity, patron_data->falling_rotation,
+                      1.0f - patron_data->y);
+    } else if (patron_data->state == kPatronStateGettingUp) {
+      // Like above, but no bouncing.
+      patron_data->dy += seconds * kGravity;
+      patron_data->y += patron_data->dy;
+      if (patron_data->y >= 1.0f) {
+        patron_data->y = 1.0f;
+        patron_data->state = kPatronStateUpright;
+        auto physics_component =
+            entity_manager_->GetComponent<PhysicsComponent>();
+        physics_component->EnablePhysics(patron);
+      }
+      transform_data->orientation =
+          patron_data->original_orientation *
+          quat::Slerp(quat::identity, patron_data->falling_rotation,
+                      1.0f - patron_data->y);
     }
   }
 }
@@ -110,7 +128,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
     return;
   }
   PatronData* patron_data = Data<PatronData>(patron_entity);
-  if (!patron_data->fallen) {
+  if (patron_data->state == kPatronStateUpright) {
     // If the hit is high enough, consider it fed.
     // TODO: Replace this with something better, possibly multiple shapes.
     if (position.z() >= kHitMinHeight) {
@@ -120,7 +138,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
           patron_transform->orientation.Inverse() * mathfu::kAxisY3f;
       patron_data->falling_rotation =
           quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
-      patron_data->fallen = true;
+      patron_data->state = kPatronStateFalling;
       patron_data->y = 1.0f;
       patron_data->dy = 0.0f;
       patron_data->original_orientation = patron_transform->orientation;

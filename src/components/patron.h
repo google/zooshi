@@ -31,14 +31,20 @@ class EventManager;
 
 namespace fpl_project {
 
+enum PatronState {
+  kPatronStateLayingDown,
+  kPatronStateUpright,
+  kPatronStateFalling,
+  kPatronStateGettingUp,
+};
+
 // Data for scene object components.
 struct PatronData {
-  PatronData() : on_collision(nullptr), fallen(false), at_rest(false) {}
+  PatronData() : on_collision(nullptr), state(kPatronStateUpright) {}
 
   // The event to trigger when a projectile collides with this patron.
   const ActionDef* on_collision;
-  bool fallen;
-  bool at_rest;
+  PatronState state;
 
   // misc data for simulating the fall:
   mathfu::quat original_orientation;
