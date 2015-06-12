@@ -23,7 +23,9 @@
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
+#include "components/river.h"
 #include "components/sound.h"
+#include "components/services.h"
 #include "components/time_limit.h"
 #include "components/transform.h"
 #include "editor/world_editor.h"
@@ -123,6 +125,9 @@ class GameState : event::EventListener {
   AudioListenerComponent audio_listener_component_;
   SoundComponent sound_component_;
   AttributesComponent attributes_component_;
+  RiverComponent river_component_;
+
+  ServicesComponent services_component_;
 
 // Input controller for mouse
 #ifdef __ANDROID__

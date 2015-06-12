@@ -11,6 +11,15 @@
   "gravity": -90.0,
   "bullet_max_steps": 5,
 
+  "river_config" : {
+    "spline_stepsize": 500.0,
+    "track_half_width": 5.0,
+    "track_height": -14.5,
+    "texture_tile_size": 5.0,
+    "material": "materials/river.fplmat",
+    "shader": "shaders/textured"
+  },
+
   "world_editor_config" : {
     "viewport_angle_degrees":90,
     "movement_speed":0.08,
@@ -22,6 +31,7 @@
   },
 
   "entity_list": [
+    // Actve player:
     {
       "component_list": [
         {
@@ -124,6 +134,18 @@
           "data_type": "AttributesDef",
           "data" : {}
         }
+      ]
+    },
+
+
+    // River:
+    {
+      "component_list": [
+        {
+          "data_type": "RiverDef",
+          "data" : {}
+        },
+
       ]
     },
 
@@ -810,7 +832,7 @@
       "entity": "kGround",
       "count": { "x": 12, "y": 12, "z": 1 },
       "separation": { "x": 25, "y": 25, "z": 0 },
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": { "x": 0, "y": 0, "z": 0.1 },
       "scale": { "x": 25, "y": 25, "z": 1 }
     }
   ],

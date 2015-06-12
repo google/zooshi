@@ -33,10 +33,15 @@ namespace fpl_project {
 // Data for scene object components.
 struct RenderMeshData {
  public:
-  RenderMeshData() : mesh(nullptr), shader(nullptr), tint(mathfu::kOnes4f) {}
+  RenderMeshData()
+    : mesh(nullptr),
+      shader(nullptr),
+      tint(mathfu::kOnes4f),
+      ignore_culling(false) {}
   Mesh* mesh;
   Shader* shader;
   mathfu::vec4 tint;
+  bool ignore_culling;
 };
 
 class RenderMeshComponent : public entity::Component<RenderMeshData> {

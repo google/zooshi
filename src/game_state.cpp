@@ -113,6 +113,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.RegisterComponent(&audio_listener_component_);
   entity_manager_.RegisterComponent(&sound_component_);
   entity_manager_.RegisterComponent(&attributes_component_);
+  entity_manager_.RegisterComponent(&river_component_);
+  entity_manager_.RegisterComponent(&services_component_);
 
   std::string rail_def_source;
   if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
@@ -122,6 +124,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   entity_manager_.set_entity_factory(&entity_factory_);
 
+  services_component_.Initialize(config_, material_manager, audio_engine,
+                                 &event_manager_);
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
 
@@ -141,7 +145,6 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   for (size_t i = 0; i < config.entity_list()->size(); i++) {
     entity_manager_.CreateEntityFromData(config.entity_list()->Get(i));
   }
-
   // Create entities in a grid formation, as specified by `entity_grid_list`.
   for (size_t i = 0; i < config.entity_grid_list()->size(); i++) {
     auto grid = config.entity_grid_list()->Get(i);
@@ -204,7 +207,6 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       }
     }
   }
-
   for (auto iter = player_component_.begin(); iter != player_component_.end();
        ++iter) {
     entity_manager_.GetComponentData<PlayerData>(iter->entity)

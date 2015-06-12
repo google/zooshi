@@ -174,6 +174,10 @@ set(zooshi_SRCS
     src/components/rail_denizen.h
     src/components/rendermesh.cpp
     src/components/rendermesh.h
+    src/components/river.cpp
+    src/components/river.h
+    src/components/services.cpp
+    src/components/services.h
     src/components/sound.cpp
     src/components/sound.h
     src/components/time_limit.cpp

@@ -63,6 +63,8 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player_projectile.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rendermesh.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/river.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/services.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
