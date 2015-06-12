@@ -16,7 +16,6 @@
 #include "components/transform.h"
 #include "event_system/event_manager.h"
 #include "events/collision.h"
-#include "events/parse_action.h"
 #include "events_generated.h"
 #include "events/play_sound.h"
 #include "fplbase/flatbuffer_utils.h"
@@ -179,14 +178,6 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     } else {
       // If it is kinematic, instead copy from the transform into physics.
       UpdatePhysicsFromTransform(iter->entity);
-    }
-
-    // TODO: Generate this event based on the collision (b/21522963)
-    if (transform_data->position.z() < kGroundPlane) {
-      EventContext context;
-      context.source = iter->entity;
-      ParseAction(config_->on_bounce(), &context, event_manager_,
-                  entity_manager_);
     }
   }
 

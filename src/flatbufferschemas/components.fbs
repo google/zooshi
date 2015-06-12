@@ -62,9 +62,12 @@ table PlayerDef {
   on_fire:fpl.fpl_project.ActionDef;
 }
 
+table PlayerProjectileDef {
+  on_collision:fpl.fpl_project.ActionDef;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
-table PlayerProjectileDef {}
 table ListenerDef {}
 table AttributesDef {}
 
