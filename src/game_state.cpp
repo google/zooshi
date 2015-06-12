@@ -129,6 +129,7 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   patron_component_.Initialize(config_, &event_manager_);
   physics_component_.Initialize(&event_manager_, config_, material_manager_);
   player_component_.Initialize(&event_manager_, config_);
+  player_projectile_component_.Initialize(&event_manager_);
   rail_denizen_component_.Initialize(&motive_engine_, rail_def,
                                      &event_manager_);
   render_mesh_component_.Initialize(vec3(-10, -20, 20), material_manager);

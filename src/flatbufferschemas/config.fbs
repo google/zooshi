@@ -107,9 +107,6 @@ table Config {
 
   // List of groups of things that can instantiated in the world.
   entity_defs:[fpl.EntityDef];
-
-  // The event to fire when an object bounces on the ground.
-  on_bounce:ActionDef;
 }
 
 root_type Config;
