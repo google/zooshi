@@ -16,6 +16,7 @@
 #include "components/patron.h"
 #include "components/physics.h"
 #include "components/player_projectile.h"
+#include "components/rail_denizen.h"
 #include "components/transform.h"
 #include "events/collision.h"
 #include "events/parse_action.h"
@@ -43,27 +44,77 @@ void PatronComponent::Initialize(const Config* config,
   event_manager->RegisterListener(EventSinkUnion_Collision, this);
 }
 
-void PatronComponent::AddFromRawData(entity::EntityRef& parent,
+void PatronComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
   assert(component_data->data_type() == ComponentDataUnion_PatronDef);
   auto patron_def = static_cast<const PatronDef*>(component_data->data());
-  PatronData* patron_data = AddEntity(parent);
+  PatronData* patron_data = AddEntity(entity);
   patron_data->on_collision = patron_def->on_collision();
+  assert(patron_def->pop_out_radius() >= patron_def->pop_in_radius());
+  patron_data->pop_in_radius_squared =
+      patron_def->pop_in_radius() * patron_def->pop_in_radius();
+  patron_data->pop_out_radius_squared =
+      patron_def->pop_out_radius() * patron_def->pop_out_radius();
 }
 
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
+void PatronComponent::PostLoadFixup() {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    // Fall down along the local y-axis
+    entity::EntityRef patron = iter->entity;
+    TransformData* transform_data = Data<TransformData>(patron);
+    PatronData* patron_data = Data<PatronData>(patron);
+    vec3 spin_direction_vector =
+        transform_data->orientation.Inverse() * mathfu::kAxisY3f;
+    patron_data->falling_rotation =
+        quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
+    patron_data->original_orientation = transform_data->orientation;
+    transform_data->orientation =
+        patron_data->original_orientation *
+        quat::Slerp(quat::identity, patron_data->falling_rotation,
+                    1.0f - patron_data->y);
+  }
+}
+
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
+  RailDenizenComponent* rail_denizen_component =
+      entity_manager_->GetComponent<RailDenizenComponent>();
+  entity::EntityRef raft = rail_denizen_component->river_entity();
+  TransformData* raft_transform = Data<TransformData>(raft);
+  RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
+  int lap = raft_rail_denizen->lap;
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     entity::EntityRef patron = iter->entity;
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
+    PatronState& state = patron_data->state;
 
+    // Determine the patron's distance from the raft.
+    float raft_distance_squared =
+        (transform_data->position - raft_transform->position).LengthSquared();
+    if (raft_distance_squared > patron_data->pop_out_radius_squared &&
+        (state == kPatronStateUpright || state == kPatronStateGettingUp)) {
+      // If you are too far away, and the patron is standing up (or getting up)
+      // make them fall back down.
+      patron_data->state = kPatronStateFalling;
+    } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
+               lap > patron_data->last_lap_fed &&
+               (state == kPatronStateLayingDown ||
+                state == kPatronStateFalling)) {
+      // If you are too in range, and the patron is standing laying down (or
+      // falling down) and they have not been fed this lap, make them stand back
+      // up.
+      patron_data->state = kPatronStateGettingUp;
+    }
+
+    // For our simple simulation of falling and bouncing, Y is always
+    // guaranteed to be between 0 and 1.
     float seconds = static_cast<float>(delta_time) / kMillisecondsPerSecond;
-    if (patron_data->state == kPatronStateLayingDown) {
-    } else if (patron_data->state == kPatronStateFalling) {
+    if (patron_data->state == kPatronStateFalling) {
       // Some basic math to fake a convincing fall + bounce on a hinge joint.
       patron_data->dy -= seconds * kGravity;
       patron_data->y += patron_data->dy;
@@ -72,21 +123,20 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         patron_data->y = 0.0f;
         if (patron_data->dy < kAtRestThreshold) {
           patron_data->dy = 0.0f;
-          patron_data->state = kPatronStateGettingUp;
+          patron_data->state = kPatronStateLayingDown;
         }
       }
-      // For our simple simulation of falling and bouncing, Y is always
-      // guaranteed to be between 0 and 1.
       transform_data->orientation =
           patron_data->original_orientation *
           quat::Slerp(quat::identity, patron_data->falling_rotation,
                       1.0f - patron_data->y);
     } else if (patron_data->state == kPatronStateGettingUp) {
-      // Like above, but no bouncing.
+      // Like above, but 'falling' up no bouncing.
       patron_data->dy += seconds * kGravity;
       patron_data->y += patron_data->dy;
       if (patron_data->y >= 1.0f) {
         patron_data->y = 1.0f;
+        patron_data->dy = 0.0f;
         patron_data->state = kPatronStateUpright;
         auto physics_component =
             entity_manager_->GetComponent<PhysicsComponent>();
@@ -132,16 +182,13 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
     // If the hit is high enough, consider it fed.
     // TODO: Replace this with something better, possibly multiple shapes.
     if (position.z() >= kHitMinHeight) {
-      TransformData* patron_transform = Data<TransformData>(patron_entity);
-      // Fall down along the local y-axis
-      vec3 spin_direction_vector =
-          patron_transform->orientation.Inverse() * mathfu::kAxisY3f;
-      patron_data->falling_rotation =
-          quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
+      // TODO: Make state change an action.
       patron_data->state = kPatronStateFalling;
-      patron_data->y = 1.0f;
-      patron_data->dy = 0.0f;
-      patron_data->original_orientation = patron_transform->orientation;
+      RailDenizenComponent* rail_denizen_component =
+          entity_manager_->GetComponent<RailDenizenComponent>();
+      entity::EntityRef raft = rail_denizen_component->river_entity();
+      RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
+      patron_data->last_lap_fed = raft_rail_denizen->lap;
       EventContext context;
       context.source_owner = projectile_data->owner;
       context.source = proj_entity;

@@ -15,9 +15,6 @@
 #ifndef COMPONENTS_RAIL_DENIZEN_H_
 #define COMPONENTS_RAIL_DENIZEN_H_
 
-#include <map>
-#include <limits>
-
 #include "components_generated.h"
 #include "rail_def_generated.h"
 #include "entity/component.h"
@@ -63,7 +60,8 @@ class Rail {
 
 struct RailDenizenData {
   RailDenizenData()
-      : spline_playback_rate(1.0f),
+      : lap(0),
+        spline_playback_rate(1.0f),
         previous_time(0),
         on_new_lap(nullptr),
         motivator() {}
@@ -73,6 +71,8 @@ struct RailDenizenData {
 
   mathfu::vec3 Position() const { return motivator.Value(); }
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
+
+  int lap;
 
   float spline_playback_rate;
 
@@ -97,10 +97,11 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 
-
   // TODO - get rid of this once raildenizen is changed to have rail stored
   // in the component data.
   Rail* rail() { return &rail_; };
+
+  entity::EntityRef& river_entity() { return river_entity_; }
 
  private:
   // A pointer to the MotiveEngine used to spawn motivators.
@@ -108,6 +109,9 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
   // The rail that will define the path to follow.
   Rail rail_;
+
+  // The entity that moves along the river.
+  entity::EntityRef river_entity_;
 
   event::EventManager* event_manager_;
 };

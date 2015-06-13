@@ -95,6 +95,7 @@
         {
           "data_type": "RailDenizenDef",
           "data" : {
+            "is_river": true,
             "start_time": 0,
             "on_new_lap": {
               "event_list": [
@@ -252,6 +253,8 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "pop_in_radius": 30,
+            "pop_out_radius": 35,
             "on_collision": {
               "event_list": [
                 {
@@ -357,6 +360,8 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "pop_in_radius": 40,
+            "pop_out_radius": 45,
             "on_collision": {
               "event_list": [
                 {
@@ -454,6 +459,8 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "pop_in_radius": 40,
+            "pop_out_radius": 45,
             "on_collision": {
               "event_list": [
                 {
@@ -635,7 +642,7 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "position": { "x": 0.0, "y": 0.0, "z": 0.0 }
           }
         },
         {

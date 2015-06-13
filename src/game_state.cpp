@@ -214,6 +214,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   }
   active_player_entity_ = player_component_.begin()->entity;
 
+  patron_component_.PostLoadFixup();
+
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(config.world_editor_config(), input_system_);
 }

@@ -32,25 +32,50 @@ class EventManager;
 namespace fpl_project {
 
 enum PatronState {
+  // Laying down in wait for the raft to come in range. If this patron has been
+  // fed this lap, it will not stand up again until the next lap.
   kPatronStateLayingDown,
+
+  // Standing up, ready to be hit by the player.
   kPatronStateUpright,
+
+  // The patron has been hit, and is falling down.
   kPatronStateFalling,
+
+  // The patron is within range of the boad, and is standing up.
   kPatronStateGettingUp,
 };
 
 // Data for scene object components.
 struct PatronData {
-  PatronData() : on_collision(nullptr), state(kPatronStateUpright) {}
+  PatronData()
+      : on_collision(nullptr),
+        state(kPatronStateLayingDown),
+        last_lap_fed(-1),
+        y(0.0f),
+        dy(0.0f) {}
 
   // The event to trigger when a projectile collides with this patron.
   const ActionDef* on_collision;
+
+  // Whether the patron is standing up or falling down.
   PatronState state;
+
+  // Keep track of the last time this patron was fed so we know whether they
+  // should pop up this lap.
+  int last_lap_fed;
 
   // misc data for simulating the fall:
   mathfu::quat original_orientation;
   mathfu::quat falling_rotation;
   float y;
   float dy;
+
+  // If the raft entity is within the pop_in_range it will stand up. If it is
+  // once up, if it's not in the pop out range, it will fall down. As a minor
+  // optimization, it's stored here as the square of the distance.
+  float pop_in_radius_squared;
+  float pop_out_radius_squared;
 };
 
 class PatronComponent : public entity::Component<PatronData>,
@@ -63,6 +88,9 @@ class PatronComponent : public entity::Component<PatronData>,
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
+
+  // This needs to be called after the entities have been loaded from data.
+  void PostLoadFixup();
 
   virtual void OnEvent(const event::EventPayload& payload);
 

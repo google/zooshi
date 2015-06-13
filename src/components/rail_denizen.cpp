@@ -15,6 +15,7 @@
 #include "components/rail_denizen.h"
 
 #include <algorithm>
+#include <limits>
 
 #include "components/transform.h"
 #include "components_generated.h"
@@ -48,7 +49,7 @@ void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
   // given the range limits.
   for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
     splines_[i].Init(Range(position_min[i], position_max[i]),
-                    spline_granularity);
+                     spline_granularity);
   }
 
   // Initialize the splines. For now, the splines all have key points at the
@@ -70,8 +71,8 @@ void Rail::Positions(float delta_time,
   const size_t num_positions = std::floor(EndTime() / delta_time) + 1;
   positions->resize(num_positions);
 
-  CompactSpline::BulkYs<3>(
-      splines_, 0.0f, delta_time, num_positions, &(*positions)[0]);
+  CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,
+                           &(*positions)[0]);
 }
 
 vec3 Rail::PositionCalculatedSlowly(float time) const {
@@ -114,6 +115,7 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     motive::MotiveTime current_time = rail_denizen_data->motivator.SplineTime();
     if (current_time < rail_denizen_data->previous_time &&
         rail_denizen_data->on_new_lap) {
+      rail_denizen_data->lap++;
       EventContext context;
       context.source = iter->entity;
       ParseAction(rail_denizen_data->on_new_lap, &context, event_manager_,
@@ -134,6 +136,9 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   data->on_new_lap = rail_denizen_def->on_new_lap();
   data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
   data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
+  if (rail_denizen_def->is_river() && !river_entity_.IsValid()) {
+    river_entity_ = entity;
+  }
 }
 
 void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
