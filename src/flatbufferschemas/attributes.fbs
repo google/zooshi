@@ -18,7 +18,6 @@ enum AttributeDef : byte {
   ProjectilesFired,
   PatronsFed,
   PatronsHit,
-  Lap,
   Size,
 }
 

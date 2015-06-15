@@ -100,15 +100,6 @@
             "on_new_lap": {
               "event_list": [
                 {
-                  "event_type": "ModifyAttribute",
-                  "event": {
-                    "entity": "Source",
-                    "op": "Add",
-                    "attrib": "Lap",
-                    "value": 1
-                  }
-                },
-                {
                   "event_type": "ChangeRailSpeed",
                   "event": {
                     "entity": "Source",
@@ -145,8 +136,7 @@
         {
           "data_type": "RiverDef",
           "data" : {}
-        },
-
+        }
       ]
     },
 
@@ -255,6 +245,8 @@
           "data": {
             "pop_in_radius": 30,
             "pop_out_radius": 35,
+            "min_lap": 0,
+            "max_lap": 1,
             "on_collision": {
               "event_list": [
                 {
@@ -362,6 +354,8 @@
           "data": {
             "pop_in_radius": 40,
             "pop_out_radius": 45,
+            "min_lap": 2,
+            "max_lap": 3,
             "on_collision": {
               "event_list": [
                 {
@@ -461,6 +455,8 @@
           "data": {
             "pop_in_radius": 40,
             "pop_out_radius": 45,
+            "min_lap": 1,
+            "max_lap": 2,
             "on_collision": {
               "event_list": [
                 {

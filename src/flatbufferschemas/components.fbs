@@ -59,6 +59,12 @@ table PhysicsDef {
 table PatronDef {
   on_collision:fpl.fpl_project.ActionDef;
 
+  // Each time the raft makes a lap around the river, it's lap counter is
+  // incremented.  Patrons will only stand up when the lap counter is in the
+  // range [min_lap, max_lap].
+  min_lap:int;
+  max_lap:int;
+
   // If the raft is within the pop in radius, this patron will stand up.
   pop_in_radius:float;
 

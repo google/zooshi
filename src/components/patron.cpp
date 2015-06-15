@@ -56,6 +56,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
       patron_def->pop_in_radius() * patron_def->pop_in_radius();
   patron_data->pop_out_radius_squared =
       patron_def->pop_out_radius() * patron_def->pop_out_radius();
+  patron_data->min_lap = patron_def->min_lap();
+  patron_data->max_lap = patron_def->max_lap();
 }
 
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
@@ -102,12 +104,13 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       // make them fall back down.
       patron_data->state = kPatronStateFalling;
     } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
-               lap > patron_data->last_lap_fed &&
+               lap > patron_data->last_lap_fed && lap >= patron_data->min_lap &&
+               lap <= patron_data->max_lap &&
                (state == kPatronStateLayingDown ||
                 state == kPatronStateFalling)) {
-      // If you are too in range, and the patron is standing laying down (or
-      // falling down) and they have not been fed this lap, make them stand back
-      // up.
+      // If you are in range, and the patron is standing laying down (or falling
+      // down) and they have not been fed this lap, and they are in the range of
+      // laps in which they should appear, make them stand back up.
       patron_data->state = kPatronStateGettingUp;
     }
 

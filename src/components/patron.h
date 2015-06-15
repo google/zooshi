@@ -76,6 +76,12 @@ struct PatronData {
   // optimization, it's stored here as the square of the distance.
   float pop_in_radius_squared;
   float pop_out_radius_squared;
+
+  // Each time the raft makes a lap around the river, it's lap counter is
+  // incremented.  Patrons will only stand up when the lap counter is in the
+  // range [min_lap, max_lap].
+  int min_lap;
+  int max_lap;
 };
 
 class PatronComponent : public entity::Component<PatronData>,
