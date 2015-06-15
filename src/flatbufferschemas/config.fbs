@@ -81,6 +81,20 @@ table EntityRing {
   scale:fpl.Vec3;
 }
 
+table PredefinedEntity {
+  // Entity type to place at the given location.
+  entity:EntityDefs;
+
+  // The location to place it at.
+  position:fpl.Vec3;
+
+  // The orientation to place it at.
+  orientation:fpl.Vec3;
+
+  // Scale applied to the entity.
+  scale:fpl.Vec3;
+}
+
 table Config {
   // Audio engine configuration file.
   audio_config:string;
@@ -113,6 +127,9 @@ table Config {
 
   // Entities to spawn multiple times, at start, in a circular pattern.
   entity_ring_list:[EntityRing];
+
+  // Entities to spawn in the scene, from the list of predefined ones.
+  predefined_entity_list:[PredefinedEntity];
 
   // List of groups of things that can instantiated in the world.
   entity_defs:[fpl.EntityDef];

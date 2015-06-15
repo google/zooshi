@@ -207,6 +207,35 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
       }
     }
   }
+
+  // Create entity based on the predefined entity list.
+  for (size_t i = 0; i < config.predefined_entity_list()->size(); i++) {
+    auto predefined = config.predefined_entity_list()->Get(i);
+    auto entity_def = config.entity_defs()->Get(predefined->entity());
+    entity::EntityRef entity =
+        entity_manager_.CreateEntityFromData(entity_def);
+    TransformData* transform_data =
+        entity_manager_.GetComponentData<TransformData>(entity);
+    auto pos = predefined->position();
+    auto orientation = predefined->orientation();
+    auto scale = predefined->scale();
+    if (pos != nullptr) {
+      transform_data->position = LoadVec3(pos);
+    }
+    if (orientation != nullptr) {
+      transform_data->orientation = mathfu::quat::FromEulerAngles(
+          LoadVec3(orientation) * kDegreesToRadians);
+    }
+    if (scale != nullptr) {
+      transform_data->scale = LoadVec3(scale);
+    }
+
+    if (entity->IsRegisteredForComponent(
+            physics_component_.GetComponentId())) {
+      physics_component_.UpdatePhysicsFromTransform(entity);
+    }
+  }
+
   for (auto iter = player_component_.begin(); iter != player_component_.end();
        ++iter) {
     entity_manager_.GetComponentData<PlayerData>(iter->entity)
