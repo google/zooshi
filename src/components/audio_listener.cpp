@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "components/audio_listener.h"
+#include "components/services.h"
 #include "components/transform.h"
 #include "entity/entity_common.h"
 #include "pindrop/pindrop.h"
@@ -20,8 +21,9 @@
 namespace fpl {
 namespace fpl_project {
 
-void AudioListenerComponent::Initialize(pindrop::AudioEngine* audio_engine) {
-  audio_engine_ = audio_engine;
+void AudioListenerComponent::Init() {
+  audio_engine_ =
+      entity_manager_->GetComponent<ServicesComponent>()->audio_engine();
 }
 
 void AudioListenerComponent::UpdateAllEntities(

@@ -17,6 +17,7 @@
 #include "components/physics.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
+#include "components/services.h"
 #include "components/transform.h"
 #include "events/collision.h"
 #include "events/parse_action.h"
@@ -37,11 +38,12 @@ static const float kGravity = 0.05f;
 static const float kAtRestThreshold = 0.005f;
 static const float kBounceFactor = 0.4f;
 
-void PatronComponent::Initialize(const Config* config,
-                                 event::EventManager* event_manager) {
-  config_ = config;
-  event_manager_ = event_manager;
-  event_manager->RegisterListener(EventSinkUnion_Collision, this);
+
+void PatronComponent::Init() {
+  config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
+  event_manager_ =
+      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
+  event_manager_->RegisterListener(EventSinkUnion_Collision, this);
 }
 
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,

@@ -17,6 +17,7 @@
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rendermesh.h"
+#include "components/services.h"
 #include "components/transform.h"
 #include "entity/entity_common.h"
 #include "event_system/event_manager.h"
@@ -26,10 +27,10 @@
 namespace fpl {
 namespace fpl_project {
 
-void PlayerComponent::Initialize(event::EventManager* event_manager,
-                                 const Config* config) {
-  event_manager_ = event_manager;
-  config_ = config;
+void PlayerComponent::Init() {
+  config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
+  event_manager_ =
+      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
 }
 
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {

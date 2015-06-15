@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "components/rendermesh.h"
+#include "components/services.h"
 #include "components/transform.h"
 #include "components_generated.h"
 #include "fplbase/mesh.h"
@@ -28,10 +29,10 @@ namespace fpl_project {
 // registration points technically fall outside our frustrum.
 static const float kFrustrumOffset = 50.0f;
 
-void RenderMeshComponent::Initialize(mathfu::vec3 light_position,
-                                     MaterialManager* material_manager) {
-  light_position_ = light_position;
-  material_manager_ = material_manager;
+void RenderMeshComponent::Init() {
+  material_manager_ =
+      entity_manager_->GetComponent<ServicesComponent>()->material_manager();
+
 }
 
 // Rendermesh depends on transform:

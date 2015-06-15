@@ -89,8 +89,7 @@ class PatronComponent : public entity::Component<PatronData>,
  public:
   PatronComponent() {}
 
-  void Initialize(const Config* config, event::EventManager* event_manager);
-
+  virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);

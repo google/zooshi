@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "components/physics.h"
+#include "components/services.h"
 #include "components/transform.h"
 #include "event_system/event_manager.h"
 #include "events/collision.h"
@@ -33,11 +34,12 @@ namespace fpl_project {
 static const float kGroundPlane = 0.0f;
 static const char* kPhysicsShader = "shaders/color";
 
-void PhysicsComponent::Initialize(event::EventManager* event_manager,
-                                  const Config* config,
-                                  MaterialManager* material_manager) {
-  event_manager_ = event_manager;
-  config_ = config;
+void PhysicsComponent::Init() {
+  config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
+  event_manager_ =
+      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
+  MaterialManager* material_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->material_manager();
 
   broadphase_.reset(new btDbvtBroadphase());
   collision_configuration_.reset(new btDefaultCollisionConfiguration());
@@ -47,7 +49,7 @@ void PhysicsComponent::Initialize(event::EventManager* event_manager,
   bullet_world_.reset(new btDiscreteDynamicsWorld(
       collision_dispatcher_.get(), broadphase_.get(), constraint_solver_.get(),
       collision_configuration_.get()));
-  bullet_world_->setGravity(btVector3(0.0f, 0.0f, config->gravity()));
+  bullet_world_->setGravity(btVector3(0.0f, 0.0f, config_->gravity()));
   bullet_world_->setDebugDrawer(&debug_drawer_);
   debug_drawer_.set_shader(material_manager->LoadShader(kPhysicsShader));
 }

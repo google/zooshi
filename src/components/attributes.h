@@ -47,11 +47,7 @@ class AttributesComponent : public entity::Component<AttributesData>,
  public:
   AttributesComponent() {}
 
-  void Initialize(InputSystem* input_system, MaterialManager* material_manager,
-                  FontManager* font_manager,
-                  event::EventManager* event_manager);
-
-  virtual void Init() {}
+  virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
   virtual void UpdateAllEntities(entity::WorldTime delta_time);

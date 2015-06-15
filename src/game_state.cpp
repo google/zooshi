@@ -102,6 +102,19 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   event_manager_.RegisterListener(EventSinkUnion_PlaySound, this);
 
+  // Important!  Registering and initializing the services component needs
+  // to happen BEFORE other components are registered, because many of them
+  // depend on it during their own init functions.
+  services_component_.Initialize(config_,
+                                 material_manager,
+                                 input_system,
+                                 audio_engine,
+                                 &motive_engine_,
+                                 &event_manager_,
+                                 font_manager);
+
+  entity_manager_.RegisterComponent(&services_component_);
+
   entity_manager_.RegisterComponent(&transform_component_);
   entity_manager_.RegisterComponent(&rail_denizen_component_);
   entity_manager_.RegisterComponent(&player_component_);
@@ -114,7 +127,6 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.RegisterComponent(&sound_component_);
   entity_manager_.RegisterComponent(&attributes_component_);
   entity_manager_.RegisterComponent(&river_component_);
-  entity_manager_.RegisterComponent(&services_component_);
 
   std::string rail_def_source;
   if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
@@ -124,22 +136,10 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
 
   entity_manager_.set_entity_factory(&entity_factory_);
 
-  services_component_.Initialize(config_, material_manager, audio_engine,
-                                 &event_manager_);
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
-
-  audio_listener_component_.Initialize(audio_engine);
-  patron_component_.Initialize(config_, &event_manager_);
-  physics_component_.Initialize(&event_manager_, config_, material_manager_);
-  player_component_.Initialize(&event_manager_, config_);
-  player_projectile_component_.Initialize(&event_manager_);
-  rail_denizen_component_.Initialize(&motive_engine_, rail_def,
-                                     &event_manager_);
-  render_mesh_component_.Initialize(vec3(-10, -20, 20), material_manager);
-  attributes_component_.Initialize(input_system_, material_manager_,
-                                   font_manager, &event_manager_);
-  sound_component_.Initialize(audio_engine);
+  rail_denizen_component_.SetRail(rail_def);
+  render_mesh_component_.set_light_position(vec3(-10, -20, 20));
 
   // Create entities that are explicitly detailed in `entity_list`.
   for (size_t i = 0; i < config.entity_list()->size(); i++) {

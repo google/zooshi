@@ -89,12 +89,10 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   PhysicsComponent() {}
   virtual ~PhysicsComponent();
 
-  void Initialize(event::EventManager* event_manager, const Config* config,
-                  MaterialManager* material_manager);
-
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   // TODO: Implement ExportRawData function for editor (b/21589546)
 
+  virtual void Init();
   virtual void InitEntity(entity::EntityRef& /*entity*/);
   virtual void CleanupEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);

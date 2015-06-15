@@ -30,8 +30,7 @@ struct AudioListenerData {
 
 class AudioListenerComponent : public entity::Component<AudioListenerData> {
  public:
-  void Initialize(pindrop::AudioEngine* audio_engine);
-
+  virtual void Init();
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
   virtual void CleanupEntity(entity::EntityRef& entity);

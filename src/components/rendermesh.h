@@ -48,9 +48,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
  public:
   RenderMeshComponent() : material_manager_(nullptr) {}
 
-  void Initialize(mathfu::vec3 light_position,
-                  MaterialManager* material_manager);
-
+  virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual void InitEntity(entity::EntityRef& /*entity*/);
 

@@ -15,10 +15,13 @@
 #include <cstdio>
 
 #include "components/attributes.h"
+#include "components/services.h"
+#include "transform.h"
 #include "event_system/event_manager.h"
 #include "event_system/event_payload.h"
 #include "events/modify_attribute.h"
 #include "events/utilities.h"
+#include "event_system/event_manager.h"
 #include "events_generated.h"
 #include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
@@ -27,13 +30,13 @@
 namespace fpl {
 namespace fpl_project {
 
-void AttributesComponent::Initialize(InputSystem* input_system,
-                                     MaterialManager* material_manager,
-                                     FontManager* font_manager,
-                                     event::EventManager* event_manager) {
-  input_system_ = input_system;
-  font_manager_ = font_manager;
-  material_manager_ = material_manager;
+void AttributesComponent::Init() {
+  ServicesComponent* services =
+      entity_manager_->GetComponent<ServicesComponent>();
+  input_system_ = services->input_system();
+  font_manager_ = services->font_manager();
+  material_manager_ = services->material_manager();
+  event::EventManager* event_manager = services->event_manager();
   event_manager->RegisterListener(EventSinkUnion_ModifyAttribute, this);
 }
 

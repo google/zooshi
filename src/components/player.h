@@ -60,8 +60,7 @@ class PlayerComponent : public entity::Component<PlayerData> {
  public:
   PlayerComponent() : event_manager_(nullptr) {}
 
-  void Initialize(event::EventManager* event_manager, const Config* config);
-
+  virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);

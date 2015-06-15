@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "components/player_projectile.h"
+#include "components/services.h"
 #include "components/transform.h"
 #include "events/collision.h"
 #include "events/parse_action.h"
@@ -21,9 +22,10 @@
 namespace fpl {
 namespace fpl_project {
 
-void PlayerProjectileComponent::Initialize(event::EventManager* event_manager) {
-  event_manager_ = event_manager;
-  event_manager->RegisterListener(EventSinkUnion_Collision, this);
+void PlayerProjectileComponent::Init() {
+  event_manager_ =
+      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
+  event_manager_->RegisterListener(EventSinkUnion_Collision, this);
 }
 
 void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,

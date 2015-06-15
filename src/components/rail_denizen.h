@@ -88,18 +88,18 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
  public:
   RailDenizenComponent() {}
 
-  void Initialize(motive::MotiveEngine* engine, const RailDef* rail_def,
-                  event::EventManager* event_manager);
-
+  virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 
+  void SetRail(const RailDef* rail_def);
+
   // TODO - get rid of this once raildenizen is changed to have rail stored
   // in the component data.
-  Rail* rail() { return &rail_; };
+  Rail* rail() { return &rail_; }
 
   entity::EntityRef& river_entity() { return river_entity_; }
 

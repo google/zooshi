@@ -13,14 +13,16 @@
 // limitations under the License.
 
 #include "components/sound.h"
+#include "components/services.h"
 #include "components/transform.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
 
-void SoundComponent::Initialize(pindrop::AudioEngine* audio_engine) {
-  audio_engine_ = audio_engine;
+void SoundComponent::Init() {
+  audio_engine_ =
+      entity_manager_->GetComponent<ServicesComponent>()->audio_engine();
 }
 
 void SoundComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {

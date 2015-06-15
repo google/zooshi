@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <limits>
 
+#include "components/services.h"
 #include "components/transform.h"
 #include "components_generated.h"
 #include "entity/component.h"
@@ -90,14 +91,19 @@ void RailDenizenData::Initialize(const Rail& rail, float start_time,
   motivator.SetSplinePlaybackRate(spline_playback_rate);
 }
 
-void RailDenizenComponent::Initialize(motive::MotiveEngine* engine,
-                                      const RailDef* rail_def,
-                                      event::EventManager* event_manager) {
-  engine_ = engine;
+void RailDenizenComponent::Init() {
+  ServicesComponent* services =
+      entity_manager_->GetComponent<ServicesComponent>();
+
+  engine_ = services->motive_engine();
+
+  event_manager_ = services->event_manager();
+  event_manager_->RegisterListener(EventSinkUnion_ChangeRailSpeed, this);
+}
+
+void RailDenizenComponent::SetRail(const RailDef* rail_def) {
   static const float kSplineGranularity = 10.0f;
   rail_.Initialize(rail_def, kSplineGranularity);
-  event_manager->RegisterListener(EventSinkUnion_ChangeRailSpeed, this);
-  event_manager_ = event_manager;
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {

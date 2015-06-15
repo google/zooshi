@@ -42,8 +42,8 @@ class PlayerProjectileComponent
  public:
   PlayerProjectileComponent() {}
 
-  void Initialize(event::EventManager* event_manager);
 
+  virtual void Init();
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
   virtual void CleanupEntity(entity::EntityRef& /*entity*/) {}
 
