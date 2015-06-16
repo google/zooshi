@@ -30,7 +30,7 @@ namespace fpl {
 namespace fpl_project {
 
 // All of these numbers were picked for purely aesthetic reasons:
-static const float kHitMinHeight = 8.0;
+static const float kHitMinHeight = 2.0;
 
 static const float kSplatterCount = 10;
 
@@ -65,6 +65,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
 void PatronComponent::PostLoadFixup() {
+  auto physics_component =
+      entity_manager_->GetComponent<PhysicsComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     // Fall down along the local y-axis
@@ -80,6 +82,8 @@ void PatronComponent::PostLoadFixup() {
         patron_data->original_orientation *
         quat::Slerp(quat::identity, patron_data->falling_rotation,
                     1.0f - patron_data->y);
+    // Patrons that are done should not have physics enabled.
+    physics_component->DisablePhysics(patron);
   }
 }
 
@@ -105,6 +109,9 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       // If you are too far away, and the patron is standing up (or getting up)
       // make them fall back down.
       patron_data->state = kPatronStateFalling;
+      auto physics_component =
+          entity_manager_->GetComponent<PhysicsComponent>();
+      physics_component->DisablePhysics(patron);
     } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
                lap > patron_data->last_lap_fed && lap >= patron_data->min_lap &&
                lap <= patron_data->max_lap &&
@@ -227,12 +234,12 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
     transform_data->position = position;
 
     physics_data->rigid_body->setLinearVelocity(
-        btVector3(mathfu::RandomInRange(-15.0f, 15.0f),
-                  mathfu::RandomInRange(-15.0f, 15.0f),
-                  mathfu::RandomInRange(0.0f, 30.0f)));
+        btVector3(mathfu::RandomInRange(-3.0f, 3.0f),
+                  mathfu::RandomInRange(-3.0f, 3.0f),
+                  mathfu::RandomInRange(0.0f, 6.0f)));
     physics_data->rigid_body->setAngularVelocity(btVector3(
-        mathfu::RandomInRange(3.0f, 6.0f), mathfu::RandomInRange(3.0f, 6.0f),
-        mathfu::RandomInRange(3.0f, 6.0f)));
+        mathfu::RandomInRange(1.0f, 2.0f), mathfu::RandomInRange(1.0f, 2.0f),
+        mathfu::RandomInRange(1.0f, 2.0f)));
 
     auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
     physics_component->UpdatePhysicsFromTransform(particle);

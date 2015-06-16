@@ -3,18 +3,18 @@
 
   "input_config": "input_config.bin",
 
-  "rail_filename": "rails/long_path.bin",
+  "rail_filename": "rails/player_path.bin",
 
   "assets_filename": "assets.bin",
 
-  "projectile_speed": 120.0,
-  "gravity": -90.0,
+  "projectile_speed": 40.0,
+  "gravity": -30.0,
   "bullet_max_steps": 5,
 
   "river_config" : {
     "spline_stepsize": 500.0,
-    "track_half_width": 5.0,
-    "track_height": -14.5,
+    "track_half_width": 3.0,
+    "track_height": -1.5,
     "texture_tile_size": 5.0,
     "material": "materials/river.fplmat",
     "shader": "shaders/textured"
@@ -189,9 +189,9 @@
                     "data_type": "TransformDef",
                     "data": {
                       "scale": {
-                        "x": 10.0,
-                        "y": 10.0,
-                        "z": 10.0
+                        "x": 3.0,
+                        "y": 3.0,
+                        "z": 3.0
                       },
                       "position": {
                           "x": 0.0,
@@ -224,16 +224,16 @@
               "data_type": "BulletBoxDef",
               "data": {
                 "half_extents": {
-                  "x": 6.0,
-                  "y": 2.0,
-                  "z": 12.0
+                  "x": 1.8,
+                  "y": 0.6,
+                  "z": 3.6
                 }
               }
             },
             "offset": {
               "x": 0,
               "y": 0,
-              "z": 10
+              "z": 3
             },
             "mass": 100.0,
             "restitution": 1.0,
@@ -243,8 +243,8 @@
         {
           "data_type": "PatronDef",
           "data": {
-            "pop_in_radius": 30,
-            "pop_out_radius": 35,
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
             "min_lap": 0,
             "max_lap": 1,
             "on_collision": {
@@ -298,9 +298,9 @@
                     "data_type": "TransformDef",
                     "data": {
                       "scale": {
-                        "x": 10.0,
-                        "y": 10.0,
-                        "z": 10.0
+                        "x": 3.0,
+                        "y": 3.0,
+                        "z": 3.0
                       },
                       "position": {
                           "x": 0.0,
@@ -333,16 +333,16 @@
               "data_type": "BulletBoxDef",
               "data": {
                 "half_extents": {
-                  "x": 6.0,
-                  "y": 2.0,
-                  "z": 12.0
+                  "x": 1.8,
+                  "y": 0.6,
+                  "z": 3.6
                 }
               }
             },
             "offset": {
               "x": 0,
               "y": 0,
-              "z": 10
+              "z": 3
             },
             "mass": 100.0,
             "restitution": 1.0,
@@ -399,9 +399,9 @@
                     "data_type": "TransformDef",
                     "data": {
                       "scale": {
-                        "x": 10.0,
-                        "y": 10.0,
-                        "z": 10.0
+                        "x": 3.0,
+                        "y": 3.0,
+                        "z": 3.0
                       },
                       "position": {
                           "x": 0.0,
@@ -434,16 +434,16 @@
               "data_type": "BulletBoxDef",
               "data": {
                 "half_extents": {
-                  "x": 6.0,
-                  "y": 2.0,
-                  "z": 12.0
+                  "x": 1.8,
+                  "y": 0.6,
+                  "z": 3.6
                 }
               }
             },
             "offset": {
               "x": 0,
               "y": 0,
-              "z": 10
+              "z": 3
             },
             "mass": 100.0,
             "restitution": 1.0,
@@ -453,8 +453,8 @@
         {
           "data_type": "PatronDef",
           "data": {
-            "pop_in_radius": 40,
-            "pop_out_radius": 45,
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
             "min_lap": 1,
             "max_lap": 2,
             "on_collision": {
@@ -492,16 +492,16 @@
               "data_type": "BulletBoxDef",
               "data": {
                 "half_extents": {
-                  "x": 1.5,
-                  "y": 0.8,
-                  "z": 0.8
+                  "x": 0.3,
+                  "y": 0.16,
+                  "z": 0.16
                 }
               }
             },
             "offset": {
               "x": 0.0,
               "y": 0.0,
-              "z": 0.8
+              "z": 0.16
             },
             "restitution": 1.0
           }
@@ -516,9 +516,9 @@
           "data_type": "TransformDef",
           "data": {
             "scale": {
-              "x": 50.0,
-              "y": 50.0,
-              "z": 50.0
+              "x": 10.0,
+              "y": 10.0,
+              "z": 10.0
             }
           }
         },
@@ -576,9 +576,9 @@
           "data_type": "TransformDef",
           "data": {
             "scale": {
-              "x": 20.0,
-              "y": 20.0,
-              "z": 20.0
+              "x": 4.0,
+              "y": 4.0,
+              "z": 4.0
             }
           }
         },
@@ -833,7 +833,7 @@
   "entity_grid_list": [
     {
       "entity": "kGround",
-      "count": { "x": 12, "y": 12, "z": 1 },
+      "count": { "x": 28, "y": 28, "z": 1 },
       "separation": { "x": 25, "y": 25, "z": 0 },
       "position": { "x": 0, "y": 0, "z": 0.1 },
       "scale": { "x": 25, "y": 25, "z": 1 }
@@ -843,8 +843,8 @@
   "entity_ring_list": [
     {
       "entity": "kBackground",
-      "count": 6,
-      "radius": 150,
+      "count": 12,
+      "radius": 350,
       "orientation_offset_angle": 90,
       "position_offset_angle": 0,
       "position": { "x": 0, "y": 0, "z": 0 },
@@ -852,59 +852,9 @@
     },
 
     {
-      "entity": "kPatronLadyMandrill",
-      "count": 5,
-      "radius": 30,
-      "orientation_offset_angle": 90,
-      "position_offset_angle": 0,
-      "position": { "x": 12, "y": 12, "z": 0.01 },
-      "scale": { "x": 1, "y": 1, "z": 1 }
-    },
-
-    {
-      "entity": "kPatronMoustacheCroc",
-      "count": 9,
-      "radius": 50,
-      "orientation_offset_angle": 90,
-      "position_offset_angle": 13,
-      "position": { "x": 12, "y": 0, "z": 0.01 },
-      "scale": { "x": 1, "y": 1, "z": 1 }
-    },
-
-    {
-      "entity": "kPatronMenacingCroc",
-      "count": 6,
-      "radius": 70,
-      "orientation_offset_angle": 90,
-      "position_offset_angle": 26,
-      "position": { "x": 0, "y": 0, "z": 0.01 },
-      "scale": { "x": 1, "y": 1, "z": 1 }
-    },
-
-    {
-      "entity": "kFernGarden",
-      "count": 13,
-      "radius": 32,
-      "orientation_offset_angle": 180,
-      "position_offset_angle": 0,
-      "position": { "x": 5, "y": 0, "z": 3.2 },
-      "scale": { "x": 1.7, "y": 1.7, "z": 1.7 }
-    },
-
-    {
-      "entity": "kFernGarden",
-      "count": 10,
-      "radius": 50,
-      "orientation_offset_angle": 180,
-      "position_offset_angle": 30,
-      "position": { "x": 0, "y": 0, "z": 3.2 },
-      "scale": { "x": 1.7, "y": 1.7, "z": 3 }
-    },
-
-    {
       "entity": "kFernGarden",
       "count": 18,
-      "radius": 75,
+      "radius": 120,
       "orientation_offset_angle": 180,
       "position_offset_angle": 30,
       "position": { "x": 0, "y": 5, "z": 5 },
@@ -913,18 +863,8 @@
 
     {
       "entity": "kMidGroundTree",
-      "count": 5,
-      "radius": 65,
-      "position_offset_angle": 30,
-      "orientation_offset_angle": 90,
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "scale": { "x": 8, "y": 8, "z": 8 }
-    },
-
-    {
-      "entity": "kMidGroundTree",
       "count": 13,
-      "radius": 100,
+      "radius": 150,
       "position_offset_angle": 0,
       "orientation_offset_angle": 90,
       "position": { "x": 0, "y": 0, "z": 0 },
@@ -933,8 +873,38 @@
 
     {
       "entity": "kMidGroundTree",
+      "count": 8,
+      "radius": 12,
+      "position_offset_angle": 0,
+      "orientation_offset_angle": 90,
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 5, "y": 5, "z": 5 }
+    },
+
+    {
+      "entity": "kMidGroundTree",
       "count": 9,
-      "radius": 100,
+      "radius": 15,
+      "position_offset_angle": 10, 
+      "orientation_offset_angle": 90,
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 7, "y": 5, "z": 3 }
+    },
+
+    {
+      "entity": "kFernGarden",
+      "count": 8,
+      "radius": 13,
+      "orientation_offset_angle": 0,
+      "position_offset_angle": 20,
+      "position": { "x": 0, "y": 0, "z": 2.5 },
+      "scale": { "x": 1.25, "y": 1.5, "z": 1.5 }
+    },
+
+    {
+      "entity": "kMidGroundTree",
+      "count": 9,
+      "radius": 150,
       "position_offset_angle": 15,
       "orientation_offset_angle": 90,
       "position": { "x": 0, "y": 0, "z": 0 },
@@ -944,7 +914,7 @@
     {
       "entity": "kMidGroundTree",
       "count": 17,
-      "radius": 100,
+      "radius": 150,
       "position_offset_angle": 45,
       "orientation_offset_angle": 90,
       "position": { "x": 0, "y": 0, "z": 0 },
@@ -953,5 +923,294 @@
   ],
 
   "predefined_entity_list": [
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 10, "y": 48, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 100 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 28, "y": 60, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 45 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 53, "y": 49, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 90 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 55, "y": 30, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 120 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 50, "y": 12, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 160 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 23, "y": 3, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 240 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 28, "y": -19, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 180 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 40, "y": -35, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 170 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 23, "y": -47, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 200 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": 3, "y": -50, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -110 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -13, "y": -46, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -60 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -22, "y": -58, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -120 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -45, "y": -52, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -100 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -43, "y": -33, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -10 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -42, "y": -9, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 10 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -30, "y": 8, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 35 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -42, "y": 23, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 0 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -51, "y": 40, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -20 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -37, "y": 56, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 10 }
+    },
+    {
+      "entity": "kPatronLadyMandrill",
+      "position": { "x": -16, "y": 57, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 70 }
+    },
+    // Moustache Crocs begin here
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 23, "y": 44, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 110 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 48, "y": 65, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 45 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 32, "y": 26, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -160 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 13, "y": 15, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -90 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 64, "y": 12, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 130 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 46, "y": -7, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 150 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 15, "y": -22, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -110 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": 35, "y": -55, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 170 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -4, "y": -31, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -20 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -11, "y": -62, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 180 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -23, "y": -32, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -10 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -43, "y": -65, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -140 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -60, "y": -38, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -50 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -68, "y": -9, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -30 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -23, "y": -6, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 75 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -60, "y": 15, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -80 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -27, "y": 24, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 20 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -57, "y": 56, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -30 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -18, "y": 72, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 20 }
+    },
+    {
+      "entity": "kPatronMoustacheCroc",
+      "position": { "x": -9, "y": 35, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 120 }
+    },
+    // Menacing Crocs begin here
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": 10, "y": 27, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 180 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": 22, "y": 70, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 20 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": 71, "y": 33, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 100 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": 17, "y": -8, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -120 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": 56, "y": -43, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 135 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": 11, "y": -40, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -80 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": -24, "y": -75, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -170 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": -74, "y": -23, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -70 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": -12, "y": 16, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": 45 }
+    },
+    {
+      "entity": "kPatronMenacingCroc",
+      "position": { "x": -69, "y": 29, "z": 0.01 },
+      "orientation": { "x": 0, "y": 0, "z": -90 }
+    },
+    // Decorations
+    {
+      "entity": "kSushiGarden",
+      "position": { "x": 2, "y": 55, "z": 0 },
+      "orientation": { "x": 0, "y": 0, "z": 180 },
+      "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+    },
+    {
+      "entity": "kSushiGarden",
+      "position": { "x": 36, "y": 41, "z": 0 },
+      "orientation": { "x": 0, "y": 0, "z": 70 },
+      "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+    },
+    {
+      "entity": "kSushiGarden",
+      "position": { "x": 53, "y": -25, "z": 0 },
+      "orientation": { "x": 0, "y": 0, "z": 130 },
+      "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+    },
+    {
+      "entity": "kSushiGarden",
+      "position": { "x": -6, "y": -19, "z": 0 },
+      "orientation": { "x": 0, "y": 0, "z": 10 },
+      "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+    },
+    {
+      "entity": "kSushiGarden",
+      "position": { "x": -61, "y": -53, "z": 0 },
+      "orientation": { "x": 0, "y": 0, "z": -40 },
+      "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+    },
+    {
+      "entity": "kSushiGarden",
+      "position": { "x": -48, "y": 11, "z": 0 },
+      "orientation": { "x": 0, "y": 0, "z": 220 },
+      "scale": { "x": 0.2, "y": 0.2, "z": 0.2 }
+    }
   ]
 }
