@@ -665,7 +665,7 @@
                   {
                     "data_type": "TransformDef",
                     "data": {
-                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                      "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
                       "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
                       "orientation": { "x": 10.0, "y": -90.0, "z": 0.0 }
                     }
@@ -684,7 +684,7 @@
                   {
                     "data_type": "TransformDef",
                     "data": {
-                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                      "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
                       "position": { "x": 0.7, "y": 1.0, "z": 0.0 },
                       "orientation": { "x": -60.0, "y": -90.0, "z": 60.0 }
                     }
@@ -703,7 +703,7 @@
                   {
                     "data_type": "TransformDef",
                     "data": {
-                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
+                      "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
                       "position": { "x": 0.2, "y": 1.5, "z": 1.0 },
                       "orientation": { "x": -90.0, "y": -90.0, "z": 90.0 }
                     }
