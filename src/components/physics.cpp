@@ -51,6 +51,8 @@ void PhysicsComponent::Init() {
       collision_configuration_.get()));
   bullet_world_->setGravity(btVector3(0.0f, 0.0f, config_->gravity()));
   bullet_world_->setDebugDrawer(&debug_drawer_);
+  bullet_world_->setInternalTickCallback(BulletTickCallback,
+                                         static_cast<void*>(this));
   debug_drawer_.set_shader(material_manager->LoadShader(kPhysicsShader));
 }
 
@@ -182,7 +184,15 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       UpdatePhysicsFromTransform(iter->entity);
     }
   }
+}
 
+void BulletTickCallback(btDynamicsWorld* world, btScalar /* time_step */) {
+  PhysicsComponent* pc =
+      static_cast<PhysicsComponent*>(world->getWorldUserInfo());
+  pc->ProcessBulletTickCallback();
+}
+
+void PhysicsComponent::ProcessBulletTickCallback() {
   // Check for collisions
   int num_manifolds = collision_dispatcher_->getNumManifolds();
   for (int manifold_index = 0; manifold_index < num_manifolds;
