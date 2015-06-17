@@ -22,6 +22,7 @@
 #include "entity/entity_common.h"
 #include "event_system/event_manager.h"
 #include "events/parse_action.h"
+#include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
 
 namespace fpl {
@@ -72,12 +73,15 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
       Data<PlayerProjectileData>(projectile);
 
   TransformData* source_transform_data = Data<TransformData>(source);
-  transform_data->position = source_transform_data->position;
+  transform_data->position =
+      source_transform_data->position + LoadVec3(config_->projectile_offset());
   transform_data->orientation = source_transform_data->orientation;
 
   PlayerData* source_player_data = Data<PlayerData>(source);
 
-  auto velocity = config_->projectile_speed() * source_player_data->GetFacing();
+  auto velocity =
+      config_->projectile_speed() * source_player_data->GetFacing() +
+      config_->projectile_upkick() * source_player_data->GetUp();
   physics_data->SetVelocity(velocity);
   physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(3.0f, 6.0f),
                                         mathfu::RandomInRange(3.0f, 6.0f),

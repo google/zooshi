@@ -6,6 +6,8 @@
   "assets_filename": "assets.bin",
 
   "projectile_speed": 40.0,
+  "projectile_upkick": 7.5,
+  "projectile_offset": { "x": 0.0, "y": 0.0, "z": -0.5 },
   "gravity": -30.0,
   "bullet_max_steps": 5,
 

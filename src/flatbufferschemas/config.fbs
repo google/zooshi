@@ -106,8 +106,14 @@ table Config {
   // The manifest of assets to load.
   assets_filename:string;
 
-  // The initial speed of the projectiles
+  // The initial speed of the projectiles on the forward vector.
   projectile_speed: float;
+
+  // The initial speed of the projectiles on the up vector.
+  projectile_upkick: float;
+
+  // The initial offset from the player the projectile starts at.
+  projectile_offset: fpl.Vec3;
 
   // The strength of gravity
   gravity: float;
