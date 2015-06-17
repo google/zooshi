@@ -97,6 +97,8 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   virtual void CleanupEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
+  void ProcessBulletTickCallback();
+
   void UpdatePhysicsFromTransform(entity::EntityRef& entity);
 
   void EnablePhysics(const entity::EntityRef& entity);
@@ -119,6 +121,11 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
 
   PhysicsDebugDrawer debug_drawer_;
 };
+
+// The function that is called from Bullet while calling World's stepSimulation.
+// Note that it can be called multiple times per entity update, as Bullet can
+// potentially update the world several times with that call.
+static void BulletTickCallback(btDynamicsWorld* world, btScalar time_step);
 
 }  // fpl_project
 }  // fpl
