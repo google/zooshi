@@ -33,6 +33,7 @@
 #include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
 #include "motive/engine.h"
+#include "railmanager.h"
 
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg_manager.h"
@@ -108,9 +109,14 @@ class GameState : event::EventListener {
   // Game-wide event manager.
   event::EventManager event_manager_;
 
-  // Entity manager
+  // Entity manager.
   entity::EntityManager entity_manager_;
+
+  // Entity factory, for creating entities from data.
   ZooshiEntityFactory entity_factory_;
+
+  // Rail Manager - manages loading and storing of rail definitions
+  RailManager rail_manager_;
 
   // Components
   motive::MotiveEngine motive_engine_;

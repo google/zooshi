@@ -16,12 +16,12 @@
 #define COMPONENTS_RAIL_DENIZEN_H_
 
 #include "components_generated.h"
-#include "rail_def_generated.h"
 #include "entity/component.h"
 #include "event_system/event_listener.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/motivator.h"
 #include "motive/math/compact_spline.h"
+#include "railmanager.h"
 
 namespace fpl {
 namespace event {
@@ -30,33 +30,6 @@ class EventManager;
 
 }  // event
 namespace fpl_project {
-
-class Rail {
- public:
-  void Initialize(const RailDef* rail_def, float spline_granularity);
-
-  /// Return vector of `positions` that is the rail evaluated every `delta_time`
-  /// for the entire course of the rail. This calculation is much faster than
-  /// calling PositionCalculatedSlowly() multiple times.
-  void Positions(float delta_time,
-                 std::vector<mathfu::vec3_packed>* positions) const;
-
-  /// Return the rail position at `time`. This calculation is fairly slow
-  /// so only use outside a loop. If you need a series of positions, consider
-  /// calling Positions() above instead.
-  mathfu::vec3 PositionCalculatedSlowly(float time) const;
-
-  /// Length of the rail.
-  float EndTime() const { return splines_[0].EndX(); }
-
-  /// Internal structure representing the rails.
-  const fpl::CompactSpline* splines() const { return splines_; }
-
- private:
-  static const motive::MotiveDimension kDimensions = 3;
-
-  fpl::CompactSpline splines_[kDimensions];
-};
 
 struct RailDenizenData {
   RailDenizenData()
@@ -73,14 +46,11 @@ struct RailDenizenData {
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
 
   int lap;
-
   float spline_playback_rate;
-
   motive::MotiveTime previous_time;
-
   const ActionDef* on_new_lap;
-
   motive::Motivator3f motivator;
+  RailId rail_id;
 };
 
 class RailDenizenComponent : public entity::Component<RailDenizenData>,
@@ -95,25 +65,11 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 
-  void SetRail(const RailDef* rail_def);
-
-  // TODO - get rid of this once raildenizen is changed to have rail stored
-  // in the component data.
-  Rail* rail() { return &rail_; }
-
-  entity::EntityRef& river_entity() { return river_entity_; }
+  void SetRail(entity::EntityRef entity, RailId rail_id);
 
  private:
   // A pointer to the MotiveEngine used to spawn motivators.
   motive::MotiveEngine* engine_;
-
-  // The rail that will define the path to follow.
-  Rail rail_;
-
-  // The entity that moves along the river.
-  entity::EntityRef river_entity_;
-
-  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

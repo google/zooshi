@@ -28,64 +28,12 @@
 #include "fplbase/flatbuffer_utils.h"
 #include "mathfu/constants.h"
 #include "motive/init.h"
-#include "motive/math/spline_util.h"
 #include "rail_def_generated.h"
 
 using mathfu::vec3;
 
 namespace fpl {
 namespace fpl_project {
-
-void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
-  // Allocate temporary memory for the positions and derivative arrays.
-  std::vector<float> times;
-  std::vector<vec3_packed> positions;
-  std::vector<vec3_packed> derivatives;
-  const int num_positions = static_cast<int>(rail_def->positions()->Length());
-  times.resize(num_positions);
-  positions.resize(num_positions);
-  derivatives.resize(num_positions);
-
-  // Load positions.
-  for (int i = 0; i < num_positions; ++i) {
-    positions[i] = LoadVec3(rail_def->positions()->Get(i));
-  }
-
-  // Calculate derivates and times from positions.
-  CalculateConstSpeedCurveFromPositions<3>(
-      &positions[0], num_positions, rail_def->total_time(),
-      rail_def->reliable_distance(), &times[0], &derivatives[0]);
-
-  // Get position extremes.
-  vec3 position_min(std::numeric_limits<float>::infinity());
-  vec3 position_max(-std::numeric_limits<float>::infinity());
-  for (auto p = positions.begin(); p != positions.end(); ++p) {
-    const vec3 position(*p);
-    position_min = vec3::Min(position_min, position);
-    position_max = vec3::Max(position_max, position);
-  }
-
-  // Initialize the compact-splines to have the best precision possible,
-  // given the range limits.
-  const float kRangeSafeBoundsPercent = 1.1f;
-  for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-    splines_[i].Init(
-      Range(position_min[i], position_max[i]).Lengthen(kRangeSafeBoundsPercent),
-      spline_granularity);
-  }
-
-  // Initialize the splines. For now, the splines all have key points at the
-  // same time values, but this is a limitation that we can (and should) lift
-  // to maximize compression.
-  for (int k = 0; k < num_positions; ++k) {
-    const float t = times[k];
-    const vec3 position(positions[k]);
-    const vec3 derivative(derivatives[k]);
-    for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-      splines_[i].AddNode(t, position[i], derivative[i]);
-    }
-  }
-}
 
 void Rail::Positions(float delta_time,
                      std::vector<mathfu::vec3_packed>* positions) const {
@@ -117,13 +65,20 @@ void RailDenizenComponent::Init() {
 
   engine_ = services->motive_engine();
 
-  event_manager_ = services->event_manager();
-  event_manager_->RegisterListener(EventSinkUnion_ChangeRailSpeed, this);
+  services->event_manager()->RegisterListener(EventSinkUnion_ChangeRailSpeed,
+                                              this);
 }
 
-void RailDenizenComponent::SetRail(const RailDef* rail_def) {
-  static const float kSplineGranularity = 10.0f;
-  rail_.Initialize(rail_def, kSplineGranularity);
+void RailDenizenComponent::SetRail(entity::EntityRef entity, RailId rail_id) {
+  RailManager* rail_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->rail_manager();
+
+  RailDenizenData* data = GetComponentData(entity);
+
+  data->rail_id = rail_id;
+
+  // force the rail manager to load the rail:
+  rail_manager->GetRail(rail_id);
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
@@ -144,8 +99,10 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
       rail_denizen_data->lap++;
       EventContext context;
       context.source = iter->entity;
-      ParseAction(rail_denizen_data->on_new_lap, &context, event_manager_,
-                  entity_manager_);
+      ParseAction(
+          rail_denizen_data->on_new_lap, &context,
+          entity_manager_->GetComponent<ServicesComponent>()->event_manager(),
+          entity_manager_);
     }
     rail_denizen_data->previous_time = current_time;
   }
@@ -158,13 +115,21 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   auto rail_denizen_def =
       static_cast<const RailDenizenDef*>(component_data->data());
   RailDenizenData* data = AddEntity(entity);
-  data->Initialize(rail_, rail_denizen_def->start_time(), engine_);
+
+  RailManager* rail_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->rail_manager();
+
+  SetRail(entity, rail_denizen_def->rail_file()->c_str());
+
+  data->Initialize(
+      *rail_manager->GetRail(rail_denizen_def->rail_file()->c_str()),
+      rail_denizen_def->start_time(), engine_);
+
   data->on_new_lap = rail_denizen_def->on_new_lap();
   data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
   data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
-  if (rail_denizen_def->is_river() && !river_entity_.IsValid()) {
-    river_entity_ = entity;
-  }
+
+  entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
 void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {

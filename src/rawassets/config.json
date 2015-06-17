@@ -3,8 +3,6 @@
 
   "input_config": "input_config.bin",
 
-  "rail_filename": "rails/player_path.bin",
-
   "assets_filename": "assets.bin",
 
   "projectile_speed": 40.0,
@@ -12,6 +10,7 @@
   "bullet_max_steps": 5,
 
   "river_config" : {
+    "rail_filename": "rails/player_path.bin",
     "spline_stepsize": 500.0,
     "track_half_width": 3.0,
     "track_height": -1.5,
@@ -95,8 +94,8 @@
         {
           "data_type": "RailDenizenDef",
           "data" : {
-            "is_river": true,
             "start_time": 0,
+            "rail_file": "rails/player_path.bin",
             "on_new_lap": {
               "event_list": [
                 {

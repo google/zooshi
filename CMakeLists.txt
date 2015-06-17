@@ -217,6 +217,8 @@ set(zooshi_SRCS
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
     src/main.cpp
+    src/railmanager.cpp
+    src/railmanager.h
     src/rawassets
 )
 

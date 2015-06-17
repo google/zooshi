@@ -24,6 +24,7 @@
 #include "fplbase/material_manager.h"
 #include "motive/engine.h"
 #include "pindrop/pindrop.h"
+#include "railmanager.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -45,7 +46,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
                   pindrop::AudioEngine* audio_engine,
                   motive::MotiveEngine* motive_engine,
                   event::EventManager* event_manager,
-                  FontManager* font_manager) {
+                  FontManager* font_manager,
+                  RailManager* rail_manager) {
     config_ = config;
     material_manager_ = material_manager;
     input_system_ = input_system;
@@ -53,6 +55,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
     motive_engine_ = motive_engine;
     event_manager_ = event_manager;
     font_manager_ = font_manager;
+    rail_manager_ = rail_manager;
   }
 
   const Config* config() { return config_; }
@@ -62,6 +65,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   event::EventManager* event_manager() { return event_manager_; }
   FontManager* font_manager() { return font_manager_; }
   InputSystem* input_system() { return input_system_; }
+  RailManager* rail_manager() { return rail_manager_; }
 
   // This component should never be added to an entity.  It is only provided
   // as an interface for other components to access common resources.
@@ -79,6 +83,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   event::EventManager* event_manager_;
   InputSystem* input_system_;
   FontManager* font_manager_;
+  RailManager* rail_manager_;
 };
 
 }  // fpl_project

@@ -48,12 +48,11 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   int index_count = 0;
   int vectex_count = 0;
 
-  RailDenizenComponent* rd_comp =
-      entity_manager_->GetComponent<RailDenizenComponent>();
-
-  Rail* rail = rd_comp->rail();
   const Config* config =
       entity_manager_->GetComponent<ServicesComponent>()->config();
+
+  Rail* rail = entity_manager_->GetComponent<ServicesComponent>()->
+      rail_manager()->GetRail(config->river_config()->rail_filename()->c_str());
 
   // Generate the spline data and store it in our track vector:
   rail->Positions(config->river_config()->spline_stepsize(), &track);

@@ -15,6 +15,7 @@
 #include "components/attributes.h"
 #include "components/patron.h"
 #include "components/physics.h"
+#include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/services.h"
@@ -88,9 +89,9 @@ void PatronComponent::PostLoadFixup() {
 }
 
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
-  RailDenizenComponent* rail_denizen_component =
-      entity_manager_->GetComponent<RailDenizenComponent>();
-  entity::EntityRef raft = rail_denizen_component->river_entity();
+  PlayerComponent* player_component =
+      entity_manager_->GetComponent<PlayerComponent>();
+  entity::EntityRef raft = player_component->begin()->entity;
   TransformData* raft_transform = Data<TransformData>(raft);
   RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
   int lap = raft_rail_denizen->lap;
@@ -196,9 +197,10 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
     if (position.z() >= kHitMinHeight) {
       // TODO: Make state change an action.
       patron_data->state = kPatronStateFalling;
-      RailDenizenComponent* rail_denizen_component =
-          entity_manager_->GetComponent<RailDenizenComponent>();
-      entity::EntityRef raft = rail_denizen_component->river_entity();
+      PlayerComponent* player_component =
+          entity_manager_->GetComponent<PlayerComponent>();
+      entity::EntityRef raft = player_component->begin()->entity;
+
       RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
       patron_data->last_lap_fed = raft_rail_denizen->lap;
       EventContext context;

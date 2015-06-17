@@ -34,6 +34,7 @@ enum EntityDefs : byte {
 }
 
 table RiverConfig {
+  rail_filename:string;
   spline_stepsize: float;
   track_half_width:float;
   track_height:float;
@@ -101,9 +102,6 @@ table Config {
 
   // Input configuration file.
   input_config:string;
-
-  // The rail definition file to load.
-  rail_filename:string;
 
   // The manifest of assets to load.
   assets_filename:string;

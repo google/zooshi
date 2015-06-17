@@ -111,7 +111,8 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
                                  audio_engine,
                                  &motive_engine_,
                                  &event_manager_,
-                                 font_manager);
+                                 font_manager,
+                                 &rail_manager_);
 
   entity_manager_.RegisterComponent(&services_component_);
 
@@ -128,17 +129,10 @@ void GameState::Initialize(const vec2i& window_size, const Config& config,
   entity_manager_.RegisterComponent(&attributes_component_);
   entity_manager_.RegisterComponent(&river_component_);
 
-  std::string rail_def_source;
-  if (!LoadFile(config.rail_filename()->c_str(), &rail_def_source)) {
-    return;
-  }
-  const RailDef* rail_def = GetRailDef(rail_def_source.c_str());
-
   entity_manager_.set_entity_factory(&entity_factory_);
 
   input_controller_.set_input_config(input_config_);
   input_controller_.set_input_system(input_system_);
-  rail_denizen_component_.SetRail(rail_def);
   render_mesh_component_.set_light_position(vec3(-10, -20, 20));
 
   // Create entities that are explicitly detailed in `entity_list`.
