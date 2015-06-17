@@ -28,6 +28,7 @@
 #include "fplbase/flatbuffer_utils.h"
 #include "mathfu/constants.h"
 #include "motive/init.h"
+#include "motive/math/spline_util.h"
 #include "rail_def_generated.h"
 
 using mathfu::vec3;
@@ -36,33 +37,52 @@ namespace fpl {
 namespace fpl_project {
 
 void Rail::Initialize(const RailDef* rail_def, float spline_granularity) {
+  // Allocate temporary memory for the positions and derivative arrays.
+  std::vector<float> times;
+  std::vector<vec3_packed> positions;
+  std::vector<vec3_packed> derivatives;
+  const int num_positions = static_cast<int>(rail_def->positions()->Length());
+  times.resize(num_positions);
+  positions.resize(num_positions);
+  derivatives.resize(num_positions);
+
+  // Load positions.
+  for (int i = 0; i < num_positions; ++i) {
+    positions[i] = LoadVec3(rail_def->positions()->Get(i));
+  }
+
+  // Calculate derivates and times from positions.
+  CalculateConstSpeedCurveFromPositions<3>(
+      &positions[0], num_positions, rail_def->total_time(),
+      rail_def->reliable_distance(), &times[0], &derivatives[0]);
+
   // Get position extremes.
   vec3 position_min(std::numeric_limits<float>::infinity());
   vec3 position_max(-std::numeric_limits<float>::infinity());
-  for (auto iter = rail_def->nodes()->begin(); iter != rail_def->nodes()->end();
-       ++iter) {
-    const vec3 position = LoadVec3(iter->position());
+  for (auto p = positions.begin(); p != positions.end(); ++p) {
+    const vec3 position(*p);
     position_min = vec3::Min(position_min, position);
     position_max = vec3::Max(position_max, position);
   }
 
   // Initialize the compact-splines to have the best precision possible,
   // given the range limits.
+  const float kRangeSafeBoundsPercent = 1.1f;
   for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-    splines_[i].Init(Range(position_min[i], position_max[i]),
-                     spline_granularity);
+    splines_[i].Init(
+      Range(position_min[i], position_max[i]).Lengthen(kRangeSafeBoundsPercent),
+      spline_granularity);
   }
 
   // Initialize the splines. For now, the splines all have key points at the
   // same time values, but this is a limitation that we can (and should) lift
   // to maximize compression.
-  for (auto iter = rail_def->nodes()->begin(); iter != rail_def->nodes()->end();
-       ++iter) {
-    const float t = iter->time();
-    const vec3 position = LoadVec3(iter->position());
-    const vec3 tangent = LoadVec3(iter->tangent());
+  for (int k = 0; k < num_positions; ++k) {
+    const float t = times[k];
+    const vec3 position(positions[k]);
+    const vec3 derivative(derivatives[k]);
     for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-      splines_[i].AddNode(t, position[i], tangent[i]);
+      splines_[i].AddNode(t, position[i], derivative[i]);
     }
   }
 }

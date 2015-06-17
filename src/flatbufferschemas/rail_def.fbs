@@ -16,14 +16,10 @@ include "common.fbs";
 
 namespace fpl.fpl_project;
 
-table Node {
-  time:float;
-  position:fpl.Vec3;
-  tangent:fpl.Vec3;
-}
-
 table RailDef {
-  nodes:[Node];
+  positions:[fpl.Vec3];
+  total_time:float;
+  reliable_distance:float;
 }
 
 root_type RailDef;
