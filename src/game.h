@@ -22,22 +22,32 @@
 #include "camera.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
+#include "event_system/event_listener.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/material_manager.h"
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
-#include "game_state.h"
+#include "gameplay_state.h"
 #include "imgui/font_manager.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
+#include "state_machine.h"
+#include "states.h"
+#include "world.h"
+#include "world_editor_state.h"
 
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg_manager.h"
 #include "gpg_multiplayer.h"
 #endif
 
+#ifdef __ANDROID__
+#include "inputcontrollers/android_cardboard_controller.h"
+#else
+#include "inputcontrollers/mouse_controller.h"
+#endif
 
 namespace fpl {
 namespace fpl_project {
@@ -46,12 +56,13 @@ struct Config;
 struct InputConfig;
 struct AssetManifest;
 
-class Game {
+class Game : event::EventListener {
  public:
   Game();
-  ~Game();
   bool Initialize(const char* const binary_directory);
   void Run();
+
+  virtual void OnEvent(const event::EventPayload& payload);
 
  private:
   bool InitializeRenderer();
@@ -61,7 +72,6 @@ class Game {
                                const mathfu::vec3& offset,
                                const mathfu::vec2& pixel_bounds,
                                float pixel_to_world_scale);
-  void Render();
   void Render2DElements(mathfu::vec2i resolution);
   void Update(WorldTime delta_time);
   void UpdateMainCamera();
@@ -85,6 +95,19 @@ class Game {
   // Hold the configuration for the asset manifest source.
   std::string asset_manifest_source_;
 
+#ifdef __ANDROID__
+  // Input controller for looking around when using accelerometers on android.
+  AndroidCardboardController input_controller_;
+#else
+  // Input controller for looking around when using mouse.
+  MouseController input_controller_;
+#endif
+
+  // The top level state machine that drives the game.
+  StateMachine<kGameStateCount> state_machine_;
+  GameplayState gameplay_state_;
+  WorldEditorState world_editor_state_;
+
   // Report touches, button presses, keyboard presses.
   InputSystem input_;
 
@@ -98,6 +121,9 @@ class Game {
 
   // Manage ownership and playing of audio assets.
   pindrop::AudioEngine audio_engine_;
+
+  // The application wide event manager.
+  event::EventManager event_manager_;
 
   // Shaders we use.
   Shader* shader_cardboard_;
@@ -115,7 +141,9 @@ class Game {
 
   pindrop::AudioConfig* audio_config_;
 
-  GameState game_state_;
+  World world_;
+  std::unique_ptr<editor::WorldEditor> world_editor_;
+
   bool relative_mouse_mode_;
 
   // String version number of the game.

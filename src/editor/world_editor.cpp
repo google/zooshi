@@ -18,8 +18,6 @@
 namespace fpl {
 namespace editor {
 
-WorldEditor::WorldEditor() : is_active_(false) {}
-
 void WorldEditor::Initialize(const WorldEditorConfig* config,
                              InputSystem* input_system) {
   config_ = config;
@@ -28,7 +26,7 @@ void WorldEditor::Initialize(const WorldEditorConfig* config,
   input_controller_.set_input_config(config_->input_config());
 }
 
-void WorldEditor::Update(WorldTime delta_time) {
+void WorldEditor::AdvanceFrame(WorldTime delta_time) {
   if (input_mode_ == kMoving) {
     // Allow the camera to look around and move.
     input_controller_.Update();
@@ -47,7 +45,6 @@ void WorldEditor::Render(Renderer* /*renderer*/) {
 }
 
 void WorldEditor::Activate(const fpl_project::Camera& initial_camera) {
-  is_active_ = true;
   // Set up the initial camera position.
   camera_ = initial_camera;
   camera_.set_viewport_angle(config_->viewport_angle_degrees() *
@@ -57,8 +54,6 @@ void WorldEditor::Activate(const fpl_project::Camera& initial_camera) {
 
   input_mode_ = kMoving;
 }
-
-void WorldEditor::Deactivate() { is_active_ = false; }
 
 mathfu::vec3 WorldEditor::GetMovement() {
   // Get a movement vector to move the user forward, up, or right.

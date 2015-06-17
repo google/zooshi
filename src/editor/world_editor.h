@@ -20,28 +20,25 @@
 #include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
 #include "mathfu/vector_3.h"
+#include "world_editor_generated.h"
+
 #ifdef __ANDROID__
 #include "inputcontrollers/android_cardboard_controller.h"
 #else
 #include "inputcontrollers/mouse_controller.h"
 #endif
-#include "world_editor_generated.h"
 
 namespace fpl {
 namespace editor {
 
 class WorldEditor {
  public:
-  WorldEditor();
-
   void Initialize(const WorldEditorConfig* config, InputSystem* input_system);
-  void Update(WorldTime delta_time);
+  void AdvanceFrame(WorldTime delta_time);
   void Render(Renderer* renderer);
 
   void Activate(const fpl_project::Camera& initial_camera);
-  void Deactivate();
 
-  bool is_active() { return is_active_; }
   const fpl_project::Camera* GetCamera() const { return &camera_; }
 
  private:
@@ -58,10 +55,10 @@ class WorldEditor {
   fpl_project::MouseController input_controller_;
 #endif
   fpl_project::Camera camera_;
-  bool is_active_;
 };
 
 }  // namespace editor
 }  // namespace fpl
 
 #endif  // FPL_WORLD_EDITOR_H_
+

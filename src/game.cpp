@@ -16,12 +16,12 @@
 
 #include <math.h>
 
-#include "audio_config_generated.h"
 #include "assets_generated.h"
+#include "audio_config_generated.h"
 #include "entity/entity.h"
+#include "events/play_sound.h"
 #include "fplbase/input.h"
 #include "fplbase/utilities.h"
-#include "game_state.h"
 #include "gui.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
@@ -30,9 +30,12 @@
 #include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
 #include "pindrop/pindrop.h"
+#include "world.h"
+
 #ifdef __ANDROID__
 #include "fplbase/renderer_android.h"
 #endif
+
 #ifdef ANDROID_CARDBOARD
 #include "fplbase/renderer_hmd.h"
 #endif
@@ -52,7 +55,6 @@ static const int kQuadNumVertices = 4;
 static const int kQuadNumIndices = 6;
 
 static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
-// clang-format off
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
                                             kTangent4f, kEND};
@@ -65,8 +67,6 @@ static const char kConfigFileName[] = "config.bin";
 static const int kAndroidMaxScreenWidth = 1920;
 static const int kAndroidMaxScreenHeight = 1080;
 #endif
-
-//static const float kPixelToWorldScale = 4.0f / 256.0f;
 
 static const vec3 kCameraPos = vec3(4, 5, -10);
 static const vec3 kCameraOrientation = vec3(0, 0, 0);
@@ -114,15 +114,13 @@ entity::EntityRef ZooshiEntityFactory::CreateEntityFromData(
 
 Game::Game()
     : material_manager_(renderer_),
+      event_manager_(EventSinkUnion_Size),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       prev_world_time_(0),
       audio_config_(nullptr),
-      game_state_(),
-      version_(kVersion) {
-}
-
-Game::~Game() {}
+      world_(),
+      version_(kVersion) {}
 
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
@@ -229,7 +227,8 @@ bool Game::InitializeAssets() {
     material_manager_.LoadShader(asset_manifest.shader_list()->Get(i)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
-    material_manager_.LoadMaterial(asset_manifest.material_list()->Get(i)->c_str());
+    material_manager_.LoadMaterial(
+        asset_manifest.material_list()->Get(i)->c_str());
   }
   material_manager_.StartLoadingTextures();
 
@@ -297,13 +296,31 @@ bool Game::Initialize(const char* const binary_directory) {
   while (!material_manager_.TryFinalize()) {
   }
 
+  event_manager_.RegisterListener(EventSinkUnion_PlaySound, this);
+
   font_manager_.Open(kOpenTypeFontFile);
   font_manager_.SetRenderer(renderer_);
 
   SetRelativeMouseMode(true);
 
-  game_state_.Initialize(renderer_.window_size(), GetConfig(), GetInputConfig(),
-                         &input_, &material_manager_, &font_manager_, &audio_engine_);
+  input_controller_.set_input_system(&input_);
+  input_controller_.set_input_config(&GetInputConfig());
+
+  world_.Initialize(GetConfig(), &input_, &input_controller_,
+                    &material_manager_, &font_manager_, &audio_engine_,
+                    &event_manager_);
+
+  world_editor_.reset(new editor::WorldEditor());
+  world_editor_->Initialize(GetConfig().world_editor_config(), &input_);
+
+  gameplay_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
+                             world_editor_.get());
+  world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
+                                 &world_);
+
+  state_machine_.AssignState(kGameStateGameplay, &gameplay_state_);
+  state_machine_.AssignState(kGameStateWorldEditor, &world_editor_state_);
+  state_machine_.SetCurrentStateId(kGameStateGameplay);
 
   LogInfo("Initialization complete\n");
   return true;
@@ -317,11 +334,6 @@ void Game::SetRelativeMouseMode(bool relative_mouse_mode) {
 void Game::ToggleRelativeMouseMode() {
   relative_mouse_mode_ = !relative_mouse_mode_;
   input_.SetRelativeMouseMode(relative_mouse_mode_);
-}
-
-void Game::Render() {
-  renderer_.AdvanceFrame(input_.minimized_);
-  game_state_.Render(&renderer_);
 }
 
 void Game::Render2DElements(mathfu::vec2i resolution) {
@@ -361,8 +373,7 @@ void Game::Run() {
   // Initialize so that we don't sleep the first time through the loop.
   prev_world_time_ = CurrentWorldTime() - kMinUpdateTime;
 
-  while (!input_.exit_requested_ &&
-         !input_.GetButton(FPLK_ESCAPE).went_down()) {
+  while (!input_.exit_requested_ && !state_machine_.done()) {
     // Milliseconds elapsed since last update. To avoid burning through the
     // CPU, enforce a minimum time between updates. For example, if
     // min_update_time is 1, we will not exceed 1000Hz update time.
@@ -374,23 +385,38 @@ void Game::Run() {
       Delay(kMinUpdateTime - delta_time);
     }
 
-    game_state_.Update(delta_time);
+    input_.AdvanceFrame(&renderer_.window_size());
 
+    state_machine_.AdvanceFrame(delta_time);
+
+    state_machine_.Render(&renderer_);
+
+    renderer_.AdvanceFrame(input_.minimized_);
+
+    Render2DElements(renderer_.window_size());
+    audio_engine_.AdvanceFrame(delta_time / 1000.0f);
+
+    // Process input device messages since the last game loop.
+    // Update render window size.
     if (input_.GetButton(fpl::FPLK_BACKQUOTE).went_down()) {
       ToggleRelativeMouseMode();
     }
 
-    Render();
-    Render2DElements(renderer_.window_size());
-    audio_engine_.AdvanceFrame(delta_time / 1000.0f);
-    // Process input device messages since the last game loop.
-    // Update render window size.
-    input_.AdvanceFrame(&renderer_.window_size());
-
-// TEMP: testing GUI on top of everything else.
 #if (IMGUI_TEST)
+    // TEMP: testing GUI on top of everything else.
     gui::TestGUI(material_manager_, fontman, input_);
 #endif  // IMGUI_TEST
+  }
+}
+
+void Game::OnEvent(const event::EventPayload& event_payload) {
+  switch (event_payload.id()) {
+    case EventSinkUnion_PlaySound: {
+      auto* payload = event_payload.ToData<PlaySoundPayload>();
+      audio_engine_.PlaySound(payload->sound_name, payload->location);
+      break;
+    }
+    default: { assert(false); }
   }
 }
 
