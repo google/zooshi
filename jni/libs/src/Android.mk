@@ -77,7 +77,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_multiplayer.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp
+  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
