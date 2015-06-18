@@ -36,6 +36,11 @@ table RailDenizenDef {
   initial_playback_rate:float;
   on_new_lap:fpl.fpl_project.ActionDef;
   rail_file:string;
+  rail_offset:Vec3; // Additional offset from the rail position
+  rail_orientation:Vec3; // Rotation to apply to the rail
+  rail_scale:Vec3; // Scale to apply to the rail
+  update_orientation:bool = true;
+  enabled:bool = true;
 }
 
 table RenderMeshDef {

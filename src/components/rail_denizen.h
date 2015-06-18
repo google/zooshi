@@ -18,6 +18,7 @@
 #include "components_generated.h"
 #include "entity/component.h"
 #include "event/event_listener.h"
+#include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/motivator.h"
 #include "motive/math/compact_spline.h"
@@ -37,7 +38,11 @@ struct RailDenizenData {
         spline_playback_rate(1.0f),
         previous_time(0),
         on_new_lap(nullptr),
-        motivator() {}
+        motivator(),
+        rail_offset(mathfu::kZeros3f),
+        rail_orientation(mathfu::quat::identity),
+        rail_scale(mathfu::kOnes3f),
+        enabled(true) {}
 
   void Initialize(const Rail& rail, float start_time,
                   motive::MotiveEngine* engine);
@@ -51,6 +56,11 @@ struct RailDenizenData {
   const ActionDef* on_new_lap;
   motive::Motivator3f motivator;
   RailId rail_id;
+  mathfu::vec3 rail_offset;
+  mathfu::quat rail_orientation;
+  mathfu::vec3 rail_scale;
+  bool update_orientation;
+  bool enabled;
 };
 
 class RailDenizenComponent : public entity::Component<RailDenizenData>,
