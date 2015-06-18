@@ -61,6 +61,8 @@ set(dependencies_pindrop_dir "${fpl_root}/pindrop"
     CACHE PATH "Directory containing the pindrop library.")
 set(dependencies_fplbase_dir "${fpl_root}/fplbase"
     CACHE PATH "Directory containing the FPLBase library.")
+set(dependencies_entity_dir "${fpl_root}/entity"
+    CACHE PATH "Directory containing the Entity library.")
 set(dependencies_imgui_dir "${fpl_root}/imgui"
     CACHE PATH "Directory containing the IMGUI library.")
 set(dependencies_mathfu_dir "${fpl_root}/mathfu"
@@ -82,6 +84,11 @@ option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
 # Include pindrop.
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
+endif()
+
+# Include entities.
+if(NOT zooshi_only_flatc AND NOT TARGET entity)
+  add_subdirectory("${dependencies_entity_dir}" ${tmp_dir}/entity)
 endif()
 
 # Include the event system.
@@ -192,14 +199,6 @@ set(zooshi_SRCS
     src/components/transform.h
     src/editor/world_editor.cpp
     src/editor/world_editor.h
-    src/entity/component.h
-    src/entity/component_id_lookup.h
-    src/entity/component_interface.h
-    src/entity/entity.h
-    src/entity/entity_common.h
-    src/entity/entity_manager.cpp
-    src/entity/entity_manager.h
-    src/entity/vector_pool.h
     src/events/change_rail_speed.h
     src/events/collision.h
     src/events/modify_attribute.h
@@ -235,6 +234,7 @@ include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${dependencies_bulletphysics_distr_dir}/src)
+include_directories(${dependencies_entity_dir}/include)
 include_directories(${dependencies_event_dir}/include)
 include_directories(${dependencies_flatbuffers_dir}/include)
 include_directories(${dependencies_fplbase_dir}/include)
@@ -284,6 +284,7 @@ target_link_libraries(zooshi
   motive
   fplbase
   imgui
+  entity
   pindrop
   BulletDynamics
   BulletCollision

@@ -68,7 +68,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/editor/world_editor.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
@@ -101,8 +100,9 @@ $(call flatbuffers_header_build_rules,\
   $(ZOOSHI_SCHEMA_FILES),\
   $(ZOOSHI_SCHEMA_DIR),\
   $(ZOOSHI_GENERATED_OUTPUT_DIR),\
-  $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
-    $(DEPENDENCIES_FPLBASE_DIR)/schemas,\
+  $(DEPENDENCIES_PINDROP_DIR)/schemas,\
+  $(DEPENDENCIES_MOTIVE_DIR)/schemas, \
+  $(DEPENDENCIES_FPLBASE_DIR)/schemas,\
   $(LOCAL_SRC_FILES))
 
 .PHONY: clean_generated_includes
@@ -123,6 +123,7 @@ LOCAL_STATIC_LIBRARIES := \
   libfplbase \
   libimgui \
   libpindrop \
+  libentity \
   libmotive \
   libfreetype \
   libharfbuzz \
@@ -142,8 +143,10 @@ $(call import-add-path,$(DEPENDENCIES_IMGUI_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MATHFU_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MOTIVE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
+$(call import-add-path,$(DEPENDENCIES_ENTITY_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 
+$(call import-module,entity/jni)
 $(call import-module,event/jni)
 $(call import-module,pindrop/jni)
 $(call import-module,flatbuffers/android/jni)
