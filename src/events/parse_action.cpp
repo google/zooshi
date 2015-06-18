@@ -14,7 +14,7 @@
 
 #include "components/transform.h"
 #include "entity/entity_manager.h"
-#include "event_system/event_manager.h"
+#include "event/event_manager.h"
 #include "events/change_rail_speed.h"
 #include "events/modify_attribute.h"
 #include "events/parse_action.h"

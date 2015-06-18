@@ -17,7 +17,7 @@
 
 #include "components_generated.h"
 #include "entity/component.h"
-#include "event_system/event_listener.h"
+#include "event/event_listener.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/motivator.h"
 #include "motive/math/compact_spline.h"

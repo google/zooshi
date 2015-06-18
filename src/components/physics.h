@@ -19,7 +19,7 @@
 #include "components_generated.h"
 #include "config_generated.h"
 #include "entity/component.h"
-#include "event_system/event_manager.h"
+#include "event/event_manager.h"
 #include "fplbase/material_manager.h"
 #include "fplbase/renderer.h"
 #include "fplbase/shader.h"

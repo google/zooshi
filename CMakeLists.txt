@@ -55,6 +55,8 @@ set(dependencies_flatbuffers_dir "${fpl_root}/flatbuffers"
     CACHE PATH "Directory containing the Flatbuffers library.")
 set(dependencies_fplutil_dir "${fpl_root}/fplutil"
     CACHE PATH "Directory containing the fplutil library.")
+set(dependencies_event_dir "${fpl_root}/event"
+    CACHE PATH "Directory containing the event library.")
 set(dependencies_pindrop_dir "${fpl_root}/pindrop"
     CACHE PATH "Directory containing the pindrop library.")
 set(dependencies_fplbase_dir "${fpl_root}/fplbase"
@@ -80,6 +82,11 @@ option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
 # Include pindrop.
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
+endif()
+
+# Include the event system.
+if(NOT zooshi_only_flatc AND NOT TARGET event)
+  add_subdirectory("${dependencies_event_dir}" ${tmp_dir}/event)
 endif()
 
 # Include motive.
@@ -193,11 +200,6 @@ set(zooshi_SRCS
     src/entity/entity_manager.cpp
     src/entity/entity_manager.h
     src/entity/vector_pool.h
-    src/event_system/event_listener.h
-    src/event_system/event_manager.cpp
-    src/event_system/event_manager.h
-    src/event_system/event_payload.h
-    src/event_system/event_registry.h
     src/events/change_rail_speed.h
     src/events/collision.h
     src/events/modify_attribute.h
@@ -232,13 +234,14 @@ include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+include_directories(${dependencies_bulletphysics_distr_dir}/src)
+include_directories(${dependencies_event_dir}/include)
 include_directories(${dependencies_flatbuffers_dir}/include)
+include_directories(${dependencies_fplbase_dir}/include)
 include_directories(${dependencies_fplutil_dir}/libfplutil/include)
+include_directories(${dependencies_imgui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
-include_directories(${dependencies_fplbase_dir}/include)
-include_directories(${dependencies_imgui_dir}/include)
-include_directories(${dependencies_bulletphysics_distr_dir}/src)
 
 # Detect clang
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -277,6 +280,7 @@ mathfu_configure_flags(zooshi)
 # Dependencies for the executable target.
 add_dependencies(zooshi generated_includes assets)
 target_link_libraries(zooshi
+  event
   motive
   fplbase
   imgui

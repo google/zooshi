@@ -69,7 +69,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/editor/world_editor.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/entity/entity_manager.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/event_system/event_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
@@ -77,7 +76,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_multiplayer.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp
+  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
@@ -115,6 +114,7 @@ endif
 clean: clean_assets clean_generated_includes
 
 LOCAL_STATIC_LIBRARIES := \
+  libevent \
   libgpg \
   libmathfu \
   libwebp \
@@ -135,6 +135,7 @@ LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -lz -lEGL -landroid
 
 include $(BUILD_SHARED_LIBRARY)
 
+$(call import-add-path,$(DEPENDENCIES_EVENT_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FLATBUFFERS_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FPLBASE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_IMGUI_DIR)/..)
@@ -143,6 +144,7 @@ $(call import-add-path,$(DEPENDENCIES_MOTIVE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 
+$(call import-module,event/jni)
 $(call import-module,pindrop/jni)
 $(call import-module,flatbuffers/android/jni)
 $(call import-module,fplbase/jni)

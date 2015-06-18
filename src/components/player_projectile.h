@@ -17,7 +17,7 @@
 
 #include "components_generated.h"
 #include "entity/component.h"
-#include "event_system/event_manager.h"
+#include "event/event_manager.h"
 #include "fplbase/utilities.h"
 #include "pindrop/pindrop.h"
 

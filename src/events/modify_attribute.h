@@ -15,7 +15,7 @@
 #ifndef FPL_EVENTS_MODIFY_ATTRIBUTE_EVENT_H_
 #define FPL_EVENTS_MODIFY_ATTRIBUTE_EVENT_H_
 
-#include "event_system/event_registry.h"
+#include "event/event_registry.h"
 #include "events_generated.h"
 
 namespace fpl {

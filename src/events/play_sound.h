@@ -15,7 +15,7 @@
 #ifndef FPL_AUDIO_EVENT_H_
 #define FPL_AUDIO_EVENT_H_
 
-#include "event_system/event_registry.h"
+#include "event/event_registry.h"
 #include "events_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"

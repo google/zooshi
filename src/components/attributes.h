@@ -19,7 +19,7 @@
 #include "attributes_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
-#include "event_system/event_listener.h"
+#include "event/event_listener.h"
 
 namespace fpl {
 
