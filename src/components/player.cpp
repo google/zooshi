@@ -20,7 +20,7 @@
 #include "components/services.h"
 #include "components/transform.h"
 #include "entity/entity_common.h"
-#include "event_system/event_manager.h"
+#include "event/event_manager.h"
 #include "events/parse_action.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"

@@ -30,6 +30,8 @@ endif
 DEPENDENCIES_SDL_DIR?=$(THIRD_PARTY_ROOT)/sdl
 # Location of the SDL Mixer library.
 DEPENDENCIES_SDL_MIXER_DIR?=$(THIRD_PARTY_ROOT)/sdl_mixer
+# Location of the event library.
+DEPENDENCIES_EVENT_DIR?=$(FPL_ROOT)/event
 # Location of the Flatbuffers library.
 DEPENDENCIES_FLATBUFFERS_DIR?=$(FPL_ROOT)/flatbuffers
 # Location of the Pindrop library.
