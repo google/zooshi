@@ -27,7 +27,7 @@ namespace fpl_project {
 static const float kDefaultViewportAngle = 0.7853975f;  // 45 degrees
 static const vec2 kViewportResolution = vec2(640, 480);
 static const float kDefaultViewportNearPlane = 1.0f;
-static const float kDefaultViewportFarPlane = 100.0f;
+static const float kDefaultViewportFarPlane = 500.0f;
 
 Camera::Camera()
     : position_(mathfu::kZeros3f),
