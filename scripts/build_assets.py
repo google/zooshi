@@ -129,6 +129,9 @@ SCHEMA_PATHS = [
     os.path.join(MOTIVE_ROOT, 'schemas')
 ]
 
+# Directory inside the assets directory where flatbuffer schemas are copied.
+SCHEMA_OUTPUT_PATH = 'flatbufferschemas'
+
 # Windows uses the .exe extension on executables.
 EXECUTABLE_EXTENSION = '.exe' if platform.system() == 'Windows' else ''
 
@@ -379,6 +382,12 @@ def generate_flatbuffer_binaries(flatc, target_directory):
   """
   for element in FLATBUFFERS_CONVERSION_DATA:
     schema = element.schema
+    target_schema = os.path.join(target_directory, SCHEMA_OUTPUT_PATH,
+                                 os.path.basename(schema))
+    if (needs_rebuild(schema, target_schema)):
+      if not os.path.exists(os.path.dirname(target_schema)):
+        os.makedirs(os.path.dirname(target_schema))
+      shutil.copy2(schema, target_schema)
     for json in element.input_files:
       target = processed_json_path(json, target_directory, element.extension)
       target_file_dir = os.path.dirname(target)

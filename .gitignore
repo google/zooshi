@@ -9,6 +9,7 @@ fplbase_assets/
 gen/
 libs/
 obj/
+assets/flatbufferschemas/
 assets/fonts/
 assets/shaders/font.*
 
