@@ -22,7 +22,7 @@
 #include "camera.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
-#include "event_system/event_listener.h"
+#include "event/event_listener.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/material_manager.h"
