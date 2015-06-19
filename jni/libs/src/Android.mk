@@ -103,9 +103,8 @@ $(call flatbuffers_header_build_rules,\
   $(ZOOSHI_SCHEMA_FILES),\
   $(ZOOSHI_SCHEMA_DIR),\
   $(ZOOSHI_GENERATED_OUTPUT_DIR),\
-  $(DEPENDENCIES_PINDROP_DIR)/schemas,\
-  $(DEPENDENCIES_MOTIVE_DIR)/schemas, \
-  $(DEPENDENCIES_FPLBASE_DIR)/schemas,\
+  $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
+    $(DEPENDENCIES_FPLBASE_DIR)/schemas,\
   $(LOCAL_SRC_FILES))
 
 .PHONY: clean_generated_includes
