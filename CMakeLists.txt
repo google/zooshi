@@ -210,8 +210,8 @@ set(zooshi_SRCS
     src/flatbufferschemas
     src/game.cpp
     src/game.h
-    src/game_state.cpp
-    src/game_state.h
+    src/gameplay_state.cpp
+    src/gameplay_state.h
     src/gui.cpp
     src/gui.h
     src/inputcontrollers/base_player_controller.h
@@ -221,6 +221,12 @@ set(zooshi_SRCS
     src/railmanager.cpp
     src/railmanager.h
     src/rawassets
+    src/state_machine.h
+    src/states.h
+    src/world.cpp
+    src/world.h
+    src/world_editor_state.cpp
+    src/world_editor_state.h
 )
 
 # Includes for this project.
