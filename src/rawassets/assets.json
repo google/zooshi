@@ -18,7 +18,8 @@
     "materials/guy.fplmat",
     "materials/guy_back.fplmat",
     "materials/pixel1x1.fplmat",
-    "materials/river.fplmat"
+    "materials/river.fplmat",
+    "materials/blob.fplmat"
   ],
   "shader_list": [
     "shaders/cardboard",

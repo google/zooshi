@@ -277,6 +277,10 @@
               ]
             }
           }
+        },
+        {
+          "data_type": "ShadowDef",
+          "data": { radius: 2 }
         }
       ]
     },
@@ -378,6 +382,10 @@
               ]
             }
           }
+        },
+        {
+          "data_type": "ShadowDef",
+          "data": { radius: 2 }
         }
       ]
     },
@@ -479,6 +487,10 @@
               ]
             }
           }
+        },
+        {
+          "data_type": "ShadowDef",
+          "data": { radius: 2 }
         }
       ]
     },
@@ -886,7 +898,7 @@
       "entity": "kMidGroundTree",
       "count": 9,
       "radius": 15,
-      "position_offset_angle": 10, 
+      "position_offset_angle": 10,
       "orientation_offset_angle": 90,
       "position": { "x": 0, "y": 0, "z": 0 },
       "scale": { "x": 7, "y": 5, "z": 3 }

@@ -24,6 +24,7 @@
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/river.h"
+#include "components/shadow.h"
 #include "components/sound.h"
 #include "components/services.h"
 #include "components/time_limit.h"
@@ -97,6 +98,7 @@ struct World {
   AttributesComponent attributes_component;
   RiverComponent river_component;
   ServicesComponent services_component;
+  ShadowComponent shadow_component_;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;
