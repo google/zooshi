@@ -126,5 +126,26 @@ entity::ComponentInterface::RawDataUniquePtr TransformComponent::ExportRawData(
   return builder.ReleaseBufferPointer();
 }
 
+void TransformComponent::AddChild(entity::EntityRef& child,
+                                  entity::EntityRef& parent) {
+  TransformData* child_data = GetComponentData(child);
+  TransformData* parent_data = GetComponentData(parent);
+
+  // If child is already someone else's child, break that link first.
+  if (child_data->parent.IsValid()) {
+    RemoveChild(child);
+  }
+  parent_data->children.InsertAfter(&(child_data->child_node_));
+  child_data->parent = parent;
+}
+
+void TransformComponent::RemoveChild(entity::EntityRef& child) {
+  TransformData* child_data = GetComponentData(child);
+  assert(child_data->parent.IsValid());
+
+  child_data->parent = entity::EntityRef();
+  child_data->child_node_.Remove();
+}
+
 }  // fpl_project
 }  // fpl

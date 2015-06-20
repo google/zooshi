@@ -81,7 +81,6 @@ struct TransformData {
     return mathfu::mat4(c0, c1, c2, c3);
   }
 
- private:
   IntrusiveListNode child_node_;
 };
 
@@ -96,6 +95,9 @@ class TransformComponent : public entity::Component<TransformData> {
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void CleanupEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
+
+  void AddChild(entity::EntityRef& child, entity::EntityRef& parent);
+  void RemoveChild(entity::EntityRef& entity);
 
  private:
   entity::EntityFactoryInterface* entity_factory_;
