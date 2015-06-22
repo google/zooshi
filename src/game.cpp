@@ -391,7 +391,7 @@ void Game::Run() {
 
     state_machine_.Render(&renderer_);
 
-    renderer_.AdvanceFrame(input_.minimized(), delta_time);
+    renderer_.AdvanceFrame(input_.minimized(), input_.Time());
 
     Render2DElements(renderer_.window_size());
     audio_engine_.AdvanceFrame(delta_time / 1000.0f);
