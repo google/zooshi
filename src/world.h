@@ -53,7 +53,7 @@ class MaterialManager;
 namespace fpl_project {
 
 struct Config;
-struct BasePlayerController;
+class BasePlayerController;
 
 class ZooshiEntityFactory : public entity::EntityFactoryInterface {
  public:
@@ -61,7 +61,8 @@ class ZooshiEntityFactory : public entity::EntityFactoryInterface {
       const void* data, entity::EntityManager* entity_manager);
 };
 
-struct World {
+class World {
+public:
   World()
       : transform_component(&entity_factory),
         is_in_cardboard(false),
@@ -72,7 +73,6 @@ struct World {
                   MaterialManager* material_manager, FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager);
-
   motive::MotiveEngine motive_engine;
 
   // Entity manager
