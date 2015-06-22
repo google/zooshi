@@ -373,7 +373,7 @@ void Game::Run() {
   // Initialize so that we don't sleep the first time through the loop.
   prev_world_time_ = CurrentWorldTime() - kMinUpdateTime;
 
-  while (!input_.exit_requested_ && !state_machine_.done()) {
+  while (!input_.exit_requested() && !state_machine_.done()) {
     // Milliseconds elapsed since last update. To avoid burning through the
     // CPU, enforce a minimum time between updates. For example, if
     // min_update_time is 1, we will not exceed 1000Hz update time.
@@ -391,7 +391,7 @@ void Game::Run() {
 
     state_machine_.Render(&renderer_);
 
-    renderer_.AdvanceFrame(input_.minimized_);
+    renderer_.AdvanceFrame(input_.minimized(), delta_time);
 
     Render2DElements(renderer_.window_size());
     audio_engine_.AdvanceFrame(delta_time / 1000.0f);

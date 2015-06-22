@@ -47,7 +47,7 @@ void MouseController::UpdateFacing() {
   up_.Update();
 
   up_.SetValue(kCameraUp);
-  vec2 delta = vec2(input_system_->pointers_[0].mousedelta);
+  vec2 delta = vec2(input_system_->get_pointers()[0].mousedelta);
 
   // If the mouse hasn't moved, return.
   if (delta.x() == 0 && delta.y() == 0) return;

@@ -31,7 +31,6 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
-static const float kGroundPlane = 0.0f;
 static const char* kPhysicsShader = "shaders/color";
 
 void PhysicsComponent::Init() {
