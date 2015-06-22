@@ -39,7 +39,6 @@ static const float kGravity = 0.05f;
 static const float kAtRestThreshold = 0.005f;
 static const float kBounceFactor = 0.4f;
 
-
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
   event_manager_ =
@@ -66,8 +65,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
 void PatronComponent::PostLoadFixup() {
-  auto physics_component =
-      entity_manager_->GetComponent<PhysicsComponent>();
+  auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     // Fall down along the local y-axis
@@ -214,6 +212,19 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
           entity_manager_->GetComponent<PlayerComponent>();
       entity::EntityRef raft = player_component->begin()->entity;
 
+      // Fall away from the raft position, on the y-axis.
+      auto patron_transform = Data<TransformData>(patron_entity);
+      auto raft_transform = Data<TransformData>(raft);
+      vec3 hit_to_patron =
+          patron_transform->orientation *
+          (patron_transform->position - raft_transform->position);
+      vec3 down_axis =
+          hit_to_patron.y() > 0 ? mathfu::kAxisY3f : -mathfu::kAxisY3f;
+      vec3 spin_direction_vector =
+          patron_transform->orientation.Inverse() * down_axis;
+      patron_data->falling_rotation =
+          quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
+
       RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
       patron_data->last_lap_fed = raft_rail_denizen->lap;
       EventContext context;
@@ -252,10 +263,9 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
 
     transform_data->position = position;
 
-    physics_data->rigid_body->setLinearVelocity(
-        btVector3(mathfu::RandomInRange(-3.0f, 3.0f),
-                  mathfu::RandomInRange(-3.0f, 3.0f),
-                  mathfu::RandomInRange(0.0f, 6.0f)));
+    physics_data->rigid_body->setLinearVelocity(btVector3(
+        mathfu::RandomInRange(-3.0f, 3.0f), mathfu::RandomInRange(-3.0f, 3.0f),
+        mathfu::RandomInRange(0.0f, 6.0f)));
     physics_data->rigid_body->setAngularVelocity(btVector3(
         mathfu::RandomInRange(1.0f, 2.0f), mathfu::RandomInRange(1.0f, 2.0f),
         mathfu::RandomInRange(1.0f, 2.0f)));
