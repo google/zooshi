@@ -37,6 +37,8 @@ struct PhysicsData {
   std::unique_ptr<btMotionState> motion_state;
   std::unique_ptr<btRigidBody> rigid_body;
   mathfu::vec3 offset;
+  short collision_type;
+  short collides_with;
   bool enabled;
 
   mathfu::vec3 Velocity() const {

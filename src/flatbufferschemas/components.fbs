@@ -59,6 +59,8 @@ table PhysicsDef {
   mass:float = 1;
   restitution:float;
   kinematic:bool = false;
+  collision_type:BulletCollisionType;
+  collides_with:[BulletCollisionType];
 }
 
 table PatronDef {

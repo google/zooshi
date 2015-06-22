@@ -159,7 +159,11 @@
               }
             },
             "mass": 0,
-            "restitution": 1.0
+            "restitution": 1.0,
+            "collision_type": "Ground",
+            "collides_with": [
+              "Projectile"
+            ]
           }
         },
         {
@@ -238,7 +242,11 @@
             },
             "mass": 100.0,
             "restitution": 1.0,
-            "kinematic": true
+            "kinematic": true,
+            "collision_type": "Patron",
+            "collides_with": [
+              "Projectile"
+            ]
           }
         },
         {
@@ -351,7 +359,11 @@
             },
             "mass": 100.0,
             "restitution": 1.0,
-            "kinematic": true
+            "kinematic": true,
+            "collision_type": "Patron",
+            "collides_with": [
+              "Projectile"
+            ]
           }
         },
         {
@@ -466,7 +478,11 @@
             },
             "mass": 100.0,
             "restitution": 1.0,
-            "kinematic": true
+            "kinematic": true,
+            "collision_type": "Patron",
+            "collides_with": [
+              "Projectile"
+            ]
           }
         },
         {
@@ -526,7 +542,12 @@
               "y": 0.0,
               "z": 0.16
             },
-            "restitution": 1.0
+            "restitution": 1.0,
+            "collision_type": "Projectile",
+            "collides_with": [
+              "Patron",
+              "Ground"
+            ]
           }
         },
         {
