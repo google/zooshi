@@ -386,6 +386,16 @@
         {
           "data_type": "ShadowDef",
           "data": { radius: 2 }
+        },
+        {
+          "data_type": "RailDenizenDef",
+          "data" : {
+            "start_time": 0,
+            "rail_file": "rails/line_loop.bin",
+            "initial_playback_rate": 0.75,
+            "update_orientation": false,
+            "rail_scale": { "x": 5, "y": 5, "z": 5 }
+          }
         }
       ]
     },

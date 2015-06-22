@@ -85,6 +85,11 @@ void PatronComponent::PostLoadFixup() {
                     1.0f - patron_data->y);
     // Patrons that are done should not have physics enabled.
     physics_component->DisablePhysics(patron);
+    // We don't want patrons moving until they are up.
+    RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
+    if (rail_denizen_data != nullptr) {
+      rail_denizen_data->enabled = false;
+    }
   }
 }
 
@@ -113,6 +118,10 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       auto physics_component =
           entity_manager_->GetComponent<PhysicsComponent>();
       physics_component->DisablePhysics(patron);
+      auto rail_denizen_data = Data<RailDenizenData>(patron);
+      if (rail_denizen_data != nullptr) {
+        rail_denizen_data->enabled = false;
+      }
     } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
                lap > patron_data->last_lap_fed && lap >= patron_data->min_lap &&
                lap <= patron_data->max_lap &&
@@ -154,6 +163,10 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         auto physics_component =
             entity_manager_->GetComponent<PhysicsComponent>();
         physics_component->EnablePhysics(patron);
+        auto rail_denizen_data = Data<RailDenizenData>(patron);
+        if (rail_denizen_data != nullptr) {
+          rail_denizen_data->enabled = true;
+        }
       }
       transform_data->orientation =
           patron_data->original_orientation *
@@ -209,10 +222,14 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       context.target = patron_entity;
       ParseAction(patron_data->on_collision, &context, event_manager_,
                   entity_manager_);
-      // Disable physics after they have been fed
+      // Disable physics and rail movement after they have been fed
       auto physics_component =
           entity_manager_->GetComponent<PhysicsComponent>();
       physics_component->DisablePhysics(patron_entity);
+      auto rail_denizen_data = Data<RailDenizenData>(patron_entity);
+      if (rail_denizen_data != nullptr) {
+        rail_denizen_data->enabled = false;
+      }
     }
 
     // Even if you didn't hit the top, if got here, you got some

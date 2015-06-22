@@ -85,10 +85,19 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
+    if (!rail_denizen_data->enabled) {
+      continue;
+    }
     TransformData* transform_data = Data<TransformData>(iter->entity);
-    transform_data->position = rail_denizen_data->Position();
-    transform_data->orientation = mathfu::quat::RotateFromTo(
-        rail_denizen_data->Velocity(), mathfu::kAxisY3f);
+    vec3 position = rail_denizen_data->rail_orientation.Inverse() *
+        rail_denizen_data->Position();
+    position *= rail_denizen_data->rail_scale;
+    position += rail_denizen_data->rail_offset;
+    transform_data->position = position;
+    if (rail_denizen_data->update_orientation) {
+      transform_data->orientation = mathfu::quat::RotateFromTo(
+          rail_denizen_data->Velocity(), mathfu::kAxisY3f);
+    }
 
     // When the motivator has looped all the way back to the beginning of the
     // spline, the SplineTime returns back to 0. We can exploit this fact to
@@ -128,6 +137,21 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   data->on_new_lap = rail_denizen_def->on_new_lap();
   data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
   data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
+  auto offset = rail_denizen_def->rail_offset();
+  auto orientation = rail_denizen_def->rail_orientation();
+  auto scale = rail_denizen_def->rail_scale();
+  if (offset != nullptr) {
+    data->rail_offset = LoadVec3(offset);
+  }
+  if (orientation != nullptr) {
+    data->rail_orientation =
+        mathfu::quat::FromEulerAngles(LoadVec3(orientation));
+  }
+  if (scale != nullptr) {
+    data->rail_scale = LoadVec3(scale);
+  }
+  data->update_orientation = rail_denizen_def->update_orientation();
+  data->enabled = rail_denizen_def->enabled();
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }

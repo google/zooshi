@@ -154,18 +154,30 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
     entity::EntityRef entity = entity_manager.CreateEntityFromData(entity_def);
     TransformData* transform_data =
         entity_manager.GetComponentData<TransformData>(entity);
+    // If a rail denizen is included, update the data on that as well.
+    RailDenizenData* rail_denizen_data =
+        entity_manager.GetComponentData<RailDenizenData>(entity);
     auto pos = predefined->position();
     auto orientation = predefined->orientation();
     auto scale = predefined->scale();
     if (pos != nullptr) {
       transform_data->position = LoadVec3(pos);
+      if (rail_denizen_data != nullptr) {
+        rail_denizen_data->rail_offset = transform_data->position;
+      }
     }
     if (orientation != nullptr) {
       transform_data->orientation = mathfu::quat::FromEulerAngles(
           LoadVec3(orientation) * kDegreesToRadians);
+      if (rail_denizen_data != nullptr) {
+        rail_denizen_data->rail_orientation = transform_data->orientation;
+      }
     }
     if (scale != nullptr) {
       transform_data->scale = LoadVec3(scale);
+      if (rail_denizen_data != nullptr) {
+        rail_denizen_data->rail_scale = transform_data->scale;
+      }
     }
     if (entity->IsRegisteredForComponent(physics_component.GetComponentId())) {
       physics_component.UpdatePhysicsFromTransform(entity);
