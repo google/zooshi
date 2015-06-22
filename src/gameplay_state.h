@@ -32,7 +32,7 @@ class WorldEditor;
 
 namespace fpl_project {
 
-class InputConfig;
+struct InputConfig;
 class World;
 
 class GameplayState : public StateNode {

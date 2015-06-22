@@ -32,7 +32,7 @@ namespace fpl_project {
 
 struct Config;
 struct InputConfig;
-struct World;
+class World;
 
 class WorldEditorState : public StateNode {
  public:
