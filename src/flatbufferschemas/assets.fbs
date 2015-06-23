@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+include "anim_table.fbs";
+
 namespace fpl.fpl_project;
 
 // List of paths to all the assets we care about:
@@ -19,8 +21,9 @@ table AssetManifest {
   mesh_list:[string];
   material_list:[string];
   shader_list:[string];
+  anims:motive.AnimTableFb;
 }
 
-
 root_type AssetManifest;
+file_extension "bin";
 

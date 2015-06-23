@@ -41,6 +41,18 @@ table SoundDef {
   sound:string;
 }
 
+enum AnimObject : byte {
+  Patron,
+  // TODO: add Fern, etc.
+}
+
+enum PatronAction : byte {
+  GetUp,
+  Idle,
+  Fed,
+  Fall,
+}
+
 table PatronDef {
   on_collision:fpl.fpl_project.ActionDef;
 

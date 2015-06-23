@@ -49,9 +49,11 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                        FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
-                       event::EventManager* event_manager, Renderer* renderer) {
+                       event::EventManager* event_manager, Renderer* renderer,
+                       const motive::AnimTable* anim_table) {
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
+  motive::MatrixInit::Register();
 
   asset_manager = asset_mgr;
   world_renderer = worldrenderer;
@@ -68,7 +70,8 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                                        event_manager, input_system, renderer);
   services_component.Initialize(
       config, asset_manager, input_system, audio_engine, &motive_engine,
-      event_manager, font_manager, &rail_manager, entity_factory.get());
+      event_manager, font_manager, &rail_manager, entity_factory.get(),
+      anim_table);
 
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&common_services_component),

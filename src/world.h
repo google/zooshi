@@ -76,7 +76,8 @@ class World {
   void Initialize(const Config& config, InputSystem* input_system,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                   FontManager* font_manager, pindrop::AudioEngine* audio_engine,
-                  event::EventManager* event_manager, Renderer* renderer);
+                  event::EventManager* event_manager, Renderer* renderer,
+                  const motive::AnimTable* anim_table);
 
   motive::MotiveEngine motive_engine;
 

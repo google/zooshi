@@ -224,6 +224,16 @@ bool Game::InitializeAssets() {
   shader_cardboard_->SetUniform("shininess", kCardboardShininess);
   shader_cardboard_->SetUniform("normalmap_scale", kCardboardNormalMapScale);
 
+  // Load animation table:
+  anim_table_.InitFromFlatBuffers(*asset_manifest.anims());
+
+  // Load all animations referenced by the animation table:
+  const char* anim_not_found = LoadAnimTableAnimations(&anim_table_, LoadFile);
+  if (anim_not_found != nullptr) {
+    LogError("Failed to load animation file %s.\n", anim_not_found);
+    return false;
+  }
+
   return true;
 }
 
@@ -288,7 +298,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_,
                     &world_renderer_, &font_manager_, &audio_engine_,
-                    &event_manager_, &renderer_);
+                    &event_manager_, &renderer_, &anim_table_);
 
   world_renderer_.Initialize(&world_);
 

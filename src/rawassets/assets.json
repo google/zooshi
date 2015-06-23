@@ -52,5 +52,17 @@
     "shaders/textured",
     "shaders/textured_opaque",
     "shaders/textured_shadowed"
-  ]
+  ],
+  "anims": {
+    "lists" : [
+      { // AnimObject_Patron
+        "anim_files": [
+          "anims/spawn.fplanim",  // PatronAction_GetUp
+          "anims/idle.fplanim",   // PatronAction_Idle
+          "anims/hit.fplanim",    // PatronAction_Fed
+          "anims/fall.fplanim",   // PatronAction_Fall
+        ]
+      }
+    ]
+  }
 }

@@ -30,6 +30,7 @@
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
+#include "motive/anim_table.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
 #include "states/game_menu_state.h"
@@ -127,6 +128,9 @@ class Game : event::EventListener {
 
   // The application wide event manager.
   event::EventManager event_manager_;
+
+  // Hold all the game's animations.
+  motive::AnimTable anim_table_;
 
   // Shaders we use.
   Shader* shader_cardboard_;
