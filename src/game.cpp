@@ -22,7 +22,6 @@
 #include "events/play_sound.h"
 #include "fplbase/input.h"
 #include "fplbase/utilities.h"
-#include "gui.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
@@ -315,12 +314,16 @@ bool Game::Initialize(const char* const binary_directory) {
 
   gameplay_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
                              world_editor_.get());
+  game_menu_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
+                              world_editor_.get(),
+                              &material_manager_, &font_manager_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 
   state_machine_.AssignState(kGameStateGameplay, &gameplay_state_);
+  state_machine_.AssignState(kGameStateGameMenu, &game_menu_state_);
   state_machine_.AssignState(kGameStateWorldEditor, &world_editor_state_);
-  state_machine_.SetCurrentStateId(kGameStateGameplay);
+  state_machine_.SetCurrentStateId(kGameStateGameMenu);
 
   LogInfo("Initialization complete\n");
   return true;
@@ -401,11 +404,6 @@ void Game::Run() {
     if (input_.GetButton(fpl::FPLK_BACKQUOTE).went_down()) {
       ToggleRelativeMouseMode();
     }
-
-#if (IMGUI_TEST)
-    // TEMP: testing GUI on top of everything else.
-    gui::TestGUI(material_manager_, fontman, input_);
-#endif  // IMGUI_TEST
   }
 }
 

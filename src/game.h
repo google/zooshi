@@ -29,6 +29,7 @@
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
 #include "gameplay_state.h"
+#include "game_menu_state.h"
 #include "imgui/font_manager.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
@@ -106,6 +107,7 @@ class Game : event::EventListener {
   // The top level state machine that drives the game.
   StateMachine<kGameStateCount> state_machine_;
   GameplayState gameplay_state_;
+  GameMenuState game_menu_state_;
   WorldEditorState world_editor_state_;
 
   // Report touches, button presses, keyboard presses.

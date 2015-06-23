@@ -20,6 +20,7 @@ namespace fpl_project{
 
 enum GameState {
   kGameStateGameplay,
+  kGameStateGameMenu,
   kGameStateWorldEditor,
   kGameStateCount,
   kGameStateExit = kGameStateCount

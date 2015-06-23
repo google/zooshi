@@ -212,10 +212,11 @@ set(zooshi_SRCS
     src/flatbufferschemas
     src/game.cpp
     src/game.h
+    src/game_menu_state.cpp
+    src/game_menu_state.h
     src/gameplay_state.cpp
     src/gameplay_state.h
     src/gui.cpp
-    src/gui.h
     src/inputcontrollers/base_player_controller.h
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
