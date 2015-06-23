@@ -14,44 +14,42 @@
   ],
   positions: [
     {
-      x: -0.717, // = 1 * 734/1024
+      x: -0.5,
       y: 0,
       z: 0
     },
     {
-      x: 0.717,
+      x: 0.5,
       y: 0,
       z: 0
     },
     {
-      x: -0.717,
+      x: -0.5,
       y: 0,
       z: 2
     },
     {
-      x: 0.717,
+      x: 0.5,
       y: 0,
       z: 2
     }
   ],
-  // x-dimension: 734 of 1024 pixels are used
-  //    ==> 0.7168 of texture width used
-  //    ==> texture coordinates (0.1416, 0.8583) will cover complete texture
+  // x-dimension: 512 of 512 pixels are used
   texcoords: [
     {
-      x: 0.1416,
+      x: 0,
       y: 1
     },
     {
-      x: 0.8583,
+      x: 1,
       y: 1
     },
     {
-      x: 0.1416,
+      x: 0,
       y: 0
     },
     {
-      x: 0.8583,
+      x: 1,
       y: 0
     }
   ]
