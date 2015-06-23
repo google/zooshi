@@ -2,6 +2,7 @@
 *.bin
 *.fplmat
 *.fplmesh
+*.fplanim
 *.webp
 apks/
 bin/

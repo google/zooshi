@@ -91,6 +91,13 @@ MESH_PIPELINE_PATHS = [
     os.path.dirname(MESH_PIPELINE_BINARY_IN_PATH) if MESH_PIPELINE_BINARY_IN_PATH else '',
 ]
 
+# Directory that contains the anim_pipeline tool.
+ANIM_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('anim_pipeline')
+ANIM_PIPELINE_PATHS = [
+    os.path.join(MOTIVE_ROOT, 'bin', platform.system()),
+    os.path.dirname(ANIM_PIPELINE_BINARY_IN_PATH) if ANIM_PIPELINE_BINARY_IN_PATH else '',
+]
+
 # Directory to place processed assets.
 ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
 
@@ -121,6 +128,10 @@ RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, 'meshes')
 # Directory for textures outside of the main code-base.
 INTERNAL_TEXTURE_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'textures')
 
+# Directories for animations.
+RAW_ANIM_PATH = os.path.join(RAW_ASSETS_PATH, 'anims')
+INTERNAL_ANIM_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'anims')
+
 # Directory where unprocessed assets can be found.
 SCHEMA_PATHS = [
     os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas'),
@@ -143,6 +154,9 @@ CWEBP_EXECUTABLE_NAME = 'cwebp' + EXECUTABLE_EXTENSION
 
 # Name of the mesh_pipeline executable.
 MESH_PIPELINE_EXECUTABLE_NAME = 'mesh_pipeline' + EXECUTABLE_EXTENSION
+
+# Name of the anim_pipeline executable.
+ANIM_PIPELINE_EXECUTABLE_NAME = 'anim_pipeline' + EXECUTABLE_EXTENSION
 
 # What level of quality we want to apply to the webp files.
 # Ranges from 0 to 100.
@@ -236,6 +250,13 @@ def processed_texture_path(path, target_directory):
   """
   return path.replace(RAW_ASSETS_PATH, target_directory).replace(INTERNAL_ASSETS_PATH, target_directory).replace('png', 'webp')
 
+def processed_anim_path(path, target_directory):
+  """Take the path to a raw anim asset and convert it to target anim path.
+
+  Args:
+    target_directory: Path to the target assets directory.
+  """
+  return path.replace(RAW_ASSETS_PATH, target_directory).replace(INTERNAL_ASSETS_PATH, target_directory).replace('fbx', 'fplanim')
 
 # Location of FlatBuffers compiler.
 FLATC = find_in_paths(FLATC_EXECUTABLE_NAME, FLATBUFFERS_PATHS)
@@ -245,6 +266,9 @@ CWEBP = find_in_paths(CWEBP_EXECUTABLE_NAME, CWEBP_PATHS)
 
 # Location of mesh_pipeline conversion tool.
 MESH_PIPELINE = find_in_paths(MESH_PIPELINE_EXECUTABLE_NAME, MESH_PIPELINE_PATHS)
+
+# Location of mesh_pipeline conversion tool.
+ANIM_PIPELINE = find_in_paths(ANIM_PIPELINE_EXECUTABLE_NAME, ANIM_PIPELINE_PATHS)
 
 
 class BuildError(Exception):
@@ -317,6 +341,20 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, mesh_relative_d
   run_subprocess(command)
 
 
+def convert_fbx_anim_to_flatbuffer_binary(fbx, target):
+  """Run the anim_pipeline on the given fbx file.
+
+  Args:
+    fbx: The path to the fbx file to convert into a flatbuffer binary.
+    target_directory: The path of the flatbuffer binary to write to.
+
+  Raises:
+    BuildError: Process return code was nonzero.
+  """
+  command = [ANIM_PIPELINE, '-v', '-o', target, fbx]
+  run_subprocess(command)
+
+
 def needs_rebuild(source, target):
   """Checks if the source file needs to be rebuilt.
 
@@ -358,6 +396,11 @@ def png_files_to_convert():
           glob.glob(os.path.join(RAW_MESH_PATH, '*.png')) +
           glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, '*.png')))
 
+def anim_files_to_convert():
+  """ FBX files to convert to fplanim. """
+  return (glob.glob(os.path.join(RAW_ANIM_PATH, '*.fbx')) +
+          glob.glob(os.path.join(INTERNAL_ANIM_PATH, '*.fbx')))
+
 def generate_mesh_binaries(target_directory):
   """Run the mesh pipeline on the all of the FBX files.
 
@@ -372,6 +415,20 @@ def generate_mesh_binaries(target_directory):
       mesh_relative_directory = os.path.dirname(os.path.relpath(fbx, RAW_ASSETS_PATH))
       convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, mesh_relative_directory)
 
+def generate_anim_binaries(target_directory):
+  """Run the mesh pipeline on the all of the FBX files.
+
+  Args:
+    target_directory: Path to the target assets directory.
+  """
+  input_files = anim_files_to_convert()
+  print "input_files " + ', '.join(input_files)
+  for fbx in input_files:
+    target = processed_anim_path(fbx, target_directory)
+    print "target " + target
+
+    if needs_rebuild(fbx, target) or needs_rebuild(ANIM_PIPELINE, target):
+      convert_fbx_anim_to_flatbuffer_binary(fbx, target)
 
 def generate_flatbuffer_binaries(flatc, target_directory):
   """Run the flatbuffer compiler on the all of the flatbuffer json files.
@@ -500,7 +557,7 @@ def main(argv):
   parser.add_argument('args', nargs=argparse.REMAINDER)
   args = parser.parse_args()
   target = args.args[1] if len(args.args) >= 2 else 'all'
-  if target not in ('all', 'mesh', 'flatbuffers', 'webp', 'clean'):
+  if target not in ('all', 'mesh', 'anim', 'flatbuffers', 'webp', 'clean'):
     sys.stderr.write('No rule to build target %s.\n' % target)
 
   if target != 'clean':
@@ -511,6 +568,12 @@ def main(argv):
   if target in ('all', 'mesh'):
     try:
       generate_mesh_binaries(args.output)
+    except BuildError as error:
+      handle_build_error(error)
+      return 1
+  if target in ('all', 'anim'):
+    try:
+      generate_anim_binaries(args.output)
     except BuildError as error:
       handle_build_error(error)
       return 1
