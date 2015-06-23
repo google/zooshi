@@ -144,9 +144,22 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
   } else {
     physics_data->offset = mathfu::kZeros3f;
   }
+  physics_data->collision_type =
+      static_cast<short>(physics_def->collision_type());
+  if (physics_def->collides_with() != nullptr) {
+    int length = physics_def->collides_with()->Length();
+    for (int index = 0; index < length; index++) {
+      physics_data->collides_with |=
+          static_cast<short>(physics_def->collides_with()->Get(index));
+    }
+  } else {
+    physics_data->collides_with = 0;
+  }
 
   physics_data->enabled = true;
-  bullet_world_->addRigidBody(physics_data->rigid_body.get());
+  bullet_world_->addRigidBody(physics_data->rigid_body.get(),
+                              physics_data->collision_type,
+                              physics_data->collides_with);
 
   UpdatePhysicsFromTransform(entity);
 }
@@ -247,7 +260,9 @@ void PhysicsComponent::EnablePhysics(const entity::EntityRef& entity) {
   PhysicsData* physics_data = Data<PhysicsData>(entity);
   if (!physics_data->enabled) {
     physics_data->enabled = true;
-    bullet_world_->addRigidBody(physics_data->rigid_body.get());
+    bullet_world_->addRigidBody(physics_data->rigid_body.get(),
+                                physics_data->collision_type,
+                                physics_data->collides_with);
   }
 }
 
