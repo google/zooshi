@@ -62,13 +62,8 @@ table SoundDef {
 }
 
 table PhysicsDef {
-  shape:BulletShapeDef;
-  offset:Vec3;
-  mass:float = 1;
-  restitution:float;
+  shapes:[BulletShapeDef];
   kinematic:bool = false;
-  collision_type:BulletCollisionType;
-  collides_with:[BulletCollisionType];
 }
 
 table PatronDef {

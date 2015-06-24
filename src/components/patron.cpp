@@ -262,12 +262,12 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
 
     transform_data->position = position;
 
-    physics_data->rigid_body->setLinearVelocity(btVector3(
-        mathfu::RandomInRange(-3.0f, 3.0f), mathfu::RandomInRange(-3.0f, 3.0f),
-        mathfu::RandomInRange(0.0f, 6.0f)));
-    physics_data->rigid_body->setAngularVelocity(btVector3(
-        mathfu::RandomInRange(1.0f, 2.0f), mathfu::RandomInRange(1.0f, 2.0f),
-        mathfu::RandomInRange(1.0f, 2.0f)));
+    physics_data->SetVelocity(vec3(mathfu::RandomInRange(-3.0f, 3.0f),
+                                   mathfu::RandomInRange(-3.0f, 3.0f),
+                                   mathfu::RandomInRange(0.0f, 6.0f)));
+    physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(1.0f, 2.0f),
+                                          mathfu::RandomInRange(1.0f, 2.0f),
+                                          mathfu::RandomInRange(1.0f, 2.0f)));
 
     auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
     physics_component->UpdatePhysicsFromTransform(particle);

@@ -64,103 +64,104 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
   auto physics_def = static_cast<const PhysicsDef*>(component_data->data());
   PhysicsData* physics_data = AddEntity(entity);
 
-  if (physics_def->shape() != nullptr) {
-    switch (physics_def->shape()->data_type()) {
-      case BulletShapeUnion_BulletSphereDef: {
-        auto sphere_data =
-            static_cast<const BulletSphereDef*>(physics_def->shape()->data());
-        physics_data->shape.reset(new btSphereShape(sphere_data->radius()));
-        break;
+  if (physics_def->shapes() && physics_def->shapes()->Length() > 0) {
+    int shape_count = physics_def->shapes()->Length() > kMaxPhysicsBodies
+                          ? kMaxPhysicsBodies
+                          : physics_def->shapes()->Length();
+    physics_data->body_count = shape_count;
+    for (int index = 0; index < shape_count; ++index) {
+      auto shape_def = physics_def->shapes()->Get(index);
+      auto rb_data = &physics_data->rigid_bodies[index];
+      switch (shape_def->data_type()) {
+        case BulletShapeUnion_BulletSphereDef: {
+          auto sphere_data =
+              static_cast<const BulletSphereDef*>(shape_def->data());
+          rb_data->shape.reset(new btSphereShape(sphere_data->radius()));
+          break;
+        }
+        case BulletShapeUnion_BulletBoxDef: {
+          auto box_data = static_cast<const BulletBoxDef*>(shape_def->data());
+          btVector3 half_extents(box_data->half_extents()->x(),
+                                 box_data->half_extents()->y(),
+                                 box_data->half_extents()->z());
+          rb_data->shape.reset(new btBoxShape(btVector3(half_extents)));
+          break;
+        }
+        case BulletShapeUnion_BulletCylinderDef: {
+          auto cylinder_data =
+              static_cast<const BulletCylinderDef*>(shape_def->data());
+          btVector3 half_extents(cylinder_data->half_extents()->x(),
+                                 cylinder_data->half_extents()->y(),
+                                 cylinder_data->half_extents()->z());
+          rb_data->shape.reset(new btCylinderShape(half_extents));
+          break;
+        }
+        case BulletShapeUnion_BulletCapsuleDef: {
+          auto capsule_data =
+              static_cast<const BulletCapsuleDef*>(shape_def->data());
+          rb_data->shape.reset(new btCapsuleShape(capsule_data->radius(),
+                                                  capsule_data->height()));
+          break;
+        }
+        case BulletShapeUnion_BulletConeDef: {
+          auto cone_data = static_cast<const BulletConeDef*>(shape_def->data());
+          rb_data->shape.reset(
+              new btConeShape(cone_data->radius(), cone_data->height()));
+          break;
+        }
+        case BulletShapeUnion_BulletStaticPlaneDef: {
+          auto plane_data =
+              static_cast<const BulletStaticPlaneDef*>(shape_def->data());
+          btVector3 normal(plane_data->normal()->x(), plane_data->normal()->y(),
+                           plane_data->normal()->z());
+          rb_data->shape.reset(
+              new btStaticPlaneShape(normal, plane_data->constant()));
+          break;
+        }
+        case BulletShapeUnion_BulletNoShapeDef:
+        default: {
+          rb_data->shape.reset(new btEmptyShape());
+          break;
+        }
       }
-      case BulletShapeUnion_BulletBoxDef: {
-        auto box_data =
-            static_cast<const BulletBoxDef*>(physics_def->shape()->data());
-        btVector3 half_extents(box_data->half_extents()->x(),
-                               box_data->half_extents()->y(),
-                               box_data->half_extents()->z());
-        physics_data->shape.reset(new btBoxShape(btVector3(half_extents)));
-        break;
-      }
-      case BulletShapeUnion_BulletCylinderDef: {
-        auto cylinder_data =
-            static_cast<const BulletCylinderDef*>(physics_def->shape()->data());
-        btVector3 half_extents(cylinder_data->half_extents()->x(),
-                               cylinder_data->half_extents()->y(),
-                               cylinder_data->half_extents()->z());
-        physics_data->shape.reset(new btCylinderShape(half_extents));
-        break;
-      }
-      case BulletShapeUnion_BulletCapsuleDef: {
-        auto capsule_data =
-            static_cast<const BulletCapsuleDef*>(physics_def->shape()->data());
-        physics_data->shape.reset(
-            new btCapsuleShape(capsule_data->radius(), capsule_data->height()));
-        break;
-      }
-      case BulletShapeUnion_BulletConeDef: {
-        auto cone_data =
-            static_cast<const BulletConeDef*>(physics_def->shape()->data());
-        physics_data->shape.reset(
-            new btConeShape(cone_data->radius(), cone_data->height()));
-        break;
-      }
-      case BulletShapeUnion_BulletStaticPlaneDef: {
-        auto plane_data = static_cast<const BulletStaticPlaneDef*>(
-            physics_def->shape()->data());
-        btVector3 normal(plane_data->normal()->x(), plane_data->normal()->y(),
-                         plane_data->normal()->z());
-        physics_data->shape.reset(
-            new btStaticPlaneShape(normal, plane_data->constant()));
-        break;
-      }
-      case BulletShapeUnion_BulletNoShapeDef:
-      default: {
-        physics_data->shape.reset(new btEmptyShape());
-        break;
-      }
-    }
-  } else {
-    physics_data->shape.reset(new btEmptyShape());
-  }
-  physics_data->motion_state.reset(new btDefaultMotionState());
-  btScalar mass = physics_def->mass();
-  btVector3 inertia(0.0f, 0.0f, 0.0f);
-  physics_data->shape->calculateLocalInertia(mass, inertia);
-  btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
-      mass, physics_data->motion_state.get(), physics_data->shape.get(),
-      inertia);
-  rigid_body_builder.m_restitution = physics_def->restitution();
-  physics_data->rigid_body.reset(new btRigidBody(rigid_body_builder));
-  physics_data->rigid_body->setUserIndex(entity.index());
-  physics_data->rigid_body->setUserPointer(entity.container());
-  if (physics_def->kinematic()) {
-    physics_data->rigid_body->setCollisionFlags(
-        physics_data->rigid_body->getCollisionFlags() |
-        btCollisionObject::CF_KINEMATIC_OBJECT);
-  }
+      rb_data->motion_state.reset(new btDefaultMotionState());
+      btScalar mass = shape_def->mass();
+      btVector3 inertia(0.0f, 0.0f, 0.0f);
+      rb_data->shape->calculateLocalInertia(mass, inertia);
+      btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
+          mass, rb_data->motion_state.get(), rb_data->shape.get(), inertia);
+      rigid_body_builder.m_restitution = shape_def->restitution();
+      rb_data->rigid_body.reset(new btRigidBody(rigid_body_builder));
+      rb_data->rigid_body->setUserIndex(entity.index());
+      rb_data->rigid_body->setUserPointer(entity.container());
 
-  if (physics_def->offset()) {
-    physics_data->offset = LoadVec3(physics_def->offset());
-  } else {
-    physics_data->offset = mathfu::kZeros3f;
-  }
-  physics_data->collision_type =
-      static_cast<short>(physics_def->collision_type());
-  if (physics_def->collides_with() != nullptr) {
-    int length = physics_def->collides_with()->Length();
-    for (int index = 0; index < length; index++) {
-      physics_data->collides_with |=
-          static_cast<short>(physics_def->collides_with()->Get(index));
+      // Only the first shape can be non-kinematic.
+      if (index > 0 || physics_def->kinematic()) {
+        rb_data->rigid_body->setCollisionFlags(
+            rb_data->rigid_body->getCollisionFlags() |
+            btCollisionObject::CF_KINEMATIC_OBJECT);
+      }
+      if (shape_def->offset()) {
+        rb_data->offset = LoadVec3(shape_def->offset());
+      } else {
+        rb_data->offset = mathfu::kZeros3f;
+      }
+      rb_data->collision_type = static_cast<short>(shape_def->collision_type());
+      rb_data->collides_with = 0;
+      if (shape_def->collides_with()) {
+        for (auto collides = shape_def->collides_with()->begin();
+             collides != shape_def->collides_with()->end(); ++collides) {
+          rb_data->collides_with |= static_cast<short>(*collides);
+        }
+      }
+
+      bullet_world_->addRigidBody(rb_data->rigid_body.get(),
+                                  rb_data->collision_type,
+                                  rb_data->collides_with);
     }
-  } else {
-    physics_data->collides_with = 0;
   }
 
   physics_data->enabled = true;
-  bullet_world_->addRigidBody(physics_data->rigid_body.get(),
-                              physics_data->collision_type,
-                              physics_data->collides_with);
-
   UpdatePhysicsFromTransform(entity);
 }
 
@@ -175,8 +176,12 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     PhysicsData* physics_data = Data<PhysicsData>(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
 
-    if (!physics_data->rigid_body->isKinematicObject()) {
-      auto trans = physics_data->rigid_body->getWorldTransform();
+    if (physics_data->body_count == 0) {
+      continue;
+    }
+    if (!physics_data->rigid_bodies[0].rigid_body->isKinematicObject()) {
+      auto trans =
+          physics_data->rigid_bodies[0].rigid_body->getWorldTransform();
       // The quaternion provided by Bullet is using a right-handed coordinate
       // system, while mathfu assumes left. Thus the axes need to be negated.
       // It also needs to be normalized, as the provided value is not.
@@ -185,16 +190,15 @@ void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           -trans.getRotation().getY(), -trans.getRotation().getZ());
       transform_data->orientation.Normalize();
 
-      vec3 offset =
-          transform_data->orientation.Inverse() * physics_data->offset;
+      vec3 offset = transform_data->orientation.Inverse() *
+                    physics_data->rigid_bodies[0].offset;
       transform_data->position =
           mathfu::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(),
                        trans.getOrigin().getZ()) -
           offset;
-    } else {
-      // If it is kinematic, instead copy from the transform into physics.
-      UpdatePhysicsFromTransform(iter->entity);
     }
+    // Update any kinematic objects with the current transform.
+    UpdatePhysicsObjectsTransform(iter->entity, true);
   }
 }
 
@@ -249,20 +253,19 @@ void PhysicsComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 void PhysicsComponent::CleanupEntity(entity::EntityRef& entity) {
-  PhysicsData* physics_data = Data<PhysicsData>(entity);
-  if (physics_data->enabled) {
-    physics_data->enabled = false;
-    bullet_world_->removeRigidBody(physics_data->rigid_body.get());
-  }
+  DisablePhysics(entity);
 }
 
 void PhysicsComponent::EnablePhysics(const entity::EntityRef& entity) {
   PhysicsData* physics_data = Data<PhysicsData>(entity);
   if (!physics_data->enabled) {
     physics_data->enabled = true;
-    bullet_world_->addRigidBody(physics_data->rigid_body.get(),
-                                physics_data->collision_type,
-                                physics_data->collides_with);
+    for (int i = 0; i < physics_data->body_count; i++) {
+      auto rb_data = &physics_data->rigid_bodies[i];
+      bullet_world_->addRigidBody(rb_data->rigid_body.get(),
+                                  rb_data->collision_type,
+                                  rb_data->collides_with);
+    }
   }
 }
 
@@ -270,11 +273,20 @@ void PhysicsComponent::DisablePhysics(const entity::EntityRef& entity) {
   PhysicsData* physics_data = Data<PhysicsData>(entity);
   if (physics_data->enabled) {
     physics_data->enabled = false;
-    bullet_world_->removeRigidBody(physics_data->rigid_body.get());
+    for (int i = 0; i < physics_data->body_count; i++) {
+      auto rb_data = &physics_data->rigid_bodies[i];
+      bullet_world_->removeRigidBody(rb_data->rigid_body.get());
+    }
   }
 }
 
 void PhysicsComponent::UpdatePhysicsFromTransform(entity::EntityRef& entity) {
+  // Update all objects on the entity, not just kinematic ones.
+  UpdatePhysicsObjectsTransform(entity, false);
+}
+
+void PhysicsComponent::UpdatePhysicsObjectsTransform(entity::EntityRef& entity,
+                                                     bool kinematic_only) {
   PhysicsData* physics_data = Data<PhysicsData>(entity);
   TransformData* transform_data = Data<TransformData>(entity);
 
@@ -284,13 +296,20 @@ void PhysicsComponent::UpdatePhysicsFromTransform(entity::EntityRef& entity) {
                            -transform_data->orientation.vector().y(),
                            -transform_data->orientation.vector().z(),
                            transform_data->orientation.scalar());
-  vec3 offset = transform_data->orientation.Inverse() * physics_data->offset;
-  btVector3 position(transform_data->position.x() + offset.x(),
-                     transform_data->position.y() + offset.y(),
-                     transform_data->position.z() + offset.z());
-  btTransform transform(orientation, position);
-  physics_data->rigid_body->setWorldTransform(transform);
-  physics_data->motion_state->setWorldTransform(transform);
+
+  for (int i = 0; i < physics_data->body_count; i++) {
+    auto rb_data = &physics_data->rigid_bodies[i];
+    if (kinematic_only && !rb_data->rigid_body->isKinematicObject()) {
+      continue;
+    }
+    vec3 offset = transform_data->orientation.Inverse() * rb_data->offset;
+    btVector3 position(transform_data->position.x() + offset.x(),
+                       transform_data->position.y() + offset.y(),
+                       transform_data->position.z() + offset.z());
+    btTransform transform(orientation, position);
+    rb_data->rigid_body->setWorldTransform(transform);
+    rb_data->motion_state->setWorldTransform(transform);
+  }
 }
 
 void PhysicsComponent::DebugDrawWorld(Renderer* renderer,

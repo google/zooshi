@@ -68,4 +68,9 @@ union BulletShapeUnion {
 
 table BulletShapeDef {
   data:BulletShapeUnion;
+  offset:Vec3;
+  mass:float = 1;
+  restitution:float;
+  collision_type:BulletCollisionType;
+  collides_with:[BulletCollisionType];
 }

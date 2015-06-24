@@ -167,23 +167,26 @@
         {
           "data_type": "PhysicsDef",
           "data": {
-            "shape": {
-              "data_type": "BulletStaticPlaneDef",
-              "data": {
-                "normal": {
-                  "x": 0,
-                  "y": 0,
-                  "z": 1
+            "shapes": [
+              {
+                "data_type": "BulletStaticPlaneDef",
+                "data": {
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "constant": 0
                 },
-                "constant": 0
+                "mass": 0,
+                "restitution": 1.0,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile"
+                ]
               }
-            },
-            "mass": 0,
-            "restitution": 1.0,
-            "collision_type": "Ground",
-            "collides_with": [
-              "Projectile"
-            ]
+            ],
+            "kinematic": true
           }
         },
         {
@@ -281,28 +284,51 @@
         {
           "data_type": "PhysicsDef",
           "data": {
-            "shape": {
-              "data_type": "BulletBoxDef",
-              "data": {
-                "half_extents": {
-                  "x": 1.8,
-                  "y": 0.6,
-                  "z": 3.6
-                }
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.5,
+                    "y": 0.6,
+                    "z": 1.5
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 1.5
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.1,
+                    "y": 0.6,
+                    "z": 1.5
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 4.5
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
               }
-            },
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 3
-            },
-            "mass": 100.0,
-            "restitution": 1.0,
-            "kinematic": true,
-            "collision_type": "Patron",
-            "collides_with": [
-              "Projectile"
-           ]
+            ],
+            "kinematic": true
           }
         },
         {
@@ -430,28 +456,30 @@
         {
           "data_type": "PhysicsDef",
           "data": {
-            "shape": {
-              "data_type": "BulletBoxDef",
-              "data": {
-                "half_extents": {
-                  "x": 1.8,
-                  "y": 0.6,
-                  "z": 3.6
-                }
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.8,
+                    "y": 0.6,
+                    "z": 3.6
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
               }
-            },
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 3
-            },
-            "mass": 100.0,
-            "restitution": 1.0,
-            "kinematic": true,
-            "collision_type": "Patron",
-            "collides_with": [
-              "Projectile"
-            ]
+            ],
+            "kinematic": true
           }
         },
         {
@@ -571,28 +599,30 @@
         {
           "data_type": "PhysicsDef",
           "data": {
-            "shape": {
-              "data_type": "BulletBoxDef",
-              "data": {
-                "half_extents": {
-                  "x": 1.8,
-                  "y": 0.6,
-                  "z": 3.6
-                }
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.8,
+                    "y": 0.6,
+                    "z": 3.6
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 3
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ]
               }
-            },
-            "offset": {
-              "x": 0,
-              "y": 0,
-              "z": 3
-            },
-            "mass": 100.0,
-            "restitution": 1.0,
-            "kinematic": true,
-            "collision_type": "Patron",
-            "collides_with": [
-              "Projectile"
-            ]
+            ],
+            "kinematic": true
           }
         },
         {
@@ -633,26 +663,28 @@
         {
           "data_type": "PhysicsDef",
           "data": {
-            "shape": {
-              "data_type": "BulletBoxDef",
-              "data": {
-                "half_extents": {
-                  "x": 0.3,
-                  "y": 0.16,
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.3,
+                    "y": 0.16,
+                    "z": 0.16
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.0,
                   "z": 0.16
-                }
+                },
+                "restitution": 1.0,
+                "collision_type": "Projectile",
+                "collides_with": [
+                  "Patron",
+                  "Ground"
+                ]
               }
-            },
-            "offset": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.16
-            },
-            "restitution": 1.0,
-            "collision_type": "Projectile",
-            "collides_with": [
-              "Patron",
-              "Ground"
             ]
           }
         },
@@ -710,10 +742,12 @@
         {
           "data_type": "PhysicsDef",
           "data": {
-            "shape": {
-              "data_type": "BulletNoShapeDef",
-              "data": {}
-            }
+            "shapes": [
+              {
+                "data_type": "BulletNoShapeDef",
+                "data": {}
+              }
+            ]
           }
         },
         {

@@ -28,34 +28,45 @@
 namespace fpl {
 namespace fpl_project {
 
-// Data for scene object components.
-struct PhysicsData {
- public:
-  PhysicsData() : enabled(false) {}
+const int kMaxPhysicsBodies = 5;
 
-  std::unique_ptr<btCollisionShape> shape;
-  std::unique_ptr<btMotionState> motion_state;
-  std::unique_ptr<btRigidBody> rigid_body;
+// Data describing a single Bullet rigid body shape.
+struct RigidBodyData {
   mathfu::vec3 offset;
   short collision_type;
   short collides_with;
+  std::unique_ptr<btCollisionShape> shape;
+  std::unique_ptr<btMotionState> motion_state;
+  std::unique_ptr<btRigidBody> rigid_body;
+};
+
+// Data for scene object components.
+struct PhysicsData {
+ public:
+  PhysicsData() : body_count(0), enabled(false) {}
+
+  // The rigid bodies associated with the entity. Note that only the first one
+  // can be set to not be kinematic, all subsequent ones are forced to be.
+  RigidBodyData rigid_bodies[kMaxPhysicsBodies];
+  int body_count;
   bool enabled;
 
   mathfu::vec3 Velocity() const {
-    const btVector3 vel = rigid_body->getLinearVelocity();
+    // Only the first body can be non-kinematic, and thus use velocity.
+    const btVector3 vel = rigid_bodies[0].rigid_body->getLinearVelocity();
     return mathfu::vec3(vel.x(), vel.y(), vel.z());
   }
   void SetVelocity(mathfu::vec3 velocity) {
     const btVector3 vel(velocity.x(), velocity.y(), velocity.z());
-    rigid_body->setLinearVelocity(vel);
+    rigid_bodies[0].rigid_body->setLinearVelocity(vel);
   }
   mathfu::vec3 AngularVelocity() const {
-    const btVector3 vel = rigid_body->getAngularVelocity();
+    const btVector3 vel = rigid_bodies[0].rigid_body->getAngularVelocity();
     return mathfu::vec3(vel.x(), vel.y(), vel.z());
   }
   void SetAngularVelocity(mathfu::vec3 velocity) {
     const btVector3 vel(velocity.x(), velocity.y(), velocity.z());
-    rigid_body->setAngularVelocity(vel);
+    rigid_bodies[0].rigid_body->setAngularVelocity(vel);
   }
 };
 
@@ -122,6 +133,9 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   std::unique_ptr<btSequentialImpulseConstraintSolver> constraint_solver_;
 
   PhysicsDebugDrawer debug_drawer_;
+
+  void UpdatePhysicsObjectsTransform(entity::EntityRef& entity,
+                                     bool kinematic_only);
 };
 
 // The function that is called from Bullet while calling World's stepSimulation.
