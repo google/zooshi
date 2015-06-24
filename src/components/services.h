@@ -42,14 +42,12 @@ class ServicesComponent : public entity::Component<ServicesData> {
   ServicesComponent() {}
 
   void Initialize(const Config* config, AssetManager* asset_manager,
-                  InputSystem* input_system,
-                  pindrop::AudioEngine* audio_engine,
+                  InputSystem* input_system, pindrop::AudioEngine* audio_engine,
                   motive::MotiveEngine* motive_engine,
-                  event::EventManager* event_manager,
-                  FontManager* font_manager,
+                  event::EventManager* event_manager, FontManager* font_manager,
                   RailManager* rail_manager) {
     config_ = config;
-    material_manager_ = asset_manager;
+    asset_manager_ = asset_manager;
     input_system_ = input_system;
     audio_engine_ = audio_engine;
     motive_engine_ = motive_engine;
@@ -59,31 +57,33 @@ class ServicesComponent : public entity::Component<ServicesData> {
   }
 
   const Config* config() { return config_; }
-  AssetManager* asset_manager() { return material_manager_; }
+  AssetManager* asset_manager() { return asset_manager_; }
   pindrop::AudioEngine* audio_engine() { return audio_engine_; }
   motive::MotiveEngine* motive_engine() { return motive_engine_; }
   event::EventManager* event_manager() { return event_manager_; }
   FontManager* font_manager() { return font_manager_; }
   InputSystem* input_system() { return input_system_; }
   RailManager* rail_manager() { return rail_manager_; }
+  entity::EntityRef raft_entity() { return raft_entity_; }
+  void set_raft_entity(entity::EntityRef entity) { raft_entity_ = entity; }
 
   // This component should never be added to an entity.  It is only provided
   // as an interface for other components to access common resources.
-  void AddFromRawData(entity::EntityRef& /*entity*/,
-                                         const void* /*raw_data*/) {
+  void AddFromRawData(entity::EntityRef& /*entity*/, const void* /*raw_data*/) {
     assert(false);
   }
 
  private:
   const Config* config_;
 
-  AssetManager* material_manager_;
+  AssetManager* asset_manager_;
   motive::MotiveEngine* motive_engine_;
   pindrop::AudioEngine* audio_engine_;
   event::EventManager* event_manager_;
   InputSystem* input_system_;
   FontManager* font_manager_;
   RailManager* rail_manager_;
+  entity::EntityRef raft_entity_;
 };
 
 }  // fpl_project

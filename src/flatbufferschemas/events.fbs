@@ -27,6 +27,7 @@ enum EntityAffected : byte {
   SourceOwner,
   Target,
   TargetOwner,
+  Raft,
 }
 
 table PlaySound {

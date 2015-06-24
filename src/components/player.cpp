@@ -24,6 +24,8 @@
 #include "events/parse_action.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
+#include "mathfu/constants.h"
+#include "mathfu/glsl_mappings.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -38,12 +40,17 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
+    TransformData* transform_data = Data<TransformData>(iter->entity);
     player_data->input_controller()->Update();
+    transform_data->orientation =
+        mathfu::quat::RotateFromTo(player_data->GetFacing(), mathfu::kAxisY3f);
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
       EventContext context;
       context.source = iter->entity;
+      context.raft =
+          entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
       ParseAction(player_data->on_fire(), &context, event_manager_,
                   entity_manager_);
     }
@@ -72,16 +79,16 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   PlayerProjectileData* projectile_data =
       Data<PlayerProjectileData>(projectile);
 
-  TransformData* source_transform_data = Data<TransformData>(source);
-  transform_data->position =
-      source_transform_data->position + LoadVec3(config_->projectile_offset());
-  transform_data->orientation = source_transform_data->orientation;
+  TransformComponent* transform_component = GetComponent<TransformComponent>();
+  transform_data->position = transform_component->WorldPosition(source) +
+                             LoadVec3(config_->projectile_offset());
+  transform_data->orientation = transform_component->WorldOrientation(source);
+  vec3 forward = transform_data->orientation.Inverse() * mathfu::kAxisY3f;
+  vec3 up = transform_data->orientation.Inverse() * mathfu::kAxisZ3f;
 
-  PlayerData* source_player_data = Data<PlayerData>(source);
+  vec3 velocity =
+      config_->projectile_speed() * forward + config_->projectile_upkick() * up;
 
-  auto velocity =
-      config_->projectile_speed() * source_player_data->GetFacing() +
-      config_->projectile_upkick() * source_player_data->GetUp();
   physics_data->SetVelocity(velocity);
   physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(3.0f, 6.0f),
                                         mathfu::RandomInRange(3.0f, 6.0f),

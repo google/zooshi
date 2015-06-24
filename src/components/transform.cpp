@@ -21,6 +21,35 @@ namespace fpl_project {
 
 static const float kDegreesToRadians = M_PI / 180.0f;
 
+mathfu::vec3 TransformComponent::WorldPosition(entity::EntityRef entity) {
+  TransformData* transform_data = Data<TransformData>(entity);
+  if (transform_data->parent.IsValid()) {
+    return WorldTransform(transform_data->parent) * transform_data->position;
+  } else {
+    return transform_data->position;
+  }
+}
+
+mathfu::quat TransformComponent::WorldOrientation(entity::EntityRef entity) {
+  TransformData* transform_data = Data<TransformData>(entity);
+  if (transform_data->parent.IsValid()) {
+    return transform_data->orientation *
+           WorldOrientation(transform_data->parent);
+  } else {
+    return transform_data->orientation;
+  }
+}
+
+mathfu::mat4 TransformComponent::WorldTransform(entity::EntityRef entity) {
+  TransformData* transform_data = Data<TransformData>(entity);
+  if (transform_data->parent.IsValid()) {
+    return WorldTransform(transform_data->parent) *
+           transform_data->GetTransformMatrix();
+  } else {
+    return transform_data->GetTransformMatrix();
+  }
+}
+
 void TransformComponent::InitEntity(entity::EntityRef& entity) {
   TransformData* transform_data = Data<TransformData>(entity);
   transform_data->owner = entity;

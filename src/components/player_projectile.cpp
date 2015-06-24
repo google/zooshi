@@ -65,6 +65,8 @@ void PlayerProjectileComponent::HandleCollision(
     context.source_owner = projectile_data->owner;
     context.source = projectile_entity;
     context.target = collided_entity;
+    context.raft =
+        entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
     ParseAction(projectile_data->on_collision, &context, event_manager_,
                 entity_manager_);
   }

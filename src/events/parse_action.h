@@ -48,6 +48,9 @@ struct EventContext {
   // If this is an event that resulted from the interaction of two entities,
   // this is the owner of the target entity.
   entity::EntityRef target_owner;
+
+  // The entity representing the raft.
+  entity::EntityRef raft;
 };
 
 // Evaluate an ActionDef, which is a list of events, and fire each one

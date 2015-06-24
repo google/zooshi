@@ -92,9 +92,8 @@ void PatronComponent::PostLoadFixup() {
 }
 
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
-  PlayerComponent* player_component =
-      entity_manager_->GetComponent<PlayerComponent>();
-  entity::EntityRef raft = player_component->begin()->entity;
+  entity::EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   TransformData* raft_transform = Data<TransformData>(raft);
   RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
   int lap = raft_rail_denizen->lap;
@@ -208,9 +207,8 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
     if (position.z() >= kHitMinHeight) {
       // TODO: Make state change an action.
       patron_data->state = kPatronStateFalling;
-      PlayerComponent* player_component =
-          entity_manager_->GetComponent<PlayerComponent>();
-      entity::EntityRef raft = player_component->begin()->entity;
+      entity::EntityRef raft =
+          entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
 
       // Fall away from the raft position, on the y-axis.
       auto patron_transform = Data<TransformData>(patron_entity);
@@ -231,6 +229,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       context.source_owner = projectile_data->owner;
       context.source = proj_entity;
       context.target = patron_entity;
+      context.raft = raft;
       ParseAction(patron_data->on_collision, &context, event_manager_,
                   entity_manager_);
       // Disable physics and rail movement after they have been fed

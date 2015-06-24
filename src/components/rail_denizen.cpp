@@ -90,7 +90,7 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     }
     TransformData* transform_data = Data<TransformData>(iter->entity);
     vec3 position = rail_denizen_data->rail_orientation.Inverse() *
-        rail_denizen_data->Position();
+                    rail_denizen_data->Position();
     position *= rail_denizen_data->rail_scale;
     position += rail_denizen_data->rail_offset;
     transform_data->position = position;
@@ -108,6 +108,8 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
       rail_denizen_data->lap++;
       EventContext context;
       context.source = iter->entity;
+      context.raft =
+          entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
       ParseAction(
           rail_denizen_data->on_new_lap, &context,
           entity_manager_->GetComponent<ServicesComponent>()->event_manager(),

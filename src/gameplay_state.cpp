@@ -75,14 +75,14 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   world_->motive_engine.AdvanceFrame(delta_time);
   world_->entity_manager.UpdateComponents(delta_time);
 
-  // Update the camera.
-  auto player =
-      world_->player_component.GetComponentData(world_->active_player_entity);
-  auto rail_denizen = world_->rail_denizen_component.GetComponentData(
-      world_->active_player_entity);
-  main_camera_.set_position(rail_denizen->Position());
-  main_camera_.set_facing(player->GetFacing());
-  main_camera_.set_up(player->GetUp());
+  // Calculate raft position and orientation.
+  auto player = world_->player_component.begin()->entity;
+  TransformComponent* transform_component = &world_->transform_component;
+  main_camera_.set_position(transform_component->WorldPosition(player));
+  main_camera_.set_facing(
+      transform_component->WorldOrientation(player).Inverse() *
+      mathfu::kAxisY3f);
+  main_camera_.set_up(mathfu::kAxisZ3f);
 
   if (input_system_->GetButton(fpl::FPLK_F9).went_down()) {
     world_->draw_debug_physics = !world_->draw_debug_physics;

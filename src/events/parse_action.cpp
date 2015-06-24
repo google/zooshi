@@ -43,6 +43,9 @@ static entity::EntityRef* GetEntity(EntityAffected entity_affected,
     case EntityAffected_TargetOwner: {
       return &context->target_owner;
     }
+    case EntityAffected_Raft: {
+      return &context->raft;
+    }
     default: { assert(0); }
   }
   return nullptr;

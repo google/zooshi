@@ -192,6 +192,12 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   active_player_entity = player_component.begin()->entity;
 
   patron_component.PostLoadFixup();
+
+  entity::EntityRef player_entity = player_component.begin()->entity;
+  TransformData* player_transform =
+      transform_component.GetComponentData(player_entity);
+  entity::EntityRef raft_entity = player_transform->parent;
+  services_component.set_raft_entity(raft_entity);
 }
 
 }  // fpl_project

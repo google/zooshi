@@ -89,6 +89,10 @@ class TransformComponent : public entity::Component<TransformData> {
   TransformComponent(entity::EntityFactoryInterface* entity_factory)
       : entity_factory_(entity_factory) {}
 
+  mathfu::vec3 WorldPosition(entity::EntityRef entity);
+  mathfu::quat WorldOrientation(entity::EntityRef entity);
+  mathfu::mat4 WorldTransform(entity::EntityRef entity);
+
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
 
