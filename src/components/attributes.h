@@ -56,7 +56,7 @@ class AttributesComponent : public entity::Component<AttributesData>,
 
  private:
   InputSystem* input_system_;
-  AssetManager* material_manager_;
+  AssetManager* asset_manager_;
   FontManager* font_manager_;
 };
 

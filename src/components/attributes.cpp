@@ -35,7 +35,7 @@ void AttributesComponent::Init() {
       entity_manager_->GetComponent<ServicesComponent>();
   input_system_ = services->input_system();
   font_manager_ = services->font_manager();
-  material_manager_ = services->asset_manager();
+  asset_manager_ = services->asset_manager();
   event::EventManager* event_manager = services->event_manager();
   event_manager->RegisterListener(EventSinkUnion_ModifyAttribute, this);
 }
@@ -59,7 +59,7 @@ void AttributesComponent::OnEvent(const event::EventPayload& event_payload) {
 
 void AttributesComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   auto component_data = &component_data_;
-  gui::Run(*material_manager_, *font_manager_, *input_system_,
+  gui::Run(*asset_manager_, *font_manager_, *input_system_,
            [component_data]() {
              for (auto iter = component_data->begin();
                   iter != component_data->end(); ++iter) {

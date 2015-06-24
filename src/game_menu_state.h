@@ -44,9 +44,9 @@ class GameMenuState : public GameplayState {
   virtual void Render(Renderer* renderer);
 
  private:
-  MenuState StartMenu(AssetManager& matman, FontManager& fontman,
+  MenuState StartMenu(AssetManager& assetman, FontManager& fontman,
                       InputSystem& input);
-  MenuState OptionMenu(AssetManager& matman, FontManager& fontman,
+  MenuState OptionMenu(AssetManager& assetman, FontManager& fontman,
                        InputSystem& input);
   gui::Event TextButton(const char* text, float size, const char* id);
 
