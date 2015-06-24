@@ -22,10 +22,10 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
+#include "fplbase/asset_manager.h"
 #include "fplbase/mesh.h"
 #include "fplbase/renderer.h"
 #include "fplbase/shader.h"
-#include "fplbase/material_manager.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -75,7 +75,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
   // intensity, color, etc.  (Low priority - none of our shaders support
   // these.)
   mathfu::vec3 light_position_;
-  MaterialManager* material_manager_;
+  AssetManager* material_manager_;
 };
 
 }  // fpl_project

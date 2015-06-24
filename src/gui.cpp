@@ -33,7 +33,7 @@ Event ImageButton(const char *texture_name, float size, const char *id) {
   return event;
 }
 
-void TestGUI(MaterialManager &matman, FontManager &fontman,
+void TestGUI(AssetManager &assetman, FontManager &fontman,
              InputSystem &input) {
   static float f = 0.0f;
   f += 0.04f;
@@ -47,7 +47,7 @@ void TestGUI(MaterialManager &matman, FontManager &fontman,
     }
   };
 
-  Run(matman, fontman, input, [&]() {
+  Run(assetman, fontman, input, [&]() {
     PositionUI(1000, LAYOUT_HORIZONTAL_CENTER, LAYOUT_VERTICAL_RIGHT);
     StartGroup(LAYOUT_OVERLAY_CENTER, 0);
     StartGroup(LAYOUT_HORIZONTAL_TOP, 10);
@@ -62,7 +62,7 @@ void TestGUI(MaterialManager &matman, FontManager &fontman,
     EndGroup();
     StartGroup(LAYOUT_VERTICAL_LEFT, 20);
     StartScroll(vec2(200, 100), &scroll_offset);
-    auto splash_tex = matman.FindTexture("textures/guy.webp");
+    auto splash_tex = assetman.FindTexture("textures/guy.webp");
     ImageBackgroundNinePatch(*splash_tex, vec4(0.2f, 0.2f, 0.8f, 0.8f));
     Label("The quick brown fox jumps over the lazy dog", 32);
     click_about_example("my_id4", true);

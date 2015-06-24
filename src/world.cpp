@@ -46,7 +46,7 @@ static RangeInt GridRange(int count) {
 
 void World::Initialize(const Config& config_, InputSystem* input_system,
                        BasePlayerController* input_controller,
-                       MaterialManager* material_manager,
+                       AssetManager* asset_manager,
                        FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
                        event::EventManager* event_manager) {
@@ -57,7 +57,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   // Important!  Registering and initializing the services component needs
   // to happen BEFORE other components are registered, because many of them
   // depend on it during their own init functions.
-  services_component.Initialize(config, material_manager, input_system,
+  services_component.Initialize(config, asset_manager, input_system,
                                 audio_engine, &motive_engine, event_manager,
                                 font_manager, &rail_manager);
   entity_manager.RegisterComponent(&services_component);

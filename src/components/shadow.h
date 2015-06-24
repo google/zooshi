@@ -18,7 +18,7 @@
 #include "components_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
-#include "fplbase/material_manager.h"
+#include "fplbase/asset_manager.h"
 
 namespace fpl {
 namespace fpl_project {

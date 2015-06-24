@@ -38,11 +38,11 @@ void ShadowComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 }
 
 void ShadowComponent::RenderAllEntities(const mat4 &cam) {
-  auto &matman =
-    *entity_manager_->GetComponent<ServicesComponent>()->material_manager();
-  auto &renderer = matman.renderer();
-  auto blobmat = matman.FindMaterial("materials/blob.fplmat");
-  auto sh = matman.FindShader("shaders/textured");
+  auto &assetman =
+    *entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
+  auto &renderer = assetman.renderer();
+  auto blobmat = assetman.FindMaterial("materials/blob.fplmat");
+  auto sh = assetman.FindShader("shaders/textured");
   const float shadowlevel = 0.5f;
   renderer.color() = vec4(shadowlevel);
   auto quad_bottom_left = vec3(-1.0f, -1.0f, 0.1f);

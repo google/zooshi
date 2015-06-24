@@ -24,8 +24,8 @@
 #include "entity/entity_manager.h"
 #include "event/event_listener.h"
 #include "flatbuffers/flatbuffers.h"
+#include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
-#include "fplbase/material_manager.h"
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
 #include "gameplay_state.h"
@@ -115,7 +115,7 @@ class Game : event::EventListener {
   Renderer renderer_;
 
   // Load and own rendering resources.
-  MaterialManager material_manager_;
+  AssetManager material_manager_;
 
   FontManager font_manager_;
 

@@ -48,7 +48,7 @@ class AudioEngine;
 namespace fpl {
 
 class InputSystem;
-class MaterialManager;
+class AssetManager;
 
 namespace fpl_project {
 
@@ -70,7 +70,7 @@ public:
 
   void Initialize(const Config& config, InputSystem* input_system,
                   BasePlayerController* input_controller,
-                  MaterialManager* material_manager, FontManager* font_manager,
+                  AssetManager* asset_manager, FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager);
   motive::MotiveEngine motive_engine;
@@ -105,7 +105,7 @@ public:
 
   const Config* config;
 
-  MaterialManager* material_manager;
+  AssetManager* asset_manager;
 
   // Determines if the game is in Cardboard mode (for special rendering)
   bool is_in_cardboard;

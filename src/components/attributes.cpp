@@ -23,7 +23,7 @@
 #include "events/utilities.h"
 #include "event/event_manager.h"
 #include "events_generated.h"
-#include "fplbase/material_manager.h"
+#include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
 #include "imgui/imgui.h"
 
@@ -35,7 +35,7 @@ void AttributesComponent::Init() {
       entity_manager_->GetComponent<ServicesComponent>();
   input_system_ = services->input_system();
   font_manager_ = services->font_manager();
-  material_manager_ = services->material_manager();
+  material_manager_ = services->asset_manager();
   event::EventManager* event_manager = services->event_manager();
   event_manager->RegisterListener(EventSinkUnion_ModifyAttribute, this);
 }

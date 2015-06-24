@@ -31,7 +31,7 @@ static const float kFrustrumOffset = 50.0f;
 
 void RenderMeshComponent::Init() {
   material_manager_ =
-      entity_manager_->GetComponent<ServicesComponent>()->material_manager();
+      entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
 }
 

@@ -116,11 +116,11 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   assert(index_count == index_max);
   assert(vectex_count == vert_max);
 
-  MaterialManager* material_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->material_manager();
+  AssetManager* asset_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
   // Load the material from file, and check validity.
-  Material* material = material_manager->LoadMaterial(
+  Material* material = asset_manager->LoadMaterial(
       config->river_config()->material()->c_str());
 
   // Create the actual mesh object, and stuff all the data we just
@@ -133,7 +133,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
   mesh_data->shader =
-      material_manager->LoadShader(config->river_config()->shader()->c_str());
+      asset_manager->LoadShader(config->river_config()->shader()->c_str());
   mesh_data->mesh = mesh;
   mesh_data->ignore_culling = true;  // Never cull the river.
 }

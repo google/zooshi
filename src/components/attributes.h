@@ -24,7 +24,7 @@
 namespace fpl {
 
 class InputSystem;
-class MaterialManager;
+class AssetManager;
 class FontManager;
 
 namespace event {
@@ -56,7 +56,7 @@ class AttributesComponent : public entity::Component<AttributesData>,
 
  private:
   InputSystem* input_system_;
-  MaterialManager* material_manager_;
+  AssetManager* material_manager_;
   FontManager* font_manager_;
 };
 

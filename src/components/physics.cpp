@@ -37,8 +37,8 @@ void PhysicsComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
   event_manager_ =
       entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  MaterialManager* material_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->material_manager();
+  AssetManager* asset_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
   broadphase_.reset(new btDbvtBroadphase());
   collision_configuration_.reset(new btDefaultCollisionConfiguration());
@@ -52,7 +52,7 @@ void PhysicsComponent::Init() {
   bullet_world_->setDebugDrawer(&debug_drawer_);
   bullet_world_->setInternalTickCallback(BulletTickCallback,
                                          static_cast<void*>(this));
-  debug_drawer_.set_shader(material_manager->LoadShader(kPhysicsShader));
+  debug_drawer_.set_shader(asset_manager->LoadShader(kPhysicsShader));
 }
 
 PhysicsComponent::~PhysicsComponent() { ClearComponentData(); }

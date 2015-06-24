@@ -16,13 +16,13 @@
 #define ZOOSHI_GUI_H
 
 #include "imgui/imgui.h"
-#include "fplbase/material_manager.h"
+#include "fplbase/asset_manager.h"
 
 namespace fpl {
 namespace gui {
 
 #define IMGUI_TEST 0
-void TestGUI(MaterialManager &matman, FontManager &fontman, InputSystem &input);
+void TestGUI(AssetManager &assetman, FontManager &fontman, InputSystem &input);
 
 }  // gui
 }  // fpl

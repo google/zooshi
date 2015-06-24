@@ -16,8 +16,8 @@
 #define FPL_WORLD_EDITOR_H_
 
 #include "camera.h"
+#include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
-#include "fplbase/material_manager.h"
 #include "fplbase/utilities.h"
 #include "mathfu/vector_3.h"
 #include "world_editor_generated.h"

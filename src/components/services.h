@@ -20,8 +20,8 @@
 #include "entity/component.h"
 #include "event/event_manager.h"
 #include "imgui/font_manager.h"
+#include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
-#include "fplbase/material_manager.h"
 #include "motive/engine.h"
 #include "pindrop/pindrop.h"
 #include "railmanager.h"
@@ -41,7 +41,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
  public:
   ServicesComponent() {}
 
-  void Initialize(const Config* config, MaterialManager* material_manager,
+  void Initialize(const Config* config, AssetManager* asset_manager,
                   InputSystem* input_system,
                   pindrop::AudioEngine* audio_engine,
                   motive::MotiveEngine* motive_engine,
@@ -49,7 +49,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
                   FontManager* font_manager,
                   RailManager* rail_manager) {
     config_ = config;
-    material_manager_ = material_manager;
+    material_manager_ = asset_manager;
     input_system_ = input_system;
     audio_engine_ = audio_engine;
     motive_engine_ = motive_engine;
@@ -59,7 +59,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   }
 
   const Config* config() { return config_; }
-  MaterialManager* material_manager() { return material_manager_; }
+  AssetManager* asset_manager() { return material_manager_; }
   pindrop::AudioEngine* audio_engine() { return audio_engine_; }
   motive::MotiveEngine* motive_engine() { return motive_engine_; }
   event::EventManager* event_manager() { return event_manager_; }
@@ -77,7 +77,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
  private:
   const Config* config_;
 
-  MaterialManager* material_manager_;
+  AssetManager* material_manager_;
   motive::MotiveEngine* motive_engine_;
   pindrop::AudioEngine* audio_engine_;
   event::EventManager* event_manager_;
