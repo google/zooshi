@@ -191,10 +191,10 @@ set(zooshi_SRCS
     src/components/river.cpp
     src/components/river.h
     src/components/services.h
+    src/components/shadow_controller.cpp
+    src/components/shadow_controller.h
     src/components/sound.cpp
     src/components/sound.h
-    src/components/shadow.cpp
-    src/components/shadow.h
     src/components/time_limit.cpp
     src/components/time_limit.h
     src/components/transform.cpp

@@ -24,9 +24,9 @@
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/river.h"
-#include "components/shadow.h"
 #include "components/sound.h"
 #include "components/services.h"
+#include "components/shadow_controller.h"
 #include "components/time_limit.h"
 #include "components/transform.h"
 #include "editor/world_editor.h"
@@ -98,7 +98,7 @@ public:
   AttributesComponent attributes_component;
   RiverComponent river_component;
   ServicesComponent services_component;
-  ShadowComponent shadow_component_;
+  ShadowControllerComponent shadow_controller_component;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;

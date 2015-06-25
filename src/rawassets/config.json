@@ -15,7 +15,7 @@
     "rail_filename": "rails/player_path.bin",
     "spline_stepsize": 500.0,
     "track_half_width": 3.0,
-    "track_height": -1.5,
+    "track_height": -1.89,
     "texture_tile_size": 5.0,
     "material": "materials/river.fplmat",
     "shader": "shaders/water"
@@ -104,7 +104,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/sushi_rice.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   },
                   {
@@ -144,7 +144,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_opaque"
           }
         }
       ]
@@ -231,10 +231,46 @@
                     }
                   },
                   {
+                      data_type:"ShadowControllerDef"
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data": {
+                      "source_file": "meshes/blobshadow.fplmesh",
+                      "shader": "shaders/textured",
+                      "render_pass" : ["kAlpha"],
+                    }
+                  }
+                ],
+              },
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": {
+                        "x": 3.0,
+                        "y": 3.0,
+                        "z": 3.0
+                      },
+                      "position": {
+                          "x": 0.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        },
+                      "orientation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                      }
+                    }
+                  },
+                  {
                     "data_type": "RenderMeshDef",
                     "data": {
                       "source_file": "meshes/lady_mandrill.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured",
+                      "render_pass" : ["kAlpha"],
                     }
                   }
                 ]
@@ -266,7 +302,7 @@
             "collision_type": "Patron",
             "collides_with": [
               "Projectile"
-            ]
+           ]
           }
         },
         {
@@ -305,10 +341,6 @@
               ]
             }
           }
-        },
-        {
-          "data_type": "ShadowDef",
-          "data": { radius: 2 }
         }
       ]
     },
@@ -348,10 +380,46 @@
                     }
                   },
                   {
+                      data_type:"ShadowControllerDef"
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data": {
+                      "source_file": "meshes/blobshadow.fplmesh",
+                      "shader": "shaders/textured",
+                      "render_pass" : ["kAlpha"],
+                    }
+                  }
+                ],
+              },
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": {
+                        "x": 3.0,
+                        "y": 3.0,
+                        "z": 3.0
+                      },
+                      "position": {
+                          "x": 0.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        },
+                      "orientation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                      }
+                    }
+                  },
+                  {
                     "data_type": "RenderMeshDef",
                     "data": {
                       "source_file": "meshes/menacing_croc.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured",
+                      "render_pass" : ["kAlpha"]
                     }
                   }
                 ]
@@ -414,20 +482,6 @@
               ]
             }
           }
-        },
-        {
-          "data_type": "ShadowDef",
-          "data": { radius: 2 }
-        },
-        {
-          "data_type": "RailDenizenDef",
-          "data" : {
-            "start_time": 0,
-            "rail_file": "rails/line_loop.bin",
-            "initial_playback_rate": 0.75,
-            "update_orientation": false,
-            "rail_scale": { "x": 5, "y": 5, "z": 5 }
-          }
         }
       ]
     },
@@ -467,10 +521,46 @@
                     }
                   },
                   {
+                      data_type:"ShadowControllerDef"
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data": {
+                      "source_file": "meshes/blobshadow.fplmesh",
+                      "shader": "shaders/textured",
+                      "render_pass" : ["kAlpha"],
+                    }
+                  }
+                ],
+              },
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": {
+                        "x": 3.0,
+                        "y": 3.0,
+                        "z": 3.0
+                      },
+                      "position": {
+                          "x": 0.0,
+                          "y": 0.0,
+                          "z": 0.0
+                        },
+                      "orientation": {
+                        "x": 0.0,
+                        "y": 0.0,
+                        "z": 0.0
+                      }
+                    }
+                  },
+                  {
                     "data_type": "RenderMeshDef",
                     "data": {
                       "source_file": "meshes/moustache_croc.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured",
+                      "render_pass" : ["kAlpha"]
                     }
                   }
                 ]
@@ -533,10 +623,6 @@
               ]
             }
           }
-        },
-        {
-          "data_type": "ShadowDef",
-          "data": { radius: 2 }
         }
       ]
     },
@@ -590,7 +676,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_opaque"
           }
         },
         {
@@ -650,7 +736,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_opaque"
           }
         }
       ]
@@ -670,7 +756,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/ground.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_opaque"
           }
         }
       ]
@@ -690,7 +776,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/background.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_opaque"
           }
         }
       ]
@@ -709,7 +795,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/mid_ground_tree.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_opaque",
           }
         }
       ]
@@ -738,7 +824,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/fern_oak.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   }
                 ]
@@ -757,7 +843,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/fern_short.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   }
                 ]
@@ -776,7 +862,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/fern_leafy.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   }
                 ]
@@ -810,7 +896,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/sushi_rice.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   }
                 ]
@@ -829,7 +915,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/sushi_salmon.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   }
                 ]
@@ -848,7 +934,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/sushi_shrimp.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   }
                 ]
@@ -882,7 +968,7 @@
                     "data_type": "RenderMeshDef",
                     "data" : {
                       "source_file":"meshes/tree_a.fplmesh",
-                      "shader": "shaders/textured"
+                      "shader": "shaders/textured_opaque"
                     }
                   }
                 ]
@@ -949,7 +1035,7 @@
       "entity": "kMidGroundTree",
       "count": 9,
       "radius": 15,
-      "position_offset_angle": 10,
+      "position_offset_angle": 10, 
       "orientation_offset_angle": 90,
       "position": { "x": 0, "y": 0, "z": 0 },
       "scale": { "x": 7, "y": 5, "z": 3 }
@@ -968,7 +1054,7 @@
     {
       "entity": "kMidGroundTree",
       "count": 9,
-      "radius": 150,
+      "radius": 140,
       "position_offset_angle": 15,
       "orientation_offset_angle": 90,
       "position": { "x": 0, "y": 0, "z": 0 },
@@ -978,7 +1064,7 @@
     {
       "entity": "kMidGroundTree",
       "count": 17,
-      "radius": 150,
+      "radius": 130,
       "position_offset_angle": 45,
       "orientation_offset_angle": 90,
       "position": { "x": 0, "y": 0, "z": 0 },

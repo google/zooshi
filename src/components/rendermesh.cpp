@@ -32,7 +32,6 @@ static const float kFrustrumOffset = 50.0f;
 void RenderMeshComponent::Init() {
   asset_manager_ =
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
-
 }
 
 // Rendermesh depends on transform:
@@ -45,22 +44,6 @@ void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
                                        const Camera& camera) {
   TransformData* transform_data = Data<TransformData>(entity);
   RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
-
-  if (!rendermesh_data->ignore_culling) {
-    // Check to make sure objects are inside the frustrum of our view-cone:
-    float max_cos = cos(camera.viewport_angle());
-    vec3 camera_facing = camera.facing();
-    vec3 entity_position = transform_data->world_transform.TranslationVector3D();
-    vec3 pos_relative_to_camera =
-        (entity_position - camera.position()) + camera_facing * kFrustrumOffset;
-
-    if (vec3::DotProduct(pos_relative_to_camera.Normalized(),
-                         camera_facing.Normalized()) < max_cos) {
-      // The origin point for this mesh is not in our field of view.  Cut out
-      // early, and don't bother rendering it.
-      return;
-    }
-  }
 
   mat4 world_transform = transform_data->world_transform;
 
@@ -80,11 +63,73 @@ void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
 
 void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
                                             const Camera& camera) {
-  // todo(ccornell) - instead of iterating like this, sort by
-  // z depth and alpha blend mode.
+  for (int pass = 0; pass < RenderPass_kCount; pass++) {
+    pass_render_list[pass].clear();
+  }
+
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    RenderEntity(iter->entity, renderer, camera);
+    RenderMeshData* rendermesh_data = GetComponentData(iter->entity);
+    TransformData* transform_data = Data<TransformData>(iter->entity);
+
+    float max_cos = cos(camera.viewport_angle());
+    vec3 camera_facing = camera.facing();
+    vec3 camera_position = camera.position();
+
+    // Put each entity into the list for each render pass it is
+    // planning on participating in.
+    for (int pass = 0; pass < RenderPass_kCount; pass++) {
+      if (rendermesh_data->pass_mask & (1 << pass)) {
+        if (!rendermesh_data->ignore_culling) {
+          // Check to make sure objects are inside the frustrum of our
+          // view-cone before we draw:
+          vec3 entity_position =
+              transform_data->world_transform.TranslationVector3D();
+          vec3 pos_relative_to_camera = (entity_position - camera_position) +
+                                        camera_facing * kFrustrumOffset;
+
+          // Cache off the distance from the camera because we'll use it
+          // later as a depth aproxamation.
+          rendermesh_data->z_depth =
+              (entity_position - camera.position()).LengthSquared();
+
+          if (vec3::DotProduct(pos_relative_to_camera.Normalized(),
+                               camera_facing.Normalized()) < max_cos) {
+            // The origin point for this mesh is not in our field of view.  Cut
+            // out
+            // early, and don't bother rendering it.
+            continue;
+          }
+        }
+        pass_render_list[pass].push_back(
+            RenderlistEntry(iter->entity, &iter->data));
+      }
+    }
+  }
+
+  for (int pass = 0; pass < RenderPass_kCount; pass++) {
+    PrepRenderPass(pass, pass_render_list[pass]);
+    for (size_t i = 0; i < pass_render_list[pass].size(); i++) {
+        RenderEntity(pass_render_list[pass][i].entity, renderer, camera);
+    }
+  }
+}
+
+// Set up anything we need to set up before each render pass.  Order the draw
+// list, set up shaders, etc.
+void RenderMeshComponent::PrepRenderPass(
+    unsigned int pass, std::vector<RenderlistEntry>& render_list) {
+  switch (pass) {
+    case RenderPass_kOpaque:
+      std::sort(render_list.begin(), render_list.end());
+      break;
+    case RenderPass_kAlpha:
+      std::sort(render_list.begin(), render_list.end(),
+                std::greater<RenderlistEntry>());
+      break;
+    default:
+      // should never get here - unknown pass!
+      assert(false);
   }
 }
 
@@ -104,10 +149,23 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
   RenderMeshData* rendermesh_data = AddEntity(entity);
 
   rendermesh_data->mesh =
-      asset_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
+  asset_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
+  assert(rendermesh_data->mesh != nullptr);
   rendermesh_data->shader =
-      asset_manager_->LoadShader(rendermesh_def->shader()->c_str());
+    asset_manager_->LoadShader(rendermesh_def->shader()->c_str());
+  assert(rendermesh_data->shader != nullptr);
 
+  rendermesh_data->pass_mask = 0;
+  if (rendermesh_def->render_pass() != nullptr) {
+    for (size_t i = 0; i < rendermesh_def->render_pass()->size(); i++) {
+      int render_pass = rendermesh_def->render_pass()->Get(i);
+      assert(render_pass < RenderPass_kCount);
+      rendermesh_data->pass_mask |= 1 << render_pass;
+    }
+  } else {
+    // Anything unspecified is assumed to be opaque.
+    rendermesh_data->pass_mask = (1 << RenderPass_kOpaque);
+  }
   // TODO: Load this from a flatbuffer file instead of setting it.
   rendermesh_data->tint = mathfu::kOnes4f;
 }

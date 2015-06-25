@@ -12,17 +12,20 @@
     "meshes/moustache_croc.fplmesh",
     "meshes/ground.fplmesh",
     "meshes/background.fplmesh",
-    "meshes/mid_ground_tree.fplmesh"
+    "meshes/mid_ground_tree.fplmesh",
+    "meshes/blobshadow.fplmesh"
   ],
   "material_list": [
     "materials/guy.fplmat",
     "materials/guy_back.fplmat",
     "materials/pixel1x1.fplmat",
     "materials/river.fplmat",
-    "materials/blob.fplmat"
+    "materials/blobshadow.fplmat"
   ],
   "shader_list": [
     "shaders/cardboard",
     "shaders/lit_textured_normal",
+    "shaders/textured",
+    "shaders/textured_opaque",
   ]
 }

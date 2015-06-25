@@ -1,0 +1,10 @@
+{
+  texture_filenames: [
+    "textures/blobshadow.webp"
+  ],
+  "blendmode": "ALPHA",
+  "desired_format": [
+    "F_8888"
+  ]
+}
+

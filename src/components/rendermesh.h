@@ -34,14 +34,34 @@ namespace fpl_project {
 struct RenderMeshData {
  public:
   RenderMeshData()
-    : mesh(nullptr),
-      shader(nullptr),
-      tint(mathfu::kOnes4f),
-      ignore_culling(false) {}
+      : mesh(nullptr),
+        shader(nullptr),
+        tint(mathfu::kOnes4f),
+        ignore_culling(false),
+        pass_mask(0),
+        z_depth(0) {}
   Mesh* mesh;
   Shader* shader;
   mathfu::vec4 tint;
   bool ignore_culling;
+  unsigned char pass_mask;
+  float z_depth;
+};
+
+// Struct used for keeping track of and sorting our render lists:
+struct RenderlistEntry {
+  RenderlistEntry(entity::EntityRef entity_, RenderMeshData* data_)
+      : entity(entity_), data(data_) {}
+  entity::EntityRef entity;
+  RenderMeshData* data;
+
+  bool operator<(const RenderlistEntry& other) const {
+    return (data->z_depth < other.data->z_depth);
+  }
+
+  bool operator>(const RenderlistEntry& other) const {
+    return (data->z_depth > other.data->z_depth);
+  }
 };
 
 class RenderMeshComponent : public entity::Component<RenderMeshData> {
@@ -69,6 +89,9 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
     light_position_ = light_position;
   }
 
+  void PrepRenderPass(unsigned int pass,
+                      std::vector<RenderlistEntry>& render_list);
+
  private:
   // todo(ccornell) expand this if needed - make an array for multiple lights.
   // Also maybe make this into a full fledged struct to store things like
@@ -76,6 +99,9 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
   // these.)
   mathfu::vec3 light_position_;
   AssetManager* asset_manager_;
+  // An array of vectors we use for keeping track of things we're going
+  // to render.
+  std::vector<RenderlistEntry> pass_render_list[RenderPass_kCount];
 };
 
 }  // fpl_project

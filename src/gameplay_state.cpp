@@ -122,7 +122,6 @@ void GameplayState::RenderMonoscopic(Renderer* renderer) {
   renderer->model_view_projection() = camera_transform;
 
   world_->render_mesh_component.RenderAllEntities(*renderer, main_camera_);
-  world_->shadow_component_.RenderAllEntities(camera_transform);
 
   if (world_->draw_debug_physics) {
     world_->physics_component.DebugDrawWorld(renderer, camera_transform);
@@ -148,7 +147,6 @@ void GameplayState::RenderStereoscopic(Renderer* renderer) {
     renderer->model_view_projection() = camera_transform;
     world_->render_mesh_component.RenderAllEntities(*renderer,
                                                     cardboard_camera_);
-    world_->shadow_component_.RenderAllEntities(camera_transform);
   };
 
   HeadMountedDisplayRender(input_system_, renderer, kGreenishColor,

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "config_generated.h"
+#include "components_generated.h"
 #include "components/river.h"
 #include "components/rendermesh.h"
 #include "components/rail_denizen.h"
@@ -136,6 +137,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       asset_manager->LoadShader(config->river_config()->shader()->c_str());
   mesh_data->mesh = mesh;
   mesh_data->ignore_culling = true;  // Never cull the river.
+  mesh_data->pass_mask = 1 << RenderPass_kOpaque;
 }
 
 }  // fpl_project

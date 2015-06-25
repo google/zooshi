@@ -43,10 +43,18 @@ table RailDenizenDef {
   enabled:bool = true;
 }
 
+
+enum RenderPass:ubyte {
+  kOpaque,
+  kAlpha,
+  kCount
+}
+
 table RenderMeshDef {
   source_file:string;
   shader:string;
   ignore_culling:bool = false;
+  render_pass: [RenderPass];
 }
 
 table SoundDef {
@@ -87,10 +95,6 @@ table PlayerProjectileDef {
   on_collision:fpl.fpl_project.ActionDef;
 }
 
-table ShadowDef {
-  radius:float;
-}
-
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table ListenerDef {}
@@ -98,6 +102,7 @@ table AttributesDef {}
 table ScoreDef {}
 table RiverDef {}
 table ServicesDef {}
+table ShadowControllerDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
@@ -106,6 +111,7 @@ table ServicesDef {}
 union ComponentDataUnion {
   ServicesDef,
   RailDenizenDef,
+  ShadowControllerDef,
   PlayerDef,
   PatronDef,
   PlayerProjectileDef,
@@ -120,7 +126,6 @@ union ComponentDataUnion {
   // The transform component should update after any other components that
   // might spawn or modify entities with transforms.
   TransformDef,
-  ShadowDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because
