@@ -117,7 +117,7 @@ class Game : event::EventListener {
   Renderer renderer_;
 
   // Load and own rendering resources.
-  AssetManager material_manager_;
+  AssetManager asset_manager_;
 
   FontManager font_manager_;
 

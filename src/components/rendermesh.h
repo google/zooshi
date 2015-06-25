@@ -46,7 +46,7 @@ struct RenderMeshData {
 
 class RenderMeshComponent : public entity::Component<RenderMeshData> {
  public:
-  RenderMeshComponent() : material_manager_(nullptr) {}
+  RenderMeshComponent() : asset_manager_(nullptr) {}
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
@@ -75,7 +75,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
   // intensity, color, etc.  (Low priority - none of our shaders support
   // these.)
   mathfu::vec3 light_position_;
-  AssetManager* material_manager_;
+  AssetManager* asset_manager_;
 };
 
 }  // fpl_project

@@ -112,7 +112,7 @@ entity::EntityRef ZooshiEntityFactory::CreateEntityFromData(
 }
 
 Game::Game()
-    : material_manager_(renderer_),
+    : asset_manager_(renderer_),
       event_manager_(EventSinkUnion_Size),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
@@ -188,7 +188,7 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   if (material_name == nullptr || material_name[0] == '\0') return nullptr;
 
   // Load the material from file, and check validity.
-  Material* material = material_manager_.LoadMaterial(material_name);
+  Material* material = asset_manager_.LoadMaterial(material_name);
   bool material_valid = material != nullptr && material->textures().size() > 0;
   if (!material_valid) return nullptr;
 
@@ -213,28 +213,28 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
 }
 
 // Load textures for cardboard into 'materials_'. The 'renderer_' and
-// 'material_manager_' members have been initialized at this point.
+// 'asset_manager_' members have been initialized at this point.
 bool Game::InitializeAssets() {
   // Load up all of our assets, as defined in the manifest.
   // TODO - put this into an asynchronous loding function, like we
   // had in pie noon.
   const AssetManifest& asset_manifest = GetAssetManifest();
   for (size_t i = 0; i < asset_manifest.mesh_list()->size(); i++) {
-    material_manager_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
+    asset_manager_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.shader_list()->size(); i++) {
-    material_manager_.LoadShader(asset_manifest.shader_list()->Get(i)->c_str());
+    asset_manager_.LoadShader(asset_manifest.shader_list()->Get(i)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
-    material_manager_.LoadMaterial(
+    asset_manager_.LoadMaterial(
         asset_manifest.material_list()->Get(i)->c_str());
   }
-  material_manager_.StartLoadingTextures();
+  asset_manager_.StartLoadingTextures();
 
   shader_lit_textured_normal_ =
-      material_manager_.LoadShader("shaders/lit_textured_normal");
-  shader_cardboard_ = material_manager_.LoadShader("shaders/cardboard");
-  shader_textured_ = material_manager_.LoadShader("shaders/textured");
+      asset_manager_.LoadShader("shaders/lit_textured_normal");
+  shader_cardboard_ = asset_manager_.LoadShader("shaders/cardboard");
+  shader_textured_ = asset_manager_.LoadShader("shaders/textured");
 
   // Set shader uniforms:
   shader_cardboard_->SetUniform("ambient_material", kCardboardAmbient);
@@ -292,7 +292,7 @@ bool Game::Initialize(const char* const binary_directory) {
   }
 
   // Wait for everything to finish loading...
-  while (!material_manager_.TryFinalize()) {
+  while (!asset_manager_.TryFinalize()) {
   }
 
   event_manager_.RegisterListener(EventSinkUnion_PlaySound, this);
@@ -306,7 +306,7 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_config(&GetInputConfig());
 
   world_.Initialize(GetConfig(), &input_, &input_controller_,
-                    &material_manager_, &font_manager_, &audio_engine_,
+                    &asset_manager_, &font_manager_, &audio_engine_,
                     &event_manager_);
 
   world_editor_.reset(new editor::WorldEditor());
@@ -316,7 +316,7 @@ bool Game::Initialize(const char* const binary_directory) {
                              world_editor_.get());
   game_menu_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
                               world_editor_.get(),
-                              &material_manager_, &font_manager_);
+                              &asset_manager_, &font_manager_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 
@@ -351,7 +351,7 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
   // Update the currently drawing Google Play Games image. Displays "Sign In"
   // when currently signed-out, and "Sign Out" when currently signed in.
 
-  Material* material = material_manager_.LoadMaterial(kGuyMaterial);
+  Material* material = asset_manager_.LoadMaterial(kGuyMaterial);
   const vec2 window_size = vec2(resolution);
   const float texture_scale = 1.0f;
   const vec2 texture_size =

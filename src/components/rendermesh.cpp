@@ -30,7 +30,7 @@ namespace fpl_project {
 static const float kFrustrumOffset = 50.0f;
 
 void RenderMeshComponent::Init() {
-  material_manager_ =
+  asset_manager_ =
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
 }
@@ -95,18 +95,18 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
   auto rendermesh_def =
       static_cast<const RenderMeshDef*>(component_data->data());
 
-  // You need to call set_material_manager before you can add from raw data,
+  // You need to call asset_manager before you can add from raw data,
   // otherwise it can't load up new meshes!
-  assert(material_manager_ != nullptr);
+  assert(asset_manager_ != nullptr);
   assert(rendermesh_def->source_file() != nullptr);
   assert(rendermesh_def->shader() != nullptr);
 
   RenderMeshData* rendermesh_data = AddEntity(entity);
 
   rendermesh_data->mesh =
-      material_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
+      asset_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
   rendermesh_data->shader =
-      material_manager_->LoadShader(rendermesh_def->shader()->c_str());
+      asset_manager_->LoadShader(rendermesh_def->shader()->c_str());
 
   // TODO: Load this from a flatbuffer file instead of setting it.
   rendermesh_data->tint = mathfu::kOnes4f;
