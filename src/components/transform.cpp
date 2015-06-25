@@ -23,7 +23,7 @@ static const float kDegreesToRadians = M_PI / 180.0f;
 
 mathfu::vec3 TransformComponent::WorldPosition(entity::EntityRef entity) {
   TransformData* transform_data = Data<TransformData>(entity);
-  if (transform_data->parent.IsValid()) {
+  if (transform_data->parent) {
     return WorldTransform(transform_data->parent) * transform_data->position;
   } else {
     return transform_data->position;
@@ -32,7 +32,7 @@ mathfu::vec3 TransformComponent::WorldPosition(entity::EntityRef entity) {
 
 mathfu::quat TransformComponent::WorldOrientation(entity::EntityRef entity) {
   TransformData* transform_data = Data<TransformData>(entity);
-  if (transform_data->parent.IsValid()) {
+  if (transform_data->parent) {
     return transform_data->orientation *
            WorldOrientation(transform_data->parent);
   } else {
@@ -42,7 +42,7 @@ mathfu::quat TransformComponent::WorldOrientation(entity::EntityRef entity) {
 
 mathfu::mat4 TransformComponent::WorldTransform(entity::EntityRef entity) {
   TransformData* transform_data = Data<TransformData>(entity);
-  if (transform_data->parent.IsValid()) {
+  if (transform_data->parent) {
     return WorldTransform(transform_data->parent) *
            transform_data->GetTransformMatrix();
   } else {
@@ -60,7 +60,7 @@ void TransformComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
        ++iter) {
     TransformData* transform_data = Data<TransformData>(iter->entity);
     // Go through and start updating everything that has no parent:
-    if (!transform_data->parent.IsValid()) {
+    if (!transform_data->parent) {
       UpdateWorldPosition(iter->entity, mathfu::mat4::Identity());
     }
   }
@@ -72,13 +72,9 @@ void TransformComponent::UpdateWorldPosition(entity::EntityRef& entity,
   transform_data->world_transform =
       transform * transform_data->GetTransformMatrix();
 
-  for (IntrusiveListNode* node = transform_data->children.GetNext();
-       node != transform_data->children.GetTerminator();
-       node = node->GetNext()) {
-    TransformData* child_transform_data =
-        TransformData::GetInstanceFromChildNode(node);
-    UpdateWorldPosition(child_transform_data->owner,
-                        transform_data->world_transform);
+  for (auto iter = transform_data->children.begin();
+       iter != transform_data->children.end(); ++iter) {
+    UpdateWorldPosition(iter->owner, transform_data->world_transform);
   }
 }
 
@@ -86,12 +82,9 @@ void TransformComponent::CleanupEntity(entity::EntityRef& entity) {
   // Remove and cleanup children, if any exist:
   TransformData* transform_data = GetComponentData(entity);
   if (transform_data) {
-    for (IntrusiveListNode* node = transform_data->children.GetNext();
-         node != transform_data->children.GetTerminator();
-         node = node->GetNext()) {
-      TransformData* child_transform_data =
-          TransformData::GetInstanceFromChildNode(node);
-      entity_manager_->DeleteEntity(child_transform_data->owner);
+    for (auto iter = transform_data->children.begin();
+         iter != transform_data->children.end(); ++iter) {
+      entity_manager_->DeleteEntity(iter->owner);
     }
   }
 }
@@ -133,7 +126,7 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
       // pointer to the transform data of the parent entity, so refresh it.
       transform_data = GetComponentData(entity);
       TransformData* child_transform_data = AddEntity(child);
-      transform_data->children.InsertBefore(child_transform_data->child_node());
+      transform_data->children.push_back(*child_transform_data);
       child_transform_data->parent = entity;
     }
   }
@@ -161,19 +154,19 @@ void TransformComponent::AddChild(entity::EntityRef& child,
   TransformData* parent_data = GetComponentData(parent);
 
   // If child is already someone else's child, break that link first.
-  if (child_data->parent.IsValid()) {
+  if (child_data->parent) {
     RemoveChild(child);
   }
-  parent_data->children.InsertAfter(&(child_data->child_node_));
+  parent_data->children.push_back(*child_data);
   child_data->parent = parent;
 }
 
 void TransformComponent::RemoveChild(entity::EntityRef& child) {
   TransformData* child_data = GetComponentData(child);
-  assert(child_data->parent.IsValid());
+  assert(child_data->parent);
 
   child_data->parent = entity::EntityRef();
-  child_data->child_node_.Remove();
+  child_data->child_node.remove();
 }
 
 }  // fpl_project

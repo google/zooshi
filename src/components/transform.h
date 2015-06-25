@@ -20,10 +20,12 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
-#include "intrusive_list.h"
+#include "fplutil/intrusive_list.h"
 
 namespace fpl {
 namespace fpl_project {
+
+struct TransformData;
 
 // Data for scene object components.
 struct TransformData {
@@ -33,8 +35,8 @@ struct TransformData {
         orientation(mathfu::quat::identity),
         owner(),
         parent(),
-        children(),
-        child_node_() {}
+        child_node(),
+        children() {}
 
   mathfu::vec3 position;
   mathfu::vec3 scale;
@@ -48,11 +50,8 @@ struct TransformData {
   entity::EntityRef parent;
 
   // The list of children.
-  IntrusiveList children;
-
-  INTRUSIVE_GET_NODE_ACCESSOR(child_node_, child_node);
-  INTRUSIVE_LIST_NODE_GET_CLASS_ACCESSOR(TransformData, child_node_,
-                                         GetInstanceFromChildNode)
+  intrusive_list_node child_node;
+  intrusive_list<TransformData, &TransformData::child_node> children;
 
   // We construct the matrix by hand here, because we know that it will
   // always be a composition of rotation, scale, and translation, so we
@@ -80,8 +79,6 @@ struct TransformData {
     // Compose and return result:
     return mathfu::mat4(c0, c1, c2, c3);
   }
-
-  IntrusiveListNode child_node_;
 };
 
 class TransformComponent : public entity::Component<TransformData> {
