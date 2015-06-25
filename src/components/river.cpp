@@ -47,7 +47,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   std::vector<mathfu::vec3_packed> track;
 
   int index_count = 0;
-  int vectex_count = 0;
+  int vertex_count = 0;
 
   const Config* config =
       entity_manager_->GetComponent<ServicesComponent>()->config();
@@ -84,38 +84,46 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     track_normal *= config->river_config()->track_half_width();
     vec3 track_pos = vec3(track[i]);
 
-    verts[vectex_count].pos =
+    verts[vertex_count].pos =
         vec3(track_pos - track_normal) +
         vec3(0.0f, 0.0f, config->river_config()->track_height());
-    verts[vectex_count].norm = vec3(0, 1, 0);
-    verts[vectex_count].tangent = vec4(1, 0, 0, 1);
-    verts[vectex_count].tc = vec2(
+    verts[vertex_count].norm = vec3(0, 1, 0);
+    verts[vertex_count].tangent = vec4(1, 0, 0, 1);
+    verts[vertex_count].tc = vec2(
         0, static_cast<float>(i) / config->river_config()->texture_tile_size());
-    vectex_count++;
+    vertex_count++;
 
-    verts[vectex_count].pos =
+    verts[vertex_count].pos =
         vec3(track_pos + track_normal) +
         vec3(0.0f, 0.0f, config->river_config()->track_height());
-    verts[vectex_count].norm = vec3(0, 1, 0);
-    verts[vectex_count].tangent = vec4(1, 0, 0, 1);
-    verts[vectex_count].tc = vec2(
+    verts[vertex_count].norm = vec3(0, 1, 0);
+    verts[vertex_count].tangent = vec4(1, 0, 0, 1);
+    verts[vertex_count].tc = vec2(
         1, static_cast<float>(i) / config->river_config()->texture_tile_size());
-    vectex_count++;
+    vertex_count++;
 
+    // Force the beginning and end to line up in their geometry:
+    if (i == segment_count - 1) {
+      verts[vertex_count-2].pos = verts[0].pos;
+      verts[vertex_count-1].pos = verts[1].pos;
+    }
+
+    // Not counting the first segment, create triangles in our index
+    // list to represent this segment.
     if (i != 0) {
-      indexes[index_count++] = vectex_count - 4;
-      indexes[index_count++] = vectex_count - 3;
-      indexes[index_count++] = vectex_count - 2;
+      indexes[index_count++] = vertex_count - 4;
+      indexes[index_count++] = vertex_count - 3;
+      indexes[index_count++] = vertex_count - 2;
 
-      indexes[index_count++] = vectex_count - 2;
-      indexes[index_count++] = vectex_count - 3;
-      indexes[index_count++] = vectex_count - 1;
+      indexes[index_count++] = vertex_count - 2;
+      indexes[index_count++] = vertex_count - 3;
+      indexes[index_count++] = vertex_count - 1;
     }
   }
 
   // Make sure we used as much data as expected, and no more.  (Or less!)
   assert(index_count == index_max);
-  assert(vectex_count == vert_max);
+  assert(vertex_count == vert_max);
 
   AssetManager* asset_manager =
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
@@ -127,7 +135,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   // Create the actual mesh object, and stuff all the data we just
   // generated into it.
   Mesh* mesh =
-      new Mesh(verts.get(), vectex_count, sizeof(NormalMappedVertex),
+      new Mesh(verts.get(), vertex_count, sizeof(NormalMappedVertex),
                kMeshFormat);
 
   mesh->AddIndices(indexes.get(), index_count, material);

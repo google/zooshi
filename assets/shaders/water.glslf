@@ -18,19 +18,21 @@ uniform lowp vec4 color;
 uniform float time;
 void main()
 {
-  const float flow_speed = 2.0;    // Speed of water flowing down river.
+  const float flow_speed1 = 2.0;    // Speed of water flowing down river.
+  const float flow_speed2 = 1.7;    // Speed of water flowing down river.
+  const float flow_speed3 = 0.7;    // Speed of water flowing down river.
   const float scale = 0.01;        // Size of wobble displacement.
   const float time_scale = 5.0;    // Speed over time of wobble.
   const float coord_scale = 10.0;  // Wobble frequency.
-  vec2 tc = vTexCoord +
-            vec2(0, -time / flow_speed) +
-            sin(vTexCoord * coord_scale + time * time_scale) * scale;
-  lowp vec4 texture_color = texture2D(texture_unit_0, tc);
-  // We only render pixels if they are at least somewhat opaque.
-  // This will still lead to aliased edges if we render
-  // in the wrong order, but leaves us the option to render correctly
-  // if we sort our polygons first.
-  if (texture_color.a < 0.01)
-    discard;
-  gl_FragColor = color * texture_color;
+
+  vec2 wobble = sin(vTexCoord * coord_scale + time * time_scale) * scale;
+  vec2 tc1 = vTexCoord * 0.6 + vec2(0, -time / flow_speed1) + wobble;
+  vec2 tc2 = vTexCoord * 1.0 + vec2(0, -time / flow_speed2) + wobble;
+  vec2 tc3 = vTexCoord * 1.2 + vec2(0, -time / flow_speed3) + wobble;
+
+  lowp vec4 texture_color1 = texture2D(texture_unit_0, tc1);
+  lowp vec4 texture_color2 = texture2D(texture_unit_0, tc2);
+  lowp vec4 texture_color3 = texture2D(texture_unit_0, tc3);
+
+  gl_FragColor = color * (texture_color1 + texture_color2 + texture_color3)/2.0f;
 }
