@@ -16,6 +16,7 @@
 #include "components/physics.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
+#include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/services.h"
 #include "components/transform.h"
@@ -88,6 +89,11 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
   vec3 velocity =
       config_->projectile_speed() * forward + config_->projectile_upkick() * up;
+
+  // Include the raft's current velocity to the thrown sushi.
+  auto raft_rail = Data<RailDenizenData>(
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity());
+  velocity += raft_rail->Velocity();
 
   physics_data->SetVelocity(velocity);
   physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(3.0f, 6.0f),
