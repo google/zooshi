@@ -39,34 +39,10 @@ void RenderMeshComponent::InitEntity(entity::EntityRef& entity) {
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
-void RenderMeshComponent::RenderEntity(entity::EntityRef& entity,
-                                       Renderer& renderer,
-                                       const Camera& camera) {
-  TransformData* transform_data = Data<TransformData>(entity);
-  RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
-
-  mat4 world_transform = transform_data->world_transform;
-
-  const mat4 mvp = camera.GetTransformMatrix() * world_transform;
-  const mat4 world_matrix_inverse = world_transform.Inverse();
-
-  renderer.camera_pos() = world_matrix_inverse * camera.position();
-  renderer.light_pos() = world_matrix_inverse * light_position_;
-  renderer.model_view_projection() = mvp;
-  renderer.color() = rendermesh_data->tint;
-
-  if (rendermesh_data->shader) {
-    rendermesh_data->shader->Set(renderer);
-  }
-  rendermesh_data->mesh->Render(renderer);
-}
-
-void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
-                                            const Camera& camera) {
+void RenderMeshComponent::RenderPrep(const Camera& camera) {
   for (int pass = 0; pass < RenderPass_kCount; pass++) {
     pass_render_list[pass].clear();
   }
-
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     RenderMeshData* rendermesh_data = GetComponentData(iter->entity);
@@ -96,8 +72,7 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
           if (vec3::DotProduct(pos_relative_to_camera.Normalized(),
                                camera_facing.Normalized()) < max_cos) {
             // The origin point for this mesh is not in our field of view.  Cut
-            // out
-            // early, and don't bother rendering it.
+            // out early, and don't bother rendering it.
             continue;
           }
         }
@@ -106,30 +81,38 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
       }
     }
   }
-
-  for (int pass = 0; pass < RenderPass_kCount; pass++) {
-    PrepRenderPass(pass, pass_render_list[pass]);
-    for (size_t i = 0; i < pass_render_list[pass].size(); i++) {
-        RenderEntity(pass_render_list[pass][i].entity, renderer, camera);
-    }
-  }
+  std::sort(pass_render_list[RenderPass_kOpaque].begin(),
+            pass_render_list[RenderPass_kOpaque].end());
+  std::sort(pass_render_list[RenderPass_kAlpha].begin(),
+            pass_render_list[RenderPass_kAlpha].end(),
+              std::greater<RenderlistEntry>());
 }
 
-// Set up anything we need to set up before each render pass.  Order the draw
-// list, set up shaders, etc.
-void RenderMeshComponent::PrepRenderPass(
-    unsigned int pass, std::vector<RenderlistEntry>& render_list) {
-  switch (pass) {
-    case RenderPass_kOpaque:
-      std::sort(render_list.begin(), render_list.end());
-      break;
-    case RenderPass_kAlpha:
-      std::sort(render_list.begin(), render_list.end(),
-                std::greater<RenderlistEntry>());
-      break;
-    default:
-      // should never get here - unknown pass!
-      assert(false);
+
+void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
+                                            const Camera& camera) {
+  for (int pass = 0; pass < RenderPass_kCount; pass++) {
+    for (size_t i = 0; i < pass_render_list[pass].size(); i++) {
+      entity::EntityRef& entity = pass_render_list[pass][i].entity;
+
+      TransformData* transform_data = Data<TransformData>(entity);
+      RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
+
+      mat4 world_transform = transform_data->world_transform;
+
+      const mat4 mvp = camera.GetTransformMatrix() * world_transform;
+      const mat4 world_matrix_inverse = world_transform.Inverse();
+
+      renderer.camera_pos() = world_matrix_inverse * camera.position();
+      renderer.light_pos() = world_matrix_inverse * light_position_;
+      renderer.model_view_projection() = mvp;
+      renderer.color() = rendermesh_data->tint;
+
+      if (rendermesh_data->shader) {
+        rendermesh_data->shader->Set(renderer);
+      }
+      rendermesh_data->mesh->Render(renderer);
+    }
   }
 }
 

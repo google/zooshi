@@ -75,10 +75,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
   // Nothing really happens per-update to these things.
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 
-  // Here's where the real stuff goes on.  Called directly by
-  // the render function.
-  void RenderEntity(entity::EntityRef& entity, Renderer& renderer,
-                    const Camera& camera);
+  void RenderPrep(const Camera& camera);
   void RenderAllEntities(Renderer& renderer, const Camera& camera);
 
   // Get and set the light position.  This is a special uniform that is sent
@@ -89,10 +86,7 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
     light_position_ = light_position;
   }
 
-  void PrepRenderPass(unsigned int pass,
-                      std::vector<RenderlistEntry>& render_list);
-
- private:
+  private:
   // todo(ccornell) expand this if needed - make an array for multiple lights.
   // Also maybe make this into a full fledged struct to store things like
   // intensity, color, etc.  (Low priority - none of our shaders support

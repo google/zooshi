@@ -106,6 +106,7 @@ void GameplayState::Render(Renderer* renderer) {
 #ifdef ANDROID_CARDBOARD
   stereoscopic = input_system_->cardboard_input().is_in_cardboard();
 #endif
+  world_->render_mesh_component.RenderPrep(main_camera_);
   if (stereoscopic) {
     RenderStereoscopic(renderer);
   } else {
