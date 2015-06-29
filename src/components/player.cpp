@@ -85,10 +85,9 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
                              LoadVec3(config_->projectile_offset());
   transform_data->orientation = transform_component->WorldOrientation(source);
   vec3 forward = transform_data->orientation.Inverse() * mathfu::kAxisY3f;
-  vec3 up = transform_data->orientation.Inverse() * mathfu::kAxisZ3f;
 
-  vec3 velocity =
-      config_->projectile_speed() * forward + config_->projectile_upkick() * up;
+  vec3 velocity = config_->projectile_speed() * forward +
+                  config_->projectile_upkick() * mathfu::kAxisZ3f;
 
   // Include the raft's current velocity to the thrown sushi.
   auto raft_rail = Data<RailDenizenData>(

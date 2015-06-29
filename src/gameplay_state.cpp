@@ -82,7 +82,11 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   main_camera_.set_facing(
       transform_component->WorldOrientation(player).Inverse() *
       mathfu::kAxisY3f);
-  main_camera_.set_up(mathfu::kAxisZ3f);
+  auto player_data =
+      world_->entity_manager.GetComponentData<PlayerData>(player);
+  auto raft_orientation = transform_component->WorldOrientation(
+      world_->entity_manager.GetComponent<ServicesComponent>()->raft_entity());
+  main_camera_.set_up(raft_orientation.Inverse() * player_data->GetUp());
 
   if (input_system_->GetButton(fpl::FPLK_F9).went_down()) {
     world_->draw_debug_physics = !world_->draw_debug_physics;
@@ -159,4 +163,3 @@ void GameplayState::RenderStereoscopic(Renderer* renderer) {
 
 }  // fpl_project
 }  // fpl
-
