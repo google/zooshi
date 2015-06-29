@@ -33,8 +33,8 @@ gui::Event GameMenuState::TextButton(const char *text, float size,
   return event;
 }
 
-MenuState GameMenuState::StartMenu(AssetManager &assetman,
-                                   FontManager &fontman, InputSystem &input) {
+MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
+                                   InputSystem &input) {
   MenuState next_state = kMenuStateStart;
 
   // Run() accepts a lambda function that is executed 2 times,
@@ -51,7 +51,12 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman,
     if (event & gui::EVENT_WENT_UP) {
       next_state = kMenuStateFinished;
     }
-
+#ifdef ANDROID_CARDBOARD
+    event = TextButton("CARDBOARD", 100, "button");
+    if (event & gui::EVENT_WENT_UP) {
+      next_state = kMenuStateCardboard;
+    }
+#endif  // ANDROID_CARDBOARD
     event = TextButton("OPTIONS", 100, "button");
     if (event & gui::EVENT_WENT_UP) {
       next_state = kMenuStateOptions;

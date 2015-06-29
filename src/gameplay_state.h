@@ -44,7 +44,7 @@ class GameplayState : public StateNode {
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
 
- private:
+ protected:
   void RenderMonoscopic(Renderer* renderer);
   void RenderStereoscopic(Renderer* renderer);
 
@@ -70,4 +70,3 @@ class GameplayState : public StateNode {
 }  // fpl
 
 #endif  // ZOOSHI_GAMEPLAY_STATE_H_
-

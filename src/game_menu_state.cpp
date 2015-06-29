@@ -77,8 +77,9 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     *next_state = kGameStateExit;
   }
 
-  if (menu_state_ == kMenuStateFinished) {
+  if (menu_state_ == kMenuStateFinished || menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateGameplay;
+    world_->is_in_cardboard = (menu_state_ == kMenuStateCardboard);
     // Hide cursor.
     input_system_->SetRelativeMouseMode(true);
   }
@@ -89,12 +90,10 @@ void GameMenuState::Render(Renderer* renderer) {
 
   switch (menu_state_) {
     case kMenuStateStart:
-      menu_state_ =
-          StartMenu(*asset_manager_, *font_manager_, *input_system_);
+      menu_state_ = StartMenu(*asset_manager_, *font_manager_, *input_system_);
       break;
     case kMenuStateOptions:
-      menu_state_ =
-          OptionMenu(*asset_manager_, *font_manager_, *input_system_);
+      menu_state_ = OptionMenu(*asset_manager_, *font_manager_, *input_system_);
       break;
     default:
       break;
