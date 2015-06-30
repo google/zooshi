@@ -31,6 +31,7 @@ enum MenuState {
   kMenuStateStart,
   kMenuStateOptions,
   kMenuStateFinished,
+  kMenuStateCardboard,
 };
 
 class GameMenuState : public GameplayState {

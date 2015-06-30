@@ -105,11 +105,7 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
 }
 
 void GameplayState::Render(Renderer* renderer) {
-  // TODO: Determine cardboard mode thru a menu item, instead of inserting it
-  bool stereoscopic = false;
-#ifdef ANDROID_CARDBOARD
-  stereoscopic = input_system_->cardboard_input().is_in_cardboard();
-#endif
+  bool stereoscopic = world_->is_in_cardboard;
   world_->render_mesh_component.RenderPrep(main_camera_);
   if (stereoscopic) {
     RenderStereoscopic(renderer);

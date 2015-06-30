@@ -16,7 +16,7 @@
 #define ZOOSHI_STATES_H
 
 namespace fpl {
-namespace fpl_project{
+namespace fpl_project {
 
 enum GameState {
   kGameStateGameplay,
@@ -25,9 +25,7 @@ enum GameState {
   kGameStateCount,
   kGameStateExit = kGameStateCount
 };
-
 }
 }
 
-#endif  //ZOOSHI_STATES_H
-
+#endif  // ZOOSHI_STATES_H
