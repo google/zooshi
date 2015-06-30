@@ -29,7 +29,7 @@ enum EntityDefs : byte {
   kMidGroundTree,
   kFernGarden,
   kSushiGarden,
-  kTreeGarden,
+  kSkybox,
   kNumEntityDef
 }
 

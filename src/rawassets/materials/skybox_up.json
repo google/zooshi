@@ -1,0 +1,9 @@
+{
+  texture_filenames: [
+    "textures/skybox_daytime_05.webp",
+  ],
+  "desired_format": [
+    "F_888"
+  ]
+}
+
