@@ -137,6 +137,7 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
   rendermesh_data->shader =
     asset_manager_->LoadShader(rendermesh_def->shader()->c_str());
   assert(rendermesh_data->shader != nullptr);
+  rendermesh_data->ignore_culling = rendermesh_def->ignore_culling();
 
   rendermesh_data->pass_mask = 0;
   if (rendermesh_def->render_pass() != nullptr) {
