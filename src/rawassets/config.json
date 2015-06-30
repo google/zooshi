@@ -979,30 +979,26 @@
       ]
     },
 
-    // kTreeGarden
+    // kSkybox
     {
       "component_list": [
         {
           "data_type": "TransformDef",
           "data": {
-            "scale": { "x": 1.0, "y": 1.0, "z": 1.0 },
-            "position": { "x": -1.0, "y": 13.0, "z": 4.0 },
             "children": [
               {
                 "component_list": [
                   {
                     "data_type": "TransformDef",
                     "data": {
-                      "scale": { "x": 50.0, "y": 50.0, "z": 50.0 },
-                      "position": { "x": 0.0, "y": -20.0, "z": 1.0 },
-                      "orientation": { "x": 0.0, "y": 0.0, "z": 0.0 }
                     }
                   },
                   {
                     "data_type": "RenderMeshDef",
                     "data" : {
-                      "source_file":"meshes/tree_a.fplmesh",
-                      "shader": "shaders/textured_opaque"
+                      "source_file":"meshes/skybox.fplmesh",
+                      "shader": "shaders/textured_opaque",
+                      "ignore_culling": true
                     }
                   }
                 ]
@@ -1025,15 +1021,15 @@
   ],
 
   "entity_ring_list": [
-    {
-      "entity": "kBackground",
-      "count": 12,
-      "radius": 350,
-      "orientation_offset_angle": 90,
-      "position_offset_angle": 0,
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "scale": { "x": 150, "y": 150, "z": 150 }
-    },
+    // {
+    //   "entity": "kBackground",
+    //   "count": 12,
+    //   "radius": 350,
+    //   "orientation_offset_angle": 90,
+    //   "position_offset_angle": 0,
+    //   "position": { "x": 0, "y": 0, "z": 0 },
+    //   "scale": { "x": 150, "y": 150, "z": 150 }
+    // },
 
     {
       "entity": "kFernGarden",
@@ -1107,6 +1103,10 @@
   ],
 
   "predefined_entity_list": [
+    {
+      "entity": "kSkybox",
+      "scale": { "x": 250, "y": 250, "z": 250 }
+    },
     {
       "entity": "kPatronLadyMandrill",
       "position": { "x": 10, "y": 48, "z": 0.01 },

@@ -6,14 +6,14 @@
     "meshes/fern_oak.fplmesh",
     "meshes/fern_short.fplmesh",
     "meshes/fern_leafy.fplmesh",
-    "meshes/tree_a.fplmesh",
     "meshes/lady_mandrill.fplmesh",
     "meshes/menacing_croc.fplmesh",
     "meshes/moustache_croc.fplmesh",
     "meshes/ground.fplmesh",
     "meshes/background.fplmesh",
     "meshes/tree_saturated.fplmesh",
-    "meshes/blobshadow.fplmesh"
+    "meshes/blobshadow.fplmesh",
+    "meshes/skybox.fplmesh"
   ],
   "material_list": [
     "materials/guy.fplmat",
