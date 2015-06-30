@@ -1007,6 +1007,36 @@
           }
         }
       ]
+    },
+
+    // kBambooMat
+    {
+      "component_list": [
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "children": [
+              {
+                "component_list": [
+                  {
+                    "data_type": "TransformDef",
+                    "data": {
+                      "scale": { "x": 3.0, "y": 3.0, "z": 3.0 },
+                    }
+                  },
+                  {
+                    "data_type": "RenderMeshDef",
+                    "data" : {
+                      "source_file":"meshes/bamboo_mat.fplmesh",
+                      "shader": "shaders/textured_opaque"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
 

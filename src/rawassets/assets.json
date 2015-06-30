@@ -13,7 +13,8 @@
     "meshes/background.fplmesh",
     "meshes/tree_saturated.fplmesh",
     "meshes/blobshadow.fplmesh",
-    "meshes/skybox.fplmesh"
+    "meshes/skybox.fplmesh",
+    "meshes/bamboo_mat.fplmesh"
   ],
   "material_list": [
     "materials/guy.fplmat",
