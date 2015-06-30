@@ -52,8 +52,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   const Config* config =
       entity_manager_->GetComponent<ServicesComponent>()->config();
 
-  Rail* rail = entity_manager_->GetComponent<ServicesComponent>()->
-      rail_manager()->GetRail(config->river_config()->rail_filename()->c_str());
+  Rail* rail = entity_manager_->GetComponent<ServicesComponent>()
+                   ->rail_manager()
+                   ->GetRail(config->river_config()->rail_filename()->c_str());
 
   // Generate the spline data and store it in our track vector:
   rail->Positions(config->river_config()->spline_stepsize(), &track);
@@ -83,14 +84,15 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     }
     track_normal *= config->river_config()->track_half_width();
     vec3 track_pos = vec3(track[i]);
+    float texture_y = config->river_config()->texture_tile_size() *
+                      static_cast<float>(i) / static_cast<float>(segment_count);
 
     verts[vertex_count].pos =
         vec3(track_pos - track_normal) +
         vec3(0.0f, 0.0f, config->river_config()->track_height());
     verts[vertex_count].norm = vec3(0, 1, 0);
     verts[vertex_count].tangent = vec4(1, 0, 0, 1);
-    verts[vertex_count].tc = vec2(
-        0, static_cast<float>(i) / config->river_config()->texture_tile_size());
+    verts[vertex_count].tc = vec2(0, texture_y);
     vertex_count++;
 
     verts[vertex_count].pos =
@@ -98,14 +100,13 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
         vec3(0.0f, 0.0f, config->river_config()->track_height());
     verts[vertex_count].norm = vec3(0, 1, 0);
     verts[vertex_count].tangent = vec4(1, 0, 0, 1);
-    verts[vertex_count].tc = vec2(
-        1, static_cast<float>(i) / config->river_config()->texture_tile_size());
+    verts[vertex_count].tc = vec2(1, texture_y);
     vertex_count++;
 
     // Force the beginning and end to line up in their geometry:
     if (i == segment_count - 1) {
-      verts[vertex_count-2].pos = verts[0].pos;
-      verts[vertex_count-1].pos = verts[1].pos;
+      verts[vertex_count - 2].pos = verts[0].pos;
+      verts[vertex_count - 1].pos = verts[1].pos;
     }
 
     // Not counting the first segment, create triangles in our index
@@ -129,14 +130,13 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
   // Load the material from file, and check validity.
-  Material* material = asset_manager->LoadMaterial(
-      config->river_config()->material()->c_str());
+  Material* material =
+      asset_manager->LoadMaterial(config->river_config()->material()->c_str());
 
   // Create the actual mesh object, and stuff all the data we just
   // generated into it.
-  Mesh* mesh =
-      new Mesh(verts.get(), vertex_count, sizeof(NormalMappedVertex),
-               kMeshFormat);
+  Mesh* mesh = new Mesh(verts.get(), vertex_count, sizeof(NormalMappedVertex),
+                        kMeshFormat);
 
   mesh->AddIndices(indexes.get(), index_count, material);
 

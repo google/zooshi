@@ -16,7 +16,7 @@
     "spline_stepsize": 500.0,
     "track_half_width": 3.0,
     "track_height": -1.89,
-    "texture_tile_size": 5.0,
+    "texture_tile_size": 25.0,
     "material": "materials/river.fplmat",
     "shader": "shaders/water"
   },
