@@ -1,7 +1,0 @@
-{
-  texture_filenames: [
-    "textures/mid_ground_tree.webp",
-  ],
-  "blendmode": "ALPHA"
-}
-

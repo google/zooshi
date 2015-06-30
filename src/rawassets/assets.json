@@ -12,7 +12,7 @@
     "meshes/moustache_croc.fplmesh",
     "meshes/ground.fplmesh",
     "meshes/background.fplmesh",
-    "meshes/mid_ground_tree.fplmesh",
+    "meshes/tree_saturated.fplmesh",
     "meshes/blobshadow.fplmesh"
   ],
   "material_list": [

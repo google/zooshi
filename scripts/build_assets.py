@@ -123,10 +123,14 @@ RAW_MATERIAL_PATH = os.path.join(RAW_ASSETS_PATH, 'materials')
 RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, 'textures')
 
 # Directory where unprocessed FBX files can be found.
-RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, 'meshes')
+MESH_REL_DIR = 'meshes'
+RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, MESH_REL_DIR)
 
 # Directory for textures outside of the main code-base.
 INTERNAL_TEXTURE_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'textures')
+
+# Directory where unprocessed FBX files can be found.
+INTERNAL_MESH_PATH = os.path.join(INTERNAL_ASSETS_PATH, MESH_REL_DIR)
 
 # Directories for animations.
 RAW_ANIM_PATH = os.path.join(RAW_ASSETS_PATH, 'anims')
@@ -326,18 +330,17 @@ def convert_png_image_to_webp(cwebp, png, out, quality=80):
   run_subprocess(command)
 
 
-def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, mesh_relative_directory):
+def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory):
   """Run the mesh_pipeline on the given fbx file.
 
   Args:
     fbx: The path to the fbx file to convert into a flatbuffer binary.
     target_directory: The path of the flatbuffer binary to write to.
-    mesh_relative_directory: The path relative to the base assets directory where we should look for texture files.
 
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [MESH_PIPELINE, '-b', target_directory, '-r', mesh_relative_directory, fbx]
+  command = [MESH_PIPELINE, '-b', target_directory, '-r', MESH_REL_DIR, fbx]
   run_subprocess(command)
 
 
@@ -375,7 +378,7 @@ def processed_mesh_path(path, target_directory):
   Args:
     target_directory: Path to the target assets directory.
   """
-  return path.replace(RAW_ASSETS_PATH, target_directory).replace('.fbx', '.fplmesh')
+  return path.replace(RAW_ASSETS_PATH, target_directory).replace(INTERNAL_ASSETS_PATH, target_directory).replace('.fbx', '.fplmesh')
 
 def processed_json_path(path, target_directory, target_extension):
   """Take the path to a raw json asset and convert it to target bin path.
@@ -388,13 +391,15 @@ def processed_json_path(path, target_directory, target_extension):
 
 def fbx_files_to_convert():
   """ FBX files to convert to fplmesh. """
-  return glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx'))
+  return (glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx')) +
+          glob.glob(os.path.join(INTERNAL_MESH_PATH, '*.fbx')))
 
 def png_files_to_convert():
   """ PNG files to convert to webp. """
   return (glob.glob(os.path.join(RAW_TEXTURE_PATH, '*.png')) +
           glob.glob(os.path.join(RAW_MESH_PATH, '*.png')) +
-          glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, '*.png')))
+          glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, '*.png')) +
+          glob.glob(os.path.join(INTERNAL_MESH_PATH, '*.png')))
 
 def anim_files_to_convert():
   """ FBX files to convert to fplanim. """
@@ -412,8 +417,7 @@ def generate_mesh_binaries(target_directory):
     target = processed_mesh_path(fbx, target_directory)
 
     if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
-      mesh_relative_directory = os.path.dirname(os.path.relpath(fbx, RAW_ASSETS_PATH))
-      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, mesh_relative_directory)
+      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory)
 
 def generate_anim_binaries(target_directory):
   """Run the mesh pipeline on the all of the FBX files.
