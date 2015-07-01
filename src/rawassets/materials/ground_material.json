@@ -1,6 +1,7 @@
 {
   texture_filenames: [
     "textures/grass.webp",
+    "textures/cardboard-normal.webp",
   ]
 }
 

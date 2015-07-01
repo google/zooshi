@@ -40,6 +40,9 @@ void RenderMeshComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 void RenderMeshComponent::RenderPrep(const Camera& camera) {
+  // TODO: create entity for this?
+  set_light_position(vec3(100, 100, 500));
+
   for (int pass = 0; pass < RenderPass_kCount; pass++) {
     pass_render_list[pass].clear();
   }

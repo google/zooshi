@@ -56,7 +56,6 @@ void main(void)
     vec3 lighting = ambient_material +
         df * diffuse_material +
         sf * specular_material;
-    //gl_FragColor = vec4(lighting, 1) * texture_color;
-    gl_FragColor = vec4(1, 1, 0, 1);
+    gl_FragColor = vec4(lighting, 1) * texture_color;
 }
 
