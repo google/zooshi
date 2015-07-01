@@ -670,8 +670,8 @@
                 },
                 "offset": {
                   "x": 0.0,
-                  "y": 0.0,
-                  "z": 0.16
+                  "y": 0.16,
+                  "z": 0.0
                 },
                 "restitution": 1.0,
                 "collision_type": "Projectile",
