@@ -17,13 +17,11 @@ include "common.fbs";
 namespace fpl;
 
 // Types that a physics rigid body can be.
-// Note that it is defined as a bit field.
-enum BulletCollisionType : byte {
-  None = 0,
-  Raycast = 1,
-  Projectile = 2,
-  Patron = 4,
-  Ground = 8,
+enum BulletCollisionType : short (bit_flags) {
+  Raycast,
+  Projectile,
+  Patron,
+  Ground,
   End  // Not to be used as a type itself, needed for iteration.
 }
 
