@@ -20,9 +20,10 @@ namespace fpl;
 // Note that it is defined as a bit field.
 enum BulletCollisionType : byte {
   None = 0,
-  Projectile = 1,
-  Patron = 2,
-  Ground = 4,
+  Raycast = 1,
+  Projectile = 2,
+  Patron = 4,
+  Ground = 8,
   End  // Not to be used as a type itself, needed for iteration.
 }
 

@@ -254,6 +254,7 @@
                 "restitution": 1.0,
                 "collision_type": "Patron",
                 "collides_with": [
+                  "Raycast",
                   "Projectile"
                 ]
               },
@@ -439,6 +440,7 @@
                 "restitution": 1.0,
                 "collision_type": "Patron",
                 "collides_with": [
+                  "Raycast",
                   "Projectile"
                 ]
               }
@@ -569,6 +571,7 @@
                 "restitution": 1.0,
                 "collision_type": "Patron",
                 "collides_with": [
+                  "Raycast",
                   "Projectile"
                 ]
               }
