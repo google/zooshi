@@ -59,6 +59,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/digit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/editor.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \

@@ -21,7 +21,7 @@
 #include "mathfu/utilities.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::EditorComponent,
-                            fpl::fpl_project::EditorData);
+                            fpl::fpl_project::EditorData)
 
 namespace fpl {
 namespace fpl_project {

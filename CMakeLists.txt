@@ -192,6 +192,8 @@ add_custom_command(TARGET assets POST_BUILD
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
+    src/components/digit.cpp
+    src/components/digit.h
     src/components/attributes.cpp
     src/components/attributes.h
     src/components/audio_listener.cpp

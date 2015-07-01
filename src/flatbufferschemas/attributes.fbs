@@ -19,5 +19,6 @@ enum AttributeDef : byte {
   PatronsFed,
   PatronsHit,
   Size,
+  Unspecified
 }
 

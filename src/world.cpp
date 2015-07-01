@@ -124,6 +124,9 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       ComponentDataUnion_SoundDef,
       entity_manager.RegisterComponent(&sound_component));
   entity_factory.SetComponentId(
+      ComponentDataUnion_DigitDef,
+      entity_manager.RegisterComponent(&digit_component));
+  entity_factory.SetComponentId(
       ComponentDataUnion_RiverDef,
       entity_manager.RegisterComponent(&river_component));
   entity_factory.SetComponentId(

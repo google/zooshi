@@ -34,13 +34,13 @@
       ]
     },
 
-    // Raft
+    // RiverRail
     {
       "component_list": [
         {
           "data_type": "EditorDef",
           "data": {
-            "prototype": "Raft"
+            "prototype": "RiverRail"
           }
         },
         {

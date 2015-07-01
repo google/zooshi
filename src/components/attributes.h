@@ -37,7 +37,11 @@ namespace fpl_project {
 // Data for scene object components.
 struct AttributesData {
  public:
-  AttributesData() {}
+  AttributesData() {
+    for (int i = 0; i < AttributeDef_Size; ++i) {
+      attributes[i] = 0;
+    }
+  }
 
   float attributes[AttributeDef_Size];
 };

@@ -1,12 +1,18 @@
 {
   "entity_list": [
-    // Raft
+    // River rail
     {
       "component_list": [
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "Raft"
+            "entity_id": "RiverRail"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": ["Raft"]
           }
         },
         {
@@ -26,6 +32,195 @@
                 }
               ]
             }
+          }
+        }
+      ]
+    },
+
+    // Raft
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Raft"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": -2.0
+            },
+            "scale": {
+              "x": 10.0,
+              "y": 10.0,
+              "z": 10.0
+            },
+            "child_ids": ["Sign"]
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file": "meshes/bamboo_mat.fplmesh",
+            "shader": "shaders/textured_opaque"
+          }
+        }
+      ]
+    },
+
+    // Digit
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Digit"
+          }
+        },
+        {
+          "data_type": "DigitDef",
+          "data" : {
+            "render_pass" : ["kAlpha"],
+            "shader": "shaders/textured",
+            "attrib": "PatronsFed",
+            "digit_mesh_list": [
+              "meshes/digit_0.fplmesh",
+              "meshes/digit_1.fplmesh",
+              "meshes/digit_2.fplmesh",
+              "meshes/digit_3.fplmesh",
+              "meshes/digit_4.fplmesh",
+              "meshes/digit_5.fplmesh",
+              "meshes/digit_6.fplmesh",
+              "meshes/digit_7.fplmesh",
+              "meshes/digit_8.fplmesh",
+              "meshes/digit_9.fplmesh"
+            ]
+          }
+        }
+      ]
+    },
+
+    // Tens Digit
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "TensDigit",
+            "prototype": "Digit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 0.15,
+              "y": -0.01,
+              "z": 0.75
+            },
+            "scale": {
+              "x": 0.2,
+              "y": 0.2,
+              "z": 0.2
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 4,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "DigitDef",
+          "data" : {
+            "divisor": 10
+          }
+        }
+      ]
+    },
+
+    // Ones Digit
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "OnesDigit",
+            "prototype": "Digit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 0.3,
+              "y": -0.01,
+              "z": 0.76
+            },
+            "scale": {
+              "x": 0.2,
+              "y": 0.2,
+              "z": 0.2
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 4,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "DigitDef",
+          "data" : {
+            "divisor": 1
+          }
+        }
+      ]
+    },
+
+    // Sign
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Sign"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -0.2,
+              "y": 0.37,
+              "z": 0.01
+            },
+            "scale": {
+              "x": 0.15,
+              "y": 0.15,
+              "z": 0.15
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 5.0,
+              "z": -45.0
+            },
+            "child_ids": [
+              "OnesDigit",
+              "TensDigit"
+            ]
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/temp_sign.fplmesh",
+            "shader": "shaders/textured",
+            "render_pass" : ["kAlpha"]
           }
         }
       ]

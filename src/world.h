@@ -20,6 +20,7 @@
 #include "components_generated.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
+#include "components/digit.h"
 #include "components/editor.h"
 #include "components/patron.h"
 #include "components/physics.h"
@@ -28,9 +29,9 @@
 #include "components/rail_denizen.h"
 #include "components/rendermesh.h"
 #include "components/river.h"
-#include "components/sound.h"
 #include "components/services.h"
 #include "components/shadow_controller.h"
+#include "components/sound.h"
 #include "components/time_limit.h"
 #include "components/transform.h"
 #include "editor/world_editor.h"
@@ -96,6 +97,7 @@ class World {
   AudioListenerComponent audio_listener_component;
   SoundComponent sound_component;
   AttributesComponent attributes_component;
+  DigitComponent digit_component;
   RiverComponent river_component;
   ServicesComponent services_component;
   ShadowControllerComponent shadow_controller_component;

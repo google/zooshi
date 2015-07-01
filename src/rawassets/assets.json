@@ -16,19 +16,41 @@
     "meshes/skybox.fplmesh",
     "meshes/bamboo_mat.fplmesh",
     "meshes/rock_small.fplmesh",
-    "meshes/fern.fplmesh"
+    "meshes/fern.fplmesh",
+    "meshes/temp_sign.fplmesh",
+    "meshes/digit_0.fplmesh",
+    "meshes/digit_1.fplmesh",
+    "meshes/digit_2.fplmesh",
+    "meshes/digit_3.fplmesh",
+    "meshes/digit_4.fplmesh",
+    "meshes/digit_5.fplmesh",
+    "meshes/digit_6.fplmesh",
+    "meshes/digit_7.fplmesh",
+    "meshes/digit_8.fplmesh",
+    "meshes/digit_9.fplmesh"
   ],
   "material_list": [
     "materials/guy.fplmat",
     "materials/guy_back.fplmat",
     "materials/pixel1x1.fplmat",
     "materials/river.fplmat",
-    "materials/blobshadow.fplmat"
+    "materials/blobshadow.fplmat",
+    "meshes/temp_sign.fplmat",
+    "meshes/digit_0.fplmat",
+    "meshes/digit_1.fplmat",
+    "meshes/digit_2.fplmat",
+    "meshes/digit_3.fplmat",
+    "meshes/digit_4.fplmat",
+    "meshes/digit_5.fplmat",
+    "meshes/digit_6.fplmat",
+    "meshes/digit_7.fplmat",
+    "meshes/digit_8.fplmat",
+    "meshes/digit_9.fplmat"
   ],
   "shader_list": [
     "shaders/cardboard",
     "shaders/lit_textured_normal",
     "shaders/textured",
-    "shaders/textured_opaque",
+    "shaders/textured_opaque"
   ]
 }

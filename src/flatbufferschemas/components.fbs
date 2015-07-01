@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+include "attributes.fbs";
 include "bullet_def.fbs";
 include "common.fbs";
 include "events.fbs";
@@ -131,6 +132,15 @@ table PlayerProjectileDef {
   on_collision:fpl.fpl_project.ActionDef;
 }
 
+table DigitDef {
+  // Must list 10 meshes.
+  digit_mesh_list:[string];
+  divisor:int = -1;
+  attrib:fpl.fpl_project.AttributeDef = Unspecified;
+  shader:string;
+  render_pass: [RenderPass];
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table ListenerDef {}
@@ -153,6 +163,7 @@ union ComponentDataUnion {
   PlayerProjectileDef,
   PhysicsDef,
   TimeLimitDef,
+  DigitDef,
   RenderMeshDef,
   ListenerDef,
   RiverDef,
