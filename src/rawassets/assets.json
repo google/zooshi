@@ -14,7 +14,9 @@
     "meshes/tree_saturated.fplmesh",
     "meshes/blobshadow.fplmesh",
     "meshes/skybox.fplmesh",
-    "meshes/bamboo_mat.fplmesh"
+    "meshes/bamboo_mat.fplmesh",
+    "meshes/rock_small.fplmesh",
+    "meshes/fern.fplmesh"
   ],
   "material_list": [
     "materials/guy.fplmat",

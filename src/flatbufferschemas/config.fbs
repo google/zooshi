@@ -31,6 +31,8 @@ enum EntityDefs : byte {
   kSushiGarden,
   kSkybox,
   kBambooMat,
+  kRockSmall,
+  kFern,
   kNumEntityDef
 }
 

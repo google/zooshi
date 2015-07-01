@@ -1138,6 +1138,86 @@
           }
         }
       ]
+    },
+
+    // kRockSmall
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "RockSmall",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "RockSmall_RenderMesh" ]
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "RockSmall_RenderMesh",
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/rock_small.fplmesh",
+            "shader": "shaders/cardboard"
+          }
+        }
+      ]
+    },
+
+    // kFern
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Fern",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "Fern_RenderMesh" ]
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "Fern_RenderMesh",
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/fern.fplmesh",
+            "shader": "shaders/textured_opaque"
+          }
+        }
+      ]
     }
   ]
 }

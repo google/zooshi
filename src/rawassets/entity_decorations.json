@@ -5,6 +5,58 @@
         {
           "data_type": "EditorDef",
           "data": {
+            "prototype":"RockSmall"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 3, "y": 40, "z": 1 },
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"Fern"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 5.5, "y": 45.5, "z": 1 },
+            "orientation": { "x": 0, "y": 0, "z": -140 },
+            "scale": { "x": 1.5, "y": 1.5, "z": 1.5 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype":"Fern"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 5, "y": 45, "z": 1 },
+            "orientation": { "x": 0, "y": 0, "z": 160 },
+            "scale": { "x": 1.5, "y": 1.5, "z": 1.5 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
             "prototype":"SushiGarden"
           }
         },
