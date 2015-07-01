@@ -141,15 +141,35 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
   get_filename_component(filename ${flatbuffers_schema} NAME_WE)
   set(flatbuffers_include
       ${FLATBUFFERS_GENERATED_INCLUDES_DIR}/${filename}_generated.h)
+  set(flatbuffers_binary_schema
+      ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/${filename}.bfbs)
+  file(COPY ${flatbuffers_schema}
+       DESTINATION ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/)
   add_custom_command(
     OUTPUT ${flatbuffers_include}
-    COMMAND flatc --gen-includes -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
+    COMMAND flatc --gen-includes --gen-mutable
+        -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas -c ${flatbuffers_schema}
     DEPENDS flatc motive pindrop ${flatbuffers_schema})
   list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_include})
+  # Generate the binary schema files as well.
+  add_custom_command(
+    OUTPUT ${flatbuffers_binary_schema}
+    COMMAND flatc -b --schema
+        -o ${CMAKE_BINARY_DIR}/assets/flatbufferschemas
+        -I ${dependencies_fplbase_dir}/schemas
+        -I ${dependencies_motive_dir}/schemas
+        -I ${dependencies_pindrop_dir}/schemas ${flatbuffers_schema}
+    DEPENDS flatc motive pindrop ${flatbuffers_schema})
+  # Temporarily don't generate all binary schemas until b/22063091 is fixed.
+  # list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_binary_schema})
 endforeach()
+# Only build the components binary schema until b/22063091 is fixed.
+list(APPEND
+     FLATBUFFERS_GENERATED_INCLUDES
+     ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/components.bfbs)
 add_custom_target(generated_includes DEPENDS ${FLATBUFFERS_GENERATED_INCLUDES})
 
 # Build rule that uses make to build the assets.
@@ -176,6 +196,8 @@ set(zooshi_SRCS
     src/components/attributes.h
     src/components/audio_listener.cpp
     src/components/audio_listener.h
+    src/components/editor.cpp
+    src/components/editor.h
     src/components/patron.cpp
     src/components/patron.h
     src/components/physics.cpp
@@ -230,6 +252,11 @@ set(zooshi_SRCS
     src/world.h
     src/world_editor_state.cpp
     src/world_editor_state.h
+    src/zooshi_entity_factory.cpp
+    src/zooshi_entity_factory.h
+    # For outputting flatbuffer files as json.
+    ${dependencies_flatbuffers_dir}/src/idl_parser.cpp
+    ${dependencies_flatbuffers_dir}/src/idl_gen_text.cpp
 )
 
 # Includes for this project.

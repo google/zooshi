@@ -43,6 +43,10 @@ void WorldEditorState::Initialize(Renderer* renderer, InputSystem* input_system,
 
 void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
   world_editor_->AdvanceFrame(delta_time);
+  if (input_system_->GetButton(FPLK_F11).went_down()) {
+    world_editor_->SaveWorld();
+  }
+
   if (input_system_->GetButton(FPLK_F10).went_down() ||
       input_system_->GetButton(FPLK_ESCAPE).went_down()) {
     *next_state = kGameStateGameplay;
@@ -62,6 +66,7 @@ void WorldEditorState::Render(Renderer* renderer) {
   renderer->DepthTest(true);
   renderer->model_view_projection() = camera_transform;
 
+  world_->render_mesh_component.RenderPrep(*camera);
   world_->render_mesh_component.RenderAllEntities(*renderer, *camera);
 
   world_editor_->Render(renderer);
@@ -71,6 +76,9 @@ void WorldEditorState::Render(Renderer* renderer) {
   }
 }
 
+void WorldEditorState::OnEnter() { world_editor_->Activate(); }
+
+void WorldEditorState::OnExit() { world_editor_->Deactivate(); }
+
 }  // fpl_project
 }  // fpl
-

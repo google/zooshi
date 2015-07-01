@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <vector>
 #include "components/attributes.h"
 #include "components/patron.h"
 #include "components/physics.h"
@@ -21,8 +22,12 @@
 #include "components/services.h"
 #include "components/transform.h"
 #include "events/collision.h"
+#include "events/editor_event.h"
 #include "events/parse_action.h"
+#include "flatbuffers/flatbuffers.h"
+#include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
+#include "world.h"
 
 using mathfu::vec3;
 using mathfu::quat;
@@ -44,6 +49,7 @@ void PatronComponent::Init() {
   event_manager_ =
       entity_manager_->GetComponent<ServicesComponent>()->event_manager();
   event_manager_->RegisterListener(EventSinkUnion_Collision, this);
+  event_manager_->RegisterListener(EventSinkUnion_EditorEvent, this);
 }
 
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,
@@ -52,14 +58,80 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   assert(component_data->data_type() == ComponentDataUnion_PatronDef);
   auto patron_def = static_cast<const PatronDef*>(component_data->data());
   PatronData* patron_data = AddEntity(entity);
-  patron_data->on_collision = patron_def->on_collision();
+  if (patron_def->on_collision() != nullptr) {
+    patron_data->on_collision = patron_def->on_collision();
+  }
   assert(patron_def->pop_out_radius() >= patron_def->pop_in_radius());
-  patron_data->pop_in_radius_squared =
-      patron_def->pop_in_radius() * patron_def->pop_in_radius();
-  patron_data->pop_out_radius_squared =
-      patron_def->pop_out_radius() * patron_def->pop_out_radius();
-  patron_data->min_lap = patron_def->min_lap();
-  patron_data->max_lap = patron_def->max_lap();
+  if (patron_def->pop_in_radius()) {
+    patron_data->pop_in_radius = patron_def->pop_in_radius();
+    patron_data->pop_in_radius_squared =
+        patron_data->pop_in_radius * patron_data->pop_in_radius;
+  }
+  if (patron_def->pop_out_radius()) {
+    patron_data->pop_out_radius = patron_def->pop_out_radius();
+    patron_data->pop_out_radius_squared =
+        patron_data->pop_out_radius * patron_data->pop_out_radius;
+  }
+
+  if (patron_def->min_lap() >= 0) {
+    patron_data->min_lap = patron_def->min_lap();
+  }
+
+  if (patron_def->max_lap() >= 0) {
+    patron_data->max_lap = patron_def->max_lap();
+  }
+}
+
+entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* PatronComponent::PopulateRawData(entity::EntityRef& entity,
+                                       void* helper) const {
+  const PatronData* data = GetComponentData(entity);
+  if (data == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+
+  auto schema_file = entity_manager_->GetComponent<ServicesComponent>()
+                         ->component_def_binary_schema();
+  auto schema =
+      schema_file != nullptr ? reflection::GetSchema(schema_file) : nullptr;
+  auto table_def =
+      schema != nullptr ? schema->objects()->LookupByKey("ActionDef") : nullptr;
+  auto on_collision =
+      data->on_collision != nullptr && table_def != nullptr
+          ? flatbuffers::Offset<ActionDef>(
+                flatbuffers::CopyTable(
+                    *fbb, *schema, *table_def,
+                    (const flatbuffers::Table&)(*data->on_collision))
+                    .o)
+          : 0;
+
+  // Get all the on_collision events
+  PatronDefBuilder builder(*fbb);
+  if (on_collision.o != 0) {
+    builder.add_on_collision(on_collision);
+  }
+  builder.add_min_lap(data->min_lap);
+  builder.add_max_lap(data->max_lap);
+  builder.add_pop_in_radius(data->pop_in_radius);
+  builder.add_pop_out_radius(data->pop_out_radius);
+
+  auto component = CreateComponentDefInstance(
+      *fbb, ComponentDataUnion_PatronDef, builder.Finish().Union());
+
+  return reinterpret_cast<void*>(component.o);
 }
 
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
@@ -76,6 +148,8 @@ void PatronComponent::PostLoadFixup() {
         transform_data->orientation.Inverse() * mathfu::kAxisY3f;
     patron_data->falling_rotation =
         quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
+    patron_data->state = kPatronStateLayingDown;
+    patron_data->y = 0;
     patron_data->original_orientation = transform_data->orientation;
     transform_data->orientation =
         patron_data->original_orientation *
@@ -94,9 +168,11 @@ void PatronComponent::PostLoadFixup() {
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   entity::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-  TransformData* raft_transform = Data<TransformData>(raft);
-  RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
-  int lap = raft_rail_denizen->lap;
+  if (!raft) return;
+  TransformData* raft_transform = raft ? Data<TransformData>(raft) : nullptr;
+  RailDenizenData* raft_rail_denizen =
+      raft ? Data<RailDenizenData>(raft) : nullptr;
+  int lap = raft_rail_denizen != nullptr ? raft_rail_denizen->lap : 0;
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     entity::EntityRef patron = iter->entity;
@@ -187,6 +263,26 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
       }
       break;
     }
+    case EventSinkUnion_EditorEvent: {
+      auto* event = event_payload.ToData<EditorEventPayload>();
+      auto physics_component =
+          entity_manager_->GetComponent<PhysicsComponent>();
+      if (event->action == EditorEventAction_Enter) {
+        // Make the patrons stand up
+        for (auto iter = component_data_.begin(); iter != component_data_.end();
+             ++iter) {
+          entity::EntityRef patron = iter->entity;
+          TransformData* transform_data = Data<TransformData>(patron);
+          PatronData* patron_data = Data<PatronData>(patron);
+          transform_data->orientation = patron_data->original_orientation;
+          physics_component->UpdatePhysicsFromTransform(patron);
+          physics_component->EnablePhysics(patron);
+        }
+      } else if (event->action == EditorEventAction_Exit) {
+        PostLoadFixup();
+      }
+      break;
+    }
     default: { assert(0); }
   }
 }
@@ -212,7 +308,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
 
       // Fall away from the raft position, on the y-axis.
       auto patron_transform = Data<TransformData>(patron_entity);
-      auto raft_transform = Data<TransformData>(raft);
+      auto raft_transform = raft ? Data<TransformData>(raft) : nullptr;
       vec3 hit_to_patron =
           patron_transform->orientation *
           (patron_transform->position - raft_transform->position);
@@ -252,8 +348,10 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
 
 void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
   for (int i = 0; i < count; i++) {
-    entity::EntityRef particle = entity_manager_->CreateEntityFromData(
-        config_->entity_defs()->Get(EntityDefs_kSplatterParticle));
+    entity::EntityRef particle =
+        entity_manager_->GetComponent<ServicesComponent>()
+            ->zooshi_entity_factory()
+            ->CreateEntityFromPrototype("SplatterParticle", entity_manager_);
 
     TransformData* transform_data =
         entity_manager_->GetComponentData<TransformData>(particle);

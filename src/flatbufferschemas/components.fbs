@@ -24,7 +24,24 @@ table TransformDef {
   position:Vec3;
   scale:Vec3;
   orientation:Vec3;
-  children:[EntityDef];
+  children:[EntityDef] (deprecated);
+  child_ids:[string];
+}
+
+table EditorDef {
+  // Each entity has a unique entity ID. This includes entity prototypes.
+  // If you don't specify the entity ID for your entity, it will be automatically
+  // generated when needed.
+  entity_id:string;
+
+  // If this entity is based on a prototype, the prototype's entity ID goes here.
+  prototype:string;
+
+  // A human-readable comment to remember what this entity is for.
+  comment:string;
+
+  // Set to 1 to skip this entity when selecting entities in the editor.
+  ignore_selection:int = -1;
 }
 
 table TimeLimitDef {
@@ -72,8 +89,8 @@ table PatronDef {
   // Each time the raft makes a lap around the river, it's lap counter is
   // incremented.  Patrons will only stand up when the lap counter is in the
   // range [min_lap, max_lap].
-  min_lap:int;
-  max_lap:int;
+  min_lap:int = -1;
+  max_lap:int = -1;
 
   // If the raft is within the pop in radius, this patron will stand up.
   pop_in_radius:float;
@@ -118,6 +135,7 @@ union ComponentDataUnion {
   ScoreDef,
   SoundDef,
   AttributesDef,
+  EditorDef,
   // The transform component should update after any other components that
   // might spawn or modify entities with transforms.
   TransformDef,
@@ -135,3 +153,9 @@ table EntityDef {
   component_list:[ComponentDefInstance];
 }
 
+// A list of entities.
+table EntityListDef {
+  entity_list:[EntityDef];
+}
+
+root_type EntityListDef;

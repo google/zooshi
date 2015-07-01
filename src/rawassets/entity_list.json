@@ -1,0 +1,74 @@
+{
+  "entity_list": [
+    // Raft
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "Raft"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [
+              "ActivePlayer"
+            ]
+          }
+        }
+      ]
+    },
+    // Active player
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "ActivePlayer",
+            "prototype": "PlayerPrototype"
+          }
+        }
+      ]
+    },
+    // River:
+    {
+      "component_list": [
+        {
+          "data_type": "RiverDef",
+          "data" : {}
+        }
+      ]
+    },
+
+    // Sky
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "SkyBox"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 250, "y": 250, "z": 250 }
+          }
+        }
+      ]
+    },
+
+    // Ground physics
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "GroundPhysics"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -27,6 +27,7 @@
 #include "fplbase/utilities.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
+#include "world.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -72,8 +73,10 @@ void PlayerComponent::InitEntity(entity::EntityRef& entity) {
 }
 
 entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
-  entity::EntityRef projectile = entity_manager_->CreateEntityFromData(
-      config_->entity_defs()->Get(EntityDefs_kProjectile));
+  entity::EntityRef projectile =
+      entity_manager_->GetComponent<ServicesComponent>()
+          ->zooshi_entity_factory()
+          ->CreateEntityFromPrototype("Projectile", entity_manager_);
 
   TransformData* transform_data = Data<TransformData>(projectile);
   PhysicsData* physics_data = Data<PhysicsData>(projectile);
@@ -90,9 +93,10 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
                   config_->projectile_upkick() * mathfu::kAxisZ3f;
 
   // Include the raft's current velocity to the thrown sushi.
-  auto raft_rail = Data<RailDenizenData>(
-      entity_manager_->GetComponent<ServicesComponent>()->raft_entity());
-  velocity += raft_rail->Velocity();
+  auto raft_entity =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  auto raft_rail = raft_entity ? Data<RailDenizenData>(raft_entity) : nullptr;
+  if (raft_rail != nullptr) velocity += raft_rail->Velocity();
 
   physics_data->SetVelocity(velocity);
   physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(3.0f, 6.0f),
@@ -104,6 +108,33 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   projectile_data->owner = source;
 
   return entity::EntityRef();
+}
+
+entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
+    entity::EntityRef& entity) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder builder;
+  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
+  flatbuffers::Offset<ComponentDefInstance> component;
+  component.o = reinterpret_cast<uint64_t>(result);
+
+  builder.Finish(component);
+  return builder.ReleaseBufferPointer();
+}
+
+void* PlayerComponent::PopulateRawData(entity::EntityRef& entity,
+                                       void* helper) const {
+  if (GetComponentData(entity) == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder* fbb =
+      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+
+  // TODO: output the on_fire events.
+
+  auto component = CreateComponentDefInstance(
+      *fbb, ComponentDataUnion_PlayerDef, CreatePlayerDef(*fbb).Union());
+  return reinterpret_cast<void*>(component.o);
 }
 
 }  // fpl_project

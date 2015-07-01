@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "components_generated.h"
 #include "config_generated.h"
+#include "components/editor.h"
+#include "flatbuffers/flatbuffers.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #include "input_config_generated.h"
@@ -38,16 +41,43 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
+static const char kEntityLibraryFile[] = "entity_prototypes.bin";
+
 // count = 5  ==>  low = -2, high = 3  ==> range -2..2
 // count = 6  ==>  low = -3, high = 3  ==> range -2..3
 static RangeInt GridRange(int count) {
   return RangeInt(-count / 2, (count + 1) / 2);
 }
 
+bool World::LoadEntitiesFromFile(const char* filename) {
+  LogInfo("LoadEntitiesFromFile: Reading %s", filename);
+  if (loaded_entity_files_.find(filename) == loaded_entity_files_.end()) {
+    std::string data;
+    if (!LoadFile(filename, &data)) {
+      LogInfo("LoadEntitiesFromFile: Couldn't open file %s", filename);
+      return false;
+    }
+    loaded_entity_files_[filename] = data;
+  }
+  const EntityListDef* list =
+      GetEntityListDef(loaded_entity_files_[filename].c_str());
+  int total = 0;
+  for (size_t i = 0; i < list->entity_list()->size(); i++) {
+    total++;
+    entity::EntityRef entity =
+        entity_manager.CreateEntityFromData(list->entity_list()->Get(i));
+    // Make sure we track which file this entity came from.
+    entity_manager.GetComponent<EditorComponent>()->AddWithSourceFile(entity,
+                                                                      filename);
+  }
+  LogInfo("LoadEntitiesFromFile: Loaded %d entities from %s", total, filename);
+
+  return true;
+}
+
 void World::Initialize(const Config& config_, InputSystem* input_system,
                        BasePlayerController* input_controller,
-                       AssetManager* asset_manager,
-                       FontManager* font_manager,
+                       AssetManager* asset_manager, FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
                        event::EventManager* event_manager) {
   motive::SmoothInit::Register();
@@ -59,7 +89,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   // depend on it during their own init functions.
   services_component.Initialize(config, asset_manager, input_system,
                                 audio_engine, &motive_engine, event_manager,
-                                font_manager, &rail_manager);
+                                font_manager, &rail_manager, &entity_factory);
   entity_manager.RegisterComponent(&services_component);
 
   entity_manager.RegisterComponent(&transform_component);
@@ -75,113 +105,19 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   entity_manager.RegisterComponent(&attributes_component);
   entity_manager.RegisterComponent(&river_component);
   entity_manager.RegisterComponent(&shadow_controller_component);
+  entity_manager.RegisterComponent(&editor_component_);
 
+  services_component.LoadComponentDefBinarySchema(
+      "flatbufferschemas/components.bfbs");
+  entity_factory.SetEntityLibrary(kEntityLibraryFile);
   entity_manager.set_entity_factory(&entity_factory);
+  // entity_factory.set_debug(true);
 
   render_mesh_component.set_light_position(vec3(-10, -20, 20));
 
-  // Create entities that are explicitly detailed in `entity_list`.
-  for (size_t i = 0; i < config->entity_list()->size(); i++) {
-    entity_manager.CreateEntityFromData(config->entity_list()->Get(i));
-  }
-  // Create entities in a grid formation, as specified by `entity_grid_list`.
-  for (size_t i = 0; i < config->entity_grid_list()->size(); i++) {
-    auto grid = config->entity_grid_list()->Get(i);
-    auto entity_def = config->entity_defs()->Get(grid->entity());
-
-    const vec3i count = LoadVec3i(grid->count());
-    const RangeInt x_range = GridRange(count.x());
-    const RangeInt y_range = GridRange(count.y());
-    const RangeInt z_range = GridRange(count.z());
-    const vec3 grid_position = LoadVec3(grid->position());
-    const vec3 grid_separation = LoadVec3(grid->separation());
-    const vec3 grid_scale = LoadVec3(grid->scale());
-
-    for (int x = x_range.start(); x < x_range.end(); ++x) {
-      for (int y = y_range.start(); y < y_range.end(); ++y) {
-        for (int z = z_range.start(); z < z_range.end(); ++z) {
-          entity::EntityRef entity =
-              entity_manager.CreateEntityFromData(entity_def);
-
-          TransformData* transform_data =
-              entity_manager.GetComponentData<TransformData>(entity);
-
-          const vec3 coord(static_cast<float>(x), static_cast<float>(y),
-                           static_cast<float>(z));
-          transform_data->position = grid_position + coord * grid_separation;
-          transform_data->scale = grid_scale;
-        }
-      }
-    }
-  }
-
-  // Create entities in a ring formation, as specified by `entity_ring_list`.
-  for (size_t i = 0; i < config->entity_ring_list()->size(); i++) {
-    auto ring = config->entity_ring_list()->Get(i);
-    auto entity_def = config->entity_defs()->Get(ring->entity());
-    const vec3 ring_position = LoadVec3(ring->position());
-    const vec3 ring_scale = LoadVec3(ring->scale());
-
-    for (int j = 0; j < ring->count(); ++j) {
-      entity::EntityRef entity =
-          entity_manager.CreateEntityFromData(entity_def);
-
-      TransformData* transform_data =
-          entity_manager.GetComponentData<TransformData>(entity);
-
-      const Angle position_angle =
-          Angle::FromDegrees(ring->position_offset_angle()) +
-          Angle::FromWithinThreePi(j * kTwoPi / ring->count());
-      const Angle orientation_angle =
-          Angle::FromDegrees(ring->orientation_offset_angle()) - position_angle;
-      transform_data->position =
-          ring_position + ring->radius() * position_angle.ToXYVector();
-      transform_data->scale = ring_scale;
-      transform_data->orientation =
-          quat::FromAngleAxis(orientation_angle.ToRadians(), mathfu::kAxisZ3f);
-
-      if (entity->IsRegisteredForComponent(
-              physics_component.GetComponentId())) {
-        physics_component.UpdatePhysicsFromTransform(entity);
-      }
-    }
-  }
-
-  // Create entity based on the predefined entity list.
-  for (size_t i = 0; i < config->predefined_entity_list()->size(); i++) {
-    auto predefined = config->predefined_entity_list()->Get(i);
-    auto entity_def = config->entity_defs()->Get(predefined->entity());
-    entity::EntityRef entity = entity_manager.CreateEntityFromData(entity_def);
-    TransformData* transform_data =
-        entity_manager.GetComponentData<TransformData>(entity);
-    // If a rail denizen is included, update the data on that as well.
-    RailDenizenData* rail_denizen_data =
-        entity_manager.GetComponentData<RailDenizenData>(entity);
-    auto pos = predefined->position();
-    auto orientation = predefined->orientation();
-    auto scale = predefined->scale();
-    if (pos != nullptr) {
-      transform_data->position = LoadVec3(pos);
-      if (rail_denizen_data != nullptr) {
-        rail_denizen_data->rail_offset = transform_data->position;
-      }
-    }
-    if (orientation != nullptr) {
-      transform_data->orientation = mathfu::quat::FromEulerAngles(
-          LoadVec3(orientation) * kDegreesToRadians);
-      if (rail_denizen_data != nullptr) {
-        rail_denizen_data->rail_orientation = transform_data->orientation;
-      }
-    }
-    if (scale != nullptr) {
-      transform_data->scale = LoadVec3(scale);
-      if (rail_denizen_data != nullptr) {
-        rail_denizen_data->rail_scale = transform_data->scale;
-      }
-    }
-    if (entity->IsRegisteredForComponent(physics_component.GetComponentId())) {
-      physics_component.UpdatePhysicsFromTransform(entity);
-    }
+  for (size_t i = 0; i < config->entity_files()->size(); i++) {
+    const char* filename = config->entity_files()->Get(i)->c_str();
+    LoadEntitiesFromFile(filename);
   }
 
   for (auto iter = player_component.begin(); iter != player_component.end();
@@ -191,6 +127,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   }
   active_player_entity = player_component.begin()->entity;
 
+  transform_component.PostLoadFixup();  // sets up parent-child links
   patron_component.PostLoadFixup();
 
   entity::EntityRef player_entity = player_component.begin()->entity;
@@ -202,4 +139,3 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
 
 }  // fpl_project
 }  // fpl
-

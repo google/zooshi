@@ -94,23 +94,6 @@ static const char* kOpenTypeFontFile = "fonts/NotoSansCJKjp-Bold.otf";
 /// appreciate if you left it in.
 static const char kVersion[] = "FPL Project 0.0.1";
 
-// Factory method for the entity manager, for converting data (in our case.
-// flatbuffer definitions) into entities and sticking them into the system.
-entity::EntityRef ZooshiEntityFactory::CreateEntityFromData(
-    const void* data, entity::EntityManager* entity_manager) {
-  const EntityDef* def = static_cast<const EntityDef*>(data);
-  assert(def != nullptr);
-  entity::EntityRef entity = entity_manager->AllocateNewEntity();
-  for (size_t i = 0; i < def->component_list()->size(); i++) {
-    const ComponentDefInstance* currentInstance = def->component_list()->Get(i);
-    entity::ComponentInterface* component =
-        entity_manager->GetComponent(currentInstance->data_type());
-    assert(component != nullptr);
-    component->AddFromRawData(entity, currentInstance);
-  }
-  return entity;
-}
-
 Game::Game()
     : asset_manager_(renderer_),
       event_manager_(EventSinkUnion_Size),
@@ -310,7 +293,8 @@ bool Game::Initialize(const char* const binary_directory) {
                     &event_manager_);
 
   world_editor_.reset(new editor::WorldEditor());
-  world_editor_->Initialize(GetConfig().world_editor_config(), &input_);
+  world_editor_->Initialize(GetConfig().world_editor_config(), &input_,
+                            &world_.entity_manager);
 
   gameplay_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
                              world_editor_.get());
@@ -347,6 +331,7 @@ void Game::Render2DElements(mathfu::vec2i resolution) {
                                               static_cast<float>(res.y()), 0.0f,
                                               -1.0f, 1.0f);
   renderer_.model_view_projection() = ortho_mat;
+  renderer_.color() = mathfu::kOnes4f;
 
   // Update the currently drawing Google Play Games image. Displays "Sign In"
   // when currently signed-out, and "Sign Out" when currently signed in.
@@ -420,4 +405,3 @@ void Game::OnEvent(const event::EventPayload& event_payload) {
 
 }  // fpl_project
 }  // fpl
-

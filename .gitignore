@@ -11,6 +11,7 @@ gen/
 libs/
 obj/
 assets/flatbufferschemas/
+assets/*.json
 assets/fonts/
 assets/shaders/font.*
 

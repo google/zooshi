@@ -200,6 +200,30 @@ FLATBUFFERS_CONVERSION_DATA = [
         extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'config.json')]),
     FlatbuffersConversionData(
+        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_prototypes.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_list.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_ground.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_ring.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_decorations.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_level0.json')]),
+    FlatbuffersConversionData(
         schema=find_in_paths('rail_def.fbs', SCHEMA_PATHS),
         extension='.bin',
         input_files=glob.glob(os.path.join(RAW_RAIL_PATH, '*.json'))),

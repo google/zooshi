@@ -20,6 +20,8 @@ ZOOSHI_DIR:=$(LOCAL_PATH)/$(ZOOSHI_RELATIVE_DIR)
 include $(ZOOSHI_DIR)/jni/android_config.mk
 include $(DEPENDENCIES_FLATBUFFERS_DIR)/android/jni/include.mk
 
+FLATBUFFERS_FLATC_ARGS:=--gen-includes --gen-mutable
+
 # Build rule which builds assets for the game.
 ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 .PHONY: build_assets
@@ -57,6 +59,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/editor.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
@@ -81,7 +84,10 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/world_editor_state.cpp
+  $(ZOOSHI_RELATIVE_DIR)/src/world_editor_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/zooshi_entity_factory.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_gen_text.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 

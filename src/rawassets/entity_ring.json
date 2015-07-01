@@ -1,0 +1,2546 @@
+{
+  entity_list: [
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 137.219,
+              y: 60.5881,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 66.1765
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 149.84,
+              y: 6.92751,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 87.353
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 142.224,
+              y: -47.6687,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 108.529
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 115.4,
+              y: -95.827,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 129.706
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 72.9906,
+              y: -131.043,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 150.882
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 20.7235,
+              y: -148.562,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 172.059
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -34.3426,
+              y: -146.016,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -166.765
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -84.7705,
+              y: -123.75,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -145.588
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -123.75,
+              y: -84.7704,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -124.412
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -146.016,
+              y: -34.3426,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -103.235
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -148.562,
+              y: 20.7235,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -82.0588
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -131.043,
+              y: 72.9907,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -60.8823
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -95.827,
+              y: 115.4,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -39.7059
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -47.6687,
+              y: 142.224,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -18.5294
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 6.92755,
+              y: 149.84,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 2.64708
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 60.5882,
+              y: 137.219,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 23.8235
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 106.066,
+              y: 106.066,
+              z: 0
+            },
+            scale: {
+              x: 25,
+              y: 25,
+              z: 25
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 45
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 135.946,
+              y: -63.3927,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 115
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 63.3928,
+              y: -135.946,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 155
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -38.8229,
+              y: -144.889,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -165
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -122.873,
+              y: -86.0365,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -125
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -149.429,
+              y: 13.0733,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -85
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -106.066,
+              y: 106.066,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -45
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -13.0734,
+              y: 149.429,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -4.99999
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 86.0365,
+              y: 122.873,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 35
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 144.889,
+              y: 38.8228,
+              z: 0
+            },
+            scale: {
+              x: 20,
+              y: 20,
+              z: 20
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 75
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 11.782,
+              y: -5.49404,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 4.44626,
+              y: -12.216,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 70
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -5.49404,
+              y: -11.782,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 115
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -12.216,
+              y: -4.44626,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 160
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -11.782,
+              y: 5.49404,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -155
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -4.44626,
+              y: 12.216,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -110
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 5.49404,
+              y: 11.782,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -65
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 12.216,
+              y: 4.44626,
+              z: 2.5
+            },
+            scale: {
+              x: 1.25,
+              y: 1.5,
+              z: 1.5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -20
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 12.9904,
+              y: -7.5,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 120
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 5.13031,
+              y: -14.0954,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 160
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -5.1303,
+              y: -14.0954,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -160
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -12.9904,
+              y: -7.5,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -120
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -14.7721,
+              y: 2.60472,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -80
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -9.64181,
+              y: 11.4907,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -40
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -6.55671e-07,
+              y: 15,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 6.83019e-06
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 9.64181,
+              y: 11.4907,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 40
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 14.7721,
+              y: 2.60472,
+              z: 0
+            },
+            scale: {
+              x: 7,
+              y: 5,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 80
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 8.48528,
+              y: -8.48528,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 135
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -1.95505e-06,
+              y: -12,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -180
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -8.48528,
+              y: -8.48528,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -135
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -12,
+              y: -1.04907e-06,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -90
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -8.48528,
+              y: 8.48528,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -45
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -5.24537e-07,
+              y: 12,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 6.83019e-06
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 8.48528,
+              y: 8.48528,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 45
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 12,
+              y: 0,
+              z: 0
+            },
+            scale: {
+              x: 5,
+              y: 5,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 90
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 132.818,
+              y: -69.7085,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 117.692
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 85.2097,
+              y: -123.448,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 145.385
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 18.0805,
+              y: -148.906,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 173.077
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -53.1908,
+              y: -140.252,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -159.231
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -112.277,
+              y: -99.4684,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -131.538
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -145.641,
+              y: -35.8974,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -103.846
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -145.641,
+              y: 35.8974,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -76.1538
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -112.277,
+              y: 99.4684,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -48.4615
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -53.1907,
+              y: 140.252,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -20.7692
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 18.0805,
+              y: 148.906,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 6.92309
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 85.2097,
+              y: 123.448,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 34.6154
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 132.818,
+              y: 69.7085,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 62.3077
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "MidGroundTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 150,
+              y: 0,
+              z: 0
+            },
+            scale: {
+              x: 15,
+              y: 15,
+              z: 15
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 90
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 118.177,
+              y: 25.8378,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 170
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 118.177,
+              y: -15.8378,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -170
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 103.923,
+              y: -55,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -150
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 77.1345,
+              y: -86.9253,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -130
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 41.0424,
+              y: -107.763,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -110
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -1.95505e-05,
+              y: -115,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -90
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -41.0424,
+              y: -107.763,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -70
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -77.1345,
+              y: -86.9253,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -50
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -103.923,
+              y: -55,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -30
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -118.177,
+              y: -15.8378,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: -10
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -118.177,
+              y: 25.8378,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -103.923,
+              y: 65,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 30
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -77.1345,
+              y: 96.9253,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 50
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -41.0424,
+              y: 117.763,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 70
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 9.05975e-06,
+              y: 125,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 90
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 41.0424,
+              y: 117.763,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 110
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 77.1345,
+              y: 96.9253,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 130
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            ignore_selection: 1,
+            prototype: "FernGarden"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 103.923,
+              y: 65,
+              z: 5
+            },
+            scale: {
+              x: 2.5,
+              y: 3,
+              z: 3
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 150
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

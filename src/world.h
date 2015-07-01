@@ -15,8 +15,12 @@
 #ifndef ZOOSHI_WORLD_H_
 #define ZOOSHI_WORLD_H_
 
+#include <map>
+#include <string>
+#include "components_generated.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
+#include "components/editor.h"
 #include "components/patron.h"
 #include "components/physics.h"
 #include "components/player.h"
@@ -33,6 +37,7 @@
 #include "entity/entity_manager.h"
 #include "motive/engine.h"
 #include "railmanager.h"
+#include "zooshi_entity_factory.h"
 
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg_manager.h"
@@ -55,17 +60,10 @@ namespace fpl_project {
 struct Config;
 class BasePlayerController;
 
-class ZooshiEntityFactory : public entity::EntityFactoryInterface {
- public:
-  virtual entity::EntityRef CreateEntityFromData(
-      const void* data, entity::EntityManager* entity_manager);
-};
-
 class World {
-public:
+ public:
   World()
-      : transform_component(&entity_factory),
-        is_in_cardboard(false),
+    :   is_in_cardboard(false),
         draw_debug_physics(false) {}
 
   void Initialize(const Config& config, InputSystem* input_system,
@@ -73,6 +71,8 @@ public:
                   AssetManager* asset_manager, FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager);
+
+  bool LoadEntitiesFromFile(const char* entity_list_filename);
   motive::MotiveEngine motive_engine;
 
   // Entity manager
@@ -99,6 +99,7 @@ public:
   RiverComponent river_component;
   ServicesComponent services_component;
   ShadowControllerComponent shadow_controller_component;
+  EditorComponent editor_component_;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;
@@ -106,6 +107,11 @@ public:
   const Config* config;
 
   AssetManager* asset_manager;
+
+  // TODO: Refactor all components so they don't require their source
+  // data to remain in memory after their initial load. Then get rid of this,
+  // which keeps all entity files loaded in memory.
+  std::map<std::string, std::string> loaded_entity_files_;
 
   // Determines if the game is in Cardboard mode (for special rendering)
   bool is_in_cardboard;
@@ -125,4 +131,3 @@ public:
 }  // fpl
 
 #endif  // ZOOSHI_WORLD_H_
-

@@ -30,7 +30,6 @@ static const WorldTime kMaxProjectileDuration = 3 * kMillisecondsPerSecond;
 // Data for scene object components.
 struct PlayerProjectileData {
   PlayerProjectileData() : on_collision(nullptr) {}
-
   entity::EntityRef owner;  // The player that "owns" this projectile.
   // The event to trigger when colliding with another entity.
   const ActionDef* on_collision;
@@ -41,7 +40,6 @@ class PlayerProjectileComponent
       public event::EventListener {
  public:
   PlayerProjectileComponent() {}
-
 
   virtual void Init();
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}

@@ -52,6 +52,7 @@ struct RailDenizenData {
 
   int lap;
   float spline_playback_rate;
+  float start_time;
   motive::MotiveTime previous_time;
   const ActionDef* on_new_lap;
   motive::Motivator3f motivator;
@@ -70,6 +71,8 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 

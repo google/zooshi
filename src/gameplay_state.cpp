@@ -94,7 +94,7 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
 
   // Switch States if necessary.
   if (world_editor_ && input_system_->GetButton(fpl::FPLK_F10).went_down()) {
-    world_editor_->Activate(main_camera_);
+    world_editor_->SetInitialCamera(main_camera_);
     *next_state = kGameStateWorldEditor;
   }
 
@@ -156,6 +156,8 @@ void GameplayState::RenderStereoscopic(Renderer* renderer) {
   (void)renderer;
 #endif  // ANDROID_CARDBOARD
 }
+
+void GameplayState::OnEnter() {}
 
 }  // fpl_project
 }  // fpl
