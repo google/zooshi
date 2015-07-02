@@ -88,9 +88,8 @@ void RenderMeshComponent::RenderPrep(const Camera& camera) {
             pass_render_list[RenderPass_kOpaque].end());
   std::sort(pass_render_list[RenderPass_kAlpha].begin(),
             pass_render_list[RenderPass_kAlpha].end(),
-              std::greater<RenderlistEntry>());
+            std::greater<RenderlistEntry>());
 }
-
 
 void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
                                             const Camera& camera) {
@@ -100,8 +99,10 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
     for (size_t i = 0; i < pass_render_list[pass].size(); i++) {
       entity::EntityRef& entity = pass_render_list[pass][i].entity;
 
-      TransformData* transform_data = Data<TransformData>(entity);
       RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
+      if (rendermesh_data->currently_hidden) continue;
+
+      TransformData* transform_data = Data<TransformData>(entity);
 
       mat4 world_transform = transform_data->world_transform;
 
@@ -141,13 +142,16 @@ void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
   rendermesh_data->ignore_culling = rendermesh_def->ignore_culling();
 
   rendermesh_data->mesh =
-
-  asset_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
+      asset_manager_->LoadMesh(rendermesh_def->source_file()->c_str());
   assert(rendermesh_data->mesh != nullptr);
+
   rendermesh_data->shader =
-    asset_manager_->LoadShader(rendermesh_def->shader()->c_str());
+      asset_manager_->LoadShader(rendermesh_def->shader()->c_str());
   assert(rendermesh_data->shader != nullptr);
   rendermesh_data->ignore_culling = rendermesh_def->ignore_culling();
+
+  rendermesh_data->default_hidden = rendermesh_def->hidden();
+  rendermesh_data->currently_hidden = rendermesh_def->hidden();
 
   rendermesh_data->pass_mask = 0;
   if (rendermesh_def->render_pass() != nullptr) {

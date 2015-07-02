@@ -15,10 +15,20 @@
 #include <string.h>
 #include "components_generated.h"
 #include "components/editor.h"
+#include "components/rendermesh.h"
+#include "components/services.h"
+#include "events/editor_event.h"
 #include "mathfu/utilities.h"
 
 namespace fpl {
 namespace fpl_project {
+
+void EditorComponent::Init() {
+  ServicesComponent* services =
+      entity_manager_->GetComponent<ServicesComponent>();
+
+  services->event_manager()->RegisterListener(EventSinkUnion_EditorEvent, this);
+}
 
 void EditorComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
@@ -40,8 +50,11 @@ void EditorComponent::AddFromRawData(entity::EntityRef& entity,
     if (editor_def->comment() != nullptr) {
       editor_data->comment = editor_def->comment()->c_str();
     }
-    if (editor_def->ignore_selection() != -1) {
-      editor_data->ignore_selection = editor_def->ignore_selection();
+    if (editor_def->selection_option() != EditorSelectionOption_Unspecified) {
+      editor_data->selection_option = editor_def->selection_option();
+    }
+    if (editor_def->render_option() != EditorRenderOption_Unspecified) {
+      editor_data->render_option = editor_def->render_option();
     }
   }
 }
@@ -51,8 +64,11 @@ void EditorComponent::AddFromPrototypeData(entity::EntityRef& entity,
   if (editor_def->comment() != nullptr) {
     editor_data->comment = editor_def->comment()->c_str();
   }
-  if (editor_def->ignore_selection() != -1) {
-    editor_data->ignore_selection = editor_def->ignore_selection();
+  if (editor_def->selection_option() != EditorSelectionOption_Unspecified) {
+    editor_data->selection_option = editor_def->selection_option();
+  }
+  if (editor_def->render_option() != EditorRenderOption_Unspecified) {
+    editor_data->render_option = editor_def->render_option();
   }
 }
 
@@ -103,8 +119,11 @@ void* EditorComponent::PopulateRawData(entity::EntityRef& entity,
   if (data->comment != "") {
     builder.add_comment(comment);
   }
-  if (data->ignore_selection != -1)
-    builder.add_ignore_selection(data->ignore_selection);
+  if (data->selection_option != EditorSelectionOption_Unspecified)
+    builder.add_selection_option(data->selection_option);
+
+  if (data->render_option != EditorRenderOption_Unspecified)
+    builder.add_render_option(data->render_option);
 
   auto component = CreateComponentDefInstance(
       *fbb, ComponentDataUnion_EditorDef, builder.Finish().Union());
@@ -185,6 +204,48 @@ void EditorComponent::GenerateRandomEntityID(std::string* output) {
   }
   name[i + 1] = '\0';
   *output = std::string(name);
+}
+
+void EditorComponent::OnEvent(const event::EventPayload& event_payload) {
+  switch (event_payload.id()) {
+    case EventSinkUnion_EditorEvent: {
+      auto* event = event_payload.ToData<EditorEventPayload>();
+      auto render_mesh_component =
+          entity_manager_->GetComponent<RenderMeshComponent>();
+      if (event->action == EditorEventAction_Enter) {
+        for (auto iter = component_data_.begin(); iter != component_data_.end();
+             ++iter) {
+          if (iter->data.render_option == EditorRenderOption_OnlyInEditor ||
+              iter->data.render_option == EditorRenderOption_NotInEditor) {
+            RenderMeshData* rendermesh_data =
+                render_mesh_component->GetComponentData(iter->entity);
+            if (rendermesh_data != nullptr) {
+              bool hide =
+                  (iter->data.render_option == EditorRenderOption_NotInEditor);
+              iter->data.backup_rendermesh_hidden =
+                  rendermesh_data->currently_hidden;
+              rendermesh_data->currently_hidden = hide;
+            }
+          }
+        }
+      } else if (event->action == EditorEventAction_Exit) {
+        for (auto iter = component_data_.begin(); iter != component_data_.end();
+             ++iter) {
+          if (iter->data.render_option == EditorRenderOption_OnlyInEditor ||
+              iter->data.render_option == EditorRenderOption_NotInEditor) {
+            RenderMeshData* rendermesh_data =
+                render_mesh_component->GetComponentData(iter->entity);
+            if (rendermesh_data != nullptr) {
+              rendermesh_data->currently_hidden =
+                  iter->data.backup_rendermesh_hidden;
+            }
+          }
+        }
+      }
+      break;
+    }
+    default: { assert(0); }
+  }
 }
 
 }  // namespace fpl_project

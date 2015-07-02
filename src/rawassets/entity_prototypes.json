@@ -37,7 +37,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "GroundPhysics"
+            "entity_id": "GroundPhysics",
+            "selection_option": "None"
           }
         },
         {
