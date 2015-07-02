@@ -70,7 +70,9 @@
       "component_list": [
         {
           "data_type": "RiverDef",
-          "data" : {}
+          "data" : {
+              "rail_name": "player_path"
+          }
         }
       ]
     },

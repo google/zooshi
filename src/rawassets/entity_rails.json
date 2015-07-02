@@ -1,0 +1,908 @@
+{
+  "entity_list": [
+    // Player_path rail
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 0,
+            "rail_name": "player_path",
+            "total_time": 60000.0,
+            "reliable_distance": 1.0
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 0.000000, "y": 50.000000, "z": 2.000000}
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 1,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 5.000000, "y": 50.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 2,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 25.000000, "y": 55.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 3,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 35.000000, "y": 55.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 4,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 45.000000, "y": 50.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 5,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 50.000000, "y": 40.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 6,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 50.000000, "y": 30.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 7,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 45.000000, "y": 20.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 8,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 35.000000, "y": 10.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 9,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 30.000000, "y": -0.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 10,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 30.000000, "y": -10.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 11,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 35.000000, "y": -20.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 12,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 35.000000, "y": -30.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 13,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 30.000000, "y": -40.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 14,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 20.000000, "y": -45.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 15,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": 0.000000, "y": -45.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 16,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -10.000000, "y": -50.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 17,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -25.000000, "y": -55.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 18,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -30.000000, "y": -55.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 19,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -40.000000, "y": -50.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 20,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -45.000000, "y": -45.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 21,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -50.000000, "y": -35.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 22,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -50.000000, "y": -30.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 23,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -45.000000, "y": -20.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 24,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -40.000000, "y": -15.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 25,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -35.000000, "y": -5.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 26,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -35.000000, "y": 5.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 27,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -40.000000, "y": 15.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 28,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -45.000000, "y": 20.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 29,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -50.000000, "y": 30.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 30,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -50.000000, "y": 35.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 31,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -45.000000, "y": 45.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 32,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -40.000000, "y": 50.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 33,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -20.000000, "y": 55.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 34,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {"x": -10.000000, "y": 50.000000, "z": 2.000000},
+          }
+        }
+      ]
+    },
+
+    // line_loop rail
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 0,
+            "rail_name": "line_loop",
+            "total_time": 4000.0,
+            "reliable_distance": 1.0
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -1, "y": 0, "z": 0 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 1,
+            "rail_name": "line_loop",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": 0, "z": 0 },
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 2,
+            "rail_name": "line_loop",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 1, "y": 0, "z": 0 },
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 3,
+            "rail_name": "line_loop",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": 0, "z": 0 },
+          }
+        }
+      ]
+    },
+  ]
+}

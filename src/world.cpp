@@ -90,6 +90,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   services_component.Initialize(config, asset_manager, input_system,
                                 audio_engine, &motive_engine, event_manager,
                                 font_manager, &rail_manager, &entity_factory);
+
   entity_factory.SetComponentId(
       ComponentDataUnion_ServicesDef,
       entity_manager.RegisterComponent(&services_component));
@@ -135,6 +136,10 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   entity_factory.SetComponentId(
       ComponentDataUnion_EditorDef,
       entity_manager.RegisterComponent(&editor_component_));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_RailNodeDef,
+      entity_manager.RegisterComponent(&rail_node_component));
+  // Make sure you register TransformComponent after any components that use it.
   entity_factory.SetComponentId(
       ComponentDataUnion_TransformDef,
       entity_manager.RegisterComponent(&transform_component));

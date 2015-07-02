@@ -32,7 +32,7 @@
           "data_type": "RailDenizenDef",
           "data" : {
             "start_time": 0,
-            "rail_file": "rails/player_path.bin",
+            "rail_name" : "player_path",
             "on_new_lap": {
               "event_list": [
                 {
@@ -49,6 +49,7 @@
         }
       ]
     },
+
 
     // Raft
     {
@@ -234,6 +235,62 @@
             "source_file":"meshes/temp_sign.fplmesh",
             "shader": "shaders/textured",
             "render_pass" : ["kAlpha"]
+          }
+        }
+      ]
+    },
+
+    // RailNode
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "RailNode",
+            "render_option": "OnlyInEditor",
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {"x":20,"y":20,"z":20}
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_rice.fplmesh",
+            "shader": "shaders/textured",
+            "hidden": true
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.6,
+                    "y": 0.32,
+                    "z": 0.32
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.32,
+                  "z": 0.0
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Raycast",
+                "collides_with": [
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
           }
         }
       ]
@@ -718,7 +775,7 @@
           "data_type": "RailDenizenDef",
           "data" : {
             "start_time": 0,
-            "rail_file": "rails/line_loop.bin",
+            "rail_name" : "line_loop",
             "initial_playback_rate": 0.75,
             "update_orientation": false,
             "rail_scale": { "x": 5, "y": 5, "z": 5 }

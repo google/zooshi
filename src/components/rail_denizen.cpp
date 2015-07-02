@@ -19,10 +19,12 @@
 
 #include "components/services.h"
 #include "components/transform.h"
+#include "components/rail_node.h"
 #include "components_generated.h"
 #include "entity/component.h"
 #include "event/event_manager.h"
 #include "events/change_rail_speed.h"
+#include "events/editor_event.h"
 #include "events/parse_action.h"
 #include "events/utilities.h"
 #include "flatbuffers/flatbuffers.h"
@@ -58,11 +60,8 @@ vec3 Rail::PositionCalculatedSlowly(float time) const {
   return position;
 }
 
-void RailDenizenData::Initialize(const Rail& rail, float start_time,
-                                 motive::MotiveEngine* engine) {
-  motivator.Initialize(motive::SmoothInit(), engine);
+void RailDenizenData::Initialize(const Rail& rail, float start_time) {
   motivator.SetSpline(SplinePlayback3f(rail.splines(), start_time, true));
-  motivator.SetSplinePlaybackRate(spline_playback_rate);
 }
 
 void RailDenizenComponent::Init() {
@@ -73,18 +72,7 @@ void RailDenizenComponent::Init() {
 
   services->event_manager()->RegisterListener(EventSinkUnion_ChangeRailSpeed,
                                               this);
-}
-
-void RailDenizenComponent::SetRail(entity::EntityRef entity, RailId rail_id) {
-  RailManager* rail_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->rail_manager();
-
-  RailDenizenData* data = GetComponentData(entity);
-
-  data->rail_id = rail_id;
-
-  // force the rail manager to load the rail:
-  rail_manager->GetRail(rail_id);
+  services->event_manager()->RegisterListener(EventSinkUnion_EditorEvent, this);
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
@@ -133,18 +121,13 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
       static_cast<const RailDenizenDef*>(component_data->data());
   RailDenizenData* data = AddEntity(entity);
 
-  RailManager* rail_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->rail_manager();
+  if (rail_denizen_def->rail_name() != nullptr)
+    data->rail_name = rail_denizen_def->rail_name()->c_str();
 
-  SetRail(entity, rail_denizen_def->rail_file()->c_str());
-
-  data->Initialize(
-      *rail_manager->GetRail(rail_denizen_def->rail_file()->c_str()),
-      rail_denizen_def->start_time(), engine_);
   data->start_time = rail_denizen_def->start_time();
   data->on_new_lap = rail_denizen_def->on_new_lap();
   data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
-  data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
+
   auto offset = rail_denizen_def->rail_offset();
   auto orientation = rail_denizen_def->rail_orientation();
   auto scale = rail_denizen_def->rail_scale();
@@ -162,6 +145,28 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   data->enabled = rail_denizen_def->enabled();
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
+
+  data->motivator.Initialize(motive::SmoothInit(), engine_);
+  data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
+
+  data->rail_id = rail_denizen_def->rail_file()->c_str();
+
+  InitializeRail(entity);
+}
+
+void RailDenizenComponent::InitializeRail(entity::EntityRef& entity) {
+  RailManager* rail_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->rail_manager();
+  RailDenizenData* data = GetComponentData(entity);
+  if (data->rail_name != "") {
+    data->Initialize(*rail_manager->GetRailFromComponents(
+                         data->rail_name.c_str(), entity_manager_),
+                     data->start_time);
+  } else {
+    LogInfo("RailDenizen: Loading static rail file: '%s'", data->rail_id);
+    data->Initialize(*rail_manager->GetRail(data->rail_id), data->start_time);
+  }
+  data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
 }
 
 entity::ComponentInterface::RawDataUniquePtr
@@ -231,6 +236,27 @@ void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {
                        speed_event->change_rail_speed->value());
         rail_denizen_data->motivator.SetSplinePlaybackRate(
             rail_denizen_data->spline_playback_rate);
+      }
+      break;
+    }
+    case EventSinkUnion_EditorEvent: {
+      // TODO(jsimantov): Mail rail lookup more efficient. http://b/22355890
+      auto* editor_event = event_payload.ToData<EditorEventPayload>();
+      if (editor_event->action == EditorEventAction_EntityUpdated &&
+          editor_event->entity) {
+        const RailNodeData* node_data =
+            entity_manager_->GetComponentData<RailNodeData>(
+                editor_event->entity);
+        if (node_data != nullptr) {
+          const std::string& rail_name = node_data->rail_name;
+          for (auto iter = begin(); iter != end(); ++iter) {
+            const RailDenizenData* rail_denizen_data =
+                GetComponentData(iter->entity);
+            if (rail_denizen_data->rail_name == rail_name) {
+              InitializeRail(iter->entity);
+            }
+          }
+        }
       }
       break;
     }

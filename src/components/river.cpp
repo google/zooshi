@@ -17,7 +17,9 @@
 #include "components/river.h"
 #include "components/rendermesh.h"
 #include "components/rail_denizen.h"
+#include "components/rail_node.h"
 #include "components/services.h"
+#include "events/editor_event.h"
 #include "fplbase/utilities.h"
 #include <math.h>
 #include <memory>
@@ -35,15 +37,23 @@ namespace fpl_project {
 
 static const size_t kNumIndicesPerQuad = 6;
 
-void RiverComponent::InitEntity(entity::EntityRef& entity) {
+void RiverComponent::Init() {
+  event_manager_ =
+      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
+  event_manager_->RegisterListener(EventSinkUnion_EditorEvent, this);
+}
+
+void RiverComponent::AddFromRawData(entity::EntityRef& entity,
+                                    const void* raw_data) {
+  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
+  assert(component_data->data_type() == ComponentDataUnion_RiverDef);
+  auto river_def = static_cast<const RiverDef*>(component_data->data());
+  RiverData* river_data = AddEntity(entity);
+  river_data->rail_name = river_def->rail_name()->c_str();
+
   entity_manager_->AddEntityToComponent<RenderMeshComponent>(entity);
 
   CreateRiverMesh(entity);
-}
-
-void RiverComponent::AddFromRawData(entity::EntityRef& parent,
-                                    const void* /*raw_data*/) {
-  AddEntity(parent);
 }
 
 entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
@@ -52,8 +62,15 @@ entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
+  auto rail_name =
+      data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;
+
+  RiverDefBuilder builder(fbb);
+  if (rail_name.o != 0) {
+    builder.add_rail_name(rail_name);
+  }
   auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_RiverDef,
-                                              CreateRiverDef(fbb).Union());
+                                              builder.Finish().Union());
 
   fbb.Finish(component);
   return fbb.ReleaseBufferPointer();
@@ -69,9 +86,12 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
                                  ->config()
                                  ->river_config();
 
+  RiverData* river_data = Data<RiverData>(entity);
+
   Rail* rail = entity_manager_->GetComponent<ServicesComponent>()
                    ->rail_manager()
-                   ->GetRail(river->rail_filename()->c_str());
+                   ->GetRailFromComponents(river_data->rail_name.c_str(),
+                                           entity_manager_);
 
   // Generate the spline data and store it in our track vector:
   rail->Positions(river->spline_stepsize(), &track);
@@ -253,7 +273,6 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   mesh_data->ignore_culling = true;  // Never cull the river.
   mesh_data->pass_mask = 1 << RenderPass_kOpaque;
 
-  RiverData* river_data = Data<RiverData>(entity);
   if (!river_data->bank) {
     // Now we make a new entity to hold the bank mesh.
     river_data->bank = entity_manager_->AllocateNewEntity();
@@ -274,6 +293,28 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   child_render_data->pass_mask = 1 << RenderPass_kOpaque;
 }
 
+void RiverComponent::OnEvent(const event::EventPayload& event_payload) {
+  switch (event_payload.id()) {
+    case EventSinkUnion_EditorEvent: {
+      auto* editor_event = event_payload.ToData<EditorEventPayload>();
+      if (editor_event->action == EditorEventAction_EntityUpdated &&
+          editor_event->entity) {
+        const RailNodeData* node_data =
+            entity_manager_->GetComponentData<RailNodeData>(
+                editor_event->entity);
+        if (node_data != nullptr) {
+          // For now, update all rivers. In the future only update rivers that
+          // have the same rail_name that just changed.
+          for (auto iter = begin(); iter != end(); ++iter) {
+            CreateRiverMesh(iter->entity);
+          }
+        }
+      }
+      break;
+    }
+    default: { assert(0); }
+  }
+}
+
 }  // fpl_project
 }  // fpl
-

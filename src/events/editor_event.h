@@ -15,6 +15,7 @@
 #ifndef FPL_EVENTS_EDITOREVENT_H_
 #define FPL_EVENTS_EDITOREVENT_H_
 
+#include "entity/entity_manager.h"
 #include "event/event_registry.h"
 #include "events_generated.h"
 #include "mathfu/vector.h"
@@ -24,8 +25,12 @@ namespace fpl_project {
 
 struct EditorEventPayload {
   EditorEventPayload(EditorEventAction _action) : action(_action) {}
+  EditorEventPayload(EditorEventAction _action,
+                     const entity::EntityRef& _entity)
+      : action(_action), entity(_entity) {}
 
   EditorEventAction action;
+  entity::EntityRef entity;
 };
 
 }  // fpl_project

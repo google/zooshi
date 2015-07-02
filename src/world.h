@@ -27,6 +27,7 @@
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
+#include "components/rail_node.h"
 #include "components/rendermesh.h"
 #include "components/river.h"
 #include "components/services.h"
@@ -63,9 +64,7 @@ class BasePlayerController;
 
 class World {
  public:
-  World()
-    :   is_in_cardboard(false),
-        draw_debug_physics(false) {}
+  World() : is_in_cardboard(false), draw_debug_physics(false) {}
 
   void Initialize(const Config& config, InputSystem* input_system,
                   BasePlayerController* input_controller,
@@ -99,6 +98,7 @@ class World {
   AttributesComponent attributes_component;
   DigitComponent digit_component;
   RiverComponent river_component;
+  RailNodeComponent rail_node_component;
   ServicesComponent services_component;
   ShadowControllerComponent shadow_controller_component;
   EditorComponent editor_component_;

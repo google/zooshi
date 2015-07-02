@@ -15,6 +15,7 @@
 #ifndef COMPONENTS_RIVER_H
 #define COMPONENTS_RIVER_H
 
+#include <string>
 #include "components_generated.h"
 #include "entity/component.h"
 #include "fplbase/mesh.h"
@@ -31,18 +32,23 @@ namespace fpl_project {
 // once the river gets more animated.
 struct RiverData {
   entity::EntityRef bank;
+  std::string rail_name;
 };
 
-class RiverComponent : public entity::Component<RiverData> {
+class RiverComponent : public entity::Component<RiverData>,
+                       public event::EventListener {
  public:
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
 
-  virtual void InitEntity(entity::EntityRef& entity);
+  virtual void Init();
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
+
+  virtual void OnEvent(const event::EventPayload& payload);
 
  private:
   void CreateRiverMesh(entity::EntityRef& entity);
+  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

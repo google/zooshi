@@ -76,6 +76,7 @@ table RailDenizenDef {
   initial_playback_rate:float;
   on_new_lap:fpl.fpl_project.ActionDef;
   rail_file:string;
+  rail_name:string;
   rail_offset:Vec3; // Additional offset from the rail position
   rail_orientation:Vec3; // Rotation to apply to the rail
   rail_scale:Vec3; // Scale to apply to the rail
@@ -141,12 +142,38 @@ table DigitDef {
   render_pass: [RenderPass];
 }
 
+// A spline node for a rail.
+table RailNodeDef {
+  // The nodes are put in ascending order to define the rail spline.
+  // If you don't specify an ordering, the node entities will be given a
+  // default ordering matching the order they were defined in the entity file.
+  // This ordering will be preserved when you save out the entity list, even
+  // if the order has changed on export.
+  ordering:float;
+
+  // The name of the rail we're part of. You'll query RailNodeComponent by
+  // rail_name to get a list of rail points in the correct order.
+  rail_name:string;
+
+  // Total time for this rail. Only the first rail spline node (lowest ordering) for
+  // each rail should have this set.
+  total_time:float;
+
+  // Reliable distance for this rail. Only the first rail spline node (lowest
+  // ordering) for each rail should have this set.
+  reliable_distance:float;
+}
+
+table RiverDef {
+  // Which rail to base the river on?
+  rail_name: string;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table ListenerDef {}
 table AttributesDef {}
 table ScoreDef {}
-table RiverDef {}
 table ServicesDef {}
 table ShadowControllerDef {}
 
@@ -171,6 +198,7 @@ union ComponentDataUnion {
   SoundDef,
   AttributesDef,
   EditorDef,
+  RailNodeDef,
   // The transform component should update after any other components that
   // might spawn or modify entities with transforms.
   TransformDef,

@@ -206,6 +206,10 @@ FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
         extension='.bin',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_rails.json')]),
+    FlatbuffersConversionData(
+        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
+        extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_list.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),

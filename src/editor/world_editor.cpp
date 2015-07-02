@@ -159,6 +159,7 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
         transform_component->AddFromRawData(selected_entity_, component_data);
         entity_manager_->GetComponent<fpl_project::PhysicsComponent>()
             ->UpdatePhysicsFromTransform(selected_entity_);
+        NotifyEntityUpdated(selected_entity_);
       }
     }
 
@@ -167,10 +168,12 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
       entity::EntityRef new_entity = DuplicateEntity(selected_entity_);
       *entity_cycler_ = new_entity.ToIterator();
       SelectEntity(entity_cycler_->ToReference());
+      NotifyEntityUpdated(new_entity);
     }
     if (input_system_->GetButton(FPLK_DELETE).went_down() ||
         input_system_->GetButton(FPLK_x).went_down()) {
       entity::EntityRef entity = selected_entity_;
+      NotifyEntityDeleted(entity);
       *entity_cycler_ = entity_manager_->end();
       selected_entity_ = entity::EntityRef();
       DestroyEntity(entity);
@@ -232,6 +235,24 @@ void WorldEditor::SetInitialCamera(const fpl_project::Camera& initial_camera) {
   camera_ = initial_camera;
   camera_.set_viewport_angle(config_->viewport_angle_degrees() *
                              (M_PI / 180.0f));
+}
+
+void WorldEditor::NotifyEntityUpdated(const entity::EntityRef& entity) const {
+  auto event_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
+  if (event_manager != nullptr) {
+    event_manager->BroadcastEvent(fpl_project::EditorEventPayload(
+        fpl_project::EditorEventAction_EntityUpdated, entity));
+  }
+}
+
+void WorldEditor::NotifyEntityDeleted(const entity::EntityRef& entity) const {
+  auto event_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
+  if (event_manager != nullptr) {
+    event_manager->BroadcastEvent(fpl_project::EditorEventPayload(
+        fpl_project::EditorEventAction_EntityDeleted, entity));
+  }
 }
 
 void WorldEditor::Activate() {

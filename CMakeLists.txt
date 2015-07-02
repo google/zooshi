@@ -210,6 +210,8 @@ set(zooshi_SRCS
     src/components/player_projectile.h
     src/components/rail_denizen.cpp
     src/components/rail_denizen.h
+    src/components/rail_node.cpp
+    src/components/rail_node.h
     src/components/rendermesh.cpp
     src/components/rendermesh.h
     src/components/river.cpp

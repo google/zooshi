@@ -73,8 +73,9 @@ class WorldEditor {
 
   entity::EntityRef DuplicateEntity(entity::EntityRef& entity);
   void DestroyEntity(entity::EntityRef& entity);
-
   void HighlightEntity(const entity::EntityRef& entity, float tint);
+  void NotifyEntityUpdated(const entity::EntityRef& entity) const;
+  void NotifyEntityDeleted(const entity::EntityRef& entity) const;
 
   // returns true if the transform was modified
   bool ModifyTransformBasedOnInput(TransformDef* transform);

@@ -15,10 +15,11 @@
 #ifndef RAILMANAGER_H
 #define RAILMANAGER_H
 
+#include <memory>
 #include <unordered_map>
 #include "components_generated.h"
+#include "entity/entity_manager.h"
 #include "mathfu/glsl_mappings.h"
-#include <memory>
 #include "motive/math/compact_spline.h"
 #include "rail_def_generated.h"
 
@@ -48,6 +49,10 @@ class Rail {
   /// Internal structure representing the rails.
   const fpl::CompactSpline* splines() const { return splines_; }
 
+  void InitializeFromPositions(
+      const std::vector<mathfu::vec3_packed>& positions,
+      float spline_granularity, float reliable_distance, float total_time);
+
  private:
   static const motive::MotiveDimension kDimensions = 3;
 
@@ -61,6 +66,10 @@ class RailManager {
   // If that data has already been loaded, it just returns the data directly.
   // Otherwise, it loads the data and caches it.
   Rail* GetRail(RailId rail_file);
+
+  // Returns the data for a rail specified by RailNodeComponent entities.
+  Rail* GetRailFromComponents(const char* rail_name,
+                              entity::EntityManager* entity_manager);
 
   void Clear();
 

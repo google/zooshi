@@ -44,8 +44,7 @@ struct RailDenizenData {
         rail_scale(mathfu::kOnes3f),
         enabled(true) {}
 
-  void Initialize(const Rail& rail, float start_time,
-                  motive::MotiveEngine* engine);
+  void Initialize(const Rail& rail, float start_time);
 
   mathfu::vec3 Position() const { return motivator.Value(); }
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
@@ -57,6 +56,7 @@ struct RailDenizenData {
   const ActionDef* on_new_lap;
   motive::Motivator3f motivator;
   RailId rail_id;
+  std::string rail_name;
   mathfu::vec3 rail_offset;
   mathfu::quat rail_orientation;
   mathfu::vec3 rail_scale;
@@ -77,9 +77,9 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 
-  void SetRail(entity::EntityRef entity, RailId rail_id);
-
  private:
+  void InitializeRail(entity::EntityRef&);
+
   // A pointer to the MotiveEngine used to spawn motivators.
   motive::MotiveEngine* engine_;
 };

@@ -49,12 +49,15 @@ table ChangeRailSpeed {
 }
 
 enum EditorEventAction : byte {
-  Enter,
-  Exit,
+  Enter,          // we have just entered edit mode
+  Exit,           // we are about to exit edit mode
+  EntityUpdated,  // the entity was just changed
+  EntityDeleted,  // the entity is about to be deleted
 }
 
 table EditorEvent {
   action:EditorEventAction;
+  entity:EntityAffected;
 }
 
 // Collision events are not meant to be thrown from a data defined event being
