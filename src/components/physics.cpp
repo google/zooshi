@@ -129,7 +129,7 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
       rb_data->motion_state.reset(new btDefaultMotionState());
       btScalar mass = shape_def->mass();
       btVector3 inertia(0.0f, 0.0f, 0.0f);
-      if (shape_def->data_type() != BulletShapeUnion_BulletNoShapeDef) {
+      if (rb_data->shape->getShapeType() != EMPTY_SHAPE_PROXYTYPE) {
         rb_data->shape->calculateLocalInertia(mass, inertia);
       }
       btRigidBody::btRigidBodyConstructionInfo rigid_body_builder(
