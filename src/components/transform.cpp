@@ -186,24 +186,10 @@ void TransformComponent::AddFromRawData(entity::EntityRef& entity,
 
 entity::ComponentInterface::RawDataUniquePtr TransformComponent::ExportRawData(
     entity::EntityRef& entity) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
-
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* TransformComponent::PopulateRawData(entity::EntityRef& entity,
-                                          void* helper) const {
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
-
   const TransformData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder fbb;
 
   mathfu::vec3 euler = data->orientation.ToEulerAngles() / kDegreesToRadians;
   fpl::Vec3 position{data->position.x(), data->position.y(),
@@ -214,13 +200,13 @@ void* TransformComponent::PopulateRawData(entity::EntityRef& entity,
   std::vector<flatbuffers::Offset<flatbuffers::String>> child_ids_vector;
   for (auto iter = data->child_ids.begin(); iter != data->child_ids.end();
        ++iter) {
-    child_ids_vector.push_back(fbb->CreateString(*iter));
+    child_ids_vector.push_back(fbb.CreateString(*iter));
   }
 
   auto child_ids =
-      (child_ids_vector.size() > 0) ? fbb->CreateVector(child_ids_vector) : 0;
+      (child_ids_vector.size() > 0) ? fbb.CreateVector(child_ids_vector) : 0;
 
-  TransformDefBuilder builder(*fbb);
+  TransformDefBuilder builder(fbb);
   builder.add_position(&position);
   builder.add_scale(&scale);
   builder.add_orientation(&orientation);
@@ -229,9 +215,10 @@ void* TransformComponent::PopulateRawData(entity::EntityRef& entity,
   }
 
   auto component = CreateComponentDefInstance(
-      *fbb, ComponentDataUnion_TransformDef, builder.Finish().Union());
+      fbb, ComponentDataUnion_TransformDef, builder.Finish().Union());
 
-  return reinterpret_cast<void*>(component.o);
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 void TransformComponent::AddChild(entity::EntityRef& child,

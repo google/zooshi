@@ -104,9 +104,8 @@ class PhysicsComponent : public entity::Component<PhysicsData> {
   virtual ~PhysicsComponent();
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-  // TODO: Implement PopulateRawData function for editor (b/21589546)
+  // TODO: Implement ExportRawData function for editor (b/21589546)
   virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
-  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
 
   virtual void Init();
   virtual void InitEntity(entity::EntityRef& /*entity*/);

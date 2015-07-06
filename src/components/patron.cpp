@@ -84,25 +84,10 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
     entity::EntityRef& entity) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
-
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* PatronComponent::PopulateRawData(entity::EntityRef& entity,
-                                       void* helper) const {
   const PatronData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
-
+  flatbuffers::FlatBufferBuilder fbb;
   auto schema_file = entity_manager_->GetComponent<ServicesComponent>()
                          ->component_def_binary_schema();
   auto schema =
@@ -113,13 +98,13 @@ void* PatronComponent::PopulateRawData(entity::EntityRef& entity,
       data->on_collision != nullptr && table_def != nullptr
           ? flatbuffers::Offset<ActionDef>(
                 flatbuffers::CopyTable(
-                    *fbb, *schema, *table_def,
+                    fbb, *schema, *table_def,
                     (const flatbuffers::Table&)(*data->on_collision))
                     .o)
           : 0;
 
   // Get all the on_collision events
-  PatronDefBuilder builder(*fbb);
+  PatronDefBuilder builder(fbb);
   if (on_collision.o != 0) {
     builder.add_on_collision(on_collision);
   }
@@ -128,10 +113,11 @@ void* PatronComponent::PopulateRawData(entity::EntityRef& entity,
   builder.add_pop_in_radius(data->pop_in_radius);
   builder.add_pop_out_radius(data->pop_out_radius);
 
-  auto component = CreateComponentDefInstance(
-      *fbb, ComponentDataUnion_PatronDef, builder.Finish().Union());
+  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_PatronDef,
+                                              builder.Finish().Union());
 
-  return reinterpret_cast<void*>(component.o);
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }

@@ -163,25 +163,10 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
 
 entity::ComponentInterface::RawDataUniquePtr
 RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
-
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* RailDenizenComponent::PopulateRawData(entity::EntityRef& entity,
-                                            void* helper) const {
   const RailDenizenData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
-
+  flatbuffers::FlatBufferBuilder fbb;
   Vec3 rail_offset{data->rail_offset.x(), data->rail_offset.y(),
                    data->rail_offset.z()};
   mathfu::vec3 euler = data->rail_orientation.ToEulerAngles();
@@ -189,7 +174,7 @@ void* RailDenizenComponent::PopulateRawData(entity::EntityRef& entity,
   Vec3 rail_scale{data->rail_scale.x(), data->rail_scale.y(),
                   data->rail_scale.z()};
 
-  auto rail_name = fbb->CreateString(data->rail_id);
+  auto rail_name = fbb.CreateString(data->rail_id);
 
   auto schema_file = entity_manager_->GetComponent<ServicesComponent>()
                          ->component_def_binary_schema();
@@ -201,12 +186,12 @@ void* RailDenizenComponent::PopulateRawData(entity::EntityRef& entity,
       data->on_new_lap != nullptr && table_def != nullptr
           ? flatbuffers::Offset<ActionDef>(
                 flatbuffers::CopyTable(
-                    *fbb, *schema, *table_def,
+                    fbb, *schema, *table_def,
                     (const flatbuffers::Table&)(*data->on_new_lap))
                     .o)
           : 0;
 
-  RailDenizenDefBuilder builder(*fbb);
+  RailDenizenDefBuilder builder(fbb);
 
   builder.add_start_time(data->start_time);
   builder.add_initial_playback_rate(data->spline_playback_rate);
@@ -221,8 +206,10 @@ void* RailDenizenComponent::PopulateRawData(entity::EntityRef& entity,
   builder.add_enabled(data->enabled);
 
   auto component = CreateComponentDefInstance(
-      *fbb, ComponentDataUnion_RailDenizenDef, builder.Finish().Union());
-  return reinterpret_cast<void*>(component.o);
+      fbb, ComponentDataUnion_RailDenizenDef, builder.Finish().Union());
+
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {

@@ -25,6 +25,7 @@
 #include "entity/entity_manager.h"
 #include "events_generated.h"
 #include "events/editor_event.h"
+#include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/idl.h"
 #include "flatbuffers/reflection.h"
 #include "fplbase/utilities.h"
@@ -295,7 +296,6 @@ flatbuffers::Offset<EntityDef> WorldEditor::SerializeEntity(
         editor_data->components_from_prototype.find(
             (ComponentDataUnion)component_id) ==
             editor_data->components_from_prototype.end()) {
-#ifdef USE_COPYTABLE
       auto exported =
           entity_manager_->GetComponent(component_id)->ExportRawData(entity);
       auto table_def =
@@ -309,22 +309,13 @@ flatbuffers::Offset<EntityDef> WorldEditor::SerializeEntity(
                 ? flatbuffers::Offset<ComponentDefInstance>(
                       flatbuffers::CopyTable(
                           *builder, *schema, *table_def,
-                          (const flatbuffers::Table&)(*exported))
+                          (const flatbuffers::Table&)(*flatbuffers::GetAnyRoot(
+                              exported.get())))
                           .o)
                 : 0;
 
         component_vector.push_back(component);
       }
-#else
-      auto exported = entity_manager_->GetComponent(component_id)
-                          ->PopulateRawData(entity, builder);
-      if (exported != nullptr) {
-        flatbuffers::Offset<ComponentDefInstance> component;
-        component.o = reinterpret_cast<uint64_t>(exported);
-        component_vector.push_back(component);
-      }
-      (void)schema;
-#endif
     }
   }
   return CreateEntityDef(*builder, builder->CreateVector(component_vector));

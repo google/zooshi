@@ -171,31 +171,18 @@ void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
 
 entity::ComponentInterface::RawDataUniquePtr PhysicsComponent::ExportRawData(
     entity::EntityRef& entity) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
-
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* PhysicsComponent::PopulateRawData(entity::EntityRef& entity,
-                                        void* helper) const {
   const PhysicsData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
-  PhysicsDefBuilder builder(*fbb);
+  flatbuffers::FlatBufferBuilder fbb;
+  PhysicsDefBuilder builder(fbb);
 
   // TODO(amaurice): populate the PhysicsDef
-
   auto component = CreateComponentDefInstance(
-      *fbb, ComponentDataUnion_PhysicsDef, builder.Finish().Union());
-  return reinterpret_cast<void*>(component.o);
+      fbb, ComponentDataUnion_PhysicsDef, builder.Finish().Union());
+
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 void PhysicsComponent::UpdateAllEntities(entity::WorldTime delta_time) {

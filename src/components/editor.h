@@ -54,7 +54,6 @@ class EditorComponent : public entity::Component<EditorData>,
   void AddWithSourceFile(entity::EntityRef& entity,
                          const std::string& source_file);
   virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
-  virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
 
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void CleanupEntity(entity::EntityRef& entity);

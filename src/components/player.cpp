@@ -126,37 +126,24 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
 entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
     entity::EntityRef& entity) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
+  const PlayerData* data = GetComponentData(entity);
+  if (data == nullptr) return nullptr;
 
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
-
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* PlayerComponent::PopulateRawData(entity::EntityRef& entity,
-                                       void* helper) const {
-  const PlayerData* player_data = GetComponentData(entity);
-  if (player_data == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+  flatbuffers::FlatBufferBuilder fbb;
 
   // TODO: output the on_fire events.
   mathfu::vec3 euler =
-      player_data->initial_direction().ToEulerAngles() / kDegreesToRadians;
+      data->initial_direction().ToEulerAngles() / kDegreesToRadians;
   fpl::Vec3 initial_direction{euler.x(), euler.y(), euler.z()};
 
-  PlayerDefBuilder builder(*fbb);
+  PlayerDefBuilder builder(fbb);
   builder.add_initial_direction(&initial_direction);
 
-  auto component = CreateComponentDefInstance(
-      *fbb, ComponentDataUnion_PlayerDef, builder.Finish().Union());
+  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_PlayerDef,
+                                              builder.Finish().Union());
 
-  return reinterpret_cast<void*>(component.o);
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 }  // fpl_project

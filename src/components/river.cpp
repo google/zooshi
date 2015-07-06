@@ -41,26 +41,15 @@ void RiverComponent::AddFromRawData(entity::EntityRef& parent,
 
 entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
     entity::EntityRef& entity) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
+  const RiverData* data = GetComponentData(entity);
+  if (data == nullptr) return nullptr;
 
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
+  flatbuffers::FlatBufferBuilder fbb;
+  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_RiverDef,
+                                              CreateRiverDef(fbb).Union());
 
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* RiverComponent::PopulateRawData(entity::EntityRef& entity,
-                                      void* helper) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
-  auto component = CreateComponentDefInstance(*fbb, ComponentDataUnion_RiverDef,
-                                              CreateRiverDef(*fbb).Union());
-  return reinterpret_cast<void*>(component.o);
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 // Generates the actual mesh for the river, and adds it to this entitiy's

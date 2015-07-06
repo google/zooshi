@@ -66,25 +66,12 @@ entity::ComponentInterface::RawDataUniquePtr
 ShadowControllerComponent::ExportRawData(entity::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
-
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* ShadowControllerComponent::PopulateRawData(entity::EntityRef& entity,
-                                                 void* helper) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
+  flatbuffers::FlatBufferBuilder fbb;
   auto component =
-      CreateComponentDefInstance(*fbb, ComponentDataUnion_ShadowControllerDef,
-                                 CreateShadowControllerDef(*fbb).Union());
-  return reinterpret_cast<void*>(component.o);
+      CreateComponentDefInstance(fbb, ComponentDataUnion_ShadowControllerDef,
+                                 CreateShadowControllerDef(fbb).Union());
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 }  // fpl_project

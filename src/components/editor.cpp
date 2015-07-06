@@ -84,34 +84,20 @@ void EditorComponent::AddWithSourceFile(entity::EntityRef& entity,
 
 entity::ComponentInterface::RawDataUniquePtr EditorComponent::ExportRawData(
     entity::EntityRef& entity) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
-
-  flatbuffers::FlatBufferBuilder builder;
-  auto result = PopulateRawData(entity, reinterpret_cast<void*>(&builder));
-  flatbuffers::Offset<ComponentDefInstance> component;
-  component.o = reinterpret_cast<uint64_t>(result);
-
-  builder.Finish(component);
-  return builder.ReleaseBufferPointer();
-}
-
-void* EditorComponent::PopulateRawData(entity::EntityRef& entity,
-                                       void* helper) const {
-  flatbuffers::FlatBufferBuilder* fbb =
-      reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
-
   const EditorData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
+
+  flatbuffers::FlatBufferBuilder fbb;
   // Const-cast should be okay here because we're just giving
   // something an entity ID before exporting it (if it doesn't already
   // have one).
-  auto entity_id = fbb->CreateString(
-      const_cast<EditorComponent*>(this)->GetEntityID(entity));
+  auto entity_id =
+      fbb.CreateString(const_cast<EditorComponent*>(this)->GetEntityID(entity));
   auto prototype =
-      (data->prototype != "") ? fbb->CreateString(data->prototype) : 0;
-  auto comment = (data->comment != "") ? fbb->CreateString(data->comment) : 0;
+      (data->prototype != "") ? fbb.CreateString(data->prototype) : 0;
+  auto comment = (data->comment != "") ? fbb.CreateString(data->comment) : 0;
 
-  EditorDefBuilder builder(*fbb);
+  EditorDefBuilder builder(fbb);
   builder.add_entity_id(entity_id);
   if (data->prototype != "") {
     builder.add_prototype(prototype);
@@ -125,10 +111,11 @@ void* EditorComponent::PopulateRawData(entity::EntityRef& entity,
   if (data->render_option != EditorRenderOption_Unspecified)
     builder.add_render_option(data->render_option);
 
-  auto component = CreateComponentDefInstance(
-      *fbb, ComponentDataUnion_EditorDef, builder.Finish().Union());
+  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_EditorDef,
+                                              builder.Finish().Union());
 
-  return reinterpret_cast<void*>(component.o);
+  fbb.Finish(component);
+  return fbb.ReleaseBufferPointer();
 }
 
 void EditorComponent::InitEntity(entity::EntityRef& entity) {
