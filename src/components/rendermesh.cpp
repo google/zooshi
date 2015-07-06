@@ -94,6 +94,8 @@ void RenderMeshComponent::RenderPrep(const Camera& camera) {
 
 void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
                                             const Camera& camera) {
+  // Make sure we only draw the front-facing polygons:
+  renderer.SetCulling(Renderer::kCullBack);
   for (int pass = 0; pass < RenderPass_kCount; pass++) {
     for (size_t i = 0; i < pass_render_list[pass].size(); i++) {
       entity::EntityRef& entity = pass_render_list[pass][i].entity;

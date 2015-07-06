@@ -87,6 +87,8 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
 
 void GameMenuState::Render(Renderer* renderer) {
   GameplayState::Render(renderer);
+  // No culling when drawing the menu.
+  renderer->SetCulling(Renderer::kNoCulling);
 
   switch (menu_state_) {
     case kMenuStateStart:
