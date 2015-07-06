@@ -29,7 +29,9 @@ namespace fpl_project {
 // All the relevent data for rivers ends up tossed into other components.
 // (Mostly rendermesh at the moment.)  This will probably be less empty
 // once the river gets more animated.
-struct RiverData {};
+struct RiverData {
+  entity::EntityRef bank;
+};
 
 class RiverComponent : public entity::Component<RiverData> {
  public:

@@ -100,42 +100,44 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
   // the normal to where we are on the track right now.  Initialized to
   // our best guess, based on the first two points.
-  vec3 track_normal = vec3::CrossProduct(vec3(track[1]) - vec3(track[0]),
-                                         mathfu::kAxisZ3f).Normalized();
+  vec3 track_normal =
+      vec3::CrossProduct(vec3(track[1]) - vec3(track[0]), mathfu::kAxisZ3f)
+          .Normalized();
 
   // Construct the actual mesh data for the river:
   for (size_t i = 0; i < segment_count; i++) {
     if (i != 0) {
       track_normal = vec3::CrossProduct(vec3(track[i]) - vec3(track[i - 1]),
-                                        mathfu::kAxisZ3f).Normalized();
+                                        mathfu::kAxisZ3f)
+                         .Normalized();
     }
     track_normal *= config->river_config()->track_half_width();
     vec3 track_pos = vec3(track[i]);
     float texture_y = config->river_config()->texture_tile_size() *
                       static_cast<float>(i) / static_cast<float>(segment_count);
 
-    auto make_vert = [&](std::vector<NormalMappedVertex> &verts,
-                         float xpos, float xtc, float ypos) {
-      verts.push_back(NormalMappedVertex {
-        vec3_packed(vec3(track_pos + track_normal * xpos) +
-          vec3(0.0f, 0.0f, config->river_config()->track_height() + ypos)),
-        vec2_packed(vec2(xtc, texture_y)),
-        vec3_packed(vec3(0, 1, 0)),
-        vec4_packed(vec4(1, 0, 0, 1)),
+    auto make_vert = [&](std::vector<NormalMappedVertex>& verts, float xpos,
+                         float xtc, float ypos) {
+      verts.push_back(NormalMappedVertex{
+          vec3_packed(
+              vec3(track_pos + track_normal * xpos) +
+              vec3(0.0f, 0.0f, config->river_config()->track_height() + ypos)),
+          vec2_packed(vec2(xtc, texture_y)), vec3_packed(vec3(0, 1, 0)),
+          vec4_packed(vec4(1, 0, 0, 1)),
       });
     };
 
     make_vert(river_verts, -1, 0, 0);
-    make_vert(river_verts,  1, 1, 0);
+    make_vert(river_verts, 1, 1, 0);
 
     make_vert(bank_verts, -3.0f, -2.0f, 0.5f + mathfu::Random<float>() * 0.7f);
     make_vert(bank_verts, -2.0f, -1.5f, 0.7f + mathfu::Random<float>() * 0.7f);
     make_vert(bank_verts, -1.2f, -1.2f, 0.3f + mathfu::Random<float>() * 0.7f);
     make_vert(bank_verts, -1.0f, -1.0f, 0.0f);  // Matches river vert.
-    make_vert(bank_verts,  1.0f,  1.0f, 0.0f);  // Matches river vert.
-    make_vert(bank_verts,  1.2f,  1.2f, 0.3f + mathfu::Random<float>() * 0.7f);
-    make_vert(bank_verts,  2.0f,  1.5f, 0.7f + mathfu::Random<float>() * 0.7f);
-    make_vert(bank_verts,  3.0f,  2.0f, 0.5f + mathfu::Random<float>() * 0.7f);
+    make_vert(bank_verts, 1.0f, 1.0f, 0.0f);    // Matches river vert.
+    make_vert(bank_verts, 1.2f, 1.2f, 0.3f + mathfu::Random<float>() * 0.7f);
+    make_vert(bank_verts, 2.0f, 1.5f, 0.7f + mathfu::Random<float>() * 0.7f);
+    make_vert(bank_verts, 3.0f, 2.0f, 0.5f + mathfu::Random<float>() * 0.7f);
 
     // Force the beginning and end to line up in their geometry:
     if (i == segment_count - 1) {
@@ -149,9 +151,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     // Not counting the first segment, create triangles in our index
     // list to represent this segment.
     if (i != 0) {
-      auto make_quad = [&](std::vector<unsigned short> &indices,
-                           std::vector<NormalMappedVertex> &verts,
-                           int off1, int off2) {
+      auto make_quad = [&](std::vector<unsigned short>& indices,
+                           std::vector<NormalMappedVertex>& verts, int off1,
+                           int off2) {
         indices.push_back(verts.size() - 2 - off2);
         indices.push_back(verts.size() - 1 - off2);
         indices.push_back(verts.size() - 2 - off1);
@@ -212,20 +214,25 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   mesh_data->ignore_culling = true;  // Never cull the river.
   mesh_data->pass_mask = 1 << RenderPass_kOpaque;
 
-  // Now we make a new entity to hold the bank mesh.
-  entity::EntityRef child_entity = entity_manager_->AllocateNewEntity();
-  entity_manager_->AddEntityToComponent<RenderMeshComponent>(child_entity);
-  RenderMeshData* child_render_data = Data<RenderMeshData>(child_entity);
-  child_render_data->shader =
-      asset_manager->LoadShader("shaders/cardboard");
+  RiverData* river_data = Data<RiverData>(entity);
+  if (!river_data->bank) {
+    // Now we make a new entity to hold the bank mesh.
+    river_data->bank = entity_manager_->AllocateNewEntity();
+    entity_manager_->AddEntityToComponent<RenderMeshComponent>(
+        river_data->bank);
+
+    // Then we stick it as a child of the river entity, so it always moves
+    // with it and stays aligned:
+    TransformComponent* transform_component =
+        GetComponent<TransformComponent>();
+    transform_component->AddChild(river_data->bank, entity);
+  }
+
+  RenderMeshData* child_render_data = Data<RenderMeshData>(river_data->bank);
+  child_render_data->shader = asset_manager->LoadShader("shaders/cardboard");
   child_render_data->mesh = bank_mesh;
   child_render_data->ignore_culling = true;  // Never cull the banking.
   child_render_data->pass_mask = 1 << RenderPass_kOpaque;
-
-  // Then we stick it as a child of the river entity, so it always moves
-  // with it and stays aligned:
-  TransformComponent* transform_component = GetComponent<TransformComponent>();
-  transform_component->AddChild(child_entity, entity);
 }
 
 }  // fpl_project
