@@ -73,7 +73,6 @@ class Game : event::EventListener {
                                const mathfu::vec3& offset,
                                const mathfu::vec2& pixel_bounds,
                                float pixel_to_world_scale);
-  void Render2DElements(mathfu::vec2i resolution);
   void Update(WorldTime delta_time);
   void UpdateMainCamera();
   void UpdateMainCameraAndroid();

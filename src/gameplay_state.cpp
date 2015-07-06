@@ -157,7 +157,10 @@ void GameplayState::RenderStereoscopic(Renderer* renderer) {
 #endif  // ANDROID_CARDBOARD
 }
 
-void GameplayState::OnEnter() {}
+void GameplayState::OnEnter() {
+  world_->player_component.set_active(true);
+  input_system_->SetRelativeMouseMode(true);
+}
 
 }  // fpl_project
 }  // fpl

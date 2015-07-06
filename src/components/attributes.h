@@ -52,7 +52,7 @@ class AttributesComponent : public entity::Component<AttributesData>,
   virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
   virtual void* PopulateRawData(entity::EntityRef& entity, void* helper) const;
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 

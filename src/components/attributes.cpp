@@ -57,25 +57,6 @@ void AttributesComponent::OnEvent(const event::EventPayload& event_payload) {
   }
 }
 
-void AttributesComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  auto component_data = &component_data_;
-  gui::Run(*asset_manager_, *font_manager_, *input_system_, [component_data]() {
-    for (auto iter = component_data->begin(); iter != component_data->end();
-         ++iter) {
-      AttributesData* attributes_data = &iter->data;
-      char label[16] = {0};
-      int score = static_cast<int>(
-          attributes_data->attributes[AttributeDef_PatronsFed]);
-      std::sprintf(label, "%i", score);
-      gui::StartGroup(gui::LAYOUT_HORIZONTAL_TOP, 10);
-      gui::Margin margin(8);
-      gui::SetMargin(margin);
-      gui::Label(label, 100);
-      gui::EndGroup();
-    }
-  });
-}
-
 void AttributesComponent::AddFromRawData(entity::EntityRef& entity,
                                          const void* raw_data) {
   auto component_data = static_cast<const ComponentDefInstance*>(raw_data);

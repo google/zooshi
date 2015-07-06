@@ -43,6 +43,7 @@ class GameMenuState : public GameplayState {
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
+  virtual void OnEnter();
 
  private:
   MenuState StartMenu(AssetManager& assetman, FontManager& fontman,

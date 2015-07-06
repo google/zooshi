@@ -32,6 +32,13 @@
 namespace fpl {
 namespace fpl_project {
 
+static const float kDegreesToRadians = M_PI / 180.0f;
+
+void PlayerData::SetInitialDirection(const mathfu::vec3& initial_direction) {
+  initial_direction_ = mathfu::quat::RotateFromTo(
+      mathfu::kAxisY3f, initial_direction.Normalized());
+}
+
 void PlayerComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
   event_manager_ =
@@ -43,9 +50,12 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
        ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
-    player_data->input_controller()->Update();
+    if (active_) {
+      player_data->input_controller()->Update();
+    }
     transform_data->orientation =
-        mathfu::quat::RotateFromTo(player_data->GetFacing(), mathfu::kAxisY3f);
+        mathfu::quat::RotateFromTo(player_data->GetFacing(), mathfu::kAxisY3f) *
+        player_data->initial_direction();
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
@@ -66,6 +76,10 @@ void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
   auto player_def = static_cast<const PlayerDef*>(component_data->data());
   PlayerData* player_data = AddEntity(entity);
   player_data->set_on_fire(player_def->on_fire());
+  player_data->SetInitialDirection(
+      mathfu::vec3(player_def->initial_direction()->x(),
+                   player_def->initial_direction()->y(),
+                   player_def->initial_direction()->z()));
 }
 
 void PlayerComponent::InitEntity(entity::EntityRef& entity) {
@@ -125,15 +139,23 @@ entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
 
 void* PlayerComponent::PopulateRawData(entity::EntityRef& entity,
                                        void* helper) const {
-  if (GetComponentData(entity) == nullptr) return nullptr;
+  const PlayerData* player_data = GetComponentData(entity);
+  if (player_data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder* fbb =
       reinterpret_cast<flatbuffers::FlatBufferBuilder*>(helper);
 
   // TODO: output the on_fire events.
+  mathfu::vec3 euler =
+      player_data->initial_direction().ToEulerAngles() / kDegreesToRadians;
+  fpl::Vec3 initial_direction{euler.x(), euler.y(), euler.z()};
+
+  PlayerDefBuilder builder(*fbb);
+  builder.add_initial_direction(&initial_direction);
 
   auto component = CreateComponentDefInstance(
-      *fbb, ComponentDataUnion_PlayerDef, CreatePlayerDef(*fbb).Union());
+      *fbb, ComponentDataUnion_PlayerDef, builder.Finish().Union());
+
   return reinterpret_cast<void*>(component.o);
 }
 

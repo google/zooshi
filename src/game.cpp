@@ -80,8 +80,6 @@ static const float kCardboardNormalMapScale = 0.3f;
 static const int kMinUpdateTime = 1000 / 60;
 static const int kMaxUpdateTime = 1000 / 30;
 
-static const char* kGuyMaterial = "materials/guy.fplmat";
-
 static const char* kOpenTypeFontFile = "fonts/NotoSansCJKjp-Bold.otf";
 
 /// kVersion is used by Google developers to identify which
@@ -323,38 +321,6 @@ void Game::ToggleRelativeMouseMode() {
   input_.SetRelativeMouseMode(relative_mouse_mode_);
 }
 
-void Game::Render2DElements(mathfu::vec2i resolution) {
-  // Set up an ortho camera for all 2D elements, with (0, 0) in the top left,
-  // and the bottom right the windows size in pixels.
-  auto res = renderer_.window_size();
-  auto ortho_mat = mathfu::OrthoHelper<float>(0.0f, static_cast<float>(res.x()),
-                                              static_cast<float>(res.y()), 0.0f,
-                                              -1.0f, 1.0f);
-  renderer_.model_view_projection() = ortho_mat;
-  renderer_.color() = mathfu::kOnes4f;
-
-  // Update the currently drawing Google Play Games image. Displays "Sign In"
-  // when currently signed-out, and "Sign Out" when currently signed in.
-
-  Material* material = asset_manager_.LoadMaterial(kGuyMaterial);
-  const vec2 window_size = vec2(resolution);
-  const float texture_scale = 1.0f;
-  const vec2 texture_size =
-      texture_scale * vec2(material->textures()[0]->size());
-  const vec2 position_percent = vec2(0.08f, 0.80f);
-  const vec2 position = window_size * position_percent;
-
-  const vec3 position3d(position.x(), position.y(), -0.5f);
-  const vec3 texture_size3d(texture_size.x(), -texture_size.y(), 0.0f);
-
-  shader_textured_->Set(renderer_);
-  material->Set(renderer_);
-
-  Mesh::RenderAAQuadAlongX(position3d - texture_size3d * 0.5f,
-                           position3d + texture_size3d * 0.5f, vec2(0, 1),
-                           vec2(1, 0));
-}
-
 static inline WorldTime CurrentWorldTime() { return GetTicks(); }
 
 void Game::Run() {
@@ -381,7 +347,6 @@ void Game::Run() {
 
     renderer_.AdvanceFrame(input_.minimized(), input_.Time());
 
-    Render2DElements(renderer_.window_size());
     audio_engine_.AdvanceFrame(delta_time / 1000.0f);
 
     // Process input device messages since the last game loop.

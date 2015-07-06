@@ -80,8 +80,6 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
   if (menu_state_ == kMenuStateFinished || menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateGameplay;
     world_->is_in_cardboard = (menu_state_ == kMenuStateCardboard);
-    // Hide cursor.
-    input_system_->SetRelativeMouseMode(true);
   }
 }
 
@@ -101,6 +99,12 @@ void GameMenuState::Render(Renderer* renderer) {
       break;
   }
 }
+
+void GameMenuState::OnEnter() {
+  world_->player_component.set_active(false);
+  input_system_->SetRelativeMouseMode(false);
+}
+
 
 }  // fpl_project
 }  // fpl

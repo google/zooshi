@@ -16,10 +16,11 @@
 #define COMPONENTS_PLAYER_H_
 
 #include "components_generated.h"
-#include "entity/component.h"
-#include "mathfu/glsl_mappings.h"
-#include "inputcontrollers/base_player_controller.h"
 #include "config_generated.h"
+#include "entity/component.h"
+#include "inputcontrollers/base_player_controller.h"
+#include "mathfu/constants.h"
+#include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
@@ -35,7 +36,10 @@ struct ActionDef;
 
 class PlayerData {
  public:
-  PlayerData() : input_controller_(nullptr) {}
+  PlayerData()
+      : on_fire_(nullptr),
+        input_controller_(nullptr),
+        initial_direction_(mathfu::kQuatIdentityf) {}
 
   mathfu::vec3 GetFacing() const { return input_controller_->facing().Value(); }
   mathfu::vec3 GetUp() const { return input_controller_->up().Value(); }
@@ -51,9 +55,13 @@ class PlayerData {
   const ActionDef* on_fire() { return on_fire_; }
   void set_on_fire(const ActionDef* on_fire) { on_fire_ = on_fire; }
 
+  void SetInitialDirection(const mathfu::vec3& initial_direction);
+  const mathfu::quat initial_direction() const { return initial_direction_; }
+
  private:
   const ActionDef* on_fire_;
   fpl_project::BasePlayerController* input_controller_;
+  mathfu::quat initial_direction_;
 };
 
 class PlayerComponent : public entity::Component<PlayerData> {
@@ -70,9 +78,12 @@ class PlayerComponent : public entity::Component<PlayerData> {
 
   entity::EntityRef SpawnProjectile(entity::EntityRef source);
 
+  void set_active(bool active) { active_ = active; }
+
  private:
   const Config* config_;
   event::EventManager* event_manager_;
+  bool active_;
 };
 
 }  // fpl_project
