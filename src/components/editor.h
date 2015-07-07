@@ -20,23 +20,34 @@
 #include <set>
 #include "components_generated.h"
 #include "entity/component.h"
+#include "event/event_manager.h"
 
 namespace fpl {
 namespace fpl_project {
 
 struct EditorData {
-  EditorData() : ignore_selection(-1) {}
+  EditorData()
+      : selection_option(EditorSelectionOption_Unspecified),
+        render_option(EditorRenderOption_Unspecified) {}
   std::string entity_id;
   std::string prototype;
   std::string source_file;
   std::string comment;
-  int ignore_selection;  // if > 0, skip this when cycling in the world editor
+  EditorSelectionOption selection_option;
+  EditorRenderOption render_option;
   // Keep track of which of this entity's components came from the prototype.
   std::set<ComponentDataUnion> components_from_prototype;
+
+  // Back up some other components' data that may be changed when we go
+  // in and out of edit mode
+  bool backup_rendermesh_hidden;
 };
 
-class EditorComponent : public entity::Component<EditorData> {
+class EditorComponent : public entity::Component<EditorData>,
+                        public event::EventListener {
  public:
+  virtual void Init();
+
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   void AddFromPrototypeData(entity::EntityRef& entity,
                             const EditorDef* editor_def);
@@ -50,6 +61,8 @@ class EditorComponent : public entity::Component<EditorData> {
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 
   const std::string& GetEntityID(entity::EntityRef& entity);
+
+  virtual void OnEvent(const event::EventPayload& event_payload);
 
   // Non-const because if we find an invalid entity, it gets silently removed.
   entity::EntityRef GetEntityFromDictionary(const std::string& key);

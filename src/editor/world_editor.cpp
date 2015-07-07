@@ -104,9 +104,20 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
       entity_changed = true;
     }
     if (entity_changed) {
-      SelectEntity(entity_cycler_->ToReference());
+      entity::EntityRef entity_ref = entity_cycler_->ToReference();
+      auto data = entity_manager_->GetComponentData<EditorData>(entity_ref);
+      if (data != nullptr) {
+        // Are we allowed to cycle through this entity?
+        if (data->selection_option == EditorSelectionOption_Unspecified ||
+            data->selection_option == EditorSelectionOption_Any ||
+            data->selection_option == EditorSelectionOption_CycleOnly) {
+          SelectEntity(entity_ref);
+        }
+      }
     }
   } while (entity_changed && entity_cycler_->ToReference() != selected_entity_);
+
+  entity_changed = false;
   if (input_controller_.Button(0).Value() &&
       input_controller_.Button(0).HasChanged()) {
     mathfu::vec3 start = camera_.position();
@@ -120,8 +131,16 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
     }
   }
   if (entity_changed) {
-    SelectEntity(entity_cycler_->ToReference());
-    LogInfo("Selected entity at %x\n", &(**entity_cycler_));
+    entity::EntityRef entity_ref = entity_cycler_->ToReference();
+    auto data = entity_manager_->GetComponentData<EditorData>(entity_ref);
+    if (data != nullptr) {
+      // Are we allowed to click on this entity?
+      if (data->selection_option == EditorSelectionOption_Unspecified ||
+          data->selection_option == EditorSelectionOption_Any ||
+          data->selection_option == EditorSelectionOption_PointerOnly) {
+        SelectEntity(entity_cycler_->ToReference());
+      }
+    }
   }
 
   auto transform_component =
@@ -192,7 +211,6 @@ void WorldEditor::SelectEntity(const entity::EntityRef& entity_ref) {
   if (entity_ref.IsValid()) {
     auto data = entity_manager_->GetComponentData<EditorData>(entity_ref);
     if (data != nullptr) {
-      if (data->ignore_selection > 0) return;
       LogInfo("Highlighting entity '%s' with prototype '%s'",
               data->entity_id.c_str(), data->prototype.c_str());
     }

@@ -41,7 +41,9 @@ struct RenderMeshData {
         shader_filename(""),
         ignore_culling(false),
         pass_mask(0),
-        z_depth(0) {}
+        z_depth(0),
+        default_hidden(false),
+        currently_hidden(false) {}
   Mesh* mesh;
   Shader* shader;
   mathfu::vec4 tint;
@@ -50,6 +52,8 @@ struct RenderMeshData {
   bool ignore_culling;
   unsigned char pass_mask;
   float z_depth;
+  bool default_hidden;
+  bool currently_hidden;
 };
 
 // Struct used for keeping track of and sorting our render lists:

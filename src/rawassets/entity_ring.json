@@ -5,7 +5,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -36,7 +36,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -67,7 +67,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -98,7 +98,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -129,7 +129,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -160,7 +160,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -191,7 +191,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -222,7 +222,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -253,7 +253,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -284,7 +284,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -315,7 +315,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -346,7 +346,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -377,7 +377,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -408,7 +408,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -439,7 +439,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -470,7 +470,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -501,7 +501,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -532,7 +532,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -563,7 +563,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -594,7 +594,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -625,7 +625,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -656,7 +656,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -687,7 +687,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -718,7 +718,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -749,7 +749,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -780,7 +780,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -811,7 +811,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -842,7 +842,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -873,7 +873,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -904,7 +904,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -935,7 +935,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -966,7 +966,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -997,7 +997,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -1028,7 +1028,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -1059,7 +1059,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1090,7 +1090,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1121,7 +1121,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1152,7 +1152,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1183,7 +1183,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1214,7 +1214,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1245,7 +1245,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1276,7 +1276,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1307,7 +1307,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1338,7 +1338,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1369,7 +1369,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1400,7 +1400,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1431,7 +1431,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1462,7 +1462,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1493,7 +1493,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1524,7 +1524,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1555,7 +1555,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1586,7 +1586,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1617,7 +1617,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1648,7 +1648,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1679,7 +1679,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1710,7 +1710,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1741,7 +1741,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1772,7 +1772,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1803,7 +1803,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1834,7 +1834,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1865,7 +1865,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1896,7 +1896,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1927,7 +1927,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1958,7 +1958,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "MidGroundTree"
           }
         },
@@ -1989,7 +1989,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2020,7 +2020,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2051,7 +2051,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2082,7 +2082,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2113,7 +2113,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2144,7 +2144,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2175,7 +2175,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2206,7 +2206,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2237,7 +2237,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2268,7 +2268,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2299,7 +2299,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2330,7 +2330,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2361,7 +2361,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2392,7 +2392,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2423,7 +2423,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2454,7 +2454,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2485,7 +2485,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
@@ -2516,7 +2516,7 @@
         {
           data_type: EditorDef,
           data: {
-            ignore_selection: 1,
+            selection_option: "PointerOnly",
             prototype: "FernGarden"
           }
         },
