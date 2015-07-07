@@ -112,7 +112,6 @@ class RenderMeshComponent : public entity::Component<RenderMeshData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RenderMeshComponent,
-                              fpl::fpl_project::RenderMeshData,
-                              ComponentDataUnion_RenderMeshDef)
+                              fpl::fpl_project::RenderMeshData)
 
 #endif  // COMPONENTS_RENDERMESH_H_

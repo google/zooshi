@@ -49,7 +49,6 @@ class RiverComponent : public entity::Component<RiverData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RiverComponent,
-                              fpl::fpl_project::RiverData,
-                              ComponentDataUnion_RiverDef)
+                              fpl::fpl_project::RiverData)
 
 #endif  // COMPONENTS_RIVER_H

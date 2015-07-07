@@ -86,11 +86,13 @@ void ZooshiEntityFactory::InstantiateEntity(
     InstantiateEntity(prototype_def, entity_manager, entity, true);
   }
 
-  std::set<ComponentDataUnion> overridden_components;
+  std::set<entity::ComponentId> overridden_components;
 
   for (size_t i = 0; i < def->component_list()->size(); i++) {
     const ComponentDefInstance* currentInstance = def->component_list()->Get(i);
-    overridden_components.insert(currentInstance->data_type());
+    entity::ComponentId component_id =
+        DataTypeToComponentId(currentInstance->data_type());
+    overridden_components.insert(component_id);
     if (is_prototype &&
         currentInstance->data_type() == ComponentDataUnion_EditorDef) {
       // EditorDef from prototypes gets loaded special.
@@ -104,8 +106,8 @@ void ZooshiEntityFactory::InstantiateEntity(
         LogInfo("InstantiateEntity: ...%s provides component %d",
                 is_prototype ? "prototype" : "instance",
                 currentInstance->data_type());
-      entity::ComponentInterface* component =
-          entity_manager->GetComponent(currentInstance->data_type());
+      entity::ComponentInterface* component = entity_manager->GetComponent(
+          DataTypeToComponentId(currentInstance->data_type()));
       assert(component != nullptr);
       component->AddFromRawData(entity, currentInstance);
     }
@@ -116,14 +118,12 @@ void ZooshiEntityFactory::InstantiateEntity(
         entity_manager->GetComponent<EditorComponent>()->AddEntity(entity);
     for (int component_id = 0; component_id < entity::kMaxComponentCount;
          component_id++) {
-      ComponentDataUnion component_type =
-          static_cast<ComponentDataUnion>(component_id);
       // If we don't already have an EditorComponent, we should get one added.
       if (entity_manager->GetComponent(component_id) != nullptr &&
           entity->IsRegisteredForComponent(component_id) &&
-          overridden_components.find(component_type) ==
+          overridden_components.find(component_id) ==
               overridden_components.end()) {
-        editor_data->components_from_prototype.insert(component_type);
+        editor_data->components_from_prototype.insert(component_id);
       }
     }
   }
@@ -163,6 +163,18 @@ entity::EntityRef ZooshiEntityFactory::CreateEntityFromPrototype(
   return CreateEntityFromData(flatbuffers::GetRoot<EntityDef>(
                                   prototype_requests_[prototype_name].data()),
                               entity_manager);
+}
+
+void ZooshiEntityFactory::SetComponentId(unsigned int data_type,
+                                         entity::ComponentId component_id) {
+  if (data_type_to_component_id_.size() <= data_type)
+    data_type_to_component_id_.resize(data_type + 1, entity::kInvalidComponent);
+  data_type_to_component_id_[data_type] = component_id;
+
+  if (component_id_to_data_type_.size() <= component_id)
+    component_id_to_data_type_.resize(component_id + 1,
+                                      ComponentDataUnion_NONE);
+  component_id_to_data_type_[component_id] = data_type;
 }
 
 }  // namespace fpl_project

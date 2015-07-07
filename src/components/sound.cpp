@@ -17,6 +17,9 @@
 #include "components/transform.h"
 #include "pindrop/pindrop.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::SoundComponent,
+                            fpl::fpl_project::SoundData)
+
 namespace fpl {
 namespace fpl_project {
 

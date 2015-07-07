@@ -15,6 +15,9 @@
 #include "components/time_limit.h"
 #include "fplbase/utilities.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::TimeLimitComponent,
+                            fpl::fpl_project::TimeLimitData)
+
 namespace fpl {
 namespace fpl_project {
 

@@ -21,6 +21,9 @@
 using mathfu::vec3;
 using mathfu::mat4;
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RenderMeshComponent,
+                            fpl::fpl_project::RenderMeshData)
+
 namespace fpl {
 namespace fpl_project {
 

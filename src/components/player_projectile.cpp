@@ -19,6 +19,9 @@
 #include "events/parse_action.h"
 #include "pindrop/pindrop.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerProjectileComponent,
+                            fpl::fpl_project::PlayerProjectileData)
+
 namespace fpl {
 namespace fpl_project {
 

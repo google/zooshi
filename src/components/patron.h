@@ -117,7 +117,6 @@ class PatronComponent : public entity::Component<PatronData>,
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PatronComponent,
-                              fpl::fpl_project::PatronData,
-                              ComponentDataUnion_PatronDef)
+                              fpl::fpl_project::PatronData)
 
 #endif  // COMPONENTS_PATRON_H_

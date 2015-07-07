@@ -16,6 +16,9 @@
 #include "components/transform.h"
 #include "fplbase/utilities.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::ShadowControllerComponent,
+                            fpl::fpl_project::ShadowControllerData)
+
 namespace fpl {
 namespace fpl_project {
 

@@ -89,7 +89,6 @@ class PlayerComponent : public entity::Component<PlayerData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PlayerComponent,
-                              fpl::fpl_project::PlayerData,
-                              ComponentDataUnion_PlayerDef)
+                              fpl::fpl_project::PlayerData)
 
 #endif  // COMPONENTS_PLAYER_H_

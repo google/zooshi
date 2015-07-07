@@ -30,6 +30,9 @@
 using mathfu::vec3;
 using mathfu::quat;
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PhysicsComponent,
+                            fpl::fpl_project::PhysicsData)
+
 namespace fpl {
 namespace fpl_project {
 

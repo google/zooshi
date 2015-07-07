@@ -19,6 +19,9 @@
 #include "components/services.h"
 #include "fplbase/utilities.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::TransformComponent,
+                            fpl::fpl_project::TransformData)
+
 namespace fpl {
 namespace fpl_project {
 

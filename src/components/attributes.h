@@ -65,7 +65,6 @@ class AttributesComponent : public entity::Component<AttributesData>,
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::AttributesComponent,
-                              fpl::fpl_project::AttributesData,
-                              ComponentDataUnion_AttributesDef)
+                              fpl::fpl_project::AttributesData)
 
 #endif  // FPL_COMPONENTS_ATTRIBUTES_H_

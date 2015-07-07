@@ -212,6 +212,7 @@ set(zooshi_SRCS
     src/components/rendermesh.h
     src/components/river.cpp
     src/components/river.h
+    src/components/services.cpp
     src/components/services.h
     src/components/shadow_controller.cpp
     src/components/shadow_controller.h

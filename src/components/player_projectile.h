@@ -61,7 +61,6 @@ class PlayerProjectileComponent
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PlayerProjectileComponent,
-                              fpl::fpl_project::PlayerProjectileData,
-                              ComponentDataUnion_PlayerProjectileDef)
+                              fpl::fpl_project::PlayerProjectileData)
 
 #endif  // COMPONENTS_PLAYER_PROJECTILE_H_

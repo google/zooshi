@@ -27,6 +27,9 @@
 #include "fplbase/utilities.h"
 #include "imgui/imgui.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AttributesComponent,
+                            fpl::fpl_project::AttributesData)
+
 namespace fpl {
 namespace fpl_project {
 

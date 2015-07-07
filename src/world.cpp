@@ -90,22 +90,51 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   services_component.Initialize(config, asset_manager, input_system,
                                 audio_engine, &motive_engine, event_manager,
                                 font_manager, &rail_manager, &entity_factory);
-  entity_manager.RegisterComponent(&services_component);
-
-  entity_manager.RegisterComponent(&transform_component);
-  entity_manager.RegisterComponent(&rail_denizen_component);
-  entity_manager.RegisterComponent(&player_component);
-  entity_manager.RegisterComponent(&player_projectile_component);
-  entity_manager.RegisterComponent(&render_mesh_component);
-  entity_manager.RegisterComponent(&physics_component);
-  entity_manager.RegisterComponent(&patron_component);
-  entity_manager.RegisterComponent(&time_limit_component);
-  entity_manager.RegisterComponent(&audio_listener_component);
-  entity_manager.RegisterComponent(&sound_component);
-  entity_manager.RegisterComponent(&attributes_component);
-  entity_manager.RegisterComponent(&river_component);
-  entity_manager.RegisterComponent(&shadow_controller_component);
-  entity_manager.RegisterComponent(&editor_component_);
+  entity_factory.SetComponentId(
+      ComponentDataUnion_ServicesDef,
+      entity_manager.RegisterComponent(&services_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_AttributesDef,
+      entity_manager.RegisterComponent(&attributes_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_RailDenizenDef,
+      entity_manager.RegisterComponent(&rail_denizen_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_PlayerDef,
+      entity_manager.RegisterComponent(&player_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_PlayerProjectileDef,
+      entity_manager.RegisterComponent(&player_projectile_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_RenderMeshDef,
+      entity_manager.RegisterComponent(&render_mesh_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_PhysicsDef,
+      entity_manager.RegisterComponent(&physics_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_PatronDef,
+      entity_manager.RegisterComponent(&patron_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_TimeLimitDef,
+      entity_manager.RegisterComponent(&time_limit_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_ListenerDef,
+      entity_manager.RegisterComponent(&audio_listener_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_SoundDef,
+      entity_manager.RegisterComponent(&sound_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_RiverDef,
+      entity_manager.RegisterComponent(&river_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_ShadowControllerDef,
+      entity_manager.RegisterComponent(&shadow_controller_component));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_EditorDef,
+      entity_manager.RegisterComponent(&editor_component_));
+  entity_factory.SetComponentId(
+      ComponentDataUnion_TransformDef,
+      entity_manager.RegisterComponent(&transform_component));
 
   services_component.LoadComponentDefBinarySchema(
       "flatbufferschemas/components.bfbs");

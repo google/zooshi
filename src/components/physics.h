@@ -150,7 +150,6 @@ static void BulletTickCallback(btDynamicsWorld* world, btScalar time_step);
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PhysicsComponent,
-                              fpl::fpl_project::PhysicsData,
-                              ComponentDataUnion_PhysicsDef)
+                              fpl::fpl_project::PhysicsData)
 
 #endif  // COMPONENTS_PHYSICS_H_

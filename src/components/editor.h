@@ -36,7 +36,7 @@ struct EditorData {
   EditorSelectionOption selection_option;
   EditorRenderOption render_option;
   // Keep track of which of this entity's components came from the prototype.
-  std::set<ComponentDataUnion> components_from_prototype;
+  std::set<entity::ComponentId> components_from_prototype;
 
   // Back up some other components' data that may be changed when we go
   // in and out of edit mode
@@ -79,7 +79,6 @@ class EditorComponent : public entity::Component<EditorData>,
 }  // namespace fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::EditorComponent,
-                              fpl::fpl_project::EditorData,
-                              ComponentDataUnion_EditorDef)
+                              fpl::fpl_project::EditorData)
 
 #endif  // COMPONENTS_EDITOR_H_

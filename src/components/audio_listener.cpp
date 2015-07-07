@@ -18,6 +18,9 @@
 #include "entity/entity_common.h"
 #include "pindrop/pindrop.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AudioListenerComponent,
+                            fpl::fpl_project::AudioListenerData)
+
 namespace fpl {
 namespace fpl_project {
 

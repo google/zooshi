@@ -32,6 +32,9 @@
 using mathfu::vec3;
 using mathfu::quat;
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PatronComponent,
+                            fpl::fpl_project::PatronData)
+
 namespace fpl {
 namespace fpl_project {
 

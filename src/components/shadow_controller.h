@@ -41,7 +41,6 @@ class ShadowControllerComponent
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::ShadowControllerComponent,
-                              fpl::fpl_project::ShadowControllerData,
-                              ComponentDataUnion_ShadowControllerDef)
+                              fpl::fpl_project::ShadowControllerData)
 
 #endif  // COMPONENTS_SHADOWCONTROLLER_H_

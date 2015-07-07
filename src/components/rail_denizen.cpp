@@ -35,6 +35,9 @@
 
 using mathfu::vec3;
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
+                            fpl::fpl_project::RailDenizenData)
+
 namespace fpl {
 namespace fpl_project {
 
@@ -213,8 +216,7 @@ RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
 }
 
 void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
-  entity_manager_->AddEntityToComponent(entity,
-                                        ComponentDataUnion_TransformDef);
+  entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
 void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {

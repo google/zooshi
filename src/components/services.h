@@ -112,7 +112,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::ServicesComponent,
-                              fpl::fpl_project::ServicesData,
-                              ComponentDataUnion_ServicesDef)
+                              fpl::fpl_project::ServicesData)
 
 #endif  // COMPONENTS_SERVICES_H_

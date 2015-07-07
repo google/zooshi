@@ -119,7 +119,6 @@ class TransformComponent : public entity::Component<TransformData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::TransformComponent,
-                              fpl::fpl_project::TransformData,
-                              ComponentDataUnion_TransformDef)
+                              fpl::fpl_project::TransformData)
 
 #endif  // COMPONENTS_TRANSFORM_H_

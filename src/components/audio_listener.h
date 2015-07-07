@@ -46,7 +46,6 @@ class AudioListenerComponent : public entity::Component<AudioListenerData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::AudioListenerComponent,
-                              fpl::fpl_project::AudioListenerData,
-                              ComponentDataUnion_ListenerDef)
+                              fpl::fpl_project::AudioListenerData)
 
 #endif  // COMPONENTS_LISTENER_H_

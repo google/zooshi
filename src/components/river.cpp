@@ -25,6 +25,9 @@
 using mathfu::vec3;
 using mathfu::quat;
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RiverComponent,
+                            fpl::fpl_project::RiverData)
+
 namespace fpl {
 namespace fpl_project {
 

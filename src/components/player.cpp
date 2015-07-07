@@ -29,6 +29,9 @@
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
 
+FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerComponent,
+                            fpl::fpl_project::PlayerData)
+
 namespace fpl {
 namespace fpl_project {
 

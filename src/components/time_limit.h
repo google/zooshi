@@ -45,7 +45,6 @@ class TimeLimitComponent : public entity::Component<TimeLimitData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::TimeLimitComponent,
-                              fpl::fpl_project::TimeLimitData,
-                              ComponentDataUnion_TimeLimitDef)
+                              fpl::fpl_project::TimeLimitData)
 
 #endif  // COMPONENTS_TIMELIMIT_H_

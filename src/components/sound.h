@@ -45,8 +45,7 @@ class SoundComponent : public entity::Component<SoundData> {
 }  // fpl
 
 FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::SoundComponent,
-                              fpl::fpl_project::SoundData,
-                              ComponentDataUnion_SoundDef)
+                              fpl::fpl_project::SoundData)
 
 #endif  // COMPONENTS_SOUND_H_
 

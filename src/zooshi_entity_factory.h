@@ -15,7 +15,7 @@
 #ifndef ZOOSHI_ENTITY_FACTORY_H_
 #define ZOOSHI_ENTITY_FACTORY_H_
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include "components_generated.h"
 #include "entity/entity_manager.h"
@@ -33,6 +33,24 @@ class ZooshiEntityFactory : public entity::EntityFactoryInterface {
   entity::EntityRef CreateEntityFromPrototype(
       const char* prototype_name, entity::EntityManager* entity_manager);
 
+  // When you register each component to the entity system, it will get
+  // a component ID. This factory needs to know the component ID assigned
+  // for each component data type (the data_type() in the flatbuffer union).
+  void SetComponentId(unsigned int data_type, entity::ComponentId component_id);
+
+  // Get the component for a given data type specifier.
+  entity::ComponentId DataTypeToComponentId(unsigned int data_type) {
+    if (data_type >= data_type_to_component_id_.size())
+      return entity::kInvalidComponent;
+    return data_type_to_component_id_[data_type];
+  }
+  // Get the data type specifier for a given component.
+  unsigned int ComponentIdToDataType(entity::ComponentId component_id) {
+    if (component_id >= component_id_to_data_type_.size())
+      return ComponentDataUnion_NONE;
+    return component_id_to_data_type_[component_id];
+  }
+
   void set_debug(bool b) { debug_ = b; }
 
  private:
@@ -41,8 +59,11 @@ class ZooshiEntityFactory : public entity::EntityFactoryInterface {
                          entity::EntityRef& entity, bool is_prototype);
   std::string entity_library_data_;
   const EntityListDef* entity_library_;
-  std::map<std::string, const EntityDef*> prototype_data_;
-  std::map<std::string, std::vector<uint8_t>> prototype_requests_;
+  std::unordered_map<std::string, const EntityDef*> prototype_data_;
+  std::unordered_map<std::string, std::vector<uint8_t>> prototype_requests_;
+  // Look up ComponentId from data type, and vice versa.
+  std::vector<unsigned int> data_type_to_component_id_;
+  std::vector<entity::ComponentId> component_id_to_data_type_;
   bool debug_;
 };
 
