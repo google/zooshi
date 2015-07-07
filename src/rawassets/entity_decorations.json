@@ -1,56 +1,106 @@
 {
   entity_list: [
     {
-      "component_list": [
+      component_list: [
         {
-          "data_type": "EditorDef",
-          "data": {
-            "prototype":"RockSmall"
+          data_type: EditorDef,
+          data: {
+            entity_id: "$78a3-3980-d537-64a9",
+            prototype: "Fern"
           }
         },
         {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 3, "y": 40, "z": 1 },
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 4.5,
+              y: 45,
+              z: 1
+            },
+            scale: {
+              x: 2.56551,
+              y: 2.56551,
+              z: 2.56551
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -179
+            },
+            child_ids: [
+              "Fern_RenderMesh"
+            ]
           }
         }
       ]
     },
     {
-      "component_list": [
+      component_list: [
         {
-          "data_type": "EditorDef",
-          "data": {
-            "prototype":"Fern"
+          data_type: EditorDef,
+          data: {
+            entity_id: "$64a4-3b3a-0cc9-4a7c",
+            prototype: "Fern"
           }
         },
         {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 5.5, "y": 45.5, "z": 1 },
-            "orientation": { "x": 0, "y": 0, "z": -140 },
-            "scale": { "x": 1.5, "y": 1.5, "z": 1.5 }
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 6.5,
+              y: 46.25,
+              z: 1
+            },
+            scale: {
+              x: 2.82847,
+              y: 2.82847,
+              z: 2.82847
+            },
+            orientation: {
+              x: 6.41209e-07,
+              y: 7.15256e-07,
+              z: 151
+            },
+            child_ids: [
+              "Fern_RenderMesh"
+            ]
           }
         }
       ]
     },
     {
-      "component_list": [
+      component_list: [
         {
-          "data_type": "EditorDef",
-          "data": {
-            "prototype":"Fern"
+          data_type: EditorDef,
+          data: {
+            entity_id: "$3317-d97c-eb55-0007",
+            prototype: "RockSmall"
           }
         },
         {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 5, "y": 45, "z": 1 },
-            "orientation": { "x": 0, "y": 0, "z": 160 },
-            "scale": { "x": 1.5, "y": 1.5, "z": 1.5 }
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 3,
+              y: 40,
+              z: 1
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 0
+            },
+            child_ids: [
+              "RockSmall_RenderMesh"
+            ]
           }
         }
       ]
-    },
+    }
   ]
 }

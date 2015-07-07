@@ -1,5 +1,18 @@
 {
   "entity_list": [
+    // All render meshes should use this as a prototype.
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "RenderMeshPrototype",
+            "selection_option": "None"
+          }
+        }
+      ]
+    },
+
     // River rail
     {
       "component_list": [
@@ -340,7 +353,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "PlayerPrototype_RenderMesh"
+            "entity_id": "PlayerPrototype_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },
         {
@@ -563,7 +577,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "PatronLadyMandrill_RenderMesh"
+            "entity_id": "PatronLadyMandrill_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },
         {
@@ -695,7 +710,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "PatronMenacingCroc_RenderMesh"
+            "entity_id": "PatronMenacingCroc_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },
         {
@@ -816,7 +832,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id" : "PatronMoustacheCroc_RenderMesh"
+            "entity_id" : "PatronMoustacheCroc_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },
         {
@@ -1282,7 +1299,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "SkyBox_RenderMesh"
+            "entity_id": "SkyBox_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },
         {
@@ -1324,7 +1342,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "BambooMat_RenderMesh"
+            "entity_id": "BambooMat_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },                  {
           "data_type": "TransformDef",
@@ -1366,6 +1385,7 @@
           "data_type": "EditorDef",
           "data": {
             "entity_id": "RockSmall_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },                  {
           "data_type": "TransformDef",
@@ -1406,6 +1426,7 @@
           "data_type": "EditorDef",
           "data": {
             "entity_id": "Fern_RenderMesh",
+            "prototype": "RenderMeshPrototype"
           }
         },                  {
           "data_type": "TransformDef",
