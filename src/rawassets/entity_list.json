@@ -1,5 +1,39 @@
 {
   "entity_list": [
+
+    // Ground Plane
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "Ground",
+            "selection_option": "None"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0.1
+            },
+            "scale": {
+              "x": 250,
+              "y": 250,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+
     // Raft
     {
       "component_list": [

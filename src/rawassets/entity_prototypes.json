@@ -801,7 +801,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/ground.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured",
+            "ignore_culling": true
           }
         }
       ]

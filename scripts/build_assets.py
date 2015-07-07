@@ -210,10 +210,6 @@ FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
         extension='.bin',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_ground.json')]),
-    FlatbuffersConversionData(
-        schema=find_in_paths('components.fbs', SCHEMA_PATHS),
-        extension='.bin',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_ring.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
