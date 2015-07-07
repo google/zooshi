@@ -93,6 +93,25 @@
       ]
     },
 
+    // Backgrounds
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "prototype": "Background"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": -249, "z": 0 },
+            "scale": { "x": 100, "y": 1, "z": 100 }
+          }
+        }
+      ]
+    },
+
     // Ground physics
     {
       "component_list": [

@@ -5,15 +5,48 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$2a38-0c77-b12b-d843",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: 137.219,
+              x: 133.974,
+              y: -21.1687,
+              z: 0
+            },
+            scale: {
+              x: 16.921,
+              y: 16.921,
+              z: 16.921
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -72
+            }
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: EditorDef,
+          data: {
+            entity_id: "$a526-e840-bd42-8a1b",
+            prototype: "MidGroundTree",
+            selection_option: Any
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 200.969,
               y: 60.5881,
               z: 0
             },
@@ -24,8 +57,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 66.1765
+              y: 0,
+              z: -114
             }
           }
         }
@@ -36,16 +69,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$3494-7be7-bbce-b016",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: 149.84,
-              y: 6.92751,
+              x: 184.09,
+              y: 1.42751,
               z: 0
             },
             scale: {
@@ -55,8 +89,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 87.353
+              y: 0,
+              z: -93
             }
           }
         }
@@ -67,16 +101,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$aa4a-a86d-0384-595d",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: 142.224,
-              y: -47.6687,
+              x: 172.724,
+              y: -56.1687,
               z: 0
             },
             scale: {
@@ -86,8 +121,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 108.529
+              y: 0,
+              z: -72
             }
           }
         }
@@ -98,8 +133,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$78eb-0219-eec4-3e31",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -117,8 +153,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 129.706
+              y: 0,
+              z: -50
             }
           }
         }
@@ -129,8 +165,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$db72-e04b-27ba-3210",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -148,8 +185,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 150.882
+              y: 0,
+              z: -29
             }
           }
         }
@@ -160,8 +197,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$b47e-3735-8cd2-532d",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -179,8 +217,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 172.059
+              y: 0,
+              z: -8
             }
           }
         }
@@ -191,8 +229,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$8998-4381-b130-8b65",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -210,8 +249,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -166.765
+              y: 0,
+              z: 13
             }
           }
         }
@@ -222,8 +261,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$c0d1-2d04-2197-875e",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -241,8 +281,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -145.588
+              y: 0,
+              z: 34
             }
           }
         }
@@ -253,8 +293,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$5049-0990-c871-3686",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -272,8 +313,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -124.412
+              y: 0,
+              z: 56
             }
           }
         }
@@ -284,8 +325,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$2566-320d-1314-57dc",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -303,8 +345,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -103.235
+              y: 0,
+              z: 88
             }
           }
         }
@@ -315,8 +357,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$6d17-4e4e-e3e7-4ad6",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -334,8 +377,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -82.0588
+              y: 0,
+              z: 98
             }
           }
         }
@@ -346,8 +389,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$1760-4da8-ae22-3268",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -365,8 +409,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -60.8823
+              y: 0,
+              z: 119
             }
           }
         }
@@ -377,8 +421,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$5467-05dc-a0de-71b6",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -396,8 +441,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -39.7059
+              y: 0,
+              z: 140
             }
           }
         }
@@ -408,8 +453,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$d0a0-dc69-4b39-74e4",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -427,8 +473,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -18.5294
+              y: 0,
+              z: 161
             }
           }
         }
@@ -439,8 +485,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$c052-2ae5-c421-472b",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -458,8 +505,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 2.64708
+              y: 0,
+              z: -177
             }
           }
         }
@@ -470,8 +517,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$65de-2d15-a758-4a05",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -489,8 +537,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 23.8235
+              y: 0,
+              z: -166
             }
           }
         }
@@ -501,8 +549,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$01ee-515b-315b-4050",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -520,8 +569,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 45
+              y: 0,
+              z: -135
             }
           }
         }
@@ -532,8 +581,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$b60c-7ce1-2c50-cc47",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -551,8 +601,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 115
+              y: 0,
+              z: -65
             }
           }
         }
@@ -563,8 +613,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$92c7-e315-61b8-82a8",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -582,8 +633,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 155
+              y: 0,
+              z: -25
             }
           }
         }
@@ -594,8 +645,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$e9a6-11c1-85d3-ce74",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -613,8 +665,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -165
+              y: 0,
+              z: 15
             }
           }
         }
@@ -625,8 +677,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$69a8-dc58-6205-2761",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -644,8 +697,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -125
+              y: 0,
+              z: 55
             }
           }
         }
@@ -656,8 +709,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$e729-7755-077b-9713",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -675,8 +729,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -85
+              y: 0,
+              z: 95
             }
           }
         }
@@ -687,8 +741,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$8d76-242c-a9b6-ee60",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -706,8 +761,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -45
+              y: 0,
+              z: 135
             }
           }
         }
@@ -718,8 +773,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$1e02-904b-d812-b2e4",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -737,8 +793,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -4.99999
+              y: 0,
+              z: 175
             }
           }
         }
@@ -749,8 +805,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$85d3-d4ba-957e-b43e",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -768,8 +825,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 35
+              y: 0,
+              z: -145
             }
           }
         }
@@ -780,8 +837,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$3ba0-0ae1-1d44-431c",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -799,8 +857,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 75
+              y: 0,
+              z: -105
             }
           }
         }
@@ -811,256 +869,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 11.782,
-              y: -5.49404,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 25
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 4.44626,
-              y: -12.216,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 70
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -5.49404,
-              y: -11.782,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 115
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -12.216,
-              y: -4.44626,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 160
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -11.782,
-              y: 5.49404,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -155
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -4.44626,
-              y: 12.216,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -110
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 5.49404,
-              y: 11.782,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -65
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 12.216,
-              y: 4.44626,
-              z: 2.5
-            },
-            scale: {
-              x: 1.25,
-              y: 1.5,
-              z: 1.5
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -20
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$7e83-395e-2e56-6914",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1078,7 +889,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 120
             }
           }
@@ -1090,8 +901,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$da85-95b4-7358-44ac",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1109,7 +921,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 160
             }
           }
@@ -1121,16 +933,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$824a-b412-a786-3739",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -5.1303,
-              y: -14.0954,
+              x: 8.8697,
+              y: -21.3454,
               z: 0
             },
             scale: {
@@ -1140,8 +953,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -160
+              y: 0,
+              z: 107
             }
           }
         }
@@ -1152,8 +965,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$666d-7ec5-9260-01e1",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1171,8 +985,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -120
+              y: 0,
+              z: 60
             }
           }
         }
@@ -1183,8 +997,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$1632-2806-6656-bbdb",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1202,8 +1017,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -80
+              y: 0,
+              z: 100
             }
           }
         }
@@ -1214,8 +1029,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$0979-718d-ca41-5d9d",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1233,8 +1049,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -40
+              y: 0,
+              z: 140
             }
           }
         }
@@ -1245,8 +1061,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$73b5-0a4c-4c6e-e557",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1264,8 +1081,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 6.83019e-06
+              y: 0,
+              z: 180
             }
           }
         }
@@ -1276,8 +1093,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$7a40-9c8d-5b26-3a88",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1295,7 +1113,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 40
             }
           }
@@ -1307,8 +1125,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$4b93-ccee-b888-91d6",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1326,7 +1145,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 80
             }
           }
@@ -1338,8 +1157,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$b5bc-8e87-3833-0782",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1357,7 +1177,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 135
             }
           }
@@ -1369,16 +1189,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$1c37-d13b-1d98-b185",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -1.95505e-06,
-              y: -12,
+              x: -0.500002,
+              y: -11.5,
               z: 0
             },
             scale: {
@@ -1388,8 +1209,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -180
+              y: 0,
+              z: 180
             }
           }
         }
@@ -1400,16 +1221,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$8ab6-032a-e4ea-e734",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -8.48528,
-              y: -8.48528,
+              x: -17.7353,
+              y: -22.9853,
               z: 0
             },
             scale: {
@@ -1419,7 +1241,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: -135
             }
           }
@@ -1431,16 +1253,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$498d-60da-c0ac-6c70",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -12,
-              y: -1.04907e-06,
+              x: -17,
+              y: -4.75,
               z: 0
             },
             scale: {
@@ -1450,7 +1273,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: -90
             }
           }
@@ -1462,16 +1285,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$8a3b-c56b-ab23-ba78",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -8.48528,
-              y: 8.48528,
+              x: -10.4853,
+              y: 19.9853,
               z: 0
             },
             scale: {
@@ -1481,7 +1305,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: -45
             }
           }
@@ -1493,16 +1317,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$c910-8b7e-4b2e-e629",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -5.24537e-07,
-              y: 12,
+              x: -4.76837e-07,
+              y: 29.75,
               z: 0
             },
             scale: {
@@ -1512,7 +1337,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 6.83019e-06
             }
           }
@@ -1524,15 +1349,16 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$9288-222a-d446-8074",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: 8.48528,
+              x: 6.73528,
               y: 8.48528,
               z: 0
             },
@@ -1543,7 +1369,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 45
             }
           }
@@ -1555,8 +1381,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$ab2c-2da7-6742-a332",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1574,7 +1401,7 @@
             },
             orientation: {
               x: 0,
-              y: -0,
+              y: 0,
               z: 90
             }
           }
@@ -1586,15 +1413,16 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$76d5-e088-8a28-74b1",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: 132.818,
+              x: 123.068,
               y: -69.7085,
               z: 0
             },
@@ -1605,8 +1433,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 117.692
+              y: 0,
+              z: -56.308
             }
           }
         }
@@ -1617,16 +1445,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$8600-15bd-47cc-b2d1",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: 85.2097,
-              y: -123.448,
+              x: 60.2097,
+              y: -92.698,
               z: 0
             },
             scale: {
@@ -1636,8 +1465,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 145.385
+              y: 0,
+              z: -55.615
             }
           }
         }
@@ -1648,16 +1477,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$457c-d723-9718-0c12",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: 18.0805,
-              y: -148.906,
+              x: -3.4195,
+              y: -133.406,
               z: 0
             },
             scale: {
@@ -1667,8 +1497,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 173.077
+              y: 0,
+              z: -15.923
             }
           }
         }
@@ -1679,16 +1509,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$2b4d-694b-bdae-7441",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -53.1908,
-              y: -140.252,
+              x: -40.9408,
+              y: -111.002,
               z: 0
             },
             scale: {
@@ -1698,8 +1529,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -159.231
+              y: 0,
+              z: 5.76904
             }
           }
         }
@@ -1710,15 +1541,16 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$9006-78e5-415d-d7a8",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -112.277,
+              x: -92.277,
               y: -99.4684,
               z: 0
             },
@@ -1729,8 +1561,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -131.538
+              y: 0,
+              z: 49
             }
           }
         }
@@ -1741,16 +1573,17 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$9a1b-a956-418e-2884",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
           data_type: TransformDef,
           data: {
             position: {
-              x: -145.641,
-              y: -35.8974,
+              x: -104.891,
+              y: -34.1474,
               z: 0
             },
             scale: {
@@ -1760,8 +1593,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -103.846
+              y: 0,
+              z: 76
             }
           }
         }
@@ -1772,8 +1605,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$206a-c778-cb10-9c2b",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1791,8 +1625,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -76.1538
+              y: 0,
+              z: 104
             }
           }
         }
@@ -1803,8 +1637,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$1c75-1088-a9b2-a1e8",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1822,8 +1657,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -48.4615
+              y: 0,
+              z: 132
             }
           }
         }
@@ -1834,8 +1669,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$d00d-8b0b-b438-2da1",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1853,8 +1689,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: -20.7692
+              y: 0,
+              z: 159
             }
           }
         }
@@ -1865,8 +1701,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$d326-3372-7a12-604c",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1884,8 +1721,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 6.92309
+              y: 0,
+              z: -173
             }
           }
         }
@@ -1896,8 +1733,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$6cb3-e7a2-3e36-cd91",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1915,8 +1753,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 34.6154
+              y: 0,
+              z: -145
             }
           }
         }
@@ -1927,8 +1765,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$4080-7e11-e32d-abe1",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1946,8 +1785,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 62.3077
+              y: 0,
+              z: -118
             }
           }
         }
@@ -1958,8 +1797,9 @@
         {
           data_type: EditorDef,
           data: {
-            selection_option: "PointerOnly",
-            prototype: "MidGroundTree"
+            entity_id: "$69d9-c2b7-2a30-3c92",
+            prototype: "MidGroundTree",
+            selection_option: Any
           }
         },
         {
@@ -1977,566 +1817,8 @@
             },
             orientation: {
               x: 0,
-              y: -0,
-              z: 90
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 118.177,
-              y: 25.8378,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 170
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 118.177,
-              y: -15.8378,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -170
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 103.923,
-              y: -55,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -150
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 77.1345,
-              y: -86.9253,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -130
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 41.0424,
-              y: -107.763,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -110
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -1.95505e-05,
-              y: -115,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
+              y: 0,
               z: -90
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -41.0424,
-              y: -107.763,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -70
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -77.1345,
-              y: -86.9253,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -50
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -103.923,
-              y: -55,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -30
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -118.177,
-              y: -15.8378,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: -10
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -118.177,
-              y: 25.8378,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 10
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -103.923,
-              y: 65,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 30
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -77.1345,
-              y: 96.9253,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 50
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -41.0424,
-              y: 117.763,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 70
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 9.05975e-06,
-              y: 125,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 90
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 41.0424,
-              y: 117.763,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 110
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 77.1345,
-              y: 96.9253,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 130
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: EditorDef,
-          data: {
-            selection_option: "PointerOnly",
-            prototype: "FernGarden"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 103.923,
-              y: 65,
-              z: 5
-            },
-            scale: {
-              x: 2.5,
-              y: 3,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: -0,
-              z: 150
             }
           }
         }
