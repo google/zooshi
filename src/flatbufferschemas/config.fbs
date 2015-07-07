@@ -36,14 +36,22 @@ enum EntityDefs : byte {
   kNumEntityDef
 }
 
+table RiverBankContour {
+  x_min:float;
+  x_max:float;
+  z_min:float;
+  z_max:float;
+}
+
 table RiverConfig {
   rail_filename:string;
   spline_stepsize: float;
-  track_half_width:float;
   track_height:float;
   texture_tile_size:float;
   material:string;
   shader:string;
+  banks:[RiverBankContour];
+  river_index:int;
 }
 
 table EntityGrid {
