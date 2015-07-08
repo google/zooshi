@@ -25,7 +25,7 @@
 #include "events_generated.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
-#include "imgui/imgui.h"
+#include "flatui/flatui.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AttributesComponent,
                             fpl::fpl_project::AttributesData)
