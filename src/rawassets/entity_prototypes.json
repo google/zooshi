@@ -606,7 +606,8 @@
         {
           "data_type": "EditorDef",
           "data": {
-            "entity_id": "BlobShadow"
+            "entity_id": "BlobShadow",
+            "prototype": "RenderMeshPrototype"
           }
         },
         {

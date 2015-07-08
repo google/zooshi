@@ -64,8 +64,15 @@ class WorldEditor {
  private:
   enum { kMoving, kEditing } input_mode_;
 
+  // return true if we should be moving the camera and objects slowly.
+  bool PreciseMovement() const;
+
+  // return a global vector from camera coordinates relative to the horizontal
+  // plane.
+  mathfu::vec3 GlobalFromHorizontal(float forward, float right, float up) const;
+
   // get camera movement via W-A-S-D
-  mathfu::vec3 GetMovement();
+  mathfu::vec3 GetMovement() const;
 
   flatbuffers::Offset<EntityDef> SerializeEntity(
       entity::EntityRef& entity, flatbuffers::FlatBufferBuilder* builder,
@@ -103,6 +110,11 @@ class WorldEditor {
   fpl_project::MouseController input_controller_;
 #endif
   fpl_project::Camera camera_;
+
+  // Camera angles, projected onto the horizontal plane, as defined by the
+  // camera's `up()` direction.
+  mathfu::vec3 horizontal_forward_;
+  mathfu::vec3 horizontal_right_;
 };
 
 }  // namespace editor

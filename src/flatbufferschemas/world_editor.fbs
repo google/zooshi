@@ -37,6 +37,10 @@ table WorldEditorConfig {
   object_angular_speed:float;
   // Speed to scale objects, multiplied each frame.
   object_scale_speed:float;
+  // Movement speed modifier when SHIFT key is held.
+  // Speeds above are multiplied by this amount.
+  // in units per frame.
+  precise_movement_scale:float;
 
   input_config:fpl.fpl_project.InputConfig;
 }

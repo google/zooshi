@@ -29,6 +29,7 @@
 #include "flatbuffers/idl.h"
 #include "flatbuffers/reflection.h"
 #include "fplbase/utilities.h"
+#include "fplbase/flatbuffer_utils.h"
 #include "mathfu/utilities.h"
 
 namespace fpl {
@@ -41,8 +42,10 @@ using fpl_project::RenderMeshComponent;
 using fpl_project::ServicesComponent;
 using fpl_project::TransformComponent;
 using fpl_project::ShadowControllerComponent;
+using mathfu::vec3;
 
 static const float kRaycastDistance = 100.0f;
+static const float kMinValidDistance = 0.00001f;
 
 void WorldEditor::Initialize(const WorldEditorConfig* config,
                              InputSystem* input_system,
@@ -56,9 +59,30 @@ void WorldEditor::Initialize(const WorldEditorConfig* config,
   input_controller_.set_input_system(input_system_);
   input_controller_.set_input_config(config_->input_config());
   LoadSchemaFiles();
+  horizontal_forward_ = mathfu::kAxisY3f;
+  horizontal_right_ = mathfu::kAxisX3f;
+}
+
+// Project `v` onto `unit`. That is, return the vector colinear with `unit`
+// such that `v` - returned_vector is perpendicular to `unit`.
+static inline vec3 ProjectOntoUnitVector(const vec3& v, const vec3& unit) {
+  return vec3::DotProduct(v, unit) * unit;
 }
 
 void WorldEditor::AdvanceFrame(WorldTime delta_time) {
+  // Update the editor's forward and right vectors in the horizontal plane.
+  // Remove the up component from the camera's facing vector.
+  vec3 forward =
+      camera_.facing() - ProjectOntoUnitVector(camera_.facing(), camera_.up());
+  vec3 right = vec3::CrossProduct(camera_.facing(), camera_.up());
+
+  // If we're in gimbal lock, use previous frame's forward calculations.
+  if (forward.Normalize() > kMinValidDistance &&
+      right.Normalize() > kMinValidDistance) {
+    horizontal_forward_ = forward;
+    horizontal_right_ = right;
+  }
+
   if (input_mode_ == kMoving) {
     // Allow the camera to look around and move.
     input_controller_.Update();
@@ -460,100 +484,113 @@ void WorldEditor::SaveEntitiesInFile(const std::string& filename) {
   }
 }
 
-mathfu::vec3 WorldEditor::GetMovement() {
+bool WorldEditor::PreciseMovement() const {
+  // When the shift key is held, use more precise movement.
+  // TODO: would be better if we used precise movement by default, and
+  //       transitioned to fast movement after the key has been held for
+  //       a while.
+  return input_system_->GetButton(FPLK_LSHIFT).is_down() ||
+         input_system_->GetButton(FPLK_RSHIFT).is_down();
+}
+
+vec3 WorldEditor::GlobalFromHorizontal(float forward, float right,
+                                       float up) const {
+  return horizontal_forward_ * forward + horizontal_right_ * right +
+         camera_.up() * up;
+}
+
+vec3 WorldEditor::GetMovement() const {
   // Get a movement vector to move the user forward, up, or right.
   // Movement is always relative to the camera facing, but parallel to
   // ground.
   float forward_speed = 0;
   float up_speed = 0;
   float right_speed = 0;
+  const float move_speed =
+      PreciseMovement()
+          ? config_->camera_movement_speed() * config_->precise_movement_scale()
+          : config_->camera_movement_speed();
+
   // TODO(jsimantov): make the specific keys configurable?
   if (input_system_->GetButton(FPLK_w).is_down()) {
-    forward_speed += config_->camera_movement_speed();
+    forward_speed += move_speed;
   }
   if (input_system_->GetButton(FPLK_s).is_down()) {
-    forward_speed -= config_->camera_movement_speed();
+    forward_speed -= move_speed;
   }
   if (input_system_->GetButton(FPLK_d).is_down()) {
-    right_speed += config_->camera_movement_speed();
+    right_speed += move_speed;
   }
   if (input_system_->GetButton(FPLK_a).is_down()) {
-    right_speed -= config_->camera_movement_speed();
+    right_speed -= move_speed;
   }
   if (input_system_->GetButton(FPLK_r).is_down()) {
-    up_speed += config_->camera_movement_speed();
+    up_speed += move_speed;
   }
   if (input_system_->GetButton(FPLK_f).is_down()) {
-    up_speed -= config_->camera_movement_speed();
+    up_speed -= move_speed;
   }
 
   // Translate the keypresses into movement parallel to the ground plane.
-  mathfu::vec3 movement = mathfu::kZeros3f;
-  // TODO(jsimantov): Currently assumes Z is up. This should be
-  // configurable.
-  const float epsilon = 0.00001;
-  mathfu::vec3 forward = {camera_.facing().xy(), 0};
-
-  // If we're in gimbal lock, don't allow movement.
-  if (forward.LengthSquared() > epsilon) {
-    forward.Normalize();
-    mathfu::vec3 up = mathfu::kAxisZ3f;
-    mathfu::vec3 right =
-        mathfu::vec3::CrossProduct(camera_.facing(), camera_.up());
-    if (right.LengthSquared() > epsilon) {
-      right.Normalize();
-      movement += forward * forward_speed;
-      movement += up * up_speed;
-      movement += right * right_speed;
-    }
-  }
+  const vec3 movement =
+      GlobalFromHorizontal(forward_speed, right_speed, up_speed);
   return movement;
 }
 
 bool WorldEditor::ModifyTransformBasedOnInput(TransformDef* transform) {
   // IJKL = move x/y axis
-  float x_speed = 0, y_speed = 0, z_speed = 0;
+  float fwd_speed = 0, right_speed = 0, up_speed = 0;
   float roll_speed = 0, pitch_speed = 0, yaw_speed = 0;
   float scale_speed = 1;
+
+  // When the shift key is held, use more precise movement.
+  // TODO: would be better if we used precise movement by default, and
+  //       transitioned to fast movement after the key has been held for
+  //       a while.
+  const float movement_scale =
+      PreciseMovement() ? config_->precise_movement_scale() : 1.0f;
+  const float move_speed = movement_scale * config_->object_movement_speed();
+  const float angular_speed = movement_scale * config_->object_angular_speed();
+
   if (input_system_->GetButton(FPLK_i).is_down()) {
-    x_speed += config_->object_movement_speed();
+    fwd_speed += move_speed;
   }
   if (input_system_->GetButton(FPLK_k).is_down()) {
-    x_speed -= config_->object_movement_speed();
+    fwd_speed -= move_speed;
   }
   if (input_system_->GetButton(FPLK_j).is_down()) {
-    y_speed += config_->object_movement_speed();
+    right_speed -= move_speed;
   }
   if (input_system_->GetButton(FPLK_l).is_down()) {
-    y_speed -= config_->object_movement_speed();
+    right_speed += move_speed;
   }
   // P; = move z axis
   if (input_system_->GetButton(FPLK_p).is_down()) {
-    z_speed += config_->object_movement_speed();
+    up_speed += move_speed;
   }
   if (input_system_->GetButton(FPLK_SEMICOLON).is_down()) {
-    z_speed -= config_->object_movement_speed();
+    up_speed -= move_speed;
   }
   // UO = roll
   if (input_system_->GetButton(FPLK_u).is_down()) {
-    roll_speed += config_->object_angular_speed();
+    roll_speed += angular_speed;
   }
   if (input_system_->GetButton(FPLK_o).is_down()) {
-    roll_speed -= config_->object_angular_speed();
+    roll_speed -= angular_speed;
   }
   // YH = pitch
   if (input_system_->GetButton(FPLK_y).is_down()) {
-    pitch_speed += config_->object_angular_speed();
+    pitch_speed += angular_speed;
   }
   if (input_system_->GetButton(FPLK_h).is_down()) {
-    pitch_speed -= config_->object_angular_speed();
+    pitch_speed -= angular_speed;
   }
   // NM = yaw
   if (input_system_->GetButton(FPLK_n).is_down()) {
-    yaw_speed += config_->object_angular_speed();
+    yaw_speed += angular_speed;
   }
   if (input_system_->GetButton(FPLK_m).is_down()) {
-    yaw_speed -= config_->object_angular_speed();
+    yaw_speed -= angular_speed;
   }
   // +- = scale
   if (input_system_->GetButton(FPLK_EQUALS).is_down()) {
@@ -561,9 +598,8 @@ bool WorldEditor::ModifyTransformBasedOnInput(TransformDef* transform) {
   } else if (input_system_->GetButton(FPLK_MINUS).is_down()) {
     scale_speed = 1.0f / config_->object_scale_speed();
   }
-  Vec3 position = *(transform->mutable_position());
-  position = Vec3{position.x() + x_speed, position.y() + y_speed,
-                  position.z() + z_speed};
+  const vec3 position = LoadVec3(transform->mutable_position()) +
+                        GlobalFromHorizontal(fwd_speed, right_speed, up_speed);
 
   Vec3 orientation = *transform->mutable_orientation();
   orientation = Vec3{orientation.x() + pitch_speed,
@@ -576,9 +612,10 @@ bool WorldEditor::ModifyTransformBasedOnInput(TransformDef* transform) {
     scale = Vec3{scale.x() * scale_speed, scale.y() * scale_speed,
                  scale.z() * scale_speed};
   }
-  if (x_speed != 0 || y_speed != 0 || z_speed != 0 || yaw_speed != 0 ||
+  if (fwd_speed != 0 || right_speed != 0 || up_speed != 0 || yaw_speed != 0 ||
       roll_speed != 0 || pitch_speed != 0 || scale_speed != 1) {
-    *(transform->mutable_position()) = position;
+    *(transform->mutable_position()) =
+        Vec3(position.x(), position.y(), position.z());
     *(transform->mutable_orientation()) = orientation;
     *(transform->mutable_scale()) = scale;
     return true;
