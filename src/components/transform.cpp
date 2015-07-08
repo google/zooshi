@@ -107,7 +107,7 @@ void TransformComponent::UpdateChildLinks(entity::EntityRef& entity) {
         // the prototype to use for the child.
         child =
             entity_manager_->GetComponent<ServicesComponent>()
-                ->zooshi_entity_factory()
+                ->entity_factory()
                 ->CreateEntityFromPrototype(child_id.c_str(), entity_manager_);
       }
       // If we got an existing child (or created a new one)...
@@ -146,9 +146,7 @@ void TransformComponent::CleanupEntity(entity::EntityRef& entity) {
 
 void TransformComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_TransformDef);
-  auto transform_def = static_cast<const TransformDef*>(component_data->data());
+  auto transform_def = static_cast<const TransformDef*>(raw_data);
   auto pos = transform_def->position();
   auto orientation = transform_def->orientation();
   auto scale = transform_def->scale();
@@ -217,10 +215,7 @@ entity::ComponentInterface::RawDataUniquePtr TransformComponent::ExportRawData(
     builder.add_child_ids(child_ids);
   }
 
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_TransformDef, builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 

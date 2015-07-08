@@ -74,9 +74,7 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 
 void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_PlayerDef);
-  auto player_def = static_cast<const PlayerDef*>(component_data->data());
+  auto player_def = static_cast<const PlayerDef*>(raw_data);
   PlayerData* player_data = AddEntity(entity);
   player_data->set_on_fire(player_def->on_fire());
   player_data->SetInitialDirection(
@@ -92,7 +90,7 @@ void PlayerComponent::InitEntity(entity::EntityRef& entity) {
 entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   entity::EntityRef projectile =
       entity_manager_->GetComponent<ServicesComponent>()
-          ->zooshi_entity_factory()
+          ->entity_factory()
           ->CreateEntityFromPrototype("Projectile", entity_manager_);
 
   TransformData* transform_data = Data<TransformData>(projectile);
@@ -142,10 +140,7 @@ entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
   PlayerDefBuilder builder(fbb);
   builder.add_initial_direction(&initial_direction);
 
-  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_PlayerDef,
-                                              builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 

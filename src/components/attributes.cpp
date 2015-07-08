@@ -61,10 +61,7 @@ void AttributesComponent::OnEvent(const event::EventPayload& event_payload) {
 }
 
 void AttributesComponent::AddFromRawData(entity::EntityRef& entity,
-                                         const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  (void)component_data;
-  assert(component_data->data_type() == ComponentDataUnion_AttributesDef);
+                                         const void* /*raw_data*/) {
   AddEntity(entity);
 }
 
@@ -73,10 +70,8 @@ entity::ComponentInterface::RawDataUniquePtr AttributesComponent::ExportRawData(
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_AttributesDef, CreateAttributesDef(fbb).Union());
 
-  fbb.Finish(component);
+  fbb.Finish(CreateAttributesDef(fbb));
   return fbb.ReleaseBufferPointer();
 }
 

@@ -24,15 +24,15 @@ namespace fpl_project {
 
 void RailNodeComponent::AddFromRawData(entity::EntityRef& entity,
                                        const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_RailNodeDef);
-  auto def = static_cast<const RailNodeDef*>(component_data->data());
+  auto rail_node_def = static_cast<const RailNodeDef*>(raw_data);
+
   RailNodeData* data = AddEntity(entity);
-  data->rail_name = def->rail_name()->c_str();
-  data->ordering = def->ordering();
-  if (def->total_time()) data->total_time = def->total_time();
-  if (def->reliable_distance())
-    data->reliable_distance = def->reliable_distance();
+  data->rail_name = rail_node_def->rail_name()->c_str();
+  data->ordering = rail_node_def->ordering();
+  if (rail_node_def->total_time())
+    data->total_time = rail_node_def->total_time();
+  if (rail_node_def->reliable_distance())
+    data->reliable_distance = rail_node_def->reliable_distance();
 }
 
 entity::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
@@ -54,10 +54,7 @@ entity::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
     builder.add_reliable_distance(data->reliable_distance);
   }
 
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_RailNodeDef, builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 

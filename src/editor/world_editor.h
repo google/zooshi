@@ -28,6 +28,8 @@
 #include "components/editor.h"
 #include "entity/component_interface.h"
 #include "entity/entity_manager.h"
+#include "entity_factory.h"
+#include "event/event_manager.h"
 #include "fplbase/input.h"
 #include "fplbase/utilities.h"
 #include "mathfu/vector_3.h"
@@ -45,7 +47,9 @@ namespace editor {
 class WorldEditor {
  public:
   void Initialize(const WorldEditorConfig* config, InputSystem* input_system,
-                  entity::EntityManager* entity_manager);
+                  entity::EntityManager* entity_manager,
+                  event::EventManager* event_manager,
+                  EntityFactory* entity_factory);
   void AdvanceFrame(WorldTime delta_time);
   void Render(Renderer* renderer);
   void Activate();
@@ -61,6 +65,10 @@ class WorldEditor {
   void SaveWorld();
   void SaveEntitiesInFile(const std::string& filename);
 
+  void AddComponentToUpdate(entity::ComponentId component_id) {
+    components_to_update_.push_back(component_id);
+  }
+
  private:
   enum { kMoving, kEditing } input_mode_;
 
@@ -73,10 +81,6 @@ class WorldEditor {
 
   // get camera movement via W-A-S-D
   mathfu::vec3 GetMovement() const;
-
-  flatbuffers::Offset<EntityDef> SerializeEntity(
-      entity::EntityRef& entity, flatbuffers::FlatBufferBuilder* builder,
-      const reflection::Schema* schema);
 
   entity::EntityRef DuplicateEntity(entity::EntityRef& entity);
   void DestroyEntity(entity::EntityRef& entity);
@@ -92,6 +96,8 @@ class WorldEditor {
   const WorldEditorConfig* config_;
   InputSystem* input_system_;
   entity::EntityManager* entity_manager_;
+  event::EventManager* event_manager_;
+  EntityFactory* entity_factory_;
   // Which entity are we currently editing?
   entity::EntityRef selected_entity_;
 
@@ -104,6 +110,8 @@ class WorldEditor {
   std::string schema_text_;
 
   bool previous_relative_mouse_mode;
+
+  std::vector<entity::ComponentId> components_to_update_;
 #ifdef __ANDROID__
   fpl_project::AndroidCardboardController input_controller_;
 #else

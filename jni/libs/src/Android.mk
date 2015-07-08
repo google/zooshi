@@ -75,6 +75,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/editor/world_editor.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/entity_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
@@ -97,6 +98,7 @@ ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/assets.fbs \
   $(ZOOSHI_SCHEMA_DIR)/attributes.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/base_components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/bullet_def.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \

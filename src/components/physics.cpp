@@ -64,9 +64,7 @@ PhysicsComponent::~PhysicsComponent() { ClearComponentData(); }
 
 void PhysicsComponent::AddFromRawData(entity::EntityRef& entity,
                                       const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_PhysicsDef);
-  auto physics_def = static_cast<const PhysicsDef*>(component_data->data());
+  auto physics_def = static_cast<const PhysicsDef*>(raw_data);
   PhysicsData* physics_data = AddEntity(entity);
 
   if (physics_def->shapes() && physics_def->shapes()->Length() > 0) {
@@ -285,10 +283,7 @@ entity::ComponentInterface::RawDataUniquePtr PhysicsComponent::ExportRawData(
   builder.add_kinematic(kinematic);
   builder.add_shapes(shapes);
 
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_PhysicsDef, builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 

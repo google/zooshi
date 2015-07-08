@@ -62,10 +62,7 @@ AudioListenerComponent::ExportRawData(entity::EntityRef& entity) const {
 
   flatbuffers::FlatBufferBuilder fbb;
 
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_ListenerDef, CreateListenerDef(fbb).Union());
-
-  fbb.Finish(component);
+  fbb.Finish(CreateListenerDef(fbb));
   return fbb.ReleaseBufferPointer();
 }
 

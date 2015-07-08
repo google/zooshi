@@ -115,10 +115,7 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 
 void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
                                           const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_RailDenizenDef);
-  auto rail_denizen_def =
-      static_cast<const RailDenizenDef*>(component_data->data());
+  auto rail_denizen_def = static_cast<const RailDenizenDef*>(raw_data);
   RailDenizenData* data = AddEntity(entity);
 
   if (rail_denizen_def->rail_name() != nullptr)
@@ -213,10 +210,7 @@ RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
   builder.add_update_orientation(data->update_orientation);
   builder.add_enabled(data->enabled);
 
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_RailDenizenDef, builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 

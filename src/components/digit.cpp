@@ -31,9 +31,7 @@ static const int kDigitBase = 10;
 
 void DigitComponent::AddFromRawData(entity::EntityRef& entity,
                                     const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_DigitDef);
-  auto digit_def = static_cast<const DigitDef*>(component_data->data());
+  auto digit_def = static_cast<const DigitDef*>(raw_data);
 
   // If digit meshes are specified, all digits need to be declared.
   assert(!digit_def->digit_mesh_list() ||
@@ -98,4 +96,3 @@ void DigitComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 
 }  // fpl_project
 }  // fpl
-

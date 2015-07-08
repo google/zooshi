@@ -19,8 +19,6 @@
 #include "components_generated.h"
 #include "components/physics.h"
 #include "components/rendermesh.h"
-#include "components/services.h"
-#include "components/shadow_controller.h"
 #include "components/transform.h"
 #include "entity/entity_manager.h"
 #include "events_generated.h"
@@ -39,9 +37,7 @@ using fpl_project::EditorComponent;
 using fpl_project::EditorData;
 using fpl_project::PhysicsComponent;
 using fpl_project::RenderMeshComponent;
-using fpl_project::ServicesComponent;
 using fpl_project::TransformComponent;
-using fpl_project::ShadowControllerComponent;
 using mathfu::vec3;
 
 static const float kRaycastDistance = 100.0f;
@@ -49,10 +45,14 @@ static const float kMinValidDistance = 0.00001f;
 
 void WorldEditor::Initialize(const WorldEditorConfig* config,
                              InputSystem* input_system,
-                             entity::EntityManager* entity_manager) {
+                             entity::EntityManager* entity_manager,
+                             event::EventManager* event_manager,
+                             EntityFactory* entity_factory) {
   config_ = config;
   input_system_ = input_system;
   entity_manager_ = entity_manager;
+  event_manager_ = event_manager;
+  entity_factory_ = entity_factory;
   entity_cycler_.reset(
       new entity::EntityManager::EntityStorageContainer::Iterator{
           entity_manager->end()});
@@ -107,8 +107,6 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
     }
   }
 
-  // TODO(jsimantov): Only cycle entities that have components we can edit
-  // (specifically a TransformComponent for now)
   bool entity_changed = false;
   do {
     if (input_system_->GetButton(FPLK_RIGHTBRACKET).went_down()) {
@@ -175,12 +173,10 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
     auto raw_data = transform_component->ExportRawData(selected_entity_);
     if (raw_data != nullptr) {
       // TODO(jsimantov): in the future, don't just assume the type of this
-      auto component_data =
-          flatbuffers::GetMutableRoot<ComponentDefInstance>(raw_data.get());
       TransformDef* transform =
-          reinterpret_cast<TransformDef*>(component_data->mutable_data());
+          flatbuffers::GetMutableRoot<TransformDef>(raw_data.get());
       if (ModifyTransformBasedOnInput(transform)) {
-        transform_component->AddFromRawData(selected_entity_, component_data);
+        transform_component->AddFromRawData(selected_entity_, transform);
         entity_manager_->GetComponent<fpl_project::PhysicsComponent>()
             ->UpdatePhysicsFromTransform(selected_entity_);
         NotifyEntityUpdated(selected_entity_);
@@ -207,10 +203,10 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
   transform_component->PostLoadFixup();
 
   // Any components we specifically still want to update should be updated here.
-  transform_component->UpdateAllEntities(0);
-  entity_manager_->GetComponent<ShadowControllerComponent>()->UpdateAllEntities(
-      0);
-  entity_manager_->GetComponent<RenderMeshComponent>()->UpdateAllEntities(0);
+  for (size_t i = 0; i < components_to_update_.size(); i++) {
+    entity_manager_->GetComponent(components_to_update_[i])
+        ->UpdateAllEntities(0);
+  }
 
   entity_manager_->DeleteMarkedEntities();
 }
@@ -262,19 +258,15 @@ void WorldEditor::SetInitialCamera(const fpl_project::Camera& initial_camera) {
 }
 
 void WorldEditor::NotifyEntityUpdated(const entity::EntityRef& entity) const {
-  auto event_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  if (event_manager != nullptr) {
-    event_manager->BroadcastEvent(fpl_project::EditorEventPayload(
+  if (event_manager_ != nullptr) {
+    event_manager_->BroadcastEvent(fpl_project::EditorEventPayload(
         fpl_project::EditorEventAction_EntityUpdated, entity));
   }
 }
 
 void WorldEditor::NotifyEntityDeleted(const entity::EntityRef& entity) const {
-  auto event_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  if (event_manager != nullptr) {
-    event_manager->BroadcastEvent(fpl_project::EditorEventPayload(
+  if (event_manager_ != nullptr) {
+    event_manager_->BroadcastEvent(fpl_project::EditorEventPayload(
         fpl_project::EditorEventAction_EntityDeleted, entity));
   }
 }
@@ -290,20 +282,16 @@ void WorldEditor::Activate() {
   input_system_->SetRelativeMouseMode(true);
 
   // Raise the EditorStart event.
-  auto event_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  if (event_manager != nullptr) {
-    event_manager->BroadcastEvent(
+  if (event_manager_ != nullptr) {
+    event_manager_->BroadcastEvent(
         fpl_project::EditorEventPayload(fpl_project::EditorEventAction_Enter));
   }
 }
 
 void WorldEditor::Deactivate() {
   // Raise the EditorExit event.
-  auto event_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  if (event_manager != nullptr) {
-    event_manager->BroadcastEvent(
+  if (event_manager_ != nullptr) {
+    event_manager_->BroadcastEvent(
         fpl_project::EditorEventPayload(fpl_project::EditorEventAction_Exit));
   }
 
@@ -326,73 +314,40 @@ void WorldEditor::SaveWorld() {
   }
 }
 
-flatbuffers::Offset<EntityDef> WorldEditor::SerializeEntity(
-    entity::EntityRef& entity, flatbuffers::FlatBufferBuilder* builder,
-    const reflection::Schema* schema) {
-  auto editor_component = entity_manager_->GetComponent<EditorComponent>();
-
-  std::vector<flatbuffers::Offset<ComponentDefInstance>> component_vector;
-
-  for (int component_id = 0; component_id < entity::kMaxComponentCount;
-       component_id++) {
-    const EditorData* editor_data = editor_component->GetComponentData(entity);
-    if (entity_manager_->GetComponent(component_id) != nullptr &&
-        entity->IsRegisteredForComponent(component_id) &&
-        editor_data->components_from_prototype.find(
-            (ComponentDataUnion)component_id) ==
-            editor_data->components_from_prototype.end()) {
-      auto exported =
-          entity_manager_->GetComponent(component_id)->ExportRawData(entity);
-      auto table_def =
-          schema != nullptr
-              ? schema->objects()->LookupByKey("ComponentDefInstance")
-              : nullptr;
-
-      if (exported != nullptr) {
-        flatbuffers::Offset<ComponentDefInstance> component =
-            exported != nullptr && table_def != nullptr
-                ? flatbuffers::Offset<ComponentDefInstance>(
-                      flatbuffers::CopyTable(
-                          *builder, *schema, *table_def,
-                          (const flatbuffers::Table&)(*flatbuffers::GetAnyRoot(
-                              exported.get())))
-                          .o)
-                : 0;
-
-        component_vector.push_back(component);
+entity::EntityRef WorldEditor::DuplicateEntity(entity::EntityRef& entity) {
+  std::vector<uint8_t> entity_serialized;
+  if (!entity_factory_->SerializeEntity(entity, entity_manager_,
+                                        &entity_serialized)) {
+    LogError("DuplicateEntity: Couldn't serialize entity");
+  }
+  std::vector<std::vector<uint8_t>> entity_defs = {entity_serialized};
+  std::vector<uint8_t> entity_list;
+  if (!entity_factory_->SerializeEntityList(entity_defs, &entity_list)) {
+    LogError("DuplicateEntity: Couldn't create entity list");
+  }
+  std::vector<entity::EntityRef> entities_created;
+  if (entity_factory_->LoadEntityListFromMemory(
+          entity_list.data(), entity_manager_, &entities_created) > 0) {
+    // We created some new duplicate entities! (most likely exactly one.)  We
+    // need to remove their entity IDs since otherwise they will have duplicate
+    // entity IDs to the one we created.  We also need to make sure the new
+    // entity IDs are marked with the same source file as the old.
+    for (size_t i = 0; i < entities_created.size(); i++) {
+      entity::EntityRef& new_entity = entities_created[i];
+      EditorData* old_editor_data =
+          entity_manager_->GetComponentData<EditorData>(entity);
+      EditorData* editor_data =
+          entity_manager_->GetComponentData<EditorData>(new_entity);
+      if (editor_data != nullptr) {
+        editor_data->entity_id = "";
+        if (old_editor_data != nullptr)
+          editor_data->source_file = old_editor_data->source_file;
       }
     }
+    entity_manager_->GetComponent<TransformComponent>()->PostLoadFixup();
+    return entities_created[0];
   }
-  return CreateEntityDef(*builder, builder->CreateVector(component_vector));
-}
-
-entity::EntityRef WorldEditor::DuplicateEntity(entity::EntityRef& entity) {
-  if (schema_data_ == "") {
-    LogInfo("No binary schema loaded, can't duplicate entity.");
-    return entity::EntityRef();
-  }
-
-  auto schema = reflection::GetSchema(schema_data_.c_str());
-
-  flatbuffers::FlatBufferBuilder builder;
-  auto entity_def_offset = SerializeEntity(entity, &builder, schema);
-  builder.Finish(entity_def_offset);
-  const EntityDef* entity_def =
-      flatbuffers::GetRoot<EntityDef>(builder.GetBufferPointer());
-  entity::EntityRef new_entity = entity_manager_->CreateEntityFromData(
-      static_cast<const void*>(entity_def));
-  // remove the entity ID
-  EditorData* old_editor_data =
-      entity_manager_->GetComponentData<EditorData>(entity);
-  EditorData* editor_data =
-      entity_manager_->GetComponentData<EditorData>(new_entity);
-  if (editor_data != nullptr) {
-    editor_data->entity_id = "";
-    if (old_editor_data != nullptr)
-      editor_data->source_file = old_editor_data->source_file;
-  }
-  entity_manager_->GetComponent<TransformComponent>()->PostLoadFixup();
-  return new_entity;
+  return entity::EntityRef();
 }
 
 void WorldEditor::DestroyEntity(entity::EntityRef& entity) {
@@ -417,13 +372,6 @@ void WorldEditor::LoadSchemaFiles() {
 }
 
 void WorldEditor::SaveEntitiesInFile(const std::string& filename) {
-  auto editor_component = entity_manager_->GetComponent<EditorComponent>();
-  if (schema_data_ == "") {
-    LogInfo("No binary schema loaded, can't save entities.");
-    return;
-  }
-  auto schema = reflection::GetSchema(schema_data_.c_str());
-
   if (filename == "") {
     LogInfo("Skipping saving entities to blank filename.");
     return;
@@ -431,24 +379,28 @@ void WorldEditor::SaveEntitiesInFile(const std::string& filename) {
   LogInfo("Saving entities in file: '%s'", filename.c_str());
   // We know the FlatBuffer format we're using: components
   flatbuffers::FlatBufferBuilder builder;
-  std::vector<flatbuffers::Offset<fpl::EntityDef>> entity_vector;
+  std::vector<std::vector<uint8_t>> entities_serialized;
 
+  auto editor_component = entity_manager_->GetComponent<EditorComponent>();
   // loop through all entities
   for (auto entityiter = entity_manager_->begin();
        entityiter != entity_manager_->end(); ++entityiter) {
     entity::EntityRef entity = entityiter.ToReference();
     const EditorData* editor_data = editor_component->GetComponentData(entity);
     if (editor_data != nullptr && editor_data->source_file == filename) {
-      entity_vector.push_back(SerializeEntity(entity, &builder, schema));
+      entities_serialized.push_back({});
+      entity_factory_->SerializeEntity(entity, entity_manager_,
+                                       &entities_serialized.back());
     }
   }
-
-  auto entity_list =
-      CreateEntityListDef(builder, builder.CreateVector(entity_vector));
-  builder.Finish(entity_list);
-  if (SaveFile((filename + ".bin").c_str(),
-               static_cast<const void*>(builder.GetBufferPointer()),
-               static_cast<size_t>(builder.GetSize()))) {
+  std::vector<uint8_t> entity_list;
+  if (!entity_factory_->SerializeEntityList(entities_serialized,
+                                            &entity_list)) {
+    LogError("Couldn't serialize entity list");
+    return;
+  }
+  if (SaveFile((filename + ".bin").c_str(), entity_list.data(),
+               entity_list.size())) {
     LogInfo("Save (binary) successful.");
   } else {
     LogInfo("Save (binary) failed.");
@@ -469,8 +421,8 @@ void WorldEditor::SaveEntitiesInFile(const std::string& filename) {
     if (parser.Parse(schema_text_.c_str(), include_paths.get(),
                      config_->schema_file_text()->c_str())) {
       std::string json;
-      GenerateText(parser, builder.GetBufferPointer(),
-                   flatbuffers::GeneratorOptions(), &json);
+      GenerateText(parser, entity_list.data(), flatbuffers::GeneratorOptions(),
+                   &json);
       if (SaveFile((filename + ".json").c_str(), json)) {
         LogInfo("Save (JSON) successful");
       } else {

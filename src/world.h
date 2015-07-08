@@ -16,6 +16,7 @@
 #define ZOOSHI_WORLD_H_
 
 #include <map>
+#include <memory>
 #include <string>
 #include "components_generated.h"
 #include "components/attributes.h"
@@ -37,9 +38,9 @@
 #include "components/transform.h"
 #include "editor/world_editor.h"
 #include "entity/entity_manager.h"
+#include "entity_factory.h"
 #include "motive/engine.h"
 #include "railmanager.h"
-#include "zooshi_entity_factory.h"
 
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg_manager.h"
@@ -79,7 +80,7 @@ class World {
   entity::EntityManager entity_manager;
 
   // Entity factory, for creating entities from data.
-  ZooshiEntityFactory entity_factory;
+  std::unique_ptr<EntityFactory> entity_factory;
 
   // Rail Manager - manages loading and storing of rail definitions
   RailManager rail_manager;

@@ -127,10 +127,7 @@ void RenderMeshComponent::RenderAllEntities(Renderer& renderer,
 
 void RenderMeshComponent::AddFromRawData(entity::EntityRef& entity,
                                          const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_RenderMeshDef);
-  auto rendermesh_def =
-      static_cast<const RenderMeshDef*>(component_data->data());
+  auto rendermesh_def = static_cast<const RenderMeshDef*>(raw_data);
 
   // You need to call asset_manager before you can add from raw data,
   // otherwise it can't load up new meshes!
@@ -191,13 +188,13 @@ entity::ComponentInterface::RawDataUniquePtr RenderMeshComponent::ExportRawData(
                     ? fbb.CreateString(data->shader_filename)
                     : 0;
   std::vector<unsigned char> render_pass_vec;
-  for (int i=0; i < RenderPass_kCount; i++) {
-    if (data->pass_mask & (1<<i)) {
+  for (int i = 0; i < RenderPass_kCount; i++) {
+    if (data->pass_mask & (1 << i)) {
       render_pass_vec.push_back(i);
     }
   }
   auto render_pass = fbb.CreateVector(render_pass_vec);
-  
+
   RenderMeshDefBuilder builder(fbb);
   if (source_file.o != 0) {
     builder.add_source_file(source_file);
@@ -210,10 +207,7 @@ entity::ComponentInterface::RawDataUniquePtr RenderMeshComponent::ExportRawData(
   }
   builder.add_ignore_culling(data->ignore_culling);
 
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_RenderMeshDef, builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 

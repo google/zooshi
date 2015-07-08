@@ -17,164 +17,156 @@
 #include <set>
 #include "components/editor.h"
 #include "fplbase/utilities.h"
+#include "flatbuffers/reflection.h"
 
 namespace fpl {
 namespace fpl_project {
 
-bool ZooshiEntityFactory::SetEntityLibrary(
-    const char* entity_library_filename) {
-  if (!LoadFile(entity_library_filename, &entity_library_data_)) {
-    if (debug_)
-      LogInfo("ZooshiEntityFactory: Couldn't load entity library %s",
-              entity_library_filename);
-    return false;
-  }
-  entity_library_ =
-      flatbuffers::GetRoot<EntityListDef>(entity_library_data_.c_str());
-
-  // Index each entity in the entity library by entity_id (found in EditorDef).
-  for (size_t i = 0; i < entity_library_->entity_list()->size(); i++) {
-    std::string entity_id;
-    const EntityDef* def = entity_library_->entity_list()->Get(i);
-    // search all components in this entity for the EditorDef, which contains
-    // the component's entity_id.
-    for (size_t j = 0; j < def->component_list()->size(); j++) {
-      const ComponentDefInstance* component_def = def->component_list()->Get(j);
-      if (component_def->data_type() == ComponentDataUnion_EditorDef) {
-        const EditorDef* editor_def =
-            static_cast<const EditorDef*>(component_def->data());
-        entity_id = editor_def->entity_id()->c_str();
-        break;
-      }
-    }
-    if (entity_id != "") {
-      prototype_data_[entity_id] = def;
-    } else {
-      LogInfo("Warning: Entity #%d in component library has no entity ID.", i);
-    }
+bool ZooshiEntityFactory::ReadEntityList(
+    const void* entity_list, std::vector<const void*>* entity_defs) {
+  const EntityListDef* list = flatbuffers::GetRoot<EntityListDef>(entity_list);
+  entity_defs->clear();
+  entity_defs->reserve(list->entity_list()->size());
+  for (size_t i = 0; i < list->entity_list()->size(); i++) {
+    entity_defs->push_back(list->entity_list()->Get(i));
   }
   return true;
 }
 
-void ZooshiEntityFactory::InstantiateEntity(
-    const EntityDef* def, entity::EntityManager* entity_manager,
-    entity::EntityRef& entity, bool is_prototype) {
-  if (!is_prototype && debug_)
-    LogInfo("InstantiateEntity: Creating an entity.");
-  const EntityDef* prototype_def = nullptr;
-  // First check for an EditorDef to see if there's a prototype.
+bool ZooshiEntityFactory::ReadEntityDefinition(
+    const void* entity_definition, std::vector<const void*>* component_defs) {
+  const EntityDef* def = static_cast<const EntityDef*>(entity_definition);
+  component_defs->clear();
+  component_defs->resize(max_component_id() + 1, nullptr);
   for (size_t i = 0; i < def->component_list()->size(); i++) {
     const ComponentDefInstance* component_def = def->component_list()->Get(i);
-    if (component_def->data_type() == ComponentDataUnion_EditorDef) {
-      const EditorDef* editor_def =
-          static_cast<const EditorDef*>(component_def->data());
-      if (editor_def->prototype() != nullptr) {
-        if (debug_)
-          LogInfo("InstantiateEntity: Reading prototype '%s'...",
-                  editor_def->prototype()->c_str());
-        prototype_def = prototype_data_[editor_def->prototype()->c_str()];
-        // TODO: Allow you to use an already-loaded entity as a prototype?
-        // To do this you would have to ExportRawData on that entity.
-        // It would be slow. We should probably discuss.
-        break;
-      }
-    }
-  }
-
-  if (prototype_def != nullptr) {
-    // Read the prototype first, then resume loading the initial entity.
-    InstantiateEntity(prototype_def, entity_manager, entity, true);
-  }
-
-  std::set<entity::ComponentId> overridden_components;
-
-  for (size_t i = 0; i < def->component_list()->size(); i++) {
-    const ComponentDefInstance* currentInstance = def->component_list()->Get(i);
     entity::ComponentId component_id =
-        DataTypeToComponentId(currentInstance->data_type());
-    overridden_components.insert(component_id);
-    if (is_prototype &&
-        currentInstance->data_type() == ComponentDataUnion_EditorDef) {
-      // EditorDef from prototypes gets loaded special.
-      EditorComponent* editor_component =
-          entity_manager->GetComponent<EditorComponent>();
-      assert(editor_component != nullptr);
-      editor_component->AddFromPrototypeData(
-          entity, static_cast<const EditorDef*>(currentInstance->data()));
-    } else {
-      if (debug_)
-        LogInfo("InstantiateEntity: ...%s provides component %d",
-                is_prototype ? "prototype" : "instance",
-                currentInstance->data_type());
-      entity::ComponentInterface* component = entity_manager->GetComponent(
-          DataTypeToComponentId(currentInstance->data_type()));
-      assert(component != nullptr);
-      component->AddFromRawData(entity, currentInstance);
+        DataTypeToComponentId(component_def->data_type());
+    if (component_id == entity::kInvalidComponent) {
+      LogError("ReadEntityDefinition: Error, unknown component data type %d\n",
+               component_def->data_type());
+      return false;
     }
+    (*component_defs)[component_id] = component_def->data();
+  }
+  return true;
+}
+
+bool ZooshiEntityFactory::CreatePrototypeRequest(
+    const char* prototype_name, std::vector<uint8_t>* request) {
+  // Create the prototype request for the first time. It will be cached
+  // for future use.
+  flatbuffers::FlatBufferBuilder fbb;
+  auto prototype = fbb.CreateString(prototype_name);
+  EditorDefBuilder builder(fbb);
+  builder.add_prototype(prototype);
+  auto component = CreateComponentDefInstance(
+      fbb, ComponentDataUnion(
+               ComponentIdToDataType(EditorComponent::GetComponentId())),
+      builder.Finish().Union());
+  auto entity_def = CreateEntityDef(
+      fbb,
+      fbb.CreateVector(
+          std::vector<flatbuffers::Offset<ComponentDefInstance>>{component}));
+  auto entity_list = CreateEntityListDef(
+      fbb, fbb.CreateVector(
+               std::vector<flatbuffers::Offset<EntityDef>>{entity_def}));
+  fbb.Finish(entity_list);
+  *request = {fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
+
+  return true;
+}
+
+bool ZooshiEntityFactory::CreateEntityDefinition(
+    const std::vector<const void*>& component_data,
+    std::vector<uint8_t>* entity_definition) {
+  // Take an individual component data type such as TransformData, and wrap it
+  // inside the union in ComponentDefInstance.
+
+  // For each component, we only have a raw pointer to the flatbuffer data as
+  // exported by that component. We use our knowledge of the data types for each
+  // component ID to get the table type to copy, and to set the union data type
+  // to the correct value.
+  if (flatbuffer_binary_schema_data_ == "") {
+    LogError("CreateEntityDefinition: No schema loaded, can't CopyTable");
+    return false;
+  }
+  auto schema = reflection::GetSchema(flatbuffer_binary_schema_data_.c_str());
+  if (schema == nullptr) {
+    LogError(
+        "CreateEntityDefinition: GetSchema() failed, is it a binary schema?");
+    return false;
   }
 
-  if (!is_prototype) {
-    EditorData* editor_data =
-        entity_manager->GetComponent<EditorComponent>()->AddEntity(entity);
-    for (int component_id = 0; component_id < entity::kMaxComponentCount;
-         component_id++) {
-      // If we don't already have an EditorComponent, we should get one added.
-      if (entity_manager->GetComponent(component_id) != nullptr &&
-          entity->IsRegisteredForComponent(component_id) &&
-          overridden_components.find(component_id) ==
-              overridden_components.end()) {
-        editor_data->components_from_prototype.insert(component_id);
+  flatbuffers::FlatBufferBuilder fbb;
+  std::vector<flatbuffers::Offset<ComponentDefInstance>> component_list;
+  for (size_t i = 0; i <= max_component_id(); i++) {
+    // For each non-null component ID, create a ComponentDefInstance and copy
+    // the data for that component in, using reflection.
+    if (component_data[i] != nullptr) {
+      const uint8_t* raw_data = static_cast<const uint8_t*>(component_data[i]);
+      ComponentDataUnion data_type =
+          static_cast<ComponentDataUnion>(ComponentIdToDataType(i));
+      const char* table_name = ComponentIdToTableName(i);
+      auto table_def = schema->objects()->LookupByKey(table_name);
+      if (table_def != nullptr) {
+        component_list.push_back(CreateComponentDefInstance(
+            fbb, data_type,
+            flatbuffers::CopyTable(fbb, *schema, *table_def,
+                                   *flatbuffers::GetAnyRoot(raw_data))
+                .o));
+      } else {
+        LogError(
+            "CreateEntityDefinition: Unknown table for component %d with data "
+            "type %d: '%s'",
+            i, data_type, table_name);
       }
     }
   }
+  auto entity_def = CreateEntityDef(fbb, fbb.CreateVector(component_list));
+  fbb.Finish(entity_def);
+  *entity_definition = {fbb.GetBufferPointer(),
+                        fbb.GetBufferPointer() + fbb.GetSize()};
+  return true;
 }
 
-// Factory method for the entity manager, for converting data (in our case.
-// flatbuffer definitions) into entities and sticking them into the system.
-entity::EntityRef ZooshiEntityFactory::CreateEntityFromData(
-    const void* data, entity::EntityManager* entity_manager) {
-  const EntityDef* def = static_cast<const EntityDef*>(data);
-  assert(def != nullptr);
-  entity::EntityRef entity = entity_manager->AllocateNewEntity();
-  InstantiateEntity(def, entity_manager, entity,
-                    false);  // recursively reads prototypes
-  return entity;
-}
-
-entity::EntityRef ZooshiEntityFactory::CreateEntityFromPrototype(
-    const char* prototype_name, entity::EntityManager* entity_manager) {
-  if (prototype_requests_.find(prototype_name) == prototype_requests_.end()) {
-    // Create the prototype request for the first time. It will be cached
-    // for future use.
-    flatbuffers::FlatBufferBuilder fbb;
-    auto prototype = fbb.CreateString(prototype_name);
-    EditorDefBuilder builder(fbb);
-    builder.add_prototype(prototype);
-    auto component = CreateComponentDefInstance(
-        fbb, ComponentDataUnion_EditorDef, builder.Finish().Union());
-    auto entity_def = CreateEntityDef(
-        fbb,
-        fbb.CreateVector(
-            std::vector<flatbuffers::Offset<ComponentDefInstance>>{component}));
-    fbb.Finish(entity_def);
-    prototype_requests_[prototype_name] = {
-        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
+bool ZooshiEntityFactory::CreateEntityList(
+    const std::vector<const void*>& entity_defs,
+    std::vector<uint8_t>* entity_list_output) {
+  // Given a collection of EntityDef flatbuffers, put them all into a single
+  // EntityListDef. Similar to CreateEntityDefinition, this function uses
+  // flatbuffers deep copy to put the entity definitions in the new flatbuffer.
+  if (flatbuffer_binary_schema_data_ == "") {
+    LogError("CreateEntityList: No schema loaded, can't CopyTable");
+    return false;
   }
-  return CreateEntityFromData(flatbuffers::GetRoot<EntityDef>(
-                                  prototype_requests_[prototype_name].data()),
-                              entity_manager);
-}
+  auto schema = reflection::GetSchema(flatbuffer_binary_schema_data_.c_str());
+  if (schema == nullptr) {
+    LogError("CreateEntityList: GetSchema() failed, is it a binary schema?");
+    return false;
+  }
+  auto table_def = schema->objects()->LookupByKey("EntityDef");
+  if (table_def == nullptr) {
+    LogError("CreateEntityList: Can't look up EntityDef");
+    return false;
+  }
+  flatbuffers::FlatBufferBuilder fbb;
+  std::vector<flatbuffers::Offset<EntityDef>> entity_list;
+  for (auto entity_def = entity_defs.begin(); entity_def != entity_defs.end();
+       ++entity_def) {
+    const uint8_t* raw_data = static_cast<const uint8_t*>(*entity_def);
+    entity_list.push_back(
+        flatbuffers::CopyTable(fbb, *schema, *table_def,
+                               *flatbuffers::GetAnyRoot(raw_data))
+            .o);
+  }
 
-void ZooshiEntityFactory::SetComponentId(unsigned int data_type,
-                                         entity::ComponentId component_id) {
-  if (data_type_to_component_id_.size() <= data_type)
-    data_type_to_component_id_.resize(data_type + 1, entity::kInvalidComponent);
-  data_type_to_component_id_[data_type] = component_id;
-
-  if (component_id_to_data_type_.size() <= component_id)
-    component_id_to_data_type_.resize(component_id + 1,
-                                      ComponentDataUnion_NONE);
-  component_id_to_data_type_[component_id] = data_type;
+  auto entity_list_def =
+      CreateEntityListDef(fbb, fbb.CreateVector(entity_list));
+  fbb.Finish(entity_list_def);
+  *entity_list_output = {fbb.GetBufferPointer(),
+                         fbb.GetBufferPointer() + fbb.GetSize()};
+  return true;
 }
 
 }  // namespace fpl_project

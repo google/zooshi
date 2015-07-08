@@ -228,6 +228,8 @@ set(zooshi_SRCS
     src/components/transform.h
     src/editor/world_editor.cpp
     src/editor/world_editor.h
+    src/entity_factory.cpp
+    src/entity_factory.h
     src/events/change_rail_speed.h
     src/events/collision.h
     src/events/modify_attribute.h

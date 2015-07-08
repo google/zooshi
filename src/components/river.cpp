@@ -45,9 +45,7 @@ void RiverComponent::Init() {
 
 void RiverComponent::AddFromRawData(entity::EntityRef& entity,
                                     const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_RiverDef);
-  auto river_def = static_cast<const RiverDef*>(component_data->data());
+  auto river_def = static_cast<const RiverDef*>(raw_data);
   RiverData* river_data = AddEntity(entity);
   river_data->rail_name = river_def->rail_name()->c_str();
 
@@ -69,10 +67,8 @@ entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
   if (rail_name.o != 0) {
     builder.add_rail_name(rail_name);
   }
-  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_RiverDef,
-                                              builder.Finish().Union());
 
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish().Union());
   return fbb.ReleaseBufferPointer();
 }
 

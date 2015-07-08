@@ -33,9 +33,7 @@ void PlayerProjectileComponent::Init() {
 
 void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
                                                const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_PlayerProjectileDef);
-  auto projectile_def = static_cast<const PatronDef*>(component_data->data());
+  auto projectile_def = static_cast<const PlayerProjectileDef*>(raw_data);
   PlayerProjectileData* projectile_data = AddEntity(entity);
   projectile_data->on_collision = projectile_def->on_collision();
 

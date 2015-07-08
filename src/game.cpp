@@ -286,19 +286,23 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_system(&input_);
   input_controller_.set_input_config(&GetInputConfig());
 
-  world_.Initialize(GetConfig(), &input_, &input_controller_,
-                    &asset_manager_, &font_manager_, &audio_engine_,
-                    &event_manager_);
+  world_.Initialize(GetConfig(), &input_, &input_controller_, &asset_manager_,
+                    &font_manager_, &audio_engine_, &event_manager_);
 
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(GetConfig().world_editor_config(), &input_,
-                            &world_.entity_manager);
+                            &world_.entity_manager, &event_manager_,
+                            world_.entity_factory.get());
+  world_editor_->AddComponentToUpdate(TransformComponent::GetComponentId());
+  world_editor_->AddComponentToUpdate(
+      ShadowControllerComponent::GetComponentId());
+  world_editor_->AddComponentToUpdate(RenderMeshComponent::GetComponentId());
 
   gameplay_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
                              world_editor_.get());
   game_menu_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
-                              world_editor_.get(),
-                              &asset_manager_, &font_manager_);
+                              world_editor_.get(), &asset_manager_,
+                              &font_manager_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 

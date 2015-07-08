@@ -37,9 +37,7 @@ void EditorComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
   EditorData* editor_data = AddEntity(entity);
   if (raw_data != nullptr) {
-    auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-    assert(component_data->data_type() == ComponentDataUnion_EditorDef);
-    auto editor_def = static_cast<const EditorDef*>(component_data->data());
+    auto editor_def = static_cast<const EditorDef*>(raw_data);
     if (editor_def->entity_id() != nullptr) {
       if (editor_data->entity_id != "") {
         RemoveEntityFromDictionary(editor_data->entity_id);
@@ -114,10 +112,7 @@ entity::ComponentInterface::RawDataUniquePtr EditorComponent::ExportRawData(
   if (data->render_option != EditorRenderOption_Unspecified)
     builder.add_render_option(data->render_option);
 
-  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_EditorDef,
-                                              builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 

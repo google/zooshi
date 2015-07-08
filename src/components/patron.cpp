@@ -57,9 +57,7 @@ void PatronComponent::Init() {
 
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_PatronDef);
-  auto patron_def = static_cast<const PatronDef*>(component_data->data());
+  auto patron_def = static_cast<const PatronDef*>(raw_data);
   PatronData* patron_data = AddEntity(entity);
   if (patron_def->on_collision() != nullptr) {
     patron_data->on_collision = patron_def->on_collision();
@@ -116,10 +114,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_pop_in_radius(data->pop_in_radius);
   builder.add_pop_out_radius(data->pop_out_radius);
 
-  auto component = CreateComponentDefInstance(fbb, ComponentDataUnion_PatronDef,
-                                              builder.Finish().Union());
-
-  fbb.Finish(component);
+  fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
 
@@ -339,7 +334,7 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
   for (int i = 0; i < count; i++) {
     entity::EntityRef particle =
         entity_manager_->GetComponent<ServicesComponent>()
-            ->zooshi_entity_factory()
+            ->entity_factory()
             ->CreateEntityFromPrototype("SplatterParticle", entity_manager_);
 
     TransformData* transform_data =

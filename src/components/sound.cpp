@@ -48,9 +48,7 @@ void SoundComponent::CleanupEntity(entity::EntityRef& entity) {
 
 void SoundComponent::AddFromRawData(entity::EntityRef& entity,
                                     const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_SoundDef);
-  auto sound_def = static_cast<const SoundDef*>(component_data->data());
+  auto sound_def = static_cast<const SoundDef*>(raw_data);
 
   SoundData* sound_data = AddEntity(entity);
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
@@ -62,4 +60,3 @@ void SoundComponent::AddFromRawData(entity::EntityRef& entity,
 
 }  // fpl_project
 }  // fpl
-

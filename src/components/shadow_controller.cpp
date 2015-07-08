@@ -26,10 +26,8 @@ static const float kShadowHeight = 0.15f;
 
 void ShadowControllerComponent::AddFromRawData(entity::EntityRef& entity,
                                                const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_ShadowControllerDef);
   auto shadow_controller_def =
-      static_cast<const ShadowControllerDef*>(component_data->data());
+      static_cast<const ShadowControllerDef*>(raw_data);
   ShadowControllerData* shadow_controller_data = AddEntity(entity);
 
   (void)(shadow_controller_data);
@@ -70,10 +68,7 @@ ShadowControllerComponent::ExportRawData(entity::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  auto component =
-      CreateComponentDefInstance(fbb, ComponentDataUnion_ShadowControllerDef,
-                                 CreateShadowControllerDef(fbb).Union());
-  fbb.Finish(component);
+  fbb.Finish(CreateShadowControllerDef(fbb));
   return fbb.ReleaseBufferPointer();
 }
 

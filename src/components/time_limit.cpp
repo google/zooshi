@@ -23,10 +23,7 @@ namespace fpl_project {
 
 void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
-  auto component_data = static_cast<const ComponentDefInstance*>(raw_data);
-  assert(component_data->data_type() == ComponentDataUnion_TimeLimitDef);
-  auto time_limit_def =
-      static_cast<const TimeLimitDef*>(component_data->data());
+  auto time_limit_def = static_cast<const TimeLimitDef*>(raw_data);
   TimeLimitData* time_limit_data = AddEntity(entity);
   // Time limit is specified in seconds in the data files.
   time_limit_data->time_limit =
@@ -50,11 +47,8 @@ entity::ComponentInterface::RawDataUniquePtr TimeLimitComponent::ExportRawData(
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  auto component = CreateComponentDefInstance(
-      fbb, ComponentDataUnion_TimeLimitDef,
-      CreateTimeLimitDef(fbb, data->time_limit).Union());
 
-  fbb.Finish(component);
+  fbb.Finish(CreateTimeLimitDef(fbb, data->time_limit));
   return fbb.ReleaseBufferPointer();
 }
 
