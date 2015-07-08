@@ -178,9 +178,113 @@ entity::ComponentInterface::RawDataUniquePtr PhysicsComponent::ExportRawData(
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  PhysicsDefBuilder builder(fbb);
+  std::vector<flatbuffers::Offset<fpl::BulletShapeDef>> shape_vector;
+  bool kinematic = true;
+  if (data->body_count > 0) {
+    kinematic = data->rigid_bodies[0].rigid_body->isKinematicObject();
+    for (int index = 0; index < data->body_count; ++index) {
+      const RigidBodyData& body = data->rigid_bodies[index];
+      BulletShapeUnion shape_type = BulletShapeUnion_BulletNoShapeDef;
+      flatbuffers::Offset<void> shape_data;
+      switch (body.shape->getShapeType()) {
+        case SPHERE_SHAPE_PROXYTYPE: {
+          auto sphere = static_cast<const btSphereShape*>(body.shape.get());
+          BulletSphereDefBuilder sphere_builder(fbb);
+          sphere_builder.add_radius(sphere->getRadius());
+          shape_type = BulletShapeUnion_BulletSphereDef;
+          shape_data = sphere_builder.Finish().Union();
+          break;
+        }
+        case BOX_SHAPE_PROXYTYPE: {
+          auto box = static_cast<const btBoxShape*>(body.shape.get());
+          BulletBoxDefBuilder box_builder(fbb);
+          btVector3 bt_half_extents = box->getHalfExtentsWithMargin();
+          Vec3 half_extents{bt_half_extents.x(), bt_half_extents.y(),
+                            bt_half_extents.z()};
+          box_builder.add_half_extents(&half_extents);
+          shape_type = BulletShapeUnion_BulletBoxDef;
+          shape_data = box_builder.Finish().Union();
+          break;
+        }
+        case CYLINDER_SHAPE_PROXYTYPE: {
+          auto cylinder = static_cast<const btCylinderShape*>(body.shape.get());
+          BulletCylinderDefBuilder cylinder_builder(fbb);
+          btVector3 bt_half_extents = cylinder->getHalfExtentsWithMargin();
+          Vec3 half_extents{bt_half_extents.x(), bt_half_extents.y(),
+                            bt_half_extents.z()};
+          cylinder_builder.add_half_extents(&half_extents);
+          shape_type = BulletShapeUnion_BulletCylinderDef;
+          shape_data = cylinder_builder.Finish().Union();
+          break;
+        }
+        case CAPSULE_SHAPE_PROXYTYPE: {
+          auto capsule = static_cast<const btCapsuleShape*>(body.shape.get());
+          BulletCapsuleDefBuilder capsule_builder(fbb);
+          capsule_builder.add_radius(capsule->getRadius());
+          capsule_builder.add_height(2.0f * capsule->getHalfHeight());
+          shape_type = BulletShapeUnion_BulletCapsuleDef;
+          shape_data = capsule_builder.Finish().Union();
+          break;
+        }
+        case CONE_SHAPE_PROXYTYPE: {
+          auto cone = static_cast<const btConeShape*>(body.shape.get());
+          BulletConeDefBuilder cone_builder(fbb);
+          cone_builder.add_radius(cone->getRadius());
+          cone_builder.add_height(cone->getHeight());
+          shape_type = BulletShapeUnion_BulletConeDef;
+          shape_data = cone_builder.Finish().Union();
+          break;
+        }
+        case STATIC_PLANE_PROXYTYPE: {
+          auto plane = static_cast<const btStaticPlaneShape*>(body.shape.get());
+          BulletStaticPlaneDefBuilder plane_builder(fbb);
+          btVector3 bt_normal = plane->getPlaneNormal();
+          Vec3 normal{bt_normal.x(), bt_normal.y(), bt_normal.z()};
+          plane_builder.add_normal(&normal);
+          plane_builder.add_constant(plane->getPlaneConstant());
+          shape_type = BulletShapeUnion_BulletStaticPlaneDef;
+          shape_data = plane_builder.Finish().Union();
+          break;
+        }
+        case EMPTY_SHAPE_PROXYTYPE: {
+          BulletNoShapeDefBuilder empty_builder(fbb);
+          shape_type = BulletShapeUnion_BulletNoShapeDef;
+          shape_data = empty_builder.Finish().Union();
+          break;
+        }
+        default: { assert(0); }
+      }
 
-  // TODO(amaurice): populate the PhysicsDef
+      std::vector<signed short> collides_with;
+      for (signed short layer = 1;
+           layer < static_cast<signed short>(BulletCollisionType_End);
+           layer = layer << 1) {
+        if (body.collides_with & layer) {
+          collides_with.push_back(layer);
+        }
+      }
+      auto collides = fbb.CreateVector(collides_with);
+
+      BulletShapeDefBuilder shape_builder(fbb);
+      shape_builder.add_data_type(shape_type);
+      shape_builder.add_data(shape_data);
+      float invMass = body.rigid_body->getInvMass();
+      shape_builder.add_mass(invMass ? 1.0f / invMass : 0.0f);
+      shape_builder.add_restitution(body.rigid_body->getRestitution());
+      fpl::Vec3 offset{body.offset.x(), body.offset.y(), body.offset.z()};
+      shape_builder.add_offset(&offset);
+      shape_builder.add_collision_type(
+          static_cast<BulletCollisionType>(body.collision_type));
+      shape_builder.add_collides_with(collides);
+      shape_vector.push_back(shape_builder.Finish());
+    }
+  }
+
+  auto shapes = fbb.CreateVector(shape_vector);
+  PhysicsDefBuilder builder(fbb);
+  builder.add_kinematic(kinematic);
+  builder.add_shapes(shapes);
+
   auto component = CreateComponentDefInstance(
       fbb, ComponentDataUnion_PhysicsDef, builder.Finish().Union());
 
