@@ -44,6 +44,8 @@ ZOOSHI_GENERATED_OUTPUT_DIR := $(ZOOSHI_DIR)/gen/include
 
 LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_FPLBASE_DIR)/include \
+  $(DEPENDENCIES_ENTITY_DIR)/include \
+  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/include \
   $(DEPENDENCIES_FPLUTIL_DIR)/libfplutil/include \
   $(DEPENDENCIES_GPG_DIR)/include \
   $(DEPENDENCIES_SDL_DIR) \
@@ -51,6 +53,7 @@ LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_SDL_MIXER_DIR) \
   $(DEPENDENCIES_WEBP_DIR)/src \
   $(DEPENDENCIES_BULLETPHYSICS_DIR)/src \
+  $(COMPONENTS_GENERATED_OUTPUT_DIR) \
   $(ZOOSHI_GENERATED_OUTPUT_DIR) \
   src
 
@@ -60,22 +63,17 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/digit.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/editor.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player_projectile.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_node.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/rendermesh.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/river.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/services.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/shadow_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/transform.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/editor/world_editor.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/entity_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
@@ -98,8 +96,6 @@ ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/assets.fbs \
   $(ZOOSHI_SCHEMA_DIR)/attributes.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/base_components.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/bullet_def.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/events.fbs \
@@ -117,7 +113,8 @@ $(call flatbuffers_header_build_rules,\
   $(ZOOSHI_SCHEMA_DIR),\
   $(ZOOSHI_GENERATED_OUTPUT_DIR),\
   $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
-    $(DEPENDENCIES_FPLBASE_DIR)/schemas,\
+    $(DEPENDENCIES_FPLBASE_DIR)/schemas \
+    $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas,\
   $(LOCAL_SRC_FILES))
 
 .PHONY: clean_generated_includes
@@ -139,6 +136,7 @@ LOCAL_STATIC_LIBRARIES := \
   libflatui \
   libpindrop \
   libentity \
+  libcomponent_library \
   libmotive \
   libfreetype \
   libharfbuzz \
@@ -161,13 +159,14 @@ $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_ENTITY_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 
+$(call import-module,fplbase/jni)
 $(call import-module,entity/jni)
 $(call import-module,event/jni)
 $(call import-module,pindrop/jni)
 $(call import-module,flatbuffers/android/jni)
-$(call import-module,fplbase/jni)
 $(call import-module,imgui/jni)
 $(call import-module,mathfu/jni)
 $(call import-module,motive/jni)
+$(call import-module,entity/component_library/jni)
 $(call import-module,webp)
 

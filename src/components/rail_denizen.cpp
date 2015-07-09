@@ -16,9 +16,8 @@
 
 #include <algorithm>
 #include <limits>
-
+#include "component_library/transform.h"
 #include "components/services.h"
-#include "components/transform.h"
 #include "components/rail_node.h"
 #include "components_generated.h"
 #include "entity/component.h"
@@ -42,6 +41,9 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::TransformData;
+using fpl::component_library::TransformComponent;
 
 void Rail::Positions(float delta_time,
                      std::vector<mathfu::vec3_packed>* positions) const {

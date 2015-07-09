@@ -293,10 +293,12 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_->Initialize(GetConfig().world_editor_config(), &input_,
                             &world_.entity_manager, &event_manager_,
                             world_.entity_factory.get());
-  world_editor_->AddComponentToUpdate(TransformComponent::GetComponentId());
+  world_editor_->AddComponentToUpdate(
+      component_library::TransformComponent::GetComponentId());
   world_editor_->AddComponentToUpdate(
       ShadowControllerComponent::GetComponentId());
-  world_editor_->AddComponentToUpdate(RenderMeshComponent::GetComponentId());
+  world_editor_->AddComponentToUpdate(
+      component_library::RenderMeshComponent::GetComponentId());
 
   gameplay_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
                              world_editor_.get());

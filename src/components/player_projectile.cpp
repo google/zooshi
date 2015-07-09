@@ -13,8 +13,9 @@
 // limitations under the License.
 
 #include "components/player_projectile.h"
+
+#include "component_library/transform.h"
 #include "components/services.h"
-#include "components/transform.h"
 #include "events/collision.h"
 #include "events/parse_action.h"
 #include "pindrop/pindrop.h"
@@ -24,6 +25,10 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerProjectileComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::CollisionPayload;
+using fpl::component_library::TransformComponent;
+using fpl::component_library::TransformData;
 
 void PlayerProjectileComponent::Init() {
   event_manager_ =

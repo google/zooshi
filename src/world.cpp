@@ -14,7 +14,6 @@
 
 #include "components_generated.h"
 #include "config_generated.h"
-#include "components/editor.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
@@ -60,13 +59,21 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
 
   config = &config_;
 
-  // Important!  Registering and initializing the services component needs
+  physics_component.set_gravity(config->gravity());
+  physics_component.set_max_steps(config->bullet_max_steps());
+
+  // Important!  Registering and initializing the services components needs
   // to happen BEFORE other components are registered, because many of them
   // depend on it during their own init functions.
+  common_services_component.Initialize(asset_manager, input_system,
+                                       event_manager, entity_factory.get());
   services_component.Initialize(
       config, asset_manager, input_system, audio_engine, &motive_engine,
       event_manager, font_manager, &rail_manager, entity_factory.get());
 
+  entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&common_services_component),
+      ComponentDataUnion_ServicesDef, "CommonServicesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&services_component),
       ComponentDataUnion_ServicesDef, "ServicesDef");
@@ -146,8 +153,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   patron_component.PostLoadFixup();
 
   entity::EntityRef player_entity = player_component.begin()->entity;
-  TransformData* player_transform =
-      transform_component.GetComponentData(player_entity);
+  auto player_transform = transform_component.GetComponentData(player_entity);
   entity::EntityRef raft_entity = player_transform->parent;
   services_component.set_raft_entity(raft_entity);
 }

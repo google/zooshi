@@ -15,12 +15,14 @@
 #include "zooshi_entity_factory.h"
 
 #include <set>
-#include "components/editor.h"
+#include "component_library/editor.h"
 #include "fplbase/utilities.h"
 #include "flatbuffers/reflection.h"
 
 namespace fpl {
 namespace fpl_project {
+
+using component_library::EditorComponent;
 
 bool ZooshiEntityFactory::ReadEntityList(
     const void* entity_list, std::vector<const void*>* entity_defs) {

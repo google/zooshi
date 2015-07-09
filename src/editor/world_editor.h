@@ -20,16 +20,16 @@
 #include <string>
 #include <vector>
 #include "camera.h"
-#include "fplbase/asset_manager.h"
+#include "component_library/editor.h"
+#include "component_library/physics.h"
+#include "component_library/rendermesh.h"
+#include "component_library/transform.h"
+#include "component_library/entity_factory.h"
 #include "components_generated.h"
-#include "components/physics.h"
-#include "components/rendermesh.h"
-#include "components/transform.h"
-#include "components/editor.h"
 #include "entity/component_interface.h"
 #include "entity/entity_manager.h"
-#include "entity_factory.h"
 #include "event/event_manager.h"
+#include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
 #include "fplbase/utilities.h"
 #include "mathfu/vector_3.h"
@@ -49,12 +49,12 @@ class WorldEditor {
   void Initialize(const WorldEditorConfig* config, InputSystem* input_system,
                   entity::EntityManager* entity_manager,
                   event::EventManager* event_manager,
-                  EntityFactory* entity_factory);
+                  component_library::EntityFactory* entity_factory);
   void AdvanceFrame(WorldTime delta_time);
   void Render(Renderer* renderer);
   void Activate();
   void Deactivate();
-  void SetInitialCamera(const fpl_project::Camera& initial_camera);
+  void SetInitialCamera(const CameraInterface& initial_camera);
 
   void RegisterComponent(entity::ComponentInterface* component);
 
@@ -97,7 +97,7 @@ class WorldEditor {
   InputSystem* input_system_;
   entity::EntityManager* entity_manager_;
   event::EventManager* event_manager_;
-  EntityFactory* entity_factory_;
+  component_library::EntityFactory* entity_factory_;
   // Which entity are we currently editing?
   entity::EntityRef selected_entity_;
 

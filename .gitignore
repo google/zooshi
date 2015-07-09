@@ -59,3 +59,6 @@ google-play-services_lib
 
 # misc files
 tags
+
+# emacs backup files
+*~

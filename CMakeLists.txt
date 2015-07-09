@@ -72,6 +72,9 @@ set(dependencies_motive_dir "${fpl_root}/motive"
 set(dependencies_bulletphysics_distr_dir "${third_party_root}/bulletphysics"
     CACHE PATH "Directory containing the Bullet Physics distribution.")
 
+set(dependencies_component_library_dir
+  "${dependencies_entity_dir}/component_library")
+
 # Option to enable / disable the test build.
 option(zooshi_build_tests "Build tests for this project." ON)
 
@@ -84,11 +87,6 @@ option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
 # Include pindrop.
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
-endif()
-
-# Include entities.
-if(NOT zooshi_only_flatc AND NOT TARGET entity)
-  add_subdirectory("${dependencies_entity_dir}" ${tmp_dir}/entity)
 endif()
 
 # Include the event system.
@@ -113,6 +111,11 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
     set(webp_build_cwebp ON CACHE BOOL "")
   endif()
   add_subdirectory("${dependencies_fplbase_dir}" ${tmp_dir}/fplbase)
+endif()
+
+# Include entities.
+if(NOT zooshi_only_flatc AND NOT TARGET entity)
+  add_subdirectory("${dependencies_entity_dir}" ${tmp_dir}/entity)
 endif()
 
 # Include FlatUI.
@@ -149,6 +152,8 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
     OUTPUT ${flatbuffers_include}
     COMMAND flatc --gen-includes --gen-mutable
         -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
+        -I ${dependencies_entity_dir}/schemas
+        -I ${dependencies_component_library_dir}/schemas
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas -c ${flatbuffers_schema}
@@ -159,6 +164,8 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
     OUTPUT ${flatbuffers_binary_schema}
     COMMAND flatc -b --schema
         -o ${CMAKE_BINARY_DIR}/assets/flatbufferschemas
+        -I ${dependencies_entity_dir}/schemas
+        -I ${dependencies_component_library_dir}/schemas
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas ${flatbuffers_schema}
@@ -198,12 +205,8 @@ set(zooshi_SRCS
     src/components/attributes.h
     src/components/audio_listener.cpp
     src/components/audio_listener.h
-    src/components/editor.cpp
-    src/components/editor.h
     src/components/patron.cpp
     src/components/patron.h
-    src/components/physics.cpp
-    src/components/physics.h
     src/components/player.cpp
     src/components/player.h
     src/components/player_projectile.cpp
@@ -212,8 +215,6 @@ set(zooshi_SRCS
     src/components/rail_denizen.h
     src/components/rail_node.cpp
     src/components/rail_node.h
-    src/components/rendermesh.cpp
-    src/components/rendermesh.h
     src/components/river.cpp
     src/components/river.h
     src/components/services.cpp
@@ -224,14 +225,9 @@ set(zooshi_SRCS
     src/components/sound.h
     src/components/time_limit.cpp
     src/components/time_limit.h
-    src/components/transform.cpp
-    src/components/transform.h
     src/editor/world_editor.cpp
     src/editor/world_editor.h
-    src/entity_factory.cpp
-    src/entity_factory.h
     src/events/change_rail_speed.h
-    src/events/collision.h
     src/events/modify_attribute.h
     src/events/parse_action.cpp
     src/events/parse_action.h
@@ -273,11 +269,13 @@ if(WIN32)
 endif()
 
 include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
+include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${dependencies_bulletphysics_distr_dir}/src)
 include_directories(${dependencies_entity_dir}/include)
+include_directories(${dependencies_component_library_dir}/include)
 include_directories(${dependencies_event_dir}/include)
 include_directories(${dependencies_flatbuffers_dir}/include)
 include_directories(${dependencies_fplbase_dir}/include)
@@ -328,6 +326,7 @@ target_link_libraries(zooshi
   fplbase
   flatui
   entity
+  component_library
   pindrop
   BulletDynamics
   BulletCollision

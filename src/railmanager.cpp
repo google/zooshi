@@ -15,8 +15,8 @@
 #include "railmanager.h"
 
 #include <map>
+#include "component_library/transform.h"
 #include "components/rail_node.h"
-#include "components/transform.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
 #include "mathfu/constants.h"
@@ -132,7 +132,7 @@ Rail *RailManager::GetRailFromComponents(
   float reliable_distance = first_data->reliable_distance;
 
   auto *transform_component =
-      entity_manager->GetComponent<TransformComponent>();
+      entity_manager->GetComponent<component_library::TransformComponent>();
   // map will sort by the key
   int i = 0;
   for (auto iter = rail_entities.begin(); iter != rail_entities.end(); ++iter) {

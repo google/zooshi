@@ -15,7 +15,7 @@
 #include "gameplay_state.h"
 
 #include "components/sound.h"
-#include "components/transform.h"
+#include "component_library/transform.h"
 #include "config_generated.h"
 #include "events/play_sound.h"
 #include "events_generated.h"
@@ -77,7 +77,7 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
 
   // Calculate raft position and orientation.
   auto player = world_->player_component.begin()->entity;
-  TransformComponent* transform_component = &world_->transform_component;
+  auto transform_component = &world_->transform_component;
   main_camera_.set_position(transform_component->WorldPosition(player));
   main_camera_.set_facing(
       transform_component->WorldOrientation(player).Inverse() *

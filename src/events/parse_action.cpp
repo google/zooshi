@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "components/transform.h"
+#include "component_library/transform.h"
 #include "entity/entity_manager.h"
 #include "event/event_manager.h"
 #include "events/change_rail_speed.h"
@@ -27,6 +27,9 @@
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::TransformComponent;
+using fpl::component_library::TransformData;
 
 static entity::EntityRef* GetEntity(EntityAffected entity_affected,
                                     EventContext* context) {

@@ -18,27 +18,28 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "components_generated.h"
+#include "component_library/common_services.h"
+#include "component_library/editor.h"
+#include "component_library/entity_factory.h"
+#include "component_library/physics.h"
+#include "component_library/rendermesh.h"
+#include "component_library/transform.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
 #include "components/digit.h"
-#include "components/editor.h"
 #include "components/patron.h"
-#include "components/physics.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/rail_node.h"
-#include "components/rendermesh.h"
 #include "components/river.h"
 #include "components/services.h"
 #include "components/shadow_controller.h"
 #include "components/sound.h"
 #include "components/time_limit.h"
-#include "components/transform.h"
+#include "components_generated.h"
 #include "editor/world_editor.h"
 #include "entity/entity_manager.h"
-#include "entity_factory.h"
 #include "motive/engine.h"
 #include "railmanager.h"
 
@@ -80,18 +81,18 @@ class World {
   entity::EntityManager entity_manager;
 
   // Entity factory, for creating entities from data.
-  std::unique_ptr<EntityFactory> entity_factory;
+  std::unique_ptr<component_library::EntityFactory> entity_factory;
 
   // Rail Manager - manages loading and storing of rail definitions
   RailManager rail_manager;
 
   // Components
-  TransformComponent transform_component;
+  component_library::TransformComponent transform_component;
   RailDenizenComponent rail_denizen_component;
   PlayerComponent player_component;
   PlayerProjectileComponent player_projectile_component;
-  RenderMeshComponent render_mesh_component;
-  PhysicsComponent physics_component;
+  component_library::RenderMeshComponent render_mesh_component;
+  component_library::PhysicsComponent physics_component;
   PatronComponent patron_component;
   TimeLimitComponent time_limit_component;
   AudioListenerComponent audio_listener_component;
@@ -101,8 +102,9 @@ class World {
   RiverComponent river_component;
   RailNodeComponent rail_node_component;
   ServicesComponent services_component;
+  component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
-  EditorComponent editor_component_;
+  component_library::EditorComponent editor_component_;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;

@@ -15,7 +15,6 @@
 #include "game_menu_state.h"
 
 #include "components/sound.h"
-#include "components/transform.h"
 #include "config_generated.h"
 #include "events/play_sound.h"
 #include "events_generated.h"

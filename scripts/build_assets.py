@@ -51,6 +51,10 @@ FPLBASE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                             os.path.pardir, os.path.pardir,
                                             'libs', "fplbase"))
 
+ENTITY_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
+                                            os.path.pardir, os.path.pardir,
+                                            'libs', "entity"))
+
 MOTIVE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                            os.path.pardir, os.path.pardir,
                                            'libs', "motive"))
@@ -140,6 +144,7 @@ INTERNAL_ANIM_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'anims')
 SCHEMA_PATHS = [
     os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas'),
     os.path.join(FPLBASE_ROOT, 'schemas'),
+    os.path.join(ENTITY_ROOT, 'component_library', 'schemas'),
     os.path.join(PINDROP_ROOT, 'schemas'),
     os.path.join(MOTIVE_ROOT, 'schemas')
 ]

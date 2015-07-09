@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdio>
-
 #include "components/attributes.h"
+
+#include <cstdio>
 #include "components/services.h"
-#include "transform.h"
 #include "event/event_manager.h"
 #include "event/event_payload.h"
 #include "events/modify_attribute.h"
