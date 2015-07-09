@@ -99,7 +99,12 @@ table RailNodeDef {
 
 table RiverDef {
   // Which rail to base the river on?
-  rail_name: string;
+  rail_name:string;
+
+  // Generating the banks of the river involves some random elements.
+  // Explicitly set the seed so that the banks are generated the same
+  // every time.
+  random_seed:uint;
 }
 
 // No data, (never loaded from raw data) but we need it to be a thing so that it

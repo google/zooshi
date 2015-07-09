@@ -33,6 +33,12 @@ namespace fpl_project {
 struct RiverData {
   entity::EntityRef bank;
   std::string rail_name;
+
+  // River generation has random elements, so we seed the random number
+  // generator the same way every time we reload the river.
+  unsigned int random_seed;
+
+  RiverData() : random_seed(static_cast<unsigned int>(rand())) {}
 };
 
 class RiverComponent : public entity::Component<RiverData>,

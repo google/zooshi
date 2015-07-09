@@ -48,6 +48,7 @@ void RiverComponent::AddFromRawData(entity::EntityRef& entity,
   auto river_def = static_cast<const RiverDef*>(raw_data);
   RiverData* river_data = AddEntity(entity);
   river_data->rail_name = river_def->rail_name()->c_str();
+  river_data->random_seed = river_def->random_seed();
 
   entity_manager_->AddEntityToComponent<RenderMeshComponent>(entity);
 
@@ -67,6 +68,7 @@ entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
   if (rail_name.o != 0) {
     builder.add_rail_name(rail_name);
   }
+  builder.add_random_seed(data->random_seed);
 
   fbb.Finish(builder.Finish().Union());
   return fbb.ReleaseBufferPointer();
@@ -113,6 +115,11 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   bank_verts.clear();
   std::vector<unsigned short> bank_indices(bank_index_max);
   bank_indices.clear();
+
+  // TODO: Use a local random number generator. Resetting the global random
+  //       number generator is not a nice. Also, there's no guarantee that
+  //       mathfu::Random will continue to use rand().
+  srand(river_data->random_seed);
 
   // Construct the actual mesh data for the river:
   std::vector<vec2> offsets(num_bank_contours);

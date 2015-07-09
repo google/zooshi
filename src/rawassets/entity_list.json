@@ -71,7 +71,8 @@
         {
           "data_type": "RiverDef",
           "data" : {
-              "rail_name": "player_path"
+              "rail_name": "player_path",
+              "random_seed": 123456789
           }
         }
       ]
