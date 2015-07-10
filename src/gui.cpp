@@ -42,8 +42,7 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
   // In the lambda callback, the user can call Widget APIs to put widget in a
   // layout.
   gui::Run(assetman, fontman, input, [&]() {
-    gui::PositionUI(1000, gui::kLayoutHorizontalCenter,
-                    gui::kLayoutVerticalCenter);
+    gui::PositionUI(1000, gui::kAlignCenter, gui::kAlignCenter);
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::Label("Zooshi", 120);
     gui::SetMargin(gui::Margin(30));
@@ -72,8 +71,7 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
   MenuState next_state = kMenuStateOptions;
 
   gui::Run(assetman, fontman, input, [&]() {
-    gui::PositionUI(1000, gui::kLayoutHorizontalCenter,
-                    gui::kLayoutVerticalCenter);
+    gui::PositionUI(1000, gui::kAlignCenter, gui::kAlignCenter);
     gui::StartGroup(gui::kLayoutOverlayCenter, 0);
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::Label("Options", 120);
