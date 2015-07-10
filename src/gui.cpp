@@ -20,12 +20,12 @@ namespace fpl_project {
 
 gui::Event GameMenuState::TextButton(const char *text, float size,
                                      const char *id) {
-  gui::StartGroup(gui::LAYOUT_VERTICAL_LEFT, size, id);
+  gui::StartGroup(gui::kLayoutVerticalLeft, size, id);
   gui::SetMargin(gui::Margin(10));
   auto event = gui::CheckEvent();
-  if (event & gui::EVENT_IS_DOWN) {
+  if (event & gui::kEventIsDown) {
     gui::ColorBackground(vec4(1.0f, 1.0f, 1.0f, 0.5f));
-  } else if (event & gui::EVENT_HOVER) {
+  } else if (event & gui::kEventHover) {
     gui::ColorBackground(vec4(0.5f, 0.5f, 0.5f, 0.5f));
   }
   gui::Label(text, size);
@@ -42,13 +42,13 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
   // In the lambda callback, the user can call Widget APIs to put widget in a
   // layout.
   gui::Run(assetman, fontman, input, [&]() {
-    gui::PositionUI(1000, gui::LAYOUT_HORIZONTAL_CENTER,
-                    gui::LAYOUT_VERTICAL_CENTER);
-    gui::StartGroup(gui::LAYOUT_VERTICAL_CENTER, 0);
+    gui::PositionUI(1000, gui::kLayoutHorizontalCenter,
+                    gui::kLayoutVerticalCenter);
+    gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::Label("Zooshi", 120);
     gui::SetMargin(gui::Margin(30));
     auto event = TextButton("START", 100, "button");
-    if (event & gui::EVENT_WENT_UP) {
+    if (event & gui::kEventWentUp) {
       next_state = kMenuStateFinished;
     }
 #ifdef ANDROID_CARDBOARD
@@ -58,7 +58,7 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     }
 #endif  // ANDROID_CARDBOARD
     event = TextButton("OPTIONS", 100, "button");
-    if (event & gui::EVENT_WENT_UP) {
+    if (event & gui::kEventWentUp) {
       next_state = kMenuStateOptions;
     }
     gui::EndGroup();
@@ -72,36 +72,36 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
   MenuState next_state = kMenuStateOptions;
 
   gui::Run(assetman, fontman, input, [&]() {
-    gui::PositionUI(1000, gui::LAYOUT_HORIZONTAL_CENTER,
-                    gui::LAYOUT_VERTICAL_CENTER);
-    gui::StartGroup(gui::LAYOUT_OVERLAY_CENTER, 0);
-    gui::StartGroup(gui::LAYOUT_VERTICAL_CENTER, 0);
+    gui::PositionUI(1000, gui::kLayoutHorizontalCenter,
+                    gui::kLayoutVerticalCenter);
+    gui::StartGroup(gui::kLayoutOverlayCenter, 0);
+    gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::Label("Options", 120);
     gui::SetMargin(gui::Margin(30));
-    if (TextButton("About", 100, "button") & gui::EVENT_WENT_UP) {
+    if (TextButton("About", 100, "button") & gui::kEventWentUp) {
       show_about_ = true;
     }
-    if (TextButton("Licenses", 100, "button") & gui::EVENT_WENT_UP) {
+    if (TextButton("Licenses", 100, "button") & gui::kEventWentUp) {
       show_licences_ = true;
     }
-    if (TextButton("How to play", 100, "button") & gui::EVENT_WENT_UP) {
+    if (TextButton("How to play", 100, "button") & gui::kEventWentUp) {
       show_how_to_play_ = true;
     }
-    if (TextButton("Audio", 100, "button") & gui::EVENT_WENT_UP) {
+    if (TextButton("Audio", 100, "button") & gui::kEventWentUp) {
       show_audio_ = true;
     }
-    if (TextButton("Back", 100, "button") & gui::EVENT_WENT_UP) {
+    if (TextButton("Back", 100, "button") & gui::kEventWentUp) {
       next_state = kMenuStateStart;
     }
     gui::EndGroup();
 
     // Show 'About' dialog box.
     if (show_about_) {
-      gui::StartGroup(gui::LAYOUT_VERTICAL_CENTER, 20, "about_overlay");
+      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "about_overlay");
       gui::SetMargin(gui::Margin(10));
       gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
       gui::Label("Zooshi is an awesome game.", 32);
-      if (TextButton("Got it.", 32, "button") & gui::EVENT_WENT_UP) {
+      if (TextButton("Got it.", 32, "button") & gui::kEventWentUp) {
         show_about_ = false;
       }
       gui::EndGroup();
@@ -109,14 +109,14 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
 
     // Show 'Licenses' dialog box.
     if (show_licences_) {
-      gui::StartGroup(gui::LAYOUT_VERTICAL_CENTER, 20, "licenses_overlay");
+      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "licenses_overlay");
       gui::SetMargin(gui::Margin(10));
       gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
       gui::Label("Licenses.", 32);
       gui::Label("Licensing text.", 20);
       gui::Label("Licensing text.", 20);
       gui::Label("Licensing text.", 20);
-      if (TextButton("OK", 32, "button") & gui::EVENT_WENT_UP) {
+      if (TextButton("OK", 32, "button") & gui::kEventWentUp) {
         show_licences_ = false;
       }
       gui::EndGroup();
@@ -124,11 +124,11 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
 
     // Show 'How to play' dialog box.
     if (show_how_to_play_) {
-      gui::StartGroup(gui::LAYOUT_VERTICAL_CENTER, 20, "how_to_play_overlay");
+      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "how_to_play_overlay");
       gui::SetMargin(gui::Margin(10));
       gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
       gui::Label("How to play.", 32);
-      if (TextButton("OK", 32, "button") & gui::EVENT_WENT_UP) {
+      if (TextButton("OK", 32, "button") & gui::kEventWentUp) {
         show_how_to_play_ = false;
       }
       gui::EndGroup();
@@ -136,13 +136,13 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
 
     // Show 'Audio' dialog box.
     if (show_audio_) {
-      gui::StartGroup(gui::LAYOUT_VERTICAL_CENTER, 20, "audio_overlay");
+      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "audio_overlay");
       gui::SetMargin(gui::Margin(10));
       gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
       gui::Label("Audio settings.", 32);
       gui::Label("Music volume: <slider>", 32);
       gui::Label("Effect volume: <slider>", 32);
-      if (TextButton("OK", 32, "button") & gui::EVENT_WENT_UP) {
+      if (TextButton("OK", 32, "button") & gui::kEventWentUp) {
         show_audio_ = false;
       }
       gui::EndGroup();
