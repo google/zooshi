@@ -42,8 +42,8 @@ DEPENDENCIES_PINDROP_DIR?=$(FPL_ROOT)/pindrop
 DEPENDENCIES_FPLBASE_DIR?=$(FPL_ROOT)/fplbase
 # Location of the fplutil library.
 DEPENDENCIES_FPLUTIL_DIR?=$(FPL_ROOT)/fplutil
-# Location of the imgui library.
-DEPENDENCIES_IMGUI_DIR?=$(FPL_ROOT)/imgui
+# Location of the FlatUI library.
+DEPENDENCIES_FLATUI_DIR?=$(FPL_ROOT)/imgui
 # Location of the MathFu library.
 DEPENDENCIES_MATHFU_DIR?=$(FPL_ROOT)/mathfu
 # Location of the Motive library.

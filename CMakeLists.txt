@@ -63,8 +63,8 @@ set(dependencies_fplbase_dir "${fpl_root}/fplbase"
     CACHE PATH "Directory containing the FPLBase library.")
 set(dependencies_entity_dir "${fpl_root}/entity"
     CACHE PATH "Directory containing the Entity library.")
-set(dependencies_imgui_dir "${fpl_root}/imgui"
-    CACHE PATH "Directory containing the IMGUI library.")
+set(dependencies_flatui_dir "${fpl_root}/imgui"
+    CACHE PATH "Directory containing the FlatUI library.")
 set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
 set(dependencies_motive_dir "${fpl_root}/motive"
@@ -115,9 +115,9 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
   add_subdirectory("${dependencies_fplbase_dir}" ${tmp_dir}/fplbase)
 endif()
 
-# Include imgui.
-if(NOT zooshi_only_flatc AND NOT TARGET imgui)
-  add_subdirectory("${dependencies_imgui_dir}" ${tmp_dir}/imgui)
+# Include FlatUI.
+if(NOT zooshi_only_flatc AND NOT TARGET flatui)
+  add_subdirectory("${dependencies_flatui_dir}" ${tmp_dir}/flatui)
 endif()
 
 if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
@@ -182,10 +182,10 @@ add_custom_target(assets
   --output ${CMAKE_BINARY_DIR}/assets
   DEPENDS flatc cwebp)
 
-# Copy imgui resource files (font files, shaders)
+# Copy FlatUI resource files (font files, shaders)
 add_custom_command(TARGET assets POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${dependencies_imgui_dir}/assets
+                       ${dependencies_flatui_dir}/assets
                        ${CMAKE_BINARY_DIR}/assets)
 
 # zooshi source files.
@@ -282,7 +282,7 @@ include_directories(${dependencies_event_dir}/include)
 include_directories(${dependencies_flatbuffers_dir}/include)
 include_directories(${dependencies_fplbase_dir}/include)
 include_directories(${dependencies_fplutil_dir}/libfplutil/include)
-include_directories(${dependencies_imgui_dir}/include)
+include_directories(${dependencies_flatui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 
@@ -326,7 +326,7 @@ target_link_libraries(zooshi
   event
   motive
   fplbase
-  imgui
+  flatui
   entity
   pindrop
   BulletDynamics

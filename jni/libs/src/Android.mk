@@ -26,7 +26,7 @@ FLATBUFFERS_FLATC_ARGS:=--gen-includes --gen-mutable
 ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 .PHONY: build_assets
 build_assets: $(flatc_target)
-	cp -f -r $(DEPENDENCIES_IMGUI_DIR)/assets $(ZOOSHI_DIR)
+	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets $(ZOOSHI_DIR)
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py
 
 .PHONY: clean_assets
@@ -136,7 +136,7 @@ LOCAL_STATIC_LIBRARIES := \
   SDL2 \
   SDL2_mixer \
   libfplbase \
-  libimgui \
+  libflatui \
   libpindrop \
   libentity \
   libmotive \
@@ -154,7 +154,7 @@ include $(BUILD_SHARED_LIBRARY)
 $(call import-add-path,$(DEPENDENCIES_EVENT_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FLATBUFFERS_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FPLBASE_DIR)/..)
-$(call import-add-path,$(DEPENDENCIES_IMGUI_DIR)/..)
+$(call import-add-path,$(DEPENDENCIES_FLATUI_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MATHFU_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MOTIVE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
