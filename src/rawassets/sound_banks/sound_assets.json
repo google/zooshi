@@ -1,5 +1,8 @@
 {
   "filenames": [
+    "sounds/gameplay_loop1.bin",
+    "sounds/gameplay_loop2.bin",
+    "sounds/gameplay_loop3.bin",
     "sounds/paper_bounce.bin",
     "sounds/point_scored.bin",
     "sounds/whoosh.bin"

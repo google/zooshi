@@ -38,7 +38,8 @@
       "gain": 1.0,
       "child_buses": [
         "title_screen_music",
-        "stingers"
+        "stingers",
+        "gameplay_music"
       ]
     },
     {
@@ -55,6 +56,11 @@
       "duck_buses": [
         "game_sound_effects"
       ],
+      "duck_gain": 0.1
+    },
+    {
+      "name": "gameplay_music",
+      "gain": 1.0,
       "duck_gain": 0.1
     }
   ]

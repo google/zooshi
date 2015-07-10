@@ -1,5 +1,56 @@
 {
   "entity_list": [
+
+    // Music entities.
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "GameplayMusic1"
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "gameplay_loop1"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "GameplayMusic2"
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "gameplay_loop2"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "EditorDef",
+          "data": {
+            "entity_id": "GameplayMusic3"
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "gameplay_loop3"
+          }
+        }
+      ]
+    },
+
     // All render meshes should use this as a prototype.
     {
       "component_list": [
@@ -12,6 +63,7 @@
         }
       ]
     },
+
 
     // River rail
     {
@@ -385,7 +437,10 @@
               "y": 0.0,
               "z": 0.0
             },
-            "child_ids" : [ "PlayerPrototype_RenderMesh" ]
+            "child_ids" : [
+              "GameplayMusic2",
+              "PlayerPrototype_RenderMesh"
+            ]
           }
         },
         {
