@@ -53,7 +53,7 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     }
 #ifdef ANDROID_CARDBOARD
     event = TextButton("CARDBOARD", 100, "button");
-    if (event & gui::EVENT_WENT_UP) {
+    if (event & gui::kEventWentUp) {
       next_state = kMenuStateCardboard;
     }
 #endif  // ANDROID_CARDBOARD
