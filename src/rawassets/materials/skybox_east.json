@@ -1,6 +1,6 @@
 {
   texture_filenames: [
-    "textures/skybox_daytime_01_02.webp",
+    "textures/skybox_daytime_east.webp",
   ],
   "desired_format": [
     "F_888"
