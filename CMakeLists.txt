@@ -63,7 +63,7 @@ set(dependencies_fplbase_dir "${fpl_root}/fplbase"
     CACHE PATH "Directory containing the FPLBase library.")
 set(dependencies_entity_dir "${fpl_root}/entity"
     CACHE PATH "Directory containing the Entity library.")
-set(dependencies_flatui_dir "${fpl_root}/imgui"
+set(dependencies_flatui_dir "${fpl_root}/flatui"
     CACHE PATH "Directory containing the FlatUI library.")
 set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
