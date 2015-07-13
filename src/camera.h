@@ -17,6 +17,7 @@
 
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
+#include "fplbase/camera_interface.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -24,7 +25,7 @@ static const mathfu::vec3 kCameraForward = mathfu::kAxisX3f;
 static const mathfu::vec3 kCameraSide = mathfu::kAxisY3f;
 static const mathfu::vec3 kCameraUp = mathfu::kAxisZ3f;
 
-class Camera {
+class Camera : public fpl::CameraInterface {
  public:
   Camera();
 

@@ -12,32 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "world_editor.h"
+#include "editor/world_editor.h"
 
 #include <set>
 #include <string>
+#include "component_library/physics.h"
+#include "component_library/rendermesh.h"
+#include "component_library/transform.h"
 #include "components_generated.h"
-#include "components/physics.h"
-#include "components/rendermesh.h"
-#include "components/transform.h"
 #include "entity/entity_manager.h"
-#include "events_generated.h"
 #include "events/editor_event.h"
+#include "events_generated.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/idl.h"
 #include "flatbuffers/reflection.h"
-#include "fplbase/utilities.h"
+#include "fplbase/camera_interface.h"
 #include "fplbase/flatbuffer_utils.h"
+#include "fplbase/utilities.h"
 #include "mathfu/utilities.h"
 
 namespace fpl {
 namespace editor {
 
-using fpl_project::EditorComponent;
-using fpl_project::EditorData;
-using fpl_project::PhysicsComponent;
-using fpl_project::RenderMeshComponent;
-using fpl_project::TransformComponent;
+using component_library::EditorComponent;
+using component_library::EditorData;
+using component_library::PhysicsComponent;
+using component_library::RenderMeshComponent;
+using component_library::RenderMeshData;
+using component_library::TransformComponent;
+using component_library::TransformData;
+using component_library::EntityFactory;
 using mathfu::vec3;
 
 static const float kRaycastDistance = 100.0f;
@@ -177,7 +181,7 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
           flatbuffers::GetMutableRoot<TransformDef>(raw_data.get());
       if (ModifyTransformBasedOnInput(transform)) {
         transform_component->AddFromRawData(selected_entity_, transform);
-        entity_manager_->GetComponent<fpl_project::PhysicsComponent>()
+        entity_manager_->GetComponent<PhysicsComponent>()
             ->UpdatePhysicsFromTransform(selected_entity_);
         NotifyEntityUpdated(selected_entity_);
       }
@@ -214,13 +218,13 @@ void WorldEditor::AdvanceFrame(WorldTime delta_time) {
 void WorldEditor::HighlightEntity(const entity::EntityRef& entity, float tint) {
   if (!entity.IsValid()) return;
   auto render_data =
-      entity_manager_->GetComponentData<fpl_project::RenderMeshData>(entity);
+      entity_manager_->GetComponentData<RenderMeshData>(entity);
   if (render_data != nullptr) {
     render_data->tint = vec4(tint, tint, tint, 1);
   }
   // Highlight the node's children as well.
   auto transform_data =
-      entity_manager_->GetComponentData<fpl_project::TransformData>(entity);
+      entity_manager_->GetComponentData<TransformData>(entity);
 
   if (transform_data != nullptr) {
     for (auto iter = transform_data->children.begin();
@@ -251,8 +255,13 @@ void WorldEditor::Render(Renderer* /*renderer*/) {
   // Render any editor-specific things
 }
 
-void WorldEditor::SetInitialCamera(const fpl_project::Camera& initial_camera) {
-  camera_ = initial_camera;
+void WorldEditor::SetInitialCamera(const CameraInterface& initial_camera) {
+  camera_.set_position(initial_camera.position());
+  camera_.set_facing(initial_camera.facing());
+  camera_.set_up(initial_camera.up());
+  camera_.set_viewport_resolution(initial_camera.viewport_resolution());
+  camera_.set_viewport_near_plane(initial_camera.viewport_near_plane());
+  camera_.set_viewport_far_plane(initial_camera.viewport_far_plane());
   camera_.set_viewport_angle(config_->viewport_angle_degrees() *
                              (M_PI / 180.0f));
 }
@@ -286,6 +295,11 @@ void WorldEditor::Activate() {
     event_manager_->BroadcastEvent(
         fpl_project::EditorEventPayload(fpl_project::EditorEventAction_Enter));
   }
+  // TODO(jsimantov): The following line is temporary until the EditorComponent
+  // can be refactored into two components, one for entity metadata (entity_id,
+  // prototype) and one for editor-specific stuff like render and selection
+  // option.
+  entity_manager_->GetComponent<EditorComponent>()->OnEditorEnter();
 }
 
 void WorldEditor::Deactivate() {
@@ -294,6 +308,8 @@ void WorldEditor::Deactivate() {
     event_manager_->BroadcastEvent(
         fpl_project::EditorEventPayload(fpl_project::EditorEventAction_Exit));
   }
+  // TODO(jsimantov): See the TODO in WorldEditor::Activate() for more info.
+  entity_manager_->GetComponent<EditorComponent>()->OnEditorExit();
 
   // de-select all entities
   SelectEntity(entity::EntityRef());

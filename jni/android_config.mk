@@ -32,6 +32,9 @@ DEPENDENCIES_SDL_DIR?=$(THIRD_PARTY_ROOT)/sdl
 DEPENDENCIES_SDL_MIXER_DIR?=$(THIRD_PARTY_ROOT)/sdl_mixer
 # Location of the entity library.
 DEPENDENCIES_ENTITY_DIR?=$(FPL_ROOT)/entity
+# Location of the entity library's component collection.
+DEPENDENCIES_COMPONENT_LIBRARY_DIR?= \
+  $(DEPENDENCIES_ENTITY_DIR)/component_library
 # Location of the event library.
 DEPENDENCIES_EVENT_DIR?=$(FPL_ROOT)/event
 # Location of the Flatbuffers library.

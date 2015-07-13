@@ -16,9 +16,9 @@
 #define COMPONENTS_SERVICES_H_
 
 #include "components_generated.h"
+#include "component_library/entity_factory.h"
 #include "config_generated.h"
 #include "entity/component.h"
-#include "entity_factory.h"
 #include "event/event_manager.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
@@ -36,7 +36,8 @@ struct ServicesData {};
 
 // This is a somewhat unique component - No entities will directly subscribe
 // to it, and it has no per-entity data.  However, it provides an easy place
-// for other components to access game services and managers.  (Since components
+// for other components to access game services and managers.  (Since
+// components
 // don't have direct access to the gamestate, but they do have access to other
 // components.)
 class ServicesComponent : public entity::Component<ServicesData> {
@@ -47,7 +48,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
                   InputSystem* input_system, pindrop::AudioEngine* audio_engine,
                   motive::MotiveEngine* motive_engine,
                   event::EventManager* event_manager, FontManager* font_manager,
-                  RailManager* rail_manager, EntityFactory* entity_factory) {
+                  RailManager* rail_manager,
+                  component_library::EntityFactory* entity_factory) {
     config_ = config;
     asset_manager_ = asset_manager;
     input_system_ = input_system;
@@ -69,7 +71,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   RailManager* rail_manager() { return rail_manager_; }
   entity::EntityRef raft_entity() { return raft_entity_; }
   void set_raft_entity(entity::EntityRef entity) { raft_entity_ = entity; }
-  EntityFactory* entity_factory() { return entity_factory_; }
+  component_library::EntityFactory* entity_factory() { return entity_factory_; }
 
   const void* component_def_binary_schema() const {
     if (component_def_binary_schema_ == "") {
@@ -102,7 +104,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   FontManager* font_manager_;
   RailManager* rail_manager_;
   entity::EntityRef raft_entity_;
-  EntityFactory* entity_factory_;
+  component_library::EntityFactory* entity_factory_;
   std::string component_def_binary_schema_;
 };
 

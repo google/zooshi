@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "components/shadow_controller.h"
-#include "components/transform.h"
+#include "component_library/transform.h"
 #include "fplbase/utilities.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::ShadowControllerComponent,
@@ -21,6 +21,9 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::ShadowControllerComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::TransformComponent;
+using fpl::component_library::TransformData;
 
 static const float kShadowHeight = 0.15f;
 

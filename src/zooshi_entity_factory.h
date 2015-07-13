@@ -19,13 +19,13 @@
 #include <string>
 #include "components_generated.h"
 #include "entity/entity_manager.h"
-#include "entity_factory.h"
+#include "component_library/entity_factory.h"
 #include "flatbuffers/flatbuffers.h"
 
 namespace fpl {
 namespace fpl_project {
 
-class ZooshiEntityFactory : public EntityFactory {
+class ZooshiEntityFactory : public component_library::EntityFactory {
  protected:
   virtual bool ReadEntityList(const void* entity_list,
                               std::vector<const void*>* entity_defs);

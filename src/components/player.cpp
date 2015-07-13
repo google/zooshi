@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "btBulletDynamicsCommon.h"
-#include "components/physics.h"
 #include "components/player.h"
+
+#include "btBulletDynamicsCommon.h"
+#include "component_library/physics.h"
+#include "component_library/transform.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
-#include "components/rendermesh.h"
 #include "components/services.h"
-#include "components/transform.h"
 #include "entity/entity_common.h"
 #include "event/event_manager.h"
 #include "events/parse_action.h"
@@ -34,6 +34,11 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::PhysicsComponent;
+using fpl::component_library::PhysicsData;
+using fpl::component_library::TransformComponent;
+using fpl::component_library::TransformData;
 
 static const float kDegreesToRadians = M_PI / 180.0f;
 

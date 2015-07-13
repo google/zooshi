@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <vector>
-#include "components/attributes.h"
 #include "components/patron.h"
-#include "components/physics.h"
+
+#include "component_library/physics.h"
+#include "component_library/transform.h"
+#include "components/attributes.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/services.h"
-#include "components/transform.h"
 #include "events/collision.h"
 #include "events/editor_event.h"
 #include "events/parse_action.h"
@@ -28,6 +28,7 @@
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
+#include <vector>
 
 using mathfu::vec3;
 using mathfu::quat;
@@ -37,6 +38,12 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PatronComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::CollisionPayload;
+using fpl::component_library::PhysicsComponent;
+using fpl::component_library::PhysicsData;
+using fpl::component_library::TransformComponent;
+using fpl::component_library::TransformData;
 
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kHitMinHeight = 2.0;

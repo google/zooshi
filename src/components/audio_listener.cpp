@@ -14,7 +14,7 @@
 
 #include "components/audio_listener.h"
 #include "components/services.h"
-#include "components/transform.h"
+#include "component_library/transform.h"
 #include "entity/entity_common.h"
 #include "pindrop/pindrop.h"
 
@@ -23,6 +23,9 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AudioListenerComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::TransformComponent;
+using fpl::component_library::TransformData;
 
 void AudioListenerComponent::Init() {
   audio_engine_ =

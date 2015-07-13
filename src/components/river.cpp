@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "config_generated.h"
-#include "components_generated.h"
 #include "components/river.h"
-#include "components/rendermesh.h"
+#include <math.h>
+#include <memory>
+#include "component_library/rendermesh.h"
+#include "component_library/transform.h"
 #include "components/rail_denizen.h"
 #include "components/rail_node.h"
 #include "components/services.h"
+#include "components_generated.h"
+#include "config_generated.h"
 #include "events/editor_event.h"
 #include "fplbase/utilities.h"
-#include <math.h>
-#include <memory>
 
 using mathfu::vec2;
 using mathfu::vec3;
@@ -34,6 +35,9 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RiverComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::RenderMeshComponent;
+using fpl::component_library::RenderMeshData;
 
 static const size_t kNumIndicesPerQuad = 6;
 
@@ -284,8 +288,8 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
     // Then we stick it as a child of the river entity, so it always moves
     // with it and stays aligned:
-    TransformComponent* transform_component =
-        GetComponent<TransformComponent>();
+    auto transform_component =
+        GetComponent<component_library::TransformComponent>();
     transform_component->AddChild(river_data->bank, entity);
   }
 

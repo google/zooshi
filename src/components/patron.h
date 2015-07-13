@@ -15,13 +15,14 @@
 #ifndef COMPONENTS_PATRON_H_
 #define COMPONENTS_PATRON_H_
 
-#include "config_generated.h"
 #include "components_generated.h"
-#include "entity/entity_manager.h"
+#include "config_generated.h"
 #include "entity/component.h"
+#include "entity/entity_manager.h"
+#include "event/event_manager.h"
 #include "events_generated.h"
-#include "mathfu/glsl_mappings.h"
 #include "mathfu/constants.h"
+#include "mathfu/glsl_mappings.h"
 
 namespace fpl {
 namespace event {

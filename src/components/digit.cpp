@@ -13,9 +13,10 @@
 // limitations under the License.
 
 #include "components/digit.h"
+
+#include "component_library/rendermesh.h"
 #include "components/attributes.h"
 #include "components/player.h"
-#include "components/rendermesh.h"
 #include "components/services.h"
 #include "components_generated.h"
 #include "fplbase/asset_manager.h"
@@ -26,6 +27,9 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::DigitComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::RenderMeshComponent;
+using fpl::component_library::RenderMeshData;
 
 static const int kDigitBase = 10;
 

@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #include "components/sound.h"
+#include "component_library/transform.h"
 #include "components/services.h"
-#include "components/transform.h"
 #include "pindrop/pindrop.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::SoundComponent,
@@ -22,6 +22,9 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::SoundComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using fpl::component_library::TransformComponent;
+using fpl::component_library::TransformData;
 
 void SoundComponent::Init() {
   audio_engine_ =
