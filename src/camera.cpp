@@ -38,12 +38,14 @@ Camera::Camera()
 }
 
 // returns a matrix representing our camera.
+// This is the "VP" of the MVP matrix we'll usually want.
+// (The M is the world transform of the model.)
 mathfu::mat4 Camera::GetTransformMatrix() const {
   mat4 perspective_matrix_ = mat4::Perspective(
       viewport_angle_, viewport_resolution_.x() / viewport_resolution_.y(),
       viewport_near_plane_, viewport_far_plane_, 1.0f);
 
-  // Subtract the facting vector because we need to be right handed.
+  // Subtract the facing vector because we need to be right handed.
   // TODO(amablue): add handedness to LookAt function (b/19229170)
   mat4 camera_matrix = mat4::LookAt(position_ - facing_, position_, up_);
 
@@ -51,6 +53,14 @@ mathfu::mat4 Camera::GetTransformMatrix() const {
 
   return camera_transform;
 }
+
+// returns just the View matrix - doesn't do the projection transform.
+mathfu::mat4 Camera::GetViewMatrix() const {
+  // Subtract the facing vector because we need to be right handed.
+  // TODO(amablue): add handedness to LookAt function (b/19229170)
+  return mat4::LookAt(position_ - facing_, position_, up_);
+}
+
 
 }  // fpl_project
 }  // fpl

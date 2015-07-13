@@ -92,6 +92,28 @@ table RiverConfig {
   river_index:int;
 }
 
+table RenderConfig {
+  // Resolution (in pixels) of the shadowmap.
+  // Needs to be a power of 2, or GLES breaks
+  // Larger = shadows are visible further away, but takes more memory.
+  shadow_map_resolution:int;
+
+  // Scalar affecting the resolution/scale of the shadowmap.
+  // Smaller values mean low resolution - you can see them from
+  // far away, but shadows are blocky.
+  shadow_map_zoom:float;
+
+  // Distance (in world units) that the shadow-map should focus in front of
+  // the camera.  0 means the shadow map is perfectly centered on the camera.
+  shadow_map_offset:float;
+
+  // Location (in world space) of the light source:
+  light_position:fpl.Vec3;
+
+  // Intensity of shadows.  1.0 = solid black, 0.0 = invisible shadows.
+  shadow_intensity:float;
+}
+
 table EntityGrid {
   // Entity to repeat in x-y grid pattern.
   entity:EntityDefs;
@@ -192,6 +214,9 @@ table Config {
 
   // Various settings for rendering the river.
   river_config:RiverConfig;
+
+  // Various settings for rendering:
+  rendering_config:RenderConfig;
 }
 
 root_type Config;

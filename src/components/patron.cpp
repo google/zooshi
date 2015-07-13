@@ -16,6 +16,7 @@
 
 #include <vector>
 #include "component_library/physics.h"
+#include "component_library/rendermesh.h"
 #include "component_library/transform.h"
 #include "components/attributes.h"
 #include "components/player.h"
@@ -42,6 +43,8 @@ namespace fpl_project {
 using fpl::component_library::CollisionPayload;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::PhysicsData;
+using fpl::component_library::RenderMeshComponent;
+using fpl::component_library::RenderMeshData;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 
@@ -170,6 +173,10 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
     PatronState& state = patron_data->state;
+    RenderMeshData* render_data = Data<RenderMeshData>(patron);
+    if (render_data) {
+      render_data->currently_hidden = (state != kPatronStateLayingDown);
+    }
 
     // Determine the patron's distance from the raft.
     float raft_distance_squared =

@@ -260,6 +260,8 @@ set(zooshi_SRCS
     src/world.h
     src/world_editor_state.cpp
     src/world_editor_state.h
+    src/world_renderer.cpp
+    src/world_renderer.h
     src/zooshi_entity_factory.cpp
     src/zooshi_entity_factory.h
     # For outputting flatbuffer files as json.

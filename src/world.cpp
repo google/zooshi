@@ -15,7 +15,6 @@
 #include "components_generated.h"
 #include "config_generated.h"
 #include "flatbuffers/flatbuffers.h"
-#include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #include "input_config_generated.h"
 #include "mathfu/constants.h"
@@ -25,6 +24,7 @@
 #include "rail_def_generated.h"
 #include "world.h"
 #include "zooshi_entity_factory.h"
+#include "fplbase/render_target.h"
 
 #ifdef ANDROID_CARDBOARD
 #include "fplbase/renderer_hmd.h"
@@ -41,6 +41,8 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
+static const int kShadowMapTextureID = 7;
+
 static const char kEntityLibraryFile[] = "entity_prototypes.bin";
 
 // count = 5  ==>  low = -2, high = 3  ==> range -2..2
@@ -51,11 +53,15 @@ static RangeInt GridRange(int count) {
 
 void World::Initialize(const Config& config_, InputSystem* input_system,
                        BasePlayerController* input_controller,
-                       AssetManager* asset_manager, FontManager* font_manager,
+                       AssetManager* asset_mgr, WorldRenderer* worldrenderer,
+                       FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
                        event::EventManager* event_manager, Renderer* renderer) {
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
+
+  asset_manager = asset_mgr;
+  world_renderer = worldrenderer;
 
   config = &config_;
 

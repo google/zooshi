@@ -143,6 +143,8 @@ class Game : event::EventListener {
   pindrop::AudioConfig* audio_config_;
 
   World world_;
+  WorldRenderer world_renderer_;
+
   std::unique_ptr<editor::WorldEditor> world_editor_;
 
   bool relative_mouse_mode_;

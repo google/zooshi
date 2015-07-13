@@ -88,6 +88,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world_editor_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/world_renderer.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/zooshi_entity_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_gen_text.cpp

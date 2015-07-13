@@ -287,8 +287,10 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_config(&GetInputConfig());
 
   world_.Initialize(GetConfig(), &input_, &input_controller_, &asset_manager_,
-                    &font_manager_, &audio_engine_, &event_manager_,
-                    &renderer_);
+                    &world_renderer_, &font_manager_, &audio_engine_,
+                    &event_manager_, &renderer_);
+
+  world_renderer_.Initialize(&world_);
 
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(GetConfig().world_editor_config(),

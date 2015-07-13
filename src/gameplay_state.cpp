@@ -106,8 +106,9 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
 }
 
 void GameplayState::Render(Renderer* renderer) {
+  if (!world_->asset_manager) return;
   bool stereoscopic = world_->is_in_cardboard;
-  world_->render_mesh_component.RenderPrep(main_camera_);
+  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
   if (stereoscopic) {
     RenderStereoscopic(renderer);
   } else {
@@ -116,18 +117,7 @@ void GameplayState::Render(Renderer* renderer) {
 }
 
 void GameplayState::RenderMonoscopic(Renderer* renderer) {
-  renderer->ClearFrameBuffer(kGreenishColor);
-  mat4 camera_transform = main_camera_.GetTransformMatrix();
-  renderer->model_view_projection() = camera_transform;
-  renderer->color() = mathfu::kOnes4f;
-  renderer->DepthTest(true);
-  renderer->model_view_projection() = camera_transform;
-
-  world_->render_mesh_component.RenderAllEntities(*renderer, main_camera_);
-
-  if (world_->draw_debug_physics) {
-    world_->physics_component.DebugDrawWorld(renderer, camera_transform);
-  }
+  world_->world_renderer->RenderWorld(main_camera_, *renderer, world_);
 }
 
 void GameplayState::RenderStereoscopic(Renderer* renderer) {
@@ -147,8 +137,7 @@ void GameplayState::RenderStereoscopic(Renderer* renderer) {
 
     auto camera_transform = cardboard_camera_.GetTransformMatrix();
     renderer->model_view_projection() = camera_transform;
-    world_->render_mesh_component.RenderAllEntities(*renderer,
-                                                    cardboard_camera_);
+    world_->world_renderer->RenderWorld(main_camera_, *renderer, world_);
   };
 
   HeadMountedDisplayRender(input_system_, renderer, kGreenishColor,

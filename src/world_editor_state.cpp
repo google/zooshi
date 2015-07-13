@@ -30,10 +30,7 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
-static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
-
 static const float kEditorViewportAngle = M_PI / 3.0;  // 60 degrees
-
 void WorldEditorState::Initialize(Renderer* renderer, InputSystem* input_system,
                                   editor::WorldEditor* world_editor,
                                   World* world) {
@@ -66,15 +63,14 @@ void WorldEditorState::Render(Renderer* renderer) {
 
   const CameraInterface* camera = world_editor_->GetCamera();
 
-  renderer->ClearFrameBuffer(kGreenishColor);
   mat4 camera_transform = camera->GetTransformMatrix();
   renderer->model_view_projection() = camera_transform;
   renderer->color() = mathfu::kOnes4f;
   renderer->DepthTest(true);
   renderer->model_view_projection() = camera_transform;
 
-  world_->render_mesh_component.RenderPrep(*camera);
-  world_->render_mesh_component.RenderAllEntities(*renderer, *camera);
+  world_->world_renderer->RenderPrep(*camera, *renderer, world_);
+  world_->world_renderer->RenderWorld(*camera, *renderer, world_);
 
   world_editor_->Render(renderer);
 

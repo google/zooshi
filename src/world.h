@@ -40,11 +40,13 @@
 #include "components_generated.h"
 #include "entity/entity_manager.h"
 #include "fplbase/renderer.h"
+#include "fplbase/render_target.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "motive/engine.h"
 #include "railmanager.h"
 #include "world_editor/edit_options.h"
 #include "world_editor/world_editor.h"
+#include "world_renderer.h"
 
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg_manager.h"
@@ -64,6 +66,7 @@ class AssetManager;
 
 namespace fpl_project {
 
+class WorldRenderer;
 struct Config;
 
 class World {
@@ -72,8 +75,8 @@ class World {
 
   void Initialize(const Config& config, InputSystem* input_system,
                   BasePlayerController* input_controller,
-                  AssetManager* asset_manager, FontManager* font_manager,
-                  pindrop::AudioEngine* audio_engine,
+                  AssetManager* asset_mgr, WorldRenderer* worldrenderer,
+                  FontManager* font_manager, pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager, Renderer* renderer);
 
   bool LoadEntitiesFromFile(const char* entity_list_filename);
@@ -115,6 +118,7 @@ class World {
   const Config* config;
 
   AssetManager* asset_manager;
+  WorldRenderer* world_renderer;
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,

@@ -29,42 +29,48 @@ class Camera : public fpl::CameraInterface {
  public:
   Camera();
 
-  mathfu::mat4 GetTransformMatrix() const;
+  // returns the View/Projection matrix:
+  virtual mathfu::mat4 GetTransformMatrix() const;
 
-  void set_position(mathfu::vec3 position) { position_ = position; }
-  mathfu::vec3 position() const { return position_; }
+  // returns just the V matrix:
+  virtual mathfu::mat4 GetViewMatrix() const;
 
-  void set_facing(const mathfu::vec3& facing) {
+  virtual void set_position(mathfu::vec3 position) { position_ = position; }
+  virtual mathfu::vec3 position() const { return position_; }
+
+  virtual void set_facing(const mathfu::vec3& facing) {
     assert(facing.LengthSquared() != 0);
     facing_ = facing;
   }
-  const mathfu::vec3& facing() const { return facing_; }
+  virtual const mathfu::vec3& facing() const { return facing_; }
 
-  void set_up(const mathfu::vec3& up) {
+  virtual void set_up(const mathfu::vec3& up) {
     assert(up.LengthSquared() != 0);
     up_ = up;
   }
-  const mathfu::vec3& up() const { return up_; }
+  virtual const mathfu::vec3& up() const { return up_; }
 
   void set_viewport_angle(float viewport_angle) {
     viewport_angle_ = viewport_angle;
   }
-  float viewport_angle() const { return viewport_angle_; }
+  virtual float viewport_angle() const { return viewport_angle_; }
 
-  void set_viewport_resolution(mathfu::vec2 viewport_resolution) {
+  virtual void set_viewport_resolution(mathfu::vec2 viewport_resolution) {
     viewport_resolution_ = viewport_resolution;
   }
-  mathfu::vec2 viewport_resolution() const { return viewport_resolution_; }
+  virtual mathfu::vec2 viewport_resolution() const {
+    return viewport_resolution_;
+  }
 
-  void set_viewport_near_plane(float viewport_near_plane) {
+  virtual void set_viewport_near_plane(float viewport_near_plane) {
     viewport_near_plane_ = viewport_near_plane;
   }
-  float viewport_near_plane() const { return viewport_near_plane_; }
+  virtual float viewport_near_plane() const { return viewport_near_plane_; }
 
-  void set_viewport_far_plane(float viewport_far_plane) {
+  virtual void set_viewport_far_plane(float viewport_far_plane) {
     viewport_far_plane_ = viewport_far_plane;
   }
-  float viewport_far_plane() const { return viewport_far_plane_; }
+  virtual float viewport_far_plane() const { return viewport_far_plane_; }
 
   void Initialize(float viewport_angle, mathfu::vec2 viewport_resolution,
                   float viewport_near_plane, float viewport_far_plane) {

@@ -137,7 +137,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file": "meshes/bamboo_mat.fplmesh",
-            "shader": "shaders/textured_opaque"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -156,7 +156,7 @@
           "data_type": "DigitDef",
           "data" : {
             "render_pass" : ["kAlpha"],
-            "shader": "shaders/textured",
+            "shader": "shaders/textured_shadowed",
             "attrib": "PatronsFed",
             "digit_mesh_list": [
               "meshes/digit_0.fplmesh",
@@ -290,7 +290,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/temp_sign.fplmesh",
-            "shader": "shaders/textured",
+            "shader": "shaders/textured_shadowed",
             "render_pass" : ["kAlpha"]
           }
         }
@@ -322,7 +322,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured",
+            "shader": "shaders/textured_shadowed",
             "hidden": true
           }
         },
@@ -457,7 +457,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         },
         {
@@ -493,7 +493,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -572,8 +572,7 @@
               "y": 0,
               "z": 0
             },
-            "child_ids": [ "PatronLadyMandrill_RenderMesh",
-                           "BlobShadow"]
+            "child_ids": [ "PatronLadyMandrill_RenderMesh"]
           }
         },
         {
@@ -677,49 +676,6 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "BlobShadow",
-            "prototype": "RenderMeshPrototype"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "scale": {
-              "x": 3.0,
-              "y": 3.0,
-              "z": 3.0
-            },
-            "position": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data": {
-            "source_file": "meshes/blobshadow.fplmesh",
-            "shader": "shaders/textured",
-            "render_pass" : ["kAlpha"]
-          }
-        },
-        {
-          "data_type": "ShadowControllerDef",
-          "data": {}
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
             "entity_id": "PatronLadyMandrill_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
@@ -748,7 +704,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/lady_mandrill.fplmesh",
-            "shader": "shaders/textured",
+            "shader": "shaders/textured_shadowed",
             "render_pass" : ["kAlpha"]
 
           }
@@ -773,8 +729,7 @@
               "y": 0,
               "z": 0
             },
-            "child_ids": [ "PatronMenacingCroc_RenderMesh",
-                           "BlobShadow" ]
+            "child_ids": [ "PatronMenacingCroc_RenderMesh"]
           }
         },
         {
@@ -894,7 +849,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/menacing_croc.fplmesh",
-            "shader": "shaders/textured",
+            "shader": "shaders/textured_shadowed",
             "render_pass" : ["kAlpha"]
           }
         }
@@ -918,8 +873,7 @@
               "y": 0,
               "z": 0
             },
-            "child_ids": [ "PatronMoustacheCroc_RenderMesh",
-                           "BlobShadow"]
+            "child_ids": [ "PatronMoustacheCroc_RenderMesh"]
           }
         },
         {
@@ -1029,7 +983,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/moustache_croc.fplmesh",
-            "shader": "shaders/textured",
+            "shader": "shaders/textured_shadowed",
             "render_pass": ["kAlpha"]
           }
         }
@@ -1093,7 +1047,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         },
         {
@@ -1161,7 +1115,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1187,7 +1141,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/ground.fplmesh",
-            "shader": "shaders/textured",
+            "shader": "shaders/textured_shadowed",
             "ignore_culling": true
           }
         }
@@ -1214,7 +1168,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/background.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1239,7 +1193,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_saturated.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1289,7 +1243,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_oak.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1314,7 +1268,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_short.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1339,7 +1293,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_leafy.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1389,7 +1343,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1414,7 +1368,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1439,7 +1393,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_shrimp.fplmesh",
-            "shader": "shaders/textured"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1524,7 +1478,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/bamboo_mat.fplmesh",
-            "shader": "shaders/textured_opaque"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
@@ -1618,7 +1572,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern.fplmesh",
-            "shader": "shaders/textured_opaque"
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]

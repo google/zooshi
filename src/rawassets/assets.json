@@ -50,7 +50,9 @@
   "shader_list": [
     "shaders/cardboard",
     "shaders/lit_textured_normal",
+    "shaders/render_depth",
     "shaders/textured",
-    "shaders/textured_opaque"
+    "shaders/textured_opaque",
+    "shaders/textured_shadowed"
   ]
 }

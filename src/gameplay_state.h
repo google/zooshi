@@ -34,6 +34,7 @@ namespace fpl_project {
 
 struct InputConfig;
 class World;
+class WorldRenderer;
 
 class GameplayState : public StateNode {
  public:
