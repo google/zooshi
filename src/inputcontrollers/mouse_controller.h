@@ -26,8 +26,6 @@ namespace fpl_project {
 
 class MouseController : public BasePlayerController {
  public:
-  MouseController() {}
-
   virtual void Update();
 
   void set_input_system(InputSystem* input_system) {

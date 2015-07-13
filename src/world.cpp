@@ -117,8 +117,11 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       entity_manager.RegisterComponent(&shadow_controller_component),
       ComponentDataUnion_ShadowControllerDef, "ShadowControllerDef");
   entity_factory->SetComponentType(
-      entity_manager.RegisterComponent(&editor_component_),
-      ComponentDataUnion_EditorDef, "EditorDef");
+      entity_manager.RegisterComponent(&meta_component_),
+      ComponentDataUnion_MetaDef, "MetaDef");
+  entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&edit_options_component_),
+      ComponentDataUnion_EditOptionsDef, "EditOptionsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_node_component),
       ComponentDataUnion_RailNodeDef, "RailNodeDef");

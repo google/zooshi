@@ -14,7 +14,7 @@
 
 include "audio_config.fbs";
 include "components.fbs";
-include "world_editor.fbs";
+include "world_editor_config.fbs";
 
 namespace fpl.fpl_project;
 

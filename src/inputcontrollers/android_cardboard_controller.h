@@ -15,6 +15,7 @@
 #ifndef ZOOSHI_ANDROID_CARDBOARD_CONTROLLER_H
 #define ZOOSHI_ANDROID_CARDBOARD_CONTROLLER_H
 
+#include "camera.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/constants.h"
 #include "fplbase/input.h"
@@ -26,8 +27,6 @@ namespace fpl_project {
 
 class AndroidCardboardController : public BasePlayerController {
  public:
-  AndroidCardboardController() {}
-
   virtual void Update();
 
   void set_input_system(InputSystem* input_system) {

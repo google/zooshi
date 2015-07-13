@@ -5,9 +5,14 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "Ground",
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
             "selection_option": "None"
           }
         },
@@ -38,7 +43,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RiverRail"
           }
@@ -57,7 +62,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "entity_id": "ActivePlayer",
             "prototype": "PlayerPrototype"
@@ -82,7 +87,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "SkyBox"
           }
@@ -100,7 +105,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "Background"
           }
@@ -119,7 +124,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "GroundPhysics"
           }

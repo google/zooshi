@@ -293,6 +293,7 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_->Initialize(GetConfig().world_editor_config(), &input_,
                             &world_.entity_manager, &event_manager_,
                             world_.entity_factory.get());
+
   world_editor_->AddComponentToUpdate(
       component_library::TransformComponent::GetComponentId());
   world_editor_->AddComponentToUpdate(

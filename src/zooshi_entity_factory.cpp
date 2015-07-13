@@ -15,14 +15,14 @@
 #include "zooshi_entity_factory.h"
 
 #include <set>
-#include "component_library/editor.h"
+#include "component_library/meta.h"
 #include "fplbase/utilities.h"
 #include "flatbuffers/reflection.h"
 
 namespace fpl {
 namespace fpl_project {
 
-using component_library::EditorComponent;
+using component_library::MetaComponent;
 
 bool ZooshiEntityFactory::ReadEntityList(
     const void* entity_list, std::vector<const void*>* entity_defs) {
@@ -60,11 +60,11 @@ bool ZooshiEntityFactory::CreatePrototypeRequest(
   // for future use.
   flatbuffers::FlatBufferBuilder fbb;
   auto prototype = fbb.CreateString(prototype_name);
-  EditorDefBuilder builder(fbb);
+  MetaDefBuilder builder(fbb);
   builder.add_prototype(prototype);
   auto component = CreateComponentDefInstance(
       fbb, ComponentDataUnion(
-               ComponentIdToDataType(EditorComponent::GetComponentId())),
+               ComponentIdToDataType(MetaComponent::GetComponentId())),
       builder.Finish().Union());
   auto entity_def = CreateEntityDef(
       fbb,

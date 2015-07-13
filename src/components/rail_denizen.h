@@ -76,7 +76,6 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
   virtual void InitEntity(entity::EntityRef& entity);
 
   virtual void OnEvent(const event::EventPayload& event_payload);
-
  private:
   void InitializeRail(entity::EntityRef&);
 

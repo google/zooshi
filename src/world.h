@@ -19,8 +19,8 @@
 #include <memory>
 #include <string>
 #include "component_library/common_services.h"
-#include "component_library/editor.h"
 #include "component_library/entity_factory.h"
+#include "component_library/meta.h"
 #include "component_library/physics.h"
 #include "component_library/rendermesh.h"
 #include "component_library/transform.h"
@@ -38,10 +38,12 @@
 #include "components/sound.h"
 #include "components/time_limit.h"
 #include "components_generated.h"
-#include "editor/world_editor.h"
 #include "entity/entity_manager.h"
+#include "inputcontrollers/base_player_controller.h"
 #include "motive/engine.h"
 #include "railmanager.h"
+#include "world_editor/edit_options.h"
+#include "world_editor/world_editor.h"
 
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg_manager.h"
@@ -62,7 +64,6 @@ class AssetManager;
 namespace fpl_project {
 
 struct Config;
-class BasePlayerController;
 
 class World {
  public:
@@ -104,7 +105,8 @@ class World {
   ServicesComponent services_component;
   component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
-  component_library::EditorComponent editor_component_;
+  component_library::MetaComponent meta_component_;
+  editor::EditOptionsComponent edit_options_component_;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;

@@ -3,7 +3,7 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$78a3-3980-d537-64a9",
             prototype: "Fern"
@@ -37,7 +37,7 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$64a4-3b3a-0cc9-4a7c",
             prototype: "Fern"
@@ -71,7 +71,7 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$3317-d97c-eb55-0007",
             prototype: "RockSmall"

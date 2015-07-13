@@ -17,7 +17,7 @@
 
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
-#include "fplbase/camera_interface.h"
+#include "component_library/camera_interface.h"
 
 namespace fpl {
 namespace fpl_project {

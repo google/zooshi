@@ -33,8 +33,7 @@ DEPENDENCIES_SDL_MIXER_DIR?=$(THIRD_PARTY_ROOT)/sdl_mixer
 # Location of the entity library.
 DEPENDENCIES_ENTITY_DIR?=$(FPL_ROOT)/entity
 # Location of the entity library's component collection.
-DEPENDENCIES_COMPONENT_LIBRARY_DIR?= \
-  $(DEPENDENCIES_ENTITY_DIR)/component_library
+DEPENDENCIES_COMPONENT_LIBRARY_DIR?=$(DEPENDENCIES_ENTITY_DIR)/component_library
 # Location of the event library.
 DEPENDENCIES_EVENT_DIR?=$(FPL_ROOT)/event
 # Location of the Flatbuffers library.
@@ -46,9 +45,11 @@ DEPENDENCIES_FPLBASE_DIR?=$(FPL_ROOT)/fplbase
 # Location of the fplutil library.
 DEPENDENCIES_FPLUTIL_DIR?=$(FPL_ROOT)/fplutil
 # Location of the FlatUI library.
-DEPENDENCIES_FLATUI_DIR?=$(FPL_ROOT)/imgui
+DEPENDENCIES_FLATUI_DIR?=$(FPL_ROOT)/flatui
 # Location of the MathFu library.
 DEPENDENCIES_MATHFU_DIR?=$(FPL_ROOT)/mathfu
+# Location of the World Editor library.
+DEPENDENCIES_WORLD_EDITOR_DIR?=$(FPL_ROOT)/world_editor
 # Location of the Motive library.
 DEPENDENCIES_MOTIVE_DIR?=$(FPL_ROOT)/motive
 # Location of the Google Play Games library.

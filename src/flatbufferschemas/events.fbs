@@ -13,6 +13,8 @@
 // limitations under the License.
 
 include "attributes.fbs";
+include "component_library_events.fbs";
+include "editor_events.fbs";
 
 namespace fpl.fpl_project;
 
@@ -48,22 +50,6 @@ table ChangeRailSpeed {
   value:float;
 }
 
-enum EditorEventAction : byte {
-  Enter,          // we have just entered edit mode
-  Exit,           // we are about to exit edit mode
-  EntityUpdated,  // the entity was just changed
-  EntityDeleted,  // the entity is about to be deleted
-}
-
-table EditorEvent {
-  action:EditorEventAction;
-  entity:EntityAffected;
-}
-
-// Collision events are not meant to be thrown from a data defined event being
-// handled, but are instead thrown only from the Physics component.
-table Collision {}
-
 // This is a hack to let me get the size of the EventSinkUnion until there is a
 // proper way to do this. It should not be used directly.
 table Size {}
@@ -72,8 +58,8 @@ union EventSinkUnion {
   PlaySound,
   ModifyAttribute,
   ChangeRailSpeed,
-  Collision,
-  EditorEvent,
+  fpl.Collision,
+  fpl.EditorEvent,
   Size,
 }
 

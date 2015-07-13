@@ -3,7 +3,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill_First",
             "comment":"Special LadyMandrill that starts the rail moving."
@@ -21,7 +21,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -38,7 +38,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -55,7 +55,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -72,7 +72,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -89,7 +89,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -106,7 +106,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -123,7 +123,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -140,7 +140,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -157,7 +157,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -174,7 +174,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -191,7 +191,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -208,7 +208,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -225,7 +225,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -242,7 +242,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -259,7 +259,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -276,7 +276,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -293,7 +293,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -310,7 +310,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -327,7 +327,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronLadyMandrill"
           }
@@ -345,7 +345,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -362,7 +362,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -379,7 +379,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -396,7 +396,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -413,7 +413,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -430,7 +430,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -447,7 +447,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -464,7 +464,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -481,7 +481,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -498,7 +498,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -515,7 +515,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -532,7 +532,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -549,7 +549,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -566,7 +566,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -583,7 +583,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -600,7 +600,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -617,7 +617,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -634,7 +634,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -651,7 +651,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -668,7 +668,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMoustacheCroc"
           }
@@ -686,7 +686,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -703,7 +703,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -720,7 +720,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -737,7 +737,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -754,7 +754,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -771,7 +771,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -788,7 +788,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -805,7 +805,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -822,7 +822,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }
@@ -839,7 +839,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype":"PatronMenacingCroc"
           }

@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ZOOSHI_CONTROLLERINTERFACE_H
-#define ZOOSHI_CONTROLLERINTERFACE_H
+#ifndef ZOOSHI_BASE_PLAYER_CONTROLLER_H
+#define ZOOSHI_BASE_PLAYER_CONTROLLER_H
 
-#include "mathfu/glsl_mappings.h"
 #include "camera.h"
+#include "mathfu/glsl_mappings.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -81,4 +81,4 @@ class BasePlayerController {
 }  // fpl_project
 }  // fpl
 
-#endif  // ZOOSHI_CONTROLLERINTERFACE_H
+#endif  // ZOOSHI_BASE_PLAYER_CONTROLLER_H

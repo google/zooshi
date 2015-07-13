@@ -71,9 +71,11 @@ set(dependencies_motive_dir "${fpl_root}/motive"
     CACHE PATH "Directory containing the motive animation library.")
 set(dependencies_bulletphysics_distr_dir "${third_party_root}/bulletphysics"
     CACHE PATH "Directory containing the Bullet Physics distribution.")
-
+set(dependencies_world_editor_dir "${fpl_root}/world_editor"
+    CACHE PATH "Directory containing the World Editor library.")
 set(dependencies_component_library_dir
-  "${dependencies_entity_dir}/component_library")
+    "${dependencies_entity_dir}/component_library"
+    CACHE PATH "Directory containing the entity system component library")
 
 # Option to enable / disable the test build.
 option(zooshi_build_tests "Build tests for this project." ON)
@@ -132,6 +134,12 @@ if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
   add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
 endif()
 
+
+# Include World Editor.
+if(NOT zooshi_only_flatc AND NOT TARGET world_editor)
+  add_subdirectory("${dependencies_world_editor_dir}" ${tmp_dir}/world_editor)
+endif()
+
 # Generate source files for all FlatBuffers schema files under the src
 # directory.
 set(FLATBUFFERS_GENERATED_INCLUDES_DIR
@@ -152,8 +160,8 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
     OUTPUT ${flatbuffers_include}
     COMMAND flatc --gen-includes --gen-mutable
         -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
-        -I ${dependencies_entity_dir}/schemas
         -I ${dependencies_component_library_dir}/schemas
+        -I ${dependencies_world_editor_dir}/schemas
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas -c ${flatbuffers_schema}
@@ -164,8 +172,8 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
     OUTPUT ${flatbuffers_binary_schema}
     COMMAND flatc -b --schema
         -o ${CMAKE_BINARY_DIR}/assets/flatbufferschemas
-        -I ${dependencies_entity_dir}/schemas
         -I ${dependencies_component_library_dir}/schemas
+        -I ${dependencies_world_editor_dir}/schemas
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas ${flatbuffers_schema}
@@ -225,8 +233,6 @@ set(zooshi_SRCS
     src/components/sound.h
     src/components/time_limit.cpp
     src/components/time_limit.h
-    src/editor/world_editor.cpp
-    src/editor/world_editor.h
     src/events/change_rail_speed.h
     src/events/modify_attribute.h
     src/events/parse_action.cpp
@@ -242,7 +248,6 @@ set(zooshi_SRCS
     src/gameplay_state.cpp
     src/gameplay_state.h
     src/gui.cpp
-    src/inputcontrollers/base_player_controller.h
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
     src/main.cpp
@@ -271,6 +276,7 @@ endif()
 include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+include_directories(${WORLD_EDITOR_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${dependencies_bulletphysics_distr_dir}/src)
@@ -283,6 +289,7 @@ include_directories(${dependencies_fplutil_dir}/libfplutil/include)
 include_directories(${dependencies_flatui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
+include_directories(${dependencies_world_editor_dir}/include)
 
 # Detect clang
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
@@ -327,6 +334,7 @@ target_link_libraries(zooshi
   flatui
   entity
   component_library
+  world_editor
   pindrop
   BulletDynamics
   BulletCollision

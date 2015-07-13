@@ -16,7 +16,8 @@ include "attributes.fbs";
 include "bullet_def.fbs";
 include "common.fbs";
 include "events.fbs";
-include "base_components.fbs";
+include "library_components.fbs";
+include "editor_components.fbs";
 
 namespace fpl;
 
@@ -117,10 +118,11 @@ table ShadowControllerDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
-// Union containing every possible component.
-// Note: This will also be the order the components execute their updates in.
+// Union containing every component data type.
 union ComponentDataUnion {
+  CommonServicesDef,
   ServicesDef,
+  MetaDef,
   RailDenizenDef,
   ShadowControllerDef,
   PlayerDef,
@@ -135,11 +137,9 @@ union ComponentDataUnion {
   ScoreDef,
   SoundDef,
   AttributesDef,
-  EditorDef,
   RailNodeDef,
-  // The transform component should update after any other components that
-  // might spawn or modify entities with transforms.
   TransformDef,
+  fpl.editor.EditOptionsDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

@@ -14,6 +14,7 @@
 
 #include "components/patron.h"
 
+#include <vector>
 #include "component_library/physics.h"
 #include "component_library/transform.h"
 #include "components/attributes.h"
@@ -22,13 +23,12 @@
 #include "components/rail_denizen.h"
 #include "components/services.h"
 #include "events/collision.h"
-#include "events/editor_event.h"
 #include "events/parse_action.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
-#include <vector>
+#include "world_editor/editor_event.h"
 
 using mathfu::vec3;
 using mathfu::quat;
@@ -255,7 +255,7 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
       break;
     }
     case EventSinkUnion_EditorEvent: {
-      auto* event = event_payload.ToData<EditorEventPayload>();
+      auto* event = event_payload.ToData<editor::EditorEventPayload>();
       auto physics_component =
           entity_manager_->GetComponent<PhysicsComponent>();
       if (event->action == EditorEventAction_Enter) {

@@ -44,11 +44,8 @@ class PlayerData {
   mathfu::vec3 GetFacing() const { return input_controller_->facing().Value(); }
   mathfu::vec3 GetUp() const { return input_controller_->up().Value(); }
 
-  fpl_project::BasePlayerController* input_controller() const {
-    return input_controller_;
-  }
-  void set_input_controller(
-      fpl_project::BasePlayerController* input_controller) {
+  BasePlayerController* input_controller() const { return input_controller_; }
+  void set_input_controller(BasePlayerController* input_controller) {
     input_controller_ = input_controller;
   }
 
@@ -60,7 +57,7 @@ class PlayerData {
 
  private:
   const ActionDef* on_fire_;
-  fpl_project::BasePlayerController* input_controller_;
+  BasePlayerController* input_controller_;
   mathfu::quat initial_direction_;
 };
 

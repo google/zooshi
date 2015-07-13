@@ -23,7 +23,6 @@
 #include "entity/component.h"
 #include "event/event_manager.h"
 #include "events/change_rail_speed.h"
-#include "events/editor_event.h"
 #include "events/parse_action.h"
 #include "events/utilities.h"
 #include "flatbuffers/flatbuffers.h"
@@ -33,6 +32,7 @@
 #include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
+#include "world_editor/editor_event.h"
 
 using mathfu::vec3;
 
@@ -237,7 +237,7 @@ void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {
     }
     case EventSinkUnion_EditorEvent: {
       // TODO(jsimantov): Mail rail lookup more efficient. http://b/22355890
-      auto* editor_event = event_payload.ToData<EditorEventPayload>();
+      auto* editor_event = event_payload.ToData<editor::EditorEventPayload>();
       if (editor_event->action == EditorEventAction_EntityUpdated &&
           editor_event->entity) {
         const RailNodeData* node_data =

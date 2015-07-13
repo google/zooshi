@@ -3,10 +3,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$2a38-0c77-b12b-d843",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -35,10 +40,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$a526-e840-bd42-8a1b",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -67,10 +77,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$3494-7be7-bbce-b016",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -99,10 +114,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$aa4a-a86d-0384-595d",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -131,10 +151,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$78eb-0219-eec4-3e31",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -163,10 +188,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$db72-e04b-27ba-3210",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -195,10 +225,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$b47e-3735-8cd2-532d",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -227,10 +262,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$8998-4381-b130-8b65",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -259,10 +299,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$c0d1-2d04-2197-875e",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -291,10 +336,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$5049-0990-c871-3686",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -323,10 +373,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$2566-320d-1314-57dc",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -355,10 +410,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$6d17-4e4e-e3e7-4ad6",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -387,10 +447,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$1760-4da8-ae22-3268",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -419,10 +484,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$5467-05dc-a0de-71b6",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -451,10 +521,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$d0a0-dc69-4b39-74e4",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -483,10 +558,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$c052-2ae5-c421-472b",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -515,10 +595,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$65de-2d15-a758-4a05",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -547,10 +632,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$01ee-515b-315b-4050",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -579,10 +669,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$b60c-7ce1-2c50-cc47",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -611,10 +706,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$92c7-e315-61b8-82a8",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -643,10 +743,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$e9a6-11c1-85d3-ce74",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -675,10 +780,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$69a8-dc58-6205-2761",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -707,10 +817,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$e729-7755-077b-9713",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -739,10 +854,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$8d76-242c-a9b6-ee60",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -771,10 +891,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$1e02-904b-d812-b2e4",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -803,10 +928,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$85d3-d4ba-957e-b43e",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -835,10 +965,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$3ba0-0ae1-1d44-431c",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -867,10 +1002,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$7e83-395e-2e56-6914",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -899,10 +1039,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$da85-95b4-7358-44ac",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -931,10 +1076,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$824a-b412-a786-3739",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -963,10 +1113,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$666d-7ec5-9260-01e1",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -995,10 +1150,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$1632-2806-6656-bbdb",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1027,10 +1187,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$0979-718d-ca41-5d9d",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1059,10 +1224,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$73b5-0a4c-4c6e-e557",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1091,10 +1261,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$7a40-9c8d-5b26-3a88",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1123,10 +1298,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$4b93-ccee-b888-91d6",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1155,10 +1335,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$b5bc-8e87-3833-0782",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1187,10 +1372,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$1c37-d13b-1d98-b185",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1219,10 +1409,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$8ab6-032a-e4ea-e734",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1251,10 +1446,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$498d-60da-c0ac-6c70",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1283,10 +1483,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$8a3b-c56b-ab23-ba78",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1315,10 +1520,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$c910-8b7e-4b2e-e629",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1347,10 +1557,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$9288-222a-d446-8074",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1379,10 +1594,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$ab2c-2da7-6742-a332",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1411,10 +1631,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$76d5-e088-8a28-74b1",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1443,10 +1668,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$8600-15bd-47cc-b2d1",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1475,10 +1705,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$457c-d723-9718-0c12",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1507,10 +1742,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$2b4d-694b-bdae-7441",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1539,10 +1779,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$9006-78e5-415d-d7a8",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1571,10 +1816,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$9a1b-a956-418e-2884",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1603,10 +1853,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$206a-c778-cb10-9c2b",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1635,10 +1890,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$1c75-1088-a9b2-a1e8",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1667,10 +1927,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$d00d-8b0b-b438-2da1",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1699,10 +1964,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$d326-3372-7a12-604c",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1731,10 +2001,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$6cb3-e7a2-3e36-cd91",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1763,10 +2038,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$4080-7e11-e32d-abe1",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },
@@ -1795,10 +2075,15 @@
     {
       component_list: [
         {
-          data_type: EditorDef,
+          data_type: MetaDef,
           data: {
             entity_id: "$69d9-c2b7-2a30-3c92",
             prototype: "MidGroundTree",
+          }
+        },
+        {
+          data_type: EditOptionsDef,
+          data: {
             selection_option: Any
           }
         },

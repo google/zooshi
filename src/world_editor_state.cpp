@@ -15,9 +15,9 @@
 #include "world_editor_state.h"
 
 #include "mathfu/glsl_mappings.h"
+#include "camera.h"
 #include "states.h"
 #include "world.h"
-#include "world_editor_generated.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -39,6 +39,7 @@ void WorldEditorState::Initialize(Renderer* renderer, InputSystem* input_system,
   input_system_ = input_system;
   world_editor_ = world_editor;
   world_ = world;
+  world_editor->SetCamera(std::unique_ptr<CameraInterface>(new Camera()));
 }
 
 void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
@@ -57,7 +58,7 @@ void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
 }
 
 void WorldEditorState::Render(Renderer* renderer) {
-  const Camera* camera = world_editor_->GetCamera();
+  const CameraInterface* camera = world_editor_->GetCamera();
 
   renderer->ClearFrameBuffer(kGreenishColor);
   mat4 camera_transform = camera->GetTransformMatrix();

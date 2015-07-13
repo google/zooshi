@@ -41,11 +41,7 @@
     "object_angular_speed":3,
     "object_scale_speed":1.05,
     "precise_movement_scale":0.1,
-    "input_config": {
-      "mouse_sensitivity": 0.001,
-      "invert_x": false,
-      "invert_y": false
-    }
+    "mouse_sensitivity": 0.001,
   },
 
   "entity_files" : [

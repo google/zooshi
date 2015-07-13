@@ -4,7 +4,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -29,7 +29,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -52,7 +52,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -75,7 +75,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -98,7 +98,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -121,7 +121,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -144,7 +144,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -167,7 +167,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -190,7 +190,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -213,7 +213,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -236,7 +236,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -259,7 +259,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -282,7 +282,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -305,7 +305,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -328,7 +328,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -351,7 +351,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -374,7 +374,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -397,7 +397,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -420,7 +420,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -443,7 +443,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -466,7 +466,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -489,7 +489,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -512,7 +512,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -535,7 +535,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -558,7 +558,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -581,7 +581,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -604,7 +604,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -627,7 +627,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -650,7 +650,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -673,7 +673,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -696,7 +696,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -719,7 +719,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -742,7 +742,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -765,7 +765,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -788,7 +788,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -813,7 +813,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -838,7 +838,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -861,7 +861,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }
@@ -884,7 +884,7 @@
     {
       "component_list": [
         {
-          "data_type": "EditorDef",
+          "data_type": "MetaDef",
           "data": {
             "prototype": "RailNode"
           }

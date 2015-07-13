@@ -22,8 +22,8 @@
 #include "components/services.h"
 #include "components_generated.h"
 #include "config_generated.h"
-#include "events/editor_event.h"
 #include "fplbase/utilities.h"
+#include "world_editor/editor_event.h"
 
 using mathfu::vec2;
 using mathfu::vec3;
@@ -304,7 +304,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 void RiverComponent::OnEvent(const event::EventPayload& event_payload) {
   switch (event_payload.id()) {
     case EventSinkUnion_EditorEvent: {
-      auto* editor_event = event_payload.ToData<EditorEventPayload>();
+      auto* editor_event = event_payload.ToData<editor::EditorEventPayload>();
       if (editor_event->action == EditorEventAction_EntityUpdated &&
           editor_event->entity) {
         const RailNodeData* node_data =
