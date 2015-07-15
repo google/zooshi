@@ -36,11 +36,40 @@ enum EntityDefs : byte {
   kNumEntityDef
 }
 
+// One point in the river cross-section.
+//
+// 0      1     2    3     4     5          6    7
+// *---___                             _____*----*
+//        *-----*____       _____*-----
+//                   *_____*
+//
+//                   ^
+//                   |
+//                river_index
+//
+// Here the river cross-section has 8 points. Each point has a horizontal (x)
+// and vertical (z) offset. There's some randomness allowed for these offsets.
+// Therefore, we specify min/max pairs.
+//
+// The `river_index` indicates the left side of the river.
+// `river_index` + 1 is the right bank. Therefore, the river width is at least
+//      banks[river_index + 1].x_min - banks[river_index].x_min
+// and at most,
+//      banks[river_index + 1].x_max - banks[river_index].x_max
+//
+// So in the example above, to make the river wider, you'd decrease
+// banks[3].x_min/max and increase banks[3].x_min/max. Be sure to keep the
+// x-values monotonically increasing. You will get strange geometry otherwise.
+//
+// Note that the boat floats along x=0, so you probably want everything <=
+// river_index to have negative x values, and everything > river_index to have
+// positive x values.
+//
 table RiverBankContour {
-  x_min:float;
-  x_max:float;
-  z_min:float;
-  z_max:float;
+  x_min:float;  // Min absolute distance from the center of the river.
+  x_max:float;  // Max absolute distance from the center of the river.
+  z_min:float;  // Min absolute height of the bank.
+  z_max:float;  // Max absolute height of the bank.
 }
 
 table RiverConfig {
@@ -50,7 +79,13 @@ table RiverConfig {
   texture_tile_size:float;
   material:string;
   shader:string;
+
+  // Detail the cross section of the procedurally-generated banks.
+  // See the diagram in RiverBankContour for more information.
   banks:[RiverBankContour];
+
+  // Index into `banks` of the left side of the river. The right side is
+  // river_index + 1.
   river_index:int;
 }
 
