@@ -57,7 +57,7 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "RenderMeshPrototype",
+            "entity_id": "RenderMeshPrototype"
           }
         },
         {
@@ -65,7 +65,7 @@
           "data": {
             "selection_option": "None"
           }
-        },
+        }
       ]
     },
 
@@ -667,6 +667,12 @@
               ]
             }
           }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
         }
       ]
     },
@@ -851,6 +857,12 @@
             "update_orientation": false,
             "rail_scale": { "x": 5, "y": 5, "z": 5 }
           }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
         }
       ]
     },
@@ -979,6 +991,12 @@
                 }
               ]
             }
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
           }
         }
       ]
@@ -1531,6 +1549,12 @@
           "data": {
             "child_ids": [ "RockSmall_RenderMesh" ]
           }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
         }
       ]
     },
@@ -1571,6 +1595,12 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "Fern_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
           }
         }
       ]
