@@ -13,7 +13,7 @@
           "data_type": "TransformDef",
           "data": {
             "position": { "x": 10, "y": 48, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 100 }
+            "orientation": { "x": 0, "y": 0, "z": -80 }
           }
         },
       ]
@@ -30,7 +30,7 @@
           "data_type": "TransformDef",
           "data": {
             "position": { "x": 28, "y": 60, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 45 }
+            "orientation": { "x": 0, "y": 0, "z": -135 }
           }
         }
       ]
@@ -47,7 +47,7 @@
           "data_type": "TransformDef",
           "data": {
             "position": { "x": 53, "y": 49, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 90 }
+            "orientation": { "x": 0, "y": 0, "z": -90 }
           }
         }
       ]
@@ -64,125 +64,6 @@
           "data_type": "TransformDef",
           "data": {
             "position": { "x": 55, "y": 30, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 120 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 50, "y": 12, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 160 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 23, "y": 3, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 240 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 28, "y": -19, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 180 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 40, "y": -35, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 170 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 23, "y": -47, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 200 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 3, "y": -50, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -110 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -13, "y": -46, "z": 0.01 },
             "orientation": { "x": 0, "y": 0, "z": -60 }
           }
         }
@@ -199,109 +80,7 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -22, "y": -58, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -120 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -45, "y": -52, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -100 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -43, "y": -33, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -10 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -42, "y": -9, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 10 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -30, "y": 8, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 35 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -42, "y": 23, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 0 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -51, "y": 40, "z": 0.01 },
+            "position": { "x": 50, "y": 12, "z": 0.01 },
             "orientation": { "x": 0, "y": 0, "z": -20 }
           }
         }
@@ -318,8 +97,229 @@
         {
           "data_type": "TransformDef",
           "data": {
+            "position": { "x": 23, "y": 3, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 60 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 28, "y": -19, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 0 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 40, "y": -35, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": -10 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 23, "y": -47, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 20 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 3, "y": -50, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 70 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -13, "y": -46, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 120 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -22, "y": -58, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 60 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -45, "y": -52, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 80 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -43, "y": -33, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 170 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -42, "y": -9, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": -170 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -30, "y": 8, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": -145 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -42, "y": 23, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 180 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -51, "y": 40, "z": 0.01 },
+            "orientation": { "x": 0, "y": 0, "z": 160 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
             "position": { "x": -37, "y": 56, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 10 }
+            "orientation": { "x": 0, "y": 0, "z": -170 }
           }
         }
       ]
@@ -336,7 +336,7 @@
           "data_type": "TransformDef",
           "data": {
             "position": { "x": -16, "y": 57, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 70 }
+            "orientation": { "x": 0, "y": 0, "z": -110 }
           }
         }
       ]
