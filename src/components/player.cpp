@@ -42,11 +42,6 @@ using fpl::component_library::TransformData;
 
 static const float kDegreesToRadians = M_PI / 180.0f;
 
-void PlayerData::SetInitialDirection(const mathfu::vec3& initial_direction) {
-  initial_direction_ = mathfu::quat::RotateFromTo(
-      mathfu::kAxisY3f, initial_direction.Normalized());
-}
-
 void PlayerComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
   event_manager_ =
@@ -62,8 +57,7 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
       player_data->input_controller()->Update();
     }
     transform_data->orientation =
-        mathfu::quat::RotateFromTo(player_data->GetFacing(), mathfu::kAxisY3f) *
-        player_data->initial_direction();
+        mathfu::quat::RotateFromTo(player_data->GetFacing(), mathfu::kAxisY3f);
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
@@ -82,10 +76,6 @@ void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
   auto player_def = static_cast<const PlayerDef*>(raw_data);
   PlayerData* player_data = AddEntity(entity);
   player_data->set_on_fire(player_def->on_fire());
-  player_data->SetInitialDirection(
-      mathfu::vec3(player_def->initial_direction()->x(),
-                   player_def->initial_direction()->y(),
-                   player_def->initial_direction()->z()));
 }
 
 void PlayerComponent::InitEntity(entity::EntityRef& entity) {
@@ -138,12 +128,7 @@ entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
   flatbuffers::FlatBufferBuilder fbb;
 
   // TODO: output the on_fire events.
-  mathfu::vec3 euler =
-      data->initial_direction().ToEulerAngles() / kDegreesToRadians;
-  fpl::Vec3 initial_direction{euler.x(), euler.y(), euler.z()};
-
   PlayerDefBuilder builder(fbb);
-  builder.add_initial_direction(&initial_direction);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
