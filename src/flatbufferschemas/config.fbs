@@ -110,6 +110,11 @@ table RenderConfig {
   fog_max_saturation:float;
 }
 
+table WorldDef {
+  // Entity files to load.
+  entity_files:[string];
+}
+
 table Config {
   // Audio engine configuration file.
   audio_config:string;
@@ -138,7 +143,7 @@ table Config {
   world_editor_config: fpl.editor.WorldEditorConfig;
 
   // Entity files to load.
-  entity_files:[string];
+  world_def:WorldDef;
 
   // Various settings for rendering the river.
   river_config:RiverConfig;

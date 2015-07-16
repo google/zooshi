@@ -24,20 +24,21 @@
 #include "entity/entity_manager.h"
 #include "event/event_listener.h"
 #include "flatbuffers/flatbuffers.h"
+#include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
-#include "gameplay_state.h"
-#include "game_menu_state.h"
-#include "flatui/font_manager.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
-#include "state_machine.h"
-#include "states.h"
+#include "states/game_menu_state.h"
+#include "states/gameplay_state.h"
+#include "states/pause_state.h"
+#include "states/state_machine.h"
+#include "states/states.h"
+#include "states/world_editor_state.h"
 #include "world.h"
-#include "world_editor_state.h"
 
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg_manager.h"
@@ -105,6 +106,7 @@ class Game : event::EventListener {
 
   // The top level state machine that drives the game.
   StateMachine<kGameStateCount> state_machine_;
+  PauseState pause_state_;
   GameplayState gameplay_state_;
   GameMenuState game_menu_state_;
   WorldEditorState world_editor_state_;

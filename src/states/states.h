@@ -20,12 +20,14 @@ namespace fpl_project {
 
 enum GameState {
   kGameStateGameplay,
+  kGameStatePause,
   kGameStateGameMenu,
   kGameStateWorldEditor,
   kGameStateCount,
   kGameStateExit = kGameStateCount
 };
-}
-}
+
+}  // fpl_project
+}  // fpl
 
 #endif  // ZOOSHI_STATES_H

@@ -42,15 +42,10 @@ namespace fpl {
 namespace fpl_project {
 
 static const char kEntityLibraryFile[] = "entity_prototypes.bin";
-
-// count = 5  ==>  low = -2, high = 3  ==> range -2..2
-// count = 6  ==>  low = -3, high = 3  ==> range -2..3
-static RangeInt GridRange(int count) {
-  return RangeInt(-count / 2, (count + 1) / 2);
-}
+static const char kComponentDefBinarySchema[] =
+    "flatbufferschemas/components.bfbs";
 
 void World::Initialize(const Config& config_, InputSystem* input_system,
-                       BasePlayerController* input_controller,
                        AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                        FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
@@ -134,35 +129,45 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       entity_manager.RegisterComponent(&transform_component),
       ComponentDataUnion_TransformDef, "TransformDef");
 
-  services_component.LoadComponentDefBinarySchema(
-      "flatbufferschemas/components.bfbs");
+  services_component.LoadComponentDefBinarySchema(kComponentDefBinarySchema);
   entity_factory->set_debug_entity_creation(false);
-  entity_factory->SetFlatbufferSchema("flatbufferschemas/components.bfbs");
+  entity_factory->SetFlatbufferSchema(kComponentDefBinarySchema);
   entity_factory->AddEntityLibrary(kEntityLibraryFile);
 
   entity_manager.set_entity_factory(entity_factory.get());
 
   render_mesh_component.set_light_position(vec3(-10, -20, 20));
+}
 
-  for (size_t i = 0; i < config->entity_files()->size(); i++) {
-    const char* filename = config->entity_files()->Get(i)->c_str();
-    entity_factory->LoadEntitiesFromFile(filename, &entity_manager);
+void LoadWorldDef(World* world, const WorldDef* world_def,
+                  BasePlayerController* input_controller) {
+  for (auto iter = world->entity_manager.begin();
+       iter != world->entity_manager.end(); ++iter) {
+    world->entity_manager.DeleteEntity(iter.ToReference());
+  }
+  world->entity_manager.DeleteMarkedEntities();
+  assert(world->entity_manager.begin() == world->entity_manager.end());
+  for (size_t i = 0; i < world_def->entity_files()->size(); i++) {
+    const char* filename = world_def->entity_files()->Get(i)->c_str();
+    world->entity_factory->LoadEntitiesFromFile(filename,
+                                                &world->entity_manager);
   }
 
-  for (auto iter = player_component.begin(); iter != player_component.end();
-       ++iter) {
-    entity_manager.GetComponentData<PlayerData>(iter->entity)
+  for (auto iter = world->player_component.begin();
+       iter != world->player_component.end(); ++iter) {
+    world->entity_manager.GetComponentData<PlayerData>(iter->entity)
         ->set_input_controller(input_controller);
   }
-  active_player_entity = player_component.begin()->entity;
+  world->active_player_entity = world->player_component.begin()->entity;
 
-  transform_component.PostLoadFixup();  // sets up parent-child links
-  patron_component.PostLoadFixup();
+  world->transform_component.PostLoadFixup();  // sets up parent-child links
+  world->patron_component.PostLoadFixup();
 
-  entity::EntityRef player_entity = player_component.begin()->entity;
-  auto player_transform = transform_component.GetComponentData(player_entity);
+  entity::EntityRef player_entity = world->player_component.begin()->entity;
+  auto player_transform =
+      world->transform_component.GetComponentData(player_entity);
   entity::EntityRef raft_entity = player_transform->parent;
-  services_component.set_raft_entity(raft_entity);
+  world->services_component.set_raft_entity(raft_entity);
 }
 
 }  // fpl_project

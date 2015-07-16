@@ -78,16 +78,18 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/gameplay_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/game_menu_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_multiplayer.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gui.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/states/game_menu_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/states/gameplay_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/states/pause_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/states/states_common.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/states/world_editor_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/world_editor_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world_renderer.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/zooshi_entity_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \

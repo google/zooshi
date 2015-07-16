@@ -74,12 +74,10 @@ class World {
   World() : is_in_cardboard(false), draw_debug_physics(false) {}
 
   void Initialize(const Config& config, InputSystem* input_system,
-                  BasePlayerController* input_controller,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                   FontManager* font_manager, pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager, Renderer* renderer);
 
-  bool LoadEntitiesFromFile(const char* entity_list_filename);
   motive::MotiveEngine motive_engine;
 
   // Entity manager
@@ -138,6 +136,12 @@ class World {
   GPGMultiplayer* gpg_multiplayer;
 #endif
 };
+
+// Removes all entities from the world, then repopulates it based on the entity
+// definitions given in the WorldDef. The input controller is required to hook
+// up the player's controller to the player entity.
+void LoadWorldDef(World* world, const WorldDef* world_def,
+                  BasePlayerController* input_controller);
 
 }  // fpl_project
 }  // fpl

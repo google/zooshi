@@ -59,11 +59,13 @@
     "toggle_mode_button": 2
   },
 
-  "entity_files" : [
-    "entity_rails.bin",
-    "entity_list.bin",
-    "entity_level0.bin",
-    "entity_decorations.bin",
-    "entity_ring.bin"
-  ]
+  "world_def": {
+    "entity_files": [
+      "entity_rails.bin",
+      "entity_list.bin",
+      "entity_level0.bin",
+      "entity_decorations.bin",
+      "entity_ring.bin"
+    ]
+  }
 }

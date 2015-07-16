@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "game_menu_state.h"
+#include "states/game_menu_state.h"
 
 #include "components/sound.h"
 #include "config_generated.h"
@@ -26,7 +26,8 @@
 #include "motive/init.h"
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
-#include "states.h"
+#include "states/states.h"
+#include "states/states_common.h"
 #include "world.h"
 
 #ifdef ANDROID_CARDBOARD
@@ -44,21 +45,17 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
-void GameMenuState::Initialize(Renderer* renderer, InputSystem* input_system,
-                               World* world, const InputConfig* input_config,
-                               editor::WorldEditor* world_editor,
+void GameMenuState::Initialize(InputSystem* input_system, World* world,
+                               BasePlayerController* input_controller,
+                               const Config* config,
                                AssetManager* asset_manager,
                                FontManager* font_manager) {
-  GameplayState::Initialize(renderer, input_system, world, input_config,
-                            world_editor);
+  world_ = world;
 
   // Set references used in GUI.
   input_system_ = input_system;
   asset_manager_ = asset_manager;
   font_manager_ = font_manager;
-
-  // Show cursor temporarily.
-  input_system_->SetRelativeMouseMode(false);
 
   // Set menu state.
   menu_state_ = kMenuStateStart;
@@ -66,13 +63,20 @@ void GameMenuState::Initialize(Renderer* renderer, InputSystem* input_system,
   show_licences_ = false;
   show_how_to_play_ = false;
   show_audio_ = false;
+
+  // Set the world def to load upon entering this state.
+  world_def_ = config->world_def();
+  input_controller_ = input_controller;
 }
 
 void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
-  GameplayState::AdvanceFrame(delta_time, next_state);
+  world_->motive_engine.AdvanceFrame(delta_time);
+  world_->entity_manager.UpdateComponents(delta_time);
+  UpdateMainCamera(&main_camera_, world_);
 
   // Exit the game.
-  if (input_system_->GetButton(FPLK_ESCAPE).went_down()) {
+  if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
+      input_system_->GetButton(FPLK_AC_BACK).went_down()) {
     *next_state = kGameStateExit;
   }
 
@@ -80,10 +84,16 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     *next_state = kGameStateGameplay;
     world_->is_in_cardboard = (menu_state_ == kMenuStateCardboard);
   }
+  menu_state_ = kMenuStateStart;
 }
 
 void GameMenuState::Render(Renderer* renderer) {
-  GameplayState::Render(renderer);
+  Camera* cardboard_camera = nullptr;
+#ifdef ANDROID_CARDBOARD
+  cardboard_camera = &cardboard_camera_;
+#endif
+  RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
+
   // No culling when drawing the menu.
   renderer->SetCulling(Renderer::kNoCulling);
 
@@ -100,10 +110,10 @@ void GameMenuState::Render(Renderer* renderer) {
 }
 
 void GameMenuState::OnEnter() {
+  LoadWorldDef(world_, world_def_, input_controller_);
   world_->player_component.set_active(false);
   input_system_->SetRelativeMouseMode(false);
 }
-
 
 }  // fpl_project
 }  // fpl

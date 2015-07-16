@@ -286,7 +286,7 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_system(&input_);
   input_controller_.set_input_config(&GetInputConfig());
 
-  world_.Initialize(GetConfig(), &input_, &input_controller_, &asset_manager_,
+  world_.Initialize(GetConfig(), &input_, &asset_manager_,
                     &world_renderer_, &font_manager_, &audio_engine_,
                     &event_manager_, &renderer_);
 
@@ -303,15 +303,17 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_->AddComponentToUpdate(
       component_library::RenderMeshComponent::GetComponentId());
 
-  gameplay_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
+  pause_state_.Initialize(&input_, &world_, &asset_manager_, &font_manager_);
+  gameplay_state_.Initialize(&input_, &world_, &GetInputConfig(),
                              world_editor_.get());
-  game_menu_state_.Initialize(&renderer_, &input_, &world_, &GetInputConfig(),
-                              world_editor_.get(), &asset_manager_,
+  game_menu_state_.Initialize(&input_, &world_, &input_controller_,
+                              &GetConfig(), &asset_manager_,
                               &font_manager_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 
   state_machine_.AssignState(kGameStateGameplay, &gameplay_state_);
+  state_machine_.AssignState(kGameStatePause, &pause_state_);
   state_machine_.AssignState(kGameStateGameMenu, &game_menu_state_);
   state_machine_.AssignState(kGameStateWorldEditor, &world_editor_state_);
   state_machine_.SetCurrentStateId(kGameStateGameMenu);

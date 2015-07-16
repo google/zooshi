@@ -16,16 +16,21 @@
 #define ZOOSHI_GAME_MENU_STATE_H_
 
 #include "camera.h"
-#include "fplbase/input.h"
 #include "flatui/flatui.h"
-#include "state_machine.h"
-#include "gameplay_state.h"
+#include "fplbase/input.h"
+#include "states/gameplay_state.h"
+#include "states/state_machine.h"
 
 namespace fpl {
 
 class InputSystem;
 
 namespace fpl_project {
+
+class BasePlayerController;
+struct Config;
+struct InputConfig;
+struct WorldDef;
 
 enum MenuState {
   kMenuStateStart,
@@ -34,11 +39,11 @@ enum MenuState {
   kMenuStateCardboard,
 };
 
-class GameMenuState : public GameplayState {
+class GameMenuState : public StateNode {
  public:
-  void Initialize(Renderer* renderer, InputSystem* input_system, World* world,
-                  const InputConfig* input_config,
-                  editor::WorldEditor* world_editor,
+  void Initialize(InputSystem* input_system, World* world,
+                  BasePlayerController* player_controller,
+                  const Config* config,
                   AssetManager* asset_manager, FontManager* font_namager);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
@@ -50,7 +55,15 @@ class GameMenuState : public GameplayState {
                       InputSystem& input);
   MenuState OptionMenu(AssetManager& assetman, FontManager& fontman,
                        InputSystem& input);
-  gui::Event TextButton(const char* text, float size, const char* id);
+
+  // The world to display in the background.
+  World* world_;
+
+  // The camera(s) to use to render the background world.
+  Camera main_camera_;
+#ifdef ANDROID_CARDBOARD
+  Camera cardboard_camera_;
+#endif
 
   // IMGUI uses InputSystem for an input handling for a touch, gamepad,
   // mouse and keyboard.
@@ -64,6 +77,12 @@ class GameMenuState : public GameplayState {
 
   // Menu state.
   MenuState menu_state_;
+
+  // The world definition to load upon entering the menu.
+  const WorldDef* world_def_;
+
+  // The controller to use for the main character when the world is created.
+  BasePlayerController* input_controller_;
 
   // In-game menu state.
   bool show_about_;

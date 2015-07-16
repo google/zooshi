@@ -76,8 +76,8 @@ class StateMachine {
 
   StateId current_state_id() { return current_state_id_; }
 
-  // The state machine reaches a terminal state when it's state id is outside
-  // the bounds of
+  // The state machine reaches a terminal state when it's state is less than 0
+  // or greater than the number of declared states (i.e. state_count_)
   bool done() { return !valid_id(current_state_id_); }
 
  private:

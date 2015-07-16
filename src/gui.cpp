@@ -13,25 +13,11 @@
 // limitations under the License.
 
 #include "fplbase/utilities.h"
-#include "game_menu_state.h"
+#include "states/game_menu_state.h"
+#include "states/states_common.h"
 
 namespace fpl {
 namespace fpl_project {
-
-gui::Event GameMenuState::TextButton(const char *text, float size,
-                                     const char *id) {
-  gui::StartGroup(gui::kLayoutVerticalLeft, size, id);
-  gui::SetMargin(gui::Margin(10));
-  auto event = gui::CheckEvent();
-  if (event & gui::kEventIsDown) {
-    gui::ColorBackground(vec4(1.0f, 1.0f, 1.0f, 0.5f));
-  } else if (event & gui::kEventHover) {
-    gui::ColorBackground(vec4(0.5f, 0.5f, 0.5f, 0.5f));
-  }
-  gui::Label(text, size);
-  gui::EndGroup();
-  return event;
-}
 
 MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
                                    InputSystem &input) {
@@ -151,5 +137,6 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
 
   return next_state;
 }
-}  // gui
+
+}  // fpl_project
 }  // fpl

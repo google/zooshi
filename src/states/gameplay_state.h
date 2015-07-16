@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ZOOSHI_WORLD_EDITOR_STATE_H_
-#define ZOOSHI_WORLD_EDITOR_STATE_H_
+#ifndef ZOOSHI_GAMEPLAY_STATE_H_
+#define ZOOSHI_GAMEPLAY_STATE_H_
 
 #include "camera.h"
-#include "state_machine.h"
+#include "fplbase/input.h"
+#include "states/state_machine.h"
 
 namespace fpl {
 
-class InputSystem;
 class Renderer;
+class InputSystem;
 
 namespace editor {
 
@@ -31,36 +32,38 @@ class WorldEditor;
 
 namespace fpl_project {
 
-struct Config;
 struct InputConfig;
 class World;
+class WorldRenderer;
 
-class WorldEditorState : public StateNode {
+class GameplayState : public StateNode {
  public:
-  WorldEditorState()
-      : renderer_(nullptr),
-        world_(nullptr),
-        input_system_(nullptr),
-        camera_(nullptr),
-        world_editor_(nullptr) {}
-  void Initialize(Renderer* renderer, InputSystem* input_system,
-                  editor::WorldEditor* world_editor, World* world);
+  void Initialize(InputSystem* input_system, World* world,
+                  const InputConfig* input_config,
+                  editor::WorldEditor* world_editor);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
-
   virtual void OnEnter();
-  virtual void OnExit();
 
- private:
-  Renderer* renderer_;
+ protected:
   World* world_;
+
+  const InputConfig* input_config_;
+
   InputSystem* input_system_;
-  Camera* camera_;
+
+  Camera main_camera_;
+#ifdef ANDROID_CARDBOARD
+  Camera cardboard_camera_;
+#endif
+
+  // This is needed here so that when transitioning into the editor the camera
+  // location can be initialized.
   editor::WorldEditor* world_editor_;
 };
 
 }  // fpl_project
 }  // fpl
 
-#endif  // ZOOSHI_WORLD_EDITOR_STATE_H_
+#endif  // ZOOSHI_GAMEPLAY_STATE_H_

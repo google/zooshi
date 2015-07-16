@@ -76,6 +76,12 @@ void DigitComponent::AddFromRawData(entity::EntityRef& entity,
   }
   // TODO: Load this from a flatbuffer file instead of setting it.
   render_mesh_data->tint = mathfu::kOnes4f;
+
+  // If meshes were loaded, then set the initial one since RenderMeshData should
+  // always have a valid mesh.
+  if (digit_def->digit_mesh_list()) {
+    render_mesh_data->mesh = digit_data->digits[0];
+  }
 }
 
 void DigitComponent::InitEntity(entity::EntityRef& entity) {

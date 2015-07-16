@@ -207,12 +207,12 @@ add_custom_command(TARGET assets POST_BUILD
 set(zooshi_SRCS
     src/camera.cpp
     src/camera.h
-    src/components/digit.cpp
-    src/components/digit.h
     src/components/attributes.cpp
     src/components/attributes.h
     src/components/audio_listener.cpp
     src/components/audio_listener.h
+    src/components/digit.cpp
+    src/components/digit.h
     src/components/patron.cpp
     src/components/patron.h
     src/components/player.cpp
@@ -243,10 +243,6 @@ set(zooshi_SRCS
     src/flatbufferschemas
     src/game.cpp
     src/game.h
-    src/game_menu_state.cpp
-    src/game_menu_state.h
-    src/gameplay_state.cpp
-    src/gameplay_state.h
     src/gui.cpp
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
@@ -254,12 +250,20 @@ set(zooshi_SRCS
     src/railmanager.cpp
     src/railmanager.h
     src/rawassets
-    src/state_machine.h
-    src/states.h
+    src/states/states_common.cpp
+    src/states/states_common.h
+    src/states/game_menu_state.cpp
+    src/states/game_menu_state.h
+    src/states/gameplay_state.cpp
+    src/states/gameplay_state.h
+    src/states/pause_state.cpp
+    src/states/pause_state.h
+    src/states/state_machine.h
+    src/states/states.h
+    src/states/world_editor_state.cpp
+    src/states/world_editor_state.h
     src/world.cpp
     src/world.h
-    src/world_editor_state.cpp
-    src/world_editor_state.h
     src/world_renderer.cpp
     src/world_renderer.h
     src/zooshi_entity_factory.cpp

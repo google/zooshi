@@ -12,63 +12,56 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ZOOSHI_GAMEPLAY_STATE_H_
-#define ZOOSHI_GAMEPLAY_STATE_H_
+#ifndef ZOOSHI_PAUSE_STATE_H_
+#define ZOOSHI_PAUSE_STATE_H_
 
 #include "camera.h"
 #include "fplbase/input.h"
-#include "state_machine.h"
+#include "states/state_machine.h"
 
 namespace fpl {
 
-class Renderer;
+class AssetManager;
+class FontManager;
 class InputSystem;
 
-namespace editor {
-
-class WorldEditor;
-
-}  // editor
+struct AssetManager;
 
 namespace fpl_project {
-
 struct InputConfig;
 class World;
-class WorldRenderer;
 
-class GameplayState : public StateNode {
+class PauseState : public StateNode {
  public:
-  void Initialize(Renderer* renderer, InputSystem* input_system, World* world,
-                  const InputConfig* input_config,
-                  editor::WorldEditor* world_editor);
-
+  virtual ~PauseState() {}
+  void Initialize(InputSystem* input_system, World* world,
+                  AssetManager* asset_manager, FontManager* font_manager);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
   virtual void OnEnter();
 
  protected:
-  void RenderMonoscopic(Renderer* renderer);
-  void RenderStereoscopic(Renderer* renderer);
-
   World* world_;
 
-  Renderer* renderer_;
-
-  const InputConfig* input_config_;
-
+  // IMGUI uses InputSystem for an input handling for a touch, gamepad,
+  // mouse and keyboard.
   InputSystem* input_system_;
+
+  // IMGUI loads resources using AssetManager.
+  AssetManager* asset_manager_;
+
+  // IMGUI uses FontManager for a text rendering.
+  FontManager* font_manager_;
+
+  int next_state_;
 
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD
   Camera cardboard_camera_;
 #endif
-
-  // This is needed here so that when transitioning into the editor the camera
-  // location can be initialized.
-  editor::WorldEditor* world_editor_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-#endif  // ZOOSHI_GAMEPLAY_STATE_H_
+#endif  // ZOOSHI_PAUSE_STATE_H_

@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "world_editor_state.h"
+#include "states/world_editor_state.h"
 
-#include "mathfu/glsl_mappings.h"
 #include "camera.h"
-#include "states.h"
+#include "mathfu/glsl_mappings.h"
+#include "states/states.h"
 #include "world.h"
 
 using mathfu::vec2i;
