@@ -19,16 +19,17 @@
     "material": "materials/river.fplmat",
     "shader": "shaders/water",
     "banks": [
-      { "x_min": -15.0, "x_max": -15, "z_min": 1.0, "z_max": 2.2 },
-      { "x_min": -9.0, "x_max": -11.5, "z_min": 0.6, "z_max": 0.9 },
-      { "x_min": -2.1, "x_max": -2.7, "z_min": 0.2, "z_max": 0.4 },
-      { "x_min": -1.5, "x_max": -2.1, "z_min": 0.0, "z_max": 0.0 },
-      { "x_min": 1.5, "x_max": 2.1, "z_min": 0.0, "z_max": 0.0 },
-      { "x_min": 2.1, "x_max": 2.7, "z_min": 0.2, "z_max": 0.4 },
-      { "x_min": 5.0, "x_max": 8.0, "z_min": 0.6, "z_max": 0.9 },
-      { "x_min": 10.0, "x_max": 10.0, "z_min": 1.8, "z_max": 2.2 },
+      { "x_min": -13.5, "x_max": -13.5, "z_min": 1.0, "z_max": 2.2 },
+      { "x_min": -7.5,  "x_max": -8,    "z_min": 0.6, "z_max": 0.9 },
+      { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+      { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+      { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+      { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+      { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
+      { "x_min": 8.5,   "x_max": 13.5,  "z_min": 1.8, "z_max": 2.2 },
     ],
     "river_index": 3,
+    "width": 5.0
   },
 
   "world_editor_config" : {

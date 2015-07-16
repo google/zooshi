@@ -101,6 +101,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   const size_t num_bank_contours = river->banks()->Length();
   const size_t num_bank_quads = num_bank_contours - 2;
   const size_t river_idx = river->river_index();
+  const float river_width = river->width();
   const size_t segment_count = track.size();
   const size_t river_vert_max = segment_count * 2;
   const size_t river_index_max = (segment_count - 1) * kNumIndicesPerQuad;
@@ -157,20 +158,19 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
     // Create the bank vertices for this segment.
     for (size_t j = 0; j < num_bank_contours; ++j) {
+      const bool left_bank = j <= river_idx;
       const vec2 off = offsets[j];
       const vec3 vertex =
-          track_position + off.x() * track_normal + off.y() * kAxisZ3f;
-
+          track_position + (off.x() + river_width * (left_bank ? -1 : 1)) *
+                            track_normal + off.y() * kAxisZ3f;
       // The texture is stretched from the side of the river to the far end
       // of the bank. There are two banks, however, separated by the river.
       // We need to know the width of the bank to caluate the `texture_u`
       // coordinate.
-      const bool left_bank = j <= river_idx;
       const size_t bank_start = left_bank ? 0 : river_idx + 1;
       const size_t bank_end = left_bank ? river_idx : num_bank_contours - 1;
       const float bank_width = offsets[bank_start].x() - offsets[bank_end].x();
       const float texture_u = (off.x() - offsets[bank_end].x()) / bank_width;
-
       bank_verts.push_back(NormalMappedVertex{
           vec3_packed(vertex), vec2_packed(vec2(texture_u, texture_v)),
           vec3_packed(vec3(0, 1, 0)), vec4_packed(vec4(1, 0, 0, 1)),
