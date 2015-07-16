@@ -36,10 +36,7 @@ struct ActionDef;
 
 class PlayerData {
  public:
-  PlayerData()
-      : on_fire_(nullptr),
-        input_controller_(nullptr),
-        initial_direction_(mathfu::kQuatIdentityf) {}
+  PlayerData() : on_fire_(nullptr), input_controller_(nullptr) {}
 
   mathfu::vec3 GetFacing() const { return input_controller_->facing().Value(); }
   mathfu::vec3 GetUp() const { return input_controller_->up().Value(); }
@@ -52,13 +49,9 @@ class PlayerData {
   const ActionDef* on_fire() { return on_fire_; }
   void set_on_fire(const ActionDef* on_fire) { on_fire_ = on_fire; }
 
-  void SetInitialDirection(const mathfu::vec3& initial_direction);
-  const mathfu::quat initial_direction() const { return initial_direction_; }
-
  private:
   const ActionDef* on_fire_;
   BasePlayerController* input_controller_;
-  mathfu::quat initial_direction_;
 };
 
 class PlayerComponent : public entity::Component<PlayerData> {

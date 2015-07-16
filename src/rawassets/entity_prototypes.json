@@ -417,11 +417,6 @@
         {
           "data_type": "PlayerDef",
           "data": {
-            "initial_direction": {
-              "x": 1,
-              "y": 0,
-              "z": 0
-            },
             "on_fire": {
               "event_list": [
                 {

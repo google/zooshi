@@ -160,6 +160,9 @@ void GameplayState::RenderStereoscopic(Renderer* renderer) {
 void GameplayState::OnEnter() {
   world_->player_component.set_active(true);
   input_system_->SetRelativeMouseMode(true);
+#ifdef ANDROID_CARDBOARD
+  input_system_->cardboard_input().ResetHeadTracker();
+#endif  // ANDROID_CARDBOARD
 }
 
 }  // fpl_project

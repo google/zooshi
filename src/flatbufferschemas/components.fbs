@@ -59,7 +59,6 @@ table PatronDef {
 }
 
 table PlayerDef {
-  initial_direction:Vec3;
   on_fire:fpl.fpl_project.ActionDef;
 }
 
