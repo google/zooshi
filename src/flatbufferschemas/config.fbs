@@ -61,7 +61,9 @@ enum EntityDefs : byte {
 // banks[3].x_min/max and increase banks[3].x_min/max. Be sure to keep the
 // x-values monotonically increasing. You will get strange geometry otherwise.
 //
-// Note that the boat floats along x=0, so you probably want everything <=
+// Riverbanks are zero-based, (with zero representing the width of the river
+// at that point), so 3 and 4 are likely to be at or near zero.
+// This means that in most cases, you probably want to have everything <=
 // river_index to have negative x values, and everything > river_index to have
 // positive x values.
 //
@@ -83,6 +85,7 @@ table RiverConfig {
   // Detail the cross section of the procedurally-generated banks.
   // See the diagram in RiverBankContour for more information.
   banks:[RiverBankContour];
+  width: float;
 
   // Index into `banks` of the left side of the river. The right side is
   // river_index + 1.
