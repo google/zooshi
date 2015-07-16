@@ -290,8 +290,8 @@ bool Game::Initialize(const char* const binary_directory) {
                     &font_manager_, &audio_engine_, &event_manager_);
 
   world_editor_.reset(new editor::WorldEditor());
-  world_editor_->Initialize(GetConfig().world_editor_config(), &input_,
-                            &world_.entity_manager, &event_manager_,
+  world_editor_->Initialize(GetConfig().world_editor_config(), &renderer_,
+                            &input_, &world_.entity_manager, &event_manager_,
                             world_.entity_factory.get());
 
   world_editor_->AddComponentToUpdate(
