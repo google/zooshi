@@ -40,8 +40,6 @@ using fpl::component_library::PhysicsData;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 
-static const float kDegreesToRadians = M_PI / 180.0f;
-
 void PlayerComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
   event_manager_ =
