@@ -15,6 +15,7 @@
 #ifndef ZOOSHI_WORLD_EDITOR_STATE_H_
 #define ZOOSHI_WORLD_EDITOR_STATE_H_
 
+#include "camera.h"
 #include "state_machine.h"
 
 namespace fpl {
@@ -36,6 +37,12 @@ class World;
 
 class WorldEditorState : public StateNode {
  public:
+  WorldEditorState()
+      : renderer_(nullptr),
+        world_(nullptr),
+        input_system_(nullptr),
+        camera_(nullptr),
+        world_editor_(nullptr) {}
   void Initialize(Renderer* renderer, InputSystem* input_system,
                   editor::WorldEditor* world_editor, World* world);
 
@@ -46,11 +53,10 @@ class WorldEditorState : public StateNode {
   virtual void OnExit();
 
  private:
-  void UpdateMainCamera();
-
   Renderer* renderer_;
   World* world_;
   InputSystem* input_system_;
+  Camera* camera_;
   editor::WorldEditor* world_editor_;
 };
 

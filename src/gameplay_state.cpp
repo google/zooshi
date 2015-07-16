@@ -79,6 +79,7 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   auto player = world_->player_component.begin()->entity;
   auto transform_component = &world_->transform_component;
   main_camera_.set_position(transform_component->WorldPosition(player));
+  main_camera_.set_viewport_resolution(vec2(renderer_->window_size()));
   main_camera_.set_facing(
       transform_component->WorldOrientation(player).Inverse() *
       mathfu::kAxisY3f);

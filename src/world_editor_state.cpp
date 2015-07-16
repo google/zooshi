@@ -32,6 +32,8 @@ namespace fpl_project {
 
 static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
 
+static const float kEditorViewportAngle = M_PI / 3.0;  // 60 degrees
+
 void WorldEditorState::Initialize(Renderer* renderer, InputSystem* input_system,
                                   editor::WorldEditor* world_editor,
                                   World* world) {
@@ -39,7 +41,9 @@ void WorldEditorState::Initialize(Renderer* renderer, InputSystem* input_system,
   input_system_ = input_system;
   world_editor_ = world_editor;
   world_ = world;
-  world_editor->SetCamera(std::unique_ptr<CameraInterface>(new Camera()));
+  camera_ = new Camera();
+  camera_->set_viewport_angle(kEditorViewportAngle);
+  world_editor->SetCamera(std::unique_ptr<CameraInterface>(camera_));
 }
 
 void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
@@ -58,6 +62,8 @@ void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
 }
 
 void WorldEditorState::Render(Renderer* renderer) {
+  camera_->set_viewport_resolution(vec2(renderer->window_size()));
+
   const CameraInterface* camera = world_editor_->GetCamera();
 
   renderer->ClearFrameBuffer(kGreenishColor);
