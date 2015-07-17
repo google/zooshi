@@ -27,6 +27,8 @@ generated files, you can call this script with the argument 'clean'.
 import argparse
 import distutils.spawn
 import glob
+import Image
+import math
 import os
 import platform
 import shutil
@@ -128,17 +130,27 @@ RAW_SOUND_BANK_PATH = os.path.join(RAW_ASSETS_PATH, 'sound_banks')
 RAW_MATERIAL_PATH = os.path.join(RAW_ASSETS_PATH, 'materials')
 
 # Directory where unprocessed textures can be found.
-RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, 'textures')
+TEXTURE_REL_DIR = 'textures'
+RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, TEXTURE_REL_DIR)
 
 # Directory where unprocessed FBX files can be found.
 MESH_REL_DIR = 'meshes'
 RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, MESH_REL_DIR)
 
 # Directory for textures outside of the main code-base.
-INTERNAL_TEXTURE_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'textures')
+INTERNAL_TEXTURE_PATH = os.path.join(INTERNAL_ASSETS_PATH, TEXTURE_REL_DIR)
 
 # Directory where unprocessed FBX files can be found.
 INTERNAL_MESH_PATH = os.path.join(INTERNAL_ASSETS_PATH, MESH_REL_DIR)
+
+# Directory where png files are written to before they are converted to webp.
+INTERMEDIATE_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'obj', 'assets')
+
+# Directory where png files are written to before they are converted to webp.
+INTERMEDIATE_TEXTURE_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH, TEXTURE_REL_DIR)
+
+# Directory where png files are written to before they are converted to webp.
+INTERMEDIATE_MESH_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH, MESH_REL_DIR)
 
 # Directories for animations.
 RAW_ANIM_PATH = os.path.join(RAW_ASSETS_PATH, 'anims')
@@ -176,6 +188,8 @@ ANIM_PIPELINE_EXECUTABLE_NAME = 'anim_pipeline' + EXECUTABLE_EXTENSION
 # Ranges from 0 to 100.
 WEBP_QUALITY = 90
 
+# Maximum width or height of a tga image
+MAX_TGA_SIZE = 1024
 
 class FlatbuffersConversionData(object):
   """Holds data needed to convert a set of json files to flatbuffer binaries.
@@ -276,13 +290,35 @@ FLATBUFFERS_CONVERSION_DATA = [
 ]
 
 
+def target_file_name(path, target_directory, target_extension):
+  """Take the path to a raw png asset and convert it to target webp path.
+
+  Args:
+    path: Source file path.
+    target_directory: Path to put the target assets.
+    target_extension: Extension of target assets.
+  """
+  no_path = path.replace(RAW_ASSETS_PATH, '').replace(INTERNAL_ASSETS_PATH, '')\
+                .replace(INTERMEDIATE_ASSETS_PATH, '')
+  no_ext = os.path.splitext(no_path)[0]
+  target = target_directory + no_ext + '.' + target_extension
+  return target
+
+def intermediate_texture_path(path):
+  """Take the path to a raw png asset and convert it to target webp path.
+
+  Args:
+    target_directory: Path to the target assets directory.
+  """
+  return target_file_name(path, INTERMEDIATE_ASSETS_PATH, 'png')
+
 def processed_texture_path(path, target_directory):
   """Take the path to a raw png asset and convert it to target webp path.
 
   Args:
     target_directory: Path to the target assets directory.
   """
-  return path.replace(RAW_ASSETS_PATH, target_directory).replace(INTERNAL_ASSETS_PATH, target_directory).replace('png', 'webp')
+  return target_file_name(path, target_directory, 'webp')
 
 def processed_anim_path(path, target_directory):
   """Take the path to a raw anim asset and convert it to target anim path.
@@ -290,7 +326,7 @@ def processed_anim_path(path, target_directory):
   Args:
     target_directory: Path to the target assets directory.
   """
-  return path.replace(RAW_ASSETS_PATH, target_directory).replace(INTERNAL_ASSETS_PATH, target_directory).replace('fbx', 'fplanim')
+  return target_file_name(path, target_directory, 'fplanim')
 
 # Location of FlatBuffers compiler.
 FLATC = find_in_paths(FLATC_EXECUTABLE_NAME, FLATBUFFERS_PATHS)
@@ -343,6 +379,53 @@ def convert_json_to_flatbuffer_binary(flatc, json, schema, out_dir):
   command.extend(['-b', schema, json])
   run_subprocess(command)
 
+def closest_power_of_two(n):
+  """Returns the closest power of two (linearly) to n.
+     See: http://mccormick.cx/news/entries/nearest-power-of-two
+  """
+  return pow(2, int(math.log(n, 2) + 0.5))
+
+def texture_target_size(tga):
+  """Calculate the final image size of the source image
+
+     Returns: tuple (width, height)
+  """
+  im = Image.open(tga)
+  size = max(im.size[0], im.size[1])
+  if size < MAX_TGA_SIZE:
+    return im.size
+
+  scale = float(MAX_TGA_SIZE) / size
+  new_size = (closest_power_of_two(im.size[0] * scale), closest_power_of_two(im.size[1] * scale))
+  return new_size
+
+
+def convert_tga_image_to_png(tga, png, size):
+  """Run the imange converter on the given tga file to generate a png.
+
+  Args:
+    tga: The path to the input tga file.
+    png: The path to the output png file.
+    max_size: Max height or width
+
+  Raises:
+    BuildError: Process return code was nonzero.
+  """
+  im = Image.open(tga)
+
+  # Output status message.
+  source_file = os.path.basename(tga)
+  target_file = os.path.basename(png)
+  if size != im.size:
+    source_file += " (" + str(im.size[0]) + "," + str(im.size[1]) + ")"
+    target_file += " (" + str(size[0]) + "," + str(size[1]) + ")"
+  print "Converting " + source_file + " to " + target_file
+
+  # Resize and convert.
+  if size != im.size:
+    im = im.resize(size)
+  im.save(png)
+
 
 def convert_png_image_to_webp(cwebp, png, out, quality=80):
   """Run the webp converter on the given png file.
@@ -370,7 +453,7 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory):
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [MESH_PIPELINE, '-b', target_directory, '-r', MESH_REL_DIR, fbx]
+  command = [MESH_PIPELINE, '-d', '-b', target_directory, '-r', MESH_REL_DIR, fbx]
   run_subprocess(command)
 
 
@@ -424,12 +507,22 @@ def fbx_files_to_convert():
   return (glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx')) +
           glob.glob(os.path.join(INTERNAL_MESH_PATH, '*.fbx')))
 
+def texture_files(extension):
+  """ List of files with `extension` in the texture paths. """
+  return (glob.glob(os.path.join(RAW_TEXTURE_PATH, extension)) +
+          glob.glob(os.path.join(RAW_MESH_PATH, extension)) +
+          glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, extension)) +
+          glob.glob(os.path.join(INTERNAL_MESH_PATH, extension)) +
+          glob.glob(os.path.join(INTERMEDIATE_TEXTURE_PATH, extension)) +
+          glob.glob(os.path.join(INTERMEDIATE_MESH_PATH, extension)))
+
 def png_files_to_convert():
   """ PNG files to convert to webp. """
-  return (glob.glob(os.path.join(RAW_TEXTURE_PATH, '*.png')) +
-          glob.glob(os.path.join(RAW_MESH_PATH, '*.png')) +
-          glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, '*.png')) +
-          glob.glob(os.path.join(INTERNAL_MESH_PATH, '*.png')))
+  return texture_files('*.png')
+
+def tga_files_to_convert():
+  """ TGA files to convert to png. """
+  return texture_files('*.tga')
 
 def anim_files_to_convert():
   """ FBX files to convert to fplanim. """
@@ -456,11 +549,8 @@ def generate_anim_binaries(target_directory):
     target_directory: Path to the target assets directory.
   """
   input_files = anim_files_to_convert()
-  print "input_files " + ', '.join(input_files)
   for fbx in input_files:
     target = processed_anim_path(fbx, target_directory)
-    print "target " + target
-
     if needs_rebuild(fbx, target) or needs_rebuild(ANIM_PIPELINE, target):
       convert_fbx_anim_to_flatbuffer_binary(fbx, target)
 
@@ -487,6 +577,21 @@ def generate_flatbuffer_binaries(flatc, target_directory):
       if needs_rebuild(json, target) or needs_rebuild(schema, target):
         convert_json_to_flatbuffer_binary(flatc, json, schema, target_file_dir)
 
+def generate_png_textures():
+  """Run the imange converter to convert tga to png files and resize.
+
+  Args:
+    target_directory: Path to the target assets directory.
+  """
+  input_files = tga_files_to_convert()
+  for tga in input_files:
+    out = intermediate_texture_path(tga)
+    out_dir = os.path.dirname(out)
+    if not os.path.exists(out_dir):
+      os.makedirs(out_dir)
+    if needs_rebuild(tga, out):
+      size = texture_target_size(tga)
+      convert_tga_image_to_png(tga, out, size)
 
 def generate_webp_textures(cwebp, target_directory):
   """Run the webp converter on off of the png files.
@@ -591,7 +696,7 @@ def main(argv):
   parser.add_argument('args', nargs=argparse.REMAINDER)
   args = parser.parse_args()
   target = args.args[1] if len(args.args) >= 2 else 'all'
-  if target not in ('all', 'mesh', 'anim', 'flatbuffers', 'webp', 'clean'):
+  if target not in ('all', 'png', 'mesh', 'anim', 'flatbuffers', 'webp', 'clean'):
     sys.stderr.write('No rule to build target %s.\n' % target)
 
   if target != 'clean':
@@ -599,6 +704,12 @@ def main(argv):
   # The mesh pipeline must run before the webp texture converter,
   # since the mesh pipeline might create textures that need to be
   # converted.
+  if target in ('all', 'png'):
+    try:
+      generate_png_textures()
+    except BuildError as error:
+      handle_build_error(error)
+      return 1
   if target in ('all', 'mesh'):
     try:
       generate_mesh_binaries(args.output)
