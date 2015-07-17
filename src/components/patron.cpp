@@ -46,8 +46,6 @@ using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 
 // All of these numbers were picked for purely aesthetic reasons:
-static const float kHitMinHeight = 2.0;
-
 static const float kSplatterCount = 10;
 
 static const float kGravity = 0.05f;
@@ -88,6 +86,10 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   if (patron_def->max_lap() >= 0) {
     patron_data->max_lap = patron_def->max_lap();
   }
+
+  if (patron_def->target_tag()) {
+    patron_data->target_tag = patron_def->target_tag()->str();
+  }
 }
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
@@ -110,6 +112,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
                     (const flatbuffers::Table&)(*data->on_collision))
                     .o)
           : 0;
+  auto target_tag = fbb.CreateString(data->target_tag);
 
   // Get all the on_collision events
   PatronDefBuilder builder(fbb);
@@ -120,6 +123,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_max_lap(data->max_lap);
   builder.add_pop_in_radius(data->pop_in_radius);
   builder.add_pop_out_radius(data->pop_out_radius);
+  builder.add_target_tag(target_tag);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
@@ -246,11 +250,11 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
       auto* collision = event_payload.ToData<CollisionPayload>();
       if (collision->entity_a->IsRegisteredForComponent(GetComponentId())) {
         HandleCollision(collision->entity_a, collision->entity_b,
-                        collision->position_a);
+                        collision->tag_a);
       } else if (collision->entity_b->IsRegisteredForComponent(
                      GetComponentId())) {
         HandleCollision(collision->entity_b, collision->entity_a,
-                        collision->position_b);
+                        collision->tag_b);
       }
       break;
     }
@@ -280,7 +284,7 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
 
 void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
                                       const entity::EntityRef& proj_entity,
-                                      const mathfu::vec3& position) {
+                                      const std::string& part_tag) {
   // We only care about collisions with projectiles that haven't been deleted.
   PlayerProjectileData* projectile_data =
       Data<PlayerProjectileData>(proj_entity);
@@ -289,9 +293,8 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   }
   PatronData* patron_data = Data<PatronData>(patron_entity);
   if (patron_data->state == kPatronStateUpright) {
-    // If the hit is high enough, consider it fed.
-    // TODO: Replace this with something better, possibly multiple shapes.
-    if (position.z() >= kHitMinHeight) {
+    // If the target tag was hit, consider it being fed
+    if (patron_data->target_tag == "" || patron_data->target_tag == part_tag) {
       // TODO: Make state change an action.
       patron_data->state = kPatronStateFalling;
       entity::EntityRef raft =
