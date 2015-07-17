@@ -39,6 +39,7 @@
 #include "components/time_limit.h"
 #include "components_generated.h"
 #include "entity/entity_manager.h"
+#include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "motive/engine.h"
 #include "railmanager.h"
@@ -73,7 +74,7 @@ class World {
                   BasePlayerController* input_controller,
                   AssetManager* asset_manager, FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine,
-                  event::EventManager* event_manager);
+                  event::EventManager* event_manager, Renderer* renderer);
 
   bool LoadEntitiesFromFile(const char* entity_list_filename);
   motive::MotiveEngine motive_engine;

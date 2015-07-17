@@ -287,12 +287,12 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_config(&GetInputConfig());
 
   world_.Initialize(GetConfig(), &input_, &input_controller_, &asset_manager_,
-                    &font_manager_, &audio_engine_, &event_manager_);
+                    &font_manager_, &audio_engine_, &event_manager_,
+                    &renderer_);
 
   world_editor_.reset(new editor::WorldEditor());
-  world_editor_->Initialize(GetConfig().world_editor_config(), &renderer_,
-                            &input_, &world_.entity_manager, &event_manager_,
-                            world_.entity_factory.get());
+  world_editor_->Initialize(GetConfig().world_editor_config(),
+                            &world_.entity_manager, &font_manager_);
 
   world_editor_->AddComponentToUpdate(
       component_library::TransformComponent::GetComponentId());

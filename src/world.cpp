@@ -53,7 +53,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        BasePlayerController* input_controller,
                        AssetManager* asset_manager, FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
-                       event::EventManager* event_manager) {
+                       event::EventManager* event_manager, Renderer* renderer) {
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
 
@@ -65,8 +65,8 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   // Important!  Registering and initializing the services components needs
   // to happen BEFORE other components are registered, because many of them
   // depend on it during their own init functions.
-  common_services_component.Initialize(asset_manager, input_system,
-                                       event_manager, entity_factory.get());
+  common_services_component.Initialize(asset_manager, entity_factory.get(),
+                                       event_manager, input_system, renderer);
   services_component.Initialize(
       config, asset_manager, input_system, audio_engine, &motive_engine,
       event_manager, font_manager, &rail_manager, entity_factory.get());
