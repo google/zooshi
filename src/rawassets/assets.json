@@ -13,7 +13,7 @@
     "meshes/background.fplmesh",
     "meshes/tree_saturated.fplmesh",
     "meshes/blobshadow.fplmesh",
-    "meshes/skybox.fplmesh",
+    "meshes/skybox_daytime.fplmesh",
     "meshes/bamboo_mat.fplmesh",
     "meshes/rock_small.fplmesh",
     "meshes/fern.fplmesh",

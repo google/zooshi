@@ -95,7 +95,7 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "scale": { "x": 250, "y": 250, "z": 250 }
+            "scale": { "x": 500, "y": 500, "z": 500 }
           }
         }
       ]

@@ -1459,7 +1459,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/skybox.fplmesh",
+            "source_file":"meshes/skybox_daytime.fplmesh",
             "shader": "shaders/textured_opaque",
             "ignore_culling": true
           }
