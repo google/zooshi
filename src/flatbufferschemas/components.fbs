@@ -29,7 +29,6 @@ table RailDenizenDef {
   start_time:float;
   initial_playback_rate:float;
   on_new_lap:fpl.fpl_project.ActionDef;
-  rail_file:string;
   rail_name:string;
   rail_offset:Vec3; // Additional offset from the rail position
   rail_orientation:Vec3; // Rotation to apply to the rail

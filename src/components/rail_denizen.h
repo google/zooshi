@@ -55,7 +55,6 @@ struct RailDenizenData {
   motive::MotiveTime previous_time;
   const ActionDef* on_new_lap;
   motive::Motivator3f motivator;
-  RailId rail_id;
   std::string rail_name;
   mathfu::vec3 rail_offset;
   mathfu::quat rail_orientation;
@@ -76,6 +75,7 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
   virtual void InitEntity(entity::EntityRef& entity);
 
   virtual void OnEvent(const event::EventPayload& event_payload);
+
  private:
   void InitializeRail(entity::EntityRef&);
 

@@ -148,8 +148,6 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   data->motivator.Initialize(motive::SmoothInit(), engine_);
   data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
 
-  data->rail_id = rail_denizen_def->rail_file()->c_str();
-
   InitializeRail(entity);
 }
 
@@ -162,8 +160,7 @@ void RailDenizenComponent::InitializeRail(entity::EntityRef& entity) {
                          data->rail_name.c_str(), entity_manager_),
                      data->start_time);
   } else {
-    LogInfo("RailDenizen: Loading static rail file: '%s'", data->rail_id);
-    data->Initialize(*rail_manager->GetRail(data->rail_id), data->start_time);
+    LogError("RailDenizen: Error, no rail name specified");
   }
   data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
 }
@@ -181,7 +178,8 @@ RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
   Vec3 rail_scale{data->rail_scale.x(), data->rail_scale.y(),
                   data->rail_scale.z()};
 
-  auto rail_name = fbb.CreateString(data->rail_id);
+  auto rail_name =
+      data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;
 
   auto schema_file = entity_manager_->GetComponent<ServicesComponent>()
                          ->component_def_binary_schema();
@@ -205,7 +203,9 @@ RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
   if (on_new_lap.o != 0) {
     builder.add_on_new_lap(on_new_lap);
   }
-  builder.add_rail_file(rail_name);
+  if (rail_name.o != 0) {
+    builder.add_rail_name(rail_name);
+  }
   builder.add_rail_offset(&rail_offset);
   builder.add_rail_orientation(&rail_orientation);
   builder.add_rail_scale(&rail_scale);
