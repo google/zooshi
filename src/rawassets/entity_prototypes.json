@@ -1601,6 +1601,98 @@
           }
         }
       ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "BoxyTree"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "BoxyTree_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "BoxyTree_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/boxy_tree.fplmesh",
+            "shader": "shaders/textured_shadowed",
+            "render_pass" : ["kAlpha"]
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "LumpyTree"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "LumpyTree_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "LumpyTree_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/lumpy_tree.fplmesh",
+            "shader": "shaders/textured_shadowed",
+            "render_pass" : ["kAlpha"]
+          }
+        }
+      ]
     }
   ]
 }

@@ -27,7 +27,9 @@
     "meshes/digit_6.fplmesh",
     "meshes/digit_7.fplmesh",
     "meshes/digit_8.fplmesh",
-    "meshes/digit_9.fplmesh"
+    "meshes/digit_9.fplmesh",
+    "meshes/boxy_tree.fplmesh",
+    "meshes/lumpy_tree.fplmesh"
   ],
   "material_list": [
     "materials/guy.fplmat",
@@ -45,7 +47,9 @@
     "meshes/digit_6.fplmat",
     "meshes/digit_7.fplmat",
     "meshes/digit_8.fplmat",
-    "meshes/digit_9.fplmat"
+    "meshes/digit_9.fplmat",
+    "meshes/boxy_tree.fplmat",
+    "meshes/lumpy_tree.fplmat"
   ],
   "shader_list": [
     "shaders/cardboard",
