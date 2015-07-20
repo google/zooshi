@@ -86,6 +86,10 @@ struct PatronData {
   // range [min_lap, max_lap].
   int min_lap;
   int max_lap;
+
+  // The tag of the body part that needs to be hit to trigger a fall.
+  // Note that an empty name means any collision counts.
+  std::string target_tag;
 };
 
 class PatronComponent : public entity::Component<PatronData>,
@@ -107,7 +111,7 @@ class PatronComponent : public entity::Component<PatronData>,
  private:
   void HandleCollision(const entity::EntityRef& patron_entity,
                        const entity::EntityRef& proj_entity,
-                       const mathfu::vec3& position);
+                       const std::string& part_tag);
   void SpawnSplatter(const mathfu::vec3& position, int count);
 
   const Config* config_;

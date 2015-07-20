@@ -619,8 +619,32 @@
                 "restitution": 1.0,
                 "collision_type": "Patron",
                 "collides_with": [
+                  "Raycast",
                   "Projectile"
                 ]
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.6,
+                    "y": 0.3,
+                    "z": 0.7
+                  }
+                },
+                "offset": {
+                  "x": 0.25,
+                  "y": 0.9,
+                  "z": 4.2
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Mouth"
               }
             ],
             "kinematic": true
@@ -633,6 +657,7 @@
             "pop_out_radius": 60,
             "min_lap": 0,
             "max_lap": 1,
+            "target_tag": "Mouth",
             "on_collision": {
               "event_list": [
                 {

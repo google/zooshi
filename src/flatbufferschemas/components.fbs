@@ -55,6 +55,10 @@ table PatronDef {
 
   // If the raft is outside the pop out radius, this patron will fall down.
   pop_out_radius:float;
+
+  // The tag of the physics body that needs to be hit to trigger a fall.
+  // An empty name uses all bodies.
+  target_tag:string;
 }
 
 table PlayerDef {
