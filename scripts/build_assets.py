@@ -28,6 +28,7 @@ import argparse
 import distutils.spawn
 import glob
 import Image
+import json
 import math
 import os
 import platform
@@ -113,6 +114,9 @@ ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
 
 # Directory where unprocessed assets can be found.
 RAW_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'src', 'rawassets')
+
+# Metadata file for assets. Store extra file-specific information here.
+ASSET_META = os.path.join(RAW_ASSETS_PATH, 'asset_meta.json');
 
 # Directory for unprocessed assets not in the main code-base.
 INTERNAL_ASSETS_PATH = os.path.join(INTERNAL_ROOT, 'zooshi', 'rawassets')
@@ -443,7 +447,7 @@ def convert_png_image_to_webp(cwebp, png, out, quality=80):
   run_subprocess(command)
 
 
-def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory):
+def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats):
   """Run the mesh_pipeline on the given fbx file.
 
   Args:
@@ -453,7 +457,8 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory):
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [MESH_PIPELINE, '-d', '-b', target_directory, '-r', MESH_REL_DIR, fbx]
+  command = [MESH_PIPELINE, '-d', '-b', target_directory, '-r', MESH_REL_DIR,
+             '-f', texture_formats, fbx]
   run_subprocess(command)
 
 
@@ -529,7 +534,14 @@ def anim_files_to_convert():
   return (glob.glob(os.path.join(RAW_ANIM_PATH, '*.fbx')) +
           glob.glob(os.path.join(INTERNAL_ANIM_PATH, '*.fbx')))
 
-def generate_mesh_binaries(target_directory):
+def mesh_texture_formats(fbx, meta):
+  mesh_meta = meta['mesh_meta']
+  for entry in mesh_meta:
+    if entry['name'] in fbx:
+      return entry['texture_format']
+  return ''
+
+def generate_mesh_binaries(target_directory, meta):
   """Run the mesh pipeline on the all of the FBX files.
 
   Args:
@@ -538,9 +550,9 @@ def generate_mesh_binaries(target_directory):
   input_files = fbx_files_to_convert()
   for fbx in input_files:
     target = processed_mesh_path(fbx, target_directory)
-
+    texture_formats = mesh_texture_formats(fbx, meta)
     if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
-      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory)
+      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats)
 
 def generate_anim_binaries(target_directory):
   """Run the mesh pipeline on the all of the FBX files.
@@ -693,11 +705,17 @@ def main(argv):
                       help='Location of the webp compressor.')
   parser.add_argument('--output', default=ASSETS_PATH,
                       help='Assets output directory.')
+  parser.add_argument('--meta', default=ASSET_META,
+                      help='File holding metadata for assets.');
   parser.add_argument('args', nargs=argparse.REMAINDER)
   args = parser.parse_args()
   target = args.args[1] if len(args.args) >= 2 else 'all'
   if target not in ('all', 'png', 'mesh', 'anim', 'flatbuffers', 'webp', 'clean'):
     sys.stderr.write('No rule to build target %s.\n' % target)
+
+  # Load the json file that holds asset metadata.
+  meta_file = open(args.meta, 'r')
+  meta = json.load(meta_file)
 
   if target != 'clean':
     copy_assets(args.output)
@@ -712,7 +730,7 @@ def main(argv):
       return 1
   if target in ('all', 'mesh'):
     try:
-      generate_mesh_binaries(args.output)
+      generate_mesh_binaries(args.output, meta)
     except BuildError as error:
       handle_build_error(error)
       return 1
