@@ -77,5 +77,5 @@ void main()
     texture_color = vec4(texture_color.xyz * shadow_dimness, texture_color.a);
   }
 
-  gl_FragColor = texture_color;
+  gl_FragColor = texture_color * color;
 }
