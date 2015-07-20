@@ -41,8 +41,6 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
-static const int kShadowMapTextureID = 7;
-
 static const char kEntityLibraryFile[] = "entity_prototypes.bin";
 
 // count = 5  ==>  low = -2, high = 3  ==> range -2..2
