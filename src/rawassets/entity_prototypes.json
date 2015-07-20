@@ -728,7 +728,7 @@
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/lady_mandrill.fplmesh",
+            "source_file": "meshes/Lady_Mandrill.fplmesh",
             "shader": "shaders/textured_shadowed",
             "render_pass" : ["kAlpha"]
 
