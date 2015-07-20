@@ -20,20 +20,31 @@
 // arbitrarily, because it doesn't conflict with any other channels, so we can
 // just leave that texture binding for the whole rendering pass.)
 
-uniform mediump mat4 shadow_mvp;
+// Variables used in genereal rendering:
 uniform lowp vec4 color;
-uniform lowp float shadow_intensity;
-
 // The texture of the thing we're rendering:
 uniform sampler2D texture_unit_0;
+// The texture coordinates
+varying mediump vec2 vTexCoord;
+
+// Variables used by shadow maps:
+uniform mediump mat4 shadow_mvp;
+uniform lowp float shadow_intensity;
 // The shadow map texture:
 uniform sampler2D texture_unit_7;
 // The position of the coordinate, in light-space
 varying vec4 vShadowPosition;
-// The texture coordinates
-varying mediump vec2 vTexCoord;
 
-
+// Variables used by fog:
+varying lowp float vDepth;
+uniform float fog_roll_in_dist;
+uniform float fog_max_dist;
+uniform vec4 fog_color;
+// Saturation represents how much the object becomes saturated by the fog
+// color at fog_max_dist.  If saturation is 1.0, at max_fog_dist, the object
+// is entirely fog_color-colored.  At 0.0, even at max_fog_dist, the object's
+// color is unchanged.
+uniform float fog_max_saturation;
 
 // Decodes a packed RGBA value into a float.  (See EncodeFloatRGBA() in
 // render_depth.glslf for an explanation of this packing.)
@@ -54,12 +65,13 @@ void main()
   if (texture_color.a < 0.01)
     discard;
 
+  // Apply the shadow map:
   mediump vec2 shadowmap_coords = vShadowPosition.xy / vShadowPosition.w;
   shadowmap_coords = (shadowmap_coords + vec2(1.0, 1.0)) / 2.0;
 
   highp float light_dist = vShadowPosition.z / vShadowPosition.w;
   light_dist = (light_dist + 1.0) / 2.0;
- 
+
   // Read the shadowmap texture, and compare that value (which represents the
   // distance from the light-source, to the first object it hit in this
   // direction) to our actual distance from the light, in light-space.  If we
@@ -77,5 +89,16 @@ void main()
     texture_color = vec4(texture_color.xyz * shadow_dimness, texture_color.a);
   }
 
-  gl_FragColor = texture_color * color;
+  // Apply the object tint:
+  texture_color = texture_color * color;
+
+  // Apply the fog:
+  float fog_factor = (clamp(vDepth, fog_roll_in_dist, fog_max_dist) -
+      fog_roll_in_dist) / (fog_max_dist - fog_roll_in_dist);
+
+  texture_color = mix(texture_color, fog_color, fog_factor *
+      fog_max_saturation);
+
+  // Final result:
+  gl_FragColor = texture_color;
 }
