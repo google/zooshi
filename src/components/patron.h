@@ -59,6 +59,7 @@ struct PatronData {
 
   // The event to trigger when a projectile collides with this patron.
   const ActionDef* on_collision;
+  std::vector<unsigned char> on_collision_flatbuffer;
 
   // Whether the patron is standing up or falling down.
   PatronState state;

@@ -15,6 +15,8 @@
 #ifndef COMPONENTS_RAIL_DENIZEN_H_
 #define COMPONENTS_RAIL_DENIZEN_H_
 
+#include <string>
+#include <vector>
 #include "components_generated.h"
 #include "entity/component.h"
 #include "event/event_listener.h"
@@ -54,6 +56,7 @@ struct RailDenizenData {
   float start_time;
   motive::MotiveTime previous_time;
   const ActionDef* on_new_lap;
+  std::vector<unsigned char> on_new_lap_flatbuffer;
   motive::Motivator3f motivator;
   std::string rail_name;
   mathfu::vec3 rail_offset;

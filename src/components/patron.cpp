@@ -15,6 +15,7 @@
 #include "components/patron.h"
 
 #include <vector>
+#include "component_library/common_services.h"
 #include "component_library/physics.h"
 #include "component_library/rendermesh.h"
 #include "component_library/transform.h"
@@ -41,6 +42,7 @@ namespace fpl {
 namespace fpl_project {
 
 using fpl::component_library::CollisionPayload;
+using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::PhysicsData;
 using fpl::component_library::RenderMeshComponent;
@@ -68,7 +70,27 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   auto patron_def = static_cast<const PatronDef*>(raw_data);
   PatronData* patron_data = AddEntity(entity);
   if (patron_def->on_collision() != nullptr) {
-    patron_data->on_collision = patron_def->on_collision();
+    if (entity_manager_->GetComponent<CommonServicesComponent>()
+            ->entity_factory()
+            ->WillBeKeptInMemory(patron_def->on_collision())) {
+      patron_data->on_collision = patron_def->on_collision();
+    } else {
+      // Copy the on_collision into a new flatbuffer that we own.
+      flatbuffers::FlatBufferBuilder fbb;
+      auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
+                               ->component_def_binary_schema();
+      auto schema = reflection::GetSchema(binary_schema);
+      auto table_def = schema->objects()->LookupByKey("ActionDef");
+      flatbuffers::Offset<ActionDef> table =
+          flatbuffers::CopyTable(
+              fbb, *schema, *table_def,
+              (const flatbuffers::Table&)*patron_def->on_collision()).o;
+      fbb.Finish(table);
+      patron_data->on_collision_flatbuffer = {
+          fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
+      patron_data->on_collision = flatbuffers::GetRoot<ActionDef>(
+          patron_data->on_collision_flatbuffer.data());
+    }
   }
   assert(patron_def->pop_out_radius() >= patron_def->pop_in_radius());
   if (patron_def->pop_in_radius()) {
@@ -112,8 +134,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
           ? flatbuffers::Offset<ActionDef>(
                 flatbuffers::CopyTable(
                     fbb, *schema, *table_def,
-                    (const flatbuffers::Table&)(*data->on_collision))
-                    .o)
+                    (const flatbuffers::Table&)(*data->on_collision)).o)
           : 0;
   auto target_tag = fbb.CreateString(data->target_tag);
 

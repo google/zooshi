@@ -14,10 +14,13 @@
 
 #include "components/player_projectile.h"
 
+#include "component_library/common_services.h"
 #include "component_library/transform.h"
 #include "components/services.h"
 #include "events/collision.h"
 #include "events/parse_action.h"
+#include "flatbuffers/flatbuffers.h"
+#include "flatbuffers/reflection.h"
 #include "pindrop/pindrop.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerProjectileComponent,
@@ -27,6 +30,7 @@ namespace fpl {
 namespace fpl_project {
 
 using fpl::component_library::CollisionPayload;
+using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 
@@ -40,7 +44,29 @@ void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
                                                const void* raw_data) {
   auto projectile_def = static_cast<const PlayerProjectileDef*>(raw_data);
   PlayerProjectileData* projectile_data = AddEntity(entity);
-  projectile_data->on_collision = projectile_def->on_collision();
+  if (entity_manager_->GetComponent<CommonServicesComponent>()
+          ->entity_factory()
+          ->WillBeKeptInMemory(projectile_def->on_collision())) {
+    projectile_data->on_collision = projectile_def->on_collision();
+  } else {
+    // Copy into our own storage.
+    // This can be slow! But fortunately it only happens when you are
+    // using the world editor to edit nodes.
+    flatbuffers::FlatBufferBuilder fbb;
+    auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
+                             ->component_def_binary_schema();
+    auto schema = reflection::GetSchema(binary_schema);
+    auto table_def = schema->objects()->LookupByKey("ActionDef");
+    flatbuffers::Offset<ActionDef> table =
+        flatbuffers::CopyTable(
+            fbb, *schema, *table_def,
+            *(const flatbuffers::Table*)projectile_def->on_collision()).o;
+    fbb.Finish(table);
+    projectile_data->on_collision_flatbuffer = {
+        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
+    projectile_data->on_collision = flatbuffers::GetRoot<ActionDef>(
+        projectile_data->on_collision_flatbuffer.data());
+  }
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
