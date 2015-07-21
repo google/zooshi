@@ -14,7 +14,7 @@
 
 varying vec2 vTexCoord;
 uniform sampler2D texture_unit_0;
-varying mediump vec4 vPosition;
+varying highp vec4 vPosition;
 
 // This shader renders the geometry normally, except instead of coloring
 // according to the texture, it generates a depth map.  (Note - we're assuming
@@ -32,7 +32,7 @@ varying mediump vec4 vPosition;
 // The most significant bit in this case is stored in the R channel, and the
 // least is stored in the A channel.
 highp vec4 EncodeFloatRGBA(float v) {
-  vec4 enc = vec4(1.0, 255.0, 65025.0, 160581375.0) * v;
+  highp vec4 enc = vec4(1.0, 255.0, 65025.0, 160581375.0) * v;
   enc = fract(enc);
   enc -= enc.yzww * vec4(1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0);
   return enc;
