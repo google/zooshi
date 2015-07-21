@@ -555,7 +555,7 @@
       ]
     },
 
-    // kPatronLadyMandrill
+    // Lady Mandrill
     {
       "component_list": [
         {
@@ -737,7 +737,7 @@
       ]
     },
 
-    // kPatronMenacingCroc
+    // Menacing Croc
     {
       "component_list": [
         {
@@ -881,7 +881,7 @@
       ]
     },
 
-    // kPatronMoustacheCroc
+    // Moustache Croc
     {
       "component_list": [
         {
@@ -1015,7 +1015,7 @@
       ]
     },
 
-    // kProjectile
+    // Projectile
     {
       "component_list": [
         {
@@ -1100,7 +1100,7 @@
       ]
     },
 
-    // kSplatterParticle
+    // Splatter Particle
     {
       "component_list": [
         {
@@ -1146,7 +1146,7 @@
       ]
     },
 
-    // kGround
+    // Ground
     {
       "component_list": [
         {
@@ -1173,7 +1173,7 @@
       ]
     },
 
-    // kBackground
+    // Background
     {
       "component_list": [
         {
@@ -1199,7 +1199,7 @@
       ]
     },
 
-    // kMidGroundTree
+    // Mid-Ground Tree
     {
       "component_list": [
         {
@@ -1224,7 +1224,7 @@
       ]
     },
 
-    // kSushiGarden
+    // Sushi Garden
     {
       "component_list": [
         {
@@ -1324,7 +1324,7 @@
       ]
     },
 
-    // kSkyBox
+    // Sky Box
     {
       "component_list": [
         {
@@ -1367,7 +1367,7 @@
       ]
     },
 
-    // kBambooMat
+    // Bamboo Mat
     {
       "component_list": [
         {
@@ -1526,7 +1526,7 @@
       ]
     },
 
-    // kRockSmallest
+    // Rock Smallest
     {
       "component_list": [
         {
@@ -1573,7 +1573,7 @@
       ]
     },
 
-    // kRockSmaller
+    // Rock Smaller
     {
       "component_list": [
         {
@@ -1620,7 +1620,7 @@
       ]
     },
 
-    // kRockShort
+    // Rock Short
     {
       "component_list": [
         {
@@ -1667,7 +1667,7 @@
       ]
     },
 
-    // kRockMid
+    // Rock Mid
     {
       "component_list": [
         {
@@ -1714,7 +1714,7 @@
       ]
     },
 
-    // kRockTall
+    // Rock Tall
     {
       "component_list": [
         {
@@ -1761,7 +1761,7 @@
       ]
     },
 
-    // kFernShort
+    // Fern Short
     {
       "component_list": [
         {
@@ -1808,7 +1808,7 @@
       ]
     },
 
-    // kFernMid
+    // Fern Mid
     {
       "component_list": [
         {
@@ -1855,7 +1855,7 @@
       ]
     },
 
-    // kFernTall
+    // Fern Tall
     {
       "component_list": [
         {
@@ -1902,7 +1902,7 @@
       ]
     },
 
-    // kGrassDense
+    // Grass Dense
     {
       "component_list": [
         {
@@ -1926,7 +1926,7 @@
       ]
     },
 
-    // kGrassSmall
+    // Grass Small
     {
       "component_list": [
         {
@@ -1973,7 +1973,7 @@
       ]
     },
 
-    // kGrassWide
+    // Grass Wide
     {
       "component_list": [
         {

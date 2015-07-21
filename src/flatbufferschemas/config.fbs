@@ -19,32 +19,6 @@ include "world_editor_config.fbs";
 
 namespace fpl.fpl_project;
 
-enum EntityDefs : byte {
-  kPatronLadyMandrill,
-  kPatronMenacingCroc,
-  kPatronMoustacheCroc,
-  kProjectile,
-  kSplatterParticle,
-  kGround,
-  kBackground,
-  kMidGroundTree,
-  kSushiGarden,
-  kSkybox,
-  kBambooMat,
-  kRockSmallest,
-  kRockSmaller,
-  kRockShort,
-  kRockMid,
-  kRockTall,
-  kFernShort,
-  kFernMid,
-  kFernTall,
-  kGrassDense,
-  kGrassSmall,
-  kGrassWide,
-  kNumEntityDef
-}
-
 // One point in the river cross-section.
 //
 // 0      1     2    3     4     5          6    7
@@ -136,59 +110,6 @@ table RenderConfig {
   fog_max_saturation:float;
 }
 
-table EntityGrid {
-  // Entity to repeat in x-y grid pattern.
-  entity:EntityDefs;
-
-  // Number of entities in x and y directions.
-  count:fpl.Vec3i;
-
-  // Distance between entities in x and y directions.
-  separation:fpl.Vec3;
-
-  // Center of the grid.
-  position:fpl.Vec3;
-
-  // Scale applied to each entity.
-  scale:fpl.Vec3;
-}
-
-table EntityRing {
-  // Entity to repeat along an x-y circle.
-  entity:EntityDefs;
-
-  // Number of entities in along the ring.
-  count:int;
-
-  // Distance from the center of the ring.
-  radius:float;
-
-  orientation_offset_angle:float;
-
-  // Placement of first entity on ring, in degrees from x-axis towards y-axis.
-  position_offset_angle:float;
-
-  // Center of the ring.
-  position:fpl.Vec3;
-
-  // Scale applied to each entity.
-  scale:fpl.Vec3;
-}
-
-table PredefinedEntity {
-  // Entity type to place at the given location.
-  entity:EntityDefs;
-
-  // The location to place it at.
-  position:fpl.Vec3;
-
-  // The orientation to place it at.
-  orientation:fpl.Vec3;
-
-  // Scale applied to the entity.
-  scale:fpl.Vec3;
-}
-
 table Config {
   // Audio engine configuration file.
   audio_config:string;
@@ -215,21 +136,6 @@ table Config {
   bullet_max_steps: int;
 
   world_editor_config: fpl.editor.WorldEditorConfig;
-
-  // Entities to spawn in the scene at start.
-  entity_list:[fpl.EntityDef] (deprecated);
-
-  // Entities to spawn multiple times, at start, in a rectangular pattern.
-  entity_grid_list:[EntityGrid] (deprecated);
-
-  // Entities to spawn multiple times, at start, in a circular pattern.
-  entity_ring_list:[EntityRing] (deprecated);
-
-  // Entities to spawn in the scene, from the list of predefined ones.
-  predefined_entity_list:[PredefinedEntity] (deprecated);
-
-  // List of groups of things that can instantiated in the world.
-  entity_defs:[fpl.EntityDef] (deprecated);
 
   // Entity files to load.
   entity_files:[string];
