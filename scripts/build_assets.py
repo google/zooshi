@@ -447,7 +447,7 @@ def convert_png_image_to_webp(cwebp, png, out, quality=80):
   run_subprocess(command)
 
 
-def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats):
+def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats, recenter):
   """Run the mesh_pipeline on the given fbx file.
 
   Args:
@@ -458,7 +458,8 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats
     BuildError: Process return code was nonzero.
   """
   command = [MESH_PIPELINE, '-d', '-b', target_directory, '-r', MESH_REL_DIR,
-             '-f', texture_formats, fbx]
+             '-f', '' if texture_formats is None else texture_formats,
+             '' if recenter is None else '-c', fbx]
   run_subprocess(command)
 
 
@@ -534,12 +535,12 @@ def anim_files_to_convert():
   return (glob.glob(os.path.join(RAW_ANIM_PATH, '*.fbx')) +
           glob.glob(os.path.join(INTERNAL_ANIM_PATH, '*.fbx')))
 
-def mesh_texture_formats(fbx, meta):
+def mesh_meta_value(fbx, meta, key):
   mesh_meta = meta['mesh_meta']
   for entry in mesh_meta:
-    if entry['name'] in fbx:
-      return entry['texture_format']
-  return ''
+    if entry['name'] in fbx and key in entry:
+      return entry[key]
+  return None
 
 def generate_mesh_binaries(target_directory, meta):
   """Run the mesh pipeline on the all of the FBX files.
@@ -550,9 +551,10 @@ def generate_mesh_binaries(target_directory, meta):
   input_files = fbx_files_to_convert()
   for fbx in input_files:
     target = processed_mesh_path(fbx, target_directory)
-    texture_formats = mesh_texture_formats(fbx, meta)
+    texture_formats = mesh_meta_value(fbx, meta, 'texture_format')
+    recenter = mesh_meta_value(fbx, meta, 'recenter')
     if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
-      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats)
+      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats, recenter)
 
 def generate_anim_binaries(target_directory):
   """Run the mesh pipeline on the all of the FBX files.
