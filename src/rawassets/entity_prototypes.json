@@ -1409,36 +1409,13 @@
       ]
     },
 
-    // kRockSmall
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "RockSmall"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "child_ids": [ "RockSmall_RenderMesh" ]
-          }
-        },
-        {
-          "data_type": "EditOptionsDef",
-          "data": {
-            "selection_option": "PointerOnly"
-          }
-        }
-      ]
-    },
 
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "RockSmall_RenderMesh",
+            "entity_id": "GrassDense_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
@@ -1449,54 +1426,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/rock_small.fplmesh",
-            "shader": "shaders/cardboard"
-          }
-        }
-      ]
-    },
-
-    // kFern
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "Fern"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "child_ids": [ "Fern_RenderMesh" ]
-          }
-        },
-        {
-          "data_type": "EditOptionsDef",
-          "data": {
-            "selection_option": "PointerOnly"
-          }
-        }
-      ]
-    },
-
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "Fern_RenderMesh",
-            "prototype": "RenderMeshPrototype"
-          }
-        },                  {
-          "data_type": "TransformDef",
-          "data": {
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/fern.fplmesh",
+            "source_file":"meshes/grass_dense.fplmesh",
             "shader": "shaders/textured_shadowed"
           }
         }
@@ -1525,6 +1455,7 @@
         }
       ]
     },
+
     {
       "component_list": [
         {
@@ -1590,6 +1521,500 @@
             "source_file":"meshes/lumpy_tree.fplmesh",
             "shader": "shaders/textured_shadowed",
             "render_pass" : ["kAlpha"]
+          }
+        }
+      ]
+    },
+
+    // kRockSmallest
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockSmallest"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "RockSmallest_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockSmallest_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/rock_smallest.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kRockSmaller
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockSmaller"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "RockSmaller_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockSmaller_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/rock_smaller.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kRockShort
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockShort"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "RockShort_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockShort_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/rock_short.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kRockMid
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockMid"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "RockMid_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockMid_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/rock_mid.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kRockTall
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockTall"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "RockTall_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockTall_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/rock_tall.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kFernShort
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "FernShort"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "FernShort_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "FernShort_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/fern_short.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kFernMid
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "FernMid"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "FernMid_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "FernMid_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/fern_mid.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kFernTall
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "FernTall"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "FernTall_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "FernTall_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/fern_tall.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kGrassDense
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GrassDense"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "GrassDense_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    // kGrassSmall
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GrassSmall"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "GrassSmall_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GrassSmall_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/grass_small.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // kGrassWide
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GrassWide"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "GrassWide_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GrassWide_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/grass_wide.fplmesh",
+            "shader": "shaders/textured_shadowed"
           }
         }
       ]
