@@ -13,6 +13,7 @@
 // limitations under the License.
 
 include "audio_config.fbs";
+include "common.fbs";
 include "components.fbs";
 include "world_editor_config.fbs";
 
@@ -112,6 +113,19 @@ table RenderConfig {
 
   // Intensity of shadows.  1.0 = solid black, 0.0 = invisible shadows.
   shadow_intensity:float;
+
+  // Minimum distance at which the fog does anything.
+  fog_roll_in_dist:float;
+
+  // Distance after which the fog no longer affects the color of the object.
+  fog_max_dist:float;
+
+  // The color of the fog.
+  fog_color:fpl.ColorRGBA;
+
+  // The saturation of the color - 1.0 means that at max distance, objects
+  // will be entirely fog_color-colored.  0.0 means that the fog has no effect.
+  fog_max_saturation:float;
 }
 
 table EntityGrid {

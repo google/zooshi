@@ -22,6 +22,7 @@ attribute mediump vec4 aPosition;
 varying mediump vec4 vShadowPosition;
 attribute mediump vec2 aTexCoord;
 varying mediump vec2 vTexCoord;
+varying lowp float vDepth;
 
 uniform mediump mat4 model;
 uniform mediump mat4 view_projection;
@@ -34,5 +35,7 @@ void main()
   // vShadowPosition represents the position of the point, from the point of
   // view of the light-source.
   vShadowPosition = light_view_projection * model * aPosition;
-  gl_Position = view_projection * model * aPosition;
+  vec4 position = view_projection * model * aPosition;
+  vDepth = position.z * position.w;
+  gl_Position = position;
 }

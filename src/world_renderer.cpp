@@ -129,6 +129,15 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
   textured_shadowed_shader_->SetUniform("shadow_intensity",
       world->config->rendering_config()->shadow_intensity());
 
+  textured_shadowed_shader_->SetUniform("fog_roll_in_dist",
+      world->config->rendering_config()->fog_roll_in_dist());
+  textured_shadowed_shader_->SetUniform("fog_max_dist",
+      world->config->rendering_config()->fog_max_dist());
+  textured_shadowed_shader_->SetUniform("fog_color",
+      LoadColorRGBA(world->config->rendering_config()->fog_color()));
+  textured_shadowed_shader_->SetUniform("fog_max_saturation",
+      world->config->rendering_config()->fog_max_saturation());
+
   shadow_map_.BindAsTexture(kShadowMapTextureID);
 
   for (int pass = 0; pass < RenderPass_kCount; pass++) {
