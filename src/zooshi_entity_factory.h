@@ -41,8 +41,6 @@ class ZooshiEntityFactory : public component_library::EntityFactory {
 
   virtual bool CreateEntityList(const std::vector<const void*>& entity_defs,
                                 std::vector<uint8_t>* entity_list);
-
-  const EntityDef* entity_library_;
 };
 
 }  // namespace fpl_project

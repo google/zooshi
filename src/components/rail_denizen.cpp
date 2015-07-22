@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <limits>
+#include "component_library/common_services.h"
 #include "component_library/transform.h"
 #include "components/services.h"
 #include "components/rail_node.h"
@@ -42,6 +43,7 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
 namespace fpl {
 namespace fpl_project {
 
+using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformData;
 using fpl::component_library::TransformComponent;
 
@@ -124,7 +126,29 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
     data->rail_name = rail_denizen_def->rail_name()->c_str();
 
   data->start_time = rail_denizen_def->start_time();
-  data->on_new_lap = rail_denizen_def->on_new_lap();
+  if (rail_denizen_def->on_new_lap()) {
+    if (entity_manager_->GetComponent<CommonServicesComponent>()
+            ->entity_factory()
+            ->WillBeKeptInMemory(rail_denizen_def->on_new_lap())) {
+      data->on_new_lap = rail_denizen_def->on_new_lap();
+    } else {
+      // Copy the on_new_lap from the source flatbuffer into our own memory.
+      flatbuffers::FlatBufferBuilder fbb;
+      auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
+                               ->component_def_binary_schema();
+      auto schema = reflection::GetSchema(binary_schema);
+      auto table_def = schema->objects()->LookupByKey("ActionDef");
+      flatbuffers::Offset<ActionDef> table =
+          flatbuffers::CopyTable(
+              fbb, *schema, *table_def,
+              *(const flatbuffers::Table*)rail_denizen_def->on_new_lap()).o;
+      fbb.Finish(table);
+      data->on_new_lap_flatbuffer = {fbb.GetBufferPointer(),
+                                     fbb.GetBufferPointer() + fbb.GetSize()};
+      data->on_new_lap =
+          flatbuffers::GetRoot<ActionDef>(data->on_new_lap_flatbuffer.data());
+    }
+  }
   data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
 
   auto offset = rail_denizen_def->rail_offset();
@@ -192,8 +216,7 @@ RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
           ? flatbuffers::Offset<ActionDef>(
                 flatbuffers::CopyTable(
                     fbb, *schema, *table_def,
-                    (const flatbuffers::Table&)(*data->on_new_lap))
-                    .o)
+                    (const flatbuffers::Table&)(*data->on_new_lap)).o)
           : 0;
 
   RailDenizenDefBuilder builder(fbb);

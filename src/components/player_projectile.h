@@ -33,6 +33,7 @@ struct PlayerProjectileData {
   entity::EntityRef owner;  // The player that "owns" this projectile.
   // The event to trigger when colliding with another entity.
   const ActionDef* on_collision;
+  std::vector<unsigned char> on_collision_flatbuffer;
 };
 
 class PlayerProjectileComponent
