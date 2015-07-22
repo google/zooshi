@@ -13,6 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# readlink works differently on osx than it does on linux. This function is a
+# workaround
+realpath() {
+  [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+
 main() {
   local dist_dir=
   while getopts "d:h" options; do
@@ -24,12 +30,12 @@ main() {
   done
 
   # Generate makefile and build the game.
-  cd "$(dirname "$(readlink -f $0)")/.."
+  cd "$(dirname "$(realpath $0)")/.."
   cmake .
   make
 
   # Put everything into an archive and put that in the supplied dist_dir.
-  tar -czvf zooshi-$(date +%Y%m%d).tar.gz bin/zooshi assets
+  tar -czvf zooshi-$(date +%Y%m%d).tar.gz bin/zooshi assets run.command
   if [[ -n "${dist_dir}" ]]; then
     cp zooshi-$(date +%Y%m%d).tar.gz ${dist_dir}
   fi

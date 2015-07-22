@@ -21,9 +21,6 @@
 # Change to current directory (becuase of how macs run .command files)
 cd `dirname $0`
 
-# Process .json files.
-python ./scripts/build_assets.py
-
 # Run the game.
 for exe in ./bin/zooshi ./bin/Release/zooshi ./bin/Debug/zooshi; do
   if [[ -e ${exe} ]]; then
