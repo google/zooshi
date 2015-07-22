@@ -18,15 +18,11 @@
 #include "camera.h"
 #include "fplbase/input.h"
 #include "states/state_machine.h"
+#include "fplbase/asset_manager.h"
+#include "flatui/font_manager.h"
+#include "fplbase/input.h"
 
 namespace fpl {
-
-class AssetManager;
-class FontManager;
-class InputSystem;
-
-struct AssetManager;
-
 namespace fpl_project {
 struct InputConfig;
 class World;
