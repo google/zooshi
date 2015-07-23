@@ -122,13 +122,13 @@
           "data": {
             "position": {
               "x": 0.0,
-              "y": 0.0,
-              "z": -2.0
+              "y": 2.0,
+              "z": -1.7
             },
             "scale": {
-              "x": 10.0,
-              "y": 10.0,
-              "z": 10.0
+              "x": 0.8,
+              "y": 0.8,
+              "z": 0.8
             },
             "child_ids": ["Sign"]
           }
@@ -136,7 +136,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file": "meshes/bamboo_mat.fplmesh",
+            "source_file": "meshes/raft.fplmesh",
             "shader": "shaders/textured_shadowed"
           }
         }
@@ -266,14 +266,14 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -0.2,
-              "y": 0.37,
-              "z": 0.01
+              "x": -2.5,
+              "y": 3.7,
+              "z": 0.125
             },
             "scale": {
-              "x": 0.15,
-              "y": 0.15,
-              "z": 0.15
+              "x": 1.9,
+              "y": 1.9,
+              "z": 1.9
             },
             "orientation": {
               "x": 0.0,
@@ -1366,49 +1366,6 @@
         }
       ]
     },
-
-    // Bamboo Mat
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "BambooMat"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "child_ids": [ "BambooMat_RenderMesh" ]
-          }
-        }
-      ]
-    },
-
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "BambooMat_RenderMesh",
-            "prototype": "RenderMeshPrototype"
-          }
-        },                  {
-          "data_type": "TransformDef",
-          "data": {
-            "scale": { "x": 3.0, "y": 3.0, "z": 3.0 }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/bamboo_mat.fplmesh",
-            "shader": "shaders/textured_shadowed"
-          }
-        }
-      ]
-    },
-
 
     {
       "component_list": [
