@@ -33,7 +33,7 @@
   },
 
   "rendering_config" : {
-    "shadow_map_resolution": 1024,
+    "shadow_map_resolution": 512,
     "shadow_map_zoom": 2.0,
     "shadow_map_offset": 6.0,
     "light_position": { "x": 0.0, "y": 0.0, "z": 60 },
