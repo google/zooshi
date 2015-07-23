@@ -52,7 +52,7 @@ void main() {
   // We add in a slight bias, to cut down on shadow acne.
   // (i. e. rounding errors making front surfaces still appear
   // to be in shadow because the depths being compared are too close)
-  const float bias = 0.020;
+  const float bias = 0.007;
   const float one_minus_bias = 1.0 - bias;
 
   depth = depth * one_minus_bias + bias;
