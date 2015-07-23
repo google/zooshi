@@ -1412,7 +1412,6 @@
         }
       ]
     },
-
     {
       "component_list": [
         {
@@ -1972,6 +1971,147 @@
           "data" : {
             "source_file":"meshes/grass_wide.fplmesh",
             "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // Large Mountain
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "LargeMountain"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "LargeMountain_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "LargeMountain_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/large_mountain.fplmesh",
+            "shader": "shaders/textured_shadowed",
+            "render_pass" : ["kAlpha"]
+          }
+        }
+      ]
+    },
+
+    // Skinny Mountain
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "SkinnyMountain"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "SkinnyMountain_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "SkinnyMountain_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/skinny_mountain.fplmesh",
+            "shader": "shaders/textured_shadowed",
+            "render_pass" : ["kAlpha"]
+          }
+        }
+      ]
+    },
+
+    // Wide Mountain
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "WideMountain"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "WideMountain_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "WideMountain_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/wide_mountain.fplmesh",
+            "shader": "shaders/textured_shadowed",
+            "render_pass" : ["kAlpha"]
           }
         }
       ]
