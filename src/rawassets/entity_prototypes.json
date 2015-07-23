@@ -130,7 +130,7 @@
               "y": 0.8,
               "z": 0.8
             },
-            "child_ids": ["Sign"]
+            "child_ids": ["Sign", "RaftShrimp", "RaftSalmon"]
           }
         },
         {
@@ -142,6 +142,61 @@
         }
       ]
     },
+
+    // Raft Shrimp
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RaftShrimp"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 1.7, "y": 1.7, "z": 0.5 },
+            "scale": { "x": 15, "y": 15, "z": 15 },
+            "orientation": { "x": 0, "y": 0, "z": 45 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_shrimp.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // Raft Salmon
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RaftSalmon"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 1.4, "y": 2.8, "z": 0.5 },
+            "scale": { "x": 15, "y": 15, "z": 15 },
+            "orientation": { "x": -90, "y": 15, "z": 0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sushi_salmon.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
 
     // Digit
     {
@@ -1218,106 +1273,6 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_saturated.fplmesh",
-            "shader": "shaders/textured_shadowed"
-          }
-        }
-      ]
-    },
-
-    // Sushi Garden
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "SushiGarden"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 0, "y": 0, "z": -2.2 },
-            "scale": { "x": 1.1, "y": 1.1, "z": 1.1 },
-            "child_ids" :
-            [
-              "SushiGarden_Sushi1",
-              "SushiGarden_Sushi2",
-              "SushiGarden_Sushi3"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id" : "SushiGarden_Sushi1"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
-            "position": { "x": 2.0, "y": 5.0, "z": 1.0 },
-            "orientation": { "x": 0.0, "y": 0.0, "z": 40.0 }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_shadowed"
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id" : "SushiGarden_Sushi2"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
-            "position": { "x": 0.0, "y": 0.0, "z": 1.0 },
-            "orientation": { "x": 0.0, "y": 0.0, "z": -10.0 }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_shadowed"
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id" : "SushiGarden_Sushi3"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 },
-            "position": { "x": -4.0, "y": 4.0, "z": 1.0 },
-            "orientation": { "x": 0.0, "y": 0.0, "z": 70.0 }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/sushi_shrimp.fplmesh",
             "shader": "shaders/textured_shadowed"
           }
         }
