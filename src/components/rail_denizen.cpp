@@ -16,6 +16,7 @@
 
 #include <algorithm>
 #include <limits>
+#include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/transform.h"
 #include "components/services.h"
@@ -43,6 +44,7 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
 namespace fpl {
 namespace fpl_project {
 
+using fpl::component_library::AnimationComponent;
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformData;
 using fpl::component_library::TransformComponent;
@@ -71,8 +73,6 @@ void RailDenizenData::Initialize(const Rail& rail, float start_time) {
 void RailDenizenComponent::Init() {
   ServicesComponent* services =
       entity_manager_->GetComponent<ServicesComponent>();
-
-  engine_ = services->motive_engine();
 
   services->event_manager()->RegisterListener(EventSinkUnion_ChangeRailSpeed,
                                               this);
@@ -169,7 +169,9 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 
-  data->motivator.Initialize(motive::SmoothInit(), engine_);
+  motive::MotiveEngine& engine =
+      entity_manager_->GetComponent<AnimationComponent>()->engine();
+  data->motivator.Initialize(motive::SmoothInit(), &engine);
   data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
 
   InitializeRail(entity);

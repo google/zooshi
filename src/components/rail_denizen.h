@@ -81,9 +81,6 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
 
  private:
   void InitializeRail(entity::EntityRef&);
-
-  // A pointer to the MotiveEngine used to spawn motivators.
-  motive::MotiveEngine* engine_;
 };
 
 }  // fpl_project

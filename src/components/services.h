@@ -48,7 +48,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
 
   void Initialize(const Config* config, AssetManager* asset_manager,
                   InputSystem* input_system, pindrop::AudioEngine* audio_engine,
-                  motive::MotiveEngine* motive_engine,
                   event::EventManager* event_manager, FontManager* font_manager,
                   RailManager* rail_manager,
                   component_library::EntityFactory* entity_factory,
@@ -57,7 +56,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
     asset_manager_ = asset_manager;
     input_system_ = input_system;
     audio_engine_ = audio_engine;
-    motive_engine_ = motive_engine;
     event_manager_ = event_manager;
     font_manager_ = font_manager;
     rail_manager_ = rail_manager;
@@ -68,7 +66,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
   const Config* config() { return config_; }
   AssetManager* asset_manager() { return asset_manager_; }
   pindrop::AudioEngine* audio_engine() { return audio_engine_; }
-  motive::MotiveEngine* motive_engine() { return motive_engine_; }
   event::EventManager* event_manager() { return event_manager_; }
   FontManager* font_manager() { return font_manager_; }
   InputSystem* input_system() { return input_system_; }
@@ -102,7 +99,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
   const Config* config_;
 
   AssetManager* asset_manager_;
-  motive::MotiveEngine* motive_engine_;
   pindrop::AudioEngine* audio_engine_;
   event::EventManager* event_manager_;
   InputSystem* input_system_;

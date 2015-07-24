@@ -138,6 +138,7 @@ table AttributesDef {}
 table ScoreDef {}
 table ServicesDef {}
 table ShadowControllerDef {}
+table AnimationDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
@@ -163,6 +164,7 @@ union ComponentDataUnion {
   RailNodeDef,
   TransformDef,
   fpl.editor.EditOptionsDef,
+  AnimationDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

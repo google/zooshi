@@ -18,6 +18,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/entity_factory.h"
 #include "component_library/meta.h"
@@ -42,7 +43,6 @@
 #include "fplbase/renderer.h"
 #include "fplbase/render_target.h"
 #include "inputcontrollers/base_player_controller.h"
-#include "motive/engine.h"
 #include "railmanager.h"
 #include "world_editor/edit_options.h"
 #include "world_editor/world_editor.h"
@@ -79,8 +79,6 @@ class World {
                   event::EventManager* event_manager, Renderer* renderer,
                   const motive::AnimTable* anim_table);
 
-  motive::MotiveEngine motive_engine;
-
   // Entity manager
   entity::EntityManager entity_manager;
 
@@ -92,6 +90,7 @@ class World {
 
   // Components
   component_library::TransformComponent transform_component;
+  component_library::AnimationComponent animation_component;
   RailDenizenComponent rail_denizen_component;
   PlayerComponent player_component;
   PlayerProjectileComponent player_projectile_component;

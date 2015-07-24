@@ -75,7 +75,6 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
 }
 
 void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
-  world_->motive_engine.AdvanceFrame(delta_time);
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
 

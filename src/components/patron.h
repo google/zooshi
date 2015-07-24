@@ -41,7 +41,10 @@ enum PatronState {
   // Standing up, ready to be hit by the player.
   kPatronStateUpright,
 
-  // The patron has been hit, and is falling down.
+  // The patron has been fed, and is enjoying the sushi.
+  kPatronStateFed,
+
+  // The is falling down after being fed, or after going out of range.
   kPatronStateFalling,
 
   // The patron is within range of the boad, and is standing up.
@@ -53,9 +56,7 @@ struct PatronData {
   PatronData()
       : on_collision(nullptr),
         state(kPatronStateLayingDown),
-        last_lap_fed(-1),
-        y(0.0f),
-        dy(0.0f) {}
+        last_lap_fed(-1) {}
 
   // The event to trigger when a projectile collides with this patron.
   const TaggedActionDefList* on_collision;
@@ -67,12 +68,6 @@ struct PatronData {
   // Keep track of the last time this patron was fed so we know whether they
   // should pop up this lap.
   int last_lap_fed;
-
-  // misc data for simulating the fall:
-  mathfu::quat original_orientation;
-  mathfu::quat falling_rotation;
-  float y;
-  float dy;
 
   // If the raft entity is within the pop_in_range it will stand up. If it is
   // once up, if it's not in the pop out range, it will fall down. As a minor
@@ -91,6 +86,10 @@ struct PatronData {
   // The tag of the body part that needs to be hit to trigger a fall.
   // Note that an empty name means any collision counts.
   std::string target_tag;
+
+  // The child of the patron entity that has a RenderMeshComponent and
+  // an AnimationComponent.
+  entity::EntityRef render_child;
 };
 
 class PatronComponent : public entity::Component<PatronData>,
@@ -114,6 +113,7 @@ class PatronComponent : public entity::Component<PatronData>,
                        const entity::EntityRef& proj_entity,
                        const std::string& part_tag);
   void SpawnSplatter(const mathfu::vec3& position, int count);
+  void Animate(const PatronData* patron_data, PatronAction action);
 
   const Config* config_;
   event::EventManager* event_manager_;

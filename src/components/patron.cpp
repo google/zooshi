@@ -15,6 +15,7 @@
 #include "components/patron.h"
 
 #include <vector>
+#include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/physics.h"
 #include "component_library/rendermesh.h"
@@ -29,6 +30,8 @@
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
+#include "motive/anim.h"
+#include "motive/anim_table.h"
 #include "world.h"
 #include "world_editor/editor_event.h"
 
@@ -41,6 +44,8 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PatronComponent,
 namespace fpl {
 namespace fpl_project {
 
+using fpl::component_library::AnimationComponent;
+using fpl::component_library::AnimationData;
 using fpl::component_library::CollisionPayload;
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::PhysicsComponent;
@@ -49,13 +54,10 @@ using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
+using motive::MotiveTime;
 
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kSplatterCount = 10;
-
-static const float kGravity = 0.05f;
-static const float kAtRestThreshold = 0.005f;
-static const float kBounceFactor = 0.4f;
 
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
@@ -159,24 +161,29 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
 void PatronComponent::PostLoadFixup() {
+  const TransformComponent* transform_component =
+      entity_manager_->GetComponent<TransformComponent>();
+
+  // Initialize each patron.
   auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    // Fall down along the local y-axis
     entity::EntityRef patron = iter->entity;
-    TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
-    vec3 spin_direction_vector =
-        transform_data->orientation.Inverse() * mathfu::kAxisY3f;
-    patron_data->falling_rotation =
-        quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
+
+    // Get reference to the first child with a rendermesh. We assume there will
+    // only be one such child.
+    patron_data->render_child = transform_component->ChildWithComponent(
+        patron, RenderMeshComponent::GetComponentId());
+    assert(patron_data->render_child);
+
+    // Animate the entity with the rendermesh.
+    entity_manager_->AddEntityToComponent<AnimationComponent>(
+        patron_data->render_child);
+
+    // Initialize state machine.
     patron_data->state = kPatronStateLayingDown;
-    patron_data->y = 0;
-    patron_data->original_orientation = transform_data->orientation;
-    transform_data->orientation =
-        patron_data->original_orientation *
-        quat::Slerp(quat::identity, patron_data->falling_rotation,
-                    1.0f - patron_data->y);
+
     // Patrons that are done should not have physics enabled.
     physics_component->DisablePhysics(patron);
     // We don't want patrons moving until they are up.
@@ -200,7 +207,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     entity::EntityRef patron = iter->entity;
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
-    PatronState& state = patron_data->state;
+    const PatronState state = patron_data->state;
 
     RenderMeshComponent* rm_component =
         entity_manager_->GetComponent<RenderMeshComponent>();
@@ -218,6 +225,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       // If you are too far away, and the patron is standing up (or getting up)
       // make them fall back down.
       patron_data->state = kPatronStateFalling;
+      Animate(patron_data, PatronAction_Fall);
+
       auto physics_component =
           entity_manager_->GetComponent<PhysicsComponent>();
       physics_component->DisablePhysics(patron);
@@ -234,49 +243,57 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       // down) and they have not been fed this lap, and they are in the range of
       // laps in which they should appear, make them stand back up.
       patron_data->state = kPatronStateGettingUp;
+      Animate(patron_data, PatronAction_GetUp);
     }
 
-    // For our simple simulation of falling and bouncing, Y is always
-    // guaranteed to be between 0 and 1.
-    float seconds = static_cast<float>(delta_time) / kMillisecondsPerSecond;
-    if (patron_data->state == kPatronStateFalling) {
-      // Some basic math to fake a convincing fall + bounce on a hinge joint.
-      patron_data->dy -= seconds * kGravity;
-      patron_data->y += patron_data->dy;
-      if (patron_data->y < 0.0f) {
-        patron_data->dy *= -kBounceFactor;
-        patron_data->y = 0.0f;
-        if (patron_data->dy < kAtRestThreshold) {
-          patron_data->dy = 0.0f;
-          patron_data->state = kPatronStateLayingDown;
+    // Transition to the next state if we're at the end of the current
+    // animation.
+    AnimationData* anim_data = Data<AnimationData>(patron_data->render_child);
+    if (anim_data->motivator.Valid()) {
+      const MotiveTime time_remaining = anim_data->motivator.TimeRemaining();
+      const bool anim_ending = time_remaining <
+                               static_cast<MotiveTime>(delta_time);
+      if (anim_ending) {
+        switch (patron_data->state) {
+          case kPatronStateFed:
+            patron_data->state = kPatronStateFalling;
+            Animate(patron_data, PatronAction_Fall);
+            break;
+
+          case kPatronStateFalling:
+            patron_data->state = kPatronStateLayingDown;
+            break;
+
+          case kPatronStateGettingUp: {
+            patron_data->state = kPatronStateUpright;
+            auto physics_component =
+                entity_manager_->GetComponent<PhysicsComponent>();
+            physics_component->EnablePhysics(patron);
+            auto rail_denizen_data = Data<RailDenizenData>(patron);
+            if (rail_denizen_data != nullptr) {
+              rail_denizen_data->enabled = true;
+            }
+          } //fallthrough
+
+          case kPatronStateUpright:
+            Animate(patron_data, PatronAction_Idle);
+            break;
+
+          default: break;
         }
       }
-      transform_data->orientation =
-          patron_data->original_orientation *
-          quat::Slerp(quat::identity, patron_data->falling_rotation,
-                      1.0f - patron_data->y);
-    } else if (patron_data->state == kPatronStateGettingUp) {
-      // Like above, but 'falling' up no bouncing.
-      patron_data->dy += seconds * kGravity;
-      patron_data->y += patron_data->dy;
-      if (patron_data->y >= 1.0f) {
-        patron_data->y = 1.0f;
-        patron_data->dy = 0.0f;
-        patron_data->state = kPatronStateUpright;
-        auto physics_component =
-            entity_manager_->GetComponent<PhysicsComponent>();
-        physics_component->EnablePhysics(patron);
-        auto rail_denizen_data = Data<RailDenizenData>(patron);
-        if (rail_denizen_data != nullptr) {
-          rail_denizen_data->enabled = true;
-        }
-      }
-      transform_data->orientation =
-          patron_data->original_orientation *
-          quat::Slerp(quat::identity, patron_data->falling_rotation,
-                      1.0f - patron_data->y);
     }
   }
+}
+
+void PatronComponent::Animate(const PatronData* patron_data,
+                              PatronAction action) {
+  auto services_component = entity_manager_->GetComponent<ServicesComponent>();
+  const motive::AnimTable* anim_table = services_component->anim_table();
+  const motive::MatrixAnim& anim = anim_table->Query(AnimObject_Patron, action);
+
+  entity_manager_->GetComponent<AnimationComponent>()->Animate(
+      patron_data->render_child, anim);
 }
 
 void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
@@ -302,9 +319,6 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
         for (auto iter = component_data_.begin(); iter != component_data_.end();
              ++iter) {
           entity::EntityRef patron = iter->entity;
-          TransformData* transform_data = Data<TransformData>(patron);
-          PatronData* patron_data = Data<PatronData>(patron);
-          transform_data->orientation = patron_data->original_orientation;
           physics_component->UpdatePhysicsFromTransform(patron);
           physics_component->EnablePhysics(patron);
         }
@@ -334,21 +348,9 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
     // If the target tag was hit, consider it being fed
     if (patron_data->target_tag == "" || patron_data->target_tag == part_tag) {
       // TODO: Make state change an action.
-      patron_data->state = kPatronStateFalling;
+      patron_data->state = kPatronStateFed;
+      Animate(patron_data, PatronAction_Fed);
       patron_data->last_lap_fed = raft_rail_denizen->lap;
-
-      // Fall away from the raft position, on the y-axis.
-      auto patron_transform = Data<TransformData>(patron_entity);
-      auto raft_transform = raft ? Data<TransformData>(raft) : nullptr;
-      vec3 hit_to_patron =
-          patron_transform->orientation *
-          (patron_transform->position - raft_transform->position);
-      vec3 down_axis =
-          hit_to_patron.y() > 0 ? mathfu::kAxisY3f : -mathfu::kAxisY3f;
-      vec3 spin_direction_vector =
-          patron_transform->orientation.Inverse() * down_axis;
-      patron_data->falling_rotation =
-          quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
 
       // Disable physics and rail movement after they have been fed
       auto physics_component =

@@ -42,7 +42,6 @@ static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
 
 void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   // Update the world.
-  world_->motive_engine.AdvanceFrame(delta_time);
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
 

@@ -69,9 +69,8 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   common_services_component.Initialize(asset_manager, entity_factory.get(),
                                        event_manager, input_system, renderer);
   services_component.Initialize(
-      config, asset_manager, input_system, audio_engine, &motive_engine,
-      event_manager, font_manager, &rail_manager, entity_factory.get(),
-      anim_table);
+      config, asset_manager, input_system, audio_engine, event_manager,
+      font_manager, &rail_manager, entity_factory.get(), anim_table);
 
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&common_services_component),
@@ -124,6 +123,9 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&edit_options_component_),
       ComponentDataUnion_EditOptionsDef, "EditOptionsDef");
+  entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&animation_component),
+      ComponentDataUnion_AnimationDef, "AnimationDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_node_component),
       ComponentDataUnion_RailNodeDef, "RailNodeDef");
