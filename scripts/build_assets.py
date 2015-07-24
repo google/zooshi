@@ -443,7 +443,14 @@ def convert_png_image_to_webp(cwebp, png, out, quality=80):
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [cwebp, '-q', str(quality), png, '-o', out]
+  im = Image.open(png)
+  size = texture_target_size(png)
+  if size != im.size:
+    print ("Down-sizing " + png + " from (" + str(im.size[0]) + "," +
+           str(im.size[1]) + ") to (" + str(size[0]) + "," + str(size[1]) + ")")
+
+  command = [cwebp, '-resize', str(size[0]), str(size[1]), '-q', str(quality),
+             png, '-o', out]
   run_subprocess(command)
 
 
