@@ -26,7 +26,7 @@ namespace fpl {
 namespace fpl_project {
 
 class ZooshiEntityFactory : public component_library::EntityFactory {
- protected:
+ public:
   virtual bool ReadEntityList(const void* entity_list,
                               std::vector<const void*>* entity_defs);
   virtual bool ReadEntityDefinition(const void* entity_definition,

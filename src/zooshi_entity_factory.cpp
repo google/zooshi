@@ -89,11 +89,11 @@ bool ZooshiEntityFactory::CreateEntityDefinition(
   // exported by that component. We use our knowledge of the data types for each
   // component ID to get the table type to copy, and to set the union data type
   // to the correct value.
-  if (flatbuffer_binary_schema_data_ == "") {
+  if (flatbuffer_binary_schema_data() == "") {
     LogError("CreateEntityDefinition: No schema loaded, can't CopyTable");
     return false;
   }
-  auto schema = reflection::GetSchema(flatbuffer_binary_schema_data_.c_str());
+  auto schema = reflection::GetSchema(flatbuffer_binary_schema_data().c_str());
   if (schema == nullptr) {
     LogError(
         "CreateEntityDefinition: GetSchema() failed, is it a binary schema?");
@@ -138,11 +138,11 @@ bool ZooshiEntityFactory::CreateEntityList(
   // Given a collection of EntityDef flatbuffers, put them all into a single
   // EntityListDef. Similar to CreateEntityDefinition, this function uses
   // flatbuffers deep copy to put the entity definitions in the new flatbuffer.
-  if (flatbuffer_binary_schema_data_ == "") {
+  if (flatbuffer_binary_schema_data() == "") {
     LogError("CreateEntityList: No schema loaded, can't CopyTable");
     return false;
   }
-  auto schema = reflection::GetSchema(flatbuffer_binary_schema_data_.c_str());
+  auto schema = reflection::GetSchema(flatbuffer_binary_schema_data().c_str());
   if (schema == nullptr) {
     LogError("CreateEntityList: GetSchema() failed, is it a binary schema?");
     return false;
