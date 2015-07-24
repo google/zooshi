@@ -6,7 +6,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$2a38-0c77-b12b-d843",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -19,685 +19,19 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 133.974,
-              y: -21.1687,
-              z: 0
+              x: 114.614,
+              y: -13.3145,
+              z: 2.86236e-06
             },
             scale: {
-              x: 16.921,
-              y: 16.921,
-              z: 16.921
+              x: 5.78445,
+              y: 5.78445,
+              z: 5.78445
             },
             orientation: {
               x: 0,
               y: 0,
               z: -72
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$a526-e840-bd42-8a1b",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 200.969,
-              y: 60.5881,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -114
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$3494-7be7-bbce-b016",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 184.09,
-              y: 1.42751,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -93
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$aa4a-a86d-0384-595d",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 172.724,
-              y: -56.1687,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -72
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$78eb-0219-eec4-3e31",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 115.4,
-              y: -95.827,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -50
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$db72-e04b-27ba-3210",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 72.9906,
-              y: -131.043,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -29
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$b47e-3735-8cd2-532d",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 20.7235,
-              y: -148.562,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -8
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$8998-4381-b130-8b65",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -34.3426,
-              y: -146.016,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 13
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$c0d1-2d04-2197-875e",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -84.7705,
-              y: -123.75,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 34
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$5049-0990-c871-3686",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -123.75,
-              y: -84.7704,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 56
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$2566-320d-1314-57dc",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -146.016,
-              y: -34.3426,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 88
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$6d17-4e4e-e3e7-4ad6",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -148.562,
-              y: 20.7235,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 98
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$1760-4da8-ae22-3268",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -131.043,
-              y: 72.9907,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 119
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$5467-05dc-a0de-71b6",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -95.827,
-              y: 115.4,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 140
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$d0a0-dc69-4b39-74e4",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -47.6687,
-              y: 142.224,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 161
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$c052-2ae5-c421-472b",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 6.92755,
-              y: 149.84,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -177
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$65de-2d15-a758-4a05",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 60.5882,
-              y: 137.219,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -166
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$01ee-515b-315b-4050",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 106.066,
-              y: 106.066,
-              z: 0
-            },
-            scale: {
-              x: 25,
-              y: 25,
-              z: 25
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -135
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$b60c-7ce1-2c50-cc47",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 135.946,
-              y: -63.3927,
-              z: 0
-            },
-            scale: {
-              x: 20,
-              y: 20,
-              z: 20
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -65
             }
           }
         }
@@ -709,7 +43,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$92c7-e315-61b8-82a8",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -727,9 +61,9 @@
               z: 0
             },
             scale: {
-              x: 20,
-              y: 20,
-              z: 20
+              x: 5.62482,
+              y: 5.62482,
+              z: 5.62482
             },
             orientation: {
               x: 0,
@@ -745,45 +79,8 @@
         {
           data_type: MetaDef,
           data: {
-            entity_id: "$e9a6-11c1-85d3-ce74",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -38.8229,
-              y: -144.889,
-              z: 0
-            },
-            scale: {
-              x: 20,
-              y: 20,
-              z: 20
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 15
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
             entity_id: "$69a8-dc58-6205-2761",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -801,13 +98,13 @@
               z: 0
             },
             scale: {
-              x: 20,
-              y: 20,
-              z: 20
+              x: 8.31042,
+              y: 8.31042,
+              z: 8.31042
             },
             orientation: {
               x: 0,
-              y: 0,
+              y: -0,
               z: 55
             }
           }
@@ -819,82 +116,8 @@
         {
           data_type: MetaDef,
           data: {
-            entity_id: "$e729-7755-077b-9713",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -149.429,
-              y: 13.0733,
-              z: 0
-            },
-            scale: {
-              x: 20,
-              y: 20,
-              z: 20
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 95
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$8d76-242c-a9b6-ee60",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -106.066,
-              y: 106.066,
-              z: 0
-            },
-            scale: {
-              x: 20,
-              y: 20,
-              z: 20
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 135
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
             entity_id: "$1e02-904b-d812-b2e4",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -907,18 +130,18 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: -13.0734,
-              y: 149.429,
-              z: 0
+              x: -25.0752,
+              y: 152.114,
+              z: -9.00425e-07
             },
             scale: {
-              x: 20,
-              y: 20,
-              z: 20
+              x: 6.83701,
+              y: 6.83701,
+              z: 6.83701
             },
             orientation: {
               x: 0,
-              y: 0,
+              y: -0,
               z: 175
             }
           }
@@ -931,7 +154,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$85d3-d4ba-957e-b43e",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -949,9 +172,9 @@
               z: 0
             },
             scale: {
-              x: 20,
-              y: 20,
-              z: 20
+              x: 7.91469,
+              y: 7.91469,
+              z: 7.91469
             },
             orientation: {
               x: 0,
@@ -968,7 +191,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$3ba0-0ae1-1d44-431c",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -986,88 +209,14 @@
               z: 0
             },
             scale: {
-              x: 20,
-              y: 20,
-              z: 20
+              x: 7.17886,
+              y: 7.17886,
+              z: 7.17886
             },
             orientation: {
               x: 0,
               y: 0,
-              z: -105
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$7e83-395e-2e56-6914",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 12.9904,
-              y: -7.5,
-              z: 0
-            },
-            scale: {
-              x: 7,
-              y: 5,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 120
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$da85-95b4-7358-44ac",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 5.13031,
-              y: -14.0954,
-              z: 0
-            },
-            scale: {
-              x: 7,
-              y: 5,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 160
+              z: -99
             }
           }
         }
@@ -1079,7 +228,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$824a-b412-a786-3739",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1092,9 +241,9 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 8.8697,
-              y: -21.3454,
-              z: 0
+              x: 8.60634,
+              y: -8.84818,
+              z: -5.21474e-07
             },
             scale: {
               x: 7,
@@ -1103,8 +252,8 @@
             },
             orientation: {
               x: 0,
-              y: 0,
-              z: 107
+              y: -0,
+              z: 101
             }
           }
         }
@@ -1116,7 +265,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$666d-7ec5-9260-01e1",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1140,7 +289,7 @@
             },
             orientation: {
               x: 0,
-              y: 0,
+              y: -0,
               z: 60
             }
           }
@@ -1152,82 +301,8 @@
         {
           data_type: MetaDef,
           data: {
-            entity_id: "$1632-2806-6656-bbdb",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -14.7721,
-              y: 2.60472,
-              z: 0
-            },
-            scale: {
-              x: 7,
-              y: 5,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 100
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$0979-718d-ca41-5d9d",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -9.64181,
-              y: 11.4907,
-              z: 0
-            },
-            scale: {
-              x: 7,
-              y: 5,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 140
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
             entity_id: "$73b5-0a4c-4c6e-e557",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1240,19 +315,19 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: -6.55671e-07,
-              y: 15,
-              z: 0
+              x: 5.95621,
+              y: 23.1024,
+              z: -0.0249992
             },
             scale: {
-              x: 7,
-              y: 5,
-              z: 3
+              x: 8.93397,
+              y: 6.38141,
+              z: 3.82884
             },
             orientation: {
               x: 0,
-              y: 0,
-              z: 180
+              y: -0,
+              z: 162
             }
           }
         }
@@ -1264,7 +339,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$7a40-9c8d-5b26-3a88",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1277,9 +352,9 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 9.64181,
-              y: 11.4907,
-              z: 0
+              x: 11.7081,
+              y: 15.5886,
+              z: 6.12118e-07
             },
             scale: {
               x: 7,
@@ -1288,82 +363,8 @@
             },
             orientation: {
               x: 0,
-              y: 0,
-              z: 40
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$4b93-ccee-b888-91d6",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 14.7721,
-              y: 2.60472,
-              z: 0
-            },
-            scale: {
-              x: 7,
-              y: 5,
-              z: 3
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 80
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$b5bc-8e87-3833-0782",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 8.48528,
-              y: -8.48528,
-              z: 0
-            },
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 135
+              y: -0,
+              z: 76
             }
           }
         }
@@ -1375,7 +376,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$1c37-d13b-1d98-b185",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1388,9 +389,9 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: -0.500002,
-              y: -11.5,
-              z: 0
+              x: -5.0271,
+              y: -12.0638,
+              z: -1.12298e-07
             },
             scale: {
               x: 5,
@@ -1399,230 +400,8 @@
             },
             orientation: {
               x: 0,
-              y: 0,
-              z: 180
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$8ab6-032a-e4ea-e734",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -17.7353,
-              y: -22.9853,
-              z: 0
-            },
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -135
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$498d-60da-c0ac-6c70",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -17,
-              y: -4.75,
-              z: 0
-            },
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -90
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$8a3b-c56b-ab23-ba78",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -10.4853,
-              y: 19.9853,
-              z: 0
-            },
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -45
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$c910-8b7e-4b2e-e629",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -4.76837e-07,
-              y: 29.75,
-              z: 0
-            },
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 6.83019e-06
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$9288-222a-d446-8074",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 6.73528,
-              y: 8.48528,
-              z: 0
-            },
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 45
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$ab2c-2da7-6742-a332",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 12,
-              y: 0,
-              z: 0
-            },
-            scale: {
-              x: 5,
-              y: 5,
-              z: 5
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 90
+              y: -0,
+              z: -180
             }
           }
         }
@@ -1634,7 +413,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$76d5-e088-8a28-74b1",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1647,14 +426,14 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 123.068,
-              y: -69.7085,
-              z: 0
+              x: 126.43,
+              y: -71.0101,
+              z: -4.26753e-07
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 7.57603,
+              y: 7.57603,
+              z: 7.57603
             },
             orientation: {
               x: 0,
@@ -1671,7 +450,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$8600-15bd-47cc-b2d1",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1689,9 +468,9 @@
               z: 0
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 8.35257,
+              y: 8.35257,
+              z: 8.35257
             },
             orientation: {
               x: 0,
@@ -1708,7 +487,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$457c-d723-9718-0c12",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1726,9 +505,9 @@
               z: 0
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 6.23282,
+              y: 6.23282,
+              z: 6.23282
             },
             orientation: {
               x: 0,
@@ -1745,7 +524,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$2b4d-694b-bdae-7441",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1758,19 +537,19 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: -40.9408,
-              y: -111.002,
-              z: 0
+              x: -45.5351,
+              y: -110.871,
+              z: -2.4473e-07
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 8.35257,
+              y: 8.35257,
+              z: 8.35257
             },
             orientation: {
               x: 0,
-              y: 0,
-              z: 5.76904
+              y: -0,
+              z: 23.769
             }
           }
         }
@@ -1782,7 +561,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$9006-78e5-415d-d7a8",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1795,19 +574,19 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: -92.277,
-              y: -99.4684,
-              z: 0
+              x: -84.1436,
+              y: -86.1231,
+              z: 2.16761e-06
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 5.93602,
+              y: 5.93602,
+              z: 5.93602
             },
             orientation: {
               x: 0,
-              y: 0,
-              z: 49
+              y: -0,
+              z: 40
             }
           }
         }
@@ -1819,7 +598,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$9a1b-a956-418e-2884",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1837,13 +616,13 @@
               z: 0
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 6.87168,
+              y: 6.87168,
+              z: 6.87168
             },
             orientation: {
               x: 0,
-              y: 0,
+              y: -0,
               z: 76
             }
           }
@@ -1856,7 +635,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$206a-c778-cb10-9c2b",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1874,13 +653,13 @@
               z: 0
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 7.57603,
+              y: 7.57603,
+              z: 7.57603
             },
             orientation: {
               x: 0,
-              y: 0,
+              y: -0,
               z: 104
             }
           }
@@ -1893,7 +672,7 @@
           data_type: MetaDef,
           data: {
             entity_id: "$1c75-1088-a9b2-a1e8",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1906,18 +685,18 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: -112.277,
-              y: 99.4684,
-              z: 0
+              x: -95.2384,
+              y: 76.1177,
+              z: 3.88108e-06
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 8.7702,
+              y: 8.7702,
+              z: 8.7702
             },
             orientation: {
               x: 0,
-              y: 0,
+              y: -0,
               z: 132
             }
           }
@@ -1929,45 +708,8 @@
         {
           data_type: MetaDef,
           data: {
-            entity_id: "$d00d-8b0b-b438-2da1",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: -53.1907,
-              y: 140.252,
-              z: 0
-            },
-            scale: {
-              x: 15,
-              y: 15,
-              z: 15
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: 159
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
             entity_id: "$d326-3372-7a12-604c",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -1980,14 +722,14 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 18.0805,
-              y: 148.906,
-              z: 0
+              x: 27.6431,
+              y: 136.342,
+              z: 2.37385e-06
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 7.95483,
+              y: 7.95483,
+              z: 7.95483
             },
             orientation: {
               x: 0,
@@ -2003,45 +745,8 @@
         {
           data_type: MetaDef,
           data: {
-            entity_id: "$6cb3-e7a2-3e36-cd91",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 85.2097,
-              y: 123.448,
-              z: 0
-            },
-            scale: {
-              x: 15,
-              y: 15,
-              z: 15
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -145
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
             entity_id: "$4080-7e11-e32d-abe1",
-            prototype: "MidGroundTree",
+            prototype: "MidGroundTree"
           }
         },
         {
@@ -2054,56 +759,19 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 132.818,
-              y: 69.7085,
-              z: 0
+              x: 122.135,
+              y: 75.5193,
+              z: 6.14264e-07
             },
             scale: {
-              x: 15,
-              y: 15,
-              z: 15
+              x: 6.23282,
+              y: 6.23282,
+              z: 6.23282
             },
             orientation: {
               x: 0,
               y: 0,
-              z: -118
-            }
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
-            entity_id: "$69d9-c2b7-2a30-3c92",
-            prototype: "MidGroundTree",
-          }
-        },
-        {
-          data_type: EditOptionsDef,
-          data: {
-            selection_option: Any
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 150,
-              y: 0,
-              z: 0
-            },
-            scale: {
-              x: 15,
-              y: 15,
-              z: 15
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -90
+              z: -109
             }
           }
         }
