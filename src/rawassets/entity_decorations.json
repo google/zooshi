@@ -13,8 +13,8 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 7.45587,
-              y: 44.7271,
+              x: 10.22,
+              y: 45.0603,
               z: 0.425
             },
             scale: {
@@ -24,8 +24,8 @@
             },
             orientation: {
               x: 20.0999,
-              y: 3.89998,
-              z: -175.5
+              y: 3.89999,
+              z: 121.5
             },
             child_ids: [
               "FernTall_RenderMesh"
@@ -47,9 +47,9 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 6.13042,
-              y: 44.3334,
-              z: 0.0749999
+              x: 13.4071,
+              y: 44.7996,
+              z: 0.0749997
             },
             scale: {
               x: 1,
@@ -58,7 +58,7 @@
             },
             orientation: {
               x: 21.3,
-              y: -8.69996,
+              y: -8.69998,
               z: -177
             },
             child_ids: [
@@ -81,19 +81,19 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 5.4764,
-              y: 43.8969,
-              z: 0.250001
+              x: 18.7454,
+              y: 61.1488,
+              z: 0.475001
             },
             scale: {
-              x: 1,
-              y: 1,
-              z: 1
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
             },
             orientation: {
-              x: -1.73834e-06,
+              x: -6.95335e-06,
               y: -10.8,
-              z: 123
+              z: -123
             },
             child_ids: [
               "FernShort_RenderMesh"
@@ -115,19 +115,19 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 7.74073,
-              y: 58.8497,
-              z: 3.35
+              x: 52.0141,
+              y: 55.6581,
+              z: 0.774996
             },
             scale: {
-              x: 1,
-              y: 1,
-              z: 1
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
             },
             orientation: {
-              x: -5.39996,
-              y: -0.299999,
-              z: -6.16993e-08
+              x: -99.0003,
+              y: -3.3,
+              z: -20.1
             },
             child_ids: [
               "RockTall_RenderMesh"
@@ -149,8 +149,8 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 12.1323,
-              y: 40.9959,
+              x: 34.6104,
+              y: 45.2242,
               z: 2.675
             },
             scale: {
@@ -161,7 +161,7 @@
             orientation: {
               x: 11.4,
               y: 1.2,
-              z: 0
+              z: 2.66863e-08
             },
             child_ids: [
               "RockMid_RenderMesh"
@@ -183,8 +183,8 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 18.039,
-              y: 60.6394,
+              x: 20.9584,
+              y: 62.4887,
               z: 1.65
             },
             scale: {
@@ -217,8 +217,8 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 19.8111,
-              y: 46.5878,
+              x: 37.4967,
+              y: 46.8567,
               z: 0.750003
             },
             scale: {
@@ -251,8 +251,8 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 17.7367,
-              y: 47.2805,
+              x: 34.0551,
+              y: 48.6912,
               z: 0.55
             },
             scale: {
@@ -285,9 +285,9 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 9.68508,
-              y: 58.0507,
-              z: 0.425
+              x: 37.8077,
+              y: 60.8144,
+              z: 0.424999
             },
             scale: {
               x: 1,
@@ -319,9 +319,9 @@
           data_type: TransformDef,
           data: {
             position: {
-              x: 11.1977,
-              y: 45.2022,
-              z: 0.7
+              x: 14.9737,
+              y: 42.8479,
+              z: 1.125
             },
             scale: {
               x: 1,
@@ -369,6 +369,5004 @@
             },
             child_ids: [
               "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 40.9008,
+              y: 77.3419,
+              z: 0.149998
+            },
+            scale: {
+              x: 5,
+              y: 1,
+              z: 5
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 36
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$4140-8d23-5809-3080",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 10.5018,
+              y: 59.2565,
+              z: 4.3
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.3
+            },
+            orientation: {
+              x: -5.40008,
+              y: -0.899908,
+              z: -75
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$4727-0c9d-e075-1516",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 11.6508,
+              y: 45.1432,
+              z: 6.875
+            },
+            scale: {
+              x: 0.746216,
+              y: 0.746216,
+              z: 0.746216
+            },
+            orientation: {
+              x: -109.501,
+              y: 6.59967,
+              z: 74.1001
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7561-494a-2546-6d6b",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 12.0184,
+              y: 47.8389,
+              z: 7.725
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: 73.5,
+              y: 0.899984,
+              z: 90.9005
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1b40-2826-35a4-1266",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 44.5875,
+              y: 62.8831,
+              z: 1.325
+            },
+            scale: {
+              x: 1.15762,
+              y: 1.15762,
+              z: 1.15762
+            },
+            orientation: {
+              x: 2.08247e-06,
+              y: -2.10001,
+              z: 48
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e5e-63ba-b832-c6bd",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 11.4972,
+              y: 42.9126,
+              z: 4.45
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.3
+            },
+            orientation: {
+              x: 7.19996,
+              y: 2.10004,
+              z: 104.7
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b47d-e8ac-297c-5e91",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 10.4683,
+              y: 57.2273,
+              z: 7.45
+            },
+            scale: {
+              x: 0.746216,
+              y: 0.746216,
+              z: 0.746216
+            },
+            orientation: {
+              x: 93.5992,
+              y: 6.5997,
+              z: 86.1001
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5044-802a-a980-9326",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 10.5266,
+              y: 54.5099,
+              z: 7.725
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: -85.5001,
+              y: 0.899979,
+              z: -95.0996
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5846-5d45-dca0-3c6a",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 72.4099,
+              y: 46.0593,
+              z: 0.149996
+            },
+            scale: {
+              x: 5,
+              y: 1,
+              z: 5
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -0,
+              z: 117
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e5e-63ba-b832-c6bd",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 84.2629,
+              y: 57.2981,
+              z: -0.150001
+            },
+            scale: {
+              x: 6.07753,
+              y: 1.21551,
+              z: 6.07753
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -75
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$a55a-52c7-000a-0826",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 40.4272,
+              y: 33.7714,
+              z: 1.325
+            },
+            scale: {
+              x: 1.73644,
+              y: 1.73644,
+              z: 1.15762
+            },
+            orientation: {
+              x: 2.08247e-06,
+              y: -2.10001,
+              z: 48
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$be02-1d91-d9ce-3e5c",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 48.1383,
+              y: 54.8137,
+              z: 0.425
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: 20.0999,
+              y: 3.89999,
+              z: -103.5
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$16b3-5554-0334-382a",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 48.3619,
+              y: 55.578,
+              z: 0.400001
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: -9.56086e-06,
+              y: -10.8,
+              z: -86.9999
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$c43c-66bd-0a20-60a9",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 89.5547,
+              y: 79.47,
+              z: 0.149995
+            },
+            scale: {
+              x: 6.07753,
+              y: 1.21551,
+              z: 6.07753
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -8.14222e-13,
+              z: -117
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7561-494a-2546-6d6b",
+            prototype: "LargeMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 149.36,
+              y: 160.731,
+              z: 0.149996
+            },
+            scale: {
+              x: 35.0952,
+              y: 2.6533,
+              z: 35.0952
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 45
+            },
+            child_ids: [
+              "LargeMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5337-a792-975c-390e",
+            prototype: "SkinnyMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 224.027,
+              y: 67.6945,
+              z: 0.14999
+            },
+            scale: {
+              x: 40.6974,
+              y: 1.47746,
+              z: 31.6974
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 93
+            },
+            child_ids: [
+              "SkinnyMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$4140-8d23-5809-3080",
+            prototype: "WideMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 188.299,
+              y: 99.653,
+              z: 0.149991
+            },
+            scale: {
+              x: 170.354,
+              y: 3.92014,
+              z: 56.354
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 63
+            },
+            child_ids: [
+              "WideMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "WideMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 228.362,
+              y: -31.1546,
+              z: 0.149991
+            },
+            scale: {
+              x: 217.42,
+              y: 5.0032,
+              z: 71.9236
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 93
+            },
+            child_ids: [
+              "WideMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "SkinnyMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 191.728,
+              y: -154.024,
+              z: 0.149981
+            },
+            scale: {
+              x: 42.213,
+              y: 2.07893,
+              z: 42.213
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 129
+            },
+            child_ids: [
+              "SkinnyMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7561-494a-2546-6d6b",
+            prototype: "LargeMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 208.249,
+              y: -124.662,
+              z: 0.149999
+            },
+            scale: {
+              x: 50.0952,
+              y: 2.6533,
+              z: 35.0952
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 123
+            },
+            child_ids: [
+              "LargeMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e27-d6cb-48c7-6339",
+            prototype: "WideMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 82.3395,
+              y: -203.29,
+              z: 0.149992
+            },
+            scale: {
+              x: 251.691,
+              y: 5.79183,
+              z: 73.2605
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 162
+            },
+            child_ids: [
+              "WideMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e5e-63ba-b832-c6bd",
+            prototype: "LargeMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -16.954,
+              y: -220.582,
+              z: 0.150001
+            },
+            scale: {
+              x: 69.2499,
+              y: 6.38548,
+              z: 84.4608
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 180
+            },
+            child_ids: [
+              "LargeMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$acb1-18cc-200e-7cde",
+            prototype: "SkinnyMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -39.0521,
+              y: -223.77,
+              z: 0.150001
+            },
+            scale: {
+              x: 56.5694,
+              y: 2.78597,
+              z: 56.5694
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 177
+            },
+            child_ids: [
+              "SkinnyMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$c63d-00b2-1c28-a076",
+            prototype: "WideMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -138.146,
+              y: -165.923,
+              z: 0.150003
+            },
+            scale: {
+              x: 264.276,
+              y: 6.08142,
+              z: 90.9235
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -141
+            },
+            child_ids: [
+              "WideMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$a55a-52c7-000a-0826",
+            prototype: "SkinnyMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -196.535,
+              y: -108.491,
+              z: 0.150017
+            },
+            scale: {
+              x: 40.2029,
+              y: 1.97994,
+              z: 40.2029
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -120
+            },
+            child_ids: [
+              "SkinnyMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$be02-1d91-d9ce-3e5c",
+            prototype: "WideMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -224.472,
+              y: -16.3954,
+              z: 0.150027
+            },
+            scale: {
+              x: 228.292,
+              y: 5.25336,
+              z: 68.5432
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -99
+            },
+            child_ids: [
+              "WideMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$16b3-5554-0334-382a",
+            prototype: "LargeMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -222.016,
+              y: 100.956,
+              z: 0.149991
+            },
+            scale: {
+              x: 88.3823,
+              y: 8.14967,
+              z: 46.3211
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -72
+            },
+            child_ids: [
+              "LargeMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$684c-ea10-d441-d6b8",
+            prototype: "WideMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -126.382,
+              y: 176.97,
+              z: 0.150028
+            },
+            scale: {
+              x: 251.692,
+              y: 5.79183,
+              z: 85.5689
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -39
+            },
+            child_ids: [
+              "WideMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$2057-5826-4061-a74e",
+            prototype: "SkinnyMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -47.7702,
+              y: 218.255,
+              z: 0.150011
+            },
+            scale: {
+              x: 75.8084,
+              y: 3.73347,
+              z: 49.0065
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -15
+            },
+            child_ids: [
+              "SkinnyMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1017-94ee-450e-d4da",
+            prototype: "LargeMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 8.61868,
+              y: 228.327,
+              z: 0.150008
+            },
+            scale: {
+              x: 58.7089,
+              y: 10.4013,
+              z: 58.7089
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 3
+            },
+            child_ids: [
+              "LargeMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$62c0-7beb-2ea0-49ae",
+            prototype: "WideMountain"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 102.209,
+              y: 199.768,
+              z: 0.149985
+            },
+            scale: {
+              x: 207.066,
+              y: 4.76495,
+              z: 68.4986
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 27.3
+            },
+            child_ids: [
+              "WideMountain_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$33da-963e-ac98-253a",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 101.495,
+              y: 12.6822,
+              z: 0.149998
+            },
+            scale: {
+              x: 4.76191,
+              y: 0.952384,
+              z: 4.76191
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -6.10667e-13,
+              z: -75
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7209-b342-1658-6b3b",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 72.2954,
+              y: 14.5712,
+              z: -0.149999
+            },
+            scale: {
+              x: 7.0355,
+              y: 1.4071,
+              z: 7.0355
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -75
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$beb7-2094-70de-b1ac",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 98.9355,
+              y: -38.4205,
+              z: -0.150006
+            },
+            scale: {
+              x: 6.38141,
+              y: 1.27629,
+              z: 6.38141
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -72
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$d0b1-1568-5472-63e2",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 70.77,
+              y: -37.7786,
+              z: 0.150002
+            },
+            scale: {
+              x: 4.76191,
+              y: 0.952384,
+              z: 4.76191
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -4.07111e-13,
+              z: -69
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5286-8eee-461a-91c3",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 24.6396,
+              y: -100.505,
+              z: -0.150008
+            },
+            scale: {
+              x: 11.4282,
+              y: 1.88565,
+              z: 9.42824
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -9.00001
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$6670-67ea-e168-24cd",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 12.2096,
+              y: -70.5188,
+              z: 0.150002
+            },
+            scale: {
+              x: 4.78813,
+              y: 1.15763,
+              z: 5.78813
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -8.015e-13,
+              z: -174
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$46b3-981d-b864-cb2b",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -45.816,
+              y: -142.219,
+              z: 0.149998
+            },
+            scale: {
+              x: 8.97929,
+              y: 1.79586,
+              z: 8.97929
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -2.39178e-12,
+              z: 5.99999
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$626b-68d2-05c5-e309",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 84.9881,
+              y: -103.274,
+              z: -0.150005
+            },
+            scale: {
+              x: 14.6263,
+              y: 2.92527,
+              z: 14.6263
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 147
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1877-16a2-b77b-b75e",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -55.1948,
+              y: -77.5901,
+              z: -0.150004
+            },
+            scale: {
+              x: 9.48047,
+              y: 2.40662,
+              z: 12.0331
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -138
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$23b3-a767-ed3a-6992",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -117.191,
+              y: -59.6759,
+              z: 0.15
+            },
+            scale: {
+              x: 7.03551,
+              y: 1.4071,
+              z: 7.03551
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -8.14222e-13,
+              z: 66
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$025a-9b29-a652-0053",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -92.9548,
+              y: 10.8503,
+              z: -0.150007
+            },
+            scale: {
+              x: 12.0331,
+              y: 2.40663,
+              z: 12.0331
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 108
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$37cd-4080-6d37-d8ae",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -106.362,
+              y: 46.6657,
+              z: 0.149999
+            },
+            scale: {
+              x: 7.03551,
+              y: 1.4071,
+              z: 5.03551
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -1.93378e-12,
+              z: -60
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$c4e4-a476-7502-c793",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -84.3998,
+              y: 109.317,
+              z: -0.150013
+            },
+            scale: {
+              x: 9.42824,
+              y: 1.88565,
+              z: 9.42824
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 150
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5320-8970-e82c-1c08",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -42.9704,
+              y: 90.2846,
+              z: 0.15
+            },
+            scale: {
+              x: 8.14448,
+              y: 1.62889,
+              z: 8.14448
+            },
+            orientation: {
+              x: -3.88986e-06,
+              y: -2.02283e-12,
+              z: 2.99999
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$410d-8667-0c86-33ac",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 5.67049,
+              y: 84.7912,
+              z: -0.150009
+            },
+            scale: {
+              x: 10.4282,
+              y: 1.88565,
+              z: 9.42824
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 12
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$0608-c71d-5a49-d069",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 7.75698,
+              y: 152.689,
+              z: 0.149997
+            },
+            scale: {
+              x: 7.38729,
+              y: 1.47745,
+              z: 7.38729
+            },
+            orientation: {
+              x: -3.88986e-06,
+              y: -2.02283e-12,
+              z: 2.99999
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$07dd-e0b4-a1d8-1529",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 69.1898,
+              y: 159.747,
+              z: -0.150003
+            },
+            scale: {
+              x: 10.3946,
+              y: 2.07893,
+              z: 10.3946
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -153
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -4.6728,
+              y: 20.326,
+              z: -0.150004
+            },
+            scale: {
+              x: 8.5517,
+              y: 1.71035,
+              z: 8.5517
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 171
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5846-5d45-dca0-3c6a",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 9.56818,
+              y: 0.758823,
+              z: 0.150004
+            },
+            scale: {
+              x: 5.80261,
+              y: 1.27628,
+              z: 6.38142
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -2.03556e-13,
+              z: -93
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e18-1328-a371-b2cc",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 2.21241,
+              y: -14.6786,
+              z: 0.149999
+            },
+            scale: {
+              x: 6.38142,
+              y: 1.27628,
+              z: 6.38142
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -1.73022e-12,
+              z: 132
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$6d68-191c-d8d9-ab7c",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -5.16765,
+              y: -20.6878,
+              z: -0.149997
+            },
+            scale: {
+              x: 8.97929,
+              y: 1.79587,
+              z: 8.07929
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -30
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b47d-e8ac-297c-5e91",
+            prototype: "BoxyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -13.2941,
+              y: -1.18212,
+              z: -0.149997
+            },
+            scale: {
+              x: 7.03551,
+              y: 1.40711,
+              z: 7.03551
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -99
+            },
+            child_ids: [
+              "BoxyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5044-802a-a980-9326",
+            prototype: "LumpyTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -9.51205,
+              y: 7.69788,
+              z: 0.150007
+            },
+            scale: {
+              x: 6.47868,
+              y: 1.21551,
+              z: 6.07754
+            },
+            orientation: {
+              x: -3.88987e-06,
+              y: -1.42489e-12,
+              z: -84
+            },
+            child_ids: [
+              "LumpyTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -0.116707,
+              y: 2.4417,
+              z: 9.125
+            },
+            scale: {
+              x: 4.76493,
+              y: 4.76493,
+              z: 4.76493
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 0
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e18-1328-a371-b2cc",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 59.8594,
+              y: 41.3121,
+              z: 2.55
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: -0.29999,
+              y: 6.59999,
+              z: 141
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e18-1328-a371-b2cc",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 56.9979,
+              y: 10.9481,
+              z: 2.35
+            },
+            scale: {
+              x: 1.73644,
+              y: 1.13644,
+              z: 1.75762
+            },
+            orientation: {
+              x: 96.0021,
+              y: 89.1,
+              z: -168.297
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b47d-e8ac-297c-5e91",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 15.8871,
+              y: 6.07555,
+              z: 2.775
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: 2.99962,
+              y: 20.7,
+              z: -134.1
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$87a2-7dd2-7631-a685",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 46.2344,
+              y: 1.65897,
+              z: 2
+            },
+            scale: {
+              x: 1.55133,
+              y: 1.55133,
+              z: 0.608504
+            },
+            orientation: {
+              x: 8.39854,
+              y: 7.8002,
+              z: 68.9895
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$16b3-5554-0334-382a",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 56.9869,
+              y: 23.9301,
+              z: 0.699996
+            },
+            scale: {
+              x: 1.55133,
+              y: 1.55133,
+              z: 1.55133
+            },
+            orientation: {
+              x: 0,
+              y: -1.8,
+              z: 0
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$684c-ea10-d441-d6b8",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -2.26695,
+              y: 56.6249,
+              z: 0.750003
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: 0,
+              y: -1.8,
+              z: 0
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$2057-5826-4061-a74e",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 33.1932,
+              y: 18.6358,
+              z: 0.549997
+            },
+            scale: {
+              x: 2.78596,
+              y: 2.78596,
+              z: 2.78596
+            },
+            orientation: {
+              x: 19.2,
+              y: -0,
+              z: -36
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$62c0-7beb-2ea0-49ae",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 38.184,
+              y: 25.7941,
+              z: 0.424994
+            },
+            scale: {
+              x: 1.15762,
+              y: 1.15762,
+              z: 1.15762
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 0
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$4a5b-6578-538a-d4a9",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 52.3975,
+              y: 30.4644,
+              z: 0.499992
+            },
+            scale: {
+              x: 1.4071,
+              y: 1.4071,
+              z: 1.4071
+            },
+            orientation: {
+              x: 7.2,
+              y: -0,
+              z: 0
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$12d0-1939-5d23-605a",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 43.7316,
+              y: 33.9234,
+              z: 0.350002
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: -2.17903e-05,
+              y: -2.39995,
+              z: -116.099
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$beb7-2094-70de-b1ac",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 52.5979,
+              y: 20.7669,
+              z: 0.174997
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: -22.5001,
+              y: 21.6,
+              z: 178.8
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$8927-9c80-b813-7466",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 44.8167,
+              y: 33.3164,
+              z: -0.0500012
+            },
+            scale: {
+              x: 0.746216,
+              y: 0.746216,
+              z: 0.746216
+            },
+            orientation: {
+              x: 6.9002,
+              y: -50.3999,
+              z: -177
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$a0b5-c558-d6b6-b3d1",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 52.4927,
+              y: 21.3749,
+              z: 0.25
+            },
+            scale: {
+              x: 1.4071,
+              y: 1.4071,
+              z: 1.4071
+            },
+            orientation: {
+              x: -17.3998,
+              y: 53.9996,
+              z: 74.7001
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$9630-d3bc-4367-745c",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 41.4661,
+              y: -13.6478,
+              z: 1.375
+            },
+            scale: {
+              x: 1,
+              y: 1.2,
+              z: 1
+            },
+            orientation: {
+              x: 0,
+              y: 22.8,
+              z: 0
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$46b3-981d-b864-cb2b",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 23.7267,
+              y: -14.0251,
+              z: 0.449994
+            },
+            scale: {
+              x: 1.15763,
+              y: 1.15763,
+              z: 1.15763
+            },
+            orientation: {
+              x: 6.49425e-07,
+              y: -9.6,
+              z: 42
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$8b12-4311-b769-4859",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 42.4478,
+              y: -48.0872,
+              z: 3.425
+            },
+            scale: {
+              x: 0.822703,
+              y: 0.822703,
+              z: 0.822703
+            },
+            orientation: {
+              x: 4.49963,
+              y: 13.5,
+              z: -55.8001
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$626b-68d2-05c5-e309",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 21.3226,
+              y: -29.83,
+              z: 1.975
+            },
+            scale: {
+              x: 0.710682,
+              y: 0.710682,
+              z: 0.978763
+            },
+            orientation: {
+              x: 8.39856,
+              y: 4.8002,
+              z: -103.21
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1877-16a2-b77b-b75e",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 24.0509,
+              y: -58.1002,
+              z: 1.375
+            },
+            scale: {
+              x: 1,
+              y: 1.2,
+              z: 1
+            },
+            orientation: {
+              x: 105,
+              y: -58.8,
+              z: 159
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$23b3-a767-ed3a-6992",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 21.0764,
+              y: -58.8198,
+              z: 1.625
+            },
+            scale: {
+              x: 1,
+              y: 1.2,
+              z: 1
+            },
+            orientation: {
+              x: 162,
+              y: 80.4001,
+              z: -102.002
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$6972-03be-a866-3449",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 26.651,
+              y: 18.0489,
+              z: 0.974989
+            },
+            scale: {
+              x: 1.4071,
+              y: 1.4071,
+              z: 1.4071
+            },
+            orientation: {
+              x: -5.70008,
+              y: -3.30001,
+              z: 132.001
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$9ac8-9b85-1370-b95e",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 20.8716,
+              y: 27.0544,
+              z: 3.425
+            },
+            scale: {
+              x: 4.11611,
+              y: 4.11611,
+              z: 4.11611
+            },
+            orientation: {
+              x: -3,
+              y: 6.90003,
+              z: -41.9999
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$8122-db8e-e00b-96bd",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -16.1489,
+              y: -20.7953,
+              z: 6.525
+            },
+            scale: {
+              x: 3.38635,
+              y: 3.38635,
+              z: 2.38635
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 0
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 36.5194,
+              y: -1.52114,
+              z: 0.349997
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: -1.67597e-05,
+              y: 6.60003,
+              z: -20.0994
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7561-494a-2546-6d6b",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 36.1604,
+              y: -0.161244,
+              z: 0.449996
+            },
+            scale: {
+              x: 1.88565,
+              y: 1.88565,
+              z: 1.88565
+            },
+            orientation: {
+              x: -1.49984,
+              y: 47.9996,
+              z: 109.8
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e27-d6cb-48c7-6339",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 35.9455,
+              y: -1.44514,
+              z: 0.274995
+            },
+            scale: {
+              x: 0.822703,
+              y: 0.822703,
+              z: 0.822703
+            },
+            orientation: {
+              x: -22.5001,
+              y: 6.59993,
+              z: 178.8
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b47d-e8ac-297c-5e91",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 37.5848,
+              y: -2.37668,
+              z: 0.699996
+            },
+            scale: {
+              x: 1.27628,
+              y: 1.27628,
+              z: 1.27628
+            },
+            orientation: {
+              x: 19.2,
+              y: 0.899998,
+              z: -174.6
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 8.47843,
+              y: -21.21,
+              z: 1.95
+            },
+            scale: {
+              x: 2.29201,
+              y: 2.29201,
+              z: 1.44775
+            },
+            orientation: {
+              x: -2.93521e-07,
+              y: 0.899991,
+              z: -144
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$025a-9b29-a652-0053",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 22.5572,
+              y: -35.5775,
+              z: 0.699989
+            },
+            scale: {
+              x: 1.27628,
+              y: 1.27628,
+              z: 1.27628
+            },
+            orientation: {
+              x: 19.2,
+              y: 0.899998,
+              z: -174.6
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$d53a-0851-d01e-1305",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 41.6957,
+              y: -30.2247,
+              z: 0.449993
+            },
+            scale: {
+              x: 1.15763,
+              y: 1.15763,
+              z: 1.15763
+            },
+            orientation: {
+              x: 6.49425e-07,
+              y: -9.6,
+              z: 42
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$dd7d-6de4-d130-5452",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 10.1859,
+              y: -53.3264,
+              z: 0.449988
+            },
+            scale: {
+              x: 1.47746,
+              y: 1.47746,
+              z: 1.47746
+            },
+            orientation: {
+              x: -9.30285e-07,
+              y: 23.4,
+              z: 42
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5e6c-c62b-86bd-a21d",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -10.0459,
+              y: -41.6272,
+              z: 0.699983
+            },
+            scale: {
+              x: 2.07893,
+              y: 2.07893,
+              z: 2.07893
+            },
+            orientation: {
+              x: 19.2,
+              y: 0.899994,
+              z: -144.6
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7115-7310-9de5-003c",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -30.6945,
+              y: -43.3726,
+              z: 1.45
+            },
+            scale: {
+              x: 1.97993,
+              y: 2.37592,
+              z: 1.97993
+            },
+            orientation: {
+              x: -30,
+              y: 16.8,
+              z: 4.45919e-07
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$cee5-8668-e850-5694",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -29.4611,
+              y: -70.745,
+              z: 1.775
+            },
+            scale: {
+              x: 1.3401,
+              y: 1.0401,
+              z: 1.94436
+            },
+            orientation: {
+              x: 99.0001,
+              y: -57,
+              z: -104.997
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7561-494a-2546-6d6b",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -0.84846,
+              y: -34.83,
+              z: 0.350001
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.51838
+            },
+            orientation: {
+              x: -75.301,
+              y: -16.1998,
+              z: -4.21019
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e27-d6cb-48c7-6339",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -55.4847,
+              y: -56.5541,
+              z: 1.45
+            },
+            scale: {
+              x: 1.97746,
+              y: 1.77295,
+              z: 1.97746
+            },
+            orientation: {
+              x: 89.9996,
+              y: -25.7999,
+              z: 105
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$6d68-191c-d8d9-ab7c",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -60.9122,
+              y: -23.7742,
+              z: 2.15
+            },
+            scale: {
+              x: 0.822703,
+              y: 1.05776,
+              z: 0.676365
+            },
+            orientation: {
+              x: 4.28584e-07,
+              y: -5.10001,
+              z: -75
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b47d-e8ac-297c-5e91",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -49.8105,
+              y: -5.25702,
+              z: 3.6
+            },
+            scale: {
+              x: 1.3401,
+              y: 1.5401,
+              z: 1.04436
+            },
+            orientation: {
+              x: 1.23745e-05,
+              y: -15,
+              z: 120.003
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5044-802a-a980-9326",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -35.8857,
+              y: -24.8462,
+              z: 2.47499
+            },
+            scale: {
+              x: 1.05,
+              y: 0.670671,
+              z: 1.22031
+            },
+            orientation: {
+              x: -3.89994,
+              y: 51.6,
+              z: 75.0037
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$be02-1d91-d9ce-3e5c",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -23.4347,
+              y: 3.08234,
+              z: 0.800005
+            },
+            scale: {
+              x: 2.29201,
+              y: 2.29201,
+              z: 2.29201
+            },
+            orientation: {
+              x: 15,
+              y: -29.0999,
+              z: 87.0003
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$16b3-5554-0334-382a",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -62.0089,
+              y: 25.3034,
+              z: 0.6
+            },
+            scale: {
+              x: 1.3401,
+              y: 0.851428,
+              z: 1.8456
+            },
+            orientation: {
+              x: 104.698,
+              y: -88.8001,
+              z: 175.79
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$962a-4439-1bce-ba03",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -36.1198,
+              y: 27.0178,
+              z: 1.3
+            },
+            scale: {
+              x: 0.952382,
+              y: 0.952382,
+              z: 0.552382
+            },
+            orientation: {
+              x: -2.30435e-06,
+              y: 3,
+              z: -180
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$2057-5826-4061-a74e",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -47.7636,
+              y: 53.4407,
+              z: 1.775
+            },
+            scale: {
+              x: 1.3401,
+              y: 1.0401,
+              z: 1.94436
+            },
+            orientation: {
+              x: -1.88111e-05,
+              y: -56.9999,
+              z: -131.997
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b4d2-2891-c259-51db",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -25.5295,
+              y: 43.9087,
+              z: 1.3
+            },
+            scale: {
+              x: 1.55132,
+              y: 1.95132,
+              z: 1.55132
+            },
+            orientation: {
+              x: 15,
+              y: -23.1,
+              z: -53.9994
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7561-494a-2546-6d6b",
+            prototype: "RockMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -0.519756,
+              y: 40.9132,
+              z: 1.3
+            },
+            scale: {
+              x: 1.3401,
+              y: 0.851428,
+              z: 1.8456
+            },
+            orientation: {
+              x: 62.6994,
+              y: 16.1999,
+              z: -178.212
+            },
+            child_ids: [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1e27-d6cb-48c7-6339",
+            prototype: "RockTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -31.2289,
+              y: 63.4899,
+              z: 1.775
+            },
+            scale: {
+              x: 0.644612,
+              y: 0.500306,
+              z: 0.935272
+            },
+            orientation: {
+              x: 36,
+              y: 2.81745e-05,
+              z: 171.003
+            },
+            child_ids: [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$6d68-191c-d8d9-ab7c",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -16.2072,
+              y: 66.3628,
+              z: 1.675
+            },
+            scale: {
+              x: 2.29201,
+              y: 2.29201,
+              z: 1.3752
+            },
+            orientation: {
+              x: -3,
+              y: 6.90003,
+              z: -41.9999
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5044-802a-a980-9326",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -39.6897,
+              y: -36.7118,
+              z: 0.449982
+            },
+            scale: {
+              x: 1.47746,
+              y: 1.47746,
+              z: 1.47746
+            },
+            orientation: {
+              x: -9.30285e-07,
+              y: 23.4,
+              z: 42
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$87a2-7dd2-7631-a685",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -27.7132,
+              y: -66.6549,
+              z: 0.699983
+            },
+            scale: {
+              x: 2.07893,
+              y: 2.07893,
+              z: 2.07893
+            },
+            orientation: {
+              x: 19.2,
+              y: 0.899994,
+              z: -144.6
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$710e-ed27-5691-d269",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -54.1401,
+              y: -48.5735,
+              z: 0.699975
+            },
+            scale: {
+              x: 2.07893,
+              y: 2.07893,
+              z: 2.07893
+            },
+            orientation: {
+              x: 19.2,
+              y: 0.899994,
+              z: -144.6
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$a2a9-1d17-4b82-dec0",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -37.8227,
+              y: -23.9593,
+              z: 0.699968
+            },
+            scale: {
+              x: 1.55133,
+              y: 1.55133,
+              z: 1.55133
+            },
+            orientation: {
+              x: 19.1999,
+              y: 12.9,
+              z: -33.5999
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$962a-4439-1bce-ba03",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -52.8728,
+              y: -15.7531,
+              z: 0.199981
+            },
+            scale: {
+              x: 2.40662,
+              y: 2.40662,
+              z: 2.40662
+            },
+            orientation: {
+              x: 2.14395e-06,
+              y: 5.4,
+              z: 42
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$2057-5826-4061-a74e",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -43.3601,
+              y: 1.01687,
+              z: 0.774979
+            },
+            scale: {
+              x: 0.822703,
+              y: 0.822703,
+              z: 0.822703
+            },
+            orientation: {
+              x: 3.85911e-06,
+              y: 5.40001,
+              z: -75
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1017-94ee-450e-d4da",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -31.5967,
+              y: 17.6879,
+              z: 0.699962
+            },
+            scale: {
+              x: 1.55133,
+              y: 1.55133,
+              z: 1.55133
+            },
+            orientation: {
+              x: -28.8001,
+              y: 12.9001,
+              z: 29.4001
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$62c0-7beb-2ea0-49ae",
+            prototype: "RockSmaller"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -39.5855,
+              y: 36.6904,
+              z: 0.374971
+            },
+            scale: {
+              x: 2.52695,
+              y: 2.52695,
+              z: 2.52695
+            },
+            orientation: {
+              x: 21,
+              y: 5.40002,
+              z: -109.8
+            },
+            child_ids: [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$4a5b-6578-538a-d4a9",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -57.7744,
+              y: 43.5185,
+              z: 0.699955
+            },
+            scale: {
+              x: 2.52695,
+              y: 2.52695,
+              z: 2.52695
+            },
+            orientation: {
+              x: -28.8,
+              y: 12.9001,
+              z: -84.5999
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$33da-963e-ac98-253a",
+            prototype: "RockSmallest"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -14.6485,
+              y: 41.7225,
+              z: 0.699945
+            },
+            scale: {
+              x: 1.97993,
+              y: 1.97993,
+              z: 1.97993
+            },
+            orientation: {
+              x: 31.2,
+              y: 12.9001,
+              z: -15.5997
+            },
+            child_ids: [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7209-b342-1658-6b3b",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 27.1096,
+              y: -15.6024,
+              z: 0.974983
+            },
+            scale: {
+              x: 1.4071,
+              y: 1.4071,
+              z: 1.4071
+            },
+            orientation: {
+              x: -5.70008,
+              y: -3.30001,
+              z: 132.001
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b5ae-ee90-5d01-7e33",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 23.5271,
+              y: -31.9606,
+              z: -0.250008
+            },
+            scale: {
+              x: 1.71034,
+              y: 1.71034,
+              z: 1.71034
+            },
+            orientation: {
+              x: -28.4998,
+              y: -27.0004,
+              z: -106.2
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5286-8eee-461a-91c3",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 41.6573,
+              y: -28.382,
+              z: 0.274993
+            },
+            scale: {
+              x: 1.4071,
+              y: 1.4071,
+              z: 1.4071
+            },
+            orientation: {
+              x: -22.5001,
+              y: 45.5999,
+              z: 142.8
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$4932-e8ac-074b-b2d3",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 44.8877,
+              y: 4.57798,
+              z: 0.499991
+            },
+            scale: {
+              x: 1.15762,
+              y: 1.15762,
+              z: 1.15762
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -150
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$d8ec-2aa2-3eee-1d2a",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 16.5352,
+              y: -37.185,
+              z: 0.499985
+            },
+            scale: {
+              x: 1.15762,
+              y: 1.15762,
+              z: 1.15762
+            },
+            orientation: {
+              x: 0,
+              y: 0,
+              z: -150
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$8b12-4311-b769-4859",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 42.8055,
+              y: -46.7993,
+              z: 1.6
+            },
+            scale: {
+              x: 1.62889,
+              y: 1.62889,
+              z: 1.62889
+            },
+            orientation: {
+              x: -1.05975e-05,
+              y: 27.6,
+              z: -20.0994
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$626b-68d2-05c5-e309",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 29.5699,
+              y: -44.8627,
+              z: 0.974985
+            },
+            scale: {
+              x: 0.863838,
+              y: 0.863838,
+              z: 0.863838
+            },
+            orientation: {
+              x: -11.7001,
+              y: -3.3,
+              z: 0.000629154
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1877-16a2-b77b-b75e",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 3.53695,
+              y: -58.4404,
+              z: 1.69998
+            },
+            scale: {
+              x: 1.15763,
+              y: 1.15763,
+              z: 1.15763
+            },
+            orientation: {
+              x: -11.7001,
+              y: -3.29999,
+              z: 21.0006
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$23b3-a767-ed3a-6992",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -5.885,
+              y: -40.9045,
+              z: 0.374983
+            },
+            scale: {
+              x: 1.47746,
+              y: 1.47746,
+              z: 1.47746
+            },
+            orientation: {
+              x: -6,
+              y: -1.28066e-06,
+              z: -99
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$025a-9b29-a652-0053",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -24.0884,
+              y: -73.3198,
+              z: 1.09998
+            },
+            scale: {
+              x: 1.55133,
+              y: 1.55133,
+              z: 1.55133
+            },
+            orientation: {
+              x: -6,
+              y: -4.26887e-07,
+              z: -83.3996
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$37cd-4080-6d37-d8ae",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -26.2595,
+              y: -51.9378,
+              z: -0.325021
+            },
+            scale: {
+              x: 1.15763,
+              y: 1.15763,
+              z: 1.15763
+            },
+            orientation: {
+              x: -8.70009,
+              y: -3.29999,
+              z: -119.999
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$bc41-dc14-a5b9-d79c",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -62.6399,
+              y: -25.7007,
+              z: 0.59998
+            },
+            scale: {
+              x: 0.952382,
+              y: 0.952382,
+              z: 0.952382
+            },
+            orientation: {
+              x: -5.99999,
+              y: -1.12058e-06,
+              z: 12.6005
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$2930-7553-a2c9-9767",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -37.4627,
+              y: -7.96594,
+              z: -0.650026
+            },
+            scale: {
+              x: 1.55133,
+              y: 1.55133,
+              z: 1.55133
+            },
+            orientation: {
+              x: -8.70009,
+              y: -3.29999,
+              z: -136.8
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$c4e4-a476-7502-c793",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -33.5672,
+              y: -13.5642,
+              z: 0.37498
+            },
+            scale: {
+              x: 0.952382,
+              y: 0.952382,
+              z: 0.952382
+            },
+            orientation: {
+              x: -12,
+              y: -6.4033e-07,
+              z: 12.6005
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5320-8970-e82c-1c08",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 10.5725,
+              y: -52.3643,
+              z: 0.274989
+            },
+            scale: {
+              x: 0.746216,
+              y: 0.746216,
+              z: 0.746216
+            },
+            orientation: {
+              x: -22.5001,
+              y: 45.5999,
+              z: -179.699
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$cee5-8668-e850-5694",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 11.0354,
+              y: -51.9554,
+              z: 0.749996
+            },
+            scale: {
+              x: 0.90703,
+              y: 0.90703,
+              z: 0.90703
+            },
+            orientation: {
+              x: -1.05975e-05,
+              y: 27.6,
+              z: -20.0994
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$410d-8667-0c86-33ac",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -9.88901,
+              y: -41.6531,
+              z: 0.824989
+            },
+            scale: {
+              x: 1.27628,
+              y: 1.27628,
+              z: 1.27628
+            },
+            orientation: {
+              x: 19.5003,
+              y: -1.20046,
+              z: -69.2997
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$0608-c71d-5a49-d069",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -27.1507,
+              y: -65.6669,
+              z: 0.449985
+            },
+            scale: {
+              x: 0.952381,
+              y: 0.952381,
+              z: 0.952381
+            },
+            orientation: {
+              x: 34.5004,
+              y: -3.30043,
+              z: 171.6
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$07dd-e0b4-a1d8-1529",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -53.5907,
+              y: -54.6399,
+              z: 0.724985
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: 0.300043,
+              y: 51.9001,
+              z: -148.799
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$c89b-8513-70b9-5e3d",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -53.941,
+              y: -55.5609,
+              z: 0.699981
+            },
+            scale: {
+              x: 0.90703,
+              y: 0.90703,
+              z: 0.90703
+            },
+            orientation: {
+              x: -7.19978,
+              y: -1.20046,
+              z: -69.2996
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$22db-8ee0-0b96-bd4e",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -48.7937,
+              y: -9.18474,
+              z: 0.699978
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: -7.19979,
+              y: -40.8004,
+              z: -69.2996
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$18a9-8aa8-6403-3522",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -38.2264,
+              y: -24.8359,
+              z: 0.499981
+            },
+            scale: {
+              x: 1.55133,
+              y: 1.55133,
+              z: 1.55133
+            },
+            orientation: {
+              x: 15.8999,
+              y: 29.1005,
+              z: 173.102
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$28ca-374a-c4d0-9136",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -35.3749,
+              y: -25.9663,
+              z: 1.475
+            },
+            scale: {
+              x: 1.62889,
+              y: 1.62889,
+              z: 1.62889
+            },
+            orientation: {
+              x: -7.93523e-06,
+              y: 30.6,
+              z: 43.8006
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$a1ee-93a6-8973-aba4",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -25.9833,
+              y: -0.660163,
+              z: 0.224995
+            },
+            scale: {
+              x: 1.62889,
+              y: 1.62889,
+              z: 1.62889
+            },
+            orientation: {
+              x: -1.09486e-05,
+              y: -2.40003,
+              z: 43.8006
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$360d-aa53-5c70-8244",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -59.6925,
+              y: 27.3209,
+              z: 0.224993
+            },
+            scale: {
+              x: 1.62889,
+              y: 1.62889,
+              z: 1.62889
+            },
+            orientation: {
+              x: 48,
+              y: -5.40006,
+              z: -160.199
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$aca6-809d-d1d6-33bc",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -57.8111,
+              y: 24.896,
+              z: 0.699978
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: -7.19979,
+              y: -40.8004,
+              z: -69.2996
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b6d5-7835-a2ce-69bb",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -40.876,
+              y: 25.5919,
+              z: -0.250027
+            },
+            scale: {
+              x: 1.27628,
+              y: 1.27628,
+              z: 1.27628
+            },
+            orientation: {
+              x: -8.70009,
+              y: 0.600012,
+              z: -95.3994
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$9051-9874-b433-d0e6",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -60.8761,
+              y: 22.6208,
+              z: 1.07498
+            },
+            scale: {
+              x: 1.4071,
+              y: 1.4071,
+              z: 1.4071
+            },
+            orientation: {
+              x: 5.70009,
+              y: -9.00001,
+              z: 18.6004
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$bb55-5ca2-2e51-e583",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -48.472,
+              y: 51.1687,
+              z: 0.699973
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: 19.8001,
+              y: -12.6006,
+              z: -88.7996
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b191-e541-4a23-0b72",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -36.5232,
+              y: 55.1055,
+              z: -0.250029
+            },
+            scale: {
+              x: 1.27628,
+              y: 1.27628,
+              z: 1.27628
+            },
+            orientation: {
+              x: -8.70009,
+              y: 0.600012,
+              z: -95.3994
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$1b40-2826-35a4-1266",
+            prototype: "GrassDense"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -17.9009,
+              y: 45.9782,
+              z: 0.649977
+            },
+            scale: {
+              x: 1.05,
+              y: 1.05,
+              z: 1.05
+            },
+            orientation: {
+              x: 5.70008,
+              y: -6.00001,
+              z: 57.6004
+            },
+            child_ids: [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b3ca-2d8e-7bac-758d",
+            prototype: "FernTall"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -28.9317,
+              y: 45.2153,
+              z: 0.424985
+            },
+            scale: {
+              x: 1.21551,
+              y: 1.21551,
+              z: 1.21551
+            },
+            orientation: {
+              x: -14.1001,
+              y: 41.1005,
+              z: -147.898
+            },
+            child_ids: [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$8a3a-8ca1-95d1-b60c",
+            prototype: "FernShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -28.9117,
+              y: 44.9086,
+              z: 1.34999
+            },
+            scale: {
+              x: 1.1025,
+              y: 1.1025,
+              z: 1.1025
+            },
+            orientation: {
+              x: 36.0004,
+              y: -10.4999,
+              z: 106.801
+            },
+            child_ids: [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$b8c5-5760-d519-c172",
+            prototype: "GrassWide"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -7.78349,
+              y: 54.2954,
+              z: -0.250032
+            },
+            scale: {
+              x: 1.27628,
+              y: 1.27628,
+              z: 1.27628
+            },
+            orientation: {
+              x: -8.70009,
+              y: 0.600012,
+              z: -95.3994
+            },
+            child_ids: [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$0596-d17c-6873-ae67",
+            prototype: "FernMid"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 6.68714,
+              y: 57.2419,
+              z: 0.699961
+            },
+            scale: {
+              x: 1.21551,
+              y: 1.21551,
+              z: 1.21551
+            },
+            orientation: {
+              x: -31.7998,
+              y: -40.8004,
+              z: -24.2995
+            },
+            child_ids: [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$6ba5-c223-aa76-9dde",
+            prototype: "RockShort"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: -20.9332,
+              y: 30.0263,
+              z: 0.675004
+            },
+            scale: {
+              x: 4.53801,
+              y: 4.53801,
+              z: 4.53801
+            },
+            orientation: {
+              x: 24.2983,
+              y: 31.2002,
+              z: -44.0998
+            },
+            child_ids: [
+              "RockShort_RenderMesh"
             ]
           }
         }
