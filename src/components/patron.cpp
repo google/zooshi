@@ -198,10 +198,14 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
     PatronState& state = patron_data->state;
-    RenderMeshData* render_data = Data<RenderMeshData>(patron);
-    if (render_data) {
-      render_data->currently_hidden = (state != kPatronStateLayingDown);
-    }
+
+    RenderMeshComponent* rm_component =
+        entity_manager_->GetComponent<RenderMeshComponent>();
+    TransformComponent* tf_component =
+        entity_manager_->GetComponent<TransformComponent>();
+
+    rm_component->SetHiddenRecursively(tf_component->GetRootParent(patron),
+                                       state == kPatronStateLayingDown);
 
     // Determine the patron's distance from the raft.
     float raft_distance_squared =
