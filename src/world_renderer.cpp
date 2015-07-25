@@ -73,7 +73,7 @@ void WorldRenderer::CreateShadowMap(const CameraInterface& camera, Renderer&
   depth_shader_->Set(renderer);
   // Generate the shadow map:
   // TODO - modify this so that shadowcast is its own render pass
-  for (int pass = 0; pass < RenderPass_kCount; pass++) {
+  for (int pass = 0; pass < RenderPass_Count; pass++) {
     world->render_mesh_component.RenderPass(pass, light_camera_, renderer,
                                             depth_shader_);
   }
@@ -140,7 +140,7 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);
 
-  for (int pass = 0; pass < RenderPass_kCount; pass++) {
+  for (int pass = 0; pass < RenderPass_Count; pass++) {
     world->render_mesh_component.RenderPass(pass, camera, renderer);
   }
   if (world->draw_debug_physics) {

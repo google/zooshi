@@ -137,6 +137,8 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   entity_manager.set_entity_factory(entity_factory.get());
 
   render_mesh_component.set_light_position(vec3(-10, -20, 20));
+  render_mesh_component.SetCullDistance(
+        config->rendering_config()->cull_distance());
 }
 
 void LoadWorldDef(World* world, const WorldDef* world_def,

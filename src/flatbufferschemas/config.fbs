@@ -108,6 +108,9 @@ table RenderConfig {
   // The saturation of the color - 1.0 means that at max distance, objects
   // will be entirely fog_color-colored.  0.0 means that the fog has no effect.
   fog_max_saturation:float;
+
+  // Max distance at which an object renders - past this it just gets culled.
+  cull_distance: float;
 }
 
 table WorldDef {
