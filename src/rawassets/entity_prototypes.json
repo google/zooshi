@@ -63,7 +63,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "None"
+            "selection_option": "CycleOnly"
           }
         }
       ]
@@ -425,7 +425,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "None"
+            "selection_option": "CycleOnly"
           }
         },
         {
@@ -745,7 +745,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -891,7 +891,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1025,7 +1025,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1362,7 +1362,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1408,7 +1408,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1455,7 +1455,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1502,7 +1502,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1549,7 +1549,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1596,7 +1596,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1643,7 +1643,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1690,7 +1690,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1737,7 +1737,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1784,7 +1784,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1831,7 +1831,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1855,7 +1855,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1902,7 +1902,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1949,7 +1949,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -1996,7 +1996,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
@@ -2043,7 +2043,7 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "PointerOnly"
+            "selection_option": "Any"
           }
         }
       ]
