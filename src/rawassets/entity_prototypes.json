@@ -137,7 +137,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file": "meshes/raft.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -164,7 +165,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_shrimp.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -191,7 +193,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -210,7 +213,7 @@
         {
           "data_type": "DigitDef",
           "data" : {
-            "render_pass" : ["kAlpha"],
+            "render_pass" : ["Alpha"],
             "shader": "shaders/textured_shadowed",
             "attrib": "PatronsFed",
             "digit_mesh_list": [
@@ -346,7 +349,7 @@
           "data" : {
             "source_file":"meshes/temp_sign.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"]
           }
         }
       ]
@@ -378,6 +381,7 @@
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
             "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"],
             "hidden": true
           }
         },
@@ -512,7 +516,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         },
         {
@@ -548,7 +553,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -785,7 +791,7 @@
           "data": {
             "source_file": "meshes/Lady_Mandrill.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"]
 
           }
         }
@@ -930,7 +936,7 @@
           "data": {
             "source_file": "meshes/menacing_croc.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"]
           }
         }
       ]
@@ -1064,7 +1070,7 @@
           "data": {
             "source_file": "meshes/moustache_croc.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass": ["kAlpha"]
+            "render_pass": ["Alpha"]
           }
         }
       ]
@@ -1127,7 +1133,8 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         },
         {
@@ -1195,7 +1202,8 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1222,7 +1230,7 @@
           "data" : {
             "source_file":"meshes/ground.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "ignore_culling": true
+            "culling": []
           }
         }
       ]
@@ -1248,7 +1256,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/background.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1273,7 +1282,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_saturated.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": []
           }
         }
       ]
@@ -1316,7 +1326,7 @@
           "data" : {
             "source_file":"meshes/skybox_daytime.fplmesh",
             "shader": "shaders/textured_opaque",
-            "ignore_culling": true
+            "culling": []
           }
         }
       ]
@@ -1339,7 +1349,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_dense.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1385,7 +1396,7 @@
           "data" : {
             "source_file":"meshes/boxy_tree.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"]
           }
         }
       ]
@@ -1431,7 +1442,7 @@
           "data" : {
             "source_file":"meshes/lumpy_tree.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"]
           }
         }
       ]
@@ -1478,7 +1489,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smallest.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1525,7 +1537,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smaller.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1572,7 +1585,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_short.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1619,7 +1633,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_mid.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1666,7 +1681,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_tall.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1713,7 +1729,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_short.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"],
           }
         }
       ]
@@ -1760,7 +1777,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_mid.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1807,7 +1825,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_tall.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1878,7 +1897,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_small.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1925,7 +1945,8 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_wide.fplmesh",
-            "shader": "shaders/textured_shadowed"
+            "shader": "shaders/textured_shadowed",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -1972,7 +1993,8 @@
           "data" : {
             "source_file":"meshes/large_mountain.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"],
+            "culling": ["ViewAngle"]
           }
         }
       ]
@@ -2019,7 +2041,8 @@
           "data" : {
             "source_file":"meshes/skinny_mountain.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"],
+            "culling": ["ViewAngle"]
           }
         }
       ]
@@ -2066,7 +2089,8 @@
           "data" : {
             "source_file":"meshes/wide_mountain.fplmesh",
             "shader": "shaders/textured_shadowed",
-            "render_pass" : ["kAlpha"]
+            "render_pass" : ["Alpha"],
+            "culling": ["ViewAngle"]
           }
         }
       ]

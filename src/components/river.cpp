@@ -277,8 +277,8 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
   mesh_data->shader = asset_manager->LoadShader(river->shader()->c_str());
   mesh_data->mesh = river_mesh;
-  mesh_data->ignore_culling = true;  // Never cull the river.
-  mesh_data->pass_mask = 1 << RenderPass_kOpaque;
+  mesh_data->culling_mask = 0;  // Never cull the river.
+  mesh_data->pass_mask = 1 << RenderPass_Opaque;
 
   if (!river_data->bank) {
     // Now we make a new entity to hold the bank mesh.
@@ -297,8 +297,8 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   child_render_data->shader =
       asset_manager->LoadShader("shaders/textured_shadowed");
   child_render_data->mesh = bank_mesh;
-  child_render_data->ignore_culling = true;  // Never cull the banking.
-  child_render_data->pass_mask = 1 << RenderPass_kOpaque;
+  mesh_data->culling_mask = 0;  // Never cull the bank.
+  child_render_data->pass_mask = 1 << RenderPass_Opaque;
 }
 
 void RiverComponent::OnEvent(const event::EventPayload& event_payload) {

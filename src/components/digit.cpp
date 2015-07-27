@@ -70,7 +70,7 @@ void DigitComponent::AddFromRawData(entity::EntityRef& entity,
   if (digit_def->render_pass() != nullptr) {
     for (size_t i = 0; i < digit_def->render_pass()->size(); i++) {
       int render_pass = digit_def->render_pass()->Get(i);
-      assert(render_pass < RenderPass_kCount);
+      assert(render_pass < RenderPass_Count);
       render_mesh_data->pass_mask |= 1 << render_pass;
     }
   }
