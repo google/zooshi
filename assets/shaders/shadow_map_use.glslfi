@@ -1,0 +1,19 @@
+
+// TODO: move more of shadow map rendering in here as functions.
+
+
+// The shadow map texture:
+uniform sampler2D texture_unit_7;
+
+// Decodes a packed RGBA value into a float.  (See EncodeFloatRGBA() in
+// render_depth.glslf for an explanation of this packing.)
+float DecodeFloatFromRGBA(vec4 rgba) {
+  return dot(rgba, vec4(1.0, 1.0/255.0, 1.0/65025.0, 1.0/160581375.0));
+}
+
+// Accepts a texture (assumed to be the shadowmap) and a location, and
+// returns the depth of the shadow map at that location.  (Note that the
+// depth has been encoded into an RGBA value, and needs to be decoded first)
+float ReadShadowMap(sampler2D texture, vec2 location) {
+  return DecodeFloatFromRGBA(texture2D(texture_unit_7, location));
+}
