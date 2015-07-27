@@ -55,8 +55,8 @@ static GameState PauseMenu(AssetManager& assetman, FontManager& fontman,
                            InputSystem& input) {
   GameState next_state = kGameStatePause;
   gui::Run(assetman, fontman, input, [&]() {
-    gui::PositionUI(1000, gui::kAlignCenter, gui::kAlignCenter);
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
+    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter, mathfu::kZeros2f);
     gui::Label("Paused", 120);
     gui::SetMargin(gui::Margin(30));
     auto event = TextButton("CONTINUE", 100, "button");
