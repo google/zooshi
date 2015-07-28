@@ -16,8 +16,8 @@
     "spline_stepsize": 500.0,
     "track_height": -1.89,
     "texture_tile_size": 25.0,
-    "material": "materials/river.fplmat",
-    "shader": "shaders/water",
+    "material": "materials/Lake_daytime.fplmat",
+    "shader": "shaders/origwater",
     "banks": [
       { "x_min": -13.5, "x_max": -13.5, "z_min": 1.0, "z_max": 2.2 },
       { "x_min": -7.5,  "x_max": -8,    "z_min": 0.6, "z_max": 0.9 },

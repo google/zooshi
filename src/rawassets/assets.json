@@ -43,11 +43,14 @@
   ],
   "material_list": [
     "materials/pixel1x1.fplmat",
-    "materials/river.fplmat"
+    "materials/river.fplmat",
+    "materials/Lake_daytime.fplmat",
+    "materials/Lake_twilight.fplmat"
   ],
   "shader_list": [
     "shaders/color",
     "shaders/lit_textured_normal",
+    "shaders/origwater",
     "shaders/render_depth",
     "shaders/textured",
     "shaders/textured_opaque",
