@@ -100,7 +100,7 @@ class PatronComponent : public entity::Component<PatronData>,
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 

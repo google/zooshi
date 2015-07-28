@@ -39,7 +39,7 @@ class DigitComponent : public entity::Component<DigitData> {
   virtual void Init() {}
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   // Currently only exists in prototypes, so no ExportRawData is needed
-  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& /*entity*/) const {
+  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& /*entity*/) const {
     return nullptr;
   }
   virtual void InitEntity(entity::EntityRef& entity);

@@ -45,7 +45,7 @@ class RiverComponent : public entity::Component<RiverData>,
                        public event::EventListener {
  public:
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
 
   virtual void Init();
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}

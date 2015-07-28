@@ -33,7 +33,7 @@ class ShadowControllerComponent
     : public entity::Component<ShadowControllerData> {
  public:
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 };
 

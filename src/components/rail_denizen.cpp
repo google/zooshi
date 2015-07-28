@@ -190,7 +190,7 @@ void RailDenizenComponent::InitializeRail(entity::EntityRef& entity) {
 }
 
 entity::ComponentInterface::RawDataUniquePtr
-RailDenizenComponent::ExportRawData(entity::EntityRef& entity) const {
+RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
   const RailDenizenData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 

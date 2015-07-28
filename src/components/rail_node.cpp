@@ -36,7 +36,7 @@ void RailNodeComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 entity::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
-    entity::EntityRef& entity) const {
+    const entity::EntityRef& entity) const {
   const RailNodeData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
