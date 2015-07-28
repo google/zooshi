@@ -7,13 +7,20 @@
 // fog_max_saturation - a scalar, representing what percent of an object
 //      at fog_max_distance's color is the fog color.
 
-vec4 ApplyFog(vec4 current_color, float z_depth, float fog_roll_in_dist,
-    float fog_max_dist, vec4 fog_color, float fog_max_saturation) {
-  float fog_factor = (clamp(z_depth, fog_roll_in_dist, fog_max_dist) -
-      fog_roll_in_dist) / (fog_max_dist - fog_roll_in_dist);
+varying lowp float vDepth;
+uniform float fog_roll_in_dist;
+uniform float fog_max_dist;
+uniform vec4 fog_color;
+uniform float fog_max_saturation;
 
-  vec4 final_color = mix(current_color, fog_color, fog_factor *
-      fog_max_saturation);
+
+vec4 ApplyFog(vec4 current_color, float z_depth, float roll_in_dist,
+    float max_dist, vec4 fogcolor, float max_saturation) {
+  float fog_factor = (clamp(z_depth, roll_in_dist, max_dist) -
+      roll_in_dist) / (max_dist - roll_in_dist);
+
+  vec4 final_color = mix(current_color, fogcolor, fog_factor *
+      max_saturation);
 
   return final_color;
 }

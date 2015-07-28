@@ -25,7 +25,6 @@ class World;
 // Class that performs various rendering functions on a world state.
 class WorldRenderer {
  public:
-
   // Initialize the world renderer.  Must be called before any other functions.
   void Initialize(World* world);
 
@@ -51,6 +50,7 @@ class WorldRenderer {
   Shader* depth_shader_;
   Shader* textured_shader_;
   Shader* textured_shadowed_shader_;
+  Shader* textured_lit_shader_;
   Camera light_camera_;
   RenderTarget shadow_map_;
 
@@ -58,6 +58,8 @@ class WorldRenderer {
   // before RenderWorld.
   void CreateShadowMap(const CameraInterface& camera, Renderer& renderer,
                        World* world);
+
+  void SetFogUniforms(Shader* shader, World* world);
 };
 
 }  // fpl_project

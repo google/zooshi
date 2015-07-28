@@ -15,7 +15,6 @@
 #include "world_renderer.h"
 #include "fplbase/flatbuffer_utils.h"
 
-
 using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;
@@ -41,10 +40,12 @@ void WorldRenderer::Initialize(World* world) {
   textured_shader_ = world->asset_manager->LoadShader("shaders/textured");
   textured_shadowed_shader_ =
       world->asset_manager->LoadShader("shaders/textured_shadowed");
+  textured_lit_shader_ =
+      world->asset_manager->LoadShader("shaders/textured_lit");
 }
 
-void WorldRenderer::CreateShadowMap(const CameraInterface& camera, Renderer&
-                                    renderer, World* world) {
+void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
+                                    Renderer& renderer, World* world) {
   int shadow_map_resolution =
       world->config->rendering_config()->shadow_map_resolution();
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
@@ -56,8 +57,8 @@ void WorldRenderer::CreateShadowMap(const CameraInterface& camera, Renderer&
   light_camera_.set_viewport_angle(kShadowMapViewportAngle / shadow_map_zoom);
   light_camera_.set_viewport_resolution(
       vec2(shadow_map_resolution, shadow_map_resolution));
-  vec3 light_camera_focus = camera.position() + camera.facing() *
-      shadow_map_offset;
+  vec3 light_camera_focus =
+      camera.position() + camera.facing() * shadow_map_offset;
   light_camera_focus.z() = 0;
   vec3 light_facing = light_camera_focus - light_camera_.position();
   light_camera_.set_facing(light_facing.Normalized());
@@ -77,8 +78,8 @@ void WorldRenderer::CreateShadowMap(const CameraInterface& camera, Renderer&
   }
 }
 
-void WorldRenderer::RenderPrep(const CameraInterface &camera,
-                               Renderer &renderer, World *world) {
+void WorldRenderer::RenderPrep(const CameraInterface& camera,
+                               Renderer& renderer, World* world) {
   world->render_mesh_component.RenderPrep(camera);
   CreateShadowMap(camera, renderer, world);
   RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
@@ -111,6 +112,18 @@ void WorldRenderer::DebugShowShadowMap(const CameraInterface& camera,
                            vec2(1.0f, 0.0f), vec2(0.0f, 1.0f));
 }
 
+void WorldRenderer::SetFogUniforms(Shader* shader, World* world) {
+  shader->SetUniform("fog_roll_in_dist",
+                     world->config->rendering_config()->fog_roll_in_dist());
+  shader->SetUniform("fog_max_dist",
+                     world->config->rendering_config()->fog_max_dist());
+  shader->SetUniform(
+      "fog_color",
+      LoadColorRGBA(world->config->rendering_config()->fog_color()));
+  shader->SetUniform("fog_max_saturation",
+                     world->config->rendering_config()->fog_max_saturation());
+}
+
 void WorldRenderer::RenderWorld(const CameraInterface& camera,
                                 Renderer& renderer, World* world) {
   mat4 camera_transform = camera.GetTransformMatrix();
@@ -119,23 +132,29 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
   renderer.DepthTest(true);
   renderer.model_view_projection() = camera_transform;
 
-  Shader* textured_shadowed_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_shadowed");
   assert(textured_shadowed_shader_);
   textured_shadowed_shader_->SetUniform("view_projection", camera_transform);
   textured_shadowed_shader_->SetUniform("light_view_projection",
-                                       light_camera_.GetTransformMatrix());
-  textured_shadowed_shader_->SetUniform("shadow_intensity",
+                                        light_camera_.GetTransformMatrix());
+  textured_shadowed_shader_->SetUniform(
+      "shadow_intensity",
       world->config->rendering_config()->shadow_intensity());
 
-  textured_shadowed_shader_->SetUniform("fog_roll_in_dist",
-      world->config->rendering_config()->fog_roll_in_dist());
-  textured_shadowed_shader_->SetUniform("fog_max_dist",
-      world->config->rendering_config()->fog_max_dist());
-  textured_shadowed_shader_->SetUniform("fog_color",
-      LoadColorRGBA(world->config->rendering_config()->fog_color()));
-  textured_shadowed_shader_->SetUniform("fog_max_saturation",
-      world->config->rendering_config()->fog_max_saturation());
+  float shadow_intensity =
+      world->config->rendering_config()->shadow_intensity();
+  float ambient_intensity = 1.0f - shadow_intensity;
+  vec4 ambient =
+      vec4(ambient_intensity, ambient_intensity, ambient_intensity, 1.0f);
+
+  float diffuse_intensity = shadow_intensity;
+  vec4 diffuse =
+      vec4(diffuse_intensity, diffuse_intensity, diffuse_intensity, 1.0f);
+
+  textured_lit_shader_->SetUniform("ambient_material", ambient);
+  textured_lit_shader_->SetUniform("diffuse_material", diffuse);
+
+  SetFogUniforms(textured_shadowed_shader_, world);
+  SetFogUniforms(textured_lit_shader_, world);
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);
 

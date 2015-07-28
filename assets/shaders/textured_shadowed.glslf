@@ -36,17 +36,6 @@ uniform lowp float shadow_intensity;
 // The position of the coordinate, in light-space
 varying vec4 vShadowPosition;
 
-// Variables used by fog:
-varying lowp float vDepth;
-uniform float fog_roll_in_dist;
-uniform float fog_max_dist;
-uniform vec4 fog_color;
-// Saturation represents how much the object becomes saturated by the fog
-// color at fog_max_dist.  If saturation is 1.0, at max_fog_dist, the object
-// is entirely fog_color-colored.  At 0.0, even at max_fog_dist, the object's
-// color is unchanged.
-uniform float fog_max_saturation;
-
 void main()
 {
   mediump vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
