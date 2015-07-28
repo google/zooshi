@@ -2094,6 +2094,98 @@
           }
         }
       ]
+    },
+
+    // Log Prop
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "LogProp"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "LogProp_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "LogProp_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/log.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
+    },
+
+    // Savanna Tree
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "SavannaTree_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "SavannaTree_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },                  {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/savanna_tree01.fplmesh",
+            "shader": "shaders/textured_shadowed"
+          }
+        }
+      ]
     }
   ]
 }

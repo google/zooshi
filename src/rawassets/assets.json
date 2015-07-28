@@ -38,12 +38,14 @@
     "meshes/lumpy_tree.fplmesh",
     "meshes/large_mountain.fplmesh",
     "meshes/skinny_mountain.fplmesh",
-    "meshes/wide_mountain.fplmesh"
+    "meshes/wide_mountain.fplmesh",
+    "meshes/log.fplmesh",
+    "meshes/savanna_tree01.fplmesh"
   ],
   "material_list": [
     "materials/pixel1x1.fplmat",
     "materials/river.fplmat",
-    "materials/blobshadow.fplmat",
+    "materials/blobshadow.fplmat"
   ],
   "shader_list": [
     "shaders/cardboard",

@@ -5,6 +5,74 @@
         {
           data_type: MetaDef,
           data: {
+            entity_id: "$3cb7-6129-771d-57ab",
+            prototype: "LogProp"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 3.41179,
+              y: 57.3138,
+              z: 0.675
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: -86.7,
+              y: 0.300005,
+              z: 0.900014
+            },
+            child_ids: [
+              "LogProp_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$5337-a792-975c-390e",
+            prototype: "SavannaTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 31.9121,
+              y: 101.199,
+              z: -8.20572e-07
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 33
+            },
+            child_ids: [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
             entity_id: "$5337-a792-975c-390e",
             prototype: "FernTall"
           }
@@ -500,7 +568,7 @@
             },
             orientation: {
               x: 73.5,
-              y: 0.899984,
+              y: 0.899986,
               z: 90.9005
             },
             child_ids: [
@@ -533,7 +601,7 @@
               z: 1.15762
             },
             orientation: {
-              x: 2.08247e-06,
+              x: 2.13587e-06,
               y: -2.10001,
               z: 48
             },
@@ -737,7 +805,7 @@
               z: 1.15762
             },
             orientation: {
-              x: 2.08247e-06,
+              x: 2.13587e-06,
               y: -2.10001,
               z: 48
             },
@@ -1113,7 +1181,7 @@
             orientation: {
               x: 0,
               y: -0,
-              z: 180
+              z: -180
             },
             child_ids: [
               "LargeMountain_RenderMesh"
@@ -1452,7 +1520,7 @@
             },
             orientation: {
               x: -3.88987e-06,
-              y: -6.10667e-13,
+              y: -4.07111e-13,
               z: -75
             },
             child_ids: [
@@ -1977,40 +2045,6 @@
         {
           data_type: MetaDef,
           data: {
-            entity_id: "$07dd-e0b4-a1d8-1529",
-            prototype: "BoxyTree"
-          }
-        },
-        {
-          data_type: TransformDef,
-          data: {
-            position: {
-              x: 69.1898,
-              y: 159.747,
-              z: -0.150003
-            },
-            scale: {
-              x: 10.3946,
-              y: 2.07893,
-              z: 10.3946
-            },
-            orientation: {
-              x: 0,
-              y: 0,
-              z: -153
-            },
-            child_ids: [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      component_list: [
-        {
-          data_type: MetaDef,
-          data: {
             entity_id: "$b4d2-2891-c259-51db",
             prototype: "BoxyTree"
           }
@@ -2064,7 +2098,7 @@
             },
             orientation: {
               x: -3.88987e-06,
-              y: -2.03556e-13,
+              y: -4.07111e-13,
               z: -93
             },
             child_ids: [
@@ -2098,7 +2132,7 @@
             },
             orientation: {
               x: -3.88987e-06,
-              y: -1.73022e-12,
+              y: -1.832e-12,
               z: 132
             },
             child_ids: [
@@ -2301,7 +2335,7 @@
               z: 1.75762
             },
             orientation: {
-              x: 96.0021,
+              x: 96.0022,
               y: 89.1,
               z: -168.297
             },
@@ -3015,7 +3049,7 @@
               z: 1.1025
             },
             orientation: {
-              x: -1.67597e-05,
+              x: -1.66522e-05,
               y: 6.60003,
               z: -20.0994
             },
@@ -3323,7 +3357,7 @@
             orientation: {
               x: -30,
               y: 16.8,
-              z: 4.45919e-07
+              z: 8.91838e-07
             },
             child_ids: [
               "RockShort_RenderMesh"
@@ -3491,7 +3525,7 @@
               z: 1.04436
             },
             orientation: {
-              x: 1.23745e-05,
+              x: 1.14906e-05,
               y: -15,
               z: 120.003
             },
@@ -3629,7 +3663,7 @@
             orientation: {
               x: -2.30435e-06,
               y: 3,
-              z: -180
+              z: 180
             },
             child_ids: [
               "RockMid_RenderMesh"
@@ -3764,7 +3798,7 @@
             },
             orientation: {
               x: 36,
-              y: 2.81745e-05,
+              y: 2.8388e-05,
               z: 171.003
             },
             child_ids: [
@@ -4377,7 +4411,7 @@
             orientation: {
               x: -11.7001,
               y: -3.3,
-              z: 0.000629154
+              z: 0.000629181
             },
             child_ids: [
               "GrassWide_RenderMesh"
@@ -4444,7 +4478,7 @@
             },
             orientation: {
               x: -6,
-              y: -1.28066e-06,
+              y: -1.06722e-06,
               z: -99
             },
             child_ids: [
@@ -4478,7 +4512,7 @@
             },
             orientation: {
               x: -6,
-              y: -4.26887e-07,
+              y: -6.4033e-07,
               z: -83.3996
             },
             child_ids: [
@@ -4783,7 +4817,7 @@
               z: 1.1025
             },
             orientation: {
-              x: 0.300043,
+              x: 0.300042,
               y: 51.9001,
               z: -148.799
             },
@@ -4919,7 +4953,7 @@
               z: 1.62889
             },
             orientation: {
-              x: -7.93523e-06,
+              x: -8.92714e-06,
               y: 30.6,
               z: 43.8006
             },
@@ -4953,7 +4987,7 @@
               z: 1.62889
             },
             orientation: {
-              x: -1.09486e-05,
+              x: -1.08952e-05,
               y: -2.40003,
               z: 43.8006
             },
@@ -5056,7 +5090,7 @@
             },
             orientation: {
               x: -8.70009,
-              y: 0.600012,
+              y: 0.600011,
               z: -95.3994
             },
             child_ids: [
@@ -5158,7 +5192,7 @@
             },
             orientation: {
               x: -8.70009,
-              y: 0.600012,
+              y: 0.600011,
               z: -95.3994
             },
             child_ids: [
@@ -5294,7 +5328,7 @@
             },
             orientation: {
               x: -8.70009,
-              y: 0.600012,
+              y: 0.600011,
               z: -95.3994
             },
             child_ids: [
@@ -5367,6 +5401,74 @@
             },
             child_ids: [
               "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$4140-8d23-5809-3080",
+            prototype: "SavannaTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 103.646,
+              y: 62.337,
+              z: -2.3206e-06
+            },
+            scale: {
+              x: 1,
+              y: 1,
+              z: 1
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 78
+            },
+            child_ids: [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      component_list: [
+        {
+          data_type: MetaDef,
+          data: {
+            entity_id: "$7561-494a-2546-6d6b",
+            prototype: "SavannaTree"
+          }
+        },
+        {
+          data_type: TransformDef,
+          data: {
+            position: {
+              x: 89.1862,
+              y: 0.365696,
+              z: -2.52236e-06
+            },
+            scale: {
+              x: 0.746216,
+              y: 0.746216,
+              z: 0.746216
+            },
+            orientation: {
+              x: 0,
+              y: -0,
+              z: 126
+            },
+            child_ids: [
+              "SavannaTree_RenderMesh"
             ]
           }
         }
