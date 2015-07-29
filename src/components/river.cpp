@@ -60,7 +60,7 @@ void RiverComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
-    entity::EntityRef& entity) const {
+    const entity::EntityRef& entity) const {
   const RiverData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 

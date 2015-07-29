@@ -67,7 +67,7 @@ void ShadowControllerComponent::UpdateAllEntities(
 }
 
 entity::ComponentInterface::RawDataUniquePtr
-ShadowControllerComponent::ExportRawData(entity::EntityRef& entity) const {
+ShadowControllerComponent::ExportRawData(const entity::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;

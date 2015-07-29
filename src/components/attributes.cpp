@@ -65,7 +65,7 @@ void AttributesComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 entity::ComponentInterface::RawDataUniquePtr AttributesComponent::ExportRawData(
-    entity::EntityRef& entity) const {
+    const entity::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;

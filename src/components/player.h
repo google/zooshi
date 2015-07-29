@@ -68,7 +68,7 @@ class PlayerComponent : public entity::Component<PlayerData> {
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
 
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);

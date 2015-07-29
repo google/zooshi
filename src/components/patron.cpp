@@ -118,7 +118,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
-    entity::EntityRef& entity) const {
+    const entity::EntityRef& entity) const {
   const PatronData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 

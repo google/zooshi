@@ -60,7 +60,7 @@ void AudioListenerComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 entity::ComponentInterface::RawDataUniquePtr
-AudioListenerComponent::ExportRawData(entity::EntityRef& entity) const {
+AudioListenerComponent::ExportRawData(const entity::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;

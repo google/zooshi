@@ -42,7 +42,7 @@ void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 }
 
 entity::ComponentInterface::RawDataUniquePtr TimeLimitComponent::ExportRawData(
-    entity::EntityRef& entity) const {
+    const entity::EntityRef& entity) const {
   const TimeLimitData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 

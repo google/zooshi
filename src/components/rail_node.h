@@ -37,7 +37,7 @@ class RailNodeComponent : public entity::Component<RailNodeData> {
   RailNodeComponent() {}
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(entity::EntityRef& entity) const;
+  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
 };
 
 }  // fpl_project
