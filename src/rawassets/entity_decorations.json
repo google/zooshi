@@ -39,6 +39,36 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "prototype": "PointyTree"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 80,
+              "y": 50,
+              "z": 0
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -90
+            },
+            "scale": {
+              "x": 3,
+              "y": 3,
+              "z": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
             "prototype": "BaobabTree"
           }
         },
