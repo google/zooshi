@@ -20,6 +20,8 @@
 // arbitrarily, because it doesn't conflict with any other channels, so we can
 // just leave that texture binding for the whole rendering pass.)
 
+#include "shaders/shadow_map_use.glslfi"
+
 // Variables used in genereal rendering:
 uniform lowp vec4 color;
 // The texture of the thing we're rendering:
@@ -30,8 +32,6 @@ varying mediump vec2 vTexCoord;
 // Variables used by shadow maps:
 uniform mediump mat4 shadow_mvp;
 uniform lowp float shadow_intensity;
-// The shadow map texture:
-uniform sampler2D texture_unit_7;
 // The position of the coordinate, in light-space
 varying vec4 vShadowPosition;
 
@@ -45,19 +45,6 @@ uniform vec4 fog_color;
 // is entirely fog_color-colored.  At 0.0, even at max_fog_dist, the object's
 // color is unchanged.
 uniform float fog_max_saturation;
-
-// Decodes a packed RGBA value into a float.  (See EncodeFloatRGBA() in
-// render_depth.glslf for an explanation of this packing.)
-float DecodeFloatFromRGBA(vec4 rgba) {
-  return dot(rgba, vec4(1.0, 1.0/255.0, 1.0/65025.0, 1.0/160581375.0));
-}
-
-// Accepts a texture (assumed to be the shadowmap) and a location, and
-// returns the depth of the shadow map at that location.  (Note that the
-// depth has been encoded into an RGBA value, and needs to be decoded first)
-float ReadShadowMap(sampler2D texture, vec2 location) {
-  return DecodeFloatFromRGBA(texture2D(texture_unit_7, location));
-}
 
 void main()
 {
