@@ -373,6 +373,9 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
 }
 
 void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
+  // Save the position off, as the CreateEntity call can cause the reference to
+  // become invalid.
+  mathfu::vec3 pos = position;
   for (int i = 0; i < count; i++) {
     entity::EntityRef particle =
         entity_manager_->GetComponent<ServicesComponent>()
@@ -384,7 +387,7 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
     PhysicsData* physics_data =
         entity_manager_->GetComponentData<PhysicsData>(particle);
 
-    transform_data->position = position;
+    transform_data->position = pos;
 
     physics_data->SetVelocity(vec3(mathfu::RandomInRange(-3.0f, 3.0f),
                                    mathfu::RandomInRange(-3.0f, 3.0f),
