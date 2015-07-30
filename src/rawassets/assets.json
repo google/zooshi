@@ -9,7 +9,6 @@
     "meshes/ground.fplmesh",
     "meshes/background.fplmesh",
     "meshes/tree_saturated.fplmesh",
-    "meshes/blobshadow.fplmesh",
     "meshes/skybox_daytime.fplmesh",
     "meshes/raft.fplmesh",
     "meshes/fern_short.fplmesh",

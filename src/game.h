@@ -133,7 +133,6 @@ class Game : event::EventListener {
   motive::AnimTable anim_table_;
 
   // Shaders we use.
-  Shader* shader_cardboard_;
   Shader* shader_lit_textured_normal_;
   Shader* shader_textured_;
 

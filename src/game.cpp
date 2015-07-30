@@ -214,15 +214,7 @@ bool Game::InitializeAssets() {
 
   shader_lit_textured_normal_ =
       asset_manager_.LoadShader("shaders/lit_textured_normal");
-  shader_cardboard_ = asset_manager_.LoadShader("shaders/cardboard");
   shader_textured_ = asset_manager_.LoadShader("shaders/textured");
-
-  // Set shader uniforms:
-  shader_cardboard_->SetUniform("ambient_material", kCardboardAmbient);
-  shader_cardboard_->SetUniform("diffuse_material", kCardboardDiffuse);
-  shader_cardboard_->SetUniform("specular_material", kCardboardSpecular);
-  shader_cardboard_->SetUniform("shininess", kCardboardShininess);
-  shader_cardboard_->SetUniform("normalmap_scale", kCardboardNormalMapScale);
 
   // Load animation table:
   anim_table_.InitFromFlatBuffers(*asset_manifest.anims());
