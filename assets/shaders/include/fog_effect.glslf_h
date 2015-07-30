@@ -1,0 +1,20 @@
+// Fog effect:
+// current_color - the starting color.
+// z_depth - the z-depth of the object
+// fog_roll_in_dist - At what z-depth the fog starts to have an effect
+// fog_max_distance - the distance after which the fog is at its maximum
+// fog_color - the color to tint things with, as they get foggier
+// fog_max_saturation - a scalar, representing what percent of an object
+//      at fog_max_distance's color is the fog color.
+
+vec4 ApplyFog(vec4 current_color, float z_depth, float fog_roll_in_dist,
+    float fog_max_dist, vec4 fog_color, float fog_max_saturation) {
+  float fog_factor = (clamp(z_depth, fog_roll_in_dist, fog_max_dist) -
+      fog_roll_in_dist) / (fog_max_dist - fog_roll_in_dist);
+
+  vec4 final_color = mix(current_color, fog_color, fog_factor *
+      fog_max_saturation);
+
+  return final_color;
+}
+
