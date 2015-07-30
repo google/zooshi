@@ -71,12 +71,6 @@ static const vec3 kCameraPos = vec3(4, 5, -10);
 static const vec3 kCameraOrientation = vec3(0, 0, 0);
 static const vec3 kLightPos = vec3(0, 20, 20);
 
-static const vec3 kCardboardAmbient = vec3(0.75f);
-static const vec3 kCardboardDiffuse = vec3(0.85f);
-static const vec3 kCardboardSpecular = vec3(0.3f);
-static const float kCardboardShininess = 32.0f;
-static const float kCardboardNormalMapScale = 0.3f;
-
 static const int kMinUpdateTime = 1000 / 60;
 static const int kMaxUpdateTime = 1000 / 30;
 
