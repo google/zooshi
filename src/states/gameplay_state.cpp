@@ -56,9 +56,10 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
     *next_state = kGameStateWorldEditor;
   }
 
-  // Exit the game.
+  // Pause the game.
   if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
       input_system_->GetButton(FPLK_AC_BACK).went_down()) {
+    audio_engine_->PlaySound(sound_pause_);
     *next_state = kGameStatePause;
   }
 }
@@ -74,11 +75,15 @@ void GameplayState::Render(Renderer* renderer) {
 
 void GameplayState::Initialize(InputSystem* input_system, World* world,
                                const InputConfig* input_config,
-                               editor::WorldEditor* world_editor) {
+                               editor::WorldEditor* world_editor,
+                               pindrop::AudioEngine* audio_engine) {
   input_system_ = input_system;
   world_ = world;
   input_config_ = input_config;
   world_editor_ = world_editor;
+  audio_engine_ = audio_engine;
+
+  sound_pause_ = audio_engine->GetSoundHandle("pause");
 }
 
 void GameplayState::OnEnter() {

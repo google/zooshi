@@ -84,11 +84,12 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
       flatbuffers::Offset<ActionDef> table =
           flatbuffers::CopyTable(
               fbb, *schema, *table_def,
-              (const flatbuffers::Table&)*patron_def->on_collision()).o;
+              (const flatbuffers::Table&)*patron_def->on_collision())
+              .o;
       fbb.Finish(table);
       patron_data->on_collision_flatbuffer = {
           fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
-      patron_data->on_collision = flatbuffers::GetRoot<ActionDef>(
+      patron_data->on_collision = flatbuffers::GetRoot<TaggedActionDefList>(
           patron_data->on_collision_flatbuffer.data());
     }
   }
@@ -127,14 +128,16 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
                          ->component_def_binary_schema();
   auto schema =
       schema_file != nullptr ? reflection::GetSchema(schema_file) : nullptr;
-  auto table_def =
-      schema != nullptr ? schema->objects()->LookupByKey("ActionDef") : nullptr;
+  auto table_def = schema != nullptr
+                       ? schema->objects()->LookupByKey("TaggedActionDefList")
+                       : nullptr;
   auto on_collision =
       data->on_collision != nullptr && table_def != nullptr
-          ? flatbuffers::Offset<ActionDef>(
+          ? flatbuffers::Offset<TaggedActionDefList>(
                 flatbuffers::CopyTable(
                     fbb, *schema, *table_def,
-                    (const flatbuffers::Table&)(*data->on_collision)).o)
+                    (const flatbuffers::Table&)(*data->on_collision))
+                    .o)
           : 0;
   auto target_tag = fbb.CreateString(data->target_tag);
 
@@ -323,14 +326,16 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   if (projectile_data == nullptr || proj_entity->marked_for_deletion()) {
     return;
   }
+  entity::EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
   PatronData* patron_data = Data<PatronData>(patron_entity);
   if (patron_data->state == kPatronStateUpright) {
     // If the target tag was hit, consider it being fed
     if (patron_data->target_tag == "" || patron_data->target_tag == part_tag) {
       // TODO: Make state change an action.
       patron_data->state = kPatronStateFalling;
-      entity::EntityRef raft =
-          entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+      patron_data->last_lap_fed = raft_rail_denizen->lap;
 
       // Fall away from the raft position, on the y-axis.
       auto patron_transform = Data<TransformData>(patron_entity);
@@ -345,15 +350,6 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       patron_data->falling_rotation =
           quat::RotateFromTo(spin_direction_vector, vec3(0.0f, 0.0f, 1.0f));
 
-      RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
-      patron_data->last_lap_fed = raft_rail_denizen->lap;
-      EventContext context;
-      context.source_owner = projectile_data->owner;
-      context.source = proj_entity;
-      context.target = patron_entity;
-      context.raft = raft;
-      ParseAction(patron_data->on_collision, &context, event_manager_,
-                  entity_manager_);
       // Disable physics and rail movement after they have been fed
       auto physics_component =
           entity_manager_->GetComponent<PhysicsComponent>();
@@ -361,6 +357,27 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       auto rail_denizen_data = Data<RailDenizenData>(patron_entity);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
+      }
+    }
+
+    // Send events to every on_collision listener with the correct tag.
+    size_t on_collision_size =
+        (patron_data->on_collision && patron_data->on_collision->action_list())
+            ? patron_data->on_collision->action_list()->size()
+            : 0;
+    EventContext context;
+    context.source_owner = projectile_data->owner;
+    context.source = proj_entity;
+    context.target = patron_entity;
+    context.raft = raft;
+    for (size_t i = 0; i < on_collision_size; ++i) {
+      auto* tagged_action = patron_data->on_collision->action_list()->Get(i);
+      const char* tag =
+          tagged_action->tag() ? tagged_action->tag()->c_str() : nullptr;
+      if (tag && strcmp(tag, part_tag.c_str()) == 0) {
+        const ActionDef* action = tagged_action->action();
+        ParseAction(action, &context, event_manager_, entity_manager_);
+        break;
       }
     }
 

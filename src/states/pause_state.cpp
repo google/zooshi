@@ -25,11 +25,16 @@ namespace fpl_project {
 
 void PauseState::Initialize(InputSystem* input_system, World* world,
                             AssetManager* asset_manager,
-                            FontManager* font_manager) {
+                            FontManager* font_manager,
+                            pindrop::AudioEngine* audio_engine) {
   asset_manager_ = asset_manager;
   font_manager_ = font_manager;
   input_system_ = input_system;
   world_ = world;
+  audio_engine_ = audio_engine;
+
+  sound_continue_ = audio_engine->GetSoundHandle("continue");
+  sound_exit_ = audio_engine->GetSoundHandle("exit");
 }
 
 void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
@@ -46,6 +51,12 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
   if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
       input_system_->GetButton(FPLK_AC_BACK).went_down()) {
     *next_state = kGameStateGameMenu;
+  }
+
+  if (*next_state == kGameStateGameplay) {
+    audio_engine_->PlaySound(sound_continue_);
+  } else if (*next_state == kGameStateGameMenu) {
+    audio_engine_->PlaySound(sound_exit_);
   }
 
   next_state_ = kGameStatePause;

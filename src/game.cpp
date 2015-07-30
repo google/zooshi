@@ -288,9 +288,9 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_system(&input_);
   input_controller_.set_input_config(&GetInputConfig());
 
-  world_.Initialize(GetConfig(), &input_, &asset_manager_,
-                    &world_renderer_, &font_manager_, &audio_engine_,
-                    &event_manager_, &renderer_, &anim_table_);
+  world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
+                    &font_manager_, &audio_engine_, &event_manager_, &renderer_,
+                    &anim_table_);
 
   world_renderer_.Initialize(&world_);
 
@@ -305,12 +305,13 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_->AddComponentToUpdate(
       component_library::RenderMeshComponent::GetComponentId());
 
-  pause_state_.Initialize(&input_, &world_, &asset_manager_, &font_manager_);
+  pause_state_.Initialize(&input_, &world_, &asset_manager_, &font_manager_,
+                          &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, &GetInputConfig(),
-                             world_editor_.get());
+                             world_editor_.get(), &audio_engine_);
   game_menu_state_.Initialize(&input_, &world_, &input_controller_,
-                              &GetConfig(), &asset_manager_,
-                              &font_manager_);
+                              &GetConfig(), &asset_manager_, &font_manager_,
+                              &audio_engine_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 

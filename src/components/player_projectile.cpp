@@ -56,15 +56,16 @@ void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
     auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
                              ->component_def_binary_schema();
     auto schema = reflection::GetSchema(binary_schema);
-    auto table_def = schema->objects()->LookupByKey("ActionDef");
+    auto table_def = schema->objects()->LookupByKey("TaggedActionDefList");
     flatbuffers::Offset<ActionDef> table =
         flatbuffers::CopyTable(
             fbb, *schema, *table_def,
-            *(const flatbuffers::Table*)projectile_def->on_collision()).o;
+            *(const flatbuffers::Table*)projectile_def->on_collision())
+            .o;
     fbb.Finish(table);
     projectile_data->on_collision_flatbuffer = {
         fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
-    projectile_data->on_collision = flatbuffers::GetRoot<ActionDef>(
+    projectile_data->on_collision = flatbuffers::GetRoot<TaggedActionDefList>(
         projectile_data->on_collision_flatbuffer.data());
   }
 
@@ -77,30 +78,49 @@ void PlayerProjectileComponent::OnEvent(
     case EventSinkUnion_Collision: {
       auto* collision = event_payload.ToData<CollisionPayload>();
       if (collision->entity_a->IsRegisteredForComponent(GetComponentId())) {
-        HandleCollision(collision->entity_a, collision->entity_b);
+        HandleCollision(collision->entity_a, collision->entity_b,
+                        collision->tag_b);
       } else if (collision->entity_b->IsRegisteredForComponent(
                      GetComponentId())) {
-        HandleCollision(collision->entity_b, collision->entity_a);
+        HandleCollision(collision->entity_b, collision->entity_a,
+                        collision->tag_a);
       }
       break;
     }
   }
 }
 
+// This code is largely duplicated from the Patron component. This is a bad
+// thing. We really want this in the Physics component, but that requires
+// migrating a bunch of code between different libraries. This is being tracked
+// in b/22847175
 void PlayerProjectileComponent::HandleCollision(
     const entity::EntityRef& projectile_entity,
-    const entity::EntityRef& collided_entity) {
+    const entity::EntityRef& collided_entity, const std::string& part_tag) {
   PlayerProjectileData* projectile_data =
       Data<PlayerProjectileData>(projectile_entity);
-  if (projectile_data->on_collision) {
-    EventContext context;
-    context.source_owner = projectile_data->owner;
-    context.source = projectile_entity;
-    context.target = collided_entity;
-    context.raft =
-        entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-    ParseAction(projectile_data->on_collision, &context, event_manager_,
-                entity_manager_);
+
+  size_t on_collision_size =
+      (projectile_data->on_collision &&
+       projectile_data->on_collision->action_list())
+          ? projectile_data->on_collision->action_list()->size()
+          : 0;
+  entity::EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  EventContext context;
+  context.source_owner = projectile_data->owner;
+  context.source = collided_entity;
+  context.target = projectile_entity;
+  context.raft = raft;
+  for (size_t i = 0; i < on_collision_size; ++i) {
+    auto* tagged_action = projectile_data->on_collision->action_list()->Get(i);
+    const char* tag =
+        tagged_action->tag() ? tagged_action->tag()->c_str() : nullptr;
+    if (tag && strcmp(tag, part_tag.c_str()) == 0) {
+      const ActionDef* action = tagged_action->action();
+      ParseAction(action, &context, event_manager_, entity_manager_);
+      break;
+    }
   }
 }
 

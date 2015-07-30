@@ -49,13 +49,18 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
                                BasePlayerController* input_controller,
                                const Config* config,
                                AssetManager* asset_manager,
-                               FontManager* font_manager) {
+                               FontManager* font_manager,
+                               pindrop::AudioEngine* audio_engine) {
   world_ = world;
 
   // Set references used in GUI.
   input_system_ = input_system;
   asset_manager_ = asset_manager;
   font_manager_ = font_manager;
+  audio_engine_ = audio_engine;
+
+  sound_start_ = audio_engine->GetSoundHandle("start");
+  sound_click_ = audio_engine->GetSoundHandle("click");
 
   // Set menu state.
   menu_state_ = kMenuStateStart;
@@ -82,6 +87,7 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
 
   if (menu_state_ == kMenuStateFinished || menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateGameplay;
+    audio_engine_->PlaySound(sound_start_);
     world_->is_in_cardboard = (menu_state_ == kMenuStateCardboard);
   }
   menu_state_ = kMenuStateStart;

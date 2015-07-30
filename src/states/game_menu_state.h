@@ -18,6 +18,7 @@
 #include "camera.h"
 #include "flatui/flatui.h"
 #include "fplbase/input.h"
+#include "pindrop/pindrop.h"
 #include "states/gameplay_state.h"
 #include "states/state_machine.h"
 
@@ -44,7 +45,8 @@ class GameMenuState : public StateNode {
   void Initialize(InputSystem* input_system, World* world,
                   BasePlayerController* player_controller,
                   const Config* config,
-                  AssetManager* asset_manager, FontManager* font_namager);
+                  AssetManager* asset_manager, FontManager* font_manager,
+                  pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
@@ -74,6 +76,13 @@ class GameMenuState : public StateNode {
 
   // IMGUI uses FontManager for a text rendering.
   FontManager* font_manager_;
+
+  // The audio engine, so that sound effects can be played.
+  pindrop::AudioEngine* audio_engine_;
+
+  // Cache the common sounds that are going to be played.
+  pindrop::SoundHandle sound_start_;
+  pindrop::SoundHandle sound_click_;
 
   // Menu state.
   MenuState menu_state_;

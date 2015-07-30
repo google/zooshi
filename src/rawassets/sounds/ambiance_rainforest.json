@@ -1,0 +1,19 @@
+{
+  "name": "ambiance_rainforest",
+  "bus": "sound_effects",
+  "stream": false,
+  "loop": true,
+  "gain": 0.5,
+  "mode": "Nonpositional",
+
+  "audio_sample_set": [
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_amb_Rainforest.ogg"
+      }
+    }
+  ]
+}
+
+

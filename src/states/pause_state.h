@@ -16,11 +16,12 @@
 #define ZOOSHI_PAUSE_STATE_H_
 
 #include "camera.h"
-#include "fplbase/input.h"
-#include "states/state_machine.h"
-#include "fplbase/asset_manager.h"
 #include "flatui/font_manager.h"
+#include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
+#include "fplbase/input.h"
+#include "pindrop/pindrop.h"
+#include "states/state_machine.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -31,7 +32,8 @@ class PauseState : public StateNode {
  public:
   virtual ~PauseState() {}
   void Initialize(InputSystem* input_system, World* world,
-                  AssetManager* asset_manager, FontManager* font_manager);
+                  AssetManager* asset_manager, FontManager* font_manager,
+                  pindrop::AudioEngine* audio_engine);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
   virtual void OnEnter();
@@ -49,6 +51,14 @@ class PauseState : public StateNode {
   // IMGUI uses FontManager for a text rendering.
   FontManager* font_manager_;
 
+  // The audio engine, so that sound effects can be played.
+  pindrop::AudioEngine* audio_engine_;
+
+  // Cache the common sounds that are going to be played.
+  pindrop::SoundHandle sound_continue_;
+  pindrop::SoundHandle sound_exit_;
+
+  // The next menu state.
   int next_state_;
 
   Camera main_camera_;

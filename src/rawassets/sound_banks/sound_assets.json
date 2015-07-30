@@ -1,10 +1,22 @@
 {
   "filenames": [
+    "sounds/ambiance_forest.bin",
+    "sounds/ambiance_rainforest.bin",
+    "sounds/ambiance_river.bin",
+    "sounds/ambiance_wind.bin",
+    "sounds/click.bin",
+    "sounds/continue.bin",
+    "sounds/exit.bin",
+    "sounds/fed_lady_mandrill.bin",
     "sounds/gameplay_loop1.bin",
     "sounds/gameplay_loop2.bin",
     "sounds/gameplay_loop3.bin",
-    "sounds/paper_bounce.bin",
+    "sounds/hit_char.bin",
+    "sounds/hit_ground.bin",
+    "sounds/pause.bin",
     "sounds/point_scored.bin",
-    "sounds/whoosh.bin"
+    "sounds/select.bin",
+    "sounds/start.bin",
+    "sounds/throw.bin"
   ]
 }

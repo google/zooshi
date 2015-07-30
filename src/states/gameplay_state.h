@@ -17,6 +17,7 @@
 
 #include "camera.h"
 #include "fplbase/input.h"
+#include "pindrop/pindrop.h"
 #include "states/state_machine.h"
 
 namespace fpl {
@@ -40,7 +41,8 @@ class GameplayState : public StateNode {
  public:
   void Initialize(InputSystem* input_system, World* world,
                   const InputConfig* input_config,
-                  editor::WorldEditor* world_editor);
+                  editor::WorldEditor* world_editor,
+                  pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
@@ -61,6 +63,12 @@ class GameplayState : public StateNode {
   // This is needed here so that when transitioning into the editor the camera
   // location can be initialized.
   editor::WorldEditor* world_editor_;
+
+  // The audio engine, so that sound effects can be played.
+  pindrop::AudioEngine* audio_engine_;
+
+  // Cache the common sounds that are going to be played.
+  pindrop::SoundHandle sound_pause_;
 };
 
 }  // fpl_project

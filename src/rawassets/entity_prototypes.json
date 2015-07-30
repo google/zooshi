@@ -51,6 +51,73 @@
       ]
     },
 
+    // Ambiance entities.
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "AmbianceForest"
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "ambiance_forest"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "AmbianceRainforest"
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "ambiance_rainforest"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "AmbianceRiver"
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "ambiance_river"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "AmbianceWind"
+          }
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "ambiance_wind"
+          }
+        }
+      ]
+    },
+
+
     // All render meshes should use this as a prototype.
     {
       "component_list": [
@@ -423,7 +490,7 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "GroundPhysics",
+            "entity_id": "GroundPhysics"
           }
         },
         {
@@ -455,7 +522,8 @@
                 "collision_type": "Ground",
                 "collides_with": [
                   "Projectile"
-                ]
+                ],
+                "user_tag": "Ground"
               }
             ],
             "kinematic": true
@@ -482,7 +550,7 @@
                   "event_type": "PlaySound",
                   "event": {
                     "entity": "Source",
-                    "sound_name": "paper_bounce"
+                    "sound_name": "throw"
                   }
                 },
                 {
@@ -508,6 +576,9 @@
             },
             "child_ids" : [
               "GameplayMusic2",
+              "AmbianceForest",
+              "AmbianceRiver",
+              "AmbianceWind",
               "PlayerPrototype_RenderMesh"
             ]
           }
@@ -577,36 +648,57 @@
             "min_lap": 0,
             "max_lap": 1,
             "on_collision": {
-              "event_list": [
+              "action_list": [
                 {
-                  "event_type": "ChangeRailSpeed",
-                  "event": {
-                    "entity": "Raft",
-                    "op": "Set",
-                    "value": 1
+                  "tag": "Body",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "hit_char"
+                        }
+                      }
+                    ]
                   }
                 },
                 {
-                  "event_type": "ModifyAttribute",
-                  "event": {
-                    "entity": "SourceOwner",
-                    "op": "Add",
-                    "attrib": "PatronsFed",
-                    "value": 1
-                  }
-                },
-                {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "point_scored"
-                  }
-                },
-                {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "paper_bounce"
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ChangeRailSpeed",
+                        "event": {
+                          "entity": "Raft",
+                          "op": "Set",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "point_scored"
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "fed_lady_mandrill"
+                        }
+                      }
+                    ]
                   }
                 }
               ]
@@ -660,7 +752,8 @@
                 "collides_with": [
                   "Raycast",
                   "Projectile"
-                ]
+                ],
+                "user_tag": "Body"
               },
               {
                 "data_type": "BulletBoxDef",
@@ -682,7 +775,8 @@
                 "collides_with": [
                   "Raycast",
                   "Projectile"
-                ]
+                ],
+                "user_tag": "Body"
               },
               {
                 "data_type": "BulletBoxDef",
@@ -720,28 +814,49 @@
             "max_lap": 1,
             "target_tag": "Mouth",
             "on_collision": {
-              "event_list": [
+              "action_list": [
                 {
-                  "event_type": "ModifyAttribute",
-                  "event": {
-                    "entity": "SourceOwner",
-                    "op": "Add",
-                    "attrib": "PatronsFed",
-                    "value": 1
+                  "tag": "Body",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "hit_char"
+                        }
+                      }
+                    ]
                   }
                 },
                 {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "point_scored"
-                  }
-                },
-                {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "paper_bounce"
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "point_scored"
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "fed_lady_mandrill"
+                        }
+                      }
+                    ]
                   }
                 }
               ]
@@ -842,7 +957,8 @@
                 "collides_with": [
                   "Raycast",
                   "Projectile"
-                ]
+                ],
+                "user_tag": "Body"
               }
             ],
             "kinematic": true
@@ -856,28 +972,28 @@
             "min_lap": 2,
             "max_lap": 3,
             "on_collision": {
-              "event_list": [
+              "action_list": [
                 {
-                  "event_type": "ModifyAttribute",
-                  "event": {
-                    "entity": "SourceOwner",
-                    "op": "Add",
-                    "attrib": "PatronsFed",
-                    "value": 1
-                  }
-                },
-                {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "point_scored"
-                  }
-                },
-                {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "paper_bounce"
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "point_scored"
+                        }
+                      }
+                    ]
                   }
                 }
               ]
@@ -986,7 +1102,8 @@
                 "collides_with": [
                   "Raycast",
                   "Projectile"
-                ]
+                ],
+                "user_tag": "Body"
               }
             ],
             "kinematic": true
@@ -1000,28 +1117,28 @@
             "min_lap": 1,
             "max_lap": 2,
             "on_collision": {
-              "event_list": [
+              "action_list": [
                 {
-                  "event_type": "ModifyAttribute",
-                  "event": {
-                    "entity": "SourceOwner",
-                    "op": "Add",
-                    "attrib": "PatronsFed",
-                    "value": 1
-                  }
-                },
-                {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "point_scored"
-                  }
-                },
-                {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "paper_bounce"
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "point_scored"
+                        }
+                      }
+                    ]
                   }
                 }
               ]
@@ -1141,22 +1258,23 @@
           "data_type": "PlayerProjectileDef",
           "data": {
             "on_collision": {
-              "event_list": [
+              "action_list": [
                 {
-                  "event_type": "PlaySound",
-                  "event": {
-                    "entity": "Source",
-                    "sound_name": "paper_bounce"
+                  "tag": "Ground",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "hit_ground"
+                        }
+                      }
+                    ]
                   }
                 }
               ]
             }
-          }
-        },
-        {
-          "data_type": "SoundDef",
-          "data": {
-            "sound": "whoosh"
           }
         }
       ]

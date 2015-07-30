@@ -2,7 +2,7 @@
   "output_frequency": 44100,
   "output_channels": "Stereo",
   "output_buffer_size": 2048,
-  "mixer_channels": 50,
+  "mixer_channels": 100,
   "mixer_virtual_channels": 150,
   "listeners": 1,
   "bus_file": "buses.bin"

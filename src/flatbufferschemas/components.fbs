@@ -53,8 +53,17 @@ enum PatronAction : byte {
   Fall,
 }
 
+table TaggedActionDef {
+  tag:string;
+  action:fpl.fpl_project.ActionDef;
+}
+
+table TaggedActionDefList {
+  action_list:[TaggedActionDef];
+}
+
 table PatronDef {
-  on_collision:fpl.fpl_project.ActionDef;
+  on_collision:TaggedActionDefList;
 
   // Each time the raft makes a lap around the river, it's lap counter is
   // incremented.  Patrons will only stand up when the lap counter is in the
@@ -78,7 +87,7 @@ table PlayerDef {
 }
 
 table PlayerProjectileDef {
-  on_collision:fpl.fpl_project.ActionDef;
+  on_collision:TaggedActionDefList;
 }
 
 table DigitDef {

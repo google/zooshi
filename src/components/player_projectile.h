@@ -15,6 +15,8 @@
 #ifndef COMPONENTS_PLAYER_PROJECTILE_H_
 #define COMPONENTS_PLAYER_PROJECTILE_H_
 
+#include <string>
+
 #include "components_generated.h"
 #include "entity/component.h"
 #include "event/event_manager.h"
@@ -31,8 +33,9 @@ static const WorldTime kMaxProjectileDuration = 3 * kMillisecondsPerSecond;
 struct PlayerProjectileData {
   PlayerProjectileData() : on_collision(nullptr) {}
   entity::EntityRef owner;  // The player that "owns" this projectile.
-  // The event to trigger when colliding with another entity.
-  const ActionDef* on_collision;
+
+  // The list of events to that may trigger when colliding with another entity.
+  const TaggedActionDefList* on_collision;
   std::vector<unsigned char> on_collision_flatbuffer;
 };
 
@@ -53,7 +56,8 @@ class PlayerProjectileComponent
 
  private:
   void HandleCollision(const entity::EntityRef& projectile_entity,
-                       const entity::EntityRef& collided_entity);
+                       const entity::EntityRef& collided_entity,
+                       const std::string& tag);
 
   event::EventManager* event_manager_;
 };
