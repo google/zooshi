@@ -101,6 +101,79 @@
       ]
     },
 
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "MountainRange"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": 200, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 180 },
+            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "MountainRange"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 200, "y": 0, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 270 },
+            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "MountainRange"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": -200, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 0 },
+            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "MountainRange"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -200, "y": 0, "z": 0 },
+            "orientation": { "x": 0, "y": 0, "z": 90 },
+            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+          }
+        }
+      ]
+    },
+
     // Ground physics
     {
       "component_list": [

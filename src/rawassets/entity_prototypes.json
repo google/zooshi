@@ -2307,6 +2307,54 @@
           }
         }
       ]
+    },
+
+    // Mountain Range
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "MountainRange"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": ["MountainRange_RenderMesh"]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "PointerOnly"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "MountainRange_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/Mountain_all.fplmesh",
+            "shader": "shaders/textured_opaque",
+            "culling": []
+          }
+        }
+      ]
     }
   ]
 }
