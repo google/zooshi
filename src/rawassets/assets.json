@@ -44,11 +44,10 @@
   ],
   "material_list": [
     "materials/pixel1x1.fplmat",
-    "materials/river.fplmat",
-    "materials/blobshadow.fplmat"
+    "materials/river.fplmat"
   ],
   "shader_list": [
-    "shaders/cardboard",
+    "shaders/color",
     "shaders/lit_textured_normal",
     "shaders/render_depth",
     "shaders/textured",
