@@ -20,7 +20,8 @@
 // arbitrarily, because it doesn't conflict with any other channels, so we can
 // just leave that texture binding for the whole rendering pass.)
 
-#include "shaders/shadow_map_use.glslfi"
+#include "shaders/include/shadow_map.glslf_h"
+#include "shaders/include/fog_effect.glslf_h"
 
 // Variables used in genereal rendering:
 uniform lowp vec4 color;
@@ -80,11 +81,8 @@ void main()
   texture_color = texture_color * color;
 
   // Apply the fog:
-  float fog_factor = (clamp(vDepth, fog_roll_in_dist, fog_max_dist) -
-      fog_roll_in_dist) / (fog_max_dist - fog_roll_in_dist);
-
-  texture_color = mix(texture_color, fog_color, fog_factor *
-      fog_max_saturation);
+  texture_color = ApplyFog(texture_color, vDepth, fog_roll_in_dist,
+    fog_max_dist, fog_color,  fog_max_saturation);
 
   // Final result:
   gl_FragColor = texture_color;
