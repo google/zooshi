@@ -30,6 +30,7 @@ namespace fpl_project {
 static const int kShadowMapTextureID = 7;
 // 45 degrees in radians:
 static const float kShadowMapViewportAngle = 0.7853975f;
+static const vec4 kShadowMapClearColor = vec4(0.99f, 0.99f, 0.99f, 1.0f);
 
 void WorldRenderer::Initialize(World* world) {
   int shadow_map_resolution =
@@ -42,12 +43,8 @@ void WorldRenderer::Initialize(World* world) {
       world->asset_manager->LoadShader("shaders/textured_shadowed");
 }
 
-static const vec4 kShadowMapClearColor = vec4(0.99f, 0.99f, 0.99f, 1.0f);
-
 void WorldRenderer::CreateShadowMap(const CameraInterface& camera, Renderer&
                                     renderer, World* world) {
-  renderer.ClearFrameBuffer(vec4(0.0f, 1.0f, 1.0f, 1.0f));
-
   int shadow_map_resolution =
       world->config->rendering_config()->shadow_map_resolution();
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
@@ -69,6 +66,7 @@ void WorldRenderer::CreateShadowMap(const CameraInterface& camera, Renderer&
   // the maximum (furthest) depth.
   shadow_map_.SetAsRenderTarget();
   renderer.ClearFrameBuffer(kShadowMapClearColor);
+  renderer.SetCulling(Renderer::kCullBack);
 
   depth_shader_->Set(renderer);
   // Generate the shadow map:
@@ -84,7 +82,8 @@ void WorldRenderer::RenderPrep(const CameraInterface &camera,
   world->render_mesh_component.RenderPrep(camera);
   CreateShadowMap(camera, renderer, world);
   RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
-  renderer.ClearFrameBuffer(vec4(0.0f, 0.0f, 0.0f, 1.0f));
+  renderer.ClearDepthBuffer();
+  renderer.SetCulling(Renderer::kCullBack);
 }
 
 // Draw the shadow map in the world, so we can see it.
