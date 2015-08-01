@@ -460,14 +460,14 @@
                 "data_type": "BulletBoxDef",
                 "data": {
                   "half_extents": {
-                    "x": 0.6,
-                    "y": 0.32,
-                    "z": 0.32
+                    "x": 0.03,
+                    "y": 0.016,
+                    "z": 0.016
                   }
                 },
                 "offset": {
                   "x": 0.0,
-                  "y": 0.32,
+                  "y": 0.016,
                   "z": 0.0
                 },
                 "mass": 100.0,
@@ -1204,6 +1204,12 @@
           }
         },
         {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "Projectile_RenderMesh" ]
+          }
+        },
+        {
           "data_type": "PhysicsDef",
           "data": {
             "shapes": [
@@ -1238,24 +1244,6 @@
           }
         },
         {
-          "data_type": "TransformDef",
-          "data": {
-            "scale": {
-              "x": 10.0,
-              "y": 10.0,
-              "z": 10.0
-            }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data": {
-            "source_file": "meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
-          }
-        },
-        {
           "data_type": "PlayerProjectileDef",
           "data": {
             "on_collision": {
@@ -1276,6 +1264,31 @@
                 }
               ]
             }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "Projectile_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 10.0, "y": 10.0, "z": 10.0 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/sushi_salmon.fplmesh",
+            "shader": "shaders/textured_lit",
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
