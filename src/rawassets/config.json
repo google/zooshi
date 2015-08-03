@@ -57,7 +57,30 @@
     "precise_movement_scale":0.1,
     "mouse_sensitivity": 0.001,
     "interact_button": 0,
-    "toggle_mode_button": 2
+    "toggle_mode_button": 2,
+
+    "gui_allow_editing": true,
+    "gui_button_size": 22,
+    "gui_toolbar_size": 22,
+    "gui_bg_toolbar_color": {"r":0, "g":0, "b":0, "a":1},
+    "gui_bg_edit_ui_color": {"r":0, "g":0, "b":0, "a":0.3},
+    "flatbuffer_editor_config": {
+      "ui_size": 16,
+      "ui_spacing": 3,
+      "blank_field_width": 8,
+      "bg_button_color": {"r":0.2, "g":0.2, "b":0.2, "a":1},
+      "bg_button_hover_color": {"r":0.5, "g":0.5, "b":0.5, "a":1},
+      "bg_button_click_color": {"r":0.4, "g":0.4, "b":0.4, "a":1},
+
+      "text_button_color": {"r":1, "g":1, "b":1, "a":1},          // white
+
+      "text_normal_color": {"r":1, "g":1, "b":1, "a":1},          // white
+      "text_comment_color": {"r":1, "g":1, "b":1, "a":1},         // white
+      "text_disabled_color": {"r":0.7, "g":0.7, "b":0.7, "a":1},  // gray
+      "text_editable_color": {"r":0, "g":1, "b":0, "a":1},        // green
+      "text_modified_color": {"r":1, "g":1, "b":0, "a":1},        // yellow
+      "text_error_color": {"r":1, "g":0, "b":0, "a":1}            // red
+    }
   },
 
   "world_def": {
