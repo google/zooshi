@@ -338,6 +338,7 @@ target_link_libraries(zooshi
   motive
   fplbase
   flatui
+  flatbuffers
   entity
   component_library
   world_editor
