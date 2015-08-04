@@ -109,8 +109,8 @@ void PlayerProjectileComponent::HandleCollision(
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   EventContext context;
   context.source_owner = projectile_data->owner;
-  context.source = collided_entity;
-  context.target = projectile_entity;
+  context.source = projectile_entity;
+  context.target = collided_entity;
   context.raft = raft;
   for (size_t i = 0; i < on_collision_size; ++i) {
     auto* tagged_action = projectile_data->on_collision->action_list()->Get(i);

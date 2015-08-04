@@ -64,10 +64,9 @@ void ParseAction(const ActionDef* event_def, EventContext* context,
       case EventSinkUnion_PlaySound: {
         auto* event = static_cast<const PlaySound*>(instance->event());
         entity::EntityRef* ent = GetEntity(event->entity(), context);
-        TransformData* transform_data =
-            entity_manager->GetComponentData<TransformData>(*ent);
         mathfu::vec3 location =
-            transform_data ? transform_data->position : mathfu::kZeros3f;
+            entity_manager->GetComponent<TransformComponent>()->WorldPosition(
+                *ent);
         event_manager->BroadcastEvent(
             PlaySoundPayload(event->sound_name()->c_str(), location));
         break;

@@ -34,12 +34,15 @@ void AudioListenerComponent::Init() {
 
 void AudioListenerComponent::UpdateAllEntities(
     entity::WorldTime /*delta_time*/) {
+  TransformComponent* transform_component =
+      entity_manager_->GetComponent<TransformComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    AudioListenerData* listener_data = Data<AudioListenerData>(iter->entity);
+    entity::EntityRef& entity = iter->entity;
+    AudioListenerData* listener_data = Data<AudioListenerData>(entity);
     assert(listener_data->listener.Valid());
-    TransformData* transform_data = Data<TransformData>(iter->entity);
-    listener_data->listener.SetLocation(transform_data->position);
+    mathfu::mat4 listener_matrix = transform_component->WorldTransform(entity);
+    listener_data->listener.SetMatrix(listener_matrix);
   }
 }
 
