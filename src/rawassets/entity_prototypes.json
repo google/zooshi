@@ -688,13 +688,6 @@
                         "event_type": "PlaySound",
                         "event": {
                           "entity": "Source",
-                          "sound_name": "point_scored"
-                        }
-                      },
-                      {
-                        "event_type": "PlaySound",
-                        "event": {
-                          "entity": "Source",
                           "sound_name": "fed_lady_mandrill"
                         }
                       }
@@ -840,13 +833,6 @@
                           "op": "Add",
                           "attrib": "PatronsFed",
                           "value": 1
-                        }
-                      },
-                      {
-                        "event_type": "PlaySound",
-                        "event": {
-                          "entity": "Source",
-                          "sound_name": "point_scored"
                         }
                       },
                       {

@@ -3,7 +3,7 @@
   "bus": "sound_effects",
   "stream": false,
   "loop": false,
-  "gain": 0.5,
+  "gain": 1.0,
 
   "mode": "Positional",
   "max_audible_radius": 250.0,
