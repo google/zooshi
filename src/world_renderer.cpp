@@ -80,8 +80,10 @@ void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
 
 void WorldRenderer::RenderPrep(const CameraInterface& camera,
                                Renderer& renderer, World* world) {
+  if (world->config->rendering_config()->create_shadow_map()) {
+    CreateShadowMap(camera, renderer, world);
+  }
   world->render_mesh_component.RenderPrep(camera);
-  CreateShadowMap(camera, renderer, world);
   RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
   renderer.ClearDepthBuffer();
   renderer.SetCulling(Renderer::kCullBack);

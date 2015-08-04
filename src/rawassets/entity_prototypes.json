@@ -204,7 +204,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file": "meshes/raft.fplmesh",
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -232,7 +232,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_shrimp.fplmesh",
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -260,7 +260,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -281,7 +281,7 @@
           "data_type": "DigitDef",
           "data" : {
             "render_pass" : ["Alpha"],
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "attrib": "PatronsFed",
             "digit_mesh_list": [
               "meshes/digit_0.fplmesh",
@@ -415,7 +415,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/temp_sign.fplmesh",
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "render_pass" : ["Alpha"]
           }
         }
@@ -447,7 +447,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"],
             "hidden": true
           }
@@ -587,7 +587,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
         },
@@ -624,7 +624,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_shadowed",
+            "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -892,7 +892,7 @@
           "data": {
             "source_file": "meshes/Lady_Mandrill.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass" : ["Alpha"],
+            "render_pass" : ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -1038,7 +1038,7 @@
           "data": {
             "source_file": "meshes/menacing_croc.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass" : ["Alpha"]
+            "render_pass" : ["Opaque"]
           }
         }
       ]
@@ -1173,7 +1173,7 @@
           "data": {
             "source_file": "meshes/moustache_croc.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass": ["Alpha"],
+            "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -1514,7 +1514,7 @@
           "data" : {
             "source_file":"meshes/boxy_tree.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass" : ["Alpha"]
+            "render_pass" : ["Opaque"]
           }
         }
       ]
@@ -1560,7 +1560,7 @@
           "data" : {
             "source_file":"meshes/lumpy_tree.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass" : ["Alpha"]
+            "render_pass" : ["Opaque"]
           }
         }
       ]
@@ -2111,7 +2111,7 @@
           "data" : {
             "source_file":"meshes/large_mountain.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass" : ["Alpha"],
+            "render_pass" : ["Opaque"],
             "culling": ["ViewAngle"]
           }
         }
@@ -2159,7 +2159,7 @@
           "data" : {
             "source_file":"meshes/skinny_mountain.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass" : ["Alpha"],
+            "render_pass" : ["Opaque"],
             "culling": ["ViewAngle"]
           }
         }
@@ -2207,7 +2207,7 @@
           "data" : {
             "source_file":"meshes/wide_mountain.fplmesh",
             "shader": "shaders/textured_lit",
-            "render_pass" : ["Alpha"],
+            "render_pass" : ["Opaque"],
             "culling": ["ViewAngle"]
           }
         }

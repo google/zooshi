@@ -295,7 +295,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
   RenderMeshData* child_render_data = Data<RenderMeshData>(river_data->bank);
   child_render_data->shader =
-      asset_manager->LoadShader("shaders/textured_shadowed");
+      asset_manager->LoadShader("shaders/textured_lit");
   child_render_data->mesh = bank_mesh;
   mesh_data->culling_mask = 0;  // Never cull the bank.
   child_render_data->pass_mask = 1 << RenderPass_Opaque;

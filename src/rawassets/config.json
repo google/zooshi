@@ -42,7 +42,8 @@
     "fog_max_dist": 3000,
     "fog_color": {"r":0.95, "g":0.9, "b":0.7, "a":1.0},
     "fog_max_saturation": 0.5,
-    "cull_distance": 50
+    "cull_distance": 50,
+    "create_shadow_map":false
    },
 
   "world_editor_config" : {
