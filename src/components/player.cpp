@@ -139,6 +139,9 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
 
   projectile_data->owner = source;
 
+  // TODO: Preferably, this should be a step in the entity creation.
+  transform_component->UpdateChildLinks(projectile);
+
   return entity::EntityRef();
 }
 
