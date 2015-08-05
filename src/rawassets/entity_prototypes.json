@@ -631,76 +631,6 @@
       ]
     },
 
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "PatronLadyMandrill_First",
-            "prototype": "PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "PatronDef",
-          "data": {
-            "pop_in_radius": 50,
-            "pop_out_radius": 60,
-            "min_lap": 0,
-            "max_lap": 1,
-            "on_collision": {
-              "action_list": [
-                {
-                  "tag": "Body",
-                  "action": {
-                    "event_list": [
-                      {
-                        "event_type": "PlaySound",
-                        "event": {
-                          "entity": "Source",
-                          "sound_name": "hit_char"
-                        }
-                      }
-                    ]
-                  }
-                },
-                {
-                  "tag": "Mouth",
-                  "action": {
-                    "event_list": [
-                      {
-                        "event_type": "ChangeRailSpeed",
-                        "event": {
-                          "entity": "Raft",
-                          "op": "Set",
-                          "value": 1
-                        }
-                      },
-                      {
-                        "event_type": "ModifyAttribute",
-                        "event": {
-                          "entity": "SourceOwner",
-                          "op": "Add",
-                          "attrib": "PatronsFed",
-                          "value": 1
-                        }
-                      },
-                      {
-                        "event_type": "PlaySound",
-                        "event": {
-                          "entity": "Source",
-                          "sound_name": "fed_lady_mandrill"
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
-    },
-
     // Lady Mandrill
     {
       "component_list": [
@@ -1172,6 +1102,370 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/moustache_croc.fplmesh",
+            "shader": "shaders/textured_lit",
+            "render_pass": ["Alpha"],
+            "culling": ["ViewAngle", "Distance"]
+          }
+        }
+      ]
+    },
+
+    // Hungry Hippo
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "child_ids": [ "PatronHungryHippo_RenderMesh"]
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.35,
+                    "y": 0.3,
+                    "z": 2.5
+                  }
+                },
+                "offset": {
+                  "x": -0.22,
+                  "y": 0,
+                  "z": 2.55
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Body"
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.825,
+                    "y": 0.8,
+                    "z": 0.825
+                  }
+                },
+                "offset": {
+                  "x": -0.375,
+                  "y": 0.0,
+                  "z": 3.7
+                },
+                "mass": 10.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Projectile"
+                ],
+                "user_tag": "Mouth"
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
+            "min_lap": 0,
+            "max_lap": 0,
+            "target_tag": "Mouth",
+            "on_collision": {
+              "action_list": [
+                {
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "point_scored"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id" : "PatronHungryHippo_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 2.25,
+              "y": 2.25,
+              "z": 2.25
+            },
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/hungry_hippo.fplmesh",
+            "shader": "shaders/textured_lit",
+            "render_pass": ["Alpha"],
+            "culling": ["ViewAngle", "Distance"]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "PatronHungryHippo_First",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
+            "min_lap": 0,
+            "max_lap": 0,
+            "on_collision": {
+              "action_list": [
+                {
+                  "tag": "Body",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "hit_char"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ChangeRailSpeed",
+                        "event": {
+                          "entity": "Raft",
+                          "op": "Set",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "point_scored"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    // Banker Bird
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "child_ids": [ "PatronBankerBird_RenderMesh"]
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.8,
+                    "y": 0.3,
+                    "z": 0.9
+                  }
+                },
+                "offset": {
+                  "x": 0.5,
+                  "y": 0,
+                  "z": 1.2
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Mouth"
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
+            "min_lap": 0,
+            "max_lap": 0,
+            "on_collision": {
+              "action_list": [
+                {
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "point_scored"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id" : "PatronBankerBird_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 3.0,
+              "y": 3.0,
+              "z": 3.0
+            },
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/banker_bird.fplmesh",
             "shader": "shaders/textured_lit",
             "render_pass": ["Alpha"],
             "culling": ["ViewAngle", "Distance"]
