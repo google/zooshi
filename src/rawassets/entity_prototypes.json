@@ -1082,9 +1082,9 @@
           "data_type": "TransformDef",
           "data": {
             "scale": {
-              "x": 3.0,
-              "y": 3.0,
-              "z": 3.0
+              "x": 0.01,
+              "y": 0.01,
+              "z": 0.01
             },
             "position": {
               "x": 0.0,
@@ -1094,14 +1094,14 @@
             "orientation": {
               "x": 0.0,
               "y": 0.0,
-              "z": 0.0
+              "z": 180.0
             }
           }
         },
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/moustache_croc.fplmesh",
+            "source_file": "meshes/Crocodile.fplmesh",
             "shader": "shaders/textured_lit",
             "render_pass": ["Alpha"],
             "culling": ["ViewAngle", "Distance"]
