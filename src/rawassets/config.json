@@ -63,8 +63,11 @@
     "gui_button_size": 22,
     "gui_toolbar_size": 22,
     "gui_bg_toolbar_color": {"r":0, "g":0, "b":0, "a":1},
-    "gui_bg_edit_ui_color": {"r":0, "g":0, "b":0, "a":0.3},
+    "gui_bg_edit_ui_color": {"r":0, "g":0, "b":0, "a":0.5},
     "flatbuffer_editor_config": {
+      "read_only": false,
+      "auto_commit_edits": true,
+      "allow_resizing_flatbuffer": true,
       "ui_size": 16,
       "ui_spacing": 3,
       "blank_field_width": 8,
@@ -72,14 +75,16 @@
       "bg_button_hover_color": {"r":0.5, "g":0.5, "b":0.5, "a":1},
       "bg_button_click_color": {"r":0.4, "g":0.4, "b":0.4, "a":1},
 
-      "text_button_color": {"r":1, "g":1, "b":1, "a":1},          // white
+      "text_button_color": {"r":1, "g":1, "b":1, "a":1}, // white
 
-      "text_normal_color": {"r":1, "g":1, "b":1, "a":1},          // white
-      "text_comment_color": {"r":1, "g":1, "b":1, "a":1},         // white
-      "text_disabled_color": {"r":0.7, "g":0.7, "b":0.7, "a":1},  // gray
-      "text_editable_color": {"r":0, "g":1, "b":0, "a":1},        // green
-      "text_modified_color": {"r":1, "g":1, "b":0, "a":1},        // yellow
-      "text_error_color": {"r":1, "g":0, "b":0, "a":1}            // red
+      "text_normal_color": {"r":0.95, "g":0.95, "b":0.95, "a":1}, // near-white
+      "text_comment_color": {"r":0.85, "g":0.85, "b":0.85, "a":1}, // light gray
+      "text_disabled_color": {"r":0.75, "g":0.75, "b":0.75, "a":1}, // gray
+      "text_editable_color": {"r":0, "g":0.85, "b":0, "a":1}, // green
+      "text_editing_color": {"r":0.85, "g":0.85, "b":0, "a":1}, // yellow
+      "text_modified_color": {"r":1, "g":1, "b":0, "a":1}, // bright yellow
+      "text_committed_color": {"r":0.8, "g":1, "b":0, "a":1}, // greenish yellow
+      "text_error_color": {"r":1, "g":0, "b":0, "a":1} // red
     }
   },
 
