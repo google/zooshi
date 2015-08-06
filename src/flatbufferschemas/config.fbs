@@ -110,7 +110,11 @@ table RenderConfig {
   fog_max_saturation:float;
 
   // Max distance at which an object renders - past this it just gets culled.
-  cull_distance: float;
+  cull_distance:float;
+
+  // Create a shadow map each frame?  (Only necessary if one or more objects
+  // are using the textured_shadowed shader.)
+  create_shadow_map:bool;
 }
 
 table WorldDef {
