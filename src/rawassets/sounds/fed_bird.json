@@ -1,0 +1,76 @@
+{
+  "name": "fed_bird",
+  "bus": "sound_effects",
+  "stream": false,
+  "loop": false,
+  "gain": 1.0,
+
+  "mode": "Positional",
+  "max_audible_radius": 250.0,
+  "roll_out_radius": 0.0,
+  "roll_out_curve_factor": 0.5,
+
+  "audio_sample_set": [
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_01.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_02.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_03.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_04.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_05.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_06.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_07.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_08.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_09.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_BirdChomp_10.ogg"
+      }
+    }
+  ]
+}
+

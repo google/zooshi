@@ -1,0 +1,76 @@
+{
+  "name": "fed_hippo",
+  "bus": "sound_effects",
+  "stream": false,
+  "loop": false,
+  "gain": 1.0,
+
+  "mode": "Positional",
+  "max_audible_radius": 250.0,
+  "roll_out_radius": 0.0,
+  "roll_out_curve_factor": 0.5,
+
+  "audio_sample_set": [
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_01.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_02.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_03.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_04.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_05.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_06.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_07.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_08.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_09.ogg"
+      }
+    },
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/sfx_ZS_HippoChomp_10.ogg"
+      }
+    }
+  ]
+}
+

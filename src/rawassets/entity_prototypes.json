@@ -944,7 +944,7 @@
                   "Raycast",
                   "Projectile"
                 ],
-                "user_tag": "Body"
+                "user_tag": "Mouth"
               }
             ],
             "kinematic": true
@@ -976,7 +976,7 @@
                         "event_type": "PlaySound",
                         "event": {
                           "entity": "Source",
-                          "sound_name": "point_scored"
+                          "sound_name": "fed_croc"
                         }
                       }
                     ]
@@ -1089,7 +1089,7 @@
                   "Raycast",
                   "Projectile"
                 ],
-                "user_tag": "Body"
+                "user_tag": "Mouth"
               }
             ],
             "kinematic": true
@@ -1121,7 +1121,7 @@
                         "event_type": "PlaySound",
                         "event": {
                           "entity": "Source",
-                          "sound_name": "point_scored"
+                          "sound_name": "fed_croc"
                         }
                       }
                     ]
