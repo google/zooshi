@@ -5,17 +5,35 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill_First",
-            "comment":"Special LadyMandrill that starts the rail moving."
+            "prototype":"PatronHungryHippo_First",
+            "comment":"Special Hippo that starts the rail moving."
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 10, "y": 48, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -80 }
+            "position": { "x": 13.5, "y": 51.5, "z": -1 },
+            "orientation": { "x": 0, "y": 0, "z": -100 },
+            "scale": { "x": -1.4, "y": 1, "z": 1.4 }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype":"PatronBankerBird"
           }
         },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 34, "y": 45, "z": 4.5 },
+            "orientation": { "x": 0, "y": 0, "z": -42 }
+          }
+        }
       ]
     },
     {
