@@ -39,6 +39,36 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "prototype": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 95,
+              "y": 45,
+              "z": 0
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -72
+            },
+            "scale": {
+              "x": 3,
+              "y": 3,
+              "z": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
             "entity_id": "$5337-a792-975c-390e",
             "prototype": "SavannaTree"
           }

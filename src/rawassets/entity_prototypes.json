@@ -2586,7 +2586,8 @@
             "entity_id": "SavannaTree_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
-        },                  {
+        },
+        {
           "data_type": "TransformDef",
           "data": {
           }
@@ -2596,7 +2597,57 @@
           "data" : {
             "source_file":"meshes/savanna_tree01.fplmesh",
             "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
+            "culling": ["ViewAngle"]
+          }
+        }
+      ]
+    },
+
+    // Baobab Tree
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "BaobabTree_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        }
+      ]
+    },
+
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "BaobabTree_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 0.01, "y": 0.01, "z": 0.01 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/Tree_03.fplmesh",
+            "shader": "shaders/textured_lit",
+            "culling": ["ViewAngle"]
           }
         }
       ]
