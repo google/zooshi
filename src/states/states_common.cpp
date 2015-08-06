@@ -41,7 +41,7 @@ static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
     cardboard_camera->set_facing(camera.facing());
     cardboard_camera->set_up(camera.up());
 
-    auto camera_transform = cardboard_camera->GetTransformMatrix();
+    mat4 camera_transform = cardboard_camera->GetTransformMatrix();
     renderer.model_view_projection() = camera_transform;
     world->world_renderer->RenderWorld(camera, renderer, world);
   };
@@ -59,6 +59,12 @@ static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
 
 void RenderWorld(Renderer& renderer, World* world, Camera& camera,
                  Camera* cardboard_camera, InputSystem* input_system) {
+  vec2 window_size = vec2(renderer.window_size());
+  if (world->is_in_cardboard) {
+    window_size.x() = window_size.x() / 2;
+    cardboard_camera->set_viewport_resolution(window_size);
+  }
+  camera.set_viewport_resolution(window_size);
   world->world_renderer->RenderPrep(camera, renderer, world);
   if (world->is_in_cardboard) {
     RenderStereoscopic(renderer, world, camera, cardboard_camera, input_system);
@@ -80,7 +86,7 @@ void UpdateMainCamera(Camera* main_camera, World* world) {
   main_camera->set_up(raft_orientation.Inverse() * player_data->GetUp());
 }
 
-gui::Event TextButton(const char *text, float size, const char *id) {
+gui::Event TextButton(const char* text, float size, const char* id) {
   gui::StartGroup(gui::kLayoutVerticalLeft, size, id);
   gui::SetMargin(gui::Margin(10));
   auto event = gui::CheckEvent();
