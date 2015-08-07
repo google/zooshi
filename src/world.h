@@ -27,6 +27,7 @@
 #include "component_library/transform.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
+#include "components_generated.h"
 #include "components/digit.h"
 #include "components/patron.h"
 #include "components/player.h"
@@ -35,10 +36,10 @@
 #include "components/rail_node.h"
 #include "components/river.h"
 #include "components/services.h"
+#include "components/simple_movement.h"
 #include "components/shadow_controller.h"
 #include "components/sound.h"
 #include "components/time_limit.h"
-#include "components_generated.h"
 #include "entity/entity_manager.h"
 #include "fplbase/renderer.h"
 #include "fplbase/render_target.h"
@@ -109,6 +110,7 @@ class World {
   ShadowControllerComponent shadow_controller_component;
   component_library::MetaComponent meta_component_;
   editor::EditOptionsComponent edit_options_component_;
+  SimpleMovementComponent simple_movement_component_;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;

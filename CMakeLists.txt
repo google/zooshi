@@ -227,6 +227,8 @@ set(zooshi_SRCS
     src/components/river.h
     src/components/services.cpp
     src/components/services.h
+    src/components/simple_movement.cpp
+    src/components/simple_movement.h
     src/components/shadow_controller.cpp
     src/components/shadow_controller.h
     src/components/sound.cpp

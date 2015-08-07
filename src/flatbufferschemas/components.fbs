@@ -53,6 +53,10 @@ enum PatronAction : byte {
   Fall,
 }
 
+table SimpleMovementDef {
+  velocity:Vec3;
+}
+
 table TaggedActionDef {
   tag:string;
   action:fpl.fpl_project.ActionDef;
@@ -145,6 +149,7 @@ table AnimationDef {}
 // Union containing every component data type.
 union ComponentDataUnion {
   CommonServicesDef,
+  SimpleMovementDef,
   ServicesDef,
   MetaDef,
   RailDenizenDef,

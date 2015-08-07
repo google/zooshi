@@ -85,6 +85,9 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       entity_manager.RegisterComponent(&rail_denizen_component),
       ComponentDataUnion_RailDenizenDef, "RailDenizenDef");
   entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&simple_movement_component_),
+      ComponentDataUnion_SimpleMovementDef, "SimpleMovementDef");
+  entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&player_component),
       ComponentDataUnion_PlayerDef, "PlayerDef");
   entity_factory->SetComponentType(

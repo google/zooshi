@@ -45,7 +45,8 @@
     "meshes/wide_mountain.fplmesh",
     "meshes/log.fplmesh",
     "meshes/savanna_tree01.fplmesh",
-    "meshes/Mountain_all.fplmesh"
+    "meshes/Mountain_all.fplmesh",
+    "meshes/+100.fplmesh"
   ],
   "material_list": [
     "materials/pixel1x1.fplmat",
