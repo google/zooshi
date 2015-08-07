@@ -2598,7 +2598,6 @@
         }
       ]
     },
-
     {
       "component_list": [
         {
@@ -2618,6 +2617,55 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/Tree_03.fplmesh",
+            "shader": "shaders/textured_lit",
+            "culling": ["ViewAngle"]
+          }
+        }
+      ]
+    },
+
+    // Swamp Tree
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "SwampTree"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "child_ids": [ "SwampTree_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "SwampTree_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": { "x": 0.01, "y": 0.01, "z": 0.01 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/Tree_04.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle"]
           }
