@@ -61,6 +61,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
 
   sound_start_ = audio_engine->GetSoundHandle("start");
   sound_click_ = audio_engine->GetSoundHandle("click");
+  music_menu_ = audio_engine->GetSoundHandle("music_menu");
 
   // Set menu state.
   menu_state_ = kMenuStateStart;
@@ -116,8 +117,13 @@ void GameMenuState::Render(Renderer* renderer) {
 
 void GameMenuState::OnEnter() {
   LoadWorldDef(world_, world_def_, input_controller_);
+  music_channel_ = audio_engine_->PlaySound(music_menu_);
   world_->player_component.set_active(false);
   input_system_->SetRelativeMouseMode(false);
+}
+
+void GameMenuState::OnExit() {
+  music_channel_.Stop();
 }
 
 }  // fpl_project

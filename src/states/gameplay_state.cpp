@@ -83,14 +83,20 @@ void GameplayState::Initialize(InputSystem* input_system, World* world,
   audio_engine_ = audio_engine;
 
   sound_pause_ = audio_engine->GetSoundHandle("pause");
+  music_gameplay_ = audio_engine->GetSoundHandle("music_gameplay_lap_1");
 }
 
 void GameplayState::OnEnter() {
   world_->player_component.set_active(true);
   input_system_->SetRelativeMouseMode(true);
+  music_channel_ = audio_engine_->PlaySound(music_gameplay_);
 #ifdef ANDROID_CARDBOARD
   input_system_->cardboard_input().ResetHeadTracker();
 #endif  // ANDROID_CARDBOARD
+}
+
+void GameplayState::OnExit() {
+  music_channel_.Stop();
 }
 
 }  // fpl_project

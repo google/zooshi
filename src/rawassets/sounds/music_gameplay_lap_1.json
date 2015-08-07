@@ -1,15 +1,15 @@
 {
-  "name": "gameplay_loop3",
+  "name": "music_gameplay_lap_1",
   "bus": "gameplay_music",
   "stream": false,
   "loop": true,
-  "gain": 0.5,
+  "gain": 1,
 
   "audio_sample_set": [
     {
       "playback_probability": 1.0,
       "audio_sample": {
-        "filename": "sounds/gameplay_loop3.ogg"
+        "filename": "sounds/Zooshi_Game_Loop_Lap1.ogg"
       }
     }
   ]
