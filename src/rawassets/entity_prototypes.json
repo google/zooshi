@@ -833,7 +833,7 @@
           "data": {
             "pop_in_radius": 40,
             "pop_out_radius": 45,
-            "min_lap": 2,
+            "min_lap": 0,
             "max_lap": 3,
             "on_collision": {
               "action_list": [
@@ -950,14 +950,37 @@
                 "data_type": "BulletBoxDef",
                 "data": {
                   "half_extents": {
-                    "x": 1.8,
-                    "y": 0.6,
-                    "z": 3.6
+                    "x": 0.9,
+                    "y": 0.4,
+                    "z": 2.5
                   }
                 },
                 "offset": {
-                  "x": 0,
-                  "y": 0,
+                  "x": 0.4,
+                  "y": 0.2,
+                  "z": 3
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Body"
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.6,
+                    "y": 0.7,
+                    "z": 0.9
+                  }
+                },
+                "offset": {
+                  "x": 0.4,
+                  "y": -1,
                   "z": 3
                 },
                 "mass": 100.0,
@@ -978,8 +1001,9 @@
           "data": {
             "pop_in_radius": 50,
             "pop_out_radius": 60,
-            "min_lap": 1,
+            "min_lap": 0,
             "max_lap": 2,
+            "target_tag": "Mouth",
             "on_collision": {
               "action_list": [
                 {
