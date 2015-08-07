@@ -51,6 +51,7 @@ class GameMenuState : public StateNode {
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
   virtual void OnEnter();
+  virtual void OnExit();
 
  private:
   MenuState StartMenu(AssetManager& assetman, FontManager& fontman,
@@ -83,6 +84,10 @@ class GameMenuState : public StateNode {
   // Cache the common sounds that are going to be played.
   pindrop::SoundHandle sound_start_;
   pindrop::SoundHandle sound_click_;
+
+  // This will eventually be removed when there are events to handle this logic.
+  pindrop::SoundHandle music_menu_;
+  pindrop::Channel music_channel_;
 
   // Menu state.
   MenuState menu_state_;

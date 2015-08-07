@@ -47,6 +47,7 @@ class GameplayState : public StateNode {
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
   virtual void OnEnter();
+  virtual void OnExit();
 
  protected:
   World* world_;
@@ -69,6 +70,10 @@ class GameplayState : public StateNode {
 
   // Cache the common sounds that are going to be played.
   pindrop::SoundHandle sound_pause_;
+
+  // This will eventually be removed when there are events to handle this logic.
+  pindrop::SoundHandle music_gameplay_;
+  pindrop::Channel music_channel_;
 };
 
 }  // fpl_project
