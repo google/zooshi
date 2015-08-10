@@ -1446,6 +1446,203 @@
       ]
     },
 
+    // Giraffette
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "child_ids": [ "PatronGiraffette_RenderMesh"]
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.7,
+                    "y": 0.9,
+                    "z": 1.8
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 1.8
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Body"
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.2,
+                    "y": 0.2,
+                    "z": 1.0
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.7,
+                  "z": 4.6
+                },
+                "mass": 20.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Body"
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.7,
+                    "y": 0.9,
+                    "z": 1.2
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.7,
+                  "z": 6.6
+                },
+                "mass": 20.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Mouth"
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "pop_in_radius": 50,
+            "pop_out_radius": 60,
+            "min_lap": 0,
+            "max_lap": 0,
+            "target_tag": "Mouth",
+            "on_collision": {
+              "action_list": [
+                {
+                  "tag": "Body",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "hit_char"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "tag": "Mouth",
+                  "action": {
+                    "event_list": [
+                      {
+                        "event_type": "ModifyAttribute",
+                        "event": {
+                          "entity": "SourceOwner",
+                          "op": "Add",
+                          "attrib": "PatronsFed",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "event_type": "PlaySound",
+                        "event": {
+                          "entity": "Source",
+                          "sound_name": "fed_giraffe"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id" : "PatronGiraffette_RenderMesh",
+            "prototype": "RenderMeshPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 1.4,
+              "y": 1.4,
+              "z": 1.4
+            },
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "orientation": {
+              "x": 90.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/Giraffe.fplmesh",
+            "shader": "shaders/textured_lit",
+            "render_pass": ["Opaque"],
+            "culling": ["ViewAngle", "Distance"]
+          }
+        }
+      ]
+    },
+
     // Projectile
     {
       "component_list": [
