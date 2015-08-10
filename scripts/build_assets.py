@@ -464,8 +464,9 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [MESH_PIPELINE, '-d', '-b', target_directory, '-r', MESH_REL_DIR,
-             '-f', '' if texture_formats is None else texture_formats,
+  command = [MESH_PIPELINE, '-d', '-e', 'webp', '-b', target_directory, '-r',
+             MESH_REL_DIR, '-f',
+             '' if texture_formats is None else texture_formats,
              '' if recenter is None else '-c', fbx]
   run_subprocess(command)
 
