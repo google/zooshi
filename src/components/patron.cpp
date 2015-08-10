@@ -251,8 +251,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     AnimationData* anim_data = Data<AnimationData>(patron_data->render_child);
     if (anim_data->motivator.Valid()) {
       const MotiveTime time_remaining = anim_data->motivator.TimeRemaining();
-      const bool anim_ending = time_remaining <
-                               static_cast<MotiveTime>(delta_time);
+      const bool anim_ending =
+          time_remaining < static_cast<MotiveTime>(delta_time);
       if (anim_ending) {
         switch (patron_data->state) {
           case kPatronStateFed:
@@ -273,13 +273,14 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             if (rail_denizen_data != nullptr) {
               rail_denizen_data->enabled = true;
             }
-          } //fallthrough
+          }  // fallthrough
 
           case kPatronStateUpright:
             Animate(patron_data, PatronAction_Idle);
             break;
 
-          default: break;
+          default:
+            break;
         }
       }
     }
@@ -360,6 +361,8 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
       }
+
+      SpawnPointDisplay(Data<TransformData>(proj_entity)->position);
     }
 
     // Send events to every on_collision listener with the correct tag.
@@ -391,10 +394,32 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   }
 }
 
+void PatronComponent::SpawnPointDisplay(const vec3& position) {
+  // We need the raft, so we can orient towards it:
+  entity::EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  if (!raft) return;
+
+  // Spawn from prototype:
+  entity::EntityRef point_display =
+      entity_manager_->GetComponent<ServicesComponent>()
+          ->entity_factory()
+          ->CreateEntityFromPrototype("FloatingPointDisplay", entity_manager_);
+
+  TransformData* points_transform = Data<TransformData>(point_display);
+  TransformData* raft_transform = Data<TransformData>(raft);
+  points_transform->position = position;
+  vec3 facing_vector = points_transform->position - raft_transform->position;
+  facing_vector.z() = 0;
+  points_transform->orientation =
+      mathfu::quat::RotateFromTo(facing_vector, vec3(0, 1, 0));
+}
+
 void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
   // Save the position off, as the CreateEntity call can cause the reference to
   // become invalid.
   mathfu::vec3 pos = position;
+
   for (int i = 0; i < count; i++) {
     entity::EntityRef particle =
         entity_manager_->GetComponent<ServicesComponent>()

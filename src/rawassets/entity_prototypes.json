@@ -2963,6 +2963,56 @@
           }
         }
       ]
+    },
+
+    // Floating Points
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "FloatingPointDisplay"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+          }
+        },
+        {
+          "data_type": "SimpleMovementDef",
+          "data" : {
+            "velocity" : { "x": 0, "y": 0, "z": 1 }
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data": {
+            "source_file": "meshes/+100.fplmesh",
+            "shader": "shaders/textured",
+            "render_pass" : ["Alpha"]
+          }
+        },
+        {
+          "data_type": "TimeLimitDef",
+          "data": {
+            "timelimit": 3.0
+          }
+        },
+
+      ]
     }
+
   ]
 }
