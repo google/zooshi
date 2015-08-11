@@ -62,7 +62,7 @@
 
     "gui_allow_editing": true,
     "gui_button_size": 22,
-    "gui_toolbar_size": 22,
+    "gui_toolbar_size": 25,
     "gui_bg_toolbar_color": {"r":0, "g":0, "b":0, "a":1},
     "gui_bg_edit_ui_color": {"r":0, "g":0, "b":0, "a":0.5},
     "flatbuffer_editor_config": {
