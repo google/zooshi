@@ -58,6 +58,7 @@ using motive::MotiveTime;
 
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kSplatterCount = 10;
+static const float kLapWaitAmount = 0.5f;
 
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
@@ -201,7 +202,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   TransformData* raft_transform = raft ? Data<TransformData>(raft) : nullptr;
   RailDenizenData* raft_rail_denizen =
       raft ? Data<RailDenizenData>(raft) : nullptr;
-  int lap = raft_rail_denizen != nullptr ? raft_rail_denizen->lap : 0;
+  float lap = raft_rail_denizen != nullptr ? raft_rail_denizen->lap : 0.0f;
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     entity::EntityRef patron = iter->entity;
@@ -235,8 +236,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         rail_denizen_data->enabled = false;
       }
     } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
-               lap > patron_data->last_lap_fed && lap >= patron_data->min_lap &&
-               lap <= patron_data->max_lap &&
+               lap > patron_data->last_lap_fed + kLapWaitAmount &&
+               lap >= patron_data->min_lap && lap <= patron_data->max_lap &&
                (state == kPatronStateLayingDown ||
                 state == kPatronStateFalling)) {
       // If you are in range, and the patron is standing laying down (or falling

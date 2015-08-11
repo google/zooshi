@@ -56,7 +56,7 @@ struct PatronData {
   PatronData()
       : on_collision(nullptr),
         state(kPatronStateLayingDown),
-        last_lap_fed(-1) {}
+        last_lap_fed(-1.0f) {}
 
   // The event to trigger when a projectile collides with this patron.
   const TaggedActionDefList* on_collision;
@@ -65,9 +65,9 @@ struct PatronData {
   // Whether the patron is standing up or falling down.
   PatronState state;
 
-  // Keep track of the last time this patron was fed so we know whether they
-  // should pop up this lap.
-  int last_lap_fed;
+  // Keep track of the last time this patron was fed so we know when they
+  // can pop back up.
+  float last_lap_fed;
 
   // If the raft entity is within the pop_in_range it will stand up. If it is
   // once up, if it's not in the pop out range, it will fall down. As a minor
@@ -80,8 +80,8 @@ struct PatronData {
   // Each time the raft makes a lap around the river, its lap counter is
   // incremented.  Patrons will only stand up when the lap counter is in the
   // range [min_lap, max_lap].
-  int min_lap;
-  int max_lap;
+  float min_lap;
+  float max_lap;
 
   // The tag of the body part that needs to be hit to trigger a fall.
   // Note that an empty name means any collision counts.

@@ -15,6 +15,7 @@
 #include "components/rail_denizen.h"
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include "component_library/animation.h"
 #include "component_library/common_services.h"
@@ -97,23 +98,30 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
           rail_denizen_data->Velocity(), mathfu::kAxisY3f);
     }
 
+    float previous_lap = rail_denizen_data->lap;
+    motive::MotiveTime total = rail_denizen_data->motivator.SplineTime() +
+                               rail_denizen_data->motivator.TargetTime();
+    float percent =
+        static_cast<float>(rail_denizen_data->motivator.SplineTime()) / total;
+    rail_denizen_data->lap = floor(previous_lap) + percent;
+
     // When the motivator has looped all the way back to the beginning of the
     // spline, the SplineTime returns back to 0. We can exploit this fact to
-    // determine when a lap has been completed.
-    motive::MotiveTime current_time = rail_denizen_data->motivator.SplineTime();
-    if (current_time < rail_denizen_data->previous_time &&
-        rail_denizen_data->on_new_lap) {
+    // determine when a lap has been completed, by comparing against the
+    // previous lap amount.
+    if (rail_denizen_data->lap < previous_lap) {
       rail_denizen_data->lap++;
-      EventContext context;
-      context.source = iter->entity;
-      context.raft =
-          entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-      ParseAction(
-          rail_denizen_data->on_new_lap, &context,
-          entity_manager_->GetComponent<ServicesComponent>()->event_manager(),
-          entity_manager_);
+      if (rail_denizen_data->on_new_lap) {
+        EventContext context;
+        context.source = iter->entity;
+        context.raft =
+            entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+        ParseAction(
+            rail_denizen_data->on_new_lap, &context,
+            entity_manager_->GetComponent<ServicesComponent>()->event_manager(),
+            entity_manager_);
+      }
     }
-    rail_denizen_data->previous_time = current_time;
   }
 }
 
@@ -141,7 +149,8 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
       flatbuffers::Offset<ActionDef> table =
           flatbuffers::CopyTable(
               fbb, *schema, *table_def,
-              *(const flatbuffers::Table*)rail_denizen_def->on_new_lap()).o;
+              *(const flatbuffers::Table*)rail_denizen_def->on_new_lap())
+              .o;
       fbb.Finish(table);
       data->on_new_lap_flatbuffer = {fbb.GetBufferPointer(),
                                      fbb.GetBufferPointer() + fbb.GetSize()};
@@ -218,7 +227,8 @@ RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
           ? flatbuffers::Offset<ActionDef>(
                 flatbuffers::CopyTable(
                     fbb, *schema, *table_def,
-                    (const flatbuffers::Table&)(*data->on_new_lap)).o)
+                    (const flatbuffers::Table&)(*data->on_new_lap))
+                    .o)
           : 0;
 
   RailDenizenDefBuilder builder(fbb);

@@ -682,7 +682,7 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0,
-            "max_lap": 1,
+            "max_lap": 2,
             "target_tag": "Mouth",
             "on_collision": {
               "action_list": [
@@ -1161,7 +1161,7 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0,
-            "max_lap": 0,
+            "max_lap": 2,
             "target_tag": "Mouth",
             "on_collision": {
               "action_list": [
@@ -1367,7 +1367,7 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0,
-            "max_lap": 0,
+            "max_lap": 2,
             "on_collision": {
               "action_list": [
                 {
@@ -1549,7 +1549,7 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0,
-            "max_lap": 0,
+            "max_lap": 2,
             "target_tag": "Mouth",
             "on_collision": {
               "action_list": [

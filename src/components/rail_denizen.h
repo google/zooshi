@@ -36,9 +36,8 @@ namespace fpl_project {
 
 struct RailDenizenData {
   RailDenizenData()
-      : lap(0),
+      : lap(0.0f),
         spline_playback_rate(1.0f),
-        previous_time(0),
         on_new_lap(nullptr),
         motivator(),
         rail_offset(mathfu::kZeros3f),
@@ -51,10 +50,9 @@ struct RailDenizenData {
   mathfu::vec3 Position() const { return motivator.Value(); }
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
 
-  int lap;
+  float lap;
   float spline_playback_rate;
   float start_time;
-  motive::MotiveTime previous_time;
   const ActionDef* on_new_lap;
   std::vector<unsigned char> on_new_lap_flatbuffer;
   motive::Motivator3f motivator;
