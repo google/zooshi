@@ -72,8 +72,15 @@ class GameplayState : public StateNode {
   pindrop::SoundHandle sound_pause_;
 
   // This will eventually be removed when there are events to handle this logic.
-  pindrop::SoundHandle music_gameplay_;
-  pindrop::Channel music_channel_;
+  // Crossfade between different music tracks based on what lap you're on (even
+  // laps play one track, odd laps play another). The percent value
+  // transitions over time so the transition from one track to the other is
+  // smooth.
+  pindrop::SoundHandle music_gameplay_even_;
+  pindrop::SoundHandle music_gameplay_odd_;
+  pindrop::Channel music_channel_even_;
+  pindrop::Channel music_channel_odd_;
+  float percent;
 };
 
 }  // fpl_project
