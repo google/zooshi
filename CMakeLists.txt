@@ -213,6 +213,8 @@ set(zooshi_SRCS
     src/components/audio_listener.h
     src/components/digit.cpp
     src/components/digit.h
+    src/components/lap_dependent.cpp
+    src/components/lap_dependent.h
     src/components/patron.cpp
     src/components/patron.h
     src/components/player.cpp

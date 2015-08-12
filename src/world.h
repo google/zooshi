@@ -29,6 +29,7 @@
 #include "components/audio_listener.h"
 #include "components_generated.h"
 #include "components/digit.h"
+#include "components/lap_dependent.h"
 #include "components/patron.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
@@ -111,6 +112,7 @@ class World {
   component_library::MetaComponent meta_component_;
   editor::EditOptionsComponent edit_options_component_;
   SimpleMovementComponent simple_movement_component_;
+  LapDependentComponent lap_dependent_component_;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;
