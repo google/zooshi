@@ -163,6 +163,8 @@ class Game : event::EventListener {
   // Network multiplayer library for multi-screen version
   GPGMultiplayer gpg_multiplayer_;
 #endif
+  int fps_frame_counter_;
+  WorldTime fps_time_counter_;
 };
 
 }  // fpl_project

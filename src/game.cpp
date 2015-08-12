@@ -94,7 +94,9 @@ Game::Game()
       prev_world_time_(0),
       audio_config_(nullptr),
       world_(),
-      version_(kVersion) {}
+      version_(kVersion),
+      fps_frame_counter_(0),
+      fps_time_counter_(0) {}
 
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
@@ -342,9 +344,33 @@ void Game::Run() {
     const WorldTime world_time = CurrentWorldTime();
     const WorldTime delta_time =
         std::min(world_time - prev_world_time_, kMaxUpdateTime);
+    fps_frame_counter_++;
+    fps_time_counter_ += world_time - prev_world_time_;
+
     prev_world_time_ = world_time;
     if (delta_time < kMinUpdateTime) {
       Delay(kMinUpdateTime - delta_time);
+    }
+
+    if (fps_time_counter_ >= 1000) {
+      // Show a count of how many frames we actually rendered during the
+      // previous second.
+      LogInfo("Running at %d FPS", fps_frame_counter_);
+      // Set it as an attribute on the player so we can show it on screen.
+      if (world_.active_player_entity) {
+        AttributesData* attrib_data =
+            (world_.entity_manager.GetComponent<AttributesComponent>() !=
+             nullptr)
+                ? world_.entity_manager.GetComponentData<AttributesData>(
+                      world_.active_player_entity)
+                : nullptr;
+
+        if (attrib_data != nullptr)
+          attrib_data->attributes[AttributeDef_FramesPerSecond] =
+              fps_frame_counter_;
+      }
+      fps_time_counter_ -= 1000;
+      fps_frame_counter_ = 0;
     }
 
     input_.AdvanceFrame(&renderer_.window_size());
