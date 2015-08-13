@@ -57,7 +57,14 @@
     "materials/riverbank_savanna_daytime_grass_daytime.fplmat",
     "materials/riverbank_grass_daytime_savanna_daytime.fplmat",
     "materials/riverbank_savanna_daytime.fplmat",
-    "materials/riverbank_grass_daytime.fplmat"
+    "materials/riverbank_savanna_daytime_savanna_sunset.fplmat",
+    "materials/riverbank_savanna_sunset.fplmat",
+    "materials/riverbank_savanna_sunset_savanna_twilight.fplmat",
+    "materials/riverbank_savanna_twilight.fplmat",
+    "materials/riverbank_savanna_twilight_grass_daytime.fplmat",
+    "materials/riverbank_grass_daytime.fplmat",
+    "materials/riverbank_grass_twilight.fplmat",
+    "materials/riverbank_grass_sunset.fplmat",
   ],
   "shader_list": [
     "shaders/color",

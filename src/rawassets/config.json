@@ -34,19 +34,55 @@
         "material": "materials/riverbank_grass_daytime.fplmat"
       },
       {
-        "zone_start": 0.33,
+        "zone_start": 0.1,
+        "material": "materials/riverbank_grass_daytime.fplmat"
+      },
+      {
+        "zone_start": 0.2,
+        "material": "materials/riverbank_grass_daytime.fplmat"
+      },
+      {
+        "zone_start": 0.3,
         "material": "materials/riverbank_grass_daytime_savanna_daytime.fplmat"
       },
       {
-        "zone_start": 0.38,
+        "zone_start": 0.35,
         "material": "materials/riverbank_savanna_daytime.fplmat"
       },
       {
-        "zone_start": 0.86,
-        "material": "materials/riverbank_savanna_daytime_grass_daytime.fplmat"
+        "zone_start": 0.45,
+        "material": "materials/riverbank_savanna_daytime.fplmat"
       },
       {
-        "zone_start": 0.90,
+        "zone_start": 0.55,
+        "material": "materials/riverbank_savanna_daytime.fplmat"
+      },
+      {
+        "zone_start": 0.55,
+        "material": "materials/riverbank_savanna_daytime_savanna_sunset.fplmat"
+      },
+      {
+        "zone_start": 0.6,
+        "material": "materials/riverbank_savanna_sunset.fplmat"
+      },
+      {
+        "zone_start": 0.7,
+        "material": "materials/riverbank_savanna_sunset_savanna_twilight.fplmat"
+      },
+      {
+        "zone_start": 0.75,
+        "material": "materials/riverbank_savanna_twilight.fplmat"
+      },
+      {
+        "zone_start": 0.85,
+        "material": "materials/riverbank_savanna_twilight.fplmat"
+      },
+      {
+        "zone_start": 0.95,
+        "material": "materials/riverbank_savanna_twilight_grass_daytime.fplmat"
+      },
+      {
+        "zone_start": 0.99,
         "material": "materials/riverbank_grass_daytime.fplmat"
       },
     ],

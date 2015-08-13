@@ -244,8 +244,8 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       // of the bank. There are two banks, however, separated by the river.
       // We need to know the width of the bank to caluate the `texture_u`
       // coordinate.
-      const size_t bank_start = left_bank ? 0 : river_idx + 1;
-      const size_t bank_end = left_bank ? river_idx : num_bank_contours - 1;
+      const size_t bank_start = left_bank ? 0 : num_bank_contours - 1;
+      const size_t bank_end = left_bank ? river_idx : river_idx + 1;
       const float bank_width = offsets[bank_start].x() - offsets[bank_end].x();
       const float texture_u = (off.x() - offsets[bank_end].x()) / bank_width;
       bank_verts.push_back(
@@ -388,7 +388,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
           asset_manager->LoadShader("shaders/textured_lit_bank");
     }
     child_render_data->mesh = bank_mesh;
-    mesh_data->culling_mask = 0;  // Never cull the bank.
+    child_render_data->culling_mask = 0;  // Don't cull the banks for now.
     child_render_data->pass_mask = 1 << RenderPass_Opaque;
   }
 }
