@@ -16,6 +16,7 @@
 #define COMPONENTS_RIVER_H
 
 #include <string>
+#include <vector>
 #include "components_generated.h"
 #include "entity/component.h"
 #include "fplbase/mesh.h"
@@ -31,7 +32,7 @@ namespace fpl_project {
 // (Mostly rendermesh at the moment.)  This will probably be less empty
 // once the river gets more animated.
 struct RiverData {
-  entity::EntityRef bank;
+  std::vector<entity::EntityRef> banks;
   std::string rail_name;
 
   // River generation has random elements, so we seed the random number

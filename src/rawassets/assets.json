@@ -53,7 +53,11 @@
     "materials/pixel1x1.fplmat",
     "materials/river.fplmat",
     "materials/Lake_daytime.fplmat",
-    "materials/Lake_twilight.fplmat"
+    "materials/Lake_twilight.fplmat",
+    "materials/riverbank_savanna_daytime_grass_daytime.fplmat",
+    "materials/riverbank_grass_daytime_savanna_daytime.fplmat",
+    "materials/riverbank_savanna_daytime.fplmat",
+    "materials/riverbank_grass_daytime.fplmat"
   ],
   "shader_list": [
     "shaders/color",
@@ -62,6 +66,7 @@
     "shaders/render_depth",
     "shaders/textured",
     "shaders/textured_lit",
+    "shaders/textured_lit_bank",
     "shaders/textured_opaque",
     "shaders/textured_shadowed"
   ],

@@ -26,7 +26,10 @@
 #include "world_editor/editor_event.h"
 
 using mathfu::vec2;
+using mathfu::vec2_packed;
 using mathfu::vec3;
+using mathfu::vec3_packed;
+using mathfu::vec4_packed;
 using mathfu::quat;
 using mathfu::kAxisZ3f;
 
@@ -40,6 +43,15 @@ using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
 
 static const size_t kNumIndicesPerQuad = 6;
+
+// A vertex definition specific to normalmapping with colors.
+struct NormalMappedColorVertex {
+  vec3_packed pos;
+  vec2_packed tc;
+  vec3_packed norm;
+  vec4_packed tangent;
+  unsigned char color[4];
+};
 
 void RiverComponent::Init() {
   event_manager_ =
@@ -83,6 +95,8 @@ entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
 void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   static const Attribute kMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
                                           kTangent4f, kEND};
+  static const Attribute kBankMeshFormat[] = {
+      kPosition3f, kTexCoord2f, kNormal3f, kTangent4f, kColor4ub, kEND};
   std::vector<mathfu::vec3_packed> track;
   const RiverConfig* river = entity_manager_->GetComponent<ServicesComponent>()
                                  ->config()
@@ -98,6 +112,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   // Generate the spline data and store it in our track vector:
   rail->Positions(river->spline_stepsize(), &track);
 
+  AssetManager* asset_manager =
+      entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
+
   const size_t num_bank_contours = river->banks()->Length();
   const size_t num_bank_quads = num_bank_contours - 2;
   const size_t river_idx = river->river_index();
@@ -109,6 +126,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   const size_t bank_index_max =
       (segment_count - 1) * kNumIndicesPerQuad * num_bank_quads;
   assert(num_bank_contours >= 2 && river_idx < num_bank_contours - 1);
+  const unsigned int num_zones = river->zones()->Length();
 
   // Need to allocate some space to plan out our mesh in:
   std::vector<NormalMappedVertex> river_verts(river_vert_max);
@@ -116,15 +134,43 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   std::vector<unsigned short> river_indices(river_index_max);
   river_indices.clear();
 
-  std::vector<NormalMappedVertex> bank_verts(bank_vert_max);
+  std::vector<NormalMappedColorVertex> bank_verts(bank_vert_max);
   bank_verts.clear();
   std::vector<unsigned short> bank_indices(bank_index_max);
   bank_indices.clear();
+  // Use one set of bank vertices for the entire riverbank, but separate out
+  // the zones via indices, so we can use different materials (and possibly
+  // shaders) per zone. We still keep bank_indices for the normal calculation,
+  // though.
+  std::vector<std::vector<unsigned short>> bank_indices_by_zone;
+  bank_indices_by_zone.resize(num_zones);
+
+  std::vector<unsigned int> bank_zones;  // indexed by segment
+  bank_zones.resize(segment_count, 0);   // default of 0
+  unsigned int current_zone = 0;
 
   // TODO: Use a local random number generator. Resetting the global random
   //       number generator is not a nice. Also, there's no guarantee that
   //       mathfu::Random will continue to use rand().
   srand(river_data->random_seed);
+
+  std::vector<float> actual_zone_end;
+  actual_zone_end.resize(segment_count, 1);
+  // Precalculate the actual zone end locations.
+  for (size_t i = 0; i < segment_count; i++) {
+    const float fraction =
+        static_cast<float>(i) / static_cast<float>(segment_count);
+    if (current_zone + 1 < river->zones()->Length() &&
+        fraction > river->zones()->Get(current_zone + 1)->zone_start()) {
+      actual_zone_end[current_zone] = fraction;
+      current_zone = current_zone + 1;
+    }
+  }
+  // Start over from zone 0.
+  current_zone = 0;
+
+  Material* current_bank_material = asset_manager->LoadMaterial(
+      river->zones()->Get(current_zone)->material()->c_str());
 
   // Construct the actual mesh data for the river:
   std::vector<vec2> offsets(num_bank_contours);
@@ -145,6 +191,31 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     const float texture_v = river->texture_tile_size() * static_cast<float>(i) /
                             static_cast<float>(segment_count);
 
+    // Fraction of the river we have gone through, approximately.
+    const float fraction =
+        static_cast<float>(i) / static_cast<float>(segment_count);
+
+    if (fraction >= actual_zone_end[current_zone]) {
+      current_zone = current_zone + 1;
+      // Each zone has its own texture.
+      current_bank_material = asset_manager->LoadMaterial(
+          river->zones()->Get(current_zone)->material()->c_str());
+    }
+    bank_zones[i] = current_zone;
+    float zone_start =
+        current_zone == 0 ? 0 : actual_zone_end[current_zone - 1];
+    float zone_end = actual_zone_end[current_zone];
+    float within_fraction = (fraction - zone_start) / (zone_end - zone_start);
+    if (current_bank_material->textures().size() == 1) {
+      // Ensure we stay continuous with transitional zones.
+      within_fraction = within_fraction < .5 ? 1 : 0;
+    }
+
+    int within_color = static_cast<int>(255.0 * within_fraction);
+    // Cap the color to 0..255 byte.
+    unsigned char within_color_byte = static_cast<unsigned char>(
+        within_color < 0 ? 0 : (within_color > 255 ? 255 : within_color));
+
     // Get the (side, up) offsets of the bank vertices.
     // The offsets are relative to `track_position`.
     // side == distance along `track_normal`
@@ -161,8 +232,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       const bool left_bank = j <= river_idx;
       const vec2 off = offsets[j];
       const vec3 vertex =
-          track_position + (off.x() + river_width * (left_bank ? -1 : 1)) *
-                            track_normal + off.y() * kAxisZ3f;
+          track_position +
+          (off.x() + river_width * (left_bank ? -1 : 1)) * track_normal +
+          off.y() * kAxisZ3f;
       // The texture is stretched from the side of the river to the far end
       // of the bank. There are two banks, however, separated by the river.
       // We need to know the width of the bank to caluate the `texture_u`
@@ -171,18 +243,20 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       const size_t bank_end = left_bank ? river_idx : num_bank_contours - 1;
       const float bank_width = offsets[bank_start].x() - offsets[bank_end].x();
       const float texture_u = (off.x() - offsets[bank_end].x()) / bank_width;
-      bank_verts.push_back(NormalMappedVertex{
-          vec3_packed(vertex), vec2_packed(vec2(texture_u, texture_v)),
-          vec3_packed(vec3(0, 1, 0)), vec4_packed(vec4(1, 0, 0, 1)),
-      });
+      bank_verts.push_back(
+          NormalMappedColorVertex{vec3_packed(vertex),
+                                  vec2_packed(vec2(texture_u, texture_v)),
+                                  vec3_packed(vec3(0, 1, 0)),
+                                  vec4_packed(vec4(1, 0, 0, 1)),
+                                  {255, 255, 255, within_color_byte}});
     }
 
     // Ensure vertices don't go behind previous vertices on the inside of
     // a tight corner.
     if (i > 0) {
-      const NormalMappedVertex* prev_verts =
+      const NormalMappedColorVertex* prev_verts =
           &bank_verts[bank_verts.size() - 2 * num_bank_contours];
-      NormalMappedVertex* cur_verts =
+      NormalMappedColorVertex* cur_verts =
           &bank_verts[bank_verts.size() - num_bank_contours];
       for (size_t j = 0; j < num_bank_contours; j++) {
         const vec3 vert_delta =
@@ -204,9 +278,13 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     // The river has two of the middle vertices of the bank.
     // The texture coordinates are different, however.
     const size_t river_vert = bank_verts.size() - num_bank_contours + river_idx;
-    river_verts.push_back(bank_verts[river_vert]);
+    river_verts.push_back(NormalMappedVertex{
+        bank_verts[river_vert].pos, bank_verts[river_vert].tc,
+        bank_verts[river_vert].norm, bank_verts[river_vert].tangent});
     river_verts.back().tc = vec2(0.0f, texture_v);
-    river_verts.push_back(bank_verts[river_vert + 1]);
+    river_verts.push_back(NormalMappedVertex{
+        bank_verts[river_vert + 1].pos, bank_verts[river_vert + 1].tc,
+        bank_verts[river_vert + 1].norm, bank_verts[river_vert + 1].tangent});
     river_verts.back().tc = vec2(1.0f, texture_v);
   }
 
@@ -237,7 +315,10 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     for (size_t j = 0; j <= num_bank_quads; ++j) {
       // Do not create bank geo for the river.
       if (j == river_idx) continue;
+      unsigned int zone = bank_zones[i];
       make_quad(bank_indices, i * num_bank_contours, j, num_bank_contours + j);
+      make_quad(bank_indices_by_zone[zone], i * num_bank_contours, j,
+                num_bank_contours + j);
     }
   }
 
@@ -250,15 +331,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   Mesh::ComputeNormalsTangents(bank_verts.data(), bank_indices.data(),
                                bank_verts.size(), bank_indices.size());
 
-  AssetManager* asset_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
-
   // Load the material from files.
   Material* river_material =
       asset_manager->LoadMaterial(river->material()->c_str());
-  Material* bank_material =
-      asset_manager->LoadMaterial("materials/ground_material.fplmat");
-
   // Create the actual mesh objects, and stuff all the data we just
   // generated into it.
   Mesh* river_mesh = new Mesh(river_verts.data(), river_verts.size(),
@@ -267,12 +342,6 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   river_mesh->AddIndices(river_indices.data(), river_indices.size(),
                          river_material);
 
-  Mesh* bank_mesh = new Mesh(bank_verts.data(), bank_verts.size(),
-                             sizeof(NormalMappedVertex), kMeshFormat);
-
-  bank_mesh->AddIndices(bank_indices.data(), bank_indices.size(),
-                        bank_material);
-
   // Add the river mesh to the river entity.
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
   mesh_data->shader = asset_manager->LoadShader(river->shader()->c_str());
@@ -280,25 +349,43 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   mesh_data->culling_mask = 0;  // Never cull the river.
   mesh_data->pass_mask = 1 << RenderPass_Opaque;
 
-  if (!river_data->bank) {
-    // Now we make a new entity to hold the bank mesh.
-    river_data->bank = entity_manager_->AllocateNewEntity();
-    entity_manager_->AddEntityToComponent<RenderMeshComponent>(
-        river_data->bank);
+  river_data->banks.resize(num_zones, entity::EntityRef());
+  for (unsigned int zone = 0; zone < num_zones; zone++) {
+    Material* bank_material = asset_manager->LoadMaterial(
+        river->zones()->Get(zone)->material()->c_str());
 
-    // Then we stick it as a child of the river entity, so it always moves
-    // with it and stays aligned:
-    auto transform_component =
-        GetComponent<component_library::TransformComponent>();
-    transform_component->AddChild(river_data->bank, entity);
+    Mesh* bank_mesh =
+        new Mesh(bank_verts.data(), bank_verts.size(),
+                 sizeof(NormalMappedColorVertex), kBankMeshFormat);
+
+    bank_mesh->AddIndices(bank_indices_by_zone[zone].data(),
+                          bank_indices_by_zone[zone].size(), bank_material);
+    if (!river_data->banks[zone]) {
+      // Now we make a new entity to hold the bank mesh.
+      river_data->banks[zone] = entity_manager_->AllocateNewEntity();
+      entity_manager_->AddEntityToComponent<RenderMeshComponent>(
+          river_data->banks[zone]);
+
+      // Then we stick it as a child of the river entity, so it always moves
+      // with it and stays aligned:
+      auto transform_component =
+          GetComponent<component_library::TransformComponent>();
+      transform_component->AddChild(river_data->banks[zone], entity);
+    }
+
+    RenderMeshData* child_render_data =
+        Data<RenderMeshData>(river_data->banks[zone]);
+    if (bank_material->textures().size() == 1) {
+      child_render_data->shader =
+          asset_manager->LoadShader("shaders/textured_lit");
+    } else {
+      child_render_data->shader =
+          asset_manager->LoadShader("shaders/textured_lit_bank");
+    }
+    child_render_data->mesh = bank_mesh;
+    mesh_data->culling_mask = 0;  // Never cull the bank.
+    child_render_data->pass_mask = 1 << RenderPass_Opaque;
   }
-
-  RenderMeshData* child_render_data = Data<RenderMeshData>(river_data->bank);
-  child_render_data->shader =
-      asset_manager->LoadShader("shaders/textured_lit");
-  child_render_data->mesh = bank_mesh;
-  mesh_data->culling_mask = 0;  // Never cull the bank.
-  child_render_data->pass_mask = 1 << RenderPass_Opaque;
 }
 
 void RiverComponent::OnEvent(const event::EventPayload& event_payload) {
