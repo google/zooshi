@@ -65,6 +65,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/digit.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/lap_dependent.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player_projectile.cpp \

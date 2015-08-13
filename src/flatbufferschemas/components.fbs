@@ -72,8 +72,8 @@ table PatronDef {
   // Each time the raft makes a lap around the river, it's lap counter is
   // incremented.  Patrons will only stand up when the lap counter is in the
   // range [min_lap, max_lap].
-  min_lap:int = -1;
-  max_lap:int = -1;
+  min_lap:float = -1.0;
+  max_lap:float = -1.0;
 
   // If the raft is within the pop in radius, this patron will stand up.
   pop_in_radius:float;
@@ -135,6 +135,15 @@ table RiverDef {
   random_seed:uint;
 }
 
+// Component to hide and show the entity, based on the lap number of the raft
+// as it goes around the course.
+table LapDependentDef {
+  // The minimum lap amount to be visible for.
+  min_lap:float;
+  // The maximum lap amount to be visible for.
+  max_lap:float;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table ListenerDef {}
@@ -154,6 +163,7 @@ union ComponentDataUnion {
   MetaDef,
   RailDenizenDef,
   ShadowControllerDef,
+  LapDependentDef,
   PlayerDef,
   PatronDef,
   PlayerProjectileDef,

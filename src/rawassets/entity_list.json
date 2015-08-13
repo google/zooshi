@@ -184,6 +184,129 @@
           }
         }
       ]
+    },
+
+    // Cave
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "RockMid"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": -0.25, "y": 51, "z": 1 },
+            "orientation": { "x": -115, "y": 81, "z": -118 },
+            "scale": { "x": 5, "y": -6, "z": 6.9 }
+          }
+        },
+        {
+          "data_type": "LapDependentDef",
+          "data": {
+            "min_lap": -1.0,
+            "max_lap": 0.5
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.1,
+                    "y": 1.0,
+                    "z": 1.6
+                  }
+                },
+                "offset": {
+                  "x": 1.0,
+                  "y": 0.2,
+                  "z": -0.3
+                },
+                "mass": 1000.0,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 0.1,
+                    "z": 1.6
+                  }
+                },
+                "offset": {
+                  "x": 0.5,
+                  "y": 1.2,
+                  "z": -0.3
+                },
+                "mass": 1000.0,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 0.1,
+                    "z": 1.6
+                  }
+                },
+                "offset": {
+                  "x": 0.5,
+                  "y": -0.8,
+                  "z": -0.3
+                },
+                "mass": 1000.0,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 1.0,
+                    "z": 0.1
+                  }
+                },
+                "offset": {
+                  "x": 0.5,
+                  "y": 0.2,
+                  "z": 1.4
+                },
+                "mass": 1000.0,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        }
+      ]
     }
   ]
 }
