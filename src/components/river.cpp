@@ -15,6 +15,7 @@
 #include "components/river.h"
 #include <math.h>
 #include <memory>
+#include "common.h"
 #include "component_library/rendermesh.h"
 #include "component_library/transform.h"
 #include "components/rail_denizen.h"
@@ -38,6 +39,10 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RiverComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+using mathfu::vec2_packed;
+using mathfu::vec3_packed;
+using mathfu::vec4_packed;
 
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
@@ -97,7 +102,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
                                           kTangent4f, kEND};
   static const Attribute kBankMeshFormat[] = {
       kPosition3f, kTexCoord2f, kNormal3f, kTangent4f, kColor4ub, kEND};
-  std::vector<mathfu::vec3_packed> track;
+  std::vector<vec3_packed> track;
   const RiverConfig* river = entity_manager_->GetComponent<ServicesComponent>()
                                  ->config()
                                  ->river_config();

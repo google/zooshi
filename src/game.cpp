@@ -18,6 +18,7 @@
 
 #include "assets_generated.h"
 #include "audio_config_generated.h"
+#include "common.h"
 #include "entity/entity.h"
 #include "events/play_sound.h"
 #include "fplbase/input.h"
