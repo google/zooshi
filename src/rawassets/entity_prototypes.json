@@ -749,9 +749,9 @@
           "data_type": "TransformDef",
           "data": {
             "scale": {
-              "x": 3.0,
-              "y": 3.0,
-              "z": 3.0
+              "x": 0.03,
+              "y": 0.03,
+              "z": 0.03
             },
             "position": {
               "x": 0.0,
