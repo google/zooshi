@@ -681,8 +681,8 @@
           "data": {
             "pop_in_radius": 50,
             "pop_out_radius": 60,
-            "min_lap": 0,
-            "max_lap": 2,
+            "min_lap": 0.01,
+            "max_lap": 3,
             "target_tag": "Mouth",
             "on_collision": {
               "action_list": [
@@ -833,7 +833,7 @@
           "data": {
             "pop_in_radius": 40,
             "pop_out_radius": 45,
-            "min_lap": 0,
+            "min_lap": 0.01,
             "max_lap": 3,
             "on_collision": {
               "action_list": [
@@ -1001,8 +1001,8 @@
           "data": {
             "pop_in_radius": 50,
             "pop_out_radius": 60,
-            "min_lap": 0,
-            "max_lap": 2,
+            "min_lap": 0.01,
+            "max_lap": 3,
             "target_tag": "Mouth",
             "on_collision": {
               "action_list": [
@@ -1160,8 +1160,8 @@
           "data": {
             "pop_in_radius": 50,
             "pop_out_radius": 60,
-            "min_lap": 0,
-            "max_lap": 2,
+            "min_lap": 0.01,
+            "max_lap": 3,
             "target_tag": "Mouth",
             "on_collision": {
               "action_list": [
@@ -1366,8 +1366,8 @@
           "data": {
             "pop_in_radius": 50,
             "pop_out_radius": 60,
-            "min_lap": 0,
-            "max_lap": 2,
+            "min_lap": 0.01,
+            "max_lap": 3,
             "on_collision": {
               "action_list": [
                 {
@@ -1548,8 +1548,8 @@
           "data": {
             "pop_in_radius": 50,
             "pop_out_radius": 60,
-            "min_lap": 0,
-            "max_lap": 2,
+            "min_lap": 0.01,
+            "max_lap": 3,
             "target_tag": "Mouth",
             "on_collision": {
               "action_list": [

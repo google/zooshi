@@ -1,20 +1,36 @@
 {
-  entity_list: [
+  "entity_list": [
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronHungryHippo_First",
-            "comment":"Special Hippo that starts the rail moving."
+            "entity_id": "$8538-ad4a-98be-2dda",
+            "prototype": "PatronHungryHippo_First",
+            "comment": "Special Hippo that starts the rail moving."
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 13.5, "y": 51.5, "z": -1 },
-            "orientation": { "x": 0, "y": 0, "z": -100 },
-            "scale": { "x": -1.4, "y": 1, "z": 1.4 }
+            "position": {
+              "x": 13.5,
+              "y": 51.5,
+              "z": -1
+            },
+            "scale": {
+              "x": -1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -100
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
           }
         }
       ]
@@ -24,14 +40,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronBankerBird"
+            "entity_id": "$a254-66d6-b584-65d4",
+            "prototype": "PatronHungryHippo"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 34, "y": 45, "z": 4.5 },
-            "orientation": { "x": 0, "y": 0, "z": -42 }
+            "position": {
+              "x": 43.9745,
+              "y": 56.1338,
+              "z": -0.999996
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -112
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
           }
         }
       ]
@@ -41,14 +74,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronGiraffette"
+            "entity_id": "$d68e-40bc-9205-7582",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 25, "y": 66.5, "z": 0.67 },
-            "orientation": { "x": 0, "y": 0, "z": -120 }
+            "position": {
+              "x": -49.1471,
+              "y": -7.22539,
+              "z": 6.67501
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -24
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
@@ -58,14 +108,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$8a37-1b2c-c1e5-e63b",
+            "prototype": "PatronGiraffette"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 28, "y": 60, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -135 }
+            "position": {
+              "x": 42.6393,
+              "y": -19.2573,
+              "z": 0.67
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -72
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
           }
         }
       ]
@@ -75,14 +142,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$eac9-8253-a12d-0193",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 53, "y": 49, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -90 }
+            "position": {
+              "x": 30.6139,
+              "y": 16.4366,
+              "z": 0.00999897
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 94.2
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -92,14 +176,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$95d2-3605-a445-db9d",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 55, "y": 30, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -60 }
+            "position": {
+              "x": 27.7298,
+              "y": -25.9094,
+              "z": 0.00999774
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 45
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -109,14 +210,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$7681-8d44-e720-9b34",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 50, "y": 12, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -20 }
+            "position": {
+              "x": 39.8597,
+              "y": -40.2417,
+              "z": 0.00999865
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 8
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -126,14 +244,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$a153-ea8e-2beb-7209",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 23, "y": 3, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 60 }
+            "position": {
+              "x": 7.70688,
+              "y": -54.9229,
+              "z": 0.010001
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 31
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -143,14 +278,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$470d-eb1a-cb5a-eee9",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 28, "y": -19, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 0 }
+            "position": {
+              "x": -13,
+              "y": -46,
+              "z": 0.01
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 120
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -160,14 +312,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$8547-263e-2892-79c8",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 40, "y": -35, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -10 }
+            "position": {
+              "x": -45,
+              "y": -52,
+              "z": 0.01
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 80
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -177,14 +346,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$0b81-3746-6528-68ee",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 23, "y": -47, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 20 }
+            "position": {
+              "x": -43,
+              "y": -33,
+              "z": 0.01
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 170
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -194,14 +380,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$e461-a91c-3a0b-5c55",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 3, "y": -50, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 70 }
+            "position": {
+              "x": -28.0298,
+              "y": -14.1921,
+              "z": 0.309999
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -119
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -211,14 +414,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$0d44-1d6b-8962-a443",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -13, "y": -46, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 120 }
+            "position": {
+              "x": 30.2216,
+              "y": 45.3356,
+              "z": 0.135001
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 61.9996
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -228,14 +448,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$9771-d57a-b1e2-7d6c",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -22, "y": -58, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 60 }
+            "position": {
+              "x": 29.3976,
+              "y": 62.4076,
+              "z": 0.00999808
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 21
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -245,14 +482,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$c297-c5e9-1c63-d00b",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -45, "y": -52, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 80 }
+            "position": {
+              "x": 60.8797,
+              "y": 15.6457,
+              "z": 0.710004
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 128
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -262,14 +516,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$1b76-9485-9ae2-73d8",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -43, "y": -33, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 170 }
+            "position": {
+              "x": 42.7896,
+              "y": 0.479528,
+              "z": 0.234998
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 111
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -279,14 +550,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$687a-2aa0-3626-b68d",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -42, "y": -9, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -170 }
+            "position": {
+              "x": 27.0754,
+              "y": -57.5582,
+              "z": 0.484998
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 136
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -296,14 +584,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$7ed3-a699-220e-637e",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -30, "y": 8, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -145 }
+            "position": {
+              "x": -43,
+              "y": -65,
+              "z": 0.01
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -140
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -313,14 +618,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$0c50-0eb5-1025-a9b2",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -42, "y": 23, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 180 }
+            "position": {
+              "x": -60,
+              "y": -38,
+              "z": 0.01
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -50
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -330,14 +652,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$9a65-2005-305a-4c94",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -51, "y": 40, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 160 }
+            "position": {
+              "x": -60.8233,
+              "y": -19.9114,
+              "z": 0.610001
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -78
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -347,14 +686,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$904a-0112-137c-d408",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -37, "y": 56, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -170 }
+            "position": {
+              "x": -22.4653,
+              "y": 14.1666,
+              "z": 1.11
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -12
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -364,49 +720,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronLadyMandrill"
+            "entity_id": "$06d3-7d8a-ed53-a085",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -16, "y": 57, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -110 }
-          }
-        }
-      ]
-    },
-    // Moustache Crocs begin here
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMoustacheCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 23, "y": 44, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 110 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMoustacheCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 48, "y": 65, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 45 }
+            "position": {
+              "x": -54.1759,
+              "y": 8.62978,
+              "z": 0.735
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -80
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -416,14 +754,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$1d01-e130-5bc4-1dc1",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 32, "y": 26, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -160 }
+            "position": {
+              "x": -8.85368,
+              "y": 65.9315,
+              "z": 0.884993
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 1.99999
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -433,14 +788,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$4d13-0545-2293-0755",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 13, "y": 15, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -90 }
+            "position": {
+              "x": -18,
+              "y": 72,
+              "z": 0.01
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 20
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -450,14 +822,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$3a2c-9976-75e6-cc62",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 64, "y": 12, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 130 }
+            "position": {
+              "x": -9,
+              "y": 35,
+              "z": 1.085
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 78
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -467,14 +856,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$1d9c-e3e5-c710-eed2",
+            "prototype": "PatronMoustacheCroc"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 46, "y": -7, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 150 }
+            "position": {
+              "x": 63.2621,
+              "y": 45.9034,
+              "z": 0.509997
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 58.4
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
           }
         }
       ]
@@ -484,14 +890,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$d0a2-060a-9101-794e",
+            "prototype": "PatronHungryHippo"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 15, "y": -22, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -110 }
+            "position": {
+              "x": 41.6551,
+              "y": 37.3537,
+              "z": -0.874993
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 3.50009
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
           }
         }
       ]
@@ -501,14 +924,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$6646-3118-bea1-787c",
+            "prototype": "PatronHungryHippo"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 35, "y": -55, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 170 }
+            "position": {
+              "x": 24.2148,
+              "y": -1.50652,
+              "z": -0.874983
+            },
+            "scale": {
+              "x": -1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 33.5001
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
           }
         }
       ]
@@ -518,14 +958,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$8268-7a27-dd27-631a",
+            "prototype": "PatronGiraffette"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -4, "y": -31, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -20 }
+            "position": {
+              "x": 10.0912,
+              "y": -32.2409,
+              "z": 1.22
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 123
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
           }
         }
       ]
@@ -535,14 +992,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$82aa-2a91-d174-b82d",
+            "prototype": "PatronHungryHippo"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -11, "y": -62, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 180 }
+            "position": {
+              "x": -3.31186,
+              "y": -30.7726,
+              "z": 0.250017
+            },
+            "scale": {
+              "x": -1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 141.5
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
           }
         }
       ]
@@ -552,14 +1026,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$3450-3013-d68e-40bc",
+            "prototype": "PatronGiraffette"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -23, "y": -32, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -10 }
+            "position": {
+              "x": -10.4285,
+              "y": -66.8073,
+              "z": 1.22
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 27
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
           }
         }
       ]
@@ -569,14 +1060,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$2c07-beb2-ea04-9aeb",
+            "prototype": "PatronGiraffette"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -43, "y": -65, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -140 }
+            "position": {
+              "x": -23.979,
+              "y": -35.0072,
+              "z": 1.22
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 171
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
           }
         }
       ]
@@ -586,14 +1094,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$1bce-ba03-4503-013d",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -60, "y": -38, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -50 }
+            "position": {
+              "x": -24.582,
+              "y": 0.0365874,
+              "z": 5.45
+            },
+            "scale": {
+              "x": -1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 36
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
@@ -603,14 +1128,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$450e-d4da-9181-84e9",
+            "prototype": "PatronHungryHippo"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -68, "y": -9, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -30 }
+            "position": {
+              "x": -34.9604,
+              "y": 18.8276,
+              "z": -0.224988
+            },
+            "scale": {
+              "x": -1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -176.5
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
           }
         }
       ]
@@ -620,14 +1162,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$2ea0-49ae-b415-81e8",
+            "prototype": "PatronLadyMandrill"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -23, "y": -6, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 75 }
+            "position": {
+              "x": -58.8104,
+              "y": 30.0077,
+              "z": 0.309993
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 157
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
           }
         }
       ]
@@ -637,14 +1196,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$538a-d4a9-8be2-dda2",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -60, "y": 15, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -80 }
+            "position": {
+              "x": -28.0147,
+              "y": -67.8032,
+              "z": 7.10001
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -129
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
@@ -654,14 +1230,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$ac98-253a-12d0-1939",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -27, "y": 24, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 20 }
+            "position": {
+              "x": 8.74985,
+              "y": -21.7182,
+              "z": 6.35001
+            },
+            "scale": {
+              "x": -1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -95.7001
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
@@ -671,14 +1264,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$6818-d44e-7209-b342",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -57, "y": 56, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -30 }
+            "position": {
+              "x": 60.4414,
+              "y": 41.5009,
+              "z": 6.10001
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 120.3
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
@@ -688,14 +1298,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$153e-a8e2-beb7-2094",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -18, "y": 72, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 20 }
+            "position": {
+              "x": -45.033,
+              "y": 53.2765,
+              "z": 6.125
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -8.99999
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
@@ -705,49 +1332,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMoustacheCroc"
+            "entity_id": "$b6b3-d166-7067-eae1",
+            "prototype": "PatronHungryHippo"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -9, "y": 35, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 120 }
-          }
-        }
-      ]
-    },
-    // Menacing Crocs begin here
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMenacingCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 10, "y": 27, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 180 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMenacingCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 22, "y": 70, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 20 }
+            "position": {
+              "x": -33.5928,
+              "y": 57.7598,
+              "z": -0.224992
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -155.5
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
           }
         }
       ]
@@ -757,14 +1366,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMenacingCroc"
+            "entity_id": "$e1c5-4a5b-6578-538a",
+            "prototype": "PatronGiraffette"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 71, "y": 33, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 100 }
+            "position": {
+              "x": -62.1863,
+              "y": 49.0028,
+              "z": 1.22
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 123
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
           }
         }
       ]
@@ -774,14 +1400,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMenacingCroc"
+            "entity_id": "$eb7b-6d57-835a-2ce6",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 17, "y": -8, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -120 }
+            "position": {
+              "x": -22.6417,
+              "y": 31.395,
+              "z": 6.125
+            },
+            "scale": {
+              "x": -1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 96
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
@@ -791,99 +1434,31 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype":"PatronMenacingCroc"
+            "entity_id": "$32e9-0519-874b-433d",
+            "prototype": "PatronBankerBird"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 56, "y": -43, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 135 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMenacingCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 11, "y": -40, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -80 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMenacingCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -24, "y": -75, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -170 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMenacingCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -74, "y": -23, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -70 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMenacingCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -12, "y": 16, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": 45 }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype":"PatronMenacingCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -69, "y": 29, "z": 0.01 },
-            "orientation": { "x": 0, "y": 0, "z": -90 }
+            "position": {
+              "x": 11.371,
+              "y": 51.3052,
+              "z": 7.125
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 75
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
           }
         }
       ]
