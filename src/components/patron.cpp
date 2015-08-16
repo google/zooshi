@@ -292,7 +292,7 @@ void PatronComponent::Animate(const PatronData* patron_data,
                               PatronAction action) {
   auto services_component = entity_manager_->GetComponent<ServicesComponent>();
   const motive::AnimTable* anim_table = services_component->anim_table();
-  const motive::MatrixAnim& anim = anim_table->Query(AnimObject_Patron, action);
+  const motive::RigAnim& anim = anim_table->Query(AnimObject_Patron, action);
 
   entity_manager_->GetComponent<AnimationComponent>()->Animate(
       patron_data->render_child, anim);
