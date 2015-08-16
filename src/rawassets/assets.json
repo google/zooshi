@@ -76,19 +76,60 @@
     "shaders/textured",
     "shaders/textured_lit",
     "shaders/textured_lit_bank",
+    "shaders/textured_skinned_lit",
     "shaders/textured_opaque",
     "shaders/textured_shadowed"
   ],
   "anims": {
     "lists" : [
-      { // AnimObject_Patron
+      { // AnimObject_HungryHippo
         "anim_files": [
           "anims/spawn.fplanim",  // PatronAction_GetUp
           "anims/idle.fplanim",   // PatronAction_Idle
           "anims/hit.fplanim",    // PatronAction_Fed
           "anims/fall.fplanim",   // PatronAction_Fall
         ]
-      }
+      },
+      { // AnimObject_DapperCroc
+        "anim_files": [
+          "anims/spawn.fplanim",  // PatronAction_GetUp
+          "anims/idle.fplanim",   // PatronAction_Idle
+          "anims/hit.fplanim",    // PatronAction_Fed
+          "anims/fall.fplanim",   // PatronAction_Fall
+        ]
+      },
+      { // AnimObject_LadyMandrill
+        "anim_files": [
+          "anims/spawn.fplanim",  // PatronAction_GetUp
+          "anims/idle.fplanim",   // PatronAction_Idle
+          "anims/hit.fplanim",    // PatronAction_Fed
+          "anims/LadyMandrill_happy_exit.fplanim", // PatronAction_Fall
+        ]
+      },
+      { // AnimObject_LovelyGiraffette
+        "anim_files": [
+          "anims/spawn.fplanim",  // PatronAction_GetUp
+          "anims/idle.fplanim",   // PatronAction_Idle
+          "anims/hit.fplanim",    // PatronAction_Fed
+          "anims/fall.fplanim",   // PatronAction_Fall
+        ]
+      },
+      { // AnimObject_BankerBird
+        "anim_files": [
+          "anims/spawn.fplanim",  // PatronAction_GetUp
+          "anims/idle.fplanim",   // PatronAction_Idle
+          "anims/hit.fplanim",    // PatronAction_Fed
+          "anims/fall.fplanim",   // PatronAction_Fall
+        ]
+      },
+      { // AnimObject_MenacingCroc
+        "anim_files": [
+          "anims/spawn.fplanim",  // PatronAction_GetUp
+          "anims/idle.fplanim",   // PatronAction_Idle
+          "anims/hit.fplanim",    // PatronAction_Fed
+          "anims/fall.fplanim",   // PatronAction_Fall
+        ]
+      },
     ]
   },
   "font_file": "fonts/RaviPrakash-Regular.ttf"

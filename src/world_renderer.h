@@ -52,6 +52,7 @@ class WorldRenderer {
   Shader* textured_shadowed_shader_;
   Shader* textured_lit_shader_;
   Shader* textured_lit_bank_shader_;
+  Shader* textured_skinned_lit_shader_;
   Camera light_camera_;
   RenderTarget shadow_map_;
 

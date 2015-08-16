@@ -1,0 +1,35 @@
+// Copyright 2015 Google Inc. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Up to four indices into the bone_transforms[] array. Integers.
+// Each vertex is a linear combination of these four transforms.
+attribute vec4 aBoneIndices;
+
+// Percentage of the four indices in aBoneIndices. Must sum to 1.
+// e.g. When only aBoneIndices.x is used, will be (1,0,0,0).
+attribute vec4 aBoneWeights;
+
+// Affine transforms from the bone's origin to the mesh's root origin.
+// TODO: change to vec4 bone_transforms[50 * 3] to save memory.
+//       Affine transforms require only 3 rows since w is always (0,0,0,1).
+uniform mat4 bone_transforms[50];
+
+// Return vertex position w.r.t. bone positions.
+// Vertex is attached to a single bone.
+// aBoneIndices.yzw are ignored.
+// aBoneWeights is assumed to be: (1, 0, 0, 0)
+vec4 OneBoneSkinnedPosition(vec4 position) {
+  return bone_transforms[int(aBoneIndices.x)] * position;
+}
+

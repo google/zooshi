@@ -96,6 +96,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
           patron_data->on_collision_flatbuffer.data());
     }
   }
+  patron_data->anim_object = patron_def->anim_object();
   assert(patron_def->pop_out_radius() >= patron_def->pop_in_radius());
   if (patron_def->pop_in_radius()) {
     patron_data->pop_in_radius = patron_def->pop_in_radius();
@@ -292,7 +293,8 @@ void PatronComponent::Animate(const PatronData* patron_data,
                               PatronAction action) {
   auto services_component = entity_manager_->GetComponent<ServicesComponent>();
   const motive::AnimTable* anim_table = services_component->anim_table();
-  const motive::RigAnim& anim = anim_table->Query(AnimObject_Patron, action);
+  const motive::RigAnim& anim =
+      anim_table->Query(patron_data->anim_object, action);
 
   entity_manager_->GetComponent<AnimationComponent>()->Animate(
       patron_data->render_child, anim);

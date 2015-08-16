@@ -679,6 +679,7 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "anim_object": "LadyMandrill",
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0.01,
@@ -769,7 +770,7 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/Lady_Mandrill.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shader": "shaders/textured_skinned_lit",
             "render_pass" : ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -831,6 +832,7 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "anim_object": "MenacingCroc",
             "pop_in_radius": 40,
             "pop_out_radius": 45,
             "min_lap": 0.01,
@@ -922,7 +924,7 @@
       ]
     },
 
-    // Moustache Croc
+    // Dapper Croc
     {
       "component_list": [
         {
@@ -999,6 +1001,7 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "anim_object": "DapperCroc",
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0.01,
@@ -1158,6 +1161,7 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "anim_object": "HungryHippo",
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0.01,
@@ -1252,6 +1256,7 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "anim_object": "HungryHippo",
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0,
@@ -1364,6 +1369,7 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "anim_object": "BankerBird",
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0.01,
@@ -1546,6 +1552,7 @@
         {
           "data_type": "PatronDef",
           "data": {
+            "anim_object": "LovelyGiraffette",
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "min_lap": 0.01,

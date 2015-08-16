@@ -54,6 +54,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
   motive::MatrixInit::Register();
+  motive::RigInit::Register();
 
   asset_manager = asset_mgr;
   world_renderer = worldrenderer;

@@ -42,7 +42,12 @@ table SoundDef {
 }
 
 enum AnimObject : byte {
-  Patron,
+  HungryHippo,
+  DapperCroc,
+  LadyMandrill,
+  LovelyGiraffette,
+  BankerBird,
+  MenacingCroc,
   // TODO: add Fern, etc.
 }
 
@@ -68,6 +73,9 @@ table TaggedActionDefList {
 
 table PatronDef {
   on_collision:TaggedActionDefList;
+
+  // The type of patron being animated.
+  anim_object:AnimObject;
 
   // Each time the raft makes a lap around the river, it's lap counter is
   // incremented.  Patrons will only stand up when the lap counter is in the

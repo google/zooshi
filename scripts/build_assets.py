@@ -627,7 +627,7 @@ def convert_png_image_to_webp(cwebp, png, out, quality=80):
 
 
 def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
-                                          texture_formats, recenter):
+                                          texture_formats, recenter, hierarchy):
   """Run the mesh_pipeline on the given fbx file.
 
   Args:
@@ -643,7 +643,8 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
   command = [MESH_PIPELINE, '-d', '-e', 'webp', '-b', target_directory, '-r',
              MESH_REL_DIR, '-f',
              '' if texture_formats is None else texture_formats,
-             '' if recenter is None else '-c', fbx]
+             '' if recenter is None else '-c',
+             '' if hierarchy is None else '-h', fbx]
   run_subprocess(command)
 
 
@@ -767,9 +768,11 @@ def generate_mesh_binaries(target_directory, meta):
     target = processed_mesh_path(fbx, target_directory)
     texture_formats = mesh_meta_value(fbx, meta, 'texture_format')
     recenter = mesh_meta_value(fbx, meta, 'recenter')
+    hierarchy = mesh_meta_value(fbx, meta, 'hierarchy')
     if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
       convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
-                                            texture_formats, recenter)
+                                            texture_formats, recenter,
+                                            hierarchy)
 
 
 def generate_anim_binaries(target_directory):

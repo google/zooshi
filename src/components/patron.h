@@ -65,6 +65,10 @@ struct PatronData {
   // Whether the patron is standing up or falling down.
   PatronState state;
 
+  // The type of patron being animated. Each patron has its own set of
+  // animations.
+  AnimObject anim_object;
+
   // Keep track of the last time this patron was fed so we know when they
   // can pop back up.
   float last_lap_fed;
