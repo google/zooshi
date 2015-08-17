@@ -31,7 +31,8 @@ void RenderWorld(Renderer& renderer, World* world, Camera& camera,
                  Camera* cardboard_camera, InputSystem* input_system);
 
 // Add a text button.
-gui::Event TextButton(const char* text, float size, const char* id);
+gui::Event ImageButtonWithLabel(const Texture &tex, float size,
+                                const gui::Margin &margin, const char *label);
 
 }  // fpl_project
 }  // fpl

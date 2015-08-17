@@ -32,9 +32,8 @@ static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
       const mat4& hmd_viewport_transform) {
     // Update the Cardboard camera with the translation changes from the given
     // transform, which contains the shifts for the eyes.
-    const vec3 hmd_translation =
-        (hmd_viewport_transform * mathfu::kAxisW4f * hmd_viewport_transform)
-            .xyz();
+    const vec3 hmd_translation = (hmd_viewport_transform * mathfu::kAxisW4f *
+                                  hmd_viewport_transform).xyz();
     const vec3 corrected_translation =
         vec3(hmd_translation.x(), -hmd_translation.z(), hmd_translation.y());
     cardboard_camera->set_position(camera.position() + corrected_translation);
@@ -86,16 +85,13 @@ void UpdateMainCamera(Camera* main_camera, World* world) {
   main_camera->set_up(raft_orientation.Inverse() * player_data->GetUp());
 }
 
-gui::Event TextButton(const char* text, float size, const char* id) {
-  gui::StartGroup(gui::kLayoutVerticalLeft, size, id);
-  gui::SetMargin(gui::Margin(10));
+gui::Event ImageButtonWithLabel(const Texture& tex, float size,
+                                const gui::Margin& margin, const char* label) {
+  gui::StartGroup(gui::kLayoutVerticalLeft, size, "ImageButtonWithLabel");
+  gui::SetMargin(margin);
   auto event = gui::CheckEvent();
-  if (event & gui::kEventIsDown) {
-    gui::ColorBackground(vec4(1.0f, 1.0f, 1.0f, 0.5f));
-  } else if (event & gui::kEventHover) {
-    gui::ColorBackground(vec4(0.5f, 0.5f, 0.5f, 0.5f));
-  }
-  gui::Label(text, size);
+  gui::ImageBackground(tex);
+  gui::Label(label, size);
   gui::EndGroup();
   return event;
 }

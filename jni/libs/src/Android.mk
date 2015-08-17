@@ -26,7 +26,9 @@ FLATBUFFERS_FLATC_ARGS:=--gen-includes --gen-mutable
 ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 .PHONY: build_assets
 build_assets: $(flatc_target)
-	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets $(ZOOSHI_DIR)
+	cp -f -r $(ZOOSHI_DIR)/src/rawassets/fonts $(ZOOSHI_DIR)/assets/fonts
+	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets/shaders \
+$(ZOOSHI_DIR)/assets/shaders
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py
 
 .PHONY: clean_assets

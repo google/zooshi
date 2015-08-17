@@ -437,7 +437,7 @@ def convert_json_to_flatbuffer_binary(flatc, json_path, schema, out_dir):
 def closest_power_of_two(n):
   """Returns the closest power of two (linearly) to n.
 
-  See http://mccormick.cx/news/entries/nearest-power-of-two
+  See: http://mccormick.cx/news/entries/nearest-power-of-two
 
   Args:
     n: Value to find the closest power of two of.
@@ -446,6 +446,20 @@ def closest_power_of_two(n):
     Closest power of two to "n".
   """
   return pow(2, int(math.log(n, 2) + 0.5))
+
+
+def next_highest_power_of_two(n):
+  """Returns the next highest power of two to n.
+
+  See: http://mccormick.cx/news/entries/nearest-power-of-two
+
+  Args:
+    n: Value to finde the next highest power of two of.
+
+  Returns:
+    Next highest power of two to "n".
+  """
+  return int(pow(2, math.ceil(math.log(n, 2))))
 
 
 class Image(object):
@@ -497,11 +511,11 @@ class Image(object):
 
     Returns:
       (width, height) tuple containing the size of the image rounded to the
-      closest power of 2.
+      next highest power of 2.
     """
     max_dimension_size = max(self.size)
     if max_dimension_size < MAX_TGA_SIZE:
-      return self.size
+      return [next_highest_power_of_two(d) for d in self.size]
     scale = float(MAX_TGA_SIZE) / max_dimension_size
     return [closest_power_of_two(d * scale) for d in self.size]
 

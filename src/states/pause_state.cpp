@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "game_menu_state.h"
 #include "states/pause_state.h"
 
 #include "flatui/flatui.h"
+#include "flatui/flatui_common.h"
 #include "fplbase/input.h"
-#include "states/states.h"
 #include "states/states_common.h"
 #include "world.h"
 
@@ -35,6 +36,9 @@ void PauseState::Initialize(InputSystem* input_system, World* world,
 
   sound_continue_ = audio_engine->GetSoundHandle("continue");
   sound_exit_ = audio_engine->GetSoundHandle("exit");
+
+  background_paused_ =
+      asset_manager_->LoadTexture("textures/ui_background_options.webp");
 }
 
 void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
@@ -62,22 +66,43 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
   next_state_ = kGameStatePause;
 }
 
-static GameState PauseMenu(AssetManager& assetman, FontManager& fontman,
-                           InputSystem& input) {
+GameState PauseState::PauseMenu(AssetManager& assetman, FontManager& fontman,
+                                InputSystem& input) {
   GameState next_state = kGameStatePause;
+
   gui::Run(assetman, fontman, input, [&]() {
+    gui::StartGroup(gui::kLayoutHorizontalTop, 0);
+
+    // Background image.
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
-    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter, mathfu::kZeros2f);
-    gui::Label("Paused", 120);
-    gui::SetMargin(gui::Margin(30));
-    auto event = TextButton("CONTINUE", 100, "button");
+    // Positioning the UI slightly above of the center.
+    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
+                       mathfu::vec2(0, -150));
+    gui::Image(*background_paused_, 700);
+    gui::EndGroup();
+
+    // Menu items. Note that we are layering 2 layouts here
+    // (background + menu items).
+    gui::StartGroup(gui::kLayoutVerticalCenter, 0);
+    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
+                       mathfu::vec2(0, -150));
+    gui::SetMargin(gui::Margin(200, 220, 200, 100));
+    gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
+    gui::SetMargin(gui::Margin(20));
+    gui::SetTextColor(kColorBrown);
+    gui::Label("Paused", kMenuSize);
+    gui::EndGroup();
+
+    auto event = TextButton("Continue", kButtonSize, gui::Margin(2));
     if (event & gui::kEventWentUp) {
       next_state = kGameStateGameplay;
     }
-    event = TextButton("EXIT", 100, "button");
+
+    event = TextButton("Exit", kButtonSize, gui::Margin(2));
     if (event & gui::kEventWentUp) {
       next_state = kGameStateGameMenu;
     }
+    gui::EndGroup();
     gui::EndGroup();
   });
 

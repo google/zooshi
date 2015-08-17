@@ -75,8 +75,6 @@ static const vec3 kLightPos = vec3(0, 20, 20);
 static const int kMinUpdateTime = 1000 / 60;
 static const int kMaxUpdateTime = 1000 / 30;
 
-static const char* kOpenTypeFontFile = "fonts/NotoSansCJKjp-Bold.otf";
-
 /// kVersion is used by Google developers to identify which
 /// applications uploaded to Google Play are derived from this application.
 /// This allows the development team at Google to determine the popularity of
@@ -277,7 +275,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   event_manager_.RegisterListener(EventSinkUnion_PlaySound, this);
 
-  font_manager_.Open(kOpenTypeFontFile);
+  font_manager_.Open(GetAssetManifest().font_file()->c_str());
   font_manager_.SetRenderer(renderer_);
 
   SetRelativeMouseMode(true);

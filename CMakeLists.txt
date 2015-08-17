@@ -197,11 +197,17 @@ add_custom_target(assets
   --output ${CMAKE_BINARY_DIR}/assets
   DEPENDS flatc cwebp)
 
-# Copy FlatUI resource files (font files, shaders)
+# Copy FlatUI shaders
 add_custom_command(TARGET assets POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${dependencies_flatui_dir}/assets
-                       ${CMAKE_BINARY_DIR}/assets)
+                       ${dependencies_flatui_dir}/assets/shaders
+                       ${CMAKE_BINARY_DIR}/assets/shaders)
+
+# Copy Font resource files
+add_custom_command(TARGET assets POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_BINARY_DIR}/src/rawassets/fonts
+                       ${CMAKE_BINARY_DIR}/assets/fonts)
 
 # zooshi source files.
 set(zooshi_SRCS
