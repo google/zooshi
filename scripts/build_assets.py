@@ -27,7 +27,6 @@ generated files, you can call this script with the argument 'clean'.
 import argparse
 import distutils.spawn
 import glob
-import Image
 import json
 import math
 import os
@@ -48,27 +47,27 @@ PREBUILTS_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
 
 PINDROP_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                             os.path.pardir, os.path.pardir,
-                                            'libs', "pindrop"))
+                                            'libs', 'pindrop'))
 
 FPLBASE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                             os.path.pardir, os.path.pardir,
-                                            'libs', "fplbase"))
+                                            'libs', 'fplbase'))
 
 ENTITY_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
-                                            os.path.pardir, os.path.pardir,
-                                            'libs', "entity"))
+                                           os.path.pardir, os.path.pardir,
+                                           'libs', 'entity'))
 
 WORLD_EDITOR_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
-                                            os.path.pardir, os.path.pardir,
-                                            'libs', "world_editor"))
+                                                 os.path.pardir, os.path.pardir,
+                                                 'libs', 'world_editor'))
 
 MOTIVE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                            os.path.pardir, os.path.pardir,
-                                           'libs', "motive"))
+                                           'libs', 'motive'))
 
 FLATBUFFERS_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
-                                               os.path.pardir, os.path.pardir,
-                                              'libs', "flatbuffers"))
+                                                os.path.pardir, os.path.pardir,
+                                                'libs', 'flatbuffers'))
 
 INTERNAL_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                              os.path.pardir, 'fpl_internal'))
@@ -99,14 +98,20 @@ CWEBP_PATHS = [
 MESH_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('mesh_pipeline')
 MESH_PIPELINE_PATHS = [
     os.path.join(FPLBASE_ROOT, 'bin', platform.system()),
-    os.path.dirname(MESH_PIPELINE_BINARY_IN_PATH) if MESH_PIPELINE_BINARY_IN_PATH else '',
+    (os.path.dirname(MESH_PIPELINE_BINARY_IN_PATH)
+     if MESH_PIPELINE_BINARY_IN_PATH else '')
 ]
+
+IMAGEMAGICK_IDENTIFY = distutils.spawn.find_executable('identify')
+IMAGEMAGICK_CONVERT = distutils.spawn.find_executable('convert')
+GRAPHICSMAGICK = distutils.spawn.find_executable('gm')
 
 # Directory that contains the anim_pipeline tool.
 ANIM_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('anim_pipeline')
 ANIM_PIPELINE_PATHS = [
     os.path.join(MOTIVE_ROOT, 'bin', platform.system()),
-    os.path.dirname(ANIM_PIPELINE_BINARY_IN_PATH) if ANIM_PIPELINE_BINARY_IN_PATH else '',
+    (os.path.dirname(ANIM_PIPELINE_BINARY_IN_PATH)
+     if ANIM_PIPELINE_BINARY_IN_PATH else ''),
 ]
 
 # Directory to place processed assets.
@@ -116,7 +121,7 @@ ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
 RAW_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'src', 'rawassets')
 
 # Metadata file for assets. Store extra file-specific information here.
-ASSET_META = os.path.join(RAW_ASSETS_PATH, 'asset_meta.json');
+ASSET_META = os.path.join(RAW_ASSETS_PATH, 'asset_meta.json')
 
 # Directory for unprocessed assets not in the main code-base.
 INTERNAL_ASSETS_PATH = os.path.join(INTERNAL_ROOT, 'zooshi', 'rawassets')
@@ -151,7 +156,8 @@ INTERNAL_MESH_PATH = os.path.join(INTERNAL_ASSETS_PATH, MESH_REL_DIR)
 INTERMEDIATE_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'obj', 'assets')
 
 # Directory where png files are written to before they are converted to webp.
-INTERMEDIATE_TEXTURE_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH, TEXTURE_REL_DIR)
+INTERMEDIATE_TEXTURE_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH,
+                                         TEXTURE_REL_DIR)
 
 # Directory where png files are written to before they are converted to webp.
 INTERMEDIATE_MESH_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH, MESH_REL_DIR)
@@ -194,6 +200,10 @@ WEBP_QUALITY = 90
 
 # Maximum width or height of a tga image
 MAX_TGA_SIZE = 1024
+
+# Display commands executed by run_subprocess().
+VERBOSE = False
+
 
 class FlatbuffersConversionData(object):
   """Holds data needed to convert a set of json files to flatbuffer binaries.
@@ -294,44 +304,6 @@ FLATBUFFERS_CONVERSION_DATA = [
 ]
 
 
-def target_file_name(path, target_directory, target_extension):
-  """Take the path to a raw png asset and convert it to target webp path.
-
-  Args:
-    path: Source file path.
-    target_directory: Path to put the target assets.
-    target_extension: Extension of target assets.
-  """
-  no_path = path.replace(RAW_ASSETS_PATH, '').replace(INTERNAL_ASSETS_PATH, '')\
-                .replace(INTERMEDIATE_ASSETS_PATH, '')
-  no_ext = os.path.splitext(no_path)[0]
-  target = target_directory + no_ext + '.' + target_extension
-  return target
-
-def intermediate_texture_path(path):
-  """Take the path to a raw png asset and convert it to target webp path.
-
-  Args:
-    target_directory: Path to the target assets directory.
-  """
-  return target_file_name(path, INTERMEDIATE_ASSETS_PATH, 'png')
-
-def processed_texture_path(path, target_directory):
-  """Take the path to a raw png asset and convert it to target webp path.
-
-  Args:
-    target_directory: Path to the target assets directory.
-  """
-  return target_file_name(path, target_directory, 'webp')
-
-def processed_anim_path(path, target_directory):
-  """Take the path to a raw anim asset and convert it to target anim path.
-
-  Args:
-    target_directory: Path to the target assets directory.
-  """
-  return target_file_name(path, target_directory, 'fplanim')
-
 # Location of FlatBuffers compiler.
 FLATC = find_in_paths(FLATC_EXECUTABLE_NAME, FLATBUFFERS_PATHS)
 
@@ -339,10 +311,68 @@ FLATC = find_in_paths(FLATC_EXECUTABLE_NAME, FLATBUFFERS_PATHS)
 CWEBP = find_in_paths(CWEBP_EXECUTABLE_NAME, CWEBP_PATHS)
 
 # Location of mesh_pipeline conversion tool.
-MESH_PIPELINE = find_in_paths(MESH_PIPELINE_EXECUTABLE_NAME, MESH_PIPELINE_PATHS)
+MESH_PIPELINE = find_in_paths(MESH_PIPELINE_EXECUTABLE_NAME,
+                              MESH_PIPELINE_PATHS)
 
 # Location of mesh_pipeline conversion tool.
-ANIM_PIPELINE = find_in_paths(ANIM_PIPELINE_EXECUTABLE_NAME, ANIM_PIPELINE_PATHS)
+ANIM_PIPELINE = find_in_paths(ANIM_PIPELINE_EXECUTABLE_NAME,
+                              ANIM_PIPELINE_PATHS)
+
+
+def target_file_name(path, target_directory, target_extension):
+  """Take the path to a raw png asset and convert it to target webp path.
+
+  Args:
+    path: Source file path.
+    target_directory: Path to put the target assets.
+    target_extension: Extension of target assets.
+
+  Returns:
+    Path to the webp file generated from the png file.
+  """
+  no_path = path.replace(RAW_ASSETS_PATH, '').replace(
+      INTERNAL_ASSETS_PATH, '').replace(INTERMEDIATE_ASSETS_PATH, '')
+  no_ext = os.path.splitext(no_path)[0]
+  target = target_directory + no_ext + '.' + target_extension
+  return target
+
+
+def intermediate_texture_path(path):
+  """Take the path to an image and convert it to an intermediate png path.
+
+  Args:
+    path: Path to the target assets directory.
+
+  Returns:
+    Path to intermediate png file generated from an image path.
+  """
+  return target_file_name(path, INTERMEDIATE_ASSETS_PATH, 'png')
+
+
+def processed_texture_path(path, target_directory):
+  """Take the path to a raw png asset and convert it to target webp path.
+
+  Args:
+    path: Path to the source image file.
+    target_directory: Path to the target assets directory.
+
+  Returns:
+    Path to processed webp.
+  """
+  return target_file_name(path, target_directory, 'webp')
+
+
+def processed_anim_path(path, target_directory):
+  """Take the path to a raw anim asset and convert it to target anim path.
+
+  Args:
+    path: Path to the source animation file.
+    target_directory: Path to the target assets directory.
+
+  Returns:
+    Path to output animation file.
+  """
+  return target_file_name(path, target_directory, 'fplanim')
 
 
 class BuildError(Exception):
@@ -355,22 +385,42 @@ class BuildError(Exception):
     self.message = message if message else ''
 
 
-def run_subprocess(argv):
+def run_subprocess(argv, capture=False):
+  """Run a command line application.
+
+  Args:
+    argv: The command line application path and arguments to pass to it.
+    capture: Whether to capture the standard output stream of the application
+      and return it from this method.
+
+  Returns:
+    Standard output of the command line application if capture=True, None
+    otherwise.
+
+  Raises:
+    BuildError: If the command fails.
+  """
+  if VERBOSE:
+    print >>sys.stderr, argv
   try:
-    process = subprocess.Popen(argv)
+    if capture:
+      process = subprocess.Popen(args=argv, bufsize=-1, stdout=subprocess.PIPE)
+    else:
+      process = subprocess.Popen(argv)
   except OSError as e:
     raise BuildError(argv, 1, message=str(e))
-  process.wait()
+  stdout, _ = process.communicate()
   if process.returncode:
     raise BuildError(argv, process.returncode)
+  return stdout
 
 
-def convert_json_to_flatbuffer_binary(flatc, json, schema, out_dir):
+def convert_json_to_flatbuffer_binary(flatc, json_path, schema, out_dir):
   """Run the flatbuffer compiler on the given json file and schema.
 
   Args:
     flatc: Path to the flatc binary.
-    json: The path to the json file to convert to a flatbuffer binary.
+    json_path: The path to the json file to convert to a flatbuffer binary.
     schema: The path to the schema to use in the conversion process.
     out_dir: The directory to write the flatbuffer binary.
 
@@ -380,61 +430,119 @@ def convert_json_to_flatbuffer_binary(flatc, json, schema, out_dir):
   command = [flatc, '-o', out_dir]
   for path in SCHEMA_PATHS:
     command.extend(['-I', path])
-  command.extend(['-b', schema, json])
+  command.extend(['-b', schema, json_path])
   run_subprocess(command)
+
 
 def closest_power_of_two(n):
   """Returns the closest power of two (linearly) to n.
-     See: http://mccormick.cx/news/entries/nearest-power-of-two
+
+  See http://mccormick.cx/news/entries/nearest-power-of-two
+
+  Args:
+    n: Value to find the closest power of two of.
+
+  Returns:
+    Closest power of two to "n".
   """
   return pow(2, int(math.log(n, 2) + 0.5))
 
-def texture_target_size(tga):
-  """Calculate the final image size of the source image
 
-     Returns: tuple (width, height)
+class Image(object):
+  """Image attributes.
+
+  Attributes:
+    filename: Name of the file the image attributes were retrieved from.
+    size: (width, height) tuple of the image in pixels.
   """
-  im = Image.open(tga)
-  size = max(im.size[0], im.size[1])
-  if size < MAX_TGA_SIZE:
-    return im.size
+  USE_GRAPHICSMAGICK = True
+  # Select imagemagick or graphicsmagick convert and identify tools.
+  CONVERT = ([GRAPHICSMAGICK, 'convert']
+             if USE_GRAPHICSMAGICK and GRAPHICSMAGICK
+             else [IMAGEMAGICK_CONVERT])
+  IDENTIFY = ([GRAPHICSMAGICK, 'identify']
+              if USE_GRAPHICSMAGICK and GRAPHICSMAGICK
+              else [IMAGEMAGICK_IDENTIFY])
 
-  scale = float(MAX_TGA_SIZE) / size
-  new_size = (closest_power_of_two(im.size[0] * scale), closest_power_of_two(im.size[1] * scale))
-  return new_size
+  def __init__(self, filename, size):
+    """Initialize this instance.
 
+    Args:
+      filename: Name of the file the image attributes were retrieved from.
+      size: (width, height) tuple of the image in pixels.
+    """
+    self.filename = filename
+    self.size = size
 
-def convert_tga_image_to_png(tga, png, size):
-  """Run the imange converter on the given tga file to generate a png.
+  @staticmethod
+  def read_attributes(filename):
+    """Read attributes of the image.
 
-  Args:
-    tga: The path to the input tga file.
-    png: The path to the output png file.
-    max_size: Max height or width
+    Args:
+      filename: Path to the image to query.
 
-  Raises:
-    BuildError: Process return code was nonzero.
-  """
-  im = Image.open(tga)
+    Returns:
+      Image instance containing attributes read from the image.
 
-  # Output status message.
-  source_file = os.path.basename(tga)
-  target_file = os.path.basename(png)
-  if size != im.size:
-    source_file += " (" + str(im.size[0]) + "," + str(im.size[1]) + ")"
-    target_file += " (" + str(size[0]) + "," + str(size[1]) + ")"
-  print "Converting " + source_file + " to " + target_file
+    Raises:
+      BuildError if it's not possible to read the image.
+    """
+    identify_args = list(Image.IDENTIFY)
+    identify_args.extend(['-format', '%w %h', filename])
+    return Image(filename, [int(value) for value in run_subprocess(
+        identify_args, capture=True).split()])
 
-  # Resize and convert.
-  if size != im.size:
-    im = im.resize(size)
-  im.save(png)
+  def calculate_power_of_two_size(self):
+    """Calculate the power of two size of this image.
+
+    Returns:
+      (width, height) tuple containing the size of the image rounded to the
+      closest power of 2.
+    """
+    max_dimension_size = max(self.size)
+    if max_dimension_size < MAX_TGA_SIZE:
+      return self.size
+    scale = float(MAX_TGA_SIZE) / max_dimension_size
+    return [closest_power_of_two(d * scale) for d in self.size]
+
+  def convert_resize_image(self, target_image, target_image_size=None):
+    """Run the image converter to convert this image.
+
+    The source and target formats are identified by the image extension for
+    example if this image references "image.tga" and target_image name is
+    "image.png" the image will be converted from a tga format image to png
+    format.
+
+    Args:
+      target_image: The path to the output image file.
+      target_image_size: Size of the output image.  If this isn't specified the
+        input image size is used.
+
+    Raises:
+      BuildError if the conversion process fails.
+    """
+    convert_args = list(Image.CONVERT)
+    convert_args.append(self.filename)
+    if self.size != target_image_size:
+      convert_args.extend(['-resize', '%dx%d!' % (target_image_size[0],
+                                                  target_image_size[1])])
+    convert_args.append(target_image)
+
+    # Output status message.
+    source_file = os.path.basename(self.filename)
+    target_file = os.path.basename(target_image)
+    if self.size != target_image_size:
+      source_file += ' (%d, %d)' % (self.size[0], self.size[1])
+      target_file += ' (%d, %d)' % (target_image_size[0], target_image_size[1])
+    print 'Converting %s to %s' % (source_file, target_file)
+    run_subprocess(convert_args)
 
 
 def convert_png_image_to_webp(cwebp, png, out, quality=80):
   """Run the webp converter on the given png file.
 
   Args:
+    cwebp: Path to the cwebp binary.
     png: The path to the png file to convert into a webp file.
     out: The path of the webp to write to.
     quality: The quality of the processed image, where quality is between 0
@@ -443,23 +551,28 @@ def convert_png_image_to_webp(cwebp, png, out, quality=80):
   Raises:
     BuildError: Process return code was nonzero.
   """
-  im = Image.open(png)
-  size = texture_target_size(png)
-  if size != im.size:
-    print ("Down-sizing " + png + " from (" + str(im.size[0]) + "," +
-           str(im.size[1]) + ") to (" + str(size[0]) + "," + str(size[1]) + ")")
+  image = Image.read_attributes(png)
+  target_image_size = image.calculate_power_of_two_size()
+  if target_image_size != image.size:
+    print'Resizing %s from (%d, %d) to (%d, %d)' % (
+        png, image.size[0], image.size[1], target_image_size[0],
+        target_image_size[1])
 
-  command = [cwebp, '-resize', str(size[0]), str(size[1]), '-q', str(quality),
-             png, '-o', out]
+  command = [cwebp, '-resize', str(target_image_size[0]),
+             str(target_image_size[1]), '-q', str(quality), png, '-o', out]
   run_subprocess(command)
 
 
-def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats, recenter):
+def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
+                                          texture_formats, recenter):
   """Run the mesh_pipeline on the given fbx file.
 
   Args:
     fbx: The path to the fbx file to convert into a flatbuffer binary.
     target_directory: The path of the flatbuffer binary to write to.
+    texture_formats: String containing of texture formats to pass to the
+      mesh_pipeline tool.
+    recenter: Whether to recenter the exported mesh at the origin.
 
   Raises:
     BuildError: Process return code was nonzero.
@@ -476,7 +589,7 @@ def convert_fbx_anim_to_flatbuffer_binary(fbx, target):
 
   Args:
     fbx: The path to the fbx file to convert into a flatbuffer binary.
-    target_directory: The path of the flatbuffer binary to write to.
+    target: The path of the flatbuffer binary to write to.
 
   Raises:
     BuildError: Process return code was nonzero.
@@ -499,30 +612,44 @@ def needs_rebuild(source, target):
   return not os.path.isfile(target) or (
       os.path.getmtime(source) > os.path.getmtime(target))
 
+
 def processed_mesh_path(path, target_directory):
   """Take the path to an fbx asset and convert it to target mesh path.
 
   Args:
+    path: Path to the source mesh file.
     target_directory: Path to the target assets directory.
+
+  Returns:
+    Path to the target mesh.
   """
-  return path.replace(RAW_ASSETS_PATH, target_directory).replace(INTERNAL_ASSETS_PATH, target_directory).replace('.fbx', '.fplmesh')
+  return path.replace(RAW_ASSETS_PATH, target_directory).replace(
+      INTERNAL_ASSETS_PATH, target_directory).replace('.fbx', '.fplmesh')
+
 
 def processed_json_path(path, target_directory, target_extension):
   """Take the path to a raw json asset and convert it to target bin path.
 
   Args:
+    path: Path to the source JSON file.
     target_directory: Path to the target assets directory.
+    target_extension: Extension of the target file.
+
+  Returns:
+    Path to the target file from the source JSON.
   """
   return path.replace(RAW_ASSETS_PATH, target_directory).replace(
-    '.json', target_extension)
+      '.json', target_extension)
+
 
 def fbx_files_to_convert():
-  """ FBX files to convert to fplmesh. """
+  """FBX files to convert to fplmesh."""
   return (glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx')) +
           glob.glob(os.path.join(INTERNAL_MESH_PATH, '*.fbx')))
 
+
 def texture_files(extension):
-  """ List of files with `extension` in the texture paths. """
+  """List of files with `extension` in the texture paths."""
   return (glob.glob(os.path.join(RAW_TEXTURE_PATH, extension)) +
           glob.glob(os.path.join(RAW_MESH_PATH, extension)) +
           glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, extension)) +
@@ -530,31 +657,47 @@ def texture_files(extension):
           glob.glob(os.path.join(INTERMEDIATE_TEXTURE_PATH, extension)) +
           glob.glob(os.path.join(INTERMEDIATE_MESH_PATH, extension)))
 
+
 def png_files_to_convert():
-  """ PNG files to convert to webp. """
+  """PNG files to convert to webp."""
   return texture_files('*.png')
 
+
 def tga_files_to_convert():
-  """ TGA files to convert to png. """
+  """TGA files to convert to png."""
   return texture_files('*.tga')
 
+
 def anim_files_to_convert():
-  """ FBX files to convert to fplanim. """
+  """FBX files to convert to fplanim."""
   return (glob.glob(os.path.join(RAW_ANIM_PATH, '*.fbx')) +
           glob.glob(os.path.join(INTERNAL_ANIM_PATH, '*.fbx')))
 
+
 def mesh_meta_value(fbx, meta, key):
+  """Get metadata value from an FBX metadata object.
+
+  Args:
+    fbx: File to query within the metadata object.
+    meta: Metadata object to query.
+    key: Key to query.
+
+  Returns:
+    Value associate with the specified key if found, None otherwise.
+  """
   mesh_meta = meta['mesh_meta']
   for entry in mesh_meta:
     if entry['name'] in fbx and key in entry:
       return entry[key]
   return None
 
+
 def generate_mesh_binaries(target_directory, meta):
   """Run the mesh pipeline on the all of the FBX files.
 
   Args:
     target_directory: Path to the target assets directory.
+    meta: Metadata object.
   """
   input_files = fbx_files_to_convert()
   for fbx in input_files:
@@ -562,7 +705,9 @@ def generate_mesh_binaries(target_directory, meta):
     texture_formats = mesh_meta_value(fbx, meta, 'texture_format')
     recenter = mesh_meta_value(fbx, meta, 'recenter')
     if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
-      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, texture_formats, recenter)
+      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
+                                            texture_formats, recenter)
+
 
 def generate_anim_binaries(target_directory):
   """Run the mesh pipeline on the all of the FBX files.
@@ -576,6 +721,7 @@ def generate_anim_binaries(target_directory):
     if needs_rebuild(fbx, target) or needs_rebuild(ANIM_PIPELINE, target):
       convert_fbx_anim_to_flatbuffer_binary(fbx, target)
 
+
 def generate_flatbuffer_binaries(flatc, target_directory):
   """Run the flatbuffer compiler on the all of the flatbuffer json files.
 
@@ -587,24 +733,23 @@ def generate_flatbuffer_binaries(flatc, target_directory):
     schema = element.schema
     target_schema = os.path.join(target_directory, SCHEMA_OUTPUT_PATH,
                                  os.path.basename(schema))
-    if (needs_rebuild(schema, target_schema)):
+    if needs_rebuild(schema, target_schema):
       if not os.path.exists(os.path.dirname(target_schema)):
         os.makedirs(os.path.dirname(target_schema))
       shutil.copy2(schema, target_schema)
-    for json in element.input_files:
-      target = processed_json_path(json, target_directory, element.extension)
+    for json_file in element.input_files:
+      target = processed_json_path(json_file, target_directory,
+                                   element.extension)
       target_file_dir = os.path.dirname(target)
       if not os.path.exists(target_file_dir):
         os.makedirs(target_file_dir)
-      if needs_rebuild(json, target) or needs_rebuild(schema, target):
-        convert_json_to_flatbuffer_binary(flatc, json, schema, target_file_dir)
+      if needs_rebuild(json_file, target) or needs_rebuild(schema, target):
+        convert_json_to_flatbuffer_binary(flatc, json_file, schema,
+                                          target_file_dir)
+
 
 def generate_png_textures():
-  """Run the imange converter to convert tga to png files and resize.
-
-  Args:
-    target_directory: Path to the target assets directory.
-  """
+  """Run the imange converter to convert tga to png files and resize."""
   input_files = tga_files_to_convert()
   for tga in input_files:
     out = intermediate_texture_path(tga)
@@ -612,8 +757,10 @@ def generate_png_textures():
     if not os.path.exists(out_dir):
       os.makedirs(out_dir)
     if needs_rebuild(tga, out):
-      size = texture_target_size(tga)
-      convert_tga_image_to_png(tga, out, size)
+      image = Image.read_attributes(tga)
+      image.convert_resize_image(
+          out, image.calculate_power_of_two_size())
+
 
 def generate_webp_textures(cwebp, target_directory):
   """Run the webp converter on off of the png files.
@@ -622,6 +769,7 @@ def generate_webp_textures(cwebp, target_directory):
   create PNG files that need to be processed.
 
   Args:
+    cwebp: Path to the cwebp binary.
     target_directory: Path to the target assets directory.
   """
   input_files = png_files_to_convert()
@@ -632,6 +780,7 @@ def generate_webp_textures(cwebp, target_directory):
       os.makedirs(out_dir)
     if needs_rebuild(png, out):
       convert_png_image_to_webp(cwebp, png, out, WEBP_QUALITY)
+
 
 def copy_assets(target_directory):
   """Copy modified assets to the target assets directory.
@@ -659,9 +808,14 @@ def copy_assets(target_directory):
              os.path.getmtime(source_filename))):
           shutil.copy2(source_filename, target_filename)
 
+
 def clean_webp_textures(target_directory):
-  """Delete all the processed webp textures."""
-  intput_files = png_files_to_convert()
+  """Delete all the processed webp textures.
+
+  Args:
+    target_directory: Path to the target assets directory.
+  """
+  input_files = png_files_to_convert()
   for png in input_files:
     webp = processed_texture_path(png, target_directory)
     if os.path.isfile(webp):
@@ -675,8 +829,8 @@ def clean_flatbuffer_binaries(target_directory):
     target_directory: Path to the target assets directory.
   """
   for element in FLATBUFFERS_CONVERSION_DATA:
-    for json in element.input_files:
-      path = processed_json_path(json, target_directory, element.extension)
+    for json_file in element.input_files:
+      path = processed_json_path(json_file, target_directory, element.extension)
       if os.path.isfile(path):
         os.remove(path)
 
@@ -693,7 +847,7 @@ def handle_build_error(error):
       ' '.join(error.argv), str(error.error_code), str(error.message)))
 
 
-def main(argv):
+def main():
   """Builds or cleans the assets needed for the game.
 
   To build all assets, either call this script without any arguments. Or
@@ -701,9 +855,6 @@ def main(argv):
   flatbuffer json files, call it with 'flatbuffers'. Likewise to convert the
   png files to webp files, call it with 'webp'. To clean all converted files,
   call it with 'clean'.
-
-  Args:
-    argv: The command line argument containing which command to run.
 
   Returns:
     Returns 0 on success.
@@ -716,11 +867,12 @@ def main(argv):
   parser.add_argument('--output', default=ASSETS_PATH,
                       help='Assets output directory.')
   parser.add_argument('--meta', default=ASSET_META,
-                      help='File holding metadata for assets.');
+                      help='File holding metadata for assets.')
   parser.add_argument('args', nargs=argparse.REMAINDER)
   args = parser.parse_args()
   target = args.args[1] if len(args.args) >= 2 else 'all'
-  if target not in ('all', 'png', 'mesh', 'anim', 'flatbuffers', 'webp', 'clean'):
+  if target not in ('all', 'png', 'mesh', 'anim', 'flatbuffers', 'webp',
+                    'clean'):
     sys.stderr.write('No rule to build target %s.\n' % target)
 
   # Load the json file that holds asset metadata.
@@ -773,4 +925,4 @@ def main(argv):
 
 
 if __name__ == '__main__':
-  sys.exit(main(sys.argv))
+  sys.exit(main())
