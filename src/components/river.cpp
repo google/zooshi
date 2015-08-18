@@ -40,10 +40,6 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RiverComponent,
 namespace fpl {
 namespace fpl_project {
 
-using mathfu::vec2_packed;
-using mathfu::vec3_packed;
-using mathfu::vec4_packed;
-
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
 
