@@ -57,6 +57,17 @@ table RiverBankContour {
   z_max:float;  // Max absolute height of the bank.
 }
 
+// How far along the river to start each zone. The entire river ranges from
+// 0 to 1.
+table RiverZone {
+  zone_start:float;
+  tex_x_min:float = 0.0;
+  tex_x_max:float = 1.0;
+  tex_y_min:float = 0.0;
+  tex_y_max:float = 1.0;
+  material:string;
+}
+
 table RiverConfig {
   rail_filename:string;
   spline_stepsize: float;
@@ -69,6 +80,9 @@ table RiverConfig {
   // See the diagram in RiverBankContour for more information.
   banks:[RiverBankContour];
   width: float;
+
+  // Zones for the riverbank. Each zone specifies a material to use.
+  zones:[RiverZone];
 
   // Index into `banks` of the left side of the river. The right side is
   // river_index + 1.

@@ -42,6 +42,8 @@ void WorldRenderer::Initialize(World* world) {
       world->asset_manager->LoadShader("shaders/textured_shadowed");
   textured_lit_shader_ =
       world->asset_manager->LoadShader("shaders/textured_lit");
+  textured_lit_bank_shader_ =
+      world->asset_manager->LoadShader("shaders/textured_lit_bank");
 }
 
 void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
@@ -155,8 +157,12 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
   textured_lit_shader_->SetUniform("ambient_material", ambient);
   textured_lit_shader_->SetUniform("diffuse_material", diffuse);
 
+  textured_lit_bank_shader_->SetUniform("ambient_material", ambient);
+  textured_lit_bank_shader_->SetUniform("diffuse_material", diffuse);
+
   SetFogUniforms(textured_shadowed_shader_, world);
   SetFogUniforms(textured_lit_shader_, world);
+  SetFogUniforms(textured_lit_bank_shader_, world);
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);
 
