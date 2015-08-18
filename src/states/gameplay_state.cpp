@@ -42,43 +42,52 @@ static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
 
 // Update music gain based on lap number. This logic will eventually live in
 // an event graph.
-static void UpdateMusic(entity::EntityManager* entity_manager, float* percent,
-                        int delta_time, pindrop::Channel* music_channel_even,
-                        pindrop::Channel* music_channel_odd) {
+static void UpdateMusic(entity::EntityManager* entity_manager,
+                        int* previous_lap, float* percent, int delta_time,
+                        pindrop::Channel* music_channel_1,
+                        pindrop::Channel* music_channel_2,
+                        pindrop::Channel* music_channel_3) {
   entity::EntityRef raft =
       entity_manager->GetComponent<ServicesComponent>()->raft_entity();
   RailDenizenData* raft_rail_denizen =
       entity_manager->GetComponentData<RailDenizenData>(raft);
-  int lap = static_cast<int>(raft_rail_denizen->lap);
-  float seconds = delta_time / 1000.0f;
-  const float kCrossFadeDuration = 5.0f;
-  float delta = seconds / kCrossFadeDuration;
-  if (lap % 2 == 0) {
-    *percent -= delta;
-    if (*percent < 0.0f) {
+  int current_lap = static_cast<int>(raft_rail_denizen->lap);
+  if (current_lap != *previous_lap) {
+    pindrop::Channel* channels[] = {music_channel_1, music_channel_2,
+                                    music_channel_3};
+    const float kCrossFadeDuration = 5.0f;
+    bool done = false;
+    float seconds = delta_time / 1000.0f;
+    float delta = seconds / kCrossFadeDuration;
+    pindrop::Channel* channel_previous = channels[*previous_lap % 3];
+    pindrop::Channel* channel_current = channels[current_lap % 3];
+    *percent += delta;
+    if (*percent >= 1.0f) {
+      *percent = 1.0f;
+      done = true;
+    }
+    // Equal power crossfade
+    //    https://www.safaribooksonline.com/library/view/web-audio-api/9781449332679/s03_2.html
+    // TODO: Add utility functions to Pindrop for this.
+    float gain_previous = cos(*percent * 0.5f * M_PI);
+    float gain_current = cos((1.0 - *percent) * 0.5 * M_PI);
+    channel_previous->SetGain(gain_previous);
+    channel_current->SetGain(gain_current);
+
+    if (done) {
+      *previous_lap = current_lap;
       *percent = 0.0f;
     }
-  } else {
-    *percent += delta;
-    if (*percent > 1.0f) {
-      *percent = 1.0f;
-    }
   }
-  // Equal power crossfade
-  //    https://www.safaribooksonline.com/library/view/web-audio-api/9781449332679/s03_2.html
-  // TODO: Add utility functions to Pindrop for this.
-  float gain_even = cos(*percent * 0.5f * M_PI);
-  float gain_odd = cos((1.0 - *percent) * 0.5 * M_PI);
-  music_channel_even->SetGain(gain_even);
-  music_channel_odd->SetGain(gain_odd);
 }
 
 void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   // Update the world.
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
-  UpdateMusic(&world_->entity_manager, &percent, delta_time,
-              &music_channel_even_, &music_channel_odd_);
+  UpdateMusic(&world_->entity_manager, &previous_lap_, &percent_, delta_time,
+              &music_channel_lap_1_, &music_channel_lap_2_,
+              &music_channel_lap_3_);
 
   if (input_system_->GetButton(fpl::FPLK_F9).went_down()) {
     world_->draw_debug_physics = !world_->draw_debug_physics;
@@ -118,23 +127,29 @@ void GameplayState::Initialize(InputSystem* input_system, World* world,
   audio_engine_ = audio_engine;
 
   sound_pause_ = audio_engine->GetSoundHandle("pause");
-  music_gameplay_even_ = audio_engine->GetSoundHandle("music_gameplay_lap_1");
-  music_gameplay_odd_ = audio_engine->GetSoundHandle("music_gameplay_lap_2");
+  music_gameplay_lap_1_ = audio_engine->GetSoundHandle("music_gameplay_lap_1");
+  music_gameplay_lap_2_ = audio_engine->GetSoundHandle("music_gameplay_lap_2");
+  music_gameplay_lap_3_ = audio_engine->GetSoundHandle("music_gameplay_lap_3");
 }
 
 void GameplayState::OnEnter() {
   world_->player_component.set_active(true);
   input_system_->SetRelativeMouseMode(true);
-  music_channel_even_ = audio_engine_->PlaySound(music_gameplay_even_);
-  music_channel_odd_ = audio_engine_->PlaySound(music_gameplay_odd_);
+  music_channel_lap_1_ =
+      audio_engine_->PlaySound(music_gameplay_lap_1_, mathfu::kZeros3f, 1.0f);
+  music_channel_lap_2_ =
+      audio_engine_->PlaySound(music_gameplay_lap_2_, mathfu::kZeros3f, 0.0f);
+  music_channel_lap_3_ =
+      audio_engine_->PlaySound(music_gameplay_lap_3_, mathfu::kZeros3f, 0.0f);
 #ifdef ANDROID_CARDBOARD
   input_system_->cardboard_input().ResetHeadTracker();
 #endif  // ANDROID_CARDBOARD
 }
 
 void GameplayState::OnExit() {
-  music_channel_even_.Stop();
-  music_channel_odd_.Stop();
+  music_channel_lap_1_.Stop();
+  music_channel_lap_2_.Stop();
+  music_channel_lap_3_.Stop();
 }
 
 }  // fpl_project
