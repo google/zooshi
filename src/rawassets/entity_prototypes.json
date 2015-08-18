@@ -1213,9 +1213,9 @@
           "data_type": "TransformDef",
           "data": {
             "scale": {
-              "x": 2.25,
-              "y": 2.25,
-              "z": 2.25
+              "x": 0.01,
+              "y": 0.01,
+              "z": 0.01
             },
             "position": {
               "x": 0.0,
@@ -1225,14 +1225,14 @@
             "orientation": {
               "x": 0.0,
               "y": 0.0,
-              "z": 0.0
+              "z": -90.0
             }
           }
         },
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/hungry_hippo.fplmesh",
+            "source_file": "meshes/Hippo.fplmesh",
             "shader": "shaders/textured_lit",
             "render_pass": ["Alpha"],
             "culling": ["ViewAngle", "Distance"]
