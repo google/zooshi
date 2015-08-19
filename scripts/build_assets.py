@@ -35,6 +35,9 @@ import shutil
 import subprocess
 import sys
 
+# Windows uses the .exe extension on executables.
+EXECUTABLE_EXTENSION = '.exe' if platform.system() == 'Windows' else ''
+
 # The project root directory, which is one level up from this script's
 # directory.
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -105,6 +108,16 @@ MESH_PIPELINE_PATHS = [
 IMAGEMAGICK_IDENTIFY = distutils.spawn.find_executable('identify')
 IMAGEMAGICK_CONVERT = distutils.spawn.find_executable('convert')
 GRAPHICSMAGICK = distutils.spawn.find_executable('gm')
+
+# Search for the set of ImageMagick binaries in the prebuilts directory.
+IMAGEMAGICK_PREBUILTS = [root for root, _, filenames in os.walk(
+    os.path.join(PREBUILTS_ROOT, 'imagemagick', '%s-x86_64' %
+                 platform.system().lower()),
+    followlinks=True) if 'convert' + EXECUTABLE_EXTENSION in filenames]
+IMAGEMAGICK_PATHS = [
+    IMAGEMAGICK_PREBUILTS[0] if IMAGEMAGICK_PREBUILTS else '',
+    os.path.dirname(IMAGEMAGICK_IDENTIFY) if IMAGEMAGICK_IDENTIFY else '',
+]
 
 # Directory that contains the anim_pipeline tool.
 ANIM_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('anim_pipeline')
@@ -178,9 +191,6 @@ SCHEMA_PATHS = [
 
 # Directory inside the assets directory where flatbuffer schemas are copied.
 SCHEMA_OUTPUT_PATH = 'flatbufferschemas'
-
-# Windows uses the .exe extension on executables.
-EXECUTABLE_EXTENSION = '.exe' if platform.system() == 'Windows' else ''
 
 # Name of the flatbuffer executable.
 FLATC_EXECUTABLE_NAME = 'flatc' + EXECUTABLE_EXTENSION
@@ -318,6 +328,12 @@ MESH_PIPELINE = find_in_paths(MESH_PIPELINE_EXECUTABLE_NAME,
 ANIM_PIPELINE = find_in_paths(ANIM_PIPELINE_EXECUTABLE_NAME,
                               ANIM_PIPELINE_PATHS)
 
+# Location of required ImageMagick tools.
+IMAGEMAGICK_IDENTIFY = find_in_paths('identify' + EXECUTABLE_EXTENSION,
+                                     IMAGEMAGICK_PATHS)
+IMAGEMAGICK_CONVERT = find_in_paths('convert' + EXECUTABLE_EXTENSION,
+                                    IMAGEMAGICK_PATHS)
+
 
 def target_file_name(path, target_directory, target_extension):
   """Take the path to a raw png asset and convert it to target webp path.
@@ -454,6 +470,10 @@ class Image(object):
   Attributes:
     filename: Name of the file the image attributes were retrieved from.
     size: (width, height) tuple of the image in pixels.
+
+  Class Attributes:
+    CONVERT: Image conversion tool.
+    IDENTIFY: Image identification tool.
   """
   USE_GRAPHICSMAGICK = True
   # Select imagemagick or graphicsmagick convert and identify tools.
@@ -475,6 +495,16 @@ class Image(object):
     self.size = size
 
   @staticmethod
+  def set_environment():
+    """Initialize the environment to execute ImageMagick."""
+    # Need to set DYLD_LIBRARY_PATH for ImageMagick on OSX so it can find
+    # shared libraries.
+    print 'set_environment'
+    if platform.system().lower() == 'darwin':
+      os.environ['DYLD_LIBRARY_PATH'] = os.path.normpath(os.path.join(
+          os.path.dirname(IMAGEMAGICK_IDENTIFY), os.path.pardir, 'lib'))
+
+  @staticmethod
   def read_attributes(filename):
     """Read attributes of the image.
 
@@ -489,6 +519,7 @@ class Image(object):
     """
     identify_args = list(Image.IDENTIFY)
     identify_args.extend(['-format', '%w %h', filename])
+    Image.set_environment()
     return Image(filename, [int(value) for value in run_subprocess(
         identify_args, capture=True).split()])
 
@@ -535,6 +566,7 @@ class Image(object):
       source_file += ' (%d, %d)' % (self.size[0], self.size[1])
       target_file += ' (%d, %d)' % (target_image_size[0], target_image_size[1])
     print 'Converting %s to %s' % (source_file, target_file)
+    Image.set_environment()
     run_subprocess(convert_args)
 
 
