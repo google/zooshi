@@ -13,6 +13,7 @@
 // limitations under the License.
 
 include "audio_config.fbs";
+include "bullet_def.fbs";
 include "common.fbs";
 include "components.fbs";
 include "world_editor_config.fbs";
@@ -87,6 +88,18 @@ table RiverConfig {
   // Index into `banks` of the left side of the river. The right side is
   // river_index + 1.
   river_index:int;
+
+  // The collision type of the river banks.
+  collision_type:fpl.BulletCollisionType;
+
+  // What the river banks can collide with.
+  collides_with:[fpl.BulletCollisionType];
+
+  // The mass of the river banks.
+  mass:float = 1000;
+
+  // The restitution of the river banks.
+  restitution:float = 1;
 }
 
 table RenderConfig {

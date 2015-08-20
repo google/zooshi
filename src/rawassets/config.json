@@ -87,7 +87,13 @@
       },
     ],
     "river_index": 3,
-    "width": 5.0
+    "width": 5.0,
+    "collision_type": "Ground",
+    "collides_with": [
+      "Projectile"
+    ],
+    "mass": 1000.0,
+    "restitution": 0.5
   },
 
   "rendering_config" : {
