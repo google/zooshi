@@ -537,6 +537,7 @@ class Image(object):
     identify_args = list(Image.IDENTIFY)
     identify_args.extend(['-format', '%w %h', filename])
     Image.set_environment()
+    run_subprocess(['ldd', Image.IDENTIFY[0]])  # DEBUG
     return Image(filename, [int(value) for value in run_subprocess(
         identify_args, capture=True).split()])
 
