@@ -17,6 +17,8 @@ LOCAL_PATH:=$(call my-dir)
 # Project directory relative to this file.
 ZOOSHI_RELATIVE_DIR:=../../..
 ZOOSHI_DIR:=$(LOCAL_PATH)/$(ZOOSHI_RELATIVE_DIR)
+# Update the flatc binary when flatbuffers source changes.
+FLATBUFFERS_FLATC_ALWAYS_BUILD?=1
 include $(ZOOSHI_DIR)/jni/android_config.mk
 include $(DEPENDENCIES_FLATBUFFERS_DIR)/android/jni/include.mk
 
