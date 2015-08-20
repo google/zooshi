@@ -497,12 +497,29 @@ class Image(object):
   @staticmethod
   def set_environment():
     """Initialize the environment to execute ImageMagick."""
-    # Need to set DYLD_LIBRARY_PATH for ImageMagick on OSX so it can find
-    # shared libraries.
-    print 'set_environment'
-    if platform.system().lower() == 'darwin':
-      os.environ['DYLD_LIBRARY_PATH'] = os.path.normpath(os.path.join(
-          os.path.dirname(IMAGEMAGICK_IDENTIFY), os.path.pardir, 'lib'))
+    # If we're using imagemagick tools.
+    if IMAGEMAGICK_IDENTIFY in Image.IDENTIFY:
+      platform_name = platform.system().lower()
+      if platform_name == 'darwin':
+        # Need to set DYLD_LIBRARY_PATH for ImageMagick on OSX so it can find
+        # shared libraries.
+        os.environ['DYLD_LIBRARY_PATH'] = os.path.normpath(os.path.join(
+            os.path.dirname(IMAGEMAGICK_IDENTIFY), os.path.pardir, 'lib'))
+      elif platform_name == 'linux':
+        # Configure shared library, module, filter and configuration paths.
+        libs = os.path.normpath(
+            os.path.join(os.path.dirname(IMAGEMAGICK_IDENTIFY),
+                         os.path.pardir, 'lib', 'x86_64-linux-gnu'))
+        config_home = glob.glob(os.path.join(libs, 'ImageMagick*'))
+        modules_home = (glob.glob(os.path.join(config_home[0], 'modules-*'))
+                        if config_home else '')
+        os.environ['LD_LIBRARY_PATH'] = libs
+        os.environ['MAGICK_CODER_MODULE_PATH'] = (
+            os.path.join(modules_home[0], 'coders') if modules_home else '')
+        os.environ['MAGICK_CODER_FILTER_PATH'] = (
+            os.path.join(modules_home[0], 'filters') if modules_home else '')
+        os.environ['MAGICK_CONFIGURE_PATH'] = (
+            os.path.join(config_home[0], 'config') if config_home else '')
 
   @staticmethod
   def read_attributes(filename):
