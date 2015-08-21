@@ -73,6 +73,13 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   // Set the world def to load upon entering this state.
   world_def_ = config->world_def();
   input_controller_ = input_controller;
+
+  // Retrieve references to textures. (Loading process is done already.)
+  background_title_ =
+      asset_manager_->LoadTexture("textures/ui_background_main.webp");
+  background_options_ =
+      asset_manager_->LoadTexture("textures/ui_background_options.webp");
+  button_back_ = asset_manager_->LoadTexture("textures/ui_button_back.webp");
 }
 
 void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
@@ -90,7 +97,6 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     audio_engine_->PlaySound(sound_start_);
     world_->is_in_cardboard = (menu_state_ == kMenuStateCardboard);
   }
-  menu_state_ = kMenuStateStart;
 }
 
 void GameMenuState::Render(Renderer* renderer) {
@@ -120,11 +126,10 @@ void GameMenuState::OnEnter() {
   music_channel_ = audio_engine_->PlaySound(music_menu_);
   world_->player_component.set_active(false);
   input_system_->SetRelativeMouseMode(false);
+  menu_state_ = kMenuStateStart;
 }
 
-void GameMenuState::OnExit() {
-  music_channel_.Stop();
-}
+void GameMenuState::OnExit() { music_channel_.Stop(); }
 
 }  // fpl_project
 }  // fpl

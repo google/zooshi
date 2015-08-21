@@ -66,6 +66,7 @@
     "materials/riverbank_grass_daytime.fplmat",
     "materials/riverbank_grass_twilight.fplmat",
     "materials/riverbank_grass_sunset.fplmat",
+    "materials/ui_images.fplmat"
   ],
   "shader_list": [
     "shaders/color",
@@ -89,5 +90,6 @@
         ]
       }
     ]
-  }
+  },
+  "font_file": "fonts/RaviPrakash-Regular.ttf"
 }

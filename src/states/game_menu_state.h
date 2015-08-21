@@ -17,6 +17,7 @@
 
 #include "camera.h"
 #include "flatui/flatui.h"
+#include "flatui/flatui_common.h"
 #include "fplbase/input.h"
 #include "pindrop/pindrop.h"
 #include "states/gameplay_state.h"
@@ -40,11 +41,18 @@ enum MenuState {
   kMenuStateCardboard,
 };
 
+// Constant defintions for UI elements. Colors, button sizes etc.
+const auto kColorBrown = vec4(0.37f, 0.24f, 0.09f, 1.0f);
+const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 1.0f);
+const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
+const auto kMenuSize = 80;
+const auto kButtonSize = 55;
+
 class GameMenuState : public StateNode {
  public:
   void Initialize(InputSystem* input_system, World* world,
-                  BasePlayerController* player_controller,
-                  const Config* config,
+                  BasePlayerController* player_controller, const Config* config,
                   AssetManager* asset_manager, FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine);
 
@@ -58,7 +66,6 @@ class GameMenuState : public StateNode {
                       InputSystem& input);
   MenuState OptionMenu(AssetManager& assetman, FontManager& fontman,
                        InputSystem& input);
-
   // The world to display in the background.
   World* world_;
 
@@ -97,6 +104,11 @@ class GameMenuState : public StateNode {
 
   // The controller to use for the main character when the world is created.
   BasePlayerController* input_controller_;
+
+  // Textures used in menu UI.
+  Texture* background_title_;
+  Texture* background_options_;
+  Texture* button_back_;
 
   // In-game menu state.
   bool show_about_;

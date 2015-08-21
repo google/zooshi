@@ -22,6 +22,7 @@
 #include "fplbase/input.h"
 #include "pindrop/pindrop.h"
 #include "states/state_machine.h"
+#include "states/states.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -39,6 +40,9 @@ class PauseState : public StateNode {
   virtual void OnEnter();
 
  protected:
+  GameState PauseMenu(AssetManager& assetman, FontManager& fontman,
+                      InputSystem& input);
+
   World* world_;
 
   // IMGUI uses InputSystem for an input handling for a touch, gamepad,
@@ -58,8 +62,11 @@ class PauseState : public StateNode {
   pindrop::SoundHandle sound_continue_;
   pindrop::SoundHandle sound_exit_;
 
+  // Texture used in paused UI .
+  Texture *background_paused_;
+
   // The next menu state.
-  int next_state_;
+  GameState next_state_;
 
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD

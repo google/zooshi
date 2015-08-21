@@ -1,0 +1,20 @@
+{
+  "texture_filenames": [
+    "textures/ui_button_ok.webp",
+    "textures/ui_button_back.webp",
+    "textures/ui_background_main.webp",
+    "textures/ui_background_options.webp",
+  ],
+  "blendmode": "ALPHA",
+  "desired_format" : [
+    "F_8888",
+    "F_8888",
+    "F_8888",
+    "F_8888"
+  ],
+  "original_size" : [
+    { "x": 292, "y": 175 },  // OK button size.
+    { "x": 185, "y": 135 },  // Back button size.
+  ]
+}
+
