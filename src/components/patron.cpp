@@ -35,9 +35,6 @@
 #include "world.h"
 #include "world_editor/editor_event.h"
 
-using mathfu::vec3;
-using mathfu::quat;
-
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PatronComponent,
                             fpl::fpl_project::PatronData)
 
@@ -52,13 +49,23 @@ using fpl::component_library::PhysicsComponent;
 using fpl::component_library::PhysicsData;
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
+using fpl::component_library::RigidBodyData;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
+using fpl::entity::EntityRef;
+using mathfu::kZeros3f;
+using mathfu::quat;
+using mathfu::vec3;
 using motive::MotiveTime;
+
 
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kSplatterCount = 10;
 static const float kLapWaitAmount = 0.5f;
+static const float kMaxCatchDist = 5.0f;
+static const float kHeightRangeBuffer = 0.05f;
+static const Range kCatchTimeRangeInSeconds(0.01f, 10.0f);
+
 
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
@@ -186,12 +193,51 @@ void PatronComponent::PostLoadFixup() {
     // Initialize state machine.
     patron_data->state = kPatronStateLayingDown;
 
+    // Cache the index into the physics target body.
+    const PhysicsData* physics_data = Data<PhysicsData>(patron);
+    const int target_index =
+        physics_data->RigidBodyIndex(patron_data->target_tag);
+    patron_data->target_rigid_body_index = target_index < 0 ? 0 : target_index;
+
     // Patrons that are done should not have physics enabled.
     physics_component->DisablePhysics(patron);
     // We don't want patrons moving until they are up.
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
+    }
+  }
+}
+
+void PatronComponent::UpdateMovement(const EntityRef& patron) {
+  TransformData* transform_data = Data<TransformData>(patron);
+  PatronData* patron_data = Data<PatronData>(patron);
+
+  // Add on delta to the position.
+  if (patron_data->delta_position.Valid()) {
+    const vec3 delta_position = patron_data->delta_position.Value();
+    transform_data->position += delta_position -
+                                vec3(patron_data->prev_delta_position);
+    patron_data->prev_delta_position = delta_position;
+
+    if (patron_data->delta_position.TargetTime() <= 0) {
+      patron_data->delta_position.Invalidate();
+    }
+  }
+
+  // Add on delta to face angle.
+  if (patron_data->delta_face_angle.Valid()) {
+    const Angle cur_face_angle(transform_data->orientation.ToEulerAngles().z());
+
+    const Angle delta_face_angle(patron_data->delta_face_angle.Value());
+    const Angle delta = delta_face_angle - patron_data->prev_delta_face_angle;
+    transform_data->orientation = transform_data->orientation *
+                                  quat::FromAngleAxis(delta.ToRadians(),
+                                                      mathfu::kAxisZ3f);
+    patron_data->prev_delta_face_angle = delta_face_angle;
+
+    if (patron_data->delta_face_angle.TargetTime() <= 0) {
+      patron_data->delta_face_angle.Invalidate();
     }
   }
 }
@@ -210,6 +256,15 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
     const PatronState state = patron_data->state;
+
+    // Move patron towards the target.
+    UpdateMovement(patron);
+
+    if (state == kPatronStateUpright) {
+      if (!patron_data->delta_position.Valid()) {
+        CatchProjectile(patron);
+      }
+    }
 
     RenderMeshComponent* rm_component =
         entity_manager_->GetComponent<RenderMeshComponent>();
@@ -448,5 +503,200 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
   }
 }
 
+static inline vec3 ZeroHeight(const vec3& v) {
+  vec3 v_copy = v;
+  v_copy.z() = 0.0f;
+  return v_copy;
+}
+
+static float CalculateClosestTimeInHeightRange(
+    float target_t, const Range& valid_times, const Range& valid_heights,
+    float start_height, float start_speed, float gravity) {
+
+  // Let `h(t)` represent the height at time `t`.
+  // Then,
+  //   h(0) = start_height
+  //   h'(0) = start_speed
+  //   h''(t) = gravity
+  // So,
+  //   h(t) = 0.5*gravity*t^2 + start_speed*t + start_height
+
+  // Create curves with roots at the min and max heights.
+  const float half_gravity = 0.5f * gravity;
+  const QuadraticCurve below_max_curve(half_gravity, start_speed,
+                                       start_height - valid_heights.end());
+  const QuadraticCurve above_min_curve(half_gravity, start_speed,
+                                       start_height - valid_heights.start());
+
+  // Find time ranges where those curves are in the valid range.
+  QuadraticCurve::RangeArray below_max_ranges;
+  QuadraticCurve::RangeArray above_min_ranges;
+  below_max_curve.RangesBelowZero(valid_times, &below_max_ranges);
+  above_min_curve.RangesAboveZero(valid_times, &above_min_ranges);
+
+  // Fine time ranges where both curves are in the valid range.
+  Range::RangeArray<4> valid_ranges;
+  Range::IntersectRanges(below_max_ranges, above_min_ranges, &valid_ranges);
+
+  // TODO: Prefer later times, given the same distance, since we want more
+  //       time to move to the catch point.
+  const float closest_t = Range::ClampToClosest(target_t, valid_ranges);
+  return closest_t;
+}
+
+Range PatronComponent::TargetHeightRange(const EntityRef& patron) const {
+  // Get the physics rigid body data for the patron's target.
+  const PatronData* patron_data = GetComponentData(patron);
+  const PhysicsData* physics_data = Data<PhysicsData>(patron);
+
+  // Get the axis-aligned bounding box of the patron's target.
+  vec3 target_min;
+  vec3 target_max;
+  physics_data->GetAabb(patron_data->target_rigid_body_index, &target_min,
+                        &target_max);
+
+  // Return the heights.
+  return Range(target_min.z() + kHeightRangeBuffer,
+               target_max.z() - kHeightRangeBuffer);
+}
+
+const EntityRef* PatronComponent::ClosestProjectile(
+    const EntityRef& patron, vec3* closest_position, Angle* closest_face_angle,
+    float* closest_time) const {
+
+  // TODO: change projectile_component to const when Component gets a
+  //       const_iterator.
+  PlayerProjectileComponent* projectile_component =
+      entity_manager_->GetComponent<PlayerProjectileComponent>();
+  const TransformData* patron_transform = Data<TransformData>(patron);
+
+  // Gather patron details. These are independent of the projectiles.
+  const vec3 patron_position_xy = ZeroHeight(patron_transform->position);
+  const Range target_height_range = TargetHeightRange(patron);
+
+  // Loop through every projectile. Keep a reference to the closest one.
+  const EntityRef* closest_ref = nullptr;
+  float closest_dist_sq = kMaxCatchDist * kMaxCatchDist;
+  for (auto it = projectile_component->begin(); it != projectile_component->end();
+       ++it) {
+    // Get movement state of projectile.
+    const TransformData* projectile_transform =
+        entity_manager_->GetComponentData<TransformData>(it->entity);
+    const PhysicsData* projectile_physics =
+        entity_manager_->GetComponentData<PhysicsData>(it->entity);
+    const vec3 projectile_position = projectile_transform->position;
+    const vec3 projectile_velocity = projectile_physics->Velocity(); // In m/s.
+    const vec3 projectile_position_xy = ZeroHeight(projectile_position);
+    const vec3 projectile_velocity_xy = ZeroHeight(projectile_velocity);
+
+    // Get horizontal unit vector and distance to patron.
+    vec3 to_patron_xy = patron_position_xy - projectile_position_xy;
+    const float dist_to_patron_xy = to_patron_xy.Normalize();
+
+    // Get time to closest point on horizontal trajectory.
+    // Dot product is projectile speet along
+    const float projectile_speed_to_patron =
+        vec3::DotProduct(projectile_velocity, to_patron_xy);
+    if (projectile_speed_to_patron <= 0.0f) continue;
+    const float closest_t_ignore_hieght =
+        dist_to_patron_xy / projectile_speed_to_patron; // In seconds.
+
+    // Early reject if the distance is already too far.
+    const vec3 closest_position_ignore_hieght_xy =
+        projectile_position_xy + projectile_velocity_xy * closest_t_ignore_hieght;
+    const float dist_sq_ignore_hieght =
+        (patron_position_xy - closest_position_ignore_hieght_xy).LengthSquared();
+    if (dist_sq_ignore_hieght > closest_dist_sq) continue;
+
+    // Get the closest time at a catchable hieght.
+    const float closest_t = CalculateClosestTimeInHeightRange(
+        closest_t_ignore_hieght, kCatchTimeRangeInSeconds, target_height_range,
+        projectile_position.z(), projectile_velocity.z(), config_->gravity());
+    if (closest_t <= 0.0f) continue;
+
+    // Claculate the projectile position at `closest_t`.
+    const vec3 closest_position_xy = projectile_position_xy +
+                                     projectile_velocity_xy * closest_t;
+    const float dist_sq =
+        (patron_position_xy - closest_position_xy).LengthSquared();
+    if (dist_sq > closest_dist_sq) continue;
+
+    // TODO: prefer projectiles that are slightly farther but with much more
+    //       time to close the distance.
+    *closest_position = closest_position_xy;
+    closest_position->z() = patron_transform->position.z();
+    *closest_time = closest_t;
+    *closest_face_angle = Angle::FromYXVector(projectile_position_xy -
+                                              closest_position_xy);
+    closest_ref = &it->entity;
+    closest_dist_sq = dist_sq;
+  }
+  return closest_ref;
+}
+
+void PatronComponent::CatchProjectile(const EntityRef& patron) {
+  // Find the projectile that's the closest.
+  vec3 closest_position;
+  Angle closest_face_angle;
+  float closest_time;
+  const EntityRef* closest_projectile = ClosestProjectile(
+      patron, &closest_position, &closest_face_angle, &closest_time);
+
+  // Initialize movement to that spot.
+  if (closest_projectile != nullptr) {
+    MoveToTarget(patron, closest_position, closest_face_angle, closest_time);
+  }
+}
+
+void PatronComponent::MoveToTarget(
+    const EntityRef& patron, const vec3& target_position,
+    Angle target_face_angle, float target_time) {
+
+  // TODO: When patron is moving on tracks, get the future position and
+  //       face angle from the tracks instead.
+  const TransformData* patron_transform = Data<TransformData>(patron);
+  const vec3 future_position = patron_transform->position;
+  const Angle future_face_angle(patron_transform->orientation.ToEulerAngles().z());
+
+  // At `target_time` we want to achieve these deltas so that our position and
+  // face angle with equal `target_position` and `target_face_angle`.
+  const vec3 delta_position = target_position - future_position;
+  const Angle delta_face_angle = target_face_angle - future_face_angle;
+  const motive::MotiveTime target_time_ms =
+      static_cast<motive::MotiveTime>(1000.0f * target_time);
+
+  // Set the delta movement Motivators.
+  PatronData* patron_data = Data<PatronData>(patron);
+  if (!patron_data->delta_position.Valid()) {
+    // Initialize from scratch.
+    assert(!patron_data->delta_face_angle.Valid());
+
+    patron_data->prev_delta_position = vec3(kZeros3f);
+    patron_data->prev_delta_face_angle = Angle(0.0f);
+
+    motive::MotiveEngine* motive_engine =
+        &entity_manager_->GetComponent<AnimationComponent>()->engine();
+
+    patron_data->delta_position.InitializeWithTarget(
+        motive::SmoothInit(), motive_engine,
+        motive::Tar3f::CurrentToTarget(kZeros3f, kZeros3f, delta_position,
+                                       kZeros3f, target_time_ms));
+
+    const Range angle_range(-kPi, kPi);
+    patron_data->delta_face_angle.InitializeWithTarget(
+        motive::SmoothInit(angle_range, true), motive_engine,
+        motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(),
+                                  0.0f, target_time_ms));
+
+  } else {
+    // Reset the current target to go to the new position.
+    patron_data->delta_position.SetTarget(
+        motive::Tar3f::Target(delta_position, kZeros3f, target_time_ms));
+    patron_data->delta_face_angle.SetTarget(
+        motive::Target1f(delta_face_angle.ToRadians(), 0.0f, target_time_ms));
+  }
+}
+
 }  // fpl_project
 }  // fpl
+
