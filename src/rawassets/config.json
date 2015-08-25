@@ -123,6 +123,7 @@
     "gui_toolbar_size": 25,
     "gui_bg_toolbar_color": {"r":0, "g":0, "b":0, "a":1},
     "gui_bg_edit_ui_color": {"r":0, "g":0, "b":0, "a":0.5},
+    "gui_font": "fonts/NotoSansCJKjp-Bold.otf",
     "flatbuffer_editor_config": {
       "read_only": false,
       "auto_commit_edits": true,
