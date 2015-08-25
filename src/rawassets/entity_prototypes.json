@@ -516,6 +516,14 @@
           }
         },
         {
+          "data_type": "GraphDef",
+          "data": {
+            "filename_list": [
+              "graphs/test.fplgraph"
+            ]
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {

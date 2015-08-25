@@ -18,6 +18,7 @@
 #include <map>
 #include <memory>
 #include <string>
+
 #include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/entity_factory.h"
@@ -27,8 +28,8 @@
 #include "component_library/transform.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
-#include "components_generated.h"
 #include "components/digit.h"
+#include "components/graph.h"
 #include "components/lap_dependent.h"
 #include "components/patron.h"
 #include "components/player.h"
@@ -37,13 +38,14 @@
 #include "components/rail_node.h"
 #include "components/river.h"
 #include "components/services.h"
-#include "components/simple_movement.h"
 #include "components/shadow_controller.h"
+#include "components/simple_movement.h"
 #include "components/sound.h"
 #include "components/time_limit.h"
+#include "components_generated.h"
 #include "entity/entity_manager.h"
-#include "fplbase/renderer.h"
 #include "fplbase/render_target.h"
+#include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "railmanager.h"
 #include "world_editor/edit_options.h"
@@ -71,7 +73,7 @@ namespace fpl_project {
 class WorldRenderer;
 struct Config;
 
-class World {
+struct World {
  public:
   World()
     : is_in_cardboard(false),
@@ -81,7 +83,9 @@ class World {
   void Initialize(const Config& config, InputSystem* input_system,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                   FontManager* font_manager, pindrop::AudioEngine* audio_engine,
-                  event::EventManager* event_manager, Renderer* renderer,
+                  event::EventManager* event_manager,
+                  event::EventSystem* event_system,
+                  GraphDictionary* graph_dictionary, Renderer* renderer,
                   const motive::AnimTable* anim_table);
 
   // Entity manager
@@ -112,10 +116,11 @@ class World {
   ServicesComponent services_component;
   component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
-  component_library::MetaComponent meta_component_;
-  editor::EditOptionsComponent edit_options_component_;
-  SimpleMovementComponent simple_movement_component_;
-  LapDependentComponent lap_dependent_component_;
+  component_library::MetaComponent meta_component;
+  editor::EditOptionsComponent edit_options_component;
+  SimpleMovementComponent simple_movement_component;
+  LapDependentComponent lap_dependent_component;
+  GraphComponent graph_component;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;

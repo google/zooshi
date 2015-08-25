@@ -69,6 +69,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/digit.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/graph.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/lap_dependent.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
@@ -77,18 +78,27 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_node.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/river.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/services.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/shadow_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/simple_movement.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/shadow_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_multiplayer.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/graph_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gui.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/audio.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/debug.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/entity.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/logic.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/math.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/string.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/vec3.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/game_menu_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/gameplay_state.cpp \
@@ -110,6 +120,7 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/events.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/graph.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs
 

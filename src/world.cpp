@@ -16,6 +16,7 @@
 #include "config_generated.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
+#include "graph_factory.h"
 #include "input_config_generated.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
@@ -49,7 +50,9 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                        FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
-                       event::EventManager* event_manager, Renderer* renderer,
+                       event::EventManager* event_manager,
+                       event::EventSystem* event_system,
+                       GraphDictionary* graph_dictionary, Renderer* renderer,
                        const motive::AnimTable* anim_table) {
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
@@ -69,9 +72,10 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   // depend on it during their own init functions.
   common_services_component.Initialize(asset_manager, entity_factory.get(),
                                        event_manager, input_system, renderer);
-  services_component.Initialize(
-      config, asset_manager, input_system, audio_engine, event_manager,
-      font_manager, &rail_manager, entity_factory.get(), anim_table);
+  services_component.Initialize(config, asset_manager, input_system,
+                                audio_engine, event_manager, event_system,
+                                graph_dictionary, font_manager, &rail_manager,
+                                entity_factory.get(), anim_table);
 
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&common_services_component),
@@ -80,16 +84,19 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       entity_manager.RegisterComponent(&services_component),
       ComponentDataUnion_ServicesDef, "ServicesDef");
   entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&graph_component),
+      ComponentDataUnion_GraphDef, "GraphDef");
+  entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&attributes_component),
       ComponentDataUnion_AttributesDef, "AttributesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_denizen_component),
       ComponentDataUnion_RailDenizenDef, "RailDenizenDef");
   entity_factory->SetComponentType(
-      entity_manager.RegisterComponent(&simple_movement_component_),
+      entity_manager.RegisterComponent(&simple_movement_component),
       ComponentDataUnion_SimpleMovementDef, "SimpleMovementDef");
   entity_factory->SetComponentType(
-      entity_manager.RegisterComponent(&lap_dependent_component_),
+      entity_manager.RegisterComponent(&lap_dependent_component),
       ComponentDataUnion_LapDependentDef, "LapDependentDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&player_component),
@@ -125,10 +132,10 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       entity_manager.RegisterComponent(&shadow_controller_component),
       ComponentDataUnion_ShadowControllerDef, "ShadowControllerDef");
   entity_factory->SetComponentType(
-      entity_manager.RegisterComponent(&meta_component_),
+      entity_manager.RegisterComponent(&meta_component),
       ComponentDataUnion_MetaDef, "MetaDef");
   entity_factory->SetComponentType(
-      entity_manager.RegisterComponent(&edit_options_component_),
+      entity_manager.RegisterComponent(&edit_options_component),
       ComponentDataUnion_EditOptionsDef, "EditOptionsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&animation_component),
@@ -150,7 +157,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
 
   render_mesh_component.set_light_position(vec3(-10, -20, 20));
   render_mesh_component.SetCullDistance(
-        config->rendering_config()->cull_distance());
+      config->rendering_config()->cull_distance());
 }
 
 void LoadWorldDef(World* world, const WorldDef* world_def,
@@ -176,6 +183,7 @@ void LoadWorldDef(World* world, const WorldDef* world_def,
 
   world->transform_component.PostLoadFixup();  // sets up parent-child links
   world->patron_component.PostLoadFixup();
+  world->graph_component.PostLoadFixup();
 
   entity::EntityRef player_entity = world->player_component.begin()->entity;
   auto player_transform =

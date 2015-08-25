@@ -23,12 +23,15 @@
 #include "config_generated.h"
 #include "entity/entity_manager.h"
 #include "event/event_listener.h"
+#include "event/event_system.h"
+#include "event/graph.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
+#include "graph_factory.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/anim_table.h"
 #include "pindrop/pindrop.h"
@@ -70,6 +73,7 @@ class Game : event::EventListener {
  private:
   bool InitializeRenderer();
   bool InitializeAssets();
+  void InitializeEventSystem();
 
   Mesh* CreateVerticalQuadMesh(const char* material_name,
                                const mathfu::vec3& offset,
@@ -128,6 +132,12 @@ class Game : event::EventListener {
 
   // The application wide event manager.
   event::EventManager event_manager_;
+
+  // The event system.
+  event::EventSystem event_system_;
+
+  // A dictionary of all loaded event graphs.
+  GraphDictionary graph_dictionary_;
 
   // Hold all the game's animations.
   motive::AnimTable anim_table_;

@@ -62,6 +62,10 @@ table SimpleMovementDef {
   velocity:Vec3;
 }
 
+table GraphDef {
+  filename_list:[string];
+}
+
 table TaggedActionDef {
   tag:string;
   action:fpl.fpl_project.ActionDef;
@@ -167,6 +171,7 @@ table AnimationDef {}
 union ComponentDataUnion {
   CommonServicesDef,
   SimpleMovementDef,
+  GraphDef,
   ServicesDef,
   MetaDef,
   RailDenizenDef,
