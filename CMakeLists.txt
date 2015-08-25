@@ -206,7 +206,7 @@ add_custom_command(TARGET assets POST_BUILD
 # Copy Font resource files
 add_custom_command(TARGET assets POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_BINARY_DIR}/src/rawassets/fonts
+                       ${CMAKE_SOURCE_DIR}/src/rawassets/fonts
                        ${CMAKE_BINARY_DIR}/assets/fonts)
 
 # zooshi source files.
