@@ -320,9 +320,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -45,
-              "y": -52,
-              "z": 0.01
+              "x": -47.7997,
+              "y": -52.0235,
+              "z": 0.36
             },
             "scale": {
               "x": 1,
@@ -456,9 +456,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 29.3976,
-              "y": 62.4076,
-              "z": 0.00999808
+              "x": 29.6907,
+              "y": 62.7747,
+              "z": 0.359998
             },
             "scale": {
               "x": 1,
@@ -592,9 +592,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -43,
-              "y": -65,
-              "z": 0.01
+              "x": -41.0225,
+              "y": -60.9937,
+              "z": 0.46
             },
             "scale": {
               "x": 1,
@@ -604,7 +604,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -140
+              "z": -142.7
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -900,7 +900,7 @@
             "position": {
               "x": 41.6551,
               "y": 37.3537,
-              "z": -0.874993
+              "z": 0.450007
             },
             "scale": {
               "x": 1.4,
@@ -1000,9 +1000,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -3.31186,
-              "y": -30.7726,
-              "z": 0.250017
+              "x": -3.95548,
+              "y": -35.684,
+              "z": 0.550017
             },
             "scale": {
               "x": 1.4,
@@ -1012,7 +1012,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 141.5
+              "z": 115.7
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
@@ -1034,8 +1034,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -10.4285,
-              "y": -66.8073,
+              "x": -10.4301,
+              "y": -66.7972,
               "z": 1.22
             },
             "scale": {

@@ -1,27 +1,40 @@
 {
   "entity_list": [
-    // Player_path rail
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$9c3e-0e37-8d68-27c0",
             "prototype": "RailNode"
           }
         },
         {
           "data_type": "RailNodeDef",
           "data": {
-            "ordering": 0,
             "rail_name": "player_path",
-            "total_time": 60000.0,
-            "reliable_distance": 1.0
+            "total_time": 60000,
+            "reliable_distance": 1
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 0.000000, "y": 50.000000, "z": 2.000000}
+            "position": {
+              "x": 0,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -31,6 +44,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$2db6-c3be-635e-d533",
             "prototype": "RailNode"
           }
         },
@@ -44,7 +58,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 5.000000, "y": 50.000000, "z": 2.000000},
+            "position": {
+              "x": 5,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -54,6 +82,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$992a-9098-0acd-490d",
             "prototype": "RailNode"
           }
         },
@@ -67,7 +96,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 25.000000, "y": 55.000000, "z": 2.000000},
+            "position": {
+              "x": 25,
+              "y": 55,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -77,6 +120,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$7cca-5b1b-5227-11c1",
             "prototype": "RailNode"
           }
         },
@@ -90,7 +134,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 35.000000, "y": 55.000000, "z": 2.000000},
+            "position": {
+              "x": 35,
+              "y": 55,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -100,6 +158,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$3b45-9723-69b4-5153",
             "prototype": "RailNode"
           }
         },
@@ -113,7 +172,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 45.000000, "y": 50.000000, "z": 2.000000},
+            "position": {
+              "x": 45,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -123,6 +196,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$0ba0-6a98-e773-c8b9",
             "prototype": "RailNode"
           }
         },
@@ -136,7 +210,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 50.000000, "y": 40.000000, "z": 2.000000},
+            "position": {
+              "x": 50,
+              "y": 40,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -146,6 +234,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$5737-45a3-a9aa-4c46",
             "prototype": "RailNode"
           }
         },
@@ -159,7 +248,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 50.000000, "y": 30.000000, "z": 2.000000},
+            "position": {
+              "x": 50,
+              "y": 30,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -169,6 +272,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$d829-e87d-9885-38b3",
             "prototype": "RailNode"
           }
         },
@@ -182,7 +286,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 45.000000, "y": 20.000000, "z": 2.000000},
+            "position": {
+              "x": 45,
+              "y": 20,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -192,6 +310,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$45bb-865b-aac1-1c6a",
             "prototype": "RailNode"
           }
         },
@@ -205,7 +324,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 35.000000, "y": 10.000000, "z": 2.000000},
+            "position": {
+              "x": 35,
+              "y": 10,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -215,6 +348,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$23b3-493b-c3d4-52b9",
             "prototype": "RailNode"
           }
         },
@@ -228,7 +362,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 30.000000, "y": -0.000000, "z": 2.000000},
+            "position": {
+              "x": 30,
+              "y": -0,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -238,6 +386,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$c131-1ec8-91e5-d979",
             "prototype": "RailNode"
           }
         },
@@ -251,7 +400,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 30.000000, "y": -10.000000, "z": 2.000000},
+            "position": {
+              "x": 30,
+              "y": -10,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -261,6 +424,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$b228-38e1-1e7d-b0d2",
             "prototype": "RailNode"
           }
         },
@@ -274,7 +438,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 35.000000, "y": -20.000000, "z": 2.000000},
+            "position": {
+              "x": 35,
+              "y": -20,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -284,6 +462,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$64c2-39b5-c192-864d",
             "prototype": "RailNode"
           }
         },
@@ -297,7 +476,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 35.000000, "y": -30.000000, "z": 2.000000},
+            "position": {
+              "x": 35,
+              "y": -30,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -307,6 +500,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$d4bc-2b8a-9128-b3d4",
             "prototype": "RailNode"
           }
         },
@@ -320,7 +514,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 30.000000, "y": -40.000000, "z": 2.000000},
+            "position": {
+              "x": 30,
+              "y": -40,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -330,6 +538,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$165b-3e23-34a3-9d99",
             "prototype": "RailNode"
           }
         },
@@ -343,7 +552,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 20.000000, "y": -45.000000, "z": 2.000000},
+            "position": {
+              "x": 20,
+              "y": -45,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -353,6 +576,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$5dd0-e513-b22c-b544",
             "prototype": "RailNode"
           }
         },
@@ -366,7 +590,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": 0.000000, "y": -45.000000, "z": 2.000000},
+            "position": {
+              "x": 0,
+              "y": -45,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -376,6 +614,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$4d17-2e01-6d24-8830",
             "prototype": "RailNode"
           }
         },
@@ -389,7 +628,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -10.000000, "y": -50.000000, "z": 2.000000},
+            "position": {
+              "x": -10,
+              "y": -50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -399,6 +652,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$3878-b07c-a3a8-574c",
             "prototype": "RailNode"
           }
         },
@@ -412,7 +666,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -25.000000, "y": -55.000000, "z": 2.000000},
+            "position": {
+              "x": -25,
+              "y": -55,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -422,6 +690,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$44d7-cd65-963c-5e8a",
             "prototype": "RailNode"
           }
         },
@@ -435,7 +704,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -30.000000, "y": -55.000000, "z": 2.000000},
+            "position": {
+              "x": -30,
+              "y": -55,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -445,6 +728,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$cba8-637e-0d44-7bc9",
             "prototype": "RailNode"
           }
         },
@@ -458,7 +742,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -40.000000, "y": -50.000000, "z": 2.000000},
+            "position": {
+              "x": -40,
+              "y": -50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -468,6 +766,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$c19b-2bc0-ada3-ac6d",
             "prototype": "RailNode"
           }
         },
@@ -481,7 +780,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -45.000000, "y": -45.000000, "z": 2.000000},
+            "position": {
+              "x": -45,
+              "y": -45,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -491,6 +804,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$3414-8ccc-a50b-6aa6",
             "prototype": "RailNode"
           }
         },
@@ -504,7 +818,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -50.000000, "y": -35.000000, "z": 2.000000},
+            "position": {
+              "x": -50,
+              "y": -35,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -514,6 +842,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$08ab-478c-8ab1-92bc",
             "prototype": "RailNode"
           }
         },
@@ -527,7 +856,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -50.000000, "y": -30.000000, "z": 2.000000},
+            "position": {
+              "x": -50,
+              "y": -30,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -537,6 +880,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$3be0-789c-e8a4-4911",
             "prototype": "RailNode"
           }
         },
@@ -550,7 +894,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -45.000000, "y": -20.000000, "z": 2.000000},
+            "position": {
+              "x": -45,
+              "y": -20,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -560,6 +918,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$48ee-3069-d40e-3eab",
             "prototype": "RailNode"
           }
         },
@@ -573,7 +932,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -40.000000, "y": -15.000000, "z": 2.000000},
+            "position": {
+              "x": -40,
+              "y": -15,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -583,6 +956,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$4d23-e710-2d06-4b55",
             "prototype": "RailNode"
           }
         },
@@ -596,7 +970,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -35.000000, "y": -5.000000, "z": 2.000000},
+            "position": {
+              "x": -35,
+              "y": -5,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -606,6 +994,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$bc11-72e9-dd5a-695b",
             "prototype": "RailNode"
           }
         },
@@ -619,7 +1008,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -35.000000, "y": 5.000000, "z": 2.000000},
+            "position": {
+              "x": -35,
+              "y": 5,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -629,6 +1032,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$13a4-578e-ebdb-e5b6",
             "prototype": "RailNode"
           }
         },
@@ -642,7 +1046,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -40.000000, "y": 15.000000, "z": 2.000000},
+            "position": {
+              "x": -40,
+              "y": 15,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -652,6 +1070,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$249b-6e72-63e4-dd51",
             "prototype": "RailNode"
           }
         },
@@ -665,7 +1084,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -45.000000, "y": 20.000000, "z": 2.000000},
+            "position": {
+              "x": -45,
+              "y": 20,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -675,6 +1108,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$b8ca-0d8a-3b5e-e325",
             "prototype": "RailNode"
           }
         },
@@ -688,7 +1122,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -50.000000, "y": 30.000000, "z": 2.000000},
+            "position": {
+              "x": -50,
+              "y": 30,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -698,6 +1146,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$9e43-93e9-bda3-40e7",
             "prototype": "RailNode"
           }
         },
@@ -711,7 +1160,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -50.000000, "y": 35.000000, "z": 2.000000},
+            "position": {
+              "x": -50,
+              "y": 35,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -721,6 +1184,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$3684-9566-9473-c7d9",
             "prototype": "RailNode"
           }
         },
@@ -734,7 +1198,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -45.000000, "y": 45.000000, "z": 2.000000},
+            "position": {
+              "x": -45,
+              "y": 45,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -744,6 +1222,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$c5aa-c2ca-ad8c-3d57",
             "prototype": "RailNode"
           }
         },
@@ -757,7 +1236,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -40.000000, "y": 50.000000, "z": 2.000000},
+            "position": {
+              "x": -40,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -767,6 +1260,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$bab0-2033-6002-86d5",
             "prototype": "RailNode"
           }
         },
@@ -780,7 +1274,21 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -20.000000, "y": 55.000000, "z": 2.000000},
+            "position": {
+              "x": -20,
+              "y": 55,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -790,6 +1298,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$bebc-73c4-c8e1-4e41",
             "prototype": "RailNode"
           }
         },
@@ -803,34 +1312,60 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": {"x": -10.000000, "y": 50.000000, "z": 2.000000},
+            "position": {
+              "x": -10,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
     },
-
-    // line_loop rail
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$a289-193e-8e4e-7995",
             "prototype": "RailNode"
           }
         },
         {
           "data_type": "RailNodeDef",
           "data": {
-            "ordering": 0,
             "rail_name": "line_loop",
-            "total_time": 4000.0,
-            "reliable_distance": 1.0
+            "total_time": 4000,
+            "reliable_distance": 1
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -1, "y": 0, "z": 0 }
+            "position": {
+              "x": -1,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -840,6 +1375,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$187e-7627-ec9b-4d6d",
             "prototype": "RailNode"
           }
         },
@@ -847,13 +1383,27 @@
           "data_type": "RailNodeDef",
           "data": {
             "ordering": 1,
-            "rail_name": "line_loop",
+            "rail_name": "line_loop"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 0, "y": 0, "z": 0 },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -863,6 +1413,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$56dd-299b-a15e-c25a",
             "prototype": "RailNode"
           }
         },
@@ -870,13 +1421,27 @@
           "data_type": "RailNodeDef",
           "data": {
             "ordering": 2,
-            "rail_name": "line_loop",
+            "rail_name": "line_loop"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 1, "y": 0, "z": 0 },
+            "position": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
@@ -886,6 +1451,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$239b-780a-8257-e783",
             "prototype": "RailNode"
           }
         },
@@ -893,16 +1459,30 @@
           "data_type": "RailNodeDef",
           "data": {
             "ordering": 3,
-            "rail_name": "line_loop",
+            "rail_name": "line_loop"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 0, "y": 0, "z": 0 },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
           }
         }
       ]
-    },
+    }
   ]
 }

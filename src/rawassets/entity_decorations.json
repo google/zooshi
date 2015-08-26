@@ -13,8 +13,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 3.41179,
-              "y": 57.3138,
+              "x": 14.0158,
+              "y": 59.15,
               "z": 0.675
             },
             "scale": {
@@ -23,8 +23,8 @@
               "z": 1
             },
             "orientation": {
-              "x": -86.7,
-              "y": 0.300005,
+              "x": -86.7001,
+              "y": 18.3,
               "z": 0.900014
             },
             "child_ids": [
@@ -39,36 +39,7 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "prototype": "PointyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 80,
-              "y": 50,
-              "z": 0
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -90
-            },
-            "scale": {
-              "x": 3,
-              "y": 3,
-              "z": 3
-            }
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
+            "entity_id": "$bb6a-602d-cd33-6b09",
             "prototype": "BaobabTree"
           }
         },
@@ -76,20 +47,23 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 95,
-              "y": 45,
-              "z": 0
+              "x": 52.4524,
+              "y": -35.971,
+              "z": 3.225
+            },
+            "scale": {
+              "x": 7.58085,
+              "y": 7.58085,
+              "z": 7.58085
             },
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -72
+              "z": -48
             },
-            "scale": {
-              "x": 3,
-              "y": 3,
-              "z": 3
-            }
+            "child_ids": [
+              "BaobabTree_RenderMesh"
+            ]
           }
         }
       ]
@@ -99,6 +73,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$e97e-868a-8604-8ba5",
             "prototype": "SwampTree"
           }
         },
@@ -106,20 +81,23 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 95,
-              "y": 55,
+              "x": 83.7854,
+              "y": 19.9543,
               "z": 0
+            },
+            "scale": {
+              "x": 6.23678,
+              "y": 6.23678,
+              "z": 6.23678
             },
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -100
+              "z": -91
             },
-            "scale": {
-              "x": 3,
-              "y": 3,
-              "z": 3
-            }
+            "child_ids": [
+              "SwampTree_RenderMesh"
+            ]
           }
         }
       ]
@@ -139,7 +117,7 @@
             "position": {
               "x": 31.9121,
               "y": 101.199,
-              "z": -8.20572e-07
+              "z": -9.53674e-07
             },
             "scale": {
               "x": 1,
@@ -149,7 +127,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 33
+              "z": 21
             },
             "child_ids": [
               "SavannaTree_RenderMesh"
@@ -171,19 +149,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 10.22,
-              "y": 45.0603,
-              "z": 0.425
+              "x": 11.9216,
+              "y": 45.0785,
+              "z": 0.525
             },
             "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
+              "x": 2.18287,
+              "y": 2.18287,
+              "z": 2.18287
             },
             "orientation": {
-              "x": 20.0999,
-              "y": 3.89999,
-              "z": 121.5
+              "x": 12,
+              "y": 24,
+              "z": -90
             },
             "child_ids": [
               "FernTall_RenderMesh"
@@ -205,19 +183,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 13.4071,
-              "y": 44.7996,
+              "x": 12.5871,
+              "y": 44.9705,
               "z": 0.0749997
             },
             "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
+              "x": 2.52695,
+              "y": 2.52695,
+              "z": 2.52695
             },
             "orientation": {
-              "x": 21.3,
-              "y": -8.69998,
-              "z": -177
+              "x": 36.5999,
+              "y": -10.1999,
+              "z": -148.199
             },
             "child_ids": [
               "FernMid_RenderMesh"
@@ -239,19 +217,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 18.7454,
-              "y": 61.1488,
+              "x": 17.1026,
+              "y": 62.5243,
               "z": 0.475001
             },
             "scale": {
-              "x": 1.1025,
-              "y": 1.1025,
-              "z": 1.1025
+              "x": 2.78596,
+              "y": 2.78596,
+              "z": 2.78596
             },
             "orientation": {
-              "x": -6.95335e-06,
-              "y": -10.8,
-              "z": -123
+              "x": 8.56073e-07,
+              "y": 4.19999,
+              "z": -117
             },
             "child_ids": [
               "FernShort_RenderMesh"
@@ -273,9 +251,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 52.0141,
-              "y": 55.6581,
-              "z": 0.774996
+              "x": 49.7231,
+              "y": 57.5391,
+              "z": 3.72501
             },
             "scale": {
               "x": 1.1025,
@@ -283,9 +261,9 @@
               "z": 1.1025
             },
             "orientation": {
-              "x": -99.0003,
-              "y": -3.3,
-              "z": -20.1
+              "x": -6.03044,
+              "y": 2.7003,
+              "z": 9.87143
             },
             "child_ids": [
               "RockTall_RenderMesh"
@@ -309,17 +287,17 @@
             "position": {
               "x": 34.6104,
               "y": 45.2242,
-              "z": 2.675
+              "z": 3.175
             },
             "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
+              "x": 1.21551,
+              "y": 1.21551,
+              "z": 1.21551
             },
             "orientation": {
               "x": 11.4,
               "y": 1.2,
-              "z": 2.66863e-08
+              "z": -63.0001
             },
             "child_ids": [
               "RockMid_RenderMesh"
@@ -341,19 +319,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 20.9584,
-              "y": 62.4887,
-              "z": 1.65
+              "x": 20.6661,
+              "y": 62.863,
+              "z": 2.45
             },
             "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
+              "x": 1.88565,
+              "y": 1.88565,
+              "z": 1.88565
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 0
+              "z": 42
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -443,19 +421,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 37.8077,
-              "y": 60.8144,
+              "x": 15.5765,
+              "y": 60.9829,
               "z": 0.424999
             },
             "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
+              "x": 2.18287,
+              "y": 2.18287,
+              "z": 2.18287
             },
             "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 0
+              "x": 3,
+              "y": -3,
+              "z": 135
             },
             "child_ids": [
               "GrassDense_RenderMesh"
@@ -477,19 +455,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 14.9737,
-              "y": 42.8479,
-              "z": 1.125
+              "x": 16.7464,
+              "y": 47.0123,
+              "z": 1.5
             },
             "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
+              "x": 1.47746,
+              "y": 1.47746,
+              "z": 1.47746
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": 0
+              "y": 0,
+              "z": -15
             },
             "child_ids": [
               "GrassSmall_RenderMesh"
@@ -511,14 +489,14 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 25.7969,
-              "y": 49.2051,
-              "z": 0.5
+              "x": 26.2624,
+              "y": 48.5605,
+              "z": 0.675
             },
             "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
+              "x": 1.3401,
+              "y": 1.3401,
+              "z": 1.3401
             },
             "orientation": {
               "x": 7.2,
@@ -537,40 +515,6 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "$b4d2-2891-c259-51db",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 40.9008,
-              "y": 77.3419,
-              "z": 0.149998
-            },
-            "scale": {
-              "x": 5,
-              "y": 1,
-              "z": 5
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 36
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
             "entity_id": "$4140-8d23-5809-3080",
             "prototype": "RockTall"
           }
@@ -579,8 +523,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 10.5018,
-              "y": 59.2565,
+              "x": 8.444,
+              "y": 59.048,
               "z": 4.3
             },
             "scale": {
@@ -589,8 +533,8 @@
               "z": 1.3
             },
             "orientation": {
-              "x": -5.40008,
-              "y": -0.899908,
+              "x": -5.40009,
+              "y": -0.899915,
               "z": -75
             },
             "child_ids": [
@@ -658,7 +602,7 @@
             },
             "orientation": {
               "x": 73.5,
-              "y": 0.899986,
+              "y": 0.899984,
               "z": 90.9005
             },
             "child_ids": [
@@ -681,9 +625,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 44.5875,
-              "y": 62.8831,
-              "z": 1.325
+              "x": 42.013,
+              "y": 61.0048,
+              "z": 1.95
             },
             "scale": {
               "x": 1.15762,
@@ -691,9 +635,9 @@
               "z": 1.15762
             },
             "orientation": {
-              "x": 2.18927e-06,
+              "x": 2.45625e-06,
               "y": -2.10001,
-              "z": 48
+              "z": -129
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -809,74 +753,6 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "$5846-5d45-dca0-3c6a",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 72.4099,
-              "y": 46.0593,
-              "z": 0.149996
-            },
-            "scale": {
-              "x": 5,
-              "y": 1,
-              "z": 5
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -0,
-              "z": 117
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$1e5e-63ba-b832-c6bd",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 84.2629,
-              "y": 57.2981,
-              "z": -0.150001
-            },
-            "scale": {
-              "x": 6.07753,
-              "y": 1.21551,
-              "z": 6.07753
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -75
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
             "entity_id": "$a55a-52c7-000a-0826",
             "prototype": "RockShort"
           }
@@ -895,7 +771,7 @@
               "z": 1.15762
             },
             "orientation": {
-              "x": 2.18927e-06,
+              "x": 2.13587e-06,
               "y": -2.10001,
               "z": 48
             },
@@ -979,788 +855,6 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "$c43c-66bd-0a20-60a9",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 89.5547,
-              "y": 79.47,
-              "z": 0.149995
-            },
-            "scale": {
-              "x": 6.07753,
-              "y": 1.21551,
-              "z": 6.07753
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -8.14222e-13,
-              "z": -117
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$33da-963e-ac98-253a",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 101.495,
-              "y": 12.6822,
-              "z": 0.149998
-            },
-            "scale": {
-              "x": 4.76191,
-              "y": 0.952384,
-              "z": 4.76191
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -4.07111e-13,
-              "z": -75
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$7209-b342-1658-6b3b",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 72.2954,
-              "y": 14.5712,
-              "z": -0.149999
-            },
-            "scale": {
-              "x": 7.0355,
-              "y": 1.4071,
-              "z": 7.0355
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -75
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$beb7-2094-70de-b1ac",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 98.9355,
-              "y": -38.4205,
-              "z": -0.150006
-            },
-            "scale": {
-              "x": 6.38141,
-              "y": 1.27629,
-              "z": 6.38141
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -72
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$d0b1-1568-5472-63e2",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 70.77,
-              "y": -37.7786,
-              "z": 0.150002
-            },
-            "scale": {
-              "x": 4.76191,
-              "y": 0.952384,
-              "z": 4.76191
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -4.07111e-13,
-              "z": -69
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$5286-8eee-461a-91c3",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 24.6396,
-              "y": -100.505,
-              "z": -0.150008
-            },
-            "scale": {
-              "x": 11.4282,
-              "y": 1.88565,
-              "z": 9.42824
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -9.00001
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$6670-67ea-e168-24cd",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 12.2096,
-              "y": -70.5188,
-              "z": 0.150002
-            },
-            "scale": {
-              "x": 4.78813,
-              "y": 1.15763,
-              "z": 5.78813
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -8.015e-13,
-              "z": -174
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$46b3-981d-b864-cb2b",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -45.816,
-              "y": -142.219,
-              "z": 0.149998
-            },
-            "scale": {
-              "x": 8.97929,
-              "y": 1.79586,
-              "z": 8.97929
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -2.39178e-12,
-              "z": 5.99999
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$626b-68d2-05c5-e309",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 84.9881,
-              "y": -103.274,
-              "z": -0.150005
-            },
-            "scale": {
-              "x": 14.6263,
-              "y": 2.92527,
-              "z": 14.6263
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 147
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$1877-16a2-b77b-b75e",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -55.1948,
-              "y": -77.5901,
-              "z": -0.150004
-            },
-            "scale": {
-              "x": 9.48047,
-              "y": 2.40662,
-              "z": 12.0331
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -138
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$23b3-a767-ed3a-6992",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -117.191,
-              "y": -59.6759,
-              "z": 0.15
-            },
-            "scale": {
-              "x": 7.03551,
-              "y": 1.4071,
-              "z": 7.03551
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -8.14222e-13,
-              "z": 66
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$025a-9b29-a652-0053",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -92.9548,
-              "y": 10.8503,
-              "z": -0.150007
-            },
-            "scale": {
-              "x": 12.0331,
-              "y": 2.40663,
-              "z": 12.0331
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 108
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$37cd-4080-6d37-d8ae",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -106.362,
-              "y": 46.6657,
-              "z": 0.149999
-            },
-            "scale": {
-              "x": 7.03551,
-              "y": 1.4071,
-              "z": 5.03551
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -1.93378e-12,
-              "z": -60
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$c4e4-a476-7502-c793",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -84.3998,
-              "y": 109.317,
-              "z": -0.150013
-            },
-            "scale": {
-              "x": 9.42824,
-              "y": 1.88565,
-              "z": 9.42824
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 150
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$5320-8970-e82c-1c08",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -42.9704,
-              "y": 90.2846,
-              "z": 0.15
-            },
-            "scale": {
-              "x": 8.14448,
-              "y": 1.62889,
-              "z": 8.14448
-            },
-            "orientation": {
-              "x": -3.88986e-06,
-              "y": -2.02283e-12,
-              "z": 2.99999
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$410d-8667-0c86-33ac",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 5.67049,
-              "y": 84.7912,
-              "z": -0.150009
-            },
-            "scale": {
-              "x": 10.4282,
-              "y": 1.88565,
-              "z": 9.42824
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 12
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$0608-c71d-5a49-d069",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 7.75698,
-              "y": 152.689,
-              "z": 0.149997
-            },
-            "scale": {
-              "x": 7.38729,
-              "y": 1.47745,
-              "z": 7.38729
-            },
-            "orientation": {
-              "x": -3.88986e-06,
-              "y": -2.02283e-12,
-              "z": 2.99999
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$b4d2-2891-c259-51db",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -4.6728,
-              "y": 20.326,
-              "z": -0.150004
-            },
-            "scale": {
-              "x": 8.5517,
-              "y": 1.71035,
-              "z": 8.5517
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 171
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$5846-5d45-dca0-3c6a",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 9.56818,
-              "y": 0.758823,
-              "z": 0.150004
-            },
-            "scale": {
-              "x": 5.80261,
-              "y": 1.27628,
-              "z": 6.38142
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -4.07111e-13,
-              "z": -93
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$1e18-1328-a371-b2cc",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 2.21241,
-              "y": -14.6786,
-              "z": 0.149999
-            },
-            "scale": {
-              "x": 6.38142,
-              "y": 1.27628,
-              "z": 6.38142
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -1.832e-12,
-              "z": 132
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$6d68-191c-d8d9-ab7c",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -5.16765,
-              "y": -20.6878,
-              "z": -0.149997
-            },
-            "scale": {
-              "x": 8.97929,
-              "y": 1.79587,
-              "z": 8.07929
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -30
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$b47d-e8ac-297c-5e91",
-            "prototype": "BoxyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -13.2941,
-              "y": -1.18212,
-              "z": -0.149997
-            },
-            "scale": {
-              "x": 7.03551,
-              "y": 1.40711,
-              "z": 7.03551
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -99
-            },
-            "child_ids": [
-              "BoxyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$5044-802a-a980-9326",
-            "prototype": "LumpyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -9.51205,
-              "y": 7.69788,
-              "z": 0.150007
-            },
-            "scale": {
-              "x": 6.47868,
-              "y": 1.21551,
-              "z": 6.07754
-            },
-            "orientation": {
-              "x": -3.88987e-06,
-              "y": -1.42489e-12,
-              "z": -84
-            },
-            "child_ids": [
-              "LumpyTree_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
             "entity_id": "$b4d2-2891-c259-51db",
             "prototype": "RockMid"
           }
@@ -1813,7 +907,7 @@
               "z": 1
             },
             "orientation": {
-              "x": -0.29999,
+              "x": -0.299989,
               "y": 6.59999,
               "z": 141
             },
@@ -1837,19 +931,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 56.9979,
-              "y": 10.9481,
-              "z": 2.35
+              "x": 50.4572,
+              "y": 12.7418,
+              "z": 2.925
             },
             "scale": {
-              "x": 1.73644,
-              "y": 1.13644,
-              "z": 1.75762
+              "x": 2.11065,
+              "y": 1.38135,
+              "z": 2.1364
             },
             "orientation": {
-              "x": 96.0022,
-              "y": 89.1,
-              "z": -168.297
+              "x": 0,
+              "y": 0,
+              "z": -3.00001
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -1905,9 +999,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 46.2344,
-              "y": 1.65897,
-              "z": 2
+              "x": 40.8604,
+              "y": 2.26849,
+              "z": 1.525
             },
             "scale": {
               "x": 1.55133,
@@ -1915,9 +1009,9 @@
               "z": 0.608504
             },
             "orientation": {
-              "x": 8.39854,
-              "y": 7.8002,
-              "z": 68.9895
+              "x": 4.49856,
+              "y": -3.89986,
+              "z": 68.9896
             },
             "child_ids": [
               "RockMid_RenderMesh"
@@ -2018,7 +1112,7 @@
             },
             "orientation": {
               "x": 19.2,
-              "y": -0,
+              "y": 2.56132e-06,
               "z": -36
             },
             "child_ids": [
@@ -2075,19 +1169,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 52.3975,
-              "y": 30.4644,
-              "z": 0.499992
+              "x": 58.0338,
+              "y": 36.9199,
+              "z": 1.97499
             },
             "scale": {
-              "x": 1.4071,
-              "y": 1.4071,
-              "z": 1.4071
+              "x": 1.88565,
+              "y": 1.88565,
+              "z": 1.88565
             },
             "orientation": {
-              "x": 7.2,
-              "y": -0,
-              "z": 0
+              "x": 0,
+              "y": 0,
+              "z": -142.8
             },
             "child_ids": [
               "GrassWide_RenderMesh"
@@ -2109,14 +1203,14 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 43.7316,
-              "y": 33.9234,
+              "x": 43.8331,
+              "y": 34.2233,
               "z": 0.350002
             },
             "scale": {
-              "x": 1.1025,
-              "y": 1.1025,
-              "z": 1.1025
+              "x": 1.97993,
+              "y": 1.97993,
+              "z": 1.97993
             },
             "orientation": {
               "x": -2.17903e-05,
@@ -2177,19 +1271,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 44.8167,
-              "y": 33.3164,
-              "z": -0.0500012
+              "x": 44.6424,
+              "y": 33.3323,
+              "z": 0.324999
             },
             "scale": {
-              "x": 0.746216,
-              "y": 0.746216,
-              "z": 0.746216
+              "x": 1.4071,
+              "y": 1.4071,
+              "z": 1.4071
             },
             "orientation": {
-              "x": 6.9002,
-              "y": -50.3999,
-              "z": -177
+              "x": 0.599704,
+              "y": -41.9994,
+              "z": 171.9
             },
             "child_ids": [
               "FernMid_RenderMesh"
@@ -2245,19 +1339,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 41.4661,
-              "y": -13.6478,
-              "z": 1.375
+              "x": 41.9431,
+              "y": -13.4286,
+              "z": 2.15
             },
             "scale": {
-              "x": 1,
-              "y": 1.2,
-              "z": 1
+              "x": 1.3401,
+              "y": 1.60811,
+              "z": 1.3401
             },
             "orientation": {
-              "x": 0,
-              "y": 22.8,
-              "z": 0
+              "x": 3,
+              "y": 2.10003,
+              "z": 70.8007
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -2289,7 +1383,7 @@
               "z": 1.15763
             },
             "orientation": {
-              "x": 6.49425e-07,
+              "x": 4.3295e-07,
               "y": -9.6,
               "z": 42
             },
@@ -2313,9 +1407,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 42.4478,
-              "y": -48.0872,
-              "z": 3.425
+              "x": 36.6691,
+              "y": -43.47,
+              "z": 2.8
             },
             "scale": {
               "x": 0.822703,
@@ -2323,9 +1417,9 @@
               "z": 0.822703
             },
             "orientation": {
-              "x": 4.49963,
-              "y": 13.5,
-              "z": -55.8001
+              "x": 2.69964,
+              "y": 3.89995,
+              "z": -14.7002
             },
             "child_ids": [
               "RockTall_RenderMesh"
@@ -2357,7 +1451,7 @@
               "z": 0.978763
             },
             "orientation": {
-              "x": 8.39856,
+              "x": 8.39855,
               "y": 4.8002,
               "z": -103.21
             },
@@ -2381,53 +1475,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 24.0509,
-              "y": -58.1002,
-              "z": 1.375
+              "x": 28.7784,
+              "y": -50.7375,
+              "z": 1.725
             },
             "scale": {
-              "x": 1,
-              "y": 1.2,
-              "z": 1
+              "x": 1.27628,
+              "y": 1.53154,
+              "z": 1.27628
             },
             "orientation": {
-              "x": 105,
-              "y": -58.8,
-              "z": 159
-            },
-            "child_ids": [
-              "RockShort_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$23b3-a767-ed3a-6992",
-            "prototype": "RockShort"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 21.0764,
-              "y": -58.8198,
-              "z": 1.625
-            },
-            "scale": {
-              "x": 1,
-              "y": 1.2,
-              "z": 1
-            },
-            "orientation": {
-              "x": 162,
-              "y": 80.4001,
-              "z": -102.002
+              "x": 0,
+              "y": -0,
+              "z": 0
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -2460,7 +1520,7 @@
             },
             "orientation": {
               "x": -5.70008,
-              "y": -3.30001,
+              "y": -3.3,
               "z": 132.001
             },
             "child_ids": [
@@ -2556,14 +1616,14 @@
               "z": 0.349997
             },
             "scale": {
-              "x": 1.1025,
-              "y": 1.1025,
-              "z": 1.1025
+              "x": 1.47746,
+              "y": 1.47746,
+              "z": 1.47746
             },
             "orientation": {
-              "x": -1.65448e-05,
+              "x": -1.84786e-05,
               "y": 6.60003,
-              "z": -20.0994
+              "z": -55.1994
             },
             "child_ids": [
               "FernShort_RenderMesh"
@@ -2595,7 +1655,7 @@
               "z": 1.88565
             },
             "orientation": {
-              "x": -1.49984,
+              "x": -1.49989,
               "y": 47.9996,
               "z": 109.8
             },
@@ -2624,13 +1684,13 @@
               "z": 0.274995
             },
             "scale": {
-              "x": 0.822703,
-              "y": 0.822703,
-              "z": 0.822703
+              "x": 1.55133,
+              "y": 1.55133,
+              "z": 1.55133
             },
             "orientation": {
               "x": -22.5001,
-              "y": 6.59993,
+              "y": 6.59992,
               "z": 178.8
             },
             "child_ids": [
@@ -2658,9 +1718,9 @@
               "z": 0.699996
             },
             "scale": {
-              "x": 1.27628,
-              "y": 1.27628,
-              "z": 1.27628
+              "x": 2.65329,
+              "y": 2.65329,
+              "z": 2.65329
             },
             "orientation": {
               "x": 19.2,
@@ -2697,8 +1757,8 @@
               "z": 1.44775
             },
             "orientation": {
-              "x": -2.93521e-07,
-              "y": 0.899991,
+              "x": -3.20205e-07,
+              "y": 0.899989,
               "z": -144
             },
             "child_ids": [
@@ -2721,19 +1781,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 22.5572,
-              "y": -35.5775,
-              "z": 0.699989
+              "x": 22.8329,
+              "y": -35.9852,
+              "z": 1.07499
             },
             "scale": {
-              "x": 1.27628,
-              "y": 1.27628,
-              "z": 1.27628
+              "x": 2.92526,
+              "y": 2.92526,
+              "z": 2.92526
             },
             "orientation": {
-              "x": 19.2,
-              "y": 0.899998,
-              "z": -174.6
+              "x": -8.99998,
+              "y": -6.30003,
+              "z": -141.6
             },
             "child_ids": [
               "RockSmallest_RenderMesh"
@@ -2757,17 +1817,17 @@
             "position": {
               "x": 41.6957,
               "y": -30.2247,
-              "z": 0.449993
+              "z": 0.949993
             },
             "scale": {
-              "x": 1.15763,
-              "y": 1.15763,
-              "z": 1.15763
+              "x": 1.71035,
+              "y": 1.71035,
+              "z": 1.71035
             },
             "orientation": {
-              "x": 6.49425e-07,
-              "y": -9.6,
-              "z": 42
+              "x": 0,
+              "y": -0,
+              "z": 0
             },
             "child_ids": [
               "RockSmaller_RenderMesh"
@@ -2799,7 +1859,7 @@
               "z": 1.47746
             },
             "orientation": {
-              "x": -9.30285e-07,
+              "x": -1.86057e-06,
               "y": 23.4,
               "z": 42
             },
@@ -2823,18 +1883,18 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -10.0459,
-              "y": -41.6272,
+              "x": -9.68313,
+              "y": -41.4703,
               "z": 0.699983
             },
             "scale": {
-              "x": 2.07893,
-              "y": 2.07893,
-              "z": 2.07893
+              "x": 3.73346,
+              "y": 3.73346,
+              "z": 3.73346
             },
             "orientation": {
-              "x": 19.2,
-              "y": 0.899994,
+              "x": -1.49998,
+              "y": 0.899987,
               "z": -144.6
             },
             "child_ids": [
@@ -2857,9 +1917,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -30.6945,
-              "y": -43.3726,
-              "z": 1.45
+              "x": -34.1769,
+              "y": -42.3726,
+              "z": 2.475
             },
             "scale": {
               "x": 1.97993,
@@ -2867,9 +1927,9 @@
               "z": 1.97993
             },
             "orientation": {
-              "x": -30,
-              "y": 16.8,
-              "z": 1.33776e-06
+              "x": -0.300096,
+              "y": 6.30001,
+              "z": 6.52274e-06
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -2891,19 +1951,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -29.4611,
-              "y": -70.745,
-              "z": 1.775
+              "x": -32.9296,
+              "y": -63.6147,
+              "z": 6.77502
             },
             "scale": {
-              "x": 1.3401,
-              "y": 1.0401,
-              "z": 1.94436
+              "x": 1.55133,
+              "y": 1.20405,
+              "z": 2.25084
             },
             "orientation": {
-              "x": 99.0001,
-              "y": -57,
-              "z": -104.997
+              "x": 6.59999,
+              "y": -2.77476e-06,
+              "z": 17.3997
             },
             "child_ids": [
               "RockTall_RenderMesh"
@@ -2925,9 +1985,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -0.84846,
-              "y": -34.83,
-              "z": 0.350001
+              "x": 0.0811714,
+              "y": -37.3032,
+              "z": 3.325
             },
             "scale": {
               "x": 1.1025,
@@ -2935,9 +1995,9 @@
               "z": 1.51838
             },
             "orientation": {
-              "x": -75.301,
-              "y": -16.1998,
-              "z": -4.21019
+              "x": 0,
+              "y": 0,
+              "z": -54.5999
             },
             "child_ids": [
               "RockMid_RenderMesh"
@@ -2959,8 +2019,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -55.4847,
-              "y": -56.5541,
+              "x": -49.8581,
+              "y": -53.5198,
               "z": 1.45
             },
             "scale": {
@@ -2969,9 +2029,9 @@
               "z": 1.97746
             },
             "orientation": {
-              "x": 89.9996,
-              "y": -25.7999,
-              "z": 105
+              "x": 0,
+              "y": -0,
+              "z": 0
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -2993,8 +2053,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -60.9122,
-              "y": -23.7742,
+              "x": -58.9983,
+              "y": -25.4533,
               "z": 2.15
             },
             "scale": {
@@ -3003,8 +2063,8 @@
               "z": 0.676365
             },
             "orientation": {
-              "x": 4.28584e-07,
-              "y": -5.10001,
+              "x": 2.78579e-06,
+              "y": -5.09999,
               "z": -75
             },
             "child_ids": [
@@ -3027,9 +2087,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -49.8105,
-              "y": -5.25702,
-              "z": 3.6
+              "x": -44.9484,
+              "y": -5.43861,
+              "z": 3.375
             },
             "scale": {
               "x": 1.3401,
@@ -3037,8 +2097,8 @@
               "z": 1.04436
             },
             "orientation": {
-              "x": 1.14906e-05,
-              "y": -15,
+              "x": -6.59999,
+              "y": -5.09997,
               "z": 120.003
             },
             "child_ids": [
@@ -3071,7 +2131,7 @@
               "z": 1.22031
             },
             "orientation": {
-              "x": -3.89994,
+              "x": -3.89993,
               "y": 51.6,
               "z": 75.0037
             },
@@ -3139,7 +2199,7 @@
               "z": 1.8456
             },
             "orientation": {
-              "x": 104.698,
+              "x": 104.699,
               "y": -88.8001,
               "z": 175.79
             },
@@ -3197,18 +2257,18 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -47.7636,
-              "y": 53.4407,
-              "z": 1.775
+              "x": -50.4399,
+              "y": 55.8747,
+              "z": 3.72501
             },
             "scale": {
               "x": 1.3401,
-              "y": 1.0401,
-              "z": 1.94436
+              "y": 1.3401,
+              "z": 1.3
             },
             "orientation": {
-              "x": -1.88111e-05,
-              "y": -56.9999,
+              "x": 6.89997,
+              "y": 7.80018,
               "z": -131.997
             },
             "child_ids": [
@@ -3243,7 +2303,7 @@
             "orientation": {
               "x": 15,
               "y": -23.1,
-              "z": -53.9994
+              "z": -53.9993
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -3310,7 +2370,7 @@
             },
             "orientation": {
               "x": 36,
-              "y": 2.86014e-05,
+              "y": 2.90283e-05,
               "z": 171.003
             },
             "child_ids": [
@@ -3367,8 +2427,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -39.6897,
-              "y": -36.7118,
+              "x": -41.0309,
+              "y": -36.6091,
               "z": 0.449982
             },
             "scale": {
@@ -3377,7 +2437,7 @@
               "z": 1.47746
             },
             "orientation": {
-              "x": -9.30285e-07,
+              "x": -1.86057e-06,
               "y": 23.4,
               "z": 42
             },
@@ -3401,19 +2461,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -27.7132,
-              "y": -66.6549,
-              "z": 0.699983
+              "x": -35.4558,
+              "y": -60.9415,
+              "z": 1.44998
             },
             "scale": {
-              "x": 2.07893,
-              "y": 2.07893,
-              "z": 2.07893
+              "x": 5.25335,
+              "y": 5.25335,
+              "z": 5.25335
             },
             "orientation": {
-              "x": 19.2,
-              "y": 0.899994,
-              "z": -144.6
+              "x": 3.29994,
+              "y": -14.1,
+              "z": -171.901
             },
             "child_ids": [
               "RockSmallest_RenderMesh"
@@ -3446,7 +2506,7 @@
             },
             "orientation": {
               "x": 19.2,
-              "y": 0.899994,
+              "y": 0.899993,
               "z": -144.6
             },
             "child_ids": [
@@ -3547,7 +2607,7 @@
               "z": 0.822703
             },
             "orientation": {
-              "x": 3.85911e-06,
+              "x": 3.43032e-06,
               "y": 5.40001,
               "z": -75
             },
@@ -3707,18 +2767,18 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 27.1096,
-              "y": -15.6024,
-              "z": 0.974983
+              "x": 26.2331,
+              "y": -16.0558,
+              "z": 1.77498
             },
             "scale": {
-              "x": 1.4071,
-              "y": 1.4071,
-              "z": 1.4071
+              "x": 1.88565,
+              "y": 1.88565,
+              "z": 1.88565
             },
             "orientation": {
               "x": -5.70008,
-              "y": -3.30001,
+              "y": -3.29999,
               "z": 132.001
             },
             "child_ids": [
@@ -3741,19 +2801,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 23.5271,
-              "y": -31.9606,
-              "z": -0.250008
+              "x": 25.5003,
+              "y": -32.7952,
+              "z": 0.574993
             },
             "scale": {
-              "x": 1.71034,
-              "y": 1.71034,
-              "z": 1.71034
+              "x": 1.97993,
+              "y": 1.97993,
+              "z": 1.97993
             },
             "orientation": {
-              "x": -28.4998,
-              "y": -27.0004,
-              "z": -106.2
+              "x": -33.2998,
+              "y": -42.0003,
+              "z": -49.4991
             },
             "child_ids": [
               "FernMid_RenderMesh"
@@ -3775,18 +2835,18 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 41.6573,
-              "y": -28.382,
+              "x": 42.28,
+              "y": -28.4927,
               "z": 0.274993
             },
             "scale": {
-              "x": 1.4071,
-              "y": 1.4071,
-              "z": 1.4071
+              "x": 1.97993,
+              "y": 1.97993,
+              "z": 1.97993
             },
             "orientation": {
-              "x": -22.5001,
-              "y": 45.5999,
+              "x": -14.4002,
+              "y": 17.6999,
               "z": 142.8
             },
             "child_ids": [
@@ -3809,19 +2869,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 44.8877,
-              "y": 4.57798,
-              "z": 0.499991
+              "x": 42.6602,
+              "y": 7.95044,
+              "z": 1.62499
             },
             "scale": {
-              "x": 1.15762,
-              "y": 1.15762,
-              "z": 1.15762
+              "x": 1.79585,
+              "y": 1.79585,
+              "z": 1.79585
             },
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -150
+              "z": -12
             },
             "child_ids": [
               "GrassDense_RenderMesh"
@@ -3877,9 +2937,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 42.8055,
-              "y": -46.7993,
-              "z": 1.6
+              "x": 38.1821,
+              "y": -41.2252,
+              "z": 0.400001
             },
             "scale": {
               "x": 1.62889,
@@ -3911,19 +2971,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 29.5699,
-              "y": -44.8627,
-              "z": 0.974985
+              "x": 30.5239,
+              "y": -47.9197,
+              "z": 1.57498
             },
             "scale": {
-              "x": 0.863838,
-              "y": 0.863838,
-              "z": 0.863838
+              "x": 1.55133,
+              "y": 1.55133,
+              "z": 1.55133
             },
             "orientation": {
               "x": -11.7001,
               "y": -3.3,
-              "z": 0.000629207
+              "z": 0.000629234
             },
             "child_ids": [
               "GrassWide_RenderMesh"
@@ -3945,8 +3005,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 3.53695,
-              "y": -58.4404,
+              "x": 2.57762,
+              "y": -53.0719,
               "z": 1.69998
             },
             "scale": {
@@ -3979,9 +3039,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -5.885,
-              "y": -40.9045,
-              "z": 0.374983
+              "x": -6.2758,
+              "y": -40.1119,
+              "z": 1.44998
             },
             "scale": {
               "x": 1.47746,
@@ -3989,9 +3049,9 @@
               "z": 1.47746
             },
             "orientation": {
-              "x": -6,
-              "y": -1.06722e-06,
-              "z": -99
+              "x": -5.99999,
+              "y": -3.33505e-06,
+              "z": 171.9
             },
             "child_ids": [
               "GrassDense_RenderMesh"
@@ -4013,9 +3073,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -24.0884,
-              "y": -73.3198,
-              "z": 1.09998
+              "x": -24.0449,
+              "y": -62.7929,
+              "z": 1.67498
             },
             "scale": {
               "x": 1.55133,
@@ -4024,7 +3084,7 @@
             },
             "orientation": {
               "x": -6,
-              "y": -6.4033e-07,
+              "y": -4.26887e-07,
               "z": -83.3996
             },
             "child_ids": [
@@ -4047,9 +3107,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -26.2595,
-              "y": -51.9378,
-              "z": -0.325021
+              "x": -28.7349,
+              "y": -47.8861,
+              "z": 1.34998
             },
             "scale": {
               "x": 1.15763,
@@ -4081,8 +3141,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -62.6399,
-              "y": -25.7007,
+              "x": -53.6783,
+              "y": -18.7389,
               "z": 0.59998
             },
             "scale": {
@@ -4091,7 +3151,7 @@
               "z": 0.952382
             },
             "orientation": {
-              "x": -5.99999,
+              "x": -6,
               "y": -1.12058e-06,
               "z": 12.6005
             },
@@ -4115,8 +3175,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -37.4627,
-              "y": -7.96594,
+              "x": -27.6871,
+              "y": -2.98476,
               "z": -0.650026
             },
             "scale": {
@@ -4149,8 +3209,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -33.5672,
-              "y": -13.5642,
+              "x": -31.4084,
+              "y": -13.5707,
               "z": 0.37498
             },
             "scale": {
@@ -4160,7 +3220,7 @@
             },
             "orientation": {
               "x": -12,
-              "y": -6.4033e-07,
+              "y": -3.30837e-06,
               "z": 12.6005
             },
             "child_ids": [
@@ -4251,9 +3311,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -9.88901,
-              "y": -41.6531,
-              "z": 0.824989
+              "x": -10.0346,
+              "y": -42.855,
+              "z": 0.449989
             },
             "scale": {
               "x": 1.27628,
@@ -4261,9 +3321,9 @@
               "z": 1.27628
             },
             "orientation": {
-              "x": 19.5003,
-              "y": -1.20046,
-              "z": -69.2997
+              "x": -22.1997,
+              "y": -16.8005,
+              "z": 15.6001
             },
             "child_ids": [
               "FernMid_RenderMesh"
@@ -4285,19 +3345,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -27.1507,
-              "y": -65.6669,
-              "z": 0.449985
+              "x": -27.6186,
+              "y": -62.0861,
+              "z": 0.274986
             },
             "scale": {
-              "x": 0.952381,
-              "y": 0.952381,
-              "z": 0.952381
+              "x": 2.07893,
+              "y": 2.07893,
+              "z": 2.07893
             },
             "orientation": {
               "x": 34.5004,
-              "y": -3.30043,
-              "z": 171.6
+              "y": -3.30039,
+              "z": 100.2
             },
             "child_ids": [
               "FernMid_RenderMesh"
@@ -4319,8 +3379,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -53.5907,
-              "y": -54.6399,
+              "x": -53.2878,
+              "y": -45.431,
               "z": 0.724985
             },
             "scale": {
@@ -4329,7 +3389,7 @@
               "z": 1.1025
             },
             "orientation": {
-              "x": 0.300041,
+              "x": 0.30004,
               "y": 51.9001,
               "z": -148.799
             },
@@ -4353,8 +3413,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -53.941,
-              "y": -55.5609,
+              "x": -48.2272,
+              "y": -54.5639,
               "z": 0.699981
             },
             "scale": {
@@ -4387,8 +3447,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -48.7937,
-              "y": -9.18474,
+              "x": -46.1381,
+              "y": -10.0782,
               "z": 0.699978
             },
             "scale": {
@@ -4602,7 +3662,7 @@
             },
             "orientation": {
               "x": -8.70009,
-              "y": 0.60001,
+              "y": 0.600009,
               "z": -95.3994
             },
             "child_ids": [
@@ -4635,7 +3695,7 @@
               "z": 1.4071
             },
             "orientation": {
-              "x": 5.70009,
+              "x": 5.70008,
               "y": -9.00001,
               "z": 18.6004
             },
@@ -4664,9 +3724,9 @@
               "z": 0.699973
             },
             "scale": {
-              "x": 1.1025,
-              "y": 1.1025,
-              "z": 1.1025
+              "x": 1.55133,
+              "y": 1.55133,
+              "z": 1.55133
             },
             "orientation": {
               "x": 19.8001,
@@ -4704,7 +3764,7 @@
             },
             "orientation": {
               "x": -8.70009,
-              "y": 0.60001,
+              "y": 0.600009,
               "z": -95.3994
             },
             "child_ids": [
@@ -4737,8 +3797,8 @@
               "z": 1.05
             },
             "orientation": {
-              "x": 5.70008,
-              "y": -6.00001,
+              "x": 5.70007,
+              "y": -6.00002,
               "z": 57.6004
             },
             "child_ids": [
@@ -4840,7 +3900,7 @@
             },
             "orientation": {
               "x": -8.70009,
-              "y": 0.60001,
+              "y": 0.600009,
               "z": -95.3994
             },
             "child_ids": [
@@ -4863,19 +3923,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 6.68714,
-              "y": 57.2419,
-              "z": 0.699961
+              "x": 11.9083,
+              "y": 57.983,
+              "z": 0.399961
             },
             "scale": {
-              "x": 1.21551,
-              "y": 1.21551,
-              "z": 1.21551
+              "x": 1.6289,
+              "y": 1.6289,
+              "z": 1.6289
             },
             "orientation": {
-              "x": -31.7998,
-              "y": -40.8004,
-              "z": -24.2995
+              "x": -36,
+              "y": 9.00001,
+              "z": -120
             },
             "child_ids": [
               "FernMid_RenderMesh"
@@ -4967,7 +4027,7 @@
             "position": {
               "x": 89.1862,
               "y": 0.365696,
-              "z": -2.52236e-06
+              "z": -2.38419e-06
             },
             "scale": {
               "x": 0.746216,
@@ -4981,6 +4041,74 @@
             },
             "child_ids": [
               "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$1ae5-14e9-8646-bc42",
+            "prototype": "GrassDense"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 36.4014,
+              "y": 63.654,
+              "z": 0.424999
+            },
+            "scale": {
+              "x": 2.40662,
+              "y": 2.40662,
+              "z": 2.40662
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -60
+            },
+            "child_ids": [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$b09e-97e8-68a8-6048",
+            "prototype": "GrassDense"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 34.4608,
+              "y": 62.9145,
+              "z": 0.424999
+            },
+            "scale": {
+              "x": 2.18287,
+              "y": 2.18287,
+              "z": 2.18287
+            },
+            "orientation": {
+              "x": 3,
+              "y": -3,
+              "z": 135
+            },
+            "child_ids": [
+              "GrassDense_RenderMesh"
             ]
           }
         }

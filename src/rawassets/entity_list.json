@@ -1,12 +1,11 @@
 {
   "entity_list": [
-
-    // Ground Plane
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$cc7c-d763-692e-7717",
             "prototype": "Ground"
           }
         },
@@ -38,27 +37,41 @@
         }
       ]
     },
-
-    // RiverRail
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$6288-e1c3-3742-4a1a",
             "prototype": "RiverRail"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
+            "position": {
+              "x": -0.00160217,
+              "y": 49.998,
+              "z": 2
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 90
+            },
             "child_ids": [
-              "ActivePlayer"
+              "ActivePlayer",
+              "Raft"
             ]
           }
         }
       ]
     },
-    // Active player
     {
       "component_list": [
         {
@@ -70,51 +83,81 @@
         }
       ]
     },
-    // River:
     {
       "component_list": [
         {
           "data_type": "RiverDef",
-          "data" : {
-              "rail_name": "player_path",
-              "random_seed": 123456789
+          "data": {
+            "rail_name": "player_path",
+            "random_seed": 123456789
           }
         }
       ]
     },
-
-    // Sky
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$e514-e986-46bc-4253",
             "prototype": "SkyBox"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "scale": { "x": 500, "y": 500, "z": 500 }
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 500,
+              "y": 500,
+              "z": 500
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            },
+            "child_ids": [
+              "SkyBox_RenderMesh"
+            ]
           }
         }
       ]
     },
-
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$7d36-828a-aa9b-e09a",
             "prototype": "MountainRange"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 0, "y": 200, "z": 0 },
-            "orientation": { "x": 0, "y": 0, "z": 180 },
-            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+            "position": {
+              "x": 0,
+              "y": 200,
+              "z": 0
+            },
+            "scale": {
+              "x": 0.05,
+              "y": 1,
+              "z": 0.05
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 180
+            },
+            "child_ids": [
+              "MountainRange_RenderMesh"
+            ]
           }
         }
       ]
@@ -124,15 +167,31 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$7e6b-68d8-c9d2-ed0e",
             "prototype": "MountainRange"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 200, "y": 0, "z": 0 },
-            "orientation": { "x": 0, "y": 0, "z": 270 },
-            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+            "position": {
+              "x": 200,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 0.05,
+              "y": 1,
+              "z": 0.05
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": -90
+            },
+            "child_ids": [
+              "MountainRange_RenderMesh"
+            ]
           }
         }
       ]
@@ -142,15 +201,31 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$0ea3-47e1-cca0-5e18",
             "prototype": "MountainRange"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 0, "y": -200, "z": 0 },
-            "orientation": { "x": 0, "y": 0, "z": 0 },
-            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+            "position": {
+              "x": 0,
+              "y": -200,
+              "z": 0
+            },
+            "scale": {
+              "x": 0.05,
+              "y": 1,
+              "z": 0.05
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            },
+            "child_ids": [
+              "MountainRange_RenderMesh"
+            ]
           }
         }
       ]
@@ -160,53 +235,52 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$6606-4c43-ca08-587e",
             "prototype": "MountainRange"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": -200, "y": 0, "z": 0 },
-            "orientation": { "x": 0, "y": 0, "z": 90 },
-            "scale": { "x": 0.05, "y": 1, "z": 0.05 }
+            "position": {
+              "x": -200,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 0.05,
+              "y": 1,
+              "z": 0.05
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 90
+            },
+            "child_ids": [
+              "MountainRange_RenderMesh"
+            ]
           }
         }
       ]
     },
-
-    // Ground physics
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$559e-aa73-14c2-022a",
             "prototype": "GroundPhysics"
           }
         }
       ]
     },
-
-    // Cave
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
-          "data": {
-            "prototype": "RockMid"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": -0.25, "y": 51, "z": 1 },
-            "orientation": { "x": -115, "y": 81, "z": -118 },
-            "scale": { "x": 5, "y": -6, "z": 6.9 }
-          }
-        },
-        {
           "data_type": "LapDependentDef",
           "data": {
-            "min_lap": -1.0,
+            "min_lap": -1,
             "max_lap": 0.5
           }
         },
@@ -219,22 +293,23 @@
                 "data": {
                   "half_extents": {
                     "x": 0.1,
-                    "y": 1.0,
+                    "y": 1,
                     "z": 1.6
                   }
                 },
                 "offset": {
-                  "x": 1.0,
+                  "x": 1,
                   "y": 0.2,
                   "z": -0.3
                 },
-                "mass": 1000.0,
+                "mass": 1000,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
-                  "Projectile",
-                  "Raycast"
-                ]
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
               },
               {
                 "data_type": "BulletBoxDef",
@@ -250,13 +325,14 @@
                   "y": 1.2,
                   "z": -0.3
                 },
-                "mass": 1000.0,
+                "mass": 1000,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
-                  "Projectile",
-                  "Raycast"
-                ]
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
               },
               {
                 "data_type": "BulletBoxDef",
@@ -272,20 +348,21 @@
                   "y": -0.8,
                   "z": -0.3
                 },
-                "mass": 1000.0,
+                "mass": 1000,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
-                  "Projectile",
-                  "Raycast"
-                ]
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
               },
               {
                 "data_type": "BulletBoxDef",
                 "data": {
                   "half_extents": {
                     "x": 0.5,
-                    "y": 1.0,
+                    "y": 1,
                     "z": 0.1
                   }
                 },
@@ -294,16 +371,47 @@
                   "y": 0.2,
                   "z": 1.4
                 },
-                "mass": 1000.0,
+                "mass": 1000,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
-                  "Projectile",
-                  "Raycast"
-                ]
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
               }
             ],
-            "kinematic": true
+            "kinematic": 1
+          }
+        },
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$de27-71b8-6bed-4ba4",
+            "prototype": "RockMid"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -0.244101,
+              "y": 50.9885,
+              "z": 1
+            },
+            "scale": {
+              "x": 5,
+              "y": -6,
+              "z": 6.9
+            },
+            "orientation": {
+              "x": -115,
+              "y": 81,
+              "z": -118
+            },
+            "child_ids": [
+              "RockMid_RenderMesh"
+            ]
           }
         }
       ]

@@ -13,20 +13,20 @@
 
   "river_config" : {
     "rail_filename": "rails/player_path.bin",
-    "spline_stepsize": 500.0,
+    "spline_stepsize": 700.0,
     "track_height": -1.89,
     "texture_tile_size": 25.0,
     "material": "materials/Lake_daytime.fplmat",
     "shader": "shaders/origwater",
     "banks": [
-      { "x_min": -13.5, "x_max": -13.5, "z_min": 1.0, "z_max": 2.2 },
-      { "x_min": -7.5,  "x_max": -8,    "z_min": 0.6, "z_max": 0.9 },
+      { "x_min": -8.5, "x_max": -13.5, "z_min": 3.5, "z_max": 6.2 },
+      { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
       { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
       { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
       { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
       { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
       { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
-      { "x_min": 8.5,   "x_max": 13.5,  "z_min": 1.8, "z_max": 2.2 }
+      { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
     ],
     "zones": [
       {
@@ -96,10 +96,10 @@
     "shadow_map_offset": 6.0,
     "light_position": { "x": 0.0, "y": 0.0, "z": 60 },
     "shadow_intensity": 0.33,
-    "fog_roll_in_dist":10,
+    "fog_roll_in_dist":1500,
     "fog_max_dist": 3000,
     "fog_color": {"r":0.95, "g":0.9, "b":0.7, "a":1.0},
-    "fog_max_saturation": 0.5,
+    "fog_max_saturation": 0.25,
     "cull_distance": 50,
     "create_shadow_map":false
    },
