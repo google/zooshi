@@ -94,7 +94,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -24
+              "z": 156
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -434,7 +434,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 61.9996
+              "z": -64
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -467,8 +467,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": 21
+              "y": 0,
+              "z": -135
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -502,7 +502,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 128
+              "z": 2
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -536,7 +536,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 111
+              "z": -15
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -570,7 +570,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 136
+              "z": 10
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -604,7 +604,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -142.7
+              "z": 81
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -638,7 +638,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -50
+              "z": -176
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -672,7 +672,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -78
+              "z": 156
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -706,7 +706,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -12
+              "z": -138
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -740,7 +740,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -80
+              "z": 154
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -774,7 +774,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 1.99999
+              "z": -124
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -808,7 +808,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 20
+              "z": -106
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -842,7 +842,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 78
+              "z": -48
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -876,7 +876,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 58.4
+              "z": -68
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -1114,7 +1114,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 36
+              "z": -144
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1216,7 +1216,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -129
+              "z": 51
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1250,7 +1250,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -95.7001
+              "z": 84
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1284,7 +1284,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 120.3
+              "z": -60
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1318,7 +1318,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -8.99999
+              "z": 171
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1420,7 +1420,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 96
+              "z": -84
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1454,7 +1454,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 75
+              "z": -105
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
