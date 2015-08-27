@@ -291,7 +291,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(GetConfig().world_editor_config(),
-                            &world_.entity_manager, &font_manager_);
+                            &world_.entity_manager);
 
   world_editor_->AddComponentToUpdate(
       component_library::TransformComponent::GetComponentId());
