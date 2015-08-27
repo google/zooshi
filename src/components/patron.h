@@ -23,6 +23,8 @@
 #include "events_generated.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
+#include "motive/math/angle.h"
+#include "motive/motivator.h"
 
 namespace fpl {
 namespace event {
@@ -91,9 +93,30 @@ struct PatronData {
   // Note that an empty name means any collision counts.
   std::string target_tag;
 
+  // The index into physics data's `rigid_bodies` that corresponds to
+  // `target_tag`. Cache here so we don't have to loop through all the rigid
+  // bodies doing string compares.
+  int target_rigid_body_index;
+
   // The child of the patron entity that has a RenderMeshComponent and
   // an AnimationComponent.
   entity::EntityRef render_child;
+
+  // Position to add onto the patron's trajectory.
+  // Amount added on = delta_position.Value() - prev_delta_position
+  motive::Motivator3f delta_position;
+
+  // Set to delta_position.Value() after movement is updated.
+  mathfu::vec3_packed prev_delta_position;
+
+  // Face angle to add onto patron's trajectory.
+  // Face angle is rotation about z-axis, with y-axis = 0, x-axis = 90 degrees
+  // Units are radians.
+  // Amount added on = delta_face_angle.Value() - prev_delta_face_angle
+  motive::Motivator1f delta_face_angle;
+
+  // Set to delta_face_angle.Value() after movement is updated.
+  Angle prev_delta_face_angle;
 };
 
 class PatronComponent : public entity::Component<PatronData>,
@@ -116,9 +139,18 @@ class PatronComponent : public entity::Component<PatronData>,
   void HandleCollision(const entity::EntityRef& patron_entity,
                        const entity::EntityRef& proj_entity,
                        const std::string& part_tag);
+  void UpdateMovement(const entity::EntityRef& patron);
   void SpawnSplatter(const mathfu::vec3& position, int count);
   void SpawnPointDisplay(const mathfu::vec3& position);
   void Animate(const PatronData* patron_data, PatronAction action);
+  Range TargetHeightRange(const entity::EntityRef& patron) const;
+  const entity::EntityRef* ClosestProjectile(
+      const entity::EntityRef& patron, mathfu::vec3* closest_position,
+      Angle* closest_face_angle, float* closest_time) const;
+  void CatchProjectile(const entity::EntityRef& patron);
+  void MoveToTarget(const entity::EntityRef& patron,
+                    const mathfu::vec3& target_position,
+                    Angle target_face_angle, float target_time);
 
   const Config* config_;
   event::EventManager* event_manager_;
