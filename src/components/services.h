@@ -30,10 +30,6 @@
 #include "pindrop/pindrop.h"
 #include "railmanager.h"
 
-namespace motive {
-class AnimTable;
-}
-
 namespace fpl {
 namespace fpl_project {
 
@@ -56,8 +52,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
                   event::EventSystem* event_system,
                   GraphDictionary* graph_dictionary, FontManager* font_manager,
                   RailManager* rail_manager,
-                  component_library::EntityFactory* entity_factory,
-                  const motive::AnimTable* anim_table) {
+                  component_library::EntityFactory* entity_factory) {
     config_ = config;
     asset_manager_ = asset_manager;
     input_system_ = input_system;
@@ -68,7 +63,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
     font_manager_ = font_manager;
     rail_manager_ = rail_manager;
     entity_factory_ = entity_factory;
-    anim_table_ = anim_table;
   }
 
   const Config* config() { return config_; }
@@ -83,7 +77,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
   entity::EntityRef raft_entity() { return raft_entity_; }
   void set_raft_entity(entity::EntityRef entity) { raft_entity_ = entity; }
   component_library::EntityFactory* entity_factory() { return entity_factory_; }
-  const motive::AnimTable* anim_table() const { return anim_table_; }
 
   const void* component_def_binary_schema() const {
     if (component_def_binary_schema_ == "") {
@@ -118,7 +111,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
   RailManager* rail_manager_;
   entity::EntityRef raft_entity_;
   component_library::EntityFactory* entity_factory_;
-  const motive::AnimTable* anim_table_;
   std::string component_def_binary_schema_;
 };
 

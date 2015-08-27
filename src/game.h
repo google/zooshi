@@ -33,7 +33,6 @@
 #include "fplbase/utilities.h"
 #include "graph_factory.h"
 #include "mathfu/glsl_mappings.h"
-#include "motive/anim_table.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
 #include "states/game_menu_state.h"
@@ -138,9 +137,6 @@ class Game : event::EventListener {
 
   // A dictionary of all loaded event graphs.
   GraphDictionary graph_dictionary_;
-
-  // Hold all the game's animations.
-  motive::AnimTable anim_table_;
 
   // Shaders we use.
   Shader* shader_lit_textured_normal_;

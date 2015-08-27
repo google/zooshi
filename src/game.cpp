@@ -225,10 +225,11 @@ bool Game::InitializeAssets() {
   shader_textured_ = asset_manager_.LoadShader("shaders/textured");
 
   // Load animation table:
-  anim_table_.InitFromFlatBuffers(*asset_manifest.anims());
+  motive::AnimTable& anim_table = world_.animation_component.anim_table();
+  anim_table.InitFromFlatBuffers(*asset_manifest.anims());
 
   // Load all animations referenced by the animation table:
-  const char* anim_not_found = LoadAnimTableAnimations(&anim_table_, LoadFile);
+  const char* anim_not_found = LoadAnimTableAnimations(&anim_table, LoadFile);
   if (anim_not_found != nullptr) {
     LogError("Failed to load animation file %s.\n", anim_not_found);
     return false;
@@ -326,8 +327,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &event_manager_,
-                    &event_system_, &graph_dictionary_, &renderer_,
-                    &anim_table_);
+                    &event_system_, &graph_dictionary_, &renderer_);
 
   world_renderer_.Initialize(&world_);
 
