@@ -3,8 +3,10 @@
     { "name": "Skybox", "texture_format": "F_888" },
     { "name": "skybox", "texture_format": "F_888" },
     { "name": "rock", "recenter": 1 },
-    { "name": "fern", "recenter": 1 },
+    { "name": "fern_mid", "recenter": 1 },
+    { "name": "fern_tall", "recenter": 1 },
     { "name": "grass", "recenter": 1 },
-    { "name": "Lady_Mandrill", "hierarchy": 1 }
+    { "name": "Lady_Mandrill", "hierarchy": 1 },
+    { "name": "fern_short", "hierarchy": 1 }
   ]
 }
