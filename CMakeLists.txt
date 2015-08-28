@@ -134,10 +134,15 @@ if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
   add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
 endif()
 
-
 # Include World Editor.
 if(NOT zooshi_only_flatc AND NOT TARGET world_editor)
   add_subdirectory("${dependencies_world_editor_dir}" ${tmp_dir}/world_editor)
+endif()
+
+# Include FlatBuffers in this project.
+set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "")
+if(NOT TARGET flatc)
+  add_subdirectory("${dependencies_flatbuffers_dir}" ${tmp_dir}/flatbuffers)
 endif()
 
 # Generate source files for all FlatBuffers schema files under the src
@@ -187,33 +192,35 @@ list(APPEND
      ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/components.bfbs)
 add_custom_target(generated_includes DEPENDS ${FLATBUFFERS_GENERATED_INCLUDES})
 
-# Build rule that uses make to build the assets.
-get_property(flatc_location TARGET flatc PROPERTY LOCATION)
-get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
-add_custom_target(assets
-  COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
-  --flatc ${flatc_location}
-  --cwebp ${cwebp_location}
-  --output ${CMAKE_BINARY_DIR}/assets
-  DEPENDS flatc cwebp)
+if(NOT zooshi_only_flatc)
+  # Build rule that uses make to build the assets.
+  get_property(flatc_location TARGET flatc PROPERTY LOCATION)
+  get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
+  add_custom_target(assets
+    COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
+    --flatc ${flatc_location}
+    --cwebp ${cwebp_location}
+    --output ${CMAKE_BINARY_DIR}/assets
+    DEPENDS flatc cwebp)
 
-# Copy FlatUI shaders
-add_custom_command(TARGET assets POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${dependencies_flatui_dir}/assets/shaders
-                       ${CMAKE_BINARY_DIR}/assets/shaders)
+  # Copy FlatUI shaders
+  add_custom_command(TARGET assets POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_directory
+                         ${dependencies_flatui_dir}/assets/shaders
+                         ${CMAKE_BINARY_DIR}/assets/shaders)
 
-# Copy Font resource files
-add_custom_command(TARGET assets POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/src/rawassets/fonts
-                       ${CMAKE_BINARY_DIR}/assets/fonts)
+  # Copy Font resource files
+  add_custom_command(TARGET assets POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_directory
+                         ${CMAKE_SOURCE_DIR}/src/rawassets/fonts
+                         ${CMAKE_BINARY_DIR}/assets/fonts)
 
-# Copy default Font resource files from FlatUI
-add_custom_command(TARGET assets POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${dependencies_flatui_dir}/assets/fonts
-                       ${CMAKE_BINARY_DIR}/assets/fonts)
+  # Copy default Font resource files from FlatUI
+  add_custom_command(TARGET assets POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_directory
+                         ${dependencies_flatui_dir}/assets/fonts
+                         ${CMAKE_BINARY_DIR}/assets/fonts)
+endif()
 
 # zooshi source files.
 set(zooshi_SRCS
@@ -346,8 +353,12 @@ endif()
 
 # Executable target.
 add_executable(zooshi ${zooshi_SRCS})
-# Additional flags for the target.
-mathfu_configure_flags(zooshi)
+
+if(NOT zooshi_only_flatc)
+  # Additional flags for the target.
+  mathfu_configure_flags(zooshi)
+endif()
+
 # Dependencies for the executable target.
 add_dependencies(zooshi generated_includes assets)
 target_link_libraries(zooshi
