@@ -56,6 +56,9 @@ void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
   if (input_system_->GetButton(FPLK_F9).went_down()) {
     world_->draw_debug_physics = !world_->draw_debug_physics;
   }
+  if (input_system_->GetButton(FPLK_F8).went_down()) {
+    world_->skip_rendermesh_rendering = !world_->skip_rendermesh_rendering;
+  }
 }
 
 void WorldEditorState::Render(Renderer* renderer) {
@@ -73,10 +76,6 @@ void WorldEditorState::Render(Renderer* renderer) {
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);
 
   world_editor_->Render(renderer);
-
-  if (world_->draw_debug_physics) {
-    world_->physics_component.DebugDrawWorld(renderer, camera_transform);
-  }
 }
 
 void WorldEditorState::OnEnter() { world_editor_->Activate(); }

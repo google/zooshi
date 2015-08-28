@@ -92,6 +92,9 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   if (input_system_->GetButton(fpl::FPLK_F9).went_down()) {
     world_->draw_debug_physics = !world_->draw_debug_physics;
   }
+  if (input_system_->GetButton(fpl::FPLK_F8).went_down()) {
+    world_->skip_rendermesh_rendering = !world_->skip_rendermesh_rendering;
+  }
 
   // Switch States if necessary.
   if (world_editor_ && input_system_->GetButton(fpl::FPLK_F10).went_down()) {
