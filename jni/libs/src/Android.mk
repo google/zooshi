@@ -30,7 +30,7 @@ ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 build_assets: $(flatc_target)
 	cp -f -r $(ZOOSHI_DIR)/src/rawassets/fonts $(ZOOSHI_DIR)/assets/fonts
 	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets/shaders \
-$(ZOOSHI_DIR)/assets/shaders
+$(ZOOSHI_DIR)/assets
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py
 
 .PHONY: clean_assets
