@@ -73,7 +73,10 @@ struct Config;
 
 class World {
  public:
-  World() : is_in_cardboard(false), draw_debug_physics(false) {}
+  World()
+    : is_in_cardboard(false),
+      draw_debug_physics(false),
+      skip_rendermesh_rendering(false) {}
 
   void Initialize(const Config& config, InputSystem* input_system,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
@@ -127,11 +130,14 @@ class World {
   // which keeps all entity files loaded in memory.
   std::map<std::string, std::string> loaded_entity_files_;
 
-  // Determines if the game is in Cardboard mode (for special rendering)
+  // Determines if the game is in Cardboard mode (for special rendering).
   bool is_in_cardboard;
 
-  // Determines if the debug drawing of physics should be used
+  // Determines if the debug drawing of physics should be used.
   bool draw_debug_physics;
+
+  // Used to skip rendering the render meshes, for debugging purposes.
+  bool skip_rendermesh_rendering;
 
 #ifdef USING_GOOGLE_PLAY_GAMES
   GPGManager* gpg_manager;
