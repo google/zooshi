@@ -1286,7 +1286,7 @@
                         "event": {
                           "entity": "Raft",
                           "op": "Set",
-                          "value": 1
+                          "value": 0.5
                         }
                       },
                       {
