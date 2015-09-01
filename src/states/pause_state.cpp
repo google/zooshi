@@ -84,7 +84,7 @@ GameState PauseState::PauseMenu(AssetManager& assetman, FontManager& fontman,
     // Positioning the UI slightly above of the center.
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
-    gui::Image(*background_paused_, 800);
+    gui::Image(*background_paused_, 850);
     gui::EndGroup();
 
     // Menu items. Note that we are layering 2 layouts here
@@ -94,7 +94,7 @@ GameState PauseState::PauseMenu(AssetManager& assetman, FontManager& fontman,
                        mathfu::vec2(0, -150));
     gui::SetMargin(gui::Margin(200, 280, 200, 100));
     gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
-    gui::SetMargin(gui::Margin(20));
+    gui::SetMargin(gui::Margin(10));
     gui::SetTextColor(kColorBrown);
     gui::Label("Paused", kMenuSize);
     gui::EndGroup();

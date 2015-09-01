@@ -317,7 +317,10 @@ bool Game::Initialize(const char* const binary_directory) {
 
   InitializeEventSystem();
 
-  font_manager_.Open(GetAssetManifest().font_file()->c_str());
+  const auto &asset_manifest = GetAssetManifest();
+  for (size_t i = 0; i < asset_manifest.font_list()->size(); i++) {
+    font_manager_.Open(asset_manifest.font_list()->Get(i)->c_str());
+  }
   font_manager_.SetRenderer(renderer_);
 
   SetRelativeMouseMode(true);
@@ -347,8 +350,10 @@ bool Game::Initialize(const char* const binary_directory) {
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
                              world_editor_.get(), &audio_engine_);
-  game_menu_state_.Initialize(&input_, &world_, &input_controller_, config,
-                              &asset_manager_, &font_manager_, &audio_engine_);
+  game_menu_state_.Initialize(&input_, &world_, &input_controller_,
+                              &GetConfig(), &asset_manager_, &font_manager_,
+                              &GetAssetManifest(),
+                              &audio_engine_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 

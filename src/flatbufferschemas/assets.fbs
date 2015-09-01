@@ -22,7 +22,9 @@ table AssetManifest {
   material_list:[string];
   shader_list:[string];
   anims:motive.AnimTableFb;
-  font_file:string;
+  font_list:[string];
+  license_file:string;
+  about_file:string;
 }
 
 root_type AssetManifest;

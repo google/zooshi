@@ -137,5 +137,10 @@
       },
     ]
   },
-  "font_file": "fonts/RaviPrakash-Regular.ttf"
+  "font_list": [
+                "fonts/RaviPrakash-Regular.ttf",
+                "fonts/NotoSans-Bold.ttf"
+               ],
+  "license_file": "licenses.txt",
+  "about_file": "about.txt"
 }

@@ -50,6 +50,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
                                const Config* config,
                                AssetManager* asset_manager,
                                FontManager* font_manager,
+                               const AssetManifest* manifest,
                                pindrop::AudioEngine* audio_engine) {
   world_ = world;
 
@@ -84,6 +85,9 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
 #ifdef ANDROID_CARDBOARD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
+  if (!LoadFile(manifest->license_file()->c_str(), &license_text_)) {
+    LogError("License text not found.");
+  }
 }
 
 void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {

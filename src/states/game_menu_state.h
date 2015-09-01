@@ -15,6 +15,7 @@
 #ifndef ZOOSHI_GAME_MENU_STATE_H_
 #define ZOOSHI_GAME_MENU_STATE_H_
 
+#include "assets_generated.h"
 #include "camera.h"
 #include "flatui/flatui.h"
 #include "flatui/flatui_common.h"
@@ -44,16 +45,19 @@ enum MenuState {
 // Constant defintions for UI elements. Colors, button sizes etc.
 const auto kColorBrown = vec4(0.37f, 0.24f, 0.09f, 0.85f);
 const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 0.85f);
+const auto kColorDarkGray = vec4(0.1f, 0.1f, 0.1f, 0.85f);
 const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 const auto kMenuSize = 140;
 const auto kButtonSize = 140;
+const auto kScrollAreaSize = vec2(900, 600);
 
 class GameMenuState : public StateNode {
  public:
   void Initialize(InputSystem* input_system, World* world,
                   BasePlayerController* player_controller, const Config* config,
                   AssetManager* asset_manager, FontManager* font_manager,
+                  const AssetManifest* manifest,
                   pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
@@ -66,6 +70,9 @@ class GameMenuState : public StateNode {
                       InputSystem& input);
   MenuState OptionMenu(AssetManager& assetman, FontManager& fontman,
                        InputSystem& input);
+  void OptionMenuMain();
+  void OptionMenuLicenses();
+
   // The world to display in the background.
   World* world_;
 
@@ -109,6 +116,10 @@ class GameMenuState : public StateNode {
   Texture* background_title_;
   Texture* background_options_;
   Texture* button_back_;
+
+  // Option menu state.
+  vec2i scroll_offset_;
+  std::string license_text_;
 
   // In-game menu state.
   bool show_about_;

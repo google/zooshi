@@ -92,29 +92,14 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
     gui::SetMargin(gui::Margin(200, 400, 200, 100));
-    gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
-    gui::SetMargin(gui::Margin(5));
-    gui::SetTextColor(kColorBrown);
-    gui::Label("Options", kMenuSize);
-    gui::EndGroup();
 
-    if (TextButton("About", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
-      show_about_ = true;
+    if (show_licences_) {
+      // Show 'Licenses' screen.
+      OptionMenuLicenses();
+    } else {
+      OptionMenuMain();
     }
 
-    if (TextButton("Licenses", kButtonSize, gui::Margin(2)) &
-        gui::kEventWentUp) {
-      show_licences_ = true;
-    }
-
-    if (TextButton("How to play", kButtonSize, gui::Margin(2)) &
-        gui::kEventWentUp) {
-      show_how_to_play_ = true;
-    }
-
-    if (TextButton("Audio", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
-      show_audio_ = true;
-    }
     gui::EndGroup();
 
     // Foreground image (back button).
@@ -126,7 +111,11 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     if (ImageButtonWithLabel(*button_back_, 60, gui::Margin(50, 25, 30, 40),
                              "Back") &
         gui::kEventWentUp) {
-      next_state = kMenuStateStart;
+      if (show_licences_) {
+        show_licences_ = false;
+      } else {
+        next_state = kMenuStateStart;
+      }
     }
     gui::EndGroup();
     gui::EndGroup();
@@ -143,25 +132,6 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
       gui::Label("Zooshi is an awesome game.", 32);
       if (TextButton("Got it.", 32, gui::Margin(2)) & gui::kEventWentUp) {
         show_about_ = false;
-      }
-      gui::EndGroup();
-    }
-
-    // Show 'Licenses' dialog box.
-    if (show_licences_) {
-      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "licenses_overlay");
-      gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                         mathfu::kZeros2f);
-      gui::ModalGroup();
-      gui::SetMargin(gui::Margin(10));
-      gui::SetTextColor(vec4(1.0, 1.0, 1.0, 1.0));
-      gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
-      gui::Label("Licenses.", 32);
-      gui::Label("Licensing text.", 20);
-      gui::Label("Licensing text.", 20);
-      gui::Label("Licensing text.", 20);
-      if (TextButton("OK", 32, gui::Margin(2)) & gui::kEventWentUp) {
-        show_licences_ = false;
       }
       gui::EndGroup();
     }
@@ -206,5 +176,48 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
   return next_state;
 }
 
+void GameMenuState::OptionMenuMain() {
+  gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
+  gui::SetMargin(gui::Margin(5));
+  gui::SetTextColor(kColorBrown);
+  gui::Label("Options", kMenuSize);
+  gui::EndGroup();
+
+  if (TextButton("About", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
+    show_about_ = true;
+  }
+
+  if (TextButton("Licenses", kButtonSize, gui::Margin(2)) &
+      gui::kEventWentUp) {
+    scroll_offset_ = mathfu::kZeros2i;
+    show_licences_ = true;
+  }
+
+  if (TextButton("How to play", kButtonSize, gui::Margin(2)) &
+      gui::kEventWentUp) {
+    show_how_to_play_ = true;
+  }
+
+  if (TextButton("Audio", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
+    show_audio_ = true;
+  }
+}
+
+void GameMenuState::OptionMenuLicenses() {
+  gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
+  gui::SetMargin(gui::Margin(5));
+  gui::SetTextColor(kColorBrown);
+  gui::Label("Licenses", kButtonSize);
+  gui::EndGroup();
+
+  gui::SetTextColor(kColorDarkGray);
+  gui::SetTextFont("fonts/NotoSans-Bold.ttf");
+  gui::StartGroup(gui::kLayoutVerticalLeft, 20, "scroll");
+  gui::StartScroll(kScrollAreaSize, &scroll_offset_);
+  gui::Label(license_text_.c_str(), 25, vec2(900, 0));
+  gui::EndScroll();
+  gui::EndGroup();
+  gui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
+}
 }  // fpl_project
 }  // fpl
