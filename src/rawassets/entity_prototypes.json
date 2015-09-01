@@ -1114,14 +1114,37 @@
                 "data": {
                   "half_extents": {
                     "x": 1.35,
-                    "y": 0.3,
-                    "z": 2.5
+                    "y": 1.2,
+                    "z": 1.4
                   }
                 },
                 "offset": {
                   "x": -0.22,
-                  "y": 0,
-                  "z": 2.55
+                  "y": 0.2,
+                  "z": 1.75
+                },
+                "mass": 100.0,
+                "restitution": 1.0,
+                "collision_type": "Patron",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": "Body"
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.35,
+                    "y": 0.4,
+                    "z": 1.1
+                  }
+                },
+                "offset": {
+                  "x": -0.5,
+                  "y": -0.6,
+                  "z": 4.2
                 },
                 "mass": 100.0,
                 "restitution": 1.0,
@@ -1137,14 +1160,14 @@
                 "data": {
                   "half_extents": {
                     "x": 0.825,
-                    "y": 0.8,
+                    "y": 1.0,
                     "z": 0.825
                   }
                 },
                 "offset": {
                   "x": -0.375,
-                  "y": 0.0,
-                  "z": 3.7
+                  "y": 0.6,
+                  "z": 4.0
                 },
                 "mass": 10.0,
                 "restitution": 1.0,
