@@ -42,12 +42,12 @@ enum MenuState {
 };
 
 // Constant defintions for UI elements. Colors, button sizes etc.
-const auto kColorBrown = vec4(0.37f, 0.24f, 0.09f, 1.0f);
-const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 1.0f);
+const auto kColorBrown = vec4(0.37f, 0.24f, 0.09f, 0.85f);
+const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 0.85f);
 const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
-const auto kMenuSize = 80;
-const auto kButtonSize = 55;
+const auto kMenuSize = 140;
+const auto kButtonSize = 140;
 
 class GameMenuState : public StateNode {
  public:

@@ -35,7 +35,7 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     // Positioning the UI slightly above of the center.
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
-    gui::Image(*background_title_, 700);
+    gui::Image(*background_title_, 1400);
     gui::EndGroup();
 
     gui::SetTextColor(kColorBrown);
@@ -45,19 +45,19 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
-    gui::SetMargin(gui::Margin(200, 400, 200, 100));
+    gui::SetMargin(gui::Margin(200, 700, 200, 100));
 
-    auto event = TextButton("Play Game", kButtonSize, gui::Margin(2));
+    auto event = TextButton("Play Game", kMenuSize, gui::Margin(0));
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateFinished;
     }
 #ifdef ANDROID_CARDBOARD
-    event = TextButton("Cardboard", kButtonSize, gui::Margin(2));
+    event = TextButton("Cardboard", kMenuSize, gui::Margin(0));
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateCardboard;
     }
 #endif  // ANDROID_CARDBOARD
-    event = TextButton("Options", kButtonSize, gui::Margin(2));
+    event = TextButton("Options", kMenuSize, gui::Margin(0));
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateOptions;
     }
@@ -82,7 +82,7 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     // Positioning the UI slightly above of the center.
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
-    gui::Image(*background_options_, 700);
+    gui::Image(*background_options_, 1400);
     gui::EndGroup();
 
     gui::SetTextColor(kColorBrown);
@@ -91,9 +91,9 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
-    gui::SetMargin(gui::Margin(200, 280, 200, 100));
+    gui::SetMargin(gui::Margin(200, 400, 200, 100));
     gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
-    gui::SetMargin(gui::Margin(20));
+    gui::SetMargin(gui::Margin(5));
     gui::SetTextColor(kColorBrown);
     gui::Label("Options", kMenuSize);
     gui::EndGroup();
@@ -121,9 +121,9 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::StartGroup(gui::kLayoutVerticalRight, 0);
     // Positioning the UI to up-left corner of the dialog.
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(-230, -200));
+                       mathfu::vec2(-360, -260));
     gui::SetTextColor(kColorLightBrown);
-    if (ImageButtonWithLabel(*button_back_, 30, gui::Margin(40, 25, 20, 25),
+    if (ImageButtonWithLabel(*button_back_, 60, gui::Margin(50, 25, 30, 40),
                              "Back") &
         gui::kEventWentUp) {
       next_state = kMenuStateStart;
