@@ -86,6 +86,11 @@ option(zooshi_build_cwebp "Build cwebp from source." ON)
 # Option to only build flatc
 option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
 
+# Detect clang
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  set(CMAKE_COMPILER_IS_CLANGXX 1)
+endif()
+
 # Include pindrop.
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
@@ -125,15 +130,6 @@ if(NOT zooshi_only_flatc AND NOT TARGET flatui)
   add_subdirectory("${dependencies_flatui_dir}" ${tmp_dir}/flatui)
 endif()
 
-if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
-  set(BUILD_CPU_DEMOS OFF CACHE BOOL "")
-  set(BUILD_BULLET2_DEMOS OFF CACHE BOOL "")
-  set(BUILD_BULLET3 OFF CACHE BOOL "")
-  set(BUILD_EXTRAS OFF CACHE BOOL "")
-  set(BUILD_UNIT_TESTS OFF CACHE BOOL "")
-  add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
-endif()
-
 # Include World Editor.
 if(NOT zooshi_only_flatc AND NOT TARGET world_editor)
   add_subdirectory("${dependencies_world_editor_dir}" ${tmp_dir}/world_editor)
@@ -143,6 +139,52 @@ endif()
 set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "")
 if(NOT TARGET flatc)
   add_subdirectory("${dependencies_flatbuffers_dir}" ${tmp_dir}/flatbuffers)
+endif()
+
+# Detect clang
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  set(CMAKE_COMPILER_IS_CLANGXX 1)
+endif()
+
+# Compiler flags.
+set(C_FLAGS_WARNINGS "")
+if(MSVC)
+  # Disable warnings, particularly needed for upstream code like Bullet,
+  # Harfbuzz, etc. to compile.
+  # 4065: switch statement contains 'default' but no 'case' labels
+  # 4244: implicit type conversion may lose data
+  # 4511: couldn't generate a default copy-constructor
+  # 4512: couldn't generate assignment operator
+  # 4706: assignment statement inside conditional expression
+  # 4127: conditional expression is constant
+  # 4100: parameter not referenced
+  # 4189: variable initialized but not referenced
+  # 4505: function is not referenced
+  # 4702: unreachable code
+  set(C_FLAGS_WARNINGS "/W4 /WX /wd4065 /wd4244 /wd4511 /wd4512 /wd4706 /wd4127 /wd4100 /wd4189 /wd4505 /wd4702")
+elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
+       CMAKE_COMPILER_IS_CLANGXX)
+  add_definitions(-g)
+  set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -pedantic -Werror -Wextra -Wno-unused-function")
+  # -Wno-unused-function is because of webp encode.h
+endif()
+if(APPLE)
+  set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -Wno-ignored-qualifiers -Wno-overloaded-virtual")
+  # These additional flags are needed because of Bullet's btSolverBody.h and
+  # btConvexHullShape.h causing warnings with the Apple build
+endif()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
+
+if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
+  set(BUILD_CPU_DEMOS OFF CACHE BOOL "")
+  set(BUILD_BULLET2_DEMOS OFF CACHE BOOL "")
+  set(BUILD_BULLET3 OFF CACHE BOOL "")
+  set(BUILD_EXTRAS OFF CACHE BOOL "")
+  set(BUILD_UNIT_TESTS OFF CACHE BOOL "")
+  add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
 endif()
 
 # Generate source files for all FlatBuffers schema files under the src
@@ -319,9 +361,7 @@ set(zooshi_SRCS
 
 # Includes for this project.
 include_directories(src)
-if(WIN32)
-  include_directories(external/include/windows)
-endif()
+include_directories(${dependencies_fplbase_dir}/external/include)
 
 include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
@@ -340,31 +380,6 @@ include_directories(${dependencies_flatui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_world_editor_dir}/include)
-
-# Detect clang
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_COMPILER_IS_CLANGXX 1)
-endif()
-
-# Compiler flags.
-set(C_FLAGS_WARNINGS "")
-if(MSVC)
-  set(C_FLAGS_WARNINGS "/W4 /WX /wd4065 /wd4244 /wd4511 /wd4512 /wd4706")
-elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
-       CMAKE_COMPILER_IS_CLANGXX)
-  add_definitions(-g)
-  set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -pedantic -Werror -Wextra -Wno-unused-function")
-  # -Wno-unused-function is because of webp encode.h
-endif()
-if(APPLE)
-  set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -Wno-ignored-qualifiers -Wno-overloaded-virtual")
-  # These additional flags are needed because of Bullet's btSolverBody.h and
-  # btConvexHullShape.h causing warnings with the Apple build
-endif()
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
 
 if(ZOOSHI_DEBUG)
   # if we want to define this, it needs to be only in debug builds

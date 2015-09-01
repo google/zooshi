@@ -66,15 +66,15 @@ bool ZooshiEntityFactory::CreatePrototypeRequest(
       fbb, ComponentDataUnion(
                ComponentIdToDataType(MetaComponent::GetComponentId())),
       builder.Finish().Union());
-  auto entity_def = CreateEntityDef(
-      fbb,
-      fbb.CreateVector(
-          std::vector<flatbuffers::Offset<ComponentDefInstance>>{component}));
-  auto entity_list = CreateEntityListDef(
-      fbb, fbb.CreateVector(
-               std::vector<flatbuffers::Offset<EntityDef>>{entity_def}));
+  std::vector<flatbuffers::Offset<ComponentDefInstance>> component_vec;
+  component_vec.push_back(component);
+  auto entity_def = CreateEntityDef(fbb, fbb.CreateVector(component_vec));
+  std::vector<flatbuffers::Offset<EntityDef>> entity_vec;
+  entity_vec.push_back(entity_def);
+  auto entity_list = CreateEntityListDef(fbb, fbb.CreateVector(entity_vec));
   fbb.Finish(entity_list);
-  *request = {fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
+  *request = std::vector<uint8_t>(fbb.GetBufferPointer(),
+                                  fbb.GetBufferPointer() + fbb.GetSize());
 
   return true;
 }
@@ -127,8 +127,8 @@ bool ZooshiEntityFactory::CreateEntityDefinition(
   }
   auto entity_def = CreateEntityDef(fbb, fbb.CreateVector(component_list));
   fbb.Finish(entity_def);
-  *entity_definition = {fbb.GetBufferPointer(),
-                        fbb.GetBufferPointer() + fbb.GetSize()};
+  *entity_definition = std::vector<uint8_t>(
+      fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
   return true;
 }
 
@@ -166,8 +166,8 @@ bool ZooshiEntityFactory::CreateEntityList(
   auto entity_list_def =
       CreateEntityListDef(fbb, fbb.CreateVector(entity_list));
   fbb.Finish(entity_list_def);
-  *entity_list_output = {fbb.GetBufferPointer(),
-                         fbb.GetBufferPointer() + fbb.GetSize()};
+  *entity_list_output = std::vector<uint8_t>(
+      fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
   return true;
 }
 

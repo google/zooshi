@@ -63,8 +63,8 @@ void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
             *(const flatbuffers::Table*)projectile_def->on_collision())
             .o;
     fbb.Finish(table);
-    projectile_data->on_collision_flatbuffer = {
-        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
+    projectile_data->on_collision_flatbuffer = std::vector<uint8_t>(
+        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
     projectile_data->on_collision = flatbuffers::GetRoot<TaggedActionDefList>(
         projectile_data->on_collision_flatbuffer.data());
   }

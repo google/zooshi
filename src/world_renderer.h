@@ -42,7 +42,7 @@ class WorldRenderer {
 
   // Sets the position of the light source in the world.  (Where the light is
   // located when generating shdaow maps, etc.)
-  void SetLightPosition(mathfu::vec3 light_pos) {
+  void SetLightPosition(const mathfu::vec3& light_pos) {
     light_camera_.set_position(light_pos);
   }
 

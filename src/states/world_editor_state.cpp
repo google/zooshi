@@ -30,7 +30,8 @@ using mathfu::quat;
 namespace fpl {
 namespace fpl_project {
 
-static const float kEditorViewportAngle = M_PI / 3.0;  // 60 degrees
+static const float kEditorViewportAngle =
+    static_cast<float>(M_PI) / 3.0f;  // 60 degrees
 void WorldEditorState::Initialize(Renderer* renderer, InputSystem* input_system,
                                   editor::WorldEditor* world_editor,
                                   World* world) {

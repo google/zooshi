@@ -97,8 +97,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
               (const flatbuffers::Table&)*patron_def->on_collision())
               .o;
       fbb.Finish(table);
-      patron_data->on_collision_flatbuffer = {
-          fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()};
+      patron_data->on_collision_flatbuffer = std::vector<uint8_t>(
+          fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
       patron_data->on_collision = flatbuffers::GetRoot<TaggedActionDefList>(
           patron_data->on_collision_flatbuffer.data());
     }

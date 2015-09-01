@@ -24,7 +24,7 @@ namespace fpl {
 namespace fpl_project {
 
 struct PlaySoundPayload {
-  PlaySoundPayload(const char* sound_name_, mathfu::vec3 location_)
+  PlaySoundPayload(const char* sound_name_, const mathfu::vec3& location_)
       : sound_name(sound_name_), location(location_) {}
 
   const char* sound_name;

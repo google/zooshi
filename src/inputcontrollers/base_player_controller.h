@@ -26,7 +26,7 @@ class LogicalInput {
  public:
   T Value() const { return current_value_; }
   bool HasChanged() const { return changed_; }
-  void SetValue(T new_value) {
+  void SetValue(const T& new_value) {
     current_value_ = new_value;
     changed_ = true;
   }

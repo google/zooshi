@@ -49,8 +49,8 @@ SimpleMovementComponent::ExportRawData(const entity::EntityRef& entity) const {
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  fpl::Vec3 velocity{data->velocity.x(), data->velocity.y(),
-                     data->velocity.z()};
+  fpl::Vec3 velocity(data->velocity.x(), data->velocity.y(),
+                     data->velocity.z());
 
   fbb.Finish(CreateSimpleMovementDef(fbb, &velocity));
   return fbb.ReleaseBufferPointer();

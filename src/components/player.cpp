@@ -93,8 +93,8 @@ void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
             fbb, *schema, *table_def,
             *(const flatbuffers::Table*)player_def->on_fire()).o;
     fbb.Finish(table);
-    player_data->set_on_fire_flatbuffer(
-        {fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()});
+    player_data->set_on_fire_flatbuffer(std::vector<uint8_t>(
+        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()));
     player_data->set_on_fire(flatbuffers::GetRoot<ActionDef>(
         player_data->on_fire_flatbuffer().data()));
   }

@@ -250,12 +250,14 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       const size_t bank_end = left_bank ? river_idx : river_idx + 1;
       const float bank_width = offsets[bank_start].x() - offsets[bank_end].x();
       const float texture_u = (off.x() - offsets[bank_end].x()) / bank_width;
-      bank_verts.push_back(
-          NormalMappedColorVertex{vec3_packed(vertex),
-                                  vec2_packed(vec2(texture_u, texture_v)),
-                                  vec3_packed(vec3(0, 1, 0)),
-                                  vec4_packed(vec4(1, 0, 0, 1)),
-                                  {255, 255, 255, within_color_byte}});
+
+      bank_verts.push_back(NormalMappedColorVertex());
+      bank_verts.back().pos = vec3_packed(vertex);
+      bank_verts.back().tc = vec2_packed(vec2(texture_u, texture_v));
+      bank_verts.back().norm = vec3_packed(vec3(0, 1, 0));
+      bank_verts.back().tangent = vec4_packed(vec4(1, 0, 0, 1));
+      unsigned char color_bytes[4] = {255, 255, 255, within_color_byte};
+      memcpy(bank_verts.back().color, color_bytes, sizeof(color_bytes));
     }
 
     // Ensure vertices don't go behind previous vertices on the inside of
@@ -285,14 +287,17 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     // The river has two of the middle vertices of the bank.
     // The texture coordinates are different, however.
     const size_t river_vert = bank_verts.size() - num_bank_contours + river_idx;
-    river_verts.push_back(NormalMappedVertex{
-        bank_verts[river_vert].pos, bank_verts[river_vert].tc,
-        bank_verts[river_vert].norm, bank_verts[river_vert].tangent});
+    river_verts.push_back(NormalMappedVertex());
+    river_verts.back().pos = bank_verts[river_vert].pos;
     river_verts.back().tc = vec2(0.0f, texture_v);
-    river_verts.push_back(NormalMappedVertex{
-        bank_verts[river_vert + 1].pos, bank_verts[river_vert + 1].tc,
-        bank_verts[river_vert + 1].norm, bank_verts[river_vert + 1].tangent});
+    river_verts.back().norm = bank_verts[river_vert].norm;
+    river_verts.back().tangent = bank_verts[river_vert].tangent;
+
+    river_verts.push_back(NormalMappedVertex());
+    river_verts.back().pos = bank_verts[river_vert + 1].pos;
     river_verts.back().tc = vec2(1.0f, texture_v);
+    river_verts.back().norm = bank_verts[river_vert + 1].norm;
+    river_verts.back().tangent = bank_verts[river_vert + 1].tangent;
   }
 
   // Not counting the first segment, create triangles in our index

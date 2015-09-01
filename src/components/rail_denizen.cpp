@@ -152,8 +152,8 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
               *(const flatbuffers::Table*)rail_denizen_def->on_new_lap())
               .o;
       fbb.Finish(table);
-      data->on_new_lap_flatbuffer = {fbb.GetBufferPointer(),
-                                     fbb.GetBufferPointer() + fbb.GetSize()};
+      data->on_new_lap_flatbuffer = std::vector<uint8_t>(
+          fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
       data->on_new_lap =
           flatbuffers::GetRoot<ActionDef>(data->on_new_lap_flatbuffer.data());
     }
@@ -173,8 +173,9 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   if (scale != nullptr) {
     data->rail_scale = LoadVec3(scale);
   }
-  data->update_orientation = rail_denizen_def->update_orientation();
-  data->enabled = rail_denizen_def->enabled();
+  data->update_orientation =
+      rail_denizen_def->update_orientation() ? true : false;
+  data->enabled = rail_denizen_def->enabled() ? true : false;
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 
@@ -206,12 +207,12 @@ RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  Vec3 rail_offset{data->rail_offset.x(), data->rail_offset.y(),
-                   data->rail_offset.z()};
+  Vec3 rail_offset(data->rail_offset.x(), data->rail_offset.y(),
+                   data->rail_offset.z());
   mathfu::vec3 euler = data->rail_orientation.ToEulerAngles();
-  Vec3 rail_orientation{euler.x(), euler.y(), euler.z()};
-  Vec3 rail_scale{data->rail_scale.x(), data->rail_scale.y(),
-                  data->rail_scale.z()};
+  Vec3 rail_orientation(euler.x(), euler.y(), euler.z());
+  Vec3 rail_scale(data->rail_scale.x(), data->rail_scale.y(),
+                  data->rail_scale.z());
 
   auto rail_name =
       data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;
