@@ -2079,6 +2079,36 @@
           "data": {
             "selection_option": "Any"
           }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.35,
+                    "y": 0.35,
+                    "z": 0.25
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "mass": 20.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
         }
       ]
     },
@@ -2126,6 +2156,36 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.45,
+                    "y": 0.45,
+                    "z": 0.3
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "mass": 20.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
           }
         }
       ]
@@ -2175,6 +2235,36 @@
           "data": {
             "selection_option": "Any"
           }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.8,
+                    "y": 0.6,
+                    "z": 1.2
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": -0.1,
+                  "z": 0
+                },
+                "mass": 40.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
         }
       ]
     },
@@ -2223,6 +2313,36 @@
           "data": {
             "selection_option": "Any"
           }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.9,
+                    "y": 0.7,
+                    "z": 1.6
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0.2,
+                  "z": 0
+                },
+                "mass": 50.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
         }
       ]
     },
@@ -2270,6 +2390,36 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1,
+                    "y": 0.8,
+                    "z": 2.4
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0.1,
+                  "z": 0
+                },
+                "mass": 60.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
           }
         }
       ]
