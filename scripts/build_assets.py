@@ -142,6 +142,9 @@ INTERNAL_ASSETS_PATH = os.path.join(INTERNAL_ROOT, 'zooshi', 'rawassets')
 # Directory where unprocessed rail flatbuffer data can be found.
 RAW_RAIL_PATH = os.path.join(RAW_ASSETS_PATH, 'rails')
 
+# Directory where unprocessed event graph flatbuffer data can be found.
+RAW_GRAPH_DEF_PATH = os.path.join(RAW_ASSETS_PATH, 'graphs')
+
 # Directory where unprocessed sound flatbuffer data can be found.
 RAW_SOUND_PATH = os.path.join(RAW_ASSETS_PATH, 'sounds')
 
@@ -182,6 +185,7 @@ INTERNAL_ANIM_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'anims')
 # Directory where unprocessed assets can be found.
 SCHEMA_PATHS = [
     os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas'),
+    os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas', 'event'),
     os.path.join(FPLBASE_ROOT, 'schemas'),
     os.path.join(ENTITY_ROOT, 'component_library', 'schemas'),
     os.path.join(WORLD_EDITOR_ROOT, 'schemas'),
@@ -310,7 +314,11 @@ FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('mesh.fbs', SCHEMA_PATHS),
         extension='.fplmesh',
-        input_files=glob.glob(os.path.join(RAW_MESH_PATH, '*.json')))
+        input_files=glob.glob(os.path.join(RAW_MESH_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=find_in_paths('graph.fbs', SCHEMA_PATHS),
+        extension='.fplgraph',
+        input_files=glob.glob(os.path.join(RAW_GRAPH_DEF_PATH, '*.json')))
 ]
 
 

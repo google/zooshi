@@ -1,0 +1,87 @@
+// Copyright 2015 Google Inc. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+include "common.fbs";
+
+namespace fpl.fpl_project.graph;
+
+table Bool {
+  value:bool;
+}
+
+table Int {
+  value:int;
+}
+
+table Float {
+  value:float;
+}
+
+table String {
+  value:string;
+}
+
+table Entity {
+}
+
+table Vec3 {
+  value:fpl.Vec3;
+}
+
+table SoundHandle {
+  value:string;
+}
+
+table AudioChannel {
+}
+
+table OutputEdgeTarget {
+  node_index:int;
+  edge_index:int;
+}
+
+// Max exists to act as a sentinal value when parsing.
+table Max {}
+
+union InputType {
+  Bool,
+  Int,
+  Float,
+  String,
+  Entity,
+  Vec3,
+  SoundHandle,
+  AudioChannel,
+  OutputEdgeTarget,
+  Max
+}
+
+table InputEdgeDef {
+  edge:InputType;
+}
+
+table NodeDef {
+  module:string;
+  name:string;
+  input_edge_list:[InputEdgeDef];
+}
+
+table GraphDef {
+  node_list:[NodeDef];
+}
+
+file_extension "fplgraph";
+file_identifier "grph";
+
+root_type GraphDef;

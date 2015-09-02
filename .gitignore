@@ -15,6 +15,7 @@ assets/*.json
 assets/fonts/
 assets/shaders/font.*
 assets/shaders/font_*
+assets/graphs/
 
 # CMake files
 CMakeCache.txt

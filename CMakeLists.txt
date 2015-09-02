@@ -233,6 +233,8 @@ set(zooshi_SRCS
     src/components/audio_listener.h
     src/components/digit.cpp
     src/components/digit.h
+    src/components/graph.cpp
+    src/components/graph.h
     src/components/lap_dependent.cpp
     src/components/lap_dependent.h
     src/components/patron.cpp
@@ -249,10 +251,10 @@ set(zooshi_SRCS
     src/components/river.h
     src/components/services.cpp
     src/components/services.h
-    src/components/simple_movement.cpp
-    src/components/simple_movement.h
     src/components/shadow_controller.cpp
     src/components/shadow_controller.h
+    src/components/simple_movement.cpp
+    src/components/simple_movement.h
     src/components/sound.cpp
     src/components/sound.h
     src/components/time_limit.cpp
@@ -267,15 +269,31 @@ set(zooshi_SRCS
     src/flatbufferschemas
     src/game.cpp
     src/game.h
+    src/graph_factory.cpp
+    src/graph_factory.h
     src/gui.cpp
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
     src/main.cpp
+    src/modules/audio.cpp
+    src/modules/audio.h
+    src/modules/debug.cpp
+    src/modules/debug.h
+    src/modules/entity.cpp
+    src/modules/entity.h
+    src/modules/logic.cpp
+    src/modules/logic.h
+    src/modules/math.cpp
+    src/modules/math.h
+    src/modules/rail_denizen.cpp
+    src/modules/rail_denizen.h
+    src/modules/string.cpp
+    src/modules/string.h
+    src/modules/vec3.cpp
+    src/modules/vec3.h
     src/railmanager.cpp
     src/railmanager.h
     src/rawassets
-    src/states/states_common.cpp
-    src/states/states_common.h
     src/states/game_menu_state.cpp
     src/states/game_menu_state.h
     src/states/gameplay_state.cpp
@@ -284,6 +302,8 @@ set(zooshi_SRCS
     src/states/pause_state.h
     src/states/state_machine.h
     src/states/states.h
+    src/states/states_common.cpp
+    src/states/states_common.h
     src/states/world_editor_state.cpp
     src/states/world_editor_state.h
     src/world.cpp

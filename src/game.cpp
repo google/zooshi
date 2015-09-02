@@ -15,17 +15,30 @@
 #include "game.h"
 
 #include <math.h>
+#include <stdarg.h>
 
 #include "assets_generated.h"
 #include "audio_config_generated.h"
 #include "common.h"
 #include "entity/entity.h"
+#include "event/graph.h"
+#include "event/log.h"
 #include "events/play_sound.h"
 #include "fplbase/input.h"
 #include "fplbase/utilities.h"
+#include "graph_factory.h"
+#include "graph_generated.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
+#include "modules/audio.h"
+#include "modules/debug.h"
+#include "modules/entity.h"
+#include "modules/logic.h"
+#include "modules/math.h"
+#include "modules/rail_denizen.h"
+#include "modules/string.h"
+#include "modules/vec3.h"
 #include "motive/init.h"
 #include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
@@ -236,6 +249,30 @@ const AssetManifest& Game::GetAssetManifest() const {
   return *fpl::fpl_project::GetAssetManifest(asset_manifest_source_.c_str());
 }
 
+void Game::InitializeEventSystem() {
+  event::RegisterLogFunc(
+      [](const char* fmt, va_list args) { LogError(fmt, args); });
+
+  event::TypeRegistry<bool>::RegisterType("Bool");
+  event::TypeRegistry<int>::RegisterType("Int");
+  event::TypeRegistry<float>::RegisterType("Float");
+  event::TypeRegistry<std::string>::RegisterType("String");
+  event::TypeRegistry<RailDenizenDataRef>::RegisterType("RailDenizenDataRef");
+  event::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
+  event::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
+  event::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
+
+  InitializeAudioModule(&event_system_, &audio_engine_);
+  InitializeDebugModule(&event_system_);
+  InitializeEntityModule(&event_system_, &world_.services_component,
+                         &world_.meta_component);
+  InitializeLogicModule(&event_system_);
+  InitializeMathModule(&event_system_);
+  InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component);
+  InitializeStringModule(&event_system_);
+  InitializeVec3Module(&event_system_);
+}
+
 // Initialize each member in turn. This is logically just one function, since
 // the order of initialization cannot be changed. However, it's nice for
 // debugging and readability to have each section lexographically separate.
@@ -275,6 +312,8 @@ bool Game::Initialize(const char* const binary_directory) {
 
   event_manager_.RegisterListener(EventSinkUnion_PlaySound, this);
 
+  InitializeEventSystem();
+
   font_manager_.Open(GetAssetManifest().font_file()->c_str());
   font_manager_.SetRenderer(renderer_);
 
@@ -284,7 +323,8 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_config(&GetInputConfig());
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
-                    &font_manager_, &audio_engine_, &event_manager_, &renderer_,
+                    &font_manager_, &audio_engine_, &event_manager_,
+                    &event_system_, &graph_dictionary_, &renderer_,
                     &anim_table_);
 
   world_renderer_.Initialize(&world_);
