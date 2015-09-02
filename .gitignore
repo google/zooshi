@@ -64,3 +64,13 @@ tags
 
 # emacs backup files
 *~
+
+# OSX files
+.DS_Store
+
+# XCode files
+*.xcscheme
+*.xcsettings
+*.xcuserstate
+*.xcworkspacedata
+*.xccheckout
