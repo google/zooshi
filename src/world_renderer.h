@@ -20,7 +20,7 @@
 namespace fpl {
 namespace fpl_project {
 
-class World;
+struct World;
 
 // Class that performs various rendering functions on a world state.
 class WorldRenderer {

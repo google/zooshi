@@ -23,11 +23,11 @@
 #include "pindrop/pindrop.h"
 #include "states/state_machine.h"
 #include "states/states.h"
+#include "world.h"
 
 namespace fpl {
 namespace fpl_project {
 struct InputConfig;
-class World;
 
 class PauseState : public StateNode {
  public:
@@ -63,7 +63,7 @@ class PauseState : public StateNode {
   pindrop::SoundHandle sound_exit_;
 
   // Texture used in paused UI .
-  Texture *background_paused_;
+  Texture* background_paused_;
 
   // The next menu state.
   GameState next_state_;

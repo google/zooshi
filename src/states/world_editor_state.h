@@ -17,6 +17,7 @@
 
 #include "camera.h"
 #include "states/state_machine.h"
+#include "world.h"
 
 namespace fpl {
 
@@ -33,7 +34,6 @@ namespace fpl_project {
 
 struct Config;
 struct InputConfig;
-class World;
 
 class WorldEditorState : public StateNode {
  public:

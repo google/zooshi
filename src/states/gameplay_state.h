@@ -19,6 +19,7 @@
 #include "fplbase/input.h"
 #include "pindrop/pindrop.h"
 #include "states/state_machine.h"
+#include "world.h"
 
 namespace fpl {
 
@@ -34,7 +35,6 @@ class WorldEditor;
 namespace fpl_project {
 
 struct InputConfig;
-class World;
 class WorldRenderer;
 
 class GameplayState : public StateNode {
