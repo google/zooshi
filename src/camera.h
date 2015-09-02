@@ -35,7 +35,9 @@ class Camera : public fpl::CameraInterface {
   // returns just the V matrix:
   virtual mathfu::mat4 GetViewMatrix() const;
 
-  virtual void set_position(mathfu::vec3 position) { position_ = position; }
+  virtual void set_position(const mathfu::vec3& position) {
+    position_ = position;
+  }
   virtual mathfu::vec3 position() const { return position_; }
 
   virtual void set_facing(const mathfu::vec3& facing) {
