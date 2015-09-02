@@ -16,6 +16,7 @@
 #include <math.h>
 #include <memory>
 #include "common.h"
+#include "component_library/physics.h"
 #include "component_library/rendermesh.h"
 #include "component_library/transform.h"
 #include "components/rail_denizen.h"
@@ -40,6 +41,7 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RiverComponent,
 namespace fpl {
 namespace fpl_project {
 
+using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
 
@@ -104,6 +106,10 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
                                  ->river_config();
 
   RiverData* river_data = Data<RiverData>(entity);
+
+  // Initialize the static mesh that will be made around the river banks.
+  auto* physics_component = entity_manager_->GetComponent<PhysicsComponent>();
+  physics_component->InitStaticMesh(entity);
 
   Rail* rail = entity_manager_->GetComponent<ServicesComponent>()
                    ->rail_manager()
@@ -317,9 +323,22 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       // Do not create bank geo for the river.
       if (j == river_idx) continue;
       unsigned int zone = bank_zones[i];
-      make_quad(bank_indices, i * num_bank_contours, j, num_bank_contours + j);
-      make_quad(bank_indices_by_zone[zone], i * num_bank_contours, j,
-                num_bank_contours + j);
+      int base_index = i * num_bank_contours;
+      int offset1 = j;
+      int offset2 = num_bank_contours + j;
+      make_quad(bank_indices, base_index, offset1, offset2);
+      make_quad(bank_indices_by_zone[zone], base_index, offset1, offset2);
+
+      // Add the same triangles to the static mesh associated with the entity.
+      physics_component->AddStaticMeshTriangle(
+          entity, vec3(bank_verts[base_index + offset1].pos),
+          vec3(bank_verts[base_index + offset1 + 1].pos),
+          vec3(bank_verts[base_index + offset2].pos));
+
+      physics_component->AddStaticMeshTriangle(
+          entity, vec3(bank_verts[base_index + offset2].pos),
+          vec3(bank_verts[base_index + offset1 + 1].pos),
+          vec3(bank_verts[base_index + offset2 + 1].pos));
     }
   }
 
@@ -387,6 +406,18 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     child_render_data->culling_mask = 0;  // Don't cull the banks for now.
     child_render_data->pass_mask = 1 << RenderPass_Opaque;
   }
+
+  // Finalize the static physics mesh created on the river bank.
+  short collision_type = static_cast<short>(river->collision_type());
+  short collides_with = 0;
+  if (river->collides_with()) {
+    for (auto collides = river->collides_with()->begin();
+         collides != river->collides_with()->end(); ++collides) {
+      collides_with |= static_cast<short>(*collides);
+    }
+  }
+  physics_component->FinalizeStaticMesh(entity, collision_type, collides_with,
+                                        river->mass(), river->restitution());
 }
 
 void RiverComponent::OnEvent(const event::EventPayload& event_payload) {
