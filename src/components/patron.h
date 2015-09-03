@@ -53,11 +53,23 @@ enum PatronState {
   kPatronStateGettingUp,
 };
 
+enum CatchingState {
+  // The normal state, when the patron is not reaching to thrown sushi.
+  kCatchingStateIdle,
+
+  // Moving to where the patron believes it can intercept sushi.
+  kCatchingStateMoveToTarget,
+
+  // Returning to the position it left when it decided to move to the sushi.
+  kCatchingStateReturn
+};
+
 // Data for scene object components.
 struct PatronData {
   PatronData()
       : on_collision(nullptr),
         state(kPatronStateLayingDown),
+        catching_state(kCatchingStateIdle),
         last_lap_fed(-1.0f) {}
 
   // The event to trigger when a projectile collides with this patron.
@@ -66,6 +78,9 @@ struct PatronData {
 
   // Whether the patron is standing up or falling down.
   PatronState state;
+
+  // Describes the behavior of the patron moving to catch sushi.
+  CatchingState catching_state;
 
   // The type of patron being animated. Each patron has its own set of
   // animations.
@@ -109,6 +124,9 @@ struct PatronData {
   // Set to delta_position.Value() after movement is updated.
   mathfu::vec3_packed prev_delta_position;
 
+  // The position that the patron left when going to catch the sushi.
+  mathfu::vec3 return_position;
+
   // Face angle to add onto patron's trajectory.
   // Face angle is rotation about z-axis, with y-axis = 0, x-axis = 90 degrees
   // Units are radians.
@@ -117,6 +135,9 @@ struct PatronData {
 
   // Set to delta_face_angle.Value() after movement is updated.
   Angle prev_delta_face_angle;
+
+  // The angle that the patron left when going to catch the sushi.
+  Angle return_angle;
 };
 
 class PatronComponent : public entity::Component<PatronData>,
@@ -144,10 +165,11 @@ class PatronComponent : public entity::Component<PatronData>,
   void SpawnPointDisplay(const mathfu::vec3& position);
   void Animate(const PatronData* patron_data, PatronAction action);
   Range TargetHeightRange(const entity::EntityRef& patron) const;
-  const entity::EntityRef* ClosestProjectile(
-      const entity::EntityRef& patron, mathfu::vec3* closest_position,
-      Angle* closest_face_angle, float* closest_time) const;
-  void CatchProjectile(const entity::EntityRef& patron);
+  const entity::EntityRef* ClosestProjectile(const entity::EntityRef& patron,
+                                             mathfu::vec3* closest_position,
+                                             Angle* closest_face_angle,
+                                             float* closest_time) const;
+  void FindProjectileAndCatch(const entity::EntityRef& patron);
   void MoveToTarget(const entity::EntityRef& patron,
                     const mathfu::vec3& target_position,
                     Angle target_face_angle, float target_time);

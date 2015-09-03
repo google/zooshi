@@ -58,14 +58,13 @@ using mathfu::quat;
 using mathfu::vec3;
 using motive::MotiveTime;
 
-
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kSplatterCount = 10;
 static const float kLapWaitAmount = 0.5f;
 static const float kMaxCatchDist = 5.0f;
 static const float kHeightRangeBuffer = 0.05f;
 static const Range kCatchTimeRangeInSeconds(0.01f, 10.0f);
-
+static const float kCatchReturnTime = 1.0f;
 
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
@@ -216,24 +215,35 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
   // Add on delta to the position.
   if (patron_data->delta_position.Valid()) {
     const vec3 delta_position = patron_data->delta_position.Value();
-    transform_data->position += delta_position -
-                                vec3(patron_data->prev_delta_position);
+    transform_data->position +=
+        delta_position - vec3(patron_data->prev_delta_position);
     patron_data->prev_delta_position = delta_position;
 
     if (patron_data->delta_position.TargetTime() <= 0) {
-      patron_data->delta_position.Invalidate();
+      if (patron_data->catching_state == kCatchingStateMoveToTarget) {
+        MoveToTarget(patron, patron_data->return_position,
+                     patron_data->return_angle, kCatchReturnTime);
+        patron_data->catching_state = kCatchingStateReturn;
+      } else {
+        patron_data->delta_position.Invalidate();
+        patron_data->catching_state = kCatchingStateIdle;
+        // Back to idle, so resume moving on rails, if it is on one.
+        RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
+        if (rail_denizen_data != nullptr &&
+            patron_data->state == kPatronStateUpright) {
+          rail_denizen_data->enabled = true;
+        }
+      }
     }
   }
 
   // Add on delta to face angle.
   if (patron_data->delta_face_angle.Valid()) {
-    const Angle cur_face_angle(transform_data->orientation.ToEulerAngles().z());
-
     const Angle delta_face_angle(patron_data->delta_face_angle.Value());
     const Angle delta = delta_face_angle - patron_data->prev_delta_face_angle;
-    transform_data->orientation = transform_data->orientation *
-                                  quat::FromAngleAxis(delta.ToRadians(),
-                                                      mathfu::kAxisZ3f);
+    transform_data->orientation =
+        transform_data->orientation *
+        quat::FromAngleAxis(delta.ToRadians(), mathfu::kAxisZ3f);
     patron_data->prev_delta_face_angle = delta_face_angle;
 
     if (patron_data->delta_face_angle.TargetTime() <= 0) {
@@ -260,10 +270,9 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     // Move patron towards the target.
     UpdateMovement(patron);
 
-    if (state == kPatronStateUpright) {
-      if (!patron_data->delta_position.Valid()) {
-        CatchProjectile(patron);
-      }
+    if (state == kPatronStateUpright &&
+        patron_data->catching_state != kCatchingStateMoveToTarget) {
+      FindProjectileAndCatch(patron);
     }
 
     RenderMeshComponent* rm_component =
@@ -512,7 +521,6 @@ static inline vec3 ZeroHeight(const vec3& v) {
 static float CalculateClosestTimeInHeightRange(
     float target_t, const Range& valid_times, const Range& valid_heights,
     float start_height, float start_speed, float gravity) {
-
   // Let `h(t)` represent the height at time `t`.
   // Then,
   //   h(0) = start_height
@@ -560,32 +568,34 @@ Range PatronComponent::TargetHeightRange(const EntityRef& patron) const {
                target_max.z() - kHeightRangeBuffer);
 }
 
-const EntityRef* PatronComponent::ClosestProjectile(
-    const EntityRef& patron, vec3* closest_position, Angle* closest_face_angle,
-    float* closest_time) const {
-
+const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
+                                                    vec3* closest_position,
+                                                    Angle* closest_face_angle,
+                                                    float* closest_time) const {
   // TODO: change projectile_component to const when Component gets a
   //       const_iterator.
   PlayerProjectileComponent* projectile_component =
       entity_manager_->GetComponent<PlayerProjectileComponent>();
   const TransformData* patron_transform = Data<TransformData>(patron);
+  const PatronData* patron_data = GetComponentData(patron);
 
   // Gather patron details. These are independent of the projectiles.
   const vec3 patron_position_xy = ZeroHeight(patron_transform->position);
   const Range target_height_range = TargetHeightRange(patron);
+  const vec3 return_position_xy = ZeroHeight(patron_data->return_position);
 
   // Loop through every projectile. Keep a reference to the closest one.
   const EntityRef* closest_ref = nullptr;
   float closest_dist_sq = kMaxCatchDist * kMaxCatchDist;
-  for (auto it = projectile_component->begin(); it != projectile_component->end();
-       ++it) {
+  for (auto it = projectile_component->begin();
+       it != projectile_component->end(); ++it) {
     // Get movement state of projectile.
     const TransformData* projectile_transform =
         entity_manager_->GetComponentData<TransformData>(it->entity);
     const PhysicsData* projectile_physics =
         entity_manager_->GetComponentData<PhysicsData>(it->entity);
     const vec3 projectile_position = projectile_transform->position;
-    const vec3 projectile_velocity = projectile_physics->Velocity(); // In m/s.
+    const vec3 projectile_velocity = projectile_physics->Velocity();  // In m/s.
     const vec3 projectile_position_xy = ZeroHeight(projectile_position);
     const vec3 projectile_velocity_xy = ZeroHeight(projectile_velocity);
 
@@ -598,25 +608,36 @@ const EntityRef* PatronComponent::ClosestProjectile(
     const float projectile_speed_to_patron =
         vec3::DotProduct(projectile_velocity, to_patron_xy);
     if (projectile_speed_to_patron <= 0.0f) continue;
-    const float closest_t_ignore_hieght =
-        dist_to_patron_xy / projectile_speed_to_patron; // In seconds.
+    const float closest_t_ignore_height =
+        dist_to_patron_xy / projectile_speed_to_patron;  // In seconds.
 
     // Early reject if the distance is already too far.
-    const vec3 closest_position_ignore_hieght_xy =
-        projectile_position_xy + projectile_velocity_xy * closest_t_ignore_hieght;
-    const float dist_sq_ignore_hieght =
-        (patron_position_xy - closest_position_ignore_hieght_xy).LengthSquared();
-    if (dist_sq_ignore_hieght > closest_dist_sq) continue;
+    const vec3 closest_position_ignore_height_xy =
+        projectile_position_xy +
+        projectile_velocity_xy * closest_t_ignore_height;
+    const float dist_sq_ignore_height =
+        (patron_position_xy - closest_position_ignore_height_xy)
+            .LengthSquared();
+    if (dist_sq_ignore_height > closest_dist_sq) continue;
 
-    // Get the closest time at a catchable hieght.
+    // If returning from a previous attempt, limit how far from the initial
+    // position to leave from again.
+    if (patron_data->catching_state == kCatchingStateReturn) {
+      const float dist_sq =
+          (return_position_xy - closest_position_ignore_height_xy)
+              .LengthSquared();
+      if (dist_sq > kMaxCatchDist * kMaxCatchDist) continue;
+    }
+
+    // Get the closest time at a catchable height.
     const float closest_t = CalculateClosestTimeInHeightRange(
-        closest_t_ignore_hieght, kCatchTimeRangeInSeconds, target_height_range,
+        closest_t_ignore_height, kCatchTimeRangeInSeconds, target_height_range,
         projectile_position.z(), projectile_velocity.z(), config_->gravity());
     if (closest_t <= 0.0f) continue;
 
-    // Claculate the projectile position at `closest_t`.
-    const vec3 closest_position_xy = projectile_position_xy +
-                                     projectile_velocity_xy * closest_t;
+    // Calculate the projectile position at `closest_t`.
+    const vec3 closest_position_xy =
+        projectile_position_xy + projectile_velocity_xy * closest_t;
     const float dist_sq =
         (patron_position_xy - closest_position_xy).LengthSquared();
     if (dist_sq > closest_dist_sq) continue;
@@ -626,15 +647,15 @@ const EntityRef* PatronComponent::ClosestProjectile(
     *closest_position = closest_position_xy;
     closest_position->z() = patron_transform->position.z();
     *closest_time = closest_t;
-    *closest_face_angle = Angle::FromYXVector(projectile_position_xy -
-                                              closest_position_xy);
+    *closest_face_angle =
+        Angle::FromYXVector(projectile_position_xy - closest_position_xy);
     closest_ref = &it->entity;
     closest_dist_sq = dist_sq;
   }
   return closest_ref;
 }
 
-void PatronComponent::CatchProjectile(const EntityRef& patron) {
+void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
   // Find the projectile that's the closest.
   vec3 closest_position;
   Angle closest_face_angle;
@@ -645,58 +666,55 @@ void PatronComponent::CatchProjectile(const EntityRef& patron) {
   // Initialize movement to that spot.
   if (closest_projectile != nullptr) {
     MoveToTarget(patron, closest_position, closest_face_angle, closest_time);
+    PatronData* patron_data = GetComponentData(patron);
+    patron_data->catching_state = kCatchingStateMoveToTarget;
+    // If this is on a rail, we want to disable it until we are done.
+    RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
+    if (rail_denizen_data != nullptr) {
+      rail_denizen_data->enabled = false;
+    }
   }
 }
 
-void PatronComponent::MoveToTarget(
-    const EntityRef& patron, const vec3& target_position,
-    Angle target_face_angle, float target_time) {
-
-  // TODO: When patron is moving on tracks, get the future position and
-  //       face angle from the tracks instead.
+void PatronComponent::MoveToTarget(const EntityRef& patron,
+                                   const vec3& target_position,
+                                   Angle target_face_angle, float target_time) {
   const TransformData* patron_transform = Data<TransformData>(patron);
-  const vec3 future_position = patron_transform->position;
-  const Angle future_face_angle(patron_transform->orientation.ToEulerAngles().z());
+  PatronData* patron_data = Data<PatronData>(patron);
+  const vec3 position = patron_transform->position;
+  const Angle face_angle(patron_transform->orientation.ToEulerAngles().z());
+
+  // If moving from idle, store the current position to return to later.
+  if (patron_data->catching_state == kCatchingStateIdle) {
+    patron_data->return_position = position;
+    patron_data->return_angle = face_angle;
+  }
 
   // At `target_time` we want to achieve these deltas so that our position and
   // face angle with equal `target_position` and `target_face_angle`.
-  const vec3 delta_position = target_position - future_position;
-  const Angle delta_face_angle = target_face_angle - future_face_angle;
+  const vec3 delta_position = target_position - position;
+  const Angle delta_face_angle = target_face_angle - face_angle;
   const motive::MotiveTime target_time_ms =
       static_cast<motive::MotiveTime>(1000.0f * target_time);
 
   // Set the delta movement Motivators.
-  PatronData* patron_data = Data<PatronData>(patron);
-  if (!patron_data->delta_position.Valid()) {
-    // Initialize from scratch.
-    assert(!patron_data->delta_face_angle.Valid());
+  patron_data->prev_delta_position = vec3(kZeros3f);
+  patron_data->prev_delta_face_angle = Angle(0.0f);
 
-    patron_data->prev_delta_position = vec3(kZeros3f);
-    patron_data->prev_delta_face_angle = Angle(0.0f);
+  motive::MotiveEngine* motive_engine =
+      &entity_manager_->GetComponent<AnimationComponent>()->engine();
 
-    motive::MotiveEngine* motive_engine =
-        &entity_manager_->GetComponent<AnimationComponent>()->engine();
+  patron_data->delta_position.InitializeWithTarget(
+      motive::SmoothInit(), motive_engine,
+      motive::Tar3f::CurrentToTarget(kZeros3f, kZeros3f, delta_position,
+                                     kZeros3f, target_time_ms));
 
-    patron_data->delta_position.InitializeWithTarget(
-        motive::SmoothInit(), motive_engine,
-        motive::Tar3f::CurrentToTarget(kZeros3f, kZeros3f, delta_position,
-                                       kZeros3f, target_time_ms));
-
-    const Range angle_range(-kPi, kPi);
-    patron_data->delta_face_angle.InitializeWithTarget(
-        motive::SmoothInit(angle_range, true), motive_engine,
-        motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(),
-                                  0.0f, target_time_ms));
-
-  } else {
-    // Reset the current target to go to the new position.
-    patron_data->delta_position.SetTarget(
-        motive::Tar3f::Target(delta_position, kZeros3f, target_time_ms));
-    patron_data->delta_face_angle.SetTarget(
-        motive::Target1f(delta_face_angle.ToRadians(), 0.0f, target_time_ms));
-  }
+  const Range angle_range(-kPi, kPi);
+  patron_data->delta_face_angle.InitializeWithTarget(
+      motive::SmoothInit(angle_range, true), motive_engine,
+      motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(), 0.0f,
+                                target_time_ms));
 }
 
 }  // fpl_project
 }  // fpl
-
