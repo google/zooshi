@@ -188,6 +188,9 @@ void PatronComponent::PostLoadFixup() {
     // Animate the entity with the rendermesh.
     entity_manager_->AddEntityToComponent<AnimationComponent>(
         patron_data->render_child);
+    AnimationData* animation_data =
+        Data<AnimationData>(patron_data->render_child);
+    animation_data->anim_table_object = patron_data->anim_object;
 
     // Initialize state machine.
     patron_data->state = kPatronStateLayingDown;
@@ -355,13 +358,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 
 void PatronComponent::Animate(const PatronData* patron_data,
                               PatronAction action) {
-  auto services_component = entity_manager_->GetComponent<ServicesComponent>();
-  const motive::AnimTable* anim_table = services_component->anim_table();
-  const motive::RigAnim& anim =
-      anim_table->Query(patron_data->anim_object, action);
-
-  entity_manager_->GetComponent<AnimationComponent>()->Animate(
-      patron_data->render_child, anim);
+  entity_manager_->GetComponent<AnimationComponent>()->AnimateFromTable(
+      patron_data->render_child, action);
 }
 
 void PatronComponent::OnEvent(const event::EventPayload& event_payload) {

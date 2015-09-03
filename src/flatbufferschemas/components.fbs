@@ -163,7 +163,6 @@ table AttributesDef {}
 table ScoreDef {}
 table ServicesDef {}
 table ShadowControllerDef {}
-table AnimationDef {}
 
 //-----------------------------------
 // Data for defining the entities themselves:
