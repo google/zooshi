@@ -279,6 +279,8 @@ void Game::InitializeEventSystem() {
 bool Game::Initialize(const char* const binary_directory) {
   LogInfo("Zooshi Initializing...");
 
+  input_.Initialize();
+
   if (!ChangeToUpstreamDir(binary_directory, kAssetsDir)) return false;
 
   if (!LoadFile(kConfigFileName, &config_source_)) return false;
@@ -394,7 +396,7 @@ void Game::Run() {
     if (fps_time_counter_ >= 1000) {
       // Show a count of how many frames we actually rendered during the
       // previous second.
-      LogInfo("Running at %d FPS", fps_frame_counter_);
+      //LogInfo("Running at %d FPS", fps_frame_counter_);
       // Set it as an attribute on the player so we can show it on screen.
       if (world_.active_player_entity) {
         AttributesData* attrib_data =
