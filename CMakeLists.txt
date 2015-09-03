@@ -275,6 +275,8 @@ set(zooshi_SRCS
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
     src/main.cpp
+    src/modules/attributes.cpp
+    src/modules/attributes.h
     src/modules/audio.cpp
     src/modules/audio.h
     src/modules/debug.cpp

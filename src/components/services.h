@@ -76,6 +76,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
   RailManager* rail_manager() { return rail_manager_; }
   entity::EntityRef raft_entity() { return raft_entity_; }
   void set_raft_entity(entity::EntityRef entity) { raft_entity_ = entity; }
+  entity::EntityRef player_entity() { return player_entity_; }
+  void set_player_entity(entity::EntityRef entity) { player_entity_ = entity; }
   component_library::EntityFactory* entity_factory() { return entity_factory_; }
 
   const void* component_def_binary_schema() const {
@@ -110,6 +112,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   FontManager* font_manager_;
   RailManager* rail_manager_;
   entity::EntityRef raft_entity_;
+  entity::EntityRef player_entity_;
   component_library::EntityFactory* entity_factory_;
   std::string component_def_binary_schema_;
 };

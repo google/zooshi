@@ -35,15 +35,27 @@ class EventManager;
 namespace fpl_project {
 
 // Data for scene object components.
-struct AttributesData {
+class AttributesData {
  public:
-  AttributesData() {
+  AttributesData() : dirty_bit_(false) {
     for (int i = 0; i < AttributeDef_Size; ++i) {
-      attributes[i] = 0;
+      attributes_[i] = 0;
     }
   }
 
-  float attributes[AttributeDef_Size];
+  float attribute(int index) { return attributes_[index]; }
+
+  void set_attribute(int index, float value) {
+    dirty_bit_ = true;
+    attributes_[index] = value;
+  }
+
+  bool dirty_bit() const { return dirty_bit_; }
+  void clear_dirty_bit() { dirty_bit_ = false; }
+
+ private:
+  float attributes_[AttributeDef_Size];
+  bool dirty_bit_;
 };
 
 class AttributesComponent : public entity::Component<AttributesData>,
@@ -55,7 +67,7 @@ class AttributesComponent : public entity::Component<AttributesData>,
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
-  virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
+  virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 

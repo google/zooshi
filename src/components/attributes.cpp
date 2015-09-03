@@ -14,17 +14,19 @@
 
 #include "components/attributes.h"
 
-#include <cstdio>
+#include "components/graph.h"
 #include "components/services.h"
 #include "event/event_manager.h"
 #include "event/event_payload.h"
 #include "events/modify_attribute.h"
 #include "events/utilities.h"
 #include "event/event_manager.h"
+#include "event/event.h"
 #include "events_generated.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
 #include "flatui/flatui.h"
+#include "modules/event_ids.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AttributesComponent,
                             fpl::fpl_project::AttributesData)
@@ -48,14 +50,31 @@ void AttributesComponent::OnEvent(const event::EventPayload& event_payload) {
       auto* mod_event = event_payload.ToData<ModifyAttributePayload>();
       AttributesData* attributes_data = Data<AttributesData>(mod_event->target);
       if (attributes_data) {
-        float* attribute =
-            &attributes_data->attributes[mod_event->modify_attribute->attrib()];
-        ApplyOperation(attribute, mod_event->modify_attribute->op(),
+        int index = mod_event->modify_attribute->attrib();
+        float value = attributes_data->attribute(index);
+        ApplyOperation(&value, mod_event->modify_attribute->op(),
                        mod_event->modify_attribute->value());
+        attributes_data->set_attribute(index, value);
       }
       break;
     }
     default: { assert(0); }
+  }
+}
+
+void AttributesComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    entity::EntityRef& entity = iter->entity;
+    AttributesData* attributes_data = Data<AttributesData>(entity);
+    GraphData* graph_data = Data<GraphData>(entity);
+    if (attributes_data->dirty_bit()) {
+      attributes_data->clear_dirty_bit();
+      if (graph_data) {
+        graph_data->broadcaster.BroadcastEvent(
+            kEventIdEntityAttributesChanged);
+      }
+    }
   }
 }
 

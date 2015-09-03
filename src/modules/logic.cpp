@@ -19,6 +19,16 @@
 namespace fpl {
 namespace fpl_project {
 
+static void SetBooleanEdges(event::Outputs* out, bool value, int bool_index,
+                            int true_index, int false_index) {
+  out->Set(bool_index, value);
+  if (value) {
+    out->Set(true_index);
+  } else {
+    out->Set(false_index);
+  }
+}
+
 // clang-format off
 #define LOGICAL_NODE(name, op)                                     \
   class name : public event::BaseNode {                            \
@@ -27,19 +37,22 @@ namespace fpl_project {
       node_sig->AddInput<bool>();                                  \
       node_sig->AddInput<bool>();                                  \
       node_sig->AddOutput<bool>();                                 \
+      node_sig->AddOutput<void>();                                 \
+      node_sig->AddOutput<void>();                                 \
     }                                                              \
                                                                    \
     virtual void Execute(event::Inputs* in, event::Outputs* out) { \
       auto a = in->Get<bool>(0);                                   \
       auto b = in->Get<bool>(1);                                   \
-      out->Set(0, *a op *b);                                       \
+      bool result = *a op *b;                                      \
+      SetBooleanEdges(out, result, 0, 1, 2);                       \
     }                                                              \
   }
-// clang-format on
 
 LOGICAL_NODE(AndNode, &&);
 LOGICAL_NODE(OrNode, ||);
 LOGICAL_NODE(XorNode, ^);
+// clang-format on
 
 // Logical Not.
 class NotNode : public event::BaseNode {
@@ -48,11 +61,14 @@ class NotNode : public event::BaseNode {
     node_sig->AddInput<bool>();
     node_sig->AddInput<bool>();
     node_sig->AddOutput<bool>();
+    node_sig->AddOutput<void>();
+    node_sig->AddOutput<void>();
   }
 
   virtual void Execute(event::Inputs* in, event::Outputs* out) {
     auto a = in->Get<bool>(0);
-    out->Set(0, !*a);
+    bool result = !*a;
+    SetBooleanEdges(out, result, 0, 1, 2);
   }
 };
 

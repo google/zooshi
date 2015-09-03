@@ -96,7 +96,7 @@ void DigitComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     DigitData* digit_data = Data<DigitData>(iter->entity);
 
     AttributesData* attribute_data = Data<AttributesData>(player);
-    float value = attribute_data->attributes[digit_data->attribute];
+    float value = attribute_data->attribute(digit_data->attribute);
     int index = static_cast<int>(value) / digit_data->divisor % kDigitBase;
 
     RenderMeshData* render_mesh_data = Data<RenderMeshData>(iter->entity);

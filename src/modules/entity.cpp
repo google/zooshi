@@ -24,17 +24,35 @@
 namespace fpl {
 namespace fpl_project {
 
-// Returns the entity representing the raft.
-class RaftEntityNode : public event::BaseNode {
+// Returns the entity representing the player.
+class PlayerEntityNode : public event::BaseNode {
  public:
+  PlayerEntityNode(ServicesComponent* services_component)
+      : services_component_(services_component) {}
+
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddOutput<entity::EntityRef>();
   }
 
+  virtual void Initialize(event::Inputs* /*in*/, event::Outputs* out) {
+    out->Set(0, services_component_->player_entity());
+  }
+
+ private:
+  ServicesComponent* services_component_;
+};
+
+// Returns the entity representing the raft.
+class RaftEntityNode : public event::BaseNode {
+ public:
   RaftEntityNode(ServicesComponent* services_component)
       : services_component_(services_component) {}
 
-  virtual void Execute(event::Inputs* /*in*/, event::Outputs* out) {
+  static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddOutput<entity::EntityRef>();
+  }
+
+  virtual void Initialize(event::Inputs* /*in*/, event::Outputs* out) {
     out->Set(0, services_component_->raft_entity());
   }
 
@@ -64,27 +82,6 @@ class EntityNode : public event::BaseNode {
  private:
   component_library::MetaComponent* meta_component_;
 };
-// Returns the entity that owns the graph that is currently executing. This node
-// is only valid on graphs that are owned by an entity.
-class GraphEntityNode : public event::BaseNode {
- public:
-  static void OnRegister(event::NodeSignature* node_sig) {
-    node_sig->AddOutput<entity::EntityRef>();
-  }
-
-  virtual void Execute(event::Inputs* /*in*/, event::Outputs* out) {
-    out->Set(0, graph_entity_);
-  }
-
-  static void set_current_entity(const entity::EntityRef& graph_entity) {
-    graph_entity_ = graph_entity;
-  }
-
- private:
-  static entity::EntityRef graph_entity_;
-};
-
-entity::EntityRef GraphEntityNode::graph_entity_;
 
 void InitializeEntityModule(event::EventSystem* event_system,
                             ServicesComponent* services_component,
@@ -92,13 +89,16 @@ void InitializeEntityModule(event::EventSystem* event_system,
   auto EntityCtor = [meta_component]() {
     return new EntityNode(meta_component);
   };
+  auto PlayerEntityCtor = [services_component]() {
+    return new PlayerEntityNode(services_component);
+  };
   auto RaftEntityCtor = [services_component]() {
     return new RaftEntityNode(services_component);
   };
   event::Module* module = event_system->AddModule("entity");
   module->RegisterNode<EntityNode>("entity", EntityCtor);
+  module->RegisterNode<PlayerEntityNode>("player_entity", PlayerEntityCtor);
   module->RegisterNode<RaftEntityNode>("raft_entity", RaftEntityCtor);
-  module->RegisterNode<GraphEntityNode>("graph_entity");
 }
 
 }  // fpl_project

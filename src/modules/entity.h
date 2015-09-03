@@ -40,6 +40,12 @@ class ComponentDataRef {
     return component_->GetComponentData(entity_);
   }
 
+  T* component() { return component_; }
+  const T* component() const { return component_; }
+
+  entity::EntityRef entity() { return entity_; }
+  const entity::EntityRef entity() const { return entity_; }
+
  private:
   T* component_;
   entity::EntityRef entity_;

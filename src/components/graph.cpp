@@ -24,6 +24,15 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::GraphComponent,
 namespace fpl {
 namespace fpl_project {
 
+void GraphComponent::RegisterListener(int event_id, entity::EntityRef* entity,
+                                      event::NodeEventListener* listener) {
+  auto graph_data = Data<GraphData>(*entity);
+  if (!graph_data) {
+    graph_data = AddEntity(*entity);
+  }
+  graph_data->broadcaster.RegisterListener(event_id, listener);
+}
+
 void GraphComponent::Init() {
   ServicesComponent* services =
       entity_manager_->GetComponent<ServicesComponent>();

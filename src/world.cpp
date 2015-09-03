@@ -182,13 +182,15 @@ void LoadWorldDef(World* world, const WorldDef* world_def,
 
   world->transform_component.PostLoadFixup();  // sets up parent-child links
   world->patron_component.PostLoadFixup();
-  world->graph_component.PostLoadFixup();
 
   entity::EntityRef player_entity = world->player_component.begin()->entity;
+  world->services_component.set_player_entity(player_entity);
   auto player_transform =
       world->transform_component.GetComponentData(player_entity);
   entity::EntityRef raft_entity = player_transform->parent;
   world->services_component.set_raft_entity(raft_entity);
+
+  world->graph_component.PostLoadFixup();
 }
 
 }  // fpl_project

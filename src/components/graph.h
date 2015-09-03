@@ -17,6 +17,7 @@
 
 #include "entity/component.h"
 #include "event/graph.h"
+#include "event/event.h"
 #include "graph_factory.h"
 
 namespace fpl {
@@ -29,6 +30,7 @@ struct SerializableGraphState {
 
 struct GraphData {
   std::vector<SerializableGraphState> graphs;
+  event::NodeEventBroadcaster broadcaster;
 };
 
 class GraphComponent : public entity::Component<GraphData> {
@@ -36,6 +38,11 @@ class GraphComponent : public entity::Component<GraphData> {
   // Once entities themselves have been initialized, initialize the graphs. This
   // must be done after because graphs may reference entities.
   void PostLoadFixup();
+
+  // This is a convenience function to handle associating an entity with a given
+  // listener object.
+  void RegisterListener(int event_id, entity::EntityRef* entity,
+                        event::NodeEventListener* listener);
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);

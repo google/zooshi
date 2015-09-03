@@ -31,6 +31,7 @@
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
+#include "modules/attributes.h"
 #include "modules/audio.h"
 #include "modules/debug.h"
 #include "modules/entity.h"
@@ -254,11 +255,13 @@ void Game::InitializeEventSystem() {
   event::RegisterLogFunc(
       [](const char* fmt, va_list args) { LogError(fmt, args); });
 
+  event::TypeRegistry<void>::RegisterType("Pulse");
   event::TypeRegistry<bool>::RegisterType("Bool");
   event::TypeRegistry<int>::RegisterType("Int");
   event::TypeRegistry<float>::RegisterType("Float");
   event::TypeRegistry<std::string>::RegisterType("String");
   event::TypeRegistry<RailDenizenDataRef>::RegisterType("RailDenizenDataRef");
+  event::TypeRegistry<AttributesDataRef>::RegisterType("TransformDataRef");
   event::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
   event::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
   event::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
@@ -271,6 +274,8 @@ void Game::InitializeEventSystem() {
   InitializeMathModule(&event_system_);
   InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component);
   InitializeStringModule(&event_system_);
+  InitializeAttributesModule(&event_system_, &world_.attributes_component,
+                             &world_.graph_component);
   InitializeVec3Module(&event_system_);
 }
 
@@ -401,7 +406,7 @@ void Game::Run() {
     if (fps_time_counter_ >= 1000) {
       // Show a count of how many frames we actually rendered during the
       // previous second.
-      //LogInfo("Running at %d FPS", fps_frame_counter_);
+      // LogInfo("Running at %d FPS", fps_frame_counter_);
       // Set it as an attribute on the player so we can show it on screen.
       if (world_.active_player_entity) {
         AttributesData* attrib_data =
@@ -412,8 +417,8 @@ void Game::Run() {
                 : nullptr;
 
         if (attrib_data != nullptr)
-          attrib_data->attributes[AttributeDef_FramesPerSecond] =
-              fps_frame_counter_;
+          attrib_data->set_attribute(AttributeDef_FramesPerSecond,
+                                      fps_frame_counter_);
       }
       fps_time_counter_ -= 1000;
       fps_frame_counter_ = 0;
