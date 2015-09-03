@@ -7,6 +7,7 @@
     { "name": "fern_tall", "recenter": 1 },
     { "name": "grass", "recenter": 1 },
     { "name": "Lady_Mandrill", "hierarchy": 1 },
+    { "name": "Hippo", "hierarchy": 1 },
     { "name": "fern_short", "hierarchy": 1 }
   ]
 }
