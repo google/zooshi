@@ -318,7 +318,11 @@ FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('graph.fbs', SCHEMA_PATHS),
         extension='.fplgraph',
-        input_files=glob.glob(os.path.join(RAW_GRAPH_DEF_PATH, '*.json')))
+        input_files=glob.glob(os.path.join(RAW_GRAPH_DEF_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=find_in_paths('save_data.fbs', SCHEMA_PATHS),
+        extension='.bin',
+        input_files=[]),
 ]
 
 

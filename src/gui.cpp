@@ -91,11 +91,12 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
-    gui::SetMargin(gui::Margin(200, 400, 200, 100));
-
     if (show_licences_) {
       // Show 'Licenses' screen.
       OptionMenuLicenses();
+    } else if (show_audio_) {
+      // Show 'Audo' screen.
+      OptionMenuAudio();
     } else {
       OptionMenuMain();
     }
@@ -113,6 +114,9 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
         gui::kEventWentUp) {
       if (show_licences_) {
         show_licences_ = false;
+      } else if (show_audio_) {
+        show_audio_ = false;
+        SaveData();
       } else {
         next_state = kMenuStateStart;
       }
@@ -151,25 +155,6 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
       }
       gui::EndGroup();
     }
-
-    // Show 'Audio' dialog box.
-    if (show_audio_) {
-      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "audio_overlay");
-      gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                         mathfu::kZeros2f);
-      gui::ModalGroup();
-      gui::SetMargin(gui::Margin(10));
-      gui::SetTextColor(vec4(1.0, 1.0, 1.0, 1.0));
-      gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
-      gui::Label("Audio settings.", 32);
-      gui::Label("Music volume: <slider>", 32);
-      gui::Label("Effect volume: <slider>", 32);
-      if (TextButton("OK", 32, gui::Margin(2)) & gui::kEventWentUp) {
-        show_audio_ = false;
-      }
-      gui::EndGroup();
-    }
-
     gui::EndGroup();  // Overlay group.
   });
 
@@ -177,6 +162,8 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
 }
 
 void GameMenuState::OptionMenuMain() {
+  gui::SetMargin(gui::Margin(200, 400, 200, 100));
+
   gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
   gui::SetMargin(gui::Margin(5));
   gui::SetTextColor(kColorBrown);
@@ -187,8 +174,7 @@ void GameMenuState::OptionMenuMain() {
     show_about_ = true;
   }
 
-  if (TextButton("Licenses", kButtonSize, gui::Margin(2)) &
-      gui::kEventWentUp) {
+  if (TextButton("Licenses", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
     scroll_offset_ = mathfu::kZeros2i;
     show_licences_ = true;
   }
@@ -204,6 +190,8 @@ void GameMenuState::OptionMenuMain() {
 }
 
 void GameMenuState::OptionMenuLicenses() {
+  gui::SetMargin(gui::Margin(200, 400, 200, 100));
+
   gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
   gui::SetMargin(gui::Margin(5));
   gui::SetTextColor(kColorBrown);
@@ -219,5 +207,41 @@ void GameMenuState::OptionMenuLicenses() {
   gui::EndGroup();
   gui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
 }
+
+void GameMenuState::OptionMenuAudio() {
+  auto original_music_volume = slider_value_music_;
+  auto original_effect_volume = slider_value_effect_;
+  gui::SetMargin(gui::Margin(200, 200, 200, 100));
+
+  gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
+  gui::SetMargin(gui::Margin(0, 50, 0, 50));
+  gui::SetTextColor(kColorBrown);
+  gui::Label("Audio", kButtonSize);
+  gui::EndGroup();
+
+  gui::StartGroup(gui::kLayoutHorizontalCenter, 20);
+  gui::Label("Music volume", kAudioOptionButtonSize);
+  gui::SetMargin(gui::Margin(0, 40, 0, 0));
+  gui::Slider(*slider_back_, *slider_knob_, vec2(400, 60), 0.6f, "MusicVolume",
+              &slider_value_music_);
+
+  gui::EndGroup();
+  gui::StartGroup(gui::kLayoutHorizontalCenter, 20);
+  gui::Label("Effect volume", kAudioOptionButtonSize);
+  gui::SetMargin(gui::Margin(0, 40, 0, 0));
+  auto event = gui::Slider(*slider_back_, *slider_knob_, vec2(400, 60), 0.6f,
+                           "EffectVolume", &slider_value_effect_);
+  if (event & gui::kEventWentUp || event & gui::kEventEndDrag) {
+    // Play some effect.
+    audio_engine_->PlaySound("fed_bird");
+  }
+  gui::EndGroup();
+
+  if (original_music_volume != slider_value_music_ ||
+      original_effect_volume != slider_value_effect_) {
+    UpdateVolumes();
+  }
+}
+
 }  // fpl_project
 }  // fpl

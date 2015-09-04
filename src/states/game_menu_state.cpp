@@ -26,6 +26,7 @@
 #include "motive/init.h"
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
+#include "save_data_generated.h"
 #include "states/states.h"
 #include "states/states_common.h"
 #include "world.h"
@@ -85,9 +86,20 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
 #ifdef ANDROID_CARDBOARD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
+  slider_back_ =
+      asset_manager_->LoadTexture("textures/ui_scrollbar_background.webp");
+  slider_knob_ = asset_manager_->LoadTexture("textures/ui_scrollbar_knob.webp");
+
   if (!LoadFile(manifest->license_file()->c_str(), &license_text_)) {
     LogError("License text not found.");
   }
+
+  sound_effects_bus_ = audio_engine->FindBus("sound_effects");
+  voices_bus_ = audio_engine->FindBus("voices");
+  music_bus_ = audio_engine->FindBus("music");
+  LoadData();
+
+  UpdateVolumes();
 }
 
 void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
@@ -138,6 +150,46 @@ void GameMenuState::OnEnter() {
 }
 
 void GameMenuState::OnExit() { music_channel_.Stop(); }
+
+void GameMenuState::LoadData() {
+  // Set default values.
+  slider_value_effect_ = kEffectVolumeDefault;
+  slider_value_music_ = kMusicVolumeDefault;
+
+  // Retrieve save file path.
+  std::string storage_path;
+  std::string data;
+  auto ret = GetStoragePath(kSaveAppName, &storage_path);
+  if (ret && LoadFile((storage_path + kSaveFileName).c_str(), &data)) {
+    auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
+    slider_value_effect_ = save_data->effect_volume();
+    slider_value_music_ = save_data->music_volume();
+  }
+}
+
+void GameMenuState::SaveData() {
+  // Create FlatBuffer for save data.
+  flatbuffers::FlatBufferBuilder fbb;
+  SaveDataBuilder builder(fbb);
+  builder.add_effect_volume(slider_value_effect_);
+  builder.add_music_volume(slider_value_music_);
+  auto offset = builder.Finish();
+  FinishSaveDataBuffer(fbb, offset);
+
+  // Retrieve save file path.
+  std::string storage_path;
+  auto ret = GetStoragePath(kSaveAppName, &storage_path);
+  if (ret) {
+    SaveFile((storage_path + kSaveFileName).c_str(), fbb.GetBufferPointer(),
+             fbb.GetSize());
+  }
+}
+
+void GameMenuState::UpdateVolumes() {
+  sound_effects_bus_.SetGain(slider_value_effect_);
+  voices_bus_.SetGain(slider_value_effect_);
+  music_bus_.SetGain(slider_value_music_);
+}
 
 }  // fpl_project
 }  // fpl
