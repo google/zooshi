@@ -80,6 +80,10 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   background_options_ =
       asset_manager_->LoadTexture("textures/ui_background_options.webp");
   button_back_ = asset_manager_->LoadTexture("textures/ui_button_back.webp");
+
+#ifdef ANDROID_CARDBOARD
+  cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
+#endif
 }
 
 void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {

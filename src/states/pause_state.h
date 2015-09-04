@@ -32,7 +32,7 @@ struct InputConfig;
 class PauseState : public StateNode {
  public:
   virtual ~PauseState() {}
-  void Initialize(InputSystem* input_system, World* world,
+  void Initialize(InputSystem* input_system, World* world, const Config* config,
                   AssetManager* asset_manager, FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine);
   virtual void AdvanceFrame(int delta_time, int* next_state);

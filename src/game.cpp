@@ -342,13 +342,13 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_->AddComponentToUpdate(
       component_library::RenderMeshComponent::GetComponentId());
 
-  pause_state_.Initialize(&input_, &world_, &asset_manager_, &font_manager_,
-                          &audio_engine_);
-  gameplay_state_.Initialize(&input_, &world_, &GetInputConfig(),
+  const Config* config = &GetConfig();
+  pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
+                          &font_manager_, &audio_engine_);
+  gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
                              world_editor_.get(), &audio_engine_);
-  game_menu_state_.Initialize(&input_, &world_, &input_controller_,
-                              &GetConfig(), &asset_manager_, &font_manager_,
-                              &audio_engine_);
+  game_menu_state_.Initialize(&input_, &world_, &input_controller_, config,
+                              &asset_manager_, &font_manager_, &audio_engine_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 

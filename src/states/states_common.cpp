@@ -40,9 +40,7 @@ static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
     cardboard_camera->set_facing(camera.facing());
     cardboard_camera->set_up(camera.up());
 
-    mat4 camera_transform = cardboard_camera->GetTransformMatrix();
-    renderer.model_view_projection() = camera_transform;
-    world->world_renderer->RenderWorld(camera, renderer, world);
+    world->world_renderer->RenderWorld(*cardboard_camera, renderer, world);
   };
 
   HeadMountedDisplayRender(input_system, &renderer, kGreenishColor,

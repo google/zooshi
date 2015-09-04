@@ -11,6 +11,8 @@
   "gravity": -30.0,
   "bullet_max_steps": 5,
 
+  "cardboard_viewport_angle": 1.570796, // 90 degrees
+
   "river_config" : {
     "rail_filename": "rails/player_path.bin",
     "spline_stepsize": 700.0,

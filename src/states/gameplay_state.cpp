@@ -120,6 +120,7 @@ void GameplayState::Render(Renderer* renderer) {
 }
 
 void GameplayState::Initialize(InputSystem* input_system, World* world,
+                               const Config* config,
                                const InputConfig* input_config,
                                editor::WorldEditor* world_editor,
                                pindrop::AudioEngine* audio_engine) {
@@ -133,6 +134,12 @@ void GameplayState::Initialize(InputSystem* input_system, World* world,
   music_gameplay_lap_1_ = audio_engine->GetSoundHandle("music_gameplay_lap_1");
   music_gameplay_lap_2_ = audio_engine->GetSoundHandle("music_gameplay_lap_2");
   music_gameplay_lap_3_ = audio_engine->GetSoundHandle("music_gameplay_lap_3");
+
+#ifdef ANDROID_CARDBOARD
+  cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
+#else
+  (void)config;
+#endif
 }
 
 void GameplayState::OnEnter() {

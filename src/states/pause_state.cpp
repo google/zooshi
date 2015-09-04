@@ -25,7 +25,7 @@ namespace fpl {
 namespace fpl_project {
 
 void PauseState::Initialize(InputSystem* input_system, World* world,
-                            AssetManager* asset_manager,
+                            const Config* config, AssetManager* asset_manager,
                             FontManager* font_manager,
                             pindrop::AudioEngine* audio_engine) {
   asset_manager_ = asset_manager;
@@ -39,6 +39,12 @@ void PauseState::Initialize(InputSystem* input_system, World* world,
 
   background_paused_ =
       asset_manager_->LoadTexture("textures/ui_background_options.webp");
+
+#ifdef ANDROID_CARDBOARD
+  cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
+#else
+  (void)config;
+#endif
 }
 
 void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {

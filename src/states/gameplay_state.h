@@ -40,7 +40,7 @@ class WorldRenderer;
 class GameplayState : public StateNode {
  public:
   void Initialize(InputSystem* input_system, World* world,
-                  const InputConfig* input_config,
+                  const Config* config, const InputConfig* input_config,
                   editor::WorldEditor* world_editor,
                   pindrop::AudioEngine* audio_engine);
 

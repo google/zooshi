@@ -173,6 +173,9 @@ table Config {
   // The maximum number of steps to advance bullet each frame
   bullet_max_steps: int;
 
+  // The viewport angle to use when in Cardboard.
+  cardboard_viewport_angle:float;
+
   world_editor_config: fpl.editor.WorldEditorConfig;
 
   // Entity files to load.
