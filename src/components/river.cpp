@@ -122,10 +122,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   AssetManager* asset_manager =
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
-  const size_t num_bank_contours = river->banks()->Length();
+  const size_t num_bank_contours = river->default_banks()->Length();
   const size_t num_bank_quads = num_bank_contours - 2;
   const size_t river_idx = river->river_index();
-  const float river_width = river->width();
   const size_t segment_count = track.size();
   const size_t river_vert_max = segment_count * 2;
   const size_t river_index_max = (segment_count - 1) * kNumIndicesPerQuad;
@@ -154,7 +153,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
 
   std::vector<unsigned int> bank_zones;  // indexed by segment
   bank_zones.resize(segment_count, 0);   // default of 0
-  unsigned int current_zone = 0;
+  unsigned int zone_id = 0;
 
   // TODO: Use a local random number generator. Resetting the global random
   //       number generator is not a nice. Also, there's no guarantee that
@@ -167,17 +166,20 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   for (size_t i = 0; i < segment_count; i++) {
     const float fraction =
         static_cast<float>(i) / static_cast<float>(segment_count);
-    if (current_zone + 1 < river->zones()->Length() &&
-        fraction > river->zones()->Get(current_zone + 1)->zone_start()) {
-      actual_zone_end[current_zone] = fraction;
-      current_zone = current_zone + 1;
+    if (zone_id + 1 < river->zones()->Length() &&
+        fraction > river->zones()->Get(zone_id + 1)->zone_start()) {
+      actual_zone_end[zone_id] = fraction;
+      zone_id = zone_id + 1;
     }
   }
   // Start over from zone 0.
-  current_zone = 0;
+  zone_id = 0;
 
-  Material* current_bank_material = asset_manager->LoadMaterial(
-      river->zones()->Get(current_zone)->material()->c_str());
+  const RiverZone* current_zone = river->zones()->Get(zone_id);
+  Material* current_bank_material =
+      asset_manager->LoadMaterial(current_zone->material()->c_str());
+  float river_width = current_zone->width() != 0 ? current_zone->width()
+                                                 : river->default_width();
 
   // Construct the actual mesh data for the river:
   std::vector<vec2> offsets(num_bank_contours);
@@ -202,16 +204,21 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     const float fraction =
         static_cast<float>(i) / static_cast<float>(segment_count);
 
-    if (fraction >= actual_zone_end[current_zone]) {
-      current_zone = current_zone + 1;
+    if (fraction >= actual_zone_end[zone_id]) {
+      zone_id = zone_id + 1;
+      current_zone = river->zones()->Get(zone_id);
       // Each zone has its own texture.
+      current_bank_material =
+          asset_manager->LoadMaterial(current_zone->material()->c_str());
+      // Each zone has its own river width.
+      river_width = current_zone->width() != 0 ? current_zone->width()
+                                               : river->default_width();
       current_bank_material = asset_manager->LoadMaterial(
-          river->zones()->Get(current_zone)->material()->c_str());
+          river->zones()->Get(zone_id)->material()->c_str());
     }
-    bank_zones[i] = current_zone;
-    float zone_start =
-        current_zone == 0 ? 0 : actual_zone_end[current_zone - 1];
-    float zone_end = actual_zone_end[current_zone];
+    bank_zones[i] = zone_id;
+    float zone_start = zone_id == 0 ? 0 : actual_zone_end[zone_id - 1];
+    float zone_end = actual_zone_end[zone_id];
     float within_fraction = (fraction - zone_start) / (zone_end - zone_start);
     if (current_bank_material->textures().size() == 1) {
       // Ensure we stay continuous with transitional zones.
@@ -228,7 +235,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     // side == distance along `track_normal`
     // up == distance along kAxisZ3f
     for (size_t j = 0; j < num_bank_contours; ++j) {
-      const RiverBankContour* b = river->banks()->Get(j);
+      const RiverBankContour* b = (current_zone->banks() != nullptr)
+                                      ? current_zone->banks()->Get(j)
+                                      : river->default_banks()->Get(j);
       offsets[j] =
           vec2(mathfu::Lerp(b->x_min(), b->x_max(), mathfu::Random<float>()),
                mathfu::Lerp(b->z_min(), b->z_max(), mathfu::Random<float>()));
