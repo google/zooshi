@@ -62,11 +62,10 @@ table RiverBankContour {
 // 0 to 1.
 table RiverZone {
   zone_start:float;
-  tex_x_min:float = 0.0;
-  tex_x_max:float = 1.0;
-  tex_y_min:float = 0.0;
-  tex_y_max:float = 1.0;
   material:string;
+  width:float = 0;
+  banks:[RiverBankContour];  // Override the default riverbanks - must be the
+                             // same size as RiverConfig's default_banks().
 }
 
 table RiverConfig {
@@ -79,8 +78,8 @@ table RiverConfig {
 
   // Detail the cross section of the procedurally-generated banks.
   // See the diagram in RiverBankContour for more information.
-  banks:[RiverBankContour];
-  width: float;
+  default_banks:[RiverBankContour];
+  default_width: float;
 
   // Zones for the riverbank. Each zone specifies a material to use.
   zones:[RiverZone];
