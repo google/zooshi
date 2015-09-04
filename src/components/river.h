@@ -23,6 +23,7 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
+#include "pthread.h"
 #include "rail_denizen.h"
 
 namespace fpl {
@@ -32,14 +33,16 @@ namespace fpl_project {
 // (Mostly rendermesh at the moment.)  This will probably be less empty
 // once the river gets more animated.
 struct RiverData {
+  RiverData()
+      : render_mesh_needs_update_(false),
+        random_seed(static_cast<unsigned int>(rand())) {}
   std::vector<entity::EntityRef> banks;
   std::string rail_name;
-
+  // Flag for whether this river needs its meshes updated.
+  bool render_mesh_needs_update_;
   // River generation has random elements, so we seed the random number
   // generator the same way every time we reload the river.
   unsigned int random_seed;
-
-  RiverData() : random_seed(static_cast<unsigned int>(rand())) {}
 };
 
 class RiverComponent : public entity::Component<RiverData> {
@@ -52,8 +55,16 @@ class RiverComponent : public entity::Component<RiverData> {
 
   void UpdateRiverMeshes(entity::EntityRef entity);
 
+  // Updates the meshes for the river.
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // IMPORTANT:  This will break if called from any thread other than
+  // the main render thread.  Do not call from the update thread!
+  void UpdateRiverMeshes();
+
  private:
+  void TriggerRiverUpdate(RiverData* river_data);
   void CreateRiverMesh(entity::EntityRef& entity);
+  pthread_mutex_t update_river_mutex_;
 };
 
 }  // fpl_project

@@ -134,13 +134,19 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
+void GameMenuState::RenderPrep(Renderer* renderer) {
+  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+}
+
 void GameMenuState::Render(Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_CARDBOARD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
+}
 
+void GameMenuState::HandleUI(Renderer* renderer) {
   // No culling when drawing the menu.
   renderer->SetCulling(Renderer::kNoCulling);
 

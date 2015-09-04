@@ -64,6 +64,13 @@ class Game {
   bool Initialize(const char* const binary_directory);
   void Run();
 
+  // TODO(ccornell): Replace with SDL threads.
+  static pthread_mutex_t renderthread_mutex_;
+  static pthread_mutex_t updatethread_mutex_;
+  static pthread_mutex_t gameupdate_mutex_;
+  static pthread_cond_t start_render_cv_;
+  static pthread_cond_t start_update_cv_;
+
  private:
   bool InitializeRenderer();
   bool InitializeAssets();
@@ -137,7 +144,9 @@ class Game {
   // it is distict from game_state_.time_, which is *not* tied to the real-world
   // clock. If the game is paused, game_state.time_ will pause, but
   // prev_world_time_ will keep chugging.
-  WorldTime prev_world_time_;
+  WorldTime prev_render_time_;
+
+  bool game_exiting_;
 
   std::string rail_source_;
 
@@ -156,8 +165,6 @@ class Game {
   // Google Play Game Services Manager.
   GPGManager gpg_manager_;
 
-  int fps_frame_counter_;
-  WorldTime fps_time_counter_;
 };
 
 }  // fpl_project
