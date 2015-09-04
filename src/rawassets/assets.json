@@ -129,6 +129,11 @@
           "anims/Patron_HIT.fplanim",    // PatronAction_Fed
           "anims/Patron_FALL.fplanim",   // PatronAction_Fall
         ]
+      }, // AnimObject_FernShort
+      {
+        "anim_files": [
+          "anims/fern_short_sway.fplanim",
+        ]
       },
     ]
   },

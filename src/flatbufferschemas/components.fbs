@@ -49,7 +49,7 @@ enum AnimObject : byte {
   LovelyGiraffette,
   BankerBird,
   MenacingCroc,
-  // TODO: add Fern, etc.
+  FernShort,
 }
 
 enum PatronAction : byte {

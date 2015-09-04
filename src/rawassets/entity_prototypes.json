@@ -2506,10 +2506,17 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": "fpl.AnimObject.FernShort",
+            "anim_table_start_idx": 0
+          }
+        },
+        {
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_short.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shader": "shaders/textured_skinned_lit",
             "culling": ["ViewAngle", "Distance"],
           }
         }
@@ -2548,7 +2555,8 @@
             "entity_id": "FernMid_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
-        },                  {
+        },
+        {
           "data_type": "TransformDef",
           "data": {
           }
