@@ -381,12 +381,19 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
       auto physics_component =
           entity_manager_->GetComponent<PhysicsComponent>();
       if (event->action == EditorEventAction_Enter) {
-        // Make the patrons stand up
+        // Make the patrons visible and give them physics for ray casting
+        RenderMeshComponent* rm_component =
+            entity_manager_->GetComponent<RenderMeshComponent>();
+        TransformComponent* tf_component =
+            entity_manager_->GetComponent<TransformComponent>();
         for (auto iter = component_data_.begin(); iter != component_data_.end();
              ++iter) {
           entity::EntityRef patron = iter->entity;
           physics_component->UpdatePhysicsFromTransform(patron);
           physics_component->EnablePhysics(patron);
+
+          rm_component->SetHiddenRecursively(
+              tf_component->GetRootParent(patron), false);
         }
       } else if (event->action == EditorEventAction_Exit) {
         PostLoadFixup();
