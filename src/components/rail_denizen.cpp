@@ -97,8 +97,8 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
       transform_data->orientation = mathfu::quat::RotateFromTo(
           rail_denizen_data->Velocity(), mathfu::kAxisY3f);
       if (rail_denizen_data->inherit_transform_data) {
-        transform_data->orientation = rail_denizen_data->rail_orientation
-            * transform_data->orientation;
+        transform_data->orientation =
+            rail_denizen_data->rail_orientation * transform_data->orientation;
       }
     }
 
@@ -149,7 +149,7 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
       auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
                                ->component_def_binary_schema();
       auto schema = reflection::GetSchema(binary_schema);
-      auto table_def = schema->objects()->LookupByKey("ActionDef");
+      auto table_def = schema->objects()->LookupByKey("TaggedActionDefList");
       flatbuffers::Offset<ActionDef> table =
           flatbuffers::CopyTable(
               fbb, *schema, *table_def,

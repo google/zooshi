@@ -89,7 +89,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
       auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
                                ->component_def_binary_schema();
       auto schema = reflection::GetSchema(binary_schema);
-      auto table_def = schema->objects()->LookupByKey("ActionDef");
+      auto table_def = schema->objects()->LookupByKey("TaggedActionDefList");
       flatbuffers::Offset<ActionDef> table =
           flatbuffers::CopyTable(
               fbb, *schema, *table_def,
@@ -209,10 +209,10 @@ void PatronComponent::PostLoadFixup() {
       if (rail_denizen_data->inherit_transform_data) {
         TransformData* patron_transform = Data<TransformData>(patron);
         rail_denizen_data->rail_offset += patron_transform->position;
-        rail_denizen_data->rail_scale = patron_transform->scale
-          * rail_denizen_data->rail_scale;
-        rail_denizen_data->rail_orientation = patron_transform->orientation
-          * rail_denizen_data->rail_orientation;
+        rail_denizen_data->rail_scale =
+            patron_transform->scale * rail_denizen_data->rail_scale;
+        rail_denizen_data->rail_orientation =
+            patron_transform->orientation * rail_denizen_data->rail_orientation;
       }
       rail_denizen_data->enabled = false;
     }

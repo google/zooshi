@@ -87,11 +87,12 @@ void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
     auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
                              ->component_def_binary_schema();
     auto schema = reflection::GetSchema(binary_schema);
-    auto table_def = schema->objects()->LookupByKey("ActionDef");
+    auto table_def = schema->objects()->LookupByKey("TaggedActionDefList");
     flatbuffers::Offset<ActionDef> table =
         flatbuffers::CopyTable(
             fbb, *schema, *table_def,
-            *(const flatbuffers::Table*)player_def->on_fire()).o;
+            *(const flatbuffers::Table*)player_def->on_fire())
+            .o;
     fbb.Finish(table);
     player_data->set_on_fire_flatbuffer(std::vector<uint8_t>(
         fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()));
