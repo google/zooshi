@@ -96,6 +96,10 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     if (rail_denizen_data->update_orientation) {
       transform_data->orientation = mathfu::quat::RotateFromTo(
           rail_denizen_data->Velocity(), mathfu::kAxisY3f);
+      if (rail_denizen_data->inherit_transform_data) {
+        transform_data->orientation = rail_denizen_data->rail_orientation
+            * transform_data->orientation;
+      }
     }
 
     float previous_lap = rail_denizen_data->lap;
@@ -175,6 +179,8 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   }
   data->update_orientation =
       rail_denizen_def->update_orientation() ? true : false;
+  data->inherit_transform_data =
+      rail_denizen_def->inherit_transform_data() ? true : false;
   data->enabled = rail_denizen_def->enabled() ? true : false;
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
@@ -246,6 +252,7 @@ RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
   builder.add_rail_orientation(&rail_orientation);
   builder.add_rail_scale(&rail_scale);
   builder.add_update_orientation(data->update_orientation);
+  builder.add_inherit_transform_data(data->inherit_transform_data);
   builder.add_enabled(data->enabled);
 
   fbb.Finish(builder.Finish());

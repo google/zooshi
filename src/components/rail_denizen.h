@@ -43,6 +43,7 @@ struct RailDenizenData {
         rail_offset(mathfu::kZeros3f),
         rail_orientation(mathfu::quat::identity),
         rail_scale(mathfu::kOnes3f),
+        inherit_transform_data(false),
         enabled(true) {}
 
   void Initialize(const Rail& rail, float start_time);
@@ -61,6 +62,7 @@ struct RailDenizenData {
   mathfu::quat rail_orientation;
   mathfu::vec3 rail_scale;
   bool update_orientation;
+  bool inherit_transform_data;
   bool enabled;
 };
 

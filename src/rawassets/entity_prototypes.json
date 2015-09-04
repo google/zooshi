@@ -1435,6 +1435,17 @@
           }
         },
         {
+          "data_type": "RailDenizenDef",
+          "data" : {
+            "start_time": 0,
+            "rail_name" : "line_loop",
+            "initial_playback_rate": 0.75,
+            "update_orientation": true,
+            "inherit_transform_data": true,
+            "rail_scale": { "x": 5, "y": 5, "z": 5 }
+          }
+        },
+        {
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"

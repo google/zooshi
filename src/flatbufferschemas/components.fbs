@@ -34,6 +34,7 @@ table RailDenizenDef {
   rail_orientation:Vec3; // Rotation to apply to the rail
   rail_scale:Vec3; // Scale to apply to the rail
   update_orientation:bool = true;
+  inherit_transform_data:bool = false;
   enabled:bool = true;
 }
 
