@@ -17,14 +17,14 @@
 #include <string>
 
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 #include "fplbase/utilities.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Prints a string to the logger.
-class ConsolePrintNode : public event::NodeInterface {
+class ConsolePrintNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<std::string>();

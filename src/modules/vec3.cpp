@@ -15,7 +15,7 @@
 #include "modules/vec3.h"
 
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 #include "mathfu/glsl_mappings.h"
 
 using mathfu::vec3;
@@ -24,7 +24,7 @@ namespace fpl {
 namespace fpl_project {
 
 // Creates a vector from 3 floats.
-class Vec3Node : public event::NodeInterface {
+class Vec3Node : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<float>();
@@ -42,7 +42,7 @@ class Vec3Node : public event::NodeInterface {
 };
 
 // Returns the individual elements of the given vector.
-class ElementsNode : public event::NodeInterface {
+class ElementsNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
@@ -60,7 +60,7 @@ class ElementsNode : public event::NodeInterface {
 };
 
 // Adds the two given vectors.
-class AddNode : public event::NodeInterface {
+class AddNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
@@ -76,7 +76,7 @@ class AddNode : public event::NodeInterface {
 };
 
 // Subtracts the two given vectors.
-class SubtractNode : public event::NodeInterface {
+class SubtractNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
@@ -91,7 +91,7 @@ class SubtractNode : public event::NodeInterface {
   }
 };
 
-class ScalarMultiplyNode : public event::NodeInterface {
+class ScalarMultiplyNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
@@ -106,7 +106,7 @@ class ScalarMultiplyNode : public event::NodeInterface {
   }
 };
 
-class ScalarDivideNode : public event::NodeInterface {
+class ScalarDivideNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
@@ -121,7 +121,7 @@ class ScalarDivideNode : public event::NodeInterface {
   }
 };
 
-class CrossProductNode : public event::NodeInterface {
+class CrossProductNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
@@ -136,7 +136,7 @@ class CrossProductNode : public event::NodeInterface {
   }
 };
 
-class DotProductNode : public event::NodeInterface {
+class DotProductNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();

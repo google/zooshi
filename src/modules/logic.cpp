@@ -14,14 +14,14 @@
 
 #include "modules/logic.h"
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // clang-format off
 #define LOGICAL_NODE(name, op)                                     \
-  class name : public event::NodeInterface {                       \
+  class name : public event::BaseNode {                            \
    public:                                                         \
     static void OnRegister(event::NodeSignature* node_sig) {       \
       node_sig->AddInput<bool>();                                  \
@@ -42,7 +42,7 @@ LOGICAL_NODE(OrNode, ||);
 LOGICAL_NODE(XorNode, ^);
 
 // Logical Not.
-class NotNode : public event::NodeInterface {
+class NotNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<bool>();

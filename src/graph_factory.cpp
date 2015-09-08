@@ -150,7 +150,7 @@ static bool ParseGraphFlatbuffer(event::EventSystem* event_system,
   }
 
   // Finalize Nodes and fill in default values.
-  if (!graph->FinalizeNodes(event_system)) return false;
+  if (!graph->FinalizeNodes()) return false;
   for (size_t node_index = 0; node_index != graph_def->node_list()->size();
        ++node_index) {
     const graph::NodeDef* node_def = graph_def->node_list()->Get(node_index);

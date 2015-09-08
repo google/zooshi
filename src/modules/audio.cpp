@@ -15,7 +15,7 @@
 #include "modules/audio.h"
 
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 
@@ -26,7 +26,7 @@ namespace fpl_project {
 
 // Plays the given sound. Also takes a gain and location arguments.
 // Returns the channel the sound is playing on as an output.
-class PlaySoundNode : public event::NodeInterface {
+class PlaySoundNode : public event::BaseNode {
  public:
   PlaySoundNode(pindrop::AudioEngine* audio_engine)
       : audio_engine_(audio_engine) {}
@@ -52,7 +52,7 @@ class PlaySoundNode : public event::NodeInterface {
 };
 
 // Checks if a given audio channel is playing.
-class PlayingNode : public event::NodeInterface {
+class PlayingNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
@@ -68,7 +68,7 @@ class PlayingNode : public event::NodeInterface {
 };
 
 // Stops the given audio channel.
-class StopNode : public event::NodeInterface {
+class StopNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
@@ -83,7 +83,7 @@ class StopNode : public event::NodeInterface {
 };
 
 // Set the gain on the given audio channel.
-class SetGainNode : public event::NodeInterface {
+class SetGainNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
@@ -100,7 +100,7 @@ class SetGainNode : public event::NodeInterface {
 };
 
 // Returns the gain of the given audio channel.
-class GainNode : public event::NodeInterface {
+class GainNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
@@ -116,7 +116,7 @@ class GainNode : public event::NodeInterface {
 };
 
 // Sets the location of the given sound channel.
-class SetLocationNode : public event::NodeInterface {
+class SetLocationNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
@@ -133,7 +133,7 @@ class SetLocationNode : public event::NodeInterface {
 };
 
 // Returns the location of the given audio channel.
-class LocationNode : public event::NodeInterface {
+class LocationNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();

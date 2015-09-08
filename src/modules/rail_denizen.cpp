@@ -19,13 +19,13 @@
 #include "components/rail_denizen.h"
 #include "entity/entity_manager.h"
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Returns the rail denizen component data of the given entity.
-class RailDenizenNode : public event::NodeInterface {
+class RailDenizenNode : public event::BaseNode {
  public:
   RailDenizenNode(RailDenizenComponent* rail_denizen_component)
       : rail_denizen_component_(rail_denizen_component) {}
@@ -45,7 +45,7 @@ class RailDenizenNode : public event::NodeInterface {
 };
 
 // Returns the lap value from the given rail denizen data.
-class LapNode : public event::NodeInterface {
+class LapNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<RailDenizenDataRef>();

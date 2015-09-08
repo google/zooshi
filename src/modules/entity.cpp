@@ -15,7 +15,7 @@
 #include "modules/entity.h"
 
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 #include "mathfu/glsl_mappings.h"
 #include "entity/entity_manager.h"
 #include "components/services.h"
@@ -25,7 +25,7 @@ namespace fpl {
 namespace fpl_project {
 
 // Returns the entity representing the raft.
-class RaftEntityNode : public event::NodeInterface {
+class RaftEntityNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddOutput<entity::EntityRef>();
@@ -43,7 +43,7 @@ class RaftEntityNode : public event::NodeInterface {
 };
 
 // Given an input string, return the named entity.
-class EntityNode : public event::NodeInterface {
+class EntityNode : public event::BaseNode {
  public:
   EntityNode(component_library::MetaComponent* meta_component)
       : meta_component_(meta_component) {}
@@ -66,7 +66,7 @@ class EntityNode : public event::NodeInterface {
 };
 // Returns the entity that owns the graph that is currently executing. This node
 // is only valid on graphs that are owned by an entity.
-class GraphEntityNode : public event::NodeInterface {
+class GraphEntityNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddOutput<entity::EntityRef>();

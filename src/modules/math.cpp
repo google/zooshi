@@ -17,7 +17,7 @@
 #include <algorithm>
 
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -25,7 +25,7 @@ namespace fpl_project {
 // clang-format off
 #define COMPARISON_NODE(name, op)                                  \
   template <typename T>                                            \
-  class name : public event::NodeInterface {                       \
+  class name : public event::BaseNode {                            \
    public:                                                         \
     static void OnRegister(event::NodeSignature* node_sig) {       \
       node_sig->AddInput<T>();                                     \
@@ -42,7 +42,7 @@ namespace fpl_project {
 
 #define ARITHMETIC_NODE(name, op)                                  \
   template <typename T>                                            \
-  class name : public event::NodeInterface {                       \
+  class name : public event::BaseNode {                            \
    public:                                                         \
     static void OnRegister(event::NodeSignature* node_sig) {       \
       node_sig->AddInput<T>();                                     \
@@ -89,7 +89,7 @@ ARITHMETIC_NODE(MultiplyNode, *);
 ARITHMETIC_NODE(DivideNode, / );
 
 template <typename T>
-class MaxNode : public event::NodeInterface {
+class MaxNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<T>();
@@ -105,7 +105,7 @@ class MaxNode : public event::NodeInterface {
 };
 
 template <typename T>
-class MinNode : public event::NodeInterface {
+class MinNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<T>();

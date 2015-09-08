@@ -18,13 +18,13 @@
 #include <sstream>
 
 #include "event/event_system.h"
-#include "event/node_interface.h"
+#include "event/base_node.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Converts the given int to a string.
-class IntToStringNode : public event::NodeInterface {
+class IntToStringNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<int>();
@@ -40,7 +40,7 @@ class IntToStringNode : public event::NodeInterface {
 };
 
 // Converts the given float to a string.
-class FloatToStringNode : public event::NodeInterface {
+class FloatToStringNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<float>();
@@ -56,7 +56,7 @@ class FloatToStringNode : public event::NodeInterface {
 };
 
 // Contactenates the given strings.
-class ConcatNode : public event::NodeInterface {
+class ConcatNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<std::string>();
