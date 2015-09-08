@@ -38,7 +38,7 @@ void PauseState::Initialize(InputSystem* input_system, World* world,
   sound_exit_ = audio_engine->GetSoundHandle("exit");
 
   background_paused_ =
-      asset_manager_->LoadTexture("textures/ui_background_options.webp");
+      asset_manager_->LoadTexture("textures/ui_background_base.webp");
 
 #ifdef ANDROID_CARDBOARD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());

@@ -107,9 +107,9 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::StartGroup(gui::kLayoutVerticalRight, 0);
     // Positioning the UI to up-left corner of the dialog.
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(-360, -260));
+                       mathfu::vec2(-400, -250));
     gui::SetTextColor(kColorLightBrown);
-    if (ImageButtonWithLabel(*button_back_, 60, gui::Margin(50, 25, 30, 40),
+    if (ImageButtonWithLabel(*button_back_, 60, gui::Margin(60, 35, 40, 50),
                              "Back") &
         gui::kEventWentUp) {
       if (show_licences_) {
@@ -175,7 +175,7 @@ void GameMenuState::OptionMenuMain() {
   }
 
   if (TextButton("Licenses", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
-    scroll_offset_ = mathfu::kZeros2i;
+    scroll_offset_ = mathfu::kZeros2f;
     show_licences_ = true;
   }
 
@@ -193,17 +193,33 @@ void GameMenuState::OptionMenuLicenses() {
   gui::SetMargin(gui::Margin(200, 400, 200, 100));
 
   gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
-  gui::SetMargin(gui::Margin(5));
+  gui::SetMargin(gui::Margin(0, 20, 0, 35));
   gui::SetTextColor(kColorBrown);
   gui::Label("Licenses", kButtonSize);
   gui::EndGroup();
 
   gui::SetTextColor(kColorDarkGray);
   gui::SetTextFont("fonts/NotoSans-Bold.ttf");
+
+  gui::StartGroup(gui::kLayoutHorizontalCenter);
   gui::StartGroup(gui::kLayoutVerticalLeft, 20, "scroll");
   gui::StartScroll(kScrollAreaSize, &scroll_offset_);
-  gui::Label(license_text_.c_str(), 25, vec2(900, 0));
+  gui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x(), 0));
+  vec2 scroll_size = gui::GroupSize();
   gui::EndScroll();
+  gui::EndGroup();
+
+  // Normalize the scroll offset to use for the scroll bar value.
+  auto scroll_height = (scroll_size.y() - kScrollAreaSize.y());
+  auto scrollbar_value = scroll_offset_.y() / scroll_height;
+  gui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
+                 vec2(35, kScrollAreaSize.y()),
+                 kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
+                 &scrollbar_value);
+
+  // Convert back the scroll bar value to the scroll offset.
+  scroll_offset_.y() = scrollbar_value * scroll_height;
+
   gui::EndGroup();
   gui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
 }

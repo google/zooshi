@@ -80,7 +80,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   background_title_ =
       asset_manager_->LoadTexture("textures/ui_background_main.webp");
   background_options_ =
-      asset_manager_->LoadTexture("textures/ui_background_options.webp");
+      asset_manager_->LoadTexture("textures/ui_background_base.webp");
   button_back_ = asset_manager_->LoadTexture("textures/ui_button_back.webp");
 
 #ifdef ANDROID_CARDBOARD
@@ -89,6 +89,10 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   slider_back_ =
       asset_manager_->LoadTexture("textures/ui_scrollbar_background.webp");
   slider_knob_ = asset_manager_->LoadTexture("textures/ui_scrollbar_knob.webp");
+  scrollbar_back_ = asset_manager_->LoadTexture(
+      "textures/ui_scrollbar_background_vertical.webp");
+  scrollbar_foreground_ =
+      asset_manager_->LoadTexture("textures/ui_scrollbar_foreground.webp");
 
   if (!LoadFile(manifest->license_file()->c_str(), &license_text_)) {
     LogError("License text not found.");
