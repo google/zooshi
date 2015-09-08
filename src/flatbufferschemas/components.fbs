@@ -97,6 +97,13 @@ table PatronDef {
   // The tag of the physics body that needs to be hit to trigger a fall.
   // An empty name uses all bodies.
   target_tag:string;
+
+  // The maximum distance the patron will move when trying to catch sushi.
+  max_catch_distance:float = 5.0;
+
+  // The maximum angle off of the vector to the raft that the patron with turn
+  // to face when trying to catch sushi. Note that 180 fully encompasses it.
+  max_catch_angle:float = 90.0;
 }
 
 table PlayerDef {

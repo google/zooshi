@@ -117,6 +117,13 @@ struct PatronData {
   // an AnimationComponent.
   entity::EntityRef render_child;
 
+  // The maximum distance that the patron will move when trying to catch sushi.
+  float max_catch_distance;
+
+  // The maximum angle off of the vector to the raft that the patron will turn
+  // to face when trying to catch sushi. Note that 180 fully encompasses it.
+  float max_catch_angle;
+
   // Position to add onto the patron's trajectory.
   // Amount added on = delta_position.Value() - prev_delta_position
   motive::Motivator3f delta_position;

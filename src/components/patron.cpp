@@ -61,9 +61,9 @@ using motive::MotiveTime;
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kSplatterCount = 10;
 static const float kLapWaitAmount = 0.5f;
-static const float kMaxCatchDist = 5.0f;
+static const float kMaxCatchTime = 1.5f;
 static const float kHeightRangeBuffer = 0.05f;
-static const Range kCatchTimeRangeInSeconds(0.01f, 10.0f);
+static const Range kCatchTimeRangeInSeconds(0.01f, kMaxCatchTime);
 static const float kCatchReturnTime = 1.0f;
 
 void PatronComponent::Init() {
@@ -126,6 +126,9 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   if (patron_def->target_tag()) {
     patron_data->target_tag = patron_def->target_tag()->str();
   }
+
+  patron_data->max_catch_distance = patron_def->max_catch_distance();
+  patron_data->max_catch_angle = patron_def->max_catch_angle();
 }
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
@@ -161,6 +164,8 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_pop_in_radius(data->pop_in_radius);
   builder.add_pop_out_radius(data->pop_out_radius);
   builder.add_target_tag(target_tag);
+  builder.add_max_catch_distance(data->max_catch_distance);
+  builder.add_max_catch_angle(data->max_catch_angle);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
@@ -597,9 +602,17 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
   const Range target_height_range = TargetHeightRange(patron);
   const vec3 return_position_xy = ZeroHeight(patron_data->return_position);
 
+  // Gather data about the raft, which is needed in the calculations.
+  const EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  const TransformData* raft_transform = Data<TransformData>(raft);
+  const vec3 raft_position_xy = ZeroHeight(raft_transform->position);
+
   // Loop through every projectile. Keep a reference to the closest one.
   const EntityRef* closest_ref = nullptr;
-  float closest_dist_sq = kMaxCatchDist * kMaxCatchDist;
+  float max_dist_sq =
+      patron_data->max_catch_distance * patron_data->max_catch_distance;
+  float closest_dist_sq = max_dist_sq;
   for (auto it = projectile_component->begin();
        it != projectile_component->end(); ++it) {
     // Get movement state of projectile.
@@ -639,14 +652,14 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
       const float dist_sq =
           (return_position_xy - closest_position_ignore_height_xy)
               .LengthSquared();
-      if (dist_sq > kMaxCatchDist * kMaxCatchDist) continue;
+      if (dist_sq > max_dist_sq) continue;
     }
 
     // Get the closest time at a catchable height.
     const float closest_t = CalculateClosestTimeInHeightRange(
         closest_t_ignore_height, kCatchTimeRangeInSeconds, target_height_range,
         projectile_position.z(), projectile_velocity.z(), config_->gravity());
-    if (closest_t <= 0.0f) continue;
+    if (closest_t <= 0.0f || closest_t > kMaxCatchTime) continue;
 
     // Calculate the projectile position at `closest_t`.
     const vec3 closest_position_xy =
@@ -654,6 +667,14 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
     const float dist_sq =
         (patron_position_xy - closest_position_xy).LengthSquared();
     if (dist_sq > closest_dist_sq) continue;
+
+    // Don't face too far away from the player in order to catch thrown sushi.
+    Angle angle_to_sushi =
+        Angle::FromYXVector(projectile_position_xy - closest_position_xy);
+    Angle angle_to_raft =
+        Angle::FromYXVector(raft_position_xy - closest_position_xy);
+    Angle difference = angle_to_raft - angle_to_sushi;
+    if (fabs(difference.ToDegrees()) > patron_data->max_catch_angle) continue;
 
     // TODO: prefer projectiles that are slightly farther but with much more
     //       time to close the distance.
