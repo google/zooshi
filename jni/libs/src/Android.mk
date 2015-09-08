@@ -123,7 +123,8 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/events.fbs \
   $(ZOOSHI_SCHEMA_DIR)/graph.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs
+  $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/save_data.fbs
 
 # Make each source file dependent upon the assets
 $(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): build_assets))

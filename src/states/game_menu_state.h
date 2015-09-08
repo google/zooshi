@@ -50,7 +50,13 @@ const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 const auto kMenuSize = 140;
 const auto kButtonSize = 140;
+const auto kAudioOptionButtonSize = 100;
 const auto kScrollAreaSize = vec2(900, 600);
+
+const auto kEffectVolumeDefault = 1.0f;
+const auto kMusicVolumeDefault = 1.0f;
+const auto kSaveFileName = "save_data.bin";
+const auto kSaveAppName = "zooshi";
 
 class GameMenuState : public StateNode {
  public:
@@ -72,6 +78,14 @@ class GameMenuState : public StateNode {
                        InputSystem& input);
   void OptionMenuMain();
   void OptionMenuLicenses();
+  void OptionMenuAudio();
+
+  // Save/Load data to strage using FlatBuffres binary data.
+  void SaveData();
+  void LoadData();
+
+  // Set sound volumes based on volume settings.
+  void UpdateVolumes();
 
   // The world to display in the background.
   World* world_;
@@ -116,6 +130,8 @@ class GameMenuState : public StateNode {
   Texture* background_title_;
   Texture* background_options_;
   Texture* button_back_;
+  Texture* slider_back_;
+  Texture* slider_knob_;
 
   // Option menu state.
   vec2i scroll_offset_;
@@ -126,6 +142,14 @@ class GameMenuState : public StateNode {
   bool show_licences_;
   bool show_how_to_play_;
   bool show_audio_;
+
+  float slider_value_effect_;
+  float slider_value_music_;
+
+  // Buses to control sound volumes.
+  pindrop::Bus sound_effects_bus_;
+  pindrop::Bus voices_bus_;
+  pindrop::Bus music_bus_;
 };
 
 }  // fpl_project
