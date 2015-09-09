@@ -3,12 +3,16 @@
     "textures/ui_button_ok.webp",
     "textures/ui_button_back.webp",
     "textures/ui_background_main.webp",
-    "textures/ui_background_options.webp",
+    "textures/ui_background_base.webp",
     "textures/ui_scrollbar_background.webp",
+    "textures/ui_scrollbar_background_vertical.webp",
+    "textures/ui_scrollbar_foreground.webp",
     "textures/ui_scrollbar_knob.webp"
   ],
   "blendmode": "ALPHA",
   "desired_format" : [
+    "F_8888",
+    "F_8888",
     "F_8888",
     "F_8888",
     "F_8888",

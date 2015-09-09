@@ -51,7 +51,7 @@ const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 const auto kMenuSize = 140;
 const auto kButtonSize = 140;
 const auto kAudioOptionButtonSize = 100;
-const auto kScrollAreaSize = vec2(900, 600);
+const auto kScrollAreaSize = vec2(900, 550);
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;
@@ -132,9 +132,11 @@ class GameMenuState : public StateNode {
   Texture* button_back_;
   Texture* slider_back_;
   Texture* slider_knob_;
+  Texture* scrollbar_back_;
+  Texture* scrollbar_foreground_;
 
   // Option menu state.
-  vec2i scroll_offset_;
+  vec2 scroll_offset_;
   std::string license_text_;
 
   // In-game menu state.
