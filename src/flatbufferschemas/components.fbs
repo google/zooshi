@@ -55,7 +55,8 @@ enum AnimObject : byte {
 enum PatronAction : byte {
   GetUp,
   Idle,
-  Fed,
+  Eat,
+  Satisfied,
   Fall,
 }
 

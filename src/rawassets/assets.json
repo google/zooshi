@@ -6,8 +6,7 @@
     "meshes/Lady_Mandrill.fplmesh",
     "meshes/menacing_croc.fplmesh",
     "meshes/Crocodile.fplmesh",
-    "meshes/hungry_hippo.fplmesh",
-    "meshes/Hippo.fplmesh",
+    "meshes/Hippo_RIG.fplmesh",
     "meshes/Bird.fplmesh",
     "meshes/Giraffe.fplmesh",
     "meshes/ground.fplmesh",
@@ -84,17 +83,19 @@
     "lists" : [
       { // AnimObject_HungryHippo
         "anim_files": [
-          "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Fed
-          "anims/Patron_FALL.fplanim",   // PatronAction_Fall
+          "anims/Hippo_APPEAR.fplanim",     // PatronAction_GetUp
+          "anims/Hippo_IDLE.fplanim",       // PatronAction_Idle
+          "anims/Hippo_EAT.fplanim",        // PatronAction_Eat
+          "anims/Hippo_HAPPY.fplanim",      // PatronAction_Satisfied
+          "anims/Hippo_DISAPPEAR.fplanim",  // PatronAction_Fall
         ]
       },
       { // AnimObject_DapperCroc
         "anim_files": [
           "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
           "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Fed
+          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
+          "",                            // PatronAction_Satisfied
           "anims/Patron_FALL.fplanim",   // PatronAction_Fall
         ]
       },
@@ -102,7 +103,8 @@
         "anim_files": [
           "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
           "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Fed
+          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
+          "",                            // PatronAction_Satisfied
           "anims/LadyMandrill_happy_exit.fplanim", // PatronAction_Fall
         ]
       },
@@ -110,7 +112,8 @@
         "anim_files": [
           "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
           "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Fed
+          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
+          "",                            // PatronAction_Satisfied
           "anims/Patron_FALL.fplanim",   // PatronAction_Fall
         ]
       },
@@ -118,7 +121,8 @@
         "anim_files": [
           "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
           "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Fed
+          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
+          "",                            // PatronAction_Satisfied
           "anims/Patron_FALL.fplanim",   // PatronAction_Fall
         ]
       },
@@ -126,7 +130,8 @@
         "anim_files": [
           "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
           "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Fed
+          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
+          "",                            // PatronAction_Satisfied
           "anims/Patron_FALL.fplanim",   // PatronAction_Fall
         ]
       }, // AnimObject_FernShort

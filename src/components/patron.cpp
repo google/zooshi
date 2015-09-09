@@ -57,6 +57,7 @@ using mathfu::kZeros3f;
 using mathfu::quat;
 using mathfu::vec3;
 using motive::MotiveTime;
+using motive::kMotiveTimeEndless;
 
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kSplatterCount = 10;
@@ -65,6 +66,13 @@ static const float kMaxCatchTime = 1.5f;
 static const float kHeightRangeBuffer = 0.05f;
 static const Range kCatchTimeRangeInSeconds(0.01f, kMaxCatchTime);
 static const float kCatchReturnTime = 1.0f;
+static const MotiveTime kTimeInActions[] = {
+  kMotiveTimeEndless, // PatronAction_GetUp
+  kMotiveTimeEndless, // PatronAction_Idle
+  800,                // PatronAction_Eating
+  1200,               // PatronAction_Satisfied
+  kMotiveTimeEndless, // PatronAction_Fall
+};
 
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
@@ -332,12 +340,27 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     // animation.
     AnimationData* anim_data = Data<AnimationData>(patron_data->render_child);
     if (anim_data->motivator.Valid()) {
-      const MotiveTime time_remaining = anim_data->motivator.TimeRemaining();
-      const bool anim_ending =
-          time_remaining < static_cast<MotiveTime>(delta_time);
+      const MotiveTime anim_delta_time = static_cast<MotiveTime>(delta_time);
+      patron_data->time_remaining_in_action -= anim_delta_time;
+
+      const MotiveTime time_remaining =
+          std::min(anim_data->motivator.TimeRemaining(),
+                   patron_data->time_remaining_in_action);
+      const bool anim_ending = time_remaining < anim_delta_time;
+
       if (anim_ending) {
         switch (patron_data->state) {
-          case kPatronStateFed:
+          case kPatronStateEating:
+            if (HasAnim(patron_data, PatronAction_Satisfied)) {
+              patron_data->state = kPatronStateSatisfied;
+              Animate(patron_data, PatronAction_Satisfied);
+              break;
+            }
+            //fallthrough
+            // Fallthrough to "falling" state if satisfied animation doesn't
+            // exist.
+
+          case kPatronStateSatisfied:
             patron_data->state = kPatronStateFalling;
             Animate(patron_data, PatronAction_Fall);
             break;
@@ -369,10 +392,19 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   }
 }
 
-void PatronComponent::Animate(const PatronData* patron_data,
-                              PatronAction action) {
+bool PatronComponent::HasAnim(const PatronData* patron_data,
+                              PatronAction action) const {
+  return entity_manager_->GetComponent<AnimationComponent>()->HasAnim(
+      patron_data->render_child, action);
+}
+
+void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {
   entity_manager_->GetComponent<AnimationComponent>()->AnimateFromTable(
       patron_data->render_child, action);
+
+  assert(0 <= action &&
+         action < static_cast<PatronAction>(FPL_ARRAYSIZE(kTimeInActions)));
+  patron_data->time_remaining_in_action = kTimeInActions[action];
 }
 
 void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
@@ -434,8 +466,8 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
     // If the target tag was hit, consider it being fed
     if (patron_data->target_tag == "" || patron_data->target_tag == part_tag) {
       // TODO: Make state change an action.
-      patron_data->state = kPatronStateFed;
-      Animate(patron_data, PatronAction_Fed);
+      patron_data->state = kPatronStateEating;
+      Animate(patron_data, PatronAction_Eat);
       patron_data->last_lap_fed = raft_rail_denizen->lap;
 
       // Disable physics and rail movement after they have been fed
@@ -728,8 +760,8 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   // face angle with equal `target_position` and `target_face_angle`.
   const vec3 delta_position = target_position - position;
   const Angle delta_face_angle = target_face_angle - face_angle;
-  const motive::MotiveTime target_time_ms =
-      static_cast<motive::MotiveTime>(1000.0f * target_time);
+  const MotiveTime target_time_ms =
+      static_cast<MotiveTime>(1000.0f * target_time);
 
   // Set the delta movement Motivators.
   patron_data->prev_delta_position = vec3(kZeros3f);

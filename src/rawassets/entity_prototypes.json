@@ -1260,15 +1260,15 @@
             "orientation": {
               "x": 0.0,
               "y": 0.0,
-              "z": -60.0
+              "z": 0.0
             }
           }
         },
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/Hippo.fplmesh",
-            "shader": "shaders/textured_lit",
+            "source_file": "meshes/Hippo_RIG.fplmesh",
+            "shader": "shaders/textured_skinned_lit",
             "render_pass": ["Alpha"],
             "culling": ["ViewAngle", "Distance"]
           }

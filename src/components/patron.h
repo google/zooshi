@@ -43,13 +43,16 @@ enum PatronState {
   // Standing up, ready to be hit by the player.
   kPatronStateUpright,
 
-  // The patron has been fed, and is enjoying the sushi.
-  kPatronStateFed,
+  // The patron has just been fed, and is enjoying the sushi.
+  kPatronStateEating,
+
+  // The patron has finished eating the sushi, and is hanging out being happy.
+  kPatronStateSatisfied,
 
   // The is falling down after being fed, or after going out of range.
   kPatronStateFalling,
 
-  // The patron is within range of the boad, and is standing up.
+  // The patron is within range of the raft, and is standing up.
   kPatronStateGettingUp,
 };
 
@@ -70,6 +73,8 @@ struct PatronData {
       : on_collision(nullptr),
         state(kPatronStateLayingDown),
         catching_state(kCatchingStateIdle),
+        anim_object(AnimObject_HungryHippo),
+        time_remaining_in_action(motive::kMotiveTimeEndless),
         last_lap_fed(-1.0f) {}
 
   // The event to trigger when a projectile collides with this patron.
@@ -85,6 +90,9 @@ struct PatronData {
   // The type of patron being animated. Each patron has its own set of
   // animations.
   AnimObject anim_object;
+
+  // When reaches zero, should transition to next state.
+  motive::MotiveTime time_remaining_in_action;
 
   // Keep track of the last time this patron was fed so we know when they
   // can pop back up.
@@ -170,7 +178,8 @@ class PatronComponent : public entity::Component<PatronData>,
   void UpdateMovement(const entity::EntityRef& patron);
   void SpawnSplatter(const mathfu::vec3& position, int count);
   void SpawnPointDisplay(const mathfu::vec3& position);
-  void Animate(const PatronData* patron_data, PatronAction action);
+  bool HasAnim(const PatronData* patron_data, PatronAction action) const;
+  void Animate(PatronData* patron_data, PatronAction action);
   Range TargetHeightRange(const entity::EntityRef& patron) const;
   const entity::EntityRef* ClosestProjectile(const entity::EntityRef& patron,
                                              mathfu::vec3* closest_position,
