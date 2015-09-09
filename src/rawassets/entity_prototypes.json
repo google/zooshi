@@ -3188,7 +3188,7 @@
               "x": 0,
               "y": 0,
               "z": 0
-            },
+            }
           }
         },
         {
@@ -3206,9 +3206,8 @@
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/+100.fplmesh",
-            "shader": "shaders/textured",
-            "render_pass" : ["Alpha"]
+            "source_file": "meshes/HEART.fplmesh",
+            "shader": "shaders/textured"
           }
         },
         {
@@ -3216,10 +3215,8 @@
           "data": {
             "timelimit": 3.0
           }
-        },
-
+        }
       ]
     }
-
   ]
 }
