@@ -86,6 +86,9 @@ option(zooshi_build_cwebp "Build cwebp from source." ON)
 # Option to only build flatc
 option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
 
+# Option to output profiling numbers on motive.
+option(zooshi_profile_motive "Output motive profiling stats." OFF)
+
 # Include pindrop.
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
@@ -100,6 +103,10 @@ endif()
 if(NOT zooshi_only_flatc AND NOT TARGET motive)
   set(motive_build_samples OFF CACHE BOOL "")
   set(motive_build_tests OFF CACHE BOOL "")
+  if(zooshi_profile_motive)
+    set(motive_enable_benchmarks ON CACHE BOOL "")
+    add_definitions(-DBENCHMARK_MOTIVE)
+  endif()
   add_subdirectory("${dependencies_motive_dir}" ${tmp_dir}/motive)
 endif()
 

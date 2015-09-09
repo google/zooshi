@@ -43,6 +43,7 @@
 #include "motive/init.h"
 #include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
+#include "motive/util/benchmark.h"
 #include "pindrop/pindrop.h"
 #include "world.h"
 
@@ -284,6 +285,7 @@ void Game::InitializeEventSystem() {
 // debugging and readability to have each section lexographically separate.
 bool Game::Initialize(const char* const binary_directory) {
   LogInfo("Zooshi Initializing...");
+  InitBenchmarks(10);
 
   input_.Initialize();
 
@@ -404,6 +406,9 @@ void Game::Run() {
     }
 
     if (fps_time_counter_ >= 1000) {
+      OutputBenchmarks();
+      ClearBenchmarks();
+
       // Show a count of how many frames we actually rendered during the
       // previous second.
       // LogInfo("Running at %d FPS", fps_frame_counter_);
