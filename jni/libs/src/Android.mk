@@ -32,6 +32,13 @@ build_assets: $(flatc_target)
 	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets/shaders \
 $(ZOOSHI_DIR)/assets
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py
+	-mkdir -p $(ZOOSHI_DIR)/assets/flatbufferschemas
+	# Create a binary schema file for the components.fbs schema.
+	$(FLATBUFFERS_FLATC) -b --schema \
+	  $(foreach include,$(ZOOSHI_FLATBUFFER_INCLUDE_DIRS),-I $(include)) \
+	  -o $(ZOOSHI_DIR)/assets/flatbufferschemas \
+	  $(ZOOSHI_SCHEMA_DIR)/components.fbs
+
 
 .PHONY: clean_assets
 clean_assets:
@@ -129,16 +136,19 @@ ZOOSHI_SCHEMA_FILES := \
 # Make each source file dependent upon the assets
 $(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): build_assets))
 
+ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
+  $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
+  $(DEPENDENCIES_FPLBASE_DIR)/schemas \
+  $(DEPENDENCIES_WORLD_EDITOR_DIR)/schemas \
+  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas\
+
 ifeq (,$(ZOOSHI_RUN_ONCE))
 ZOOSHI_RUN_ONCE := 1
 $(call flatbuffers_header_build_rules,\
   $(ZOOSHI_SCHEMA_FILES),\
   $(ZOOSHI_SCHEMA_DIR),\
   $(ZOOSHI_GENERATED_OUTPUT_DIR),\
-  $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
-    $(DEPENDENCIES_FPLBASE_DIR)/schemas \
-    $(DEPENDENCIES_WORLD_EDITOR_DIR)/schemas \
-    $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas,\
+  $(ZOOSHI_FLATBUFFER_INCLUDE_DIRS),\
   $(LOCAL_SRC_FILES))
 
 .PHONY: clean_generated_includes
