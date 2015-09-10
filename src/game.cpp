@@ -324,7 +324,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   InitializeEventSystem();
 
-  const auto &asset_manifest = GetAssetManifest();
+  const auto& asset_manifest = GetAssetManifest();
   for (size_t i = 0; i < asset_manifest.font_list()->size(); i++) {
     font_manager_.Open(asset_manifest.font_list()->Get(i)->c_str());
   }
@@ -343,7 +343,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(GetConfig().world_editor_config(),
-                            &world_.entity_manager);
+                            &world_.entity_manager, &font_manager_);
 
   world_editor_->AddComponentToUpdate(
       component_library::TransformComponent::GetComponentId());
@@ -359,8 +359,7 @@ bool Game::Initialize(const char* const binary_directory) {
                              world_editor_.get(), &audio_engine_);
   game_menu_state_.Initialize(&input_, &world_, &input_controller_,
                               &GetConfig(), &asset_manager_, &font_manager_,
-                              &GetAssetManifest(),
-                              &audio_engine_);
+                              &GetAssetManifest(), &audio_engine_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 
@@ -423,7 +422,7 @@ void Game::Run() {
 
         if (attrib_data != nullptr)
           attrib_data->set_attribute(AttributeDef_FramesPerSecond,
-                                      fps_frame_counter_);
+                                     fps_frame_counter_);
       }
       fps_time_counter_ -= 1000;
       fps_frame_counter_ = 0;
