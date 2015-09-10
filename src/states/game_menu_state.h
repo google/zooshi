@@ -51,7 +51,7 @@ const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 const auto kMenuSize = 140;
 const auto kButtonSize = 140;
 const auto kAudioOptionButtonSize = 100;
-const auto kScrollAreaSize = vec2(900, 550);
+const auto kScrollAreaSize = vec2(900, 500);
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;

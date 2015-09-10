@@ -193,7 +193,7 @@ void GameMenuState::OptionMenuLicenses() {
   gui::SetMargin(gui::Margin(200, 400, 200, 100));
 
   gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
-  gui::SetMargin(gui::Margin(0, 20, 0, 35));
+  gui::SetMargin(gui::Margin(0, 20, 0, 55));
   gui::SetTextColor(kColorBrown);
   gui::Label("Licenses", kButtonSize);
   gui::EndGroup();
@@ -202,7 +202,8 @@ void GameMenuState::OptionMenuLicenses() {
   gui::SetTextFont("fonts/NotoSans-Bold.ttf");
 
   gui::StartGroup(gui::kLayoutHorizontalCenter);
-  gui::StartGroup(gui::kLayoutVerticalLeft, 20, "scroll");
+  gui::SetMargin(gui::Margin(50, 0, 0, 0));
+  gui::StartGroup(gui::kLayoutVerticalCenter, 0, "scroll");
   gui::StartScroll(kScrollAreaSize, &scroll_offset_);
   gui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x(), 0));
   vec2 scroll_size = gui::GroupSize();
