@@ -17,6 +17,7 @@
 #include <math.h>
 #include <stdarg.h>
 
+#include "anim_generated.h"
 #include "assets_generated.h"
 #include "audio_config_generated.h"
 #include "common.h"
@@ -203,6 +204,18 @@ Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
   return mesh;
 }
 
+// In our game, `anim_name` is the same as the animation file. Use it directly
+// to load the file into scratch_buf, and return the pointer to it.
+const motive::RigAnimFb* LoadRigAnim(const char* anim_name,
+                                     std::string* scratch_buf) {
+  const bool load_ok = LoadFile(anim_name, scratch_buf);
+  if (!load_ok) {
+    LogError("Failed to load animation file %s.\n", anim_name);
+    return nullptr;
+  }
+  return motive::GetRigAnimFb(scratch_buf->c_str());
+}
+
 // Load textures for cardboard into 'materials_'. The 'renderer_' and
 // 'asset_manager_' members have been initialized at this point.
 bool Game::InitializeAssets() {
@@ -226,16 +239,11 @@ bool Game::InitializeAssets() {
       asset_manager_.LoadShader("shaders/lit_textured_normal");
   shader_textured_ = asset_manager_.LoadShader("shaders/textured");
 
-  // Load animation table:
+  // Load the animation table and all animations it references.
   motive::AnimTable& anim_table = world_.animation_component.anim_table();
-  anim_table.InitFromFlatBuffers(*asset_manifest.anims());
-
-  // Load all animations referenced by the animation table:
-  const char* anim_not_found = LoadAnimTableAnimations(&anim_table, LoadFile);
-  if (anim_not_found != nullptr) {
-    LogError("Failed to load animation file %s.\n", anim_not_found);
-    return false;
-  }
+  const bool anim_ok = anim_table.InitFromFlatBuffers(*asset_manifest.anims(),
+                                                      LoadRigAnim);
+  if (!anim_ok) return false;
 
   return true;
 }
