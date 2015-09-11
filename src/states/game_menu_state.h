@@ -45,18 +45,26 @@ enum MenuState {
 // Constant defintions for UI elements. Colors, button sizes etc.
 const auto kColorBrown = vec4(0.37f, 0.24f, 0.09f, 0.85f);
 const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 0.85f);
+const auto kColorLightGray = vec4(0.4f, 0.4f, 0.4f, 0.85f);
 const auto kColorDarkGray = vec4(0.1f, 0.1f, 0.1f, 0.85f);
 const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
-const auto kMenuSize = 140.0f;
-const auto kButtonSize = 140.0f;
-const auto kAudioOptionButtonSize = 100.0f;
-const auto kScrollAreaSize = vec2(900.0f, 500.0f);
+#ifdef USING_GOOGLE_PLAY_GAMES
+const auto kMenuSize = 100;
+const auto kButtonSize = 100;
+#else
+const auto kMenuSize = 140;
+const auto kButtonSize = 140;
+#endif
+const auto kAudioOptionButtonSize = 100;
+const auto kScrollAreaSize = vec2(900, 500);
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;
 const auto kSaveFileName = "save_data.bin";
 const auto kSaveAppName = "zooshi";
+const auto kGPGDefaultLeaderboard = 0;
+
 
 class GameMenuState : public StateNode {
  public:
@@ -64,6 +72,7 @@ class GameMenuState : public StateNode {
                   BasePlayerController* player_controller, const Config* config,
                   AssetManager* asset_manager, FontManager* font_manager,
                   const AssetManifest* manifest,
+                  GPGManager *gpg_manager,
                   pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
@@ -96,15 +105,21 @@ class GameMenuState : public StateNode {
   Camera cardboard_camera_;
 #endif
 
-  // IMGUI uses InputSystem for an input handling for a touch, gamepad,
+  // In mobile platforms, UI has menu items for Google Play Game service.
+  GPGManager *gpg_manager_;
+
+  // FlatUI uses InputSystem for an input handling for a touch, gamepad,
   // mouse and keyboard.
   InputSystem* input_system_;
 
-  // IMGUI loads resources using AssetManager.
+  // FlatUI loads resources using AssetManager.
   AssetManager* asset_manager_;
 
-  // IMGUI uses FontManager for a text rendering.
+  // FlatUI uses FontManager for a text rendering.
   FontManager* font_manager_;
+
+  // Asset manifest used to retrieve configurations.
+  const Config* config_;
 
   // The audio engine, so that sound effects can be played.
   pindrop::AudioEngine* audio_engine_;
@@ -134,6 +149,11 @@ class GameMenuState : public StateNode {
   Texture* slider_knob_;
   Texture* scrollbar_back_;
   Texture* scrollbar_foreground_;
+#ifdef USING_GOOGLE_PLAY_GAMES
+  Texture* image_gpg_;
+  Texture* image_leaderboard_;
+  Texture* image_achievements_;
+#endif
 
   // Option menu state.
   vec2 scroll_offset_;

@@ -52,11 +52,6 @@
 #include "world_editor/world_editor.h"
 #include "world_renderer.h"
 
-#ifdef USING_GOOGLE_PLAY_GAMES
-#include "gpg_manager.h"
-#include "gpg_multiplayer.h"
-#endif
-
 namespace pindrop {
 
 class AudioEngine;

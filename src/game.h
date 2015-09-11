@@ -15,10 +15,6 @@
 #ifndef ZOOSHI_GAME_H
 #define ZOOSHI_GAME_H
 
-#ifdef PLATFORM_MOBILE
-#define USING_GOOGLE_PLAY_GAMES
-#endif
-
 #include "camera.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
@@ -35,7 +31,6 @@
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
-#include "states/game_menu_state.h"
 #include "states/gameplay_state.h"
 #include "states/pause_state.h"
 #include "states/state_machine.h"
@@ -43,10 +38,13 @@
 #include "states/world_editor_state.h"
 #include "world.h"
 
-#ifdef USING_GOOGLE_PLAY_GAMES
-#include "gpg_manager.h"
-#include "gpg_multiplayer.h"
+#if defined(PLATFORM_MOBILE)
+#define USING_GOOGLE_PLAY_GAMES
 #endif
+
+// Header files that has a dependency to GPG definitions.
+#include "gpg_manager.h"
+#include "states/game_menu_state.h"
 
 #ifdef __ANDROID__
 #include "inputcontrollers/android_cardboard_controller.h"
@@ -163,12 +161,9 @@ class Game : event::EventListener {
   // String version number of the game.
   const char* version_;
 
-#ifdef USING_GOOGLE_PLAY_GAMES
+  // Google Play Game Services Manager.
   GPGManager gpg_manager_;
 
-  // Network multiplayer library for multi-screen version
-  GPGMultiplayer gpg_multiplayer_;
-#endif
   int fps_frame_counter_;
   WorldTime fps_time_counter_;
 };

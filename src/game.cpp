@@ -73,7 +73,7 @@ static const int kQuadNumIndices = 6;
 static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
-                                            kTangent4f, kEND};
+                                            kTangent4f,  kEND};
 
 static const char kAssetsDir[] = "assets";
 
@@ -241,8 +241,8 @@ bool Game::InitializeAssets() {
 
   // Load the animation table and all animations it references.
   motive::AnimTable& anim_table = world_.animation_component.anim_table();
-  const bool anim_ok = anim_table.InitFromFlatBuffers(*asset_manifest.anims(),
-                                                      LoadRigAnim);
+  const bool anim_ok =
+      anim_table.InitFromFlatBuffers(*asset_manifest.anims(), LoadRigAnim);
   if (!anim_ok) return false;
 
   return true;
@@ -261,8 +261,8 @@ const AssetManifest& Game::GetAssetManifest() const {
 }
 
 void Game::InitializeEventSystem() {
-  event::RegisterLogFunc(
-      [](const char* fmt, va_list args) { LogError(fmt, args); });
+  event::RegisterLogFunc([](const char* fmt,
+                            va_list args) { LogError(fmt, args); });
 
   event::TypeRegistry<void>::RegisterType("Pulse");
   event::TypeRegistry<bool>::RegisterType("Bool");
@@ -360,14 +360,16 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_->AddComponentToUpdate(
       component_library::RenderMeshComponent::GetComponentId());
 
+  gpg_manager_.Initialize(false);
+
   const Config* config = &GetConfig();
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
                              world_editor_.get(), &audio_engine_);
-  game_menu_state_.Initialize(&input_, &world_, &input_controller_,
-                              &GetConfig(), &asset_manager_, &font_manager_,
-                              &GetAssetManifest(), &audio_engine_);
+  game_menu_state_.Initialize(
+      &input_, &world_, &input_controller_, &GetConfig(), &asset_manager_,
+      &font_manager_, &GetAssetManifest(), &gpg_manager_, &audio_engine_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 
@@ -445,6 +447,8 @@ void Game::Run() {
     renderer_.AdvanceFrame(input_.minimized(), input_.Time());
 
     audio_engine_.AdvanceFrame(delta_time / 1000.0f);
+
+    gpg_manager_.Update();
 
     // Process input device messages since the last game loop.
     // Update render window size.

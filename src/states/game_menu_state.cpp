@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "game.h"
 #include "states/game_menu_state.h"
 
 #include "components/sound.h"
@@ -52,6 +53,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
                                AssetManager* asset_manager,
                                FontManager* font_manager,
                                const AssetManifest* manifest,
+                               GPGManager* gpg_manager,
                                pindrop::AudioEngine* audio_engine) {
   world_ = world;
 
@@ -60,6 +62,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   asset_manager_ = asset_manager;
   font_manager_ = font_manager;
   audio_engine_ = audio_engine;
+  config_ = config;
 
   sound_start_ = audio_engine->GetSoundHandle("start");
   sound_click_ = audio_engine->GetSoundHandle("click");
@@ -97,6 +100,16 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   if (!LoadFile(manifest->license_file()->c_str(), &license_text_)) {
     LogError("License text not found.");
   }
+
+  gpg_manager_ = gpg_manager;
+
+#ifdef USING_GOOGLE_PLAY_GAMES
+  image_gpg_ = asset_manager_->LoadTexture("textures/games_controller.webp");
+  image_leaderboard_ =
+      asset_manager_->LoadTexture("textures/games_leaderboards_green.webp");
+  image_achievements_ =
+      asset_manager_->LoadTexture("textures/games_achievements_green.webp");
+#endif
 
   sound_effects_bus_ = audio_engine->FindBus("sound_effects");
   voices_bus_ = audio_engine->FindBus("voices");

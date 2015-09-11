@@ -15,5 +15,6 @@ limitations under the License.
 -->
 <resources>
     <string name="app_name">Zooshi</string>
-    <string name="app_id"></string>
+    <!-- App ID for the project -->
+    <string name="app_id">83157501420</string>
 </resources>

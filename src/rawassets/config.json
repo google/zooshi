@@ -201,5 +201,10 @@
       "entity_decorations.bin",
       "entity_ring.bin"
     ]
+  },
+  "gpg_config": {
+    "leaderboard_ids": [
+      "CgkI7IvL5LUCEAIQCQ",
+    ]
   }
 }

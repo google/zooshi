@@ -15,15 +15,23 @@
 #ifndef GPG_MANAGER_H
 #define GPG_MANAGER_H
 
+#include <string>
+
 #include "pthread.h"
+#ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg/gpg.h"
 #include "gpg/achievement_manager.h"
 #include "gpg/player_manager.h"
 #include "gpg/types.h"
+#endif
 
 namespace fpl {
 
-enum RequestState { kPending, kComplete, kFailed };
+enum RequestState {
+  kPending,
+  kComplete,
+  kFailed
+};
 
 struct GPGKeyValuePair {
   std::string id;
@@ -56,6 +64,7 @@ class GPGManager {
   void IncrementEvent(const char *event_id, uint64_t score);
 
   void ShowLeaderboards(const GPGIds *ids, size_t id_len);
+  void ShowLeaderboards(const char *id);
   void ShowAchievements();
 
   // Asynchronously fetches the stats associated with the current player
@@ -69,12 +78,13 @@ class GPGManager {
   // (Does nothing if not logged in.)
   void FetchPlayer();
 
+#ifdef USING_GOOGLE_PLAY_GAMES
   RequestState event_data_state() const { return event_data_state_; }
 
   std::map<std::string, gpg::Event> &event_data() { return event_data_; }
 
   gpg::Player *player_data() const { return player_data_.get(); }
-
+#endif
   uint64_t GetEventValue(std::string event_id);
   bool IsAchievementUnlocked(std::string achievement_id);
   void UnlockAchievement(std::string achievement_id);
@@ -83,6 +93,7 @@ class GPGManager {
   void RevealAchievement(std::string achievement_id);
 
  private:
+#ifdef USING_GOOGLE_PLAY_GAMES
   // These are the states the manager can be in, in sequential order they
   // are expected to happen.
   enum AsyncState {
@@ -115,6 +126,7 @@ class GPGManager {
   std::map<std::string, gpg::Event> event_data_;
   std::unique_ptr<gpg::Player> player_data_;
   std::vector<gpg::Achievement> achievement_data_;
+#endif
 };
 
 }  // fpl
