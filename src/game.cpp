@@ -370,12 +370,14 @@ bool Game::Initialize(const char* const binary_directory) {
   game_menu_state_.Initialize(
       &input_, &world_, &input_controller_, &GetConfig(), &asset_manager_,
       &font_manager_, &GetAssetManifest(), &gpg_manager_, &audio_engine_);
+  intro_state_.Initialize(&input_, &world_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 
   state_machine_.AssignState(kGameStateGameplay, &gameplay_state_);
   state_machine_.AssignState(kGameStatePause, &pause_state_);
   state_machine_.AssignState(kGameStateGameMenu, &game_menu_state_);
+  state_machine_.AssignState(kGameStateIntro, &intro_state_);
   state_machine_.AssignState(kGameStateWorldEditor, &world_editor_state_);
   state_machine_.SetCurrentStateId(kGameStateGameMenu);
 

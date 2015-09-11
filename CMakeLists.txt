@@ -307,6 +307,8 @@ set(zooshi_SRCS
     src/rawassets
     src/states/game_menu_state.cpp
     src/states/game_menu_state.h
+    src/states/intro_state.cpp
+    src/states/intro_state.h
     src/states/gameplay_state.cpp
     src/states/gameplay_state.h
     src/states/pause_state.cpp
