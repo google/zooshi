@@ -50,6 +50,8 @@ enum AnimObject : byte {
   BankerBird,
   MenacingCroc,
   FernShort,
+  FernMid,
+  FernTall,
 }
 
 enum PatronAction : byte {

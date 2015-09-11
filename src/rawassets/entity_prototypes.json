@@ -2562,11 +2562,18 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": "fpl.AnimObject.FernMid",
+            "anim_table_start_idx": 0
+          }
+        },
+        {
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_mid.fplmesh",
-            "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
+            "shader": "shaders/textured_skinned_lit",
+            "culling": ["ViewAngle", "Distance"],
           }
         }
       ]
@@ -2604,17 +2611,25 @@
             "entity_id": "FernTall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
-        },                  {
+        },                  
+        {
           "data_type": "TransformDef",
           "data": {
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": "fpl.AnimObject.FernTall",
+            "anim_table_start_idx": 0
           }
         },
         {
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_tall.fplmesh",
-            "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
+            "shader": "shaders/textured_skinned_lit",
+            "culling": ["ViewAngle", "Distance"],
           }
         }
       ]

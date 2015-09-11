@@ -139,7 +139,17 @@
         "anim_files": [
           "anims/fern_short_sway.fplanim",
         ]
-      },
+      }, // AnimObject_FernMid
+      {
+        "anim_files": [
+          "anims/fern_mid_sway.fplanim",
+        ]
+      }, // AnimObject_FernTall
+      {
+        "anim_files": [
+          "anims/fern_tall_sway.fplanim",
+        ]
+      }
     ]
   },
   "font_list": [
