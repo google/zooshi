@@ -38,8 +38,9 @@ void SimpleMovementComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     SimpleMovementData* simple_movement_data =
         Data<SimpleMovementData>(iter->entity);
 
-    transform_data->position += (simple_movement_data->velocity * delta_time) /
-                                fpl::kMillisecondsPerSecond;
+    transform_data->position +=
+       (simple_movement_data->velocity * static_cast<float>(delta_time)) /
+       static_cast<float>(fpl::kMillisecondsPerSecond);
   }
 }
 

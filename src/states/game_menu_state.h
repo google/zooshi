@@ -48,10 +48,10 @@ const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 0.85f);
 const auto kColorDarkGray = vec4(0.1f, 0.1f, 0.1f, 0.85f);
 const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
-const auto kMenuSize = 140;
-const auto kButtonSize = 140;
-const auto kAudioOptionButtonSize = 100;
-const auto kScrollAreaSize = vec2(900, 500);
+const auto kMenuSize = 140.0f;
+const auto kButtonSize = 140.0f;
+const auto kAudioOptionButtonSize = 100.0f;
+const auto kScrollAreaSize = vec2(900.0f, 500.0f);
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;

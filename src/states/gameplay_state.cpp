@@ -27,19 +27,6 @@ using mathfu::vec2;
 namespace fpl {
 namespace fpl_project {
 
-static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
-                               const InputConfig& input_config) {
-  vec2 delta(raw_delta);
-  delta *= input_config.mouse_sensitivity();
-  if (!input_config.invert_x()) {
-    delta.x() *= -1.0f;
-  }
-  if (!input_config.invert_y()) {
-    delta.y() *= -1.0f;
-  }
-  return delta;
-}
-
 // Update music gain based on lap number. This logic will eventually live in
 // an event graph.
 static void UpdateMusic(entity::EntityManager* entity_manager,
@@ -69,8 +56,8 @@ static void UpdateMusic(entity::EntityManager* entity_manager,
     // Equal power crossfade
     //    https://www.safaribooksonline.com/library/view/web-audio-api/9781449332679/s03_2.html
     // TODO: Add utility functions to Pindrop for this.
-    float gain_previous = cos(*percent * 0.5f * M_PI);
-    float gain_current = cos((1.0 - *percent) * 0.5 * M_PI);
+    float gain_previous = cos(*percent * 0.5f * static_cast<float>(M_PI));
+    float gain_current = cos((1.0f - *percent) * 0.5f * static_cast<float>(M_PI));
     channel_previous->SetGain(gain_previous);
     channel_current->SetGain(gain_current);
 

@@ -52,7 +52,7 @@ using fpl::component_library::TransformComponent;
 
 void Rail::Positions(float delta_time,
                      std::vector<mathfu::vec3_packed>* positions) const {
-  const size_t num_positions = std::floor(EndTime() / delta_time) + 1;
+  const size_t num_positions = static_cast<size_t>(std::floor(EndTime() / delta_time)) + 1;
   positions->resize(num_positions);
 
   CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,

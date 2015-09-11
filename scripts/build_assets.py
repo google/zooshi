@@ -101,6 +101,8 @@ CWEBP_PATHS = [
 MESH_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('mesh_pipeline')
 MESH_PIPELINE_PATHS = [
     os.path.join(FPLBASE_ROOT, 'bin', platform.system()),
+    os.path.join(PROJECT_ROOT, 'bin', platform.system(), 'Release'),
+    os.path.join(PROJECT_ROOT, 'bin', platform.system(), 'Debug'),
     (os.path.dirname(MESH_PIPELINE_BINARY_IN_PATH)
      if MESH_PIPELINE_BINARY_IN_PATH else '')
 ]
@@ -123,6 +125,8 @@ IMAGEMAGICK_PATHS = [
 ANIM_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('anim_pipeline')
 ANIM_PIPELINE_PATHS = [
     os.path.join(MOTIVE_ROOT, 'bin', platform.system()),
+    os.path.join(MOTIVE_ROOT, 'bin', 'Release', platform.system()),
+    os.path.join(MOTIVE_ROOT, 'bin', 'Debug', platform.system()),
     (os.path.dirname(ANIM_PIPELINE_BINARY_IN_PATH)
      if ANIM_PIPELINE_BINARY_IN_PATH else ''),
 ]

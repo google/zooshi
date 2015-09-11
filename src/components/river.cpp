@@ -222,7 +222,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     float within_fraction = (fraction - zone_start) / (zone_end - zone_start);
     if (current_bank_material->textures().size() == 1) {
       // Ensure we stay continuous with transitional zones.
-      within_fraction = within_fraction < .5 ? 1 : 0;
+      within_fraction = within_fraction < 0.5f ? 1.0f : 0.0f;
     }
 
     int within_color = static_cast<int>(255.0 * within_fraction);
@@ -315,13 +315,13 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   for (size_t i = 0; i < segment_count - 1; i++) {
     auto make_quad = [&](std::vector<unsigned short>& indices, int base_index,
                          int off1, int off2) {
-      indices.push_back(base_index + off1);
-      indices.push_back(base_index + off1 + 1);
-      indices.push_back(base_index + off2);
+      indices.push_back(static_cast<unsigned short>(base_index + off1));
+      indices.push_back(static_cast<unsigned short>(base_index + off1 + 1));
+      indices.push_back(static_cast<unsigned short>(base_index + off2));
 
-      indices.push_back(base_index + off2);
-      indices.push_back(base_index + off1 + 1);
-      indices.push_back(base_index + off2 + 1);
+      indices.push_back(static_cast<unsigned short>(base_index + off2));
+      indices.push_back(static_cast<unsigned short>(base_index + off1 + 1));
+      indices.push_back(static_cast<unsigned short>(base_index + off2 + 1));
     };
 
     // River only has one quad per segment.

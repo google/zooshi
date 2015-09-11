@@ -370,8 +370,7 @@ if(MSVC)
   # 4189: variable initialized but not referenced
   # 4505: function is not referenced
   # 4702: unreachable code
-  set(C_FLAGS_WARNINGS "/W4 /WX /wd4065 /wd4244 /wd4511 /wd4512 /wd4706 /wd412
-7 /wd4100 /wd4189 /wd4505 /wd4702")
+  set(C_FLAGS_WARNINGS "/W4 /WX")
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
        CMAKE_COMPILER_IS_CLANGXX)
   add_definitions(-g)

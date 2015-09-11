@@ -60,7 +60,7 @@ using motive::MotiveTime;
 using motive::kMotiveTimeEndless;
 
 // All of these numbers were picked for purely aesthetic reasons:
-static const float kSplatterCount = 10;
+static const int kSplatterCount = 10;
 static const float kLapWaitAmount = 0.5f;
 static const float kMaxCatchTime = 1.5f;
 static const float kHeightRangeBuffer = 0.05f;

@@ -430,7 +430,7 @@ void Game::Run() {
 
         if (attrib_data != nullptr)
           attrib_data->set_attribute(AttributeDef_FramesPerSecond,
-                                     fps_frame_counter_);
+                                     static_cast<float>(fps_frame_counter_));
       }
       fps_time_counter_ -= 1000;
       fps_frame_counter_ = 0;

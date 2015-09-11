@@ -102,7 +102,7 @@ bool ZooshiEntityFactory::CreateEntityDefinition(
 
   flatbuffers::FlatBufferBuilder fbb;
   std::vector<flatbuffers::Offset<ComponentDefInstance>> component_list;
-  for (size_t i = 0; i <= max_component_id(); i++) {
+  for (entity::ComponentId i = 0; i <= max_component_id(); i++) {
     // For each non-null component ID, create a ComponentDefInstance and copy
     // the data for that component in, using reflection.
     if (component_data[i] != nullptr) {

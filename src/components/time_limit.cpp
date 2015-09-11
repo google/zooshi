@@ -26,8 +26,8 @@ void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
   auto time_limit_def = static_cast<const TimeLimitDef*>(raw_data);
   TimeLimitData* time_limit_data = AddEntity(entity);
   // Time limit is specified in seconds in the data files.
-  time_limit_data->time_limit =
-      time_limit_def->timelimit() * kMillisecondsPerSecond;
+  time_limit_data->time_limit = static_cast<entity::WorldTime>(
+      time_limit_def->timelimit() * kMillisecondsPerSecond);
 }
 
 void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {
@@ -48,7 +48,7 @@ entity::ComponentInterface::RawDataUniquePtr TimeLimitComponent::ExportRawData(
 
   flatbuffers::FlatBufferBuilder fbb;
 
-  fbb.Finish(CreateTimeLimitDef(fbb, data->time_limit));
+  fbb.Finish(CreateTimeLimitDef(fbb, static_cast<float>(data->time_limit)));
   return fbb.ReleaseBufferPointer();
 }
 

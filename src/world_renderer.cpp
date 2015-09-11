@@ -50,8 +50,8 @@ void WorldRenderer::Initialize(World* world) {
 
 void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
                                     Renderer& renderer, World* world) {
-  int shadow_map_resolution =
-      world->config->rendering_config()->shadow_map_resolution();
+  float shadow_map_resolution = static_cast<float>(
+      world->config->rendering_config()->shadow_map_resolution());
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
   float shadow_map_offset =
       world->config->rendering_config()->shadow_map_offset();

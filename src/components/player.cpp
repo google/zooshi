@@ -13,8 +13,6 @@
 // limitations under the License.
 
 #include "components/player.h"
-
-#include "btBulletDynamicsCommon.h"
 #include "component_library/common_services.h"
 #include "component_library/physics.h"
 #include "component_library/transform.h"

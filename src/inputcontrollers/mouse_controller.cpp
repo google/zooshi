@@ -29,19 +29,6 @@ void MouseController::Update() {
   UpdateButtons();
 }
 
-static vec2 AdjustedMouseDelta(const vec2i& raw_delta,
-                               const InputConfig& input_config) {
-  vec2 delta(raw_delta);
-  delta *= input_config.mouse_sensitivity();
-  if (!input_config.invert_x()) {
-    delta.x() *= -1.0f;
-  }
-  if (!input_config.invert_y()) {
-    delta.y() *= -1.0f;
-  }
-  return delta;
-}
-
 void MouseController::UpdateFacing() {
   facing_.Update();
   up_.Update();
@@ -65,7 +52,7 @@ void MouseController::UpdateFacing() {
   // camera transformations are applied:
   vec3 facing_vector = facing_.Value();
   vec3 side_vector =
-      quat::FromAngleAxis(-M_PI / 2, mathfu::kAxisZ3f) * facing_vector;
+      quat::FromAngleAxis(-static_cast<float>(M_PI_2), mathfu::kAxisZ3f) * facing_vector;
 
   quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
   quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);

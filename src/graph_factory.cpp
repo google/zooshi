@@ -40,7 +40,7 @@ static bool ParseType(size_t node_index, size_t edge_index, event::Graph* graph,
       const graph::Bool* default_bool =
           static_cast<const graph::Bool*>(edge_def->edge());
       graph->SetDefaultValue<bool>(node_index, edge_index,
-                                   default_bool->value());
+                                   default_bool->value() != 0);
       break;
     }
     case graph::InputType_Int: {
