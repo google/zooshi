@@ -53,7 +53,7 @@ enum LogicalButtonTypes {
 
 class BasePlayerController {
  public:
-  BasePlayerController() {
+  BasePlayerController() : last_position_(-1) {
     facing_.SetValue(kCameraForward);
     facing_.Update();
     up_.SetValue(kCameraUp);
@@ -72,10 +72,17 @@ class BasePlayerController {
 
   LogicalVector& up() { return up_; }
 
+  const mathfu::vec2i& last_position() const { return last_position_; }
+
  protected:
   LogicalButton buttons_[kLogicalButtonCount];
   LogicalVector facing_;
   LogicalVector up_;
+
+  // The last position that the controller handled, in screen space, with 0,0
+  // as top-left. Note that having negative values indicates not having a
+  // position defined.
+  mathfu::vec2i last_position_;
 };
 
 }  // fpl_project

@@ -15,6 +15,7 @@
 #ifndef COMPONENTS_SERVICES_H_
 #define COMPONENTS_SERVICES_H_
 
+#include "camera.h"
 #include "components_generated.h"
 #include "component_library/entity_factory.h"
 #include "config_generated.h"
@@ -32,6 +33,9 @@
 
 namespace fpl {
 namespace fpl_project {
+
+// This needs to be forward declared here, as the World uses this as well.
+struct World;
 
 // Data for scene object components.
 struct ServicesData {};
@@ -52,7 +56,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
                   event::EventSystem* event_system,
                   GraphDictionary* graph_dictionary, FontManager* font_manager,
                   RailManager* rail_manager,
-                  component_library::EntityFactory* entity_factory) {
+                  component_library::EntityFactory* entity_factory,
+                  World* world) {
     config_ = config;
     asset_manager_ = asset_manager;
     input_system_ = input_system;
@@ -63,6 +68,9 @@ class ServicesComponent : public entity::Component<ServicesData> {
     font_manager_ = font_manager;
     rail_manager_ = rail_manager;
     entity_factory_ = entity_factory;
+    world_ = world;
+    // The camera is set seperately dependent on the game state.
+    camera_ = nullptr;
   }
 
   const Config* config() { return config_; }
@@ -79,6 +87,9 @@ class ServicesComponent : public entity::Component<ServicesData> {
   entity::EntityRef player_entity() { return player_entity_; }
   void set_player_entity(entity::EntityRef entity) { player_entity_ = entity; }
   component_library::EntityFactory* entity_factory() { return entity_factory_; }
+  World* world() { return world_; }
+  void set_camera(Camera* camera) { camera_ = camera; }
+  Camera* camera() { return camera_; }
 
   const void* component_def_binary_schema() const {
     if (component_def_binary_schema_ == "") {
@@ -115,6 +126,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
   entity::EntityRef player_entity_;
   component_library::EntityFactory* entity_factory_;
   std::string component_def_binary_schema_;
+  World* world_;
+  Camera* camera_;
 };
 
 }  // fpl_project

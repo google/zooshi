@@ -138,6 +138,13 @@ void GameplayState::OnEnter() {
       audio_engine_->PlaySound(music_gameplay_lap_2_, mathfu::kZeros3f, 0.0f);
   music_channel_lap_3_ =
       audio_engine_->PlaySound(music_gameplay_lap_3_, mathfu::kZeros3f, 0.0f);
+  if (world_->is_in_cardboard) {
+#ifdef ANDROID_CARDBOARD
+    world_->services_component.set_camera(&cardboard_camera_);
+#endif
+  } else {
+    world_->services_component.set_camera(&main_camera_);
+  }
 #ifdef ANDROID_CARDBOARD
   input_system_->cardboard_input().ResetHeadTracker();
 #endif  // ANDROID_CARDBOARD

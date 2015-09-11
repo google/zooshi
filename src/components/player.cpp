@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "components/player.h"
+#include "camera.h"
 #include "component_library/common_services.h"
 #include "component_library/physics.h"
 #include "component_library/transform.h"
@@ -118,8 +119,7 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   transform_data->position = transform_component->WorldPosition(source) +
                              LoadVec3(config_->projectile_offset());
   transform_data->orientation = transform_component->WorldOrientation(source);
-  vec3 forward = transform_data->orientation.Inverse() * mathfu::kAxisY3f;
-
+  const vec3 forward = CalculateProjectileDirection(source);
   vec3 velocity = config_->projectile_speed() * forward +
                   config_->projectile_upkick() * mathfu::kAxisZ3f;
 
@@ -142,6 +142,44 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   transform_component->UpdateChildLinks(projectile);
 
   return entity::EntityRef();
+}
+
+vec3 PlayerComponent::CalculateProjectileDirection(
+    entity::EntityRef source) const {
+  PlayerData* player_data = Data<PlayerData>(source);
+  TransformComponent* transform_component =
+      entity_manager_->GetComponent<TransformComponent>();
+  vec3 forward = transform_component->WorldOrientation(source).Inverse() *
+                 mathfu::kAxisY3f;
+  const Camera* camera =
+      entity_manager_->GetComponent<ServicesComponent>()->camera();
+  // Use the last position from the controller to determine the offset and
+  // direction of the projectile. In Cardboard mode this should be ignored,
+  // as we always want to fire down the center.
+  if (player_data->input_controller()->last_position().x() >= 0 &&
+      camera != nullptr &&
+      !entity_manager_->GetComponent<ServicesComponent>()
+           ->world()
+           ->is_in_cardboard) {
+    const vec2 screen_size(
+        entity_manager_->GetComponent<CommonServicesComponent>()
+            ->renderer()
+            ->window_size());
+    // We want to calculate the world ray based on the touch location.
+    // We do this by projecting it onto a plane in front of the camera, based
+    // on the viewport angle and resolution.
+    float fov_y_tan = 2.0f * tan(camera->viewport_angle() * 0.5f);
+    float fov_x_tan = fov_y_tan * camera->viewport_resolution().x() /
+                      camera->viewport_resolution().y();
+    const vec2 fov_tan(fov_x_tan, -fov_y_tan);
+    const vec2 touch(player_data->input_controller()->last_position());
+    const vec2 offset = fov_tan * (touch / screen_size - 0.5f);
+
+    const vec3 far = camera->up() * offset.y() + camera->Right() * offset.x();
+    forward = (forward + far).Normalized();
+  }
+
+  return forward;
 }
 
 entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
