@@ -256,6 +256,8 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
         if (rail_denizen_data != nullptr &&
             patron_data->state == kPatronStateUpright) {
           rail_denizen_data->enabled = true;
+          rail_denizen_data->motivator.SetSplinePlaybackRate(
+            rail_denizen_data->spline_playback_rate);
         }
       }
     }
@@ -738,6 +740,7 @@ void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
+      rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
     }
   }
 }
