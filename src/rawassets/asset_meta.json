@@ -6,14 +6,15 @@
     { "name": "fern", "hierarchy": 1 },
     { "name": "grass", "recenter": 1 },
     { "name": "Lady_Mandrill", "hierarchy": 1 },
-    { "name": "Hippo", "hierarchy": 1 }
+    { "name": "Hippo", "hierarchy": 1 },
+    { "name": "Bird", "hierarchy": 1 }
   ],
 
   "anim_meta": [
     { "name": "APPEAR", "repeat": 0 },
     { "name": "IDLE", "repeat": 1 },
     { "name": "EAT", "repeat": 0 },
-    { "name": "HAPPY", "repeat": 1 },
+    { "name": "HAPPY", "repeat": 0 },
     { "name": "DISAPPEAR", "repeat": 0 },
     { "name": "fern", "repeat": 1 }
   ]

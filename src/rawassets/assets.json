@@ -7,7 +7,7 @@
     "meshes/menacing_croc.fplmesh",
     "meshes/Crocodile.fplmesh",
     "meshes/Hippo_RIG.fplmesh",
-    "meshes/Bird.fplmesh",
+    "meshes/Bird_RIG.fplmesh",
     "meshes/Giraffe.fplmesh",
     "meshes/ground.fplmesh",
     "meshes/background.fplmesh",
@@ -119,11 +119,11 @@
       },
       { // AnimObject_BankerBird
         "anim_files": [
-          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
-          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
-          "",                               // PatronAction_Satisfied
-          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
+          "anims/Bird_APPEAR.fplanim",      // PatronAction_GetUp
+          "anims/Bird_IDLE.fplanim",        // PatronAction_Idle
+          "anims/Bird_EAT.fplanim",         // PatronAction_Eat
+          "anims/Bird_HAPPY.fplanim",       // PatronAction_Satisfied
+          "anims/Bird_DISAPPEAR.fplanim",   // PatronAction_Fall
         ]
       },
       { // AnimObject_MenacingCroc

@@ -1485,8 +1485,8 @@
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/Bird.fplmesh",
-            "shader": "shaders/textured_lit",
+            "source_file": "meshes/Bird_RIG.fplmesh",
+            "shader": "shaders/textured_skinned_lit",
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }

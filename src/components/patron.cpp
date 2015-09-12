@@ -69,8 +69,8 @@ static const float kCatchReturnTime = 1.0f;
 static const MotiveTime kTimeInActions[] = {
   kMotiveTimeEndless, // PatronAction_GetUp
   kMotiveTimeEndless, // PatronAction_Idle
-  800,                // PatronAction_Eating
-  1200,               // PatronAction_Satisfied
+  1500,               // PatronAction_Eating
+  2000,               // PatronAction_Satisfied
   kMotiveTimeEndless, // PatronAction_Fall
 };
 
