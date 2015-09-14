@@ -52,6 +52,9 @@ void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
 
   if (input_system_->GetButton(FPLK_F10).went_down() ||
       input_system_->GetButton(FPLK_ESCAPE).went_down()) {
+    world_editor_->RequestExit();
+  }
+  if (world_editor_->IsReadyToExit()) {
     *next_state = kGameStateGameplay;
   }
   if (input_system_->GetButton(FPLK_F9).went_down()) {
