@@ -52,6 +52,10 @@ class Camera : public fpl::CameraInterface {
   }
   virtual const mathfu::vec3& up() const { return up_; }
 
+  mathfu::vec3 Right() const {
+    return mathfu::vec3::CrossProduct(facing_, up_);
+  }
+
   void set_viewport_angle(float viewport_angle) {
     viewport_angle_ = viewport_angle;
   }

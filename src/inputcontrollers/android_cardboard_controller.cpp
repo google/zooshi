@@ -51,6 +51,12 @@ void AndroidCardboardController::UpdateButtons() {
   for (int i = 0; i < kLogicalButtonCount; i++) {
     buttons_[i].Update();
   }
+  // Save the position of the last touch.
+  auto button = &input_system_->GetPointerButton(0);
+  const InputPointer* pointer = &input_system_->get_pointers()[0];
+  if (button->went_down()) {
+    last_position_ = pointer->mousepos;
+  }
 #ifdef ANDROID_CARDBOARD
   buttons_[kFireProjectile].SetValue(
       input_system_->cardboard_input().triggered());

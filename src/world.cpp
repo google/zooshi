@@ -74,7 +74,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   services_component.Initialize(config, asset_manager, input_system,
                                 audio_engine, event_manager, event_system,
                                 graph_dictionary, font_manager, &rail_manager,
-                                entity_factory.get());
+                                entity_factory.get(), this);
 
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&common_services_component),

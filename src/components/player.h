@@ -74,6 +74,7 @@ class PlayerComponent : public entity::Component<PlayerData> {
   virtual void InitEntity(entity::EntityRef& entity);
 
   entity::EntityRef SpawnProjectile(entity::EntityRef source);
+  mathfu::vec3 CalculateProjectileDirection(entity::EntityRef source) const;
 
   void set_active(bool active) { active_ = active; }
 
