@@ -80,8 +80,8 @@ static const char kAssetsDir[] = "assets";
 static const char kConfigFileName[] = "config.bin";
 
 #ifdef __ANDROID__
-static const int kAndroidMaxScreenWidth = 1920;
-static const int kAndroidMaxScreenHeight = 1080;
+static const int kAndroidMaxScreenWidth = 1280;
+static const int kAndroidMaxScreenHeight = 720;
 #endif
 
 static const vec3 kCameraPos = vec3(4, 5, -10);
