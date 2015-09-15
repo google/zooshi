@@ -276,6 +276,8 @@ set(zooshi_SRCS
     src/flatbufferschemas
     src/game.cpp
     src/game.h
+    src/gpg_manager.h
+    src/gpg_manager.cpp
     src/graph_factory.cpp
     src/graph_factory.h
     src/gui.cpp

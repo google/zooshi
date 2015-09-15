@@ -7,10 +7,16 @@
     "textures/ui_scrollbar_background.webp",
     "textures/ui_scrollbar_background_vertical.webp",
     "textures/ui_scrollbar_foreground.webp",
-    "textures/ui_scrollbar_knob.webp"
+    "textures/ui_scrollbar_knob.webp",
+    "textures/games_achievements_green.webp",
+    "textures/games_controller.webp",
+    "textures/games_leaderboards_green.webp",
   ],
   "blendmode": "ALPHA",
   "desired_format" : [
+    "F_8888",
+    "F_8888",
+    "F_8888",
     "F_8888",
     "F_8888",
     "F_8888",

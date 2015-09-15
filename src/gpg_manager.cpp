@@ -12,30 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gpg/gpg.h"
-#include "gpg_manager.h"
-#include "fplbase/utilities.h"
+#include "game.h"
 
-//#define NO_GPG
+#ifdef USING_GOOGLE_PLAY_GAMES
+#include "gpg/gpg.h"
+#endif
+#include "gpg_manager.h"
 
 namespace fpl {
 
-GPGManager::GPGManager()
-    : state_(kStart), do_ui_login_(false), delayed_login_(false) {}
+GPGManager::GPGManager() {
+#ifdef USING_GOOGLE_PLAY_GAMES
+  state_ = kStart;
+  do_ui_login_ = false;
+  delayed_login_ = false;
+#endif
+}
 
+#ifdef USING_GOOGLE_PLAY_GAMES
 pthread_mutex_t GPGManager::events_mutex_ = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t GPGManager::achievements_mutex_ = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t GPGManager::players_mutex_ = PTHREAD_MUTEX_INITIALIZER;
+#endif
 
 bool GPGManager::Initialize(bool ui_login) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)ui_login;
+  return false;
+#else
   state_ = kStart;
   do_ui_login_ = ui_login;
   event_data_initialized_ = false;
   achievement_data_initialized_ = false;
   player_data_.reset(nullptr);
-#ifdef NO_GPG
-  return true;
-#endif
 
   /*
   // This code is here because we may be able to do this part of the
@@ -47,42 +56,42 @@ bool GPGManager::Initialize(bool ui_login) {
   gpg::AndroidInitialization::JNI_OnLoad(vm);
   */
   gpg::AndroidPlatformConfiguration platform_configuration;
-  platform_configuration.SetActivity(reinterpret_cast<jobject>(
-                                       AndroidGetActivity()));
+  platform_configuration.SetActivity(
+      reinterpret_cast<jobject>(AndroidGetActivity()));
 
   // Creates a games_services object that has lambda callbacks.
   game_services_ =
       gpg::GameServices::Builder()
           .SetDefaultOnLog(gpg::LogLevel::VERBOSE)
           .SetOnAuthActionStarted([this](gpg::AuthOperation op) {
-            state_ =
-                state_ == kAuthUILaunched ? kAuthUIStarted : kAutoAuthStarted;
-            LogInfo("GPG: Sign in started! (%d)", state_);
-          })
+             state_ =
+                 state_ == kAuthUILaunched ? kAuthUIStarted : kAutoAuthStarted;
+             LogInfo("GPG: Sign in started! (%d)", state_);
+           })
           .SetOnAuthActionFinished([this](gpg::AuthOperation op,
                                           gpg::AuthStatus status) {
-            LogInfo("GPG: Sign in finished with a result of %d (%d)",
-                        status, state_);
-            if (op == gpg::AuthOperation::SIGN_IN) {
-              state_ =
-                  status == gpg::AuthStatus::VALID
-                      ? kAuthed
-                      : ((state_ == kAuthUIStarted || state_ == kAuthUILaunched)
-                             ? kAuthUIFailed
-                             : kAutoAuthFailed);
-              if (state_ == kAuthed) {
-                // If we just logged in, go fetch our data!
-                FetchPlayer();
-                FetchEvents();
-                FetchAchievements();
-              }
-            } else if (op == gpg::AuthOperation::SIGN_OUT) {
-              state_ = kStart;
-              LogInfo("GPG: SIGN OUT finished with a result of %d", status);
-            } else {
-              LogInfo("GPG: unknown auth op %d", op);
-            }
-          })
+             LogInfo("GPG: Sign in finished with a result of %d (%d)", status,
+                     state_);
+             if (op == gpg::AuthOperation::SIGN_IN) {
+               state_ = status == gpg::AuthStatus::VALID
+                            ? kAuthed
+                            : ((state_ == kAuthUIStarted ||
+                                state_ == kAuthUILaunched)
+                                   ? kAuthUIFailed
+                                   : kAutoAuthFailed);
+               if (state_ == kAuthed) {
+                 // If we just logged in, go fetch our data!
+                 FetchPlayer();
+                 FetchEvents();
+                 FetchAchievements();
+               }
+             } else if (op == gpg::AuthOperation::SIGN_OUT) {
+               state_ = kStart;
+               LogInfo("GPG: SIGN OUT finished with a result of %d", status);
+             } else {
+               LogInfo("GPG: unknown auth op %d", op);
+             }
+           })
           .Create(platform_configuration);
 
   if (!game_services_) {
@@ -92,14 +101,13 @@ bool GPGManager::Initialize(bool ui_login) {
 
   LogInfo("GPG: created GameServices");
   return true;
+#endif
 }
 
 // Called every frame from the game, to see if there's anything to be done
 // with the async progress from gpg
 void GPGManager::Update() {
-#ifdef NO_GPG
-  return;
-#endif
+#ifdef USING_GOOGLE_PLAY_GAMES
   assert(game_services_);
   switch (state_) {
     case kStart:
@@ -137,24 +145,25 @@ void GPGManager::Update() {
       // We're good. TODO: Now start actually using gpg functionality...
       break;
   }
+#endif
 }
 
 bool GPGManager::LoggedIn() {
-#ifdef NO_GPG
+#ifndef USING_GOOGLE_PLAY_GAMES
   return false;
-#endif
+#else
   assert(game_services_);
   if (state_ < kAuthed) {
-    LogInfo("GPG: player not logged in, can\'t interact with gpg!");
     return false;
   }
   return true;
+#endif
 }
 
 void GPGManager::ToggleSignIn() {
-#ifdef NO_GPG
+#ifndef USING_GOOGLE_PLAY_GAMES
   return;
-#endif
+#else
   delayed_login_ = false;
   if (state_ == kAuthed) {
     LogInfo("GPG: Attempting to log out...");
@@ -167,22 +176,26 @@ void GPGManager::ToggleSignIn() {
     LogInfo("GPG: Ignoring log in/out in state %d", state_);
     delayed_login_ = true;
   }
+#endif
 }
 
 void GPGManager::IncrementEvent(const char *event_id, uint64_t score) {
-#ifdef NO_GPG
-  return;
-#endif
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)event_id;
+  (void)score;
+#else
   if (!LoggedIn()) return;
   game_services_->Events().Increment(event_id, score);
+#endif
 }
 
 // This is still somewhat game-specific.  (Because it assumes that your
 // leaderboards are tied to events.)  TODO: clean this up further later.
 void GPGManager::ShowLeaderboards(const GPGIds *ids, size_t id_len) {
-#ifdef NO_GPG
-  return;
-#endif
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)ids;
+  (void)id_len;
+#else
   if (!LoggedIn()) return;
   LogInfo("GPG: launching leaderboard UI");
   // First, get all current event counts from GPG in one callback,
@@ -203,67 +216,103 @@ void GPGManager::ShowLeaderboards(const GPGIds *ids, size_t id_len) {
         game_services_->Leaderboards().SubmitScore(leaderboard_id,
                                                    it->second.Count());
         LogInfo("GPG: submitted score %llu for id %s", it->second.Count(),
-                    leaderboard_id);
+                leaderboard_id);
       }
     }
     game_services_->Leaderboards().ShowAllUI([](const gpg::UIStatus &status) {
       LogInfo("GPG: Leaderboards UI FAILED, UIStatus is: %d", status);
     });
   });
+#endif
+}
+
+void GPGManager::ShowLeaderboards(const char *id) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)id;
+#else
+  if (!LoggedIn()) return;
+  LogInfo("GPG: launching leaderboards UI");
+  game_services_->Leaderboards().ShowUI(id, [](const gpg::UIStatus &status) {
+    LogInfo("GPG: Leaderboards UI FAILED, UIStatus is: %d", status);
+  });
+#endif
 }
 
 // Unlocks a given achievement.
 void GPGManager::UnlockAchievement(std::string achievement_id) {
   if (LoggedIn()) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+    (void)achievement_id;
+#else
     game_services_->Achievements().Unlock(achievement_id);
+#endif
   }
 }
 
 // Increments an incremental achievement.
 void GPGManager::IncrementAchievement(std::string achievement_id) {
   if (LoggedIn()) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+    (void)achievement_id;
+#else
     game_services_->Achievements().Increment(achievement_id);
+#endif
   }
 }
 
 // Increments an incremental achievement by an amount.
 void GPGManager::IncrementAchievement(std::string achievement_id,
                                       uint32_t steps) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)achievement_id;
+  (void)steps;
+#else
   if (LoggedIn()) {
     game_services_->Achievements().Increment(achievement_id, steps);
   }
+#endif
 }
 
 // Reveals a given achievement.
 void GPGManager::RevealAchievement(std::string achievement_id) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)achievement_id;
+#else
   if (LoggedIn()) {
     game_services_->Achievements().Reveal(achievement_id);
   }
+#endif
 }
 
 // Updates local player stats with values from the server:
 void GPGManager::FetchEvents() {
+#ifdef USING_GOOGLE_PLAY_GAMES
   if (!LoggedIn() || event_data_state_ == kPending) return;
   event_data_state_ = kPending;
 
-  game_services_->Events().FetchAll(
-      [this](const gpg::EventManager::FetchAllResponse &far) mutable {
+  game_services_->Events()
+      .FetchAll([this](const gpg::EventManager::FetchAllResponse &far) mutable {
 
-        pthread_mutex_lock(&events_mutex_);
+         pthread_mutex_lock(&events_mutex_);
 
-        if (IsSuccess(far.status)) {
-          event_data_state_ = kComplete;
-          event_data_initialized_ = true;
-        } else {
-          event_data_state_ = kFailed;
-        }
+         if (IsSuccess(far.status)) {
+           event_data_state_ = kComplete;
+           event_data_initialized_ = true;
+         } else {
+           event_data_state_ = kFailed;
+         }
 
-        event_data_ = far.data;
-        pthread_mutex_unlock(&events_mutex_);
-      });
+         event_data_ = far.data;
+         pthread_mutex_unlock(&events_mutex_);
+       });
+#endif
 }
 
 bool GPGManager::IsAchievementUnlocked(std::string achievement_id) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)achievement_id;
+  return false;
+#else
   if (!achievement_data_initialized_) {
     return false;
   }
@@ -277,9 +326,14 @@ bool GPGManager::IsAchievementUnlocked(std::string achievement_id) {
   }
   pthread_mutex_unlock(&achievements_mutex_);
   return ret;
+#endif
 }
 
 uint64_t GPGManager::GetEventValue(std::string event_id) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)event_id;
+  return 0;
+#else
   if (!event_data_initialized_) {
     return 0;
   }
@@ -287,10 +341,12 @@ uint64_t GPGManager::GetEventValue(std::string event_id) {
   uint64_t result = event_data_[event_id].Count();
   pthread_mutex_unlock(&achievements_mutex_);
   return result;
+#endif
 }
 
 // Updates local player achievements with values from the server:
 void GPGManager::FetchAchievements() {
+#ifdef USING_GOOGLE_PLAY_GAMES
   if (!LoggedIn() || achievement_data_state_ == kPending) return;
   achievement_data_state_ = kPending;
 
@@ -309,36 +365,38 @@ void GPGManager::FetchAchievements() {
         achievement_data_ = far.data;
         pthread_mutex_unlock(&achievements_mutex_);
       });
+#endif
 }
 
 void GPGManager::ShowAchievements() {
-#ifdef NO_GPG
-  return;
-#endif
+#ifdef USING_GOOGLE_PLAY_GAMES
   if (!LoggedIn()) return;
   LogInfo("GPG: launching achievement UI");
   game_services_->Achievements().ShowAllUI([](const gpg::UIStatus &status) {
     LogInfo("GPG: Achievement UI FAILED, UIStatus is: %d", status);
   });
+#endif
 }
 
 void GPGManager::FetchPlayer() {
-  game_services_->Players().FetchSelf([this](
-      const gpg::PlayerManager::FetchSelfResponse &fsr) mutable {
+#ifdef USING_GOOGLE_PLAY_GAMES
+  game_services_->Players().FetchSelf(
+      [this](const gpg::PlayerManager::FetchSelfResponse &fsr) mutable {
 
-    pthread_mutex_lock(&players_mutex_);
-    if (IsSuccess(fsr.status)) {
-      gpg::Player *player_data = new gpg::Player(fsr.data);
-      LogInfo("GPG: got player info. ID = %s, name = %s, avatar=%s",
-              player_data->Id().c_str(), player_data->Name().c_str(),
-              player_data->AvatarUrl(gpg::ImageResolution::HI_RES).c_str());
-      player_data_.reset(player_data);
-    } else {
-      LogError("GPG: failed to get player info");
-      player_data_.reset(nullptr);
-    }
-    pthread_mutex_unlock(&players_mutex_);
-  });
+        pthread_mutex_lock(&players_mutex_);
+        if (IsSuccess(fsr.status)) {
+          gpg::Player *player_data = new gpg::Player(fsr.data);
+          LogInfo("GPG: got player info. ID = %s, name = %s, avatar=%s",
+                  player_data->Id().c_str(), player_data->Name().c_str(),
+                  player_data->AvatarUrl(gpg::ImageResolution::HI_RES).c_str());
+          player_data_.reset(player_data);
+        } else {
+          LogError("GPG: failed to get player info");
+          player_data_.reset(nullptr);
+        }
+        pthread_mutex_unlock(&players_mutex_);
+      });
+#endif
 }
 
 }  // fpl
@@ -353,7 +411,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_google_fpl_zooshi_FPLActivity_nativeOnActivityResult(
+Java_com_google_fpl_fpl_1base_FPLActivity_nativeOnActivityResult(
     JNIEnv *env, jobject thiz, jobject activity, jint request_code,
     jint result_code, jobject data) {
   gpg::AndroidSupport::OnActivityResult(env, activity, request_code,

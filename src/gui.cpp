@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "game.h"
 #include "fplbase/utilities.h"
 #include "states/game_menu_state.h"
 #include "states/states_common.h"
@@ -57,6 +58,16 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
       next_state = kMenuStateCardboard;
     }
 #endif  // ANDROID_CARDBOARD
+#ifdef USING_GOOGLE_PLAY_GAMES
+    auto logged_in = gpg_manager_->LoggedIn();
+    event = TextButton(
+        *image_gpg_, gui::Margin(0, 50, 10, 0),
+        logged_in ? "Sign out" : "Sign in", kMenuSize, gui::Margin(0),
+        fpl::gui::kButtonPropertyImageLeft);
+    if (event & gui::kEventWentUp) {
+      gpg_manager_->ToggleSignIn();
+    }
+#endif
     event = TextButton("Options", kMenuSize, gui::Margin(0));
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateOptions;
@@ -173,6 +184,31 @@ void GameMenuState::OptionMenuMain() {
   if (TextButton("About", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
     show_about_ = true;
   }
+
+#ifdef USING_GOOGLE_PLAY_GAMES
+  auto logged_in = gpg_manager_->LoggedIn();
+  auto property = fpl::gui::kButtonPropertyImageLeft;
+
+  if (!logged_in) {
+    gui::SetTextColor(kColorLightGray);
+    property |= fpl::gui::kButtonPropertyDisabled;
+  }
+  auto event = TextButton(*image_leaderboard_, gui::Margin(0, 25, 10, 0),
+                          "Leaderboard", kButtonSize, gui::Margin(0), property);
+  if (logged_in && (event & gui::kEventWentUp)) {
+    // Fill in Leaderboard list.
+    auto leaderboard_config = config_->gpg_config()->leaderboard_ids();
+    gpg_manager_->ShowLeaderboards(
+        leaderboard_config->Get(kGPGDefaultLeaderboard)->c_str());
+  }
+
+  event = TextButton(*image_achievements_, gui::Margin(0, 20, 0, 0),
+                     "Achievements", kButtonSize, gui::Margin(0), property);
+  if (logged_in && (event & gui::kEventWentUp)) {
+    gpg_manager_->ShowAchievements();
+  }
+  gui::SetTextColor(kColorBrown);
+#endif
 
   if (TextButton("Licenses", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
     scroll_offset_ = mathfu::kZeros2f;

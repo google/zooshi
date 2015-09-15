@@ -17,6 +17,7 @@ include "bullet_def.fbs";
 include "common.fbs";
 include "components.fbs";
 include "world_editor_config.fbs";
+include "gpg.fbs";
 
 namespace fpl.fpl_project;
 
@@ -186,6 +187,9 @@ table Config {
 
   // Various settings for rendering:
   rendering_config:RenderConfig;
+
+  // GPG configuration.
+  gpg_config:GPGConfig;
 }
 
 root_type Config;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "game_menu_state.h"
+#include "game.h"
 #include "states/pause_state.h"
 
 #include "flatui/flatui.h"
