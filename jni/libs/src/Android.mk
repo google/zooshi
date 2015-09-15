@@ -134,8 +134,10 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs \
   $(ZOOSHI_SCHEMA_DIR)/save_data.fbs
 
-# Make each source file dependent upon the assets
-$(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): build_assets))
+# Make each source file order-only dependent upon the assets (via the pipe |)
+# This guarantees build_assets will run first, but not force all src files to
+# rebuild once it has.
+$(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): | build_assets))
 
 ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
   $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
