@@ -31,6 +31,7 @@
 #include "fplbase/renderer_hmd.h"
 #endif
 
+using fpl::editor::WorldEditor;
 using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;
@@ -52,7 +53,8 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        pindrop::AudioEngine* audio_engine,
                        event::EventManager* event_manager,
                        event::EventSystem* event_system,
-                       GraphDictionary* graph_dictionary, Renderer* renderer) {
+                       GraphDictionary* graph_dictionary, Renderer* renderer,
+                       WorldEditor* world_editor) {
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
   motive::MatrixInit::Register();
@@ -70,7 +72,8 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   // to happen BEFORE other components are registered, because many of them
   // depend on it during their own init functions.
   common_services_component.Initialize(asset_manager, entity_factory.get(),
-                                       event_manager, input_system, renderer);
+                                       event_manager, input_system, renderer,
+                                       world_editor);
   services_component.Initialize(config, asset_manager, input_system,
                                 audio_engine, event_manager, event_system,
                                 graph_dictionary, font_manager, &rail_manager,

@@ -80,7 +80,8 @@ struct World {
                   FontManager* font_manager, pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager,
                   event::EventSystem* event_system,
-                  GraphDictionary* graph_dictionary, Renderer* renderer);
+                  GraphDictionary* graph_dictionary, Renderer* renderer,
+                  editor::WorldEditor* world_editor);
 
   // Entity manager
   entity::EntityManager entity_manager;
