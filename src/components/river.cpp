@@ -379,6 +379,11 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   // Add the river mesh to the river entity.
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
   mesh_data->shader = asset_manager->LoadShader(river->shader()->c_str());
+  if (mesh_data->mesh != nullptr) {
+    // Mesh's destructor handles cleaning up its GL buffers
+    delete mesh_data->mesh;
+    mesh_data->mesh = nullptr;
+  }
   mesh_data->mesh = river_mesh;
   mesh_data->culling_mask = 0;  // Never cull the river.
   mesh_data->pass_mask = 1 << RenderPass_Opaque;
@@ -415,6 +420,11 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     } else {
       child_render_data->shader =
           asset_manager->LoadShader("shaders/textured_lit_bank");
+    }
+    if (child_render_data->mesh != nullptr) {
+      // Mesh's destructor handles cleaning up its GL buffers
+      delete child_render_data->mesh;
+      child_render_data->mesh = nullptr;
     }
     child_render_data->mesh = bank_mesh;
     child_render_data->culling_mask = 0;  // Don't cull the banks for now.
