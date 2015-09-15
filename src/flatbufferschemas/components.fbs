@@ -52,6 +52,7 @@ enum AnimObject : byte {
   FernShort,
   FernMid,
   FernTall,
+  Heart,
 }
 
 enum PatronAction : byte {

@@ -168,6 +168,9 @@ table Config {
   // The initial offset from the player the projectile starts at.
   projectile_offset: fpl.Vec3;
 
+  // The height above the patron to display the heart.
+  point_display_height: float;
+
   // The strength of gravity
   gravity: float;
 

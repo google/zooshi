@@ -2611,7 +2611,7 @@
             "entity_id": "FernTall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
-        },                  
+        },
         {
           "data_type": "TransformDef",
           "data": {
@@ -3187,7 +3187,7 @@
       ]
     },
 
-    // Floating Points
+    // Heart
     {
       "component_list": [
         {
@@ -3203,7 +3203,12 @@
               "x": 0,
               "y": 0,
               "z": 0
-            }
+            },
+            "scale": {
+              "x": 50,
+              "y": 50,
+              "z": 50
+            },
           }
         },
         {
@@ -3219,14 +3224,22 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "AnimationDef",
           "data": {
-            "source_file": "meshes/HEART.fplmesh",
-            "shader": "shaders/textured"
+            "anim_table_object": "fpl.AnimObject.Heart",
+            "anim_table_start_idx": 0
           }
         },
         {
-          "data_type": "TimeLimitDef",
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/heart.fplmesh",
+            "shader": "shaders/textured_skinned_lit",
+            "culling": ["ViewAngle", "Distance"],
+          }
+        },
+        {
+         "data_type": "TimeLimitDef",
           "data": {
             "timelimit": 3.0
           }
