@@ -46,6 +46,7 @@
 #include "entity/entity_manager.h"
 #include "fplbase/render_target.h"
 #include "fplbase/renderer.h"
+#include "gpg_manager.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "railmanager.h"
 #include "world_editor/edit_options.h"
