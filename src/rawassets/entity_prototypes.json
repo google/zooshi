@@ -1869,6 +1869,12 @@
             "shader": "shaders/textured_lit",
             "culling": []
           }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "render_option": "OnlyInEditor"
+          }
         }
       ]
     },
