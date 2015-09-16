@@ -173,7 +173,7 @@
           "data_type": "TransformDef",
           "data": {
             "position": { "x": 1.7, "y": 1.7, "z": 0.5 },
-            "scale": { "x": 15, "y": 15, "z": 15 },
+            "scale": { "x": 200, "y": 200, "z": 200 },
             "orientation": { "x": 0, "y": 0, "z": 45 }
           }
         },
@@ -201,8 +201,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": { "x": 1.4, "y": 2.8, "z": 0.5 },
-            "scale": { "x": 15, "y": 15, "z": 15 },
-            "orientation": { "x": -90, "y": 15, "z": 0 }
+            "scale": { "x": 200, "y": 200, "z": 200 },
+            "orientation": { "x": 0, "y": 15, "z": 0 }
           }
         },
         {
@@ -1785,7 +1785,7 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "scale": { "x": 10.0, "y": 10.0, "z": 10.0 }
+            "scale": { "x": 200.0, "y": 200.0, "z": 200.0 }
           }
         },
         {
