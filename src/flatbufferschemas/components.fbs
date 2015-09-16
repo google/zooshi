@@ -108,6 +108,9 @@ table PatronDef {
   // The maximum angle off of the vector to the raft that the patron with turn
   // to face when trying to catch sushi. Note that 180 fully encompasses it.
   max_catch_angle:float = 90.0;
+
+  // The height above the patron at which to spawn the happy-indicator.
+  point_display_height:float = 10.0;
 }
 
 table PlayerDef {
