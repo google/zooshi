@@ -74,6 +74,12 @@ static const MotiveTime kTimeInActions[] = {
   kMotiveTimeEndless, // PatronAction_Fall
 };
 
+static inline vec3 ZeroHeight(const vec3& v) {
+  vec3 v_copy = v;
+  v_copy.z() = 0.0f;
+  return v_copy;
+}
+
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
   event_manager_ =
@@ -137,6 +143,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
 
   patron_data->max_catch_distance = patron_def->max_catch_distance();
   patron_data->max_catch_angle = patron_def->max_catch_angle();
+  patron_data->point_display_height = patron_def->point_display_height();
 }
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
@@ -174,6 +181,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_target_tag(target_tag);
   builder.add_max_catch_distance(data->max_catch_distance);
   builder.add_max_catch_angle(data->max_catch_angle);
+  builder.add_point_display_height(data->point_display_height);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
@@ -245,8 +253,11 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
 
     if (patron_data->delta_position.TargetTime() <= 0) {
       if (patron_data->catching_state == kCatchingStateMoveToTarget) {
-        MoveToTarget(patron, patron_data->return_position,
-                     patron_data->return_angle, kCatchReturnTime);
+        const vec3 raft_position = RaftPosition();
+        const Angle return_angle =
+            Angle::FromYXVector(raft_position - patron_data->return_position);
+        MoveToTarget(patron, patron_data->return_position, return_angle,
+                     kCatchReturnTime);
         patron_data->catching_state = kCatchingStateReturn;
       } else {
         patron_data->delta_position.Invalidate();
@@ -481,10 +492,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
         rail_denizen_data->enabled = false;
       }
 
-      const vec3 point_position =
-          Data<TransformData>(proj_entity)->position +
-          config_->point_display_height() * mathfu::kAxisZ3f;
-      SpawnPointDisplay(point_position);
+      SpawnPointDisplay(patron_entity);
     }
 
     // Send events to every on_collision listener with the correct tag.
@@ -516,11 +524,9 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   }
 }
 
-void PatronComponent::SpawnPointDisplay(const vec3& position) {
+void PatronComponent::SpawnPointDisplay(const entity::EntityRef& patron) {
   // We need the raft, so we can orient towards it:
-  entity::EntityRef raft =
-      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-  if (!raft) return;
+  if (!RaftExists()) return;
 
   // Spawn from prototype:
   entity::EntityRef point_display =
@@ -528,13 +534,18 @@ void PatronComponent::SpawnPointDisplay(const vec3& position) {
           ->entity_factory()
           ->CreateEntityFromPrototype("FloatingPointDisplay", entity_manager_);
 
+  // Make the point display a child of the patron. We want it to move with
+  // the patron.
+  // Note--the const_cast is lamentable. I think AddChild should take a
+  // const EntityRef&, like most other things.
+  auto transform_component = GetComponent<TransformComponent>();
+  transform_component->AddChild(point_display, const_cast<EntityRef&>(patron));
+
+  // Set the position offset so the heart displays above the patron.
+  const PatronData* patron_data = Data<PatronData>(patron);
   TransformData* points_transform = Data<TransformData>(point_display);
-  TransformData* raft_transform = Data<TransformData>(raft);
-  points_transform->position = position;
-  vec3 facing_vector = points_transform->position - raft_transform->position;
-  facing_vector.z() = 0;
-  points_transform->orientation =
-      mathfu::quat::RotateFromTo(facing_vector, vec3(0, 1, 0));
+  points_transform->position =
+      patron_data->point_display_height * mathfu::kAxisZ3f;
 }
 
 void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
@@ -565,12 +576,6 @@ void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
     auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
     physics_component->UpdatePhysicsFromTransform(particle);
   }
-}
-
-static inline vec3 ZeroHeight(const vec3& v) {
-  vec3 v_copy = v;
-  v_copy.z() = 0.0f;
-  return v_copy;
 }
 
 static float CalculateClosestTimeInHeightRange(
@@ -623,6 +628,20 @@ Range PatronComponent::TargetHeightRange(const EntityRef& patron) const {
                target_max.z() - kHeightRangeBuffer);
 }
 
+bool PatronComponent::RaftExists() const {
+  return entity_manager_->GetComponent<ServicesComponent>()
+      ->raft_entity()
+      .IsValid();
+}
+
+vec3 PatronComponent::RaftPosition() const {
+  assert(RaftExists());
+  const EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  const TransformData* raft_transform = Data<TransformData>(raft);
+  return raft_transform->position;
+}
+
 const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
                                                     vec3* closest_position,
                                                     Angle* closest_face_angle,
@@ -640,10 +659,7 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
   const vec3 return_position_xy = ZeroHeight(patron_data->return_position);
 
   // Gather data about the raft, which is needed in the calculations.
-  const EntityRef raft =
-      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-  const TransformData* raft_transform = Data<TransformData>(raft);
-  const vec3 raft_position_xy = ZeroHeight(raft_transform->position);
+  const vec3 raft_position_xy = ZeroHeight(RaftPosition());
 
   // Loop through every projectile. Keep a reference to the closest one.
   const EntityRef* closest_ref = nullptr;
@@ -759,7 +775,6 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   // If moving from idle, store the current position to return to later.
   if (patron_data->catching_state == kCatchingStateIdle) {
     patron_data->return_position = position;
-    patron_data->return_angle = face_angle;
   }
 
   // At `target_time` we want to achieve these deltas so that our position and

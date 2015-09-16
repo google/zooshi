@@ -151,8 +151,8 @@ struct PatronData {
   // Set to delta_face_angle.Value() after movement is updated.
   Angle prev_delta_face_angle;
 
-  // The angle that the patron left when going to catch the sushi.
-  Angle return_angle;
+  // The height above the patron at which to spawn the happy-indicator.
+  float point_display_height;
 };
 
 class PatronComponent : public entity::Component<PatronData>,
@@ -177,10 +177,12 @@ class PatronComponent : public entity::Component<PatronData>,
                        const std::string& part_tag);
   void UpdateMovement(const entity::EntityRef& patron);
   void SpawnSplatter(const mathfu::vec3& position, int count);
-  void SpawnPointDisplay(const mathfu::vec3& position);
+  void SpawnPointDisplay(const entity::EntityRef& patron);
   bool HasAnim(const PatronData* patron_data, PatronAction action) const;
   void Animate(PatronData* patron_data, PatronAction action);
   Range TargetHeightRange(const entity::EntityRef& patron) const;
+  bool RaftExists() const;
+  mathfu::vec3 RaftPosition() const;
   const entity::EntityRef* ClosestProjectile(const entity::EntityRef& patron,
                                              mathfu::vec3* closest_position,
                                              Angle* closest_face_angle,
