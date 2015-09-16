@@ -481,7 +481,10 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
         rail_denizen_data->enabled = false;
       }
 
-      SpawnPointDisplay(Data<TransformData>(proj_entity)->position);
+      const vec3 point_position =
+          Data<TransformData>(proj_entity)->position +
+          config_->point_display_height() * mathfu::kAxisZ3f;
+      SpawnPointDisplay(point_position);
     }
 
     // Send events to every on_collision listener with the correct tag.

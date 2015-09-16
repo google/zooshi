@@ -47,7 +47,7 @@
     "meshes/log.fplmesh",
     "meshes/savanna_tree01.fplmesh",
     "meshes/Mountain_all.fplmesh",
-    "meshes/HEART.fplmesh"
+    "meshes/heart.fplmesh"
   ],
   "material_list": [
     "materials/pixel1x1.fplmat",
@@ -148,6 +148,11 @@
       {
         "anim_files": [
           "anims/fern_tall_sway.fplanim",
+        ]
+      }, // AnimObject_Heart
+      {
+        "anim_files": [
+          "anims/heart_float_up.fplanim",
         ]
       }
     ]
