@@ -26,11 +26,6 @@ void main()
             vec2(0, -time / flow_speed) +
             sin(vTexCoord * coord_scale + time * time_scale) * scale;
   lowp vec4 texture_color = texture2D(texture_unit_0, tc);
-  // We only render pixels if they are at least somewhat opaque.
-  // This will still lead to aliased edges if we render
-  // in the wrong order, but leaves us the option to render correctly
-  // if we sort our polygons first.
-  if (texture_color.a < 0.01)
-    discard;
+
   gl_FragColor = color * texture_color;
 }

@@ -28,15 +28,7 @@ uniform float shininess;
 void main(void)
 {
     lowp vec4 texture_color =  texture2D(texture_unit_0, vTexCoord);
-    // We only render pixels if they are at least somewhat opaque.
-    // This will still lead to aliased edges if we render
-    // in the wrong order, but leaves us the option to render correctly
-    // if we sort our polygons first.
-    // The threshold is set moderately high here, because we have
-    // a lot of art with soft aliased eges, which creates ghosting if
-    // we use a lower threshold.
-    if (texture_color.a < 0.5)
-      discard;
+
     texture_color *= color;
 
     // Extract the perturbed normal from the texture:

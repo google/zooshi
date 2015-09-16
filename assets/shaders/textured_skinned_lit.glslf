@@ -21,12 +21,7 @@ uniform sampler2D texture_unit_0;
 void main()
 {
   lowp vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
-  // We only render pixels if they are at least somewhat opaque.
-  // This will still lead to aliased edges if we render
-  // in the wrong order, but leaves us the option to render correctly
-  // if we sort our polygons first.
-  if (texture_color.a < 0.01)
-    discard;
+
   vec4 final_color = vColor * texture_color;
   final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist,
     fog_max_dist, fog_color,  fog_max_saturation);

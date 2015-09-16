@@ -39,11 +39,6 @@ highp vec4 EncodeFloatRGBA(float v) {
 }
 
 void main() {
-  // We only record the depth if it's mostly opaque:
-  lowp vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
-  if (texture_color.a < 0.9)
-    discard;
-
   // Normalize the depth.
   highp float depth = vPosition.z / vPosition.w;
   // Convert from a range of [-1, 1] to [0, 1]

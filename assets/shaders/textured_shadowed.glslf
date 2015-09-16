@@ -39,8 +39,6 @@ varying vec4 vShadowPosition;
 void main()
 {
   mediump vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
-  if (texture_color.a < 0.01)
-    discard;
 
   // Apply the shadow map:
   mediump vec2 shadowmap_coords = vShadowPosition.xy / vShadowPosition.w;
