@@ -664,7 +664,7 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
   run_subprocess(command)
 
 
-def convert_fbx_anim_to_flatbuffer_binary(fbx, target):
+def convert_fbx_anim_to_flatbuffer_binary(fbx, repeat, target):
   """Run the anim_pipeline on the given fbx file.
 
   Args:
@@ -674,7 +674,12 @@ def convert_fbx_anim_to_flatbuffer_binary(fbx, target):
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [ANIM_PIPELINE, '-v', '-o', target, fbx]
+  command = [ANIM_PIPELINE, '-v', '-o', target]
+  if repeat == 0:
+    command.append('--norepeat')
+  elif repeat == 1:
+    command.append('--repeat')
+  command.append(fbx)
   run_subprocess(command)
 
 
@@ -754,20 +759,19 @@ def anim_files_to_convert():
           glob.glob(os.path.join(INTERNAL_ANIM_PATH, '*.fbx')))
 
 
-def mesh_meta_value(fbx, meta, key):
-  """Get metadata value from an FBX metadata object.
+def meta_value(file_name, meta_table, key):
+  """Get metadata value specifed in metadata file.
 
   Args:
-    fbx: File to query within the metadata object.
-    meta: Metadata object to query.
+    file_name: File in pipeline.
+    meta_table: Metadata file to query. Has key 'name' of partial file names.
     key: Key to query.
 
   Returns:
     Value associate with the specified key if found, None otherwise.
   """
-  mesh_meta = meta['mesh_meta']
-  for entry in mesh_meta:
-    if entry['name'] in fbx and key in entry:
+  for entry in meta_table:
+    if entry['name'] in file_name and key in entry:
       return entry[key]
   return None
 
@@ -782,16 +786,15 @@ def generate_mesh_binaries(target_directory, meta):
   input_files = fbx_files_to_convert()
   for fbx in input_files:
     target = processed_mesh_path(fbx, target_directory)
-    texture_formats = mesh_meta_value(fbx, meta, 'texture_format')
-    recenter = mesh_meta_value(fbx, meta, 'recenter')
-    hierarchy = mesh_meta_value(fbx, meta, 'hierarchy')
+    texture_formats = meta_value(fbx, meta['mesh_meta'], 'texture_format')
+    recenter = meta_value(fbx, meta['mesh_meta'], 'recenter')
+    hierarchy = meta_value(fbx, meta['mesh_meta'], 'hierarchy')
     if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
       convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
                                             texture_formats, recenter,
                                             hierarchy)
 
-
-def generate_anim_binaries(target_directory):
+def generate_anim_binaries(target_directory, meta):
   """Run the mesh pipeline on the all of the FBX files.
 
   Args:
@@ -800,8 +803,9 @@ def generate_anim_binaries(target_directory):
   input_files = anim_files_to_convert()
   for fbx in input_files:
     target = processed_anim_path(fbx, target_directory)
+    repeat = meta_value(fbx, meta['anim_meta'], 'repeat')
     if needs_rebuild(fbx, target) or needs_rebuild(ANIM_PIPELINE, target):
-      convert_fbx_anim_to_flatbuffer_binary(fbx, target)
+      convert_fbx_anim_to_flatbuffer_binary(fbx, repeat, target)
 
 
 def generate_flatbuffer_binaries(flatc, target_directory):
@@ -980,7 +984,7 @@ def main():
       return 1
   if target in ('all', 'anim'):
     try:
-      generate_anim_binaries(args.output)
+      generate_anim_binaries(args.output, meta)
     except BuildError as error:
       handle_build_error(error)
       return 1

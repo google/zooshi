@@ -92,47 +92,47 @@
       },
       { // AnimObject_DapperCroc
         "anim_files": [
-          "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
-          "",                            // PatronAction_Satisfied
-          "anims/Patron_FALL.fplanim",   // PatronAction_Fall
+          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
+          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
+          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
+          "",                               // PatronAction_Satisfied
+          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_LadyMandrill
         "anim_files": [
-          "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
-          "",                            // PatronAction_Satisfied
+          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
+          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
+          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
+          "",                               // PatronAction_Satisfied
           "anims/LadyMandrill_happy_exit.fplanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_LovelyGiraffette
         "anim_files": [
-          "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
-          "",                            // PatronAction_Satisfied
-          "anims/Patron_FALL.fplanim",   // PatronAction_Fall
+          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
+          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
+          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
+          "",                               // PatronAction_Satisfied
+          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_BankerBird
         "anim_files": [
-          "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
-          "",                            // PatronAction_Satisfied
-          "anims/Patron_FALL.fplanim",   // PatronAction_Fall
+          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
+          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
+          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
+          "",                               // PatronAction_Satisfied
+          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_MenacingCroc
         "anim_files": [
-          "anims/Patron_SPAWN.fplanim",  // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",   // PatronAction_Idle
-          "anims/Patron_HIT.fplanim",    // PatronAction_Eat
-          "",                            // PatronAction_Satisfied
-          "anims/Patron_FALL.fplanim",   // PatronAction_Fall
+          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
+          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
+          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
+          "",                               // PatronAction_Satisfied
+          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
         ]
       }, // AnimObject_FernShort
       {
