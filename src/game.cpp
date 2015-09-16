@@ -73,7 +73,7 @@ static const int kQuadNumIndices = 6;
 static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
-                                            kTangent4f,  kEND};
+                                            kTangent4f, kEND};
 
 static const char kAssetsDir[] = "assets";
 
@@ -261,8 +261,8 @@ const AssetManifest& Game::GetAssetManifest() const {
 }
 
 void Game::InitializeEventSystem() {
-  event::RegisterLogFunc([](const char* fmt,
-                            va_list args) { LogError(fmt, args); });
+  event::RegisterLogFunc(
+      [](const char* fmt, va_list args) { LogError(fmt, args); });
 
   event::TypeRegistry<void>::RegisterType("Pulse");
   event::TypeRegistry<bool>::RegisterType("Bool");
@@ -343,13 +343,15 @@ bool Game::Initialize(const char* const binary_directory) {
   input_controller_.set_input_system(&input_);
   input_controller_.set_input_config(&GetInputConfig());
 
+  world_editor_.reset(new editor::WorldEditor());
+
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &event_manager_,
-                    &event_system_, &graph_dictionary_, &renderer_);
+                    &event_system_, &graph_dictionary_, &renderer_,
+                    world_editor_.get());
 
   world_renderer_.Initialize(&world_);
 
-  world_editor_.reset(new editor::WorldEditor());
   world_editor_->Initialize(GetConfig().world_editor_config(),
                             &world_.entity_manager, &font_manager_);
 

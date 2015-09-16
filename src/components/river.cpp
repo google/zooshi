@@ -25,7 +25,7 @@
 #include "components_generated.h"
 #include "config_generated.h"
 #include "fplbase/utilities.h"
-#include "world_editor/editor_event.h"
+#include "world_editor/world_editor.h"
 
 using mathfu::vec2;
 using mathfu::vec2_packed;
@@ -44,6 +44,7 @@ namespace fpl_project {
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
+using fpl::editor::WorldEditor;
 
 static const size_t kNumIndicesPerQuad = 6;
 
@@ -57,9 +58,12 @@ struct NormalMappedColorVertex {
 };
 
 void RiverComponent::Init() {
-  event_manager_ =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  event_manager_->RegisterListener(EventSinkUnion_EditorEvent, this);
+  auto services = entity_manager_->GetComponent<ServicesComponent>();
+  WorldEditor* world_editor = services->world_editor();
+  if (world_editor) {
+    world_editor->AddOnUpdateEntityCallback(
+        [this](const entity::EntityRef& entity) { UpdateRiverMeshes(entity); });
+  }
 }
 
 void RiverComponent::AddFromRawData(entity::EntityRef& entity,
@@ -434,26 +438,15 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
                                         river->mass(), river->restitution());
 }
 
-void RiverComponent::OnEvent(const event::EventPayload& event_payload) {
-  switch (event_payload.id()) {
-    case EventSinkUnion_EditorEvent: {
-      auto* editor_event = event_payload.ToData<editor::EditorEventPayload>();
-      if (editor_event->action == EditorEventAction_EntityUpdated &&
-          editor_event->entity) {
-        const RailNodeData* node_data =
-            entity_manager_->GetComponentData<RailNodeData>(
-                editor_event->entity);
-        if (node_data != nullptr) {
-          // For now, update all rivers. In the future only update rivers that
-          // have the same rail_name that just changed.
-          for (auto iter = begin(); iter != end(); ++iter) {
-            CreateRiverMesh(iter->entity);
-          }
-        }
-      }
-      break;
+void RiverComponent::UpdateRiverMeshes(entity::EntityRef entity) {
+  const RailNodeData* node_data =
+      entity_manager_->GetComponentData<RailNodeData>(entity);
+  if (node_data != nullptr) {
+    // For now, update all rivers. In the future only update rivers that
+    // have the same rail_name that just changed.
+    for (auto iter = begin(); iter != end(); ++iter) {
+      CreateRiverMesh(iter->entity);
     }
-    default: { assert(0); }
   }
 }
 

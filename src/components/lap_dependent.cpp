@@ -26,13 +26,20 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::LapDependentComponent,
 namespace fpl {
 namespace fpl_project {
 
+using fpl::editor::WorldEditor;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
 
 void LapDependentComponent::Init() {
-  auto event_manager =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  event_manager->RegisterListener(EventSinkUnion_EditorEvent, this);
+  auto services = entity_manager_->GetComponent<ServicesComponent>();
+  // World editor is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a world editor.
+  WorldEditor* world_editor = services->world_editor();
+  if (world_editor) {
+    world_editor->AddOnEnterEditorCallback([this]() { ActivateAllEntities(); });
+    world_editor->AddOnExitEditorCallback(
+        [this]() { DeactivateAllEntities(); });
+  }
 }
 
 void LapDependentComponent::AddFromRawData(entity::EntityRef& entity,
@@ -94,26 +101,19 @@ void LapDependentComponent::UpdateAllEntities(
   }
 }
 
-void LapDependentComponent::OnEvent(const event::EventPayload& event_payload) {
-  switch (event_payload.id()) {
-    case EventSinkUnion_EditorEvent: {
-      auto* event = event_payload.ToData<editor::EditorEventPayload>();
-      if (event->action == EditorEventAction_Enter) {
-        // Make sure all entities are activated and visible.
-        for (auto iter = component_data_.begin(); iter != component_data_.end();
-             ++iter) {
-          ActivateEntity(iter->entity);
-        }
-      } else if (event->action == EditorEventAction_Exit) {
-        // Deactivate them all, as they reactivate during update.
-        for (auto iter = component_data_.begin(); iter != component_data_.end();
-             ++iter) {
-          DeactivateEntity(iter->entity);
-        }
-      }
-      break;
-    }
-    default: { assert(0); }
+void LapDependentComponent::ActivateAllEntities() {
+  // Make sure all entities are activated and visible.
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    ActivateEntity(iter->entity);
+  }
+}
+
+void LapDependentComponent::DeactivateAllEntities() {
+  // Deactivate them all, as they reactivate during update.
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    DeactivateEntity(iter->entity);
   }
 }
 

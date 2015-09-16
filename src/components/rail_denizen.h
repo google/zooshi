@@ -77,6 +77,7 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
   virtual void InitEntity(entity::EntityRef& entity);
 
+  void UpdateRailNodeData(entity::EntityRef entity);
   virtual void OnEvent(const event::EventPayload& event_payload);
 
  private:

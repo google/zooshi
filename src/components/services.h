@@ -30,6 +30,7 @@
 #include "motive/engine.h"
 #include "pindrop/pindrop.h"
 #include "railmanager.h"
+#include "world_editor/world_editor.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -57,7 +58,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
                   GraphDictionary* graph_dictionary, FontManager* font_manager,
                   RailManager* rail_manager,
                   component_library::EntityFactory* entity_factory,
-                  World* world) {
+                  World* world, editor::WorldEditor* world_editor) {
     config_ = config;
     asset_manager_ = asset_manager;
     input_system_ = input_system;
@@ -69,6 +70,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
     rail_manager_ = rail_manager;
     entity_factory_ = entity_factory;
     world_ = world;
+    world_editor_ = world_editor;
     // The camera is set seperately dependent on the game state.
     camera_ = nullptr;
   }
@@ -88,6 +90,8 @@ class ServicesComponent : public entity::Component<ServicesData> {
   void set_player_entity(entity::EntityRef entity) { player_entity_ = entity; }
   component_library::EntityFactory* entity_factory() { return entity_factory_; }
   World* world() { return world_; }
+  // World editor is not guaranteed to be present in all versions of the game.
+  editor::WorldEditor* world_editor() { return world_editor_; }
   void set_camera(Camera* camera) { camera_ = camera; }
   Camera* camera() { return camera_; }
 
@@ -127,6 +131,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   component_library::EntityFactory* entity_factory_;
   std::string component_def_binary_schema_;
   World* world_;
+  editor::WorldEditor* world_editor_;
   Camera* camera_;
 };
 

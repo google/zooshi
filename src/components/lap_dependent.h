@@ -18,16 +18,9 @@
 #include "components_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
-#include "event/event_manager.h"
 #include "events_generated.h"
 
 namespace fpl {
-namespace event {
-
-class EventManager;
-
-}  // event
-
 namespace fpl_project {
 
 // Data for lap dependent components.
@@ -38,10 +31,8 @@ struct LapDependentData {
   bool currently_active;
 };
 
-class LapDependentComponent : public entity::Component<LapDependentData>,
-                              public event::EventListener {
+class LapDependentComponent : public entity::Component<LapDependentData> {
  public:
-  LapDependentComponent() {}
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
@@ -49,7 +40,8 @@ class LapDependentComponent : public entity::Component<LapDependentData>,
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
-  virtual void OnEvent(const event::EventPayload& payload);
+  void ActivateAllEntities();
+  void DeactivateAllEntities();
 
  private:
   void ActivateEntity(entity::EntityRef& entity);

@@ -42,8 +42,7 @@ struct RiverData {
   RiverData() : random_seed(static_cast<unsigned int>(rand())) {}
 };
 
-class RiverComponent : public entity::Component<RiverData>,
-                       public event::EventListener {
+class RiverComponent : public entity::Component<RiverData> {
  public:
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
@@ -51,11 +50,10 @@ class RiverComponent : public entity::Component<RiverData>,
   virtual void Init();
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 
-  virtual void OnEvent(const event::EventPayload& payload);
+  void UpdateRiverMeshes(entity::EntityRef entity);
 
  private:
   void CreateRiverMesh(entity::EntityRef& entity);
-  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

@@ -162,6 +162,11 @@ class PatronComponent : public entity::Component<PatronData>,
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
+  void ShowAll();
+  void HideAll();
+
+  void UpdateAndEnablePhysics();
+
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
 

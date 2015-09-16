@@ -35,7 +35,7 @@
 #include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
-#include "world_editor/editor_event.h"
+#include "world_editor/world_editor.h"
 
 using mathfu::vec3;
 
@@ -49,10 +49,12 @@ using fpl::component_library::AnimationComponent;
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformData;
 using fpl::component_library::TransformComponent;
+using fpl::editor::WorldEditor;
 
 void Rail::Positions(float delta_time,
                      std::vector<mathfu::vec3_packed>* positions) const {
-  const size_t num_positions = static_cast<size_t>(std::floor(EndTime() / delta_time)) + 1;
+  const size_t num_positions =
+      static_cast<size_t>(std::floor(EndTime() / delta_time)) + 1;
   positions->resize(num_positions);
 
   CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,
@@ -74,10 +76,16 @@ void RailDenizenData::Initialize(const Rail& rail, float start_time) {
 void RailDenizenComponent::Init() {
   ServicesComponent* services =
       entity_manager_->GetComponent<ServicesComponent>();
-
   services->event_manager()->RegisterListener(EventSinkUnion_ChangeRailSpeed,
                                               this);
-  services->event_manager()->RegisterListener(EventSinkUnion_EditorEvent, this);
+
+  // World editor is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a world editor.
+  WorldEditor* world_editor = services->world_editor();
+  if (world_editor) {
+    world_editor->AddOnUpdateEntityCallback([this](
+        const entity::EntityRef& entity) { UpdateRailNodeData(entity); });
+  }
 }
 
 void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
@@ -263,6 +271,20 @@ void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
+void RailDenizenComponent::UpdateRailNodeData(entity::EntityRef entity) {
+  const RailNodeData* node_data =
+      entity_manager_->GetComponentData<RailNodeData>(entity);
+  if (node_data != nullptr) {
+    const std::string& rail_name = node_data->rail_name;
+    for (auto iter = begin(); iter != end(); ++iter) {
+      const RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
+      if (rail_denizen_data->rail_name == rail_name) {
+        InitializeRail(iter->entity);
+      }
+    }
+  }
+}
+
 void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {
   switch (event_payload.id()) {
     case EventSinkUnion_ChangeRailSpeed: {
@@ -275,27 +297,6 @@ void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {
                        speed_event->change_rail_speed->value());
         rail_denizen_data->motivator.SetSplinePlaybackRate(
             rail_denizen_data->spline_playback_rate);
-      }
-      break;
-    }
-    case EventSinkUnion_EditorEvent: {
-      // TODO(jsimantov): Mail rail lookup more efficient. http://b/22355890
-      auto* editor_event = event_payload.ToData<editor::EditorEventPayload>();
-      if (editor_event->action == EditorEventAction_EntityUpdated &&
-          editor_event->entity) {
-        const RailNodeData* node_data =
-            entity_manager_->GetComponentData<RailNodeData>(
-                editor_event->entity);
-        if (node_data != nullptr) {
-          const std::string& rail_name = node_data->rail_name;
-          for (auto iter = begin(); iter != end(); ++iter) {
-            const RailDenizenData* rail_denizen_data =
-                GetComponentData(iter->entity);
-            if (rail_denizen_data->rail_name == rail_name) {
-              InitializeRail(iter->entity);
-            }
-          }
-        }
       }
       break;
     }

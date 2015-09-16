@@ -52,6 +52,7 @@ using fpl::component_library::RenderMeshData;
 using fpl::component_library::RigidBodyData;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
+using fpl::editor::WorldEditor;
 using fpl::entity::EntityRef;
 using mathfu::kZeros3f;
 using mathfu::quat;
@@ -78,7 +79,15 @@ void PatronComponent::Init() {
   event_manager_ =
       entity_manager_->GetComponent<ServicesComponent>()->event_manager();
   event_manager_->RegisterListener(EventSinkUnion_Collision, this);
-  event_manager_->RegisterListener(EventSinkUnion_EditorEvent, this);
+  auto services = entity_manager_->GetComponent<ServicesComponent>();
+  // World editor is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a world editor.
+  WorldEditor* world_editor = services->world_editor();
+  if (world_editor) {
+    world_editor->AddOnEnterEditorCallback(
+        [this]() { UpdateAndEnablePhysics(); });
+    world_editor->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
+  }
 }
 
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,
@@ -182,6 +191,24 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
 
 void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
 
+void PatronComponent::UpdateAndEnablePhysics() {
+  // Make the patrons stand up
+  RenderMeshComponent* render_mesh_component =
+      entity_manager_->GetComponent<RenderMeshComponent>();
+  TransformComponent* transform_component =
+      entity_manager_->GetComponent<TransformComponent>();
+  auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    entity::EntityRef patron = iter->entity;
+    physics_component->UpdatePhysicsFromTransform(patron);
+    physics_component->EnablePhysics(patron);
+
+    render_mesh_component->SetHiddenRecursively(
+        transform_component->GetRootParent(patron), false);
+  }
+}
+
 void PatronComponent::PostLoadFixup() {
   const TransformComponent* transform_component =
       entity_manager_->GetComponent<TransformComponent>();
@@ -261,7 +288,7 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
             patron_data->state == kPatronStateUpright) {
           rail_denizen_data->enabled = true;
           rail_denizen_data->motivator.SetSplinePlaybackRate(
-            rail_denizen_data->spline_playback_rate);
+              rail_denizen_data->spline_playback_rate);
         }
       }
     }
@@ -359,9 +386,9 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
               Animate(patron_data, PatronAction_Satisfied);
               break;
             }
-            //fallthrough
-            // Fallthrough to "falling" state if satisfied animation doesn't
-            // exist.
+          // fallthrough
+          // Fallthrough to "falling" state if satisfied animation doesn't
+          // exist.
 
           case kPatronStateSatisfied:
             patron_data->state = kPatronStateFalling;
@@ -417,30 +444,6 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
                      GetComponentId())) {
         HandleCollision(collision->entity_b, collision->entity_a,
                         collision->tag_b);
-      }
-      break;
-    }
-    case EventSinkUnion_EditorEvent: {
-      auto* event = event_payload.ToData<editor::EditorEventPayload>();
-      auto physics_component =
-          entity_manager_->GetComponent<PhysicsComponent>();
-      if (event->action == EditorEventAction_Enter) {
-        // Make the patrons visible and give them physics for ray casting
-        RenderMeshComponent* rm_component =
-            entity_manager_->GetComponent<RenderMeshComponent>();
-        TransformComponent* tf_component =
-            entity_manager_->GetComponent<TransformComponent>();
-        for (auto iter = component_data_.begin(); iter != component_data_.end();
-             ++iter) {
-          entity::EntityRef patron = iter->entity;
-          physics_component->UpdatePhysicsFromTransform(patron);
-          physics_component->EnablePhysics(patron);
-
-          rm_component->SetHiddenRecursively(
-              tf_component->GetRootParent(patron), false);
-        }
-      } else if (event->action == EditorEventAction_Exit) {
-        PostLoadFixup();
       }
       break;
     }
