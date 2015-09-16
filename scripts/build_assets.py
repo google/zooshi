@@ -514,15 +514,17 @@ class Image(object):
               if USE_GRAPHICSMAGICK and GRAPHICSMAGICK
               else [IMAGEMAGICK_IDENTIFY])
 
-  def __init__(self, filename, size):
+  def __init__(self, filename, size, size_upper_bound):
     """Initialize this instance.
 
     Args:
       filename: Name of the file the image attributes were retrieved from.
       size: (width, height) tuple of the image in pixels.
+      size_upper_bound: The maximal dimension of the target image.
     """
     self.filename = filename
     self.size = size
+    self.size_upper_bound = size_upper_bound
 
   @staticmethod
   def set_environment():
@@ -552,11 +554,12 @@ class Image(object):
             os.path.join(config_home[0], 'config') if config_home else '')
 
   @staticmethod
-  def read_attributes(filename):
+  def read_attributes(filename, size_upper_bound):
     """Read attributes of the image.
 
     Args:
       filename: Path to the image to query.
+      size_upper_bound: The maximal dimension of the target image.
 
     Returns:
       Image instance containing attributes read from the image.
@@ -568,7 +571,7 @@ class Image(object):
     identify_args.extend(['-format', '%w %h', filename])
     Image.set_environment()
     return Image(filename, [int(value) for value in run_subprocess(
-        identify_args, capture=True).split()])
+        identify_args, capture=True).split()], size_upper_bound)
 
   def calculate_power_of_two_size(self):
     """Calculate the power of two size of this image.
@@ -578,9 +581,9 @@ class Image(object):
       next highest power of 2.
     """
     max_dimension_size = max(self.size)
-    if max_dimension_size < MAX_TGA_SIZE:
+    if max_dimension_size < self.size_upper_bound:
       return [next_highest_power_of_two(d) for d in self.size]
-    scale = float(MAX_TGA_SIZE) / max_dimension_size
+    scale = float(self.size_upper_bound) / max_dimension_size
     return [closest_power_of_two(d * scale) for d in self.size]
 
   def convert_resize_image(self, target_image, target_image_size=None):
@@ -617,7 +620,22 @@ class Image(object):
     run_subprocess(convert_args)
 
 
-def convert_png_image_to_webp(cwebp, png, out, quality=80):
+def texture_size_upper_bound(filename, meta):
+  """Returns the maximum texture size for this filename.
+
+  First checks the metadata file to see if the maximum texture size was
+  specified there. If not, return the default maximum size.
+
+  Args:
+    filename: Texture file name.
+    meta: Metadata object. Queriable on keys with [].
+  """
+  meta_upper_bound = meta_value(filename, meta['mesh_meta'], 'texture_size')
+  if meta_upper_bound is None:
+    return MAX_TGA_SIZE
+  return meta_upper_bound
+
+def convert_png_image_to_webp(cwebp, png, out, quality, meta):
   """Run the webp converter on the given png file.
 
   Args:
@@ -626,11 +644,13 @@ def convert_png_image_to_webp(cwebp, png, out, quality=80):
     out: The path of the webp to write to.
     quality: The quality of the processed image, where quality is between 0
         (poor) to 100 (very good). Typical value is around 80.
+    meta: Metadata object. Queriable on keys with [].
 
   Raises:
     BuildError: Process return code was nonzero.
   """
-  image = Image.read_attributes(png)
+  size_upper_bound = texture_size_upper_bound(png, meta)
+  image = Image.read_attributes(png, size_upper_bound)
   target_image_size = image.calculate_power_of_two_size()
   if target_image_size != image.size:
     print'Resizing %s from (%d, %d) to (%d, %d)' % (
@@ -799,6 +819,7 @@ def generate_anim_binaries(target_directory, meta):
 
   Args:
     target_directory: Path to the target assets directory.
+    meta: Metadata object. Queriable on keys with [].
   """
   input_files = anim_files_to_convert()
   for fbx in input_files:
@@ -834,8 +855,12 @@ def generate_flatbuffer_binaries(flatc, target_directory):
                                           target_file_dir)
 
 
-def generate_png_textures():
-  """Run the imange converter to convert tga to png files and resize."""
+def generate_png_textures(meta):
+  """Run the imange converter to convert tga to png files and resize.
+
+  Args:
+    meta: Metadata object. Queriable on keys with [].
+  """
   input_files = tga_files_to_convert()
   for tga in input_files:
     out = intermediate_texture_path(tga)
@@ -843,12 +868,13 @@ def generate_png_textures():
     if not os.path.exists(out_dir):
       os.makedirs(out_dir)
     if needs_rebuild(tga, out):
-      image = Image.read_attributes(tga)
+      size_upper_bound = texture_size_upper_bound(tga, meta)
+      image = Image.read_attributes(tga, size_upper_bound)
       image.convert_resize_image(
           out, image.calculate_power_of_two_size())
 
 
-def generate_webp_textures(cwebp, target_directory):
+def generate_webp_textures(cwebp, target_directory, meta):
   """Run the webp converter on off of the png files.
 
   Search for the PNG files lazily, since the mesh pipeline may
@@ -857,6 +883,7 @@ def generate_webp_textures(cwebp, target_directory):
   Args:
     cwebp: Path to the cwebp binary.
     target_directory: Path to the target assets directory.
+    meta: Metadata object. Queriable on keys with [].
   """
   input_files = png_files_to_convert()
   for png in input_files:
@@ -865,7 +892,7 @@ def generate_webp_textures(cwebp, target_directory):
     if not os.path.exists(out_dir):
       os.makedirs(out_dir)
     if needs_rebuild(png, out):
-      convert_png_image_to_webp(cwebp, png, out, WEBP_QUALITY)
+      convert_png_image_to_webp(cwebp, png, out, WEBP_QUALITY, meta)
 
 
 def copy_assets(target_directory):
@@ -972,7 +999,7 @@ def main():
   # converted.
   if target in ('all', 'png'):
     try:
-      generate_png_textures()
+      generate_png_textures(meta)
     except BuildError as error:
       handle_build_error(error)
       return 1
@@ -996,7 +1023,7 @@ def main():
       return 1
   if target in ('all', 'webp'):
     try:
-      generate_webp_textures(args.cwebp, args.output)
+      generate_webp_textures(args.cwebp, args.output, meta)
     except BuildError as error:
       handle_build_error(error)
       return 1
