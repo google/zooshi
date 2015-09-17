@@ -43,6 +43,7 @@ namespace fpl_project {
 
 using fpl::component_library::AnimationComponent;
 using fpl::component_library::AnimationData;
+using fpl::component_library::CollisionData;
 using fpl::component_library::CollisionPayload;
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::PhysicsComponent;
@@ -448,6 +449,21 @@ void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
       break;
     }
     default: { assert(0); }
+  }
+}
+
+void PatronComponent::CollisionHandler(CollisionData* collision_data,
+                                       void* user_data) {
+  PatronComponent* patron_component = static_cast<PatronComponent*>(user_data);
+  entity::ComponentId id = GetComponentId();
+  if (collision_data->this_entity->IsRegisteredForComponent(id)) {
+    patron_component->HandleCollision(collision_data->this_entity,
+                                      collision_data->other_entity,
+                                      collision_data->this_tag);
+  } else if (collision_data->other_entity->IsRegisteredForComponent(id)) {
+    patron_component->HandleCollision(collision_data->other_entity,
+                                      collision_data->this_entity,
+                                      collision_data->other_tag);
   }
 }
 

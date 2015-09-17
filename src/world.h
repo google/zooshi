@@ -71,16 +71,15 @@ struct Config;
 struct World {
  public:
   World()
-    : is_in_cardboard(false),
-      draw_debug_physics(false),
-      skip_rendermesh_rendering(false) {}
+      : is_in_cardboard(false),
+        draw_debug_physics(false),
+        skip_rendermesh_rendering(false) {}
 
   void Initialize(const Config& config, InputSystem* input_system,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                   FontManager* font_manager, pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager,
-                  event::EventSystem* event_system,
-                  GraphDictionary* graph_dictionary, Renderer* renderer,
+                  event::GraphFactory* graph_factory, Renderer* renderer,
                   editor::WorldEditor* world_editor);
 
   // Entity manager

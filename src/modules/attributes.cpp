@@ -34,33 +34,25 @@ class AttributesNode : public event::BaseNode {
   AttributesNode(AttributesComponent* attributes_component,
                  GraphComponent* graph_component)
       : attributes_component_(attributes_component),
-        graph_component_(graph_component),
-        listener_(this) {}
+        graph_component_(graph_component) {}
 
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<AttributesDataRef>();
   }
 
-  virtual void Initialize(event::Inputs* in, event::Outputs* out) {
-    Run(in, out);
-  }
+  virtual void Initialize(event::NodeArguments* args) { Run(args); }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) { Run(in, out); }
+  virtual void Execute(event::NodeArguments* args) { Run(args); }
 
  private:
-  void Run(event::Inputs* in, event::Outputs* out) {
-    auto entity = in->Get<entity::EntityRef>(0);
-    if (entity->IsValid()) {
-      graph_component_->RegisterListener(kEventIdEntityAttributesChanged,
-                                         entity, &listener_);
-    }
-    out->Set(0, AttributesDataRef(attributes_component_, *entity));
+  void Run(event::NodeArguments* args) {
+    auto entity = args->GetInput<entity::EntityRef>(0);
+    args->SetOutput(0, AttributesDataRef(attributes_component_, *entity));
   }
 
   AttributesComponent* attributes_component_;
   GraphComponent* graph_component_;
-  event::NodeEventListener listener_;
 };
 
 // Returns the position from the given transfrom data.
@@ -72,12 +64,32 @@ class GetAttributeNode : public event::BaseNode {
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto attributes_ref = in->Get<AttributesDataRef>(0);
-    auto index = in->Get<int>(1);
+  virtual void Execute(event::NodeArguments* args) {
+    auto attributes_ref = args->GetInput<AttributesDataRef>(0);
+    auto index = args->GetInput<int>(1);
     auto attributes_data = attributes_ref->GetComponentData();
     if (attributes_data) {
-      out->Set(0, attributes_data->attributes[*index]);
+      args->SetOutput(0, attributes_data->attributes[*index]);
+    }
+  }
+};
+
+// Returns the position from the given transfrom data.
+class SetAttributeNode : public event::BaseNode {
+ public:
+  static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<AttributesDataRef>();
+    node_sig->AddInput<int>();
+    node_sig->AddInput<float>();
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    auto attributes_ref = args->GetInput<AttributesDataRef>(0);
+    auto index = args->GetInput<int>(1);
+    auto value = args->GetInput<float>(2);
+    auto attributes_data = attributes_ref->GetComponentData();
+    if (attributes_data) {
+      attributes_data->attributes[*index] = *value;
     }
   }
 };
@@ -91,6 +103,7 @@ void InitializeAttributesModule(event::EventSystem* event_system,
   };
   module->RegisterNode<AttributesNode>("attributes", attributes_ctor);
   module->RegisterNode<GetAttributeNode>("get_attribute");
+  module->RegisterNode<SetAttributeNode>("set_attribute");
 }
 
 }  // fpl_project

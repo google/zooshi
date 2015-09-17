@@ -278,8 +278,6 @@ set(zooshi_SRCS
     src/game.h
     src/gpg_manager.h
     src/gpg_manager.cpp
-    src/graph_factory.cpp
-    src/graph_factory.h
     src/gui.cpp
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
@@ -323,6 +321,8 @@ set(zooshi_SRCS
     src/world_renderer.h
     src/zooshi_entity_factory.cpp
     src/zooshi_entity_factory.h
+    src/zooshi_graph_factory.cpp
+    src/zooshi_graph_factory.h
     # For outputting flatbuffer files as json.
     ${dependencies_flatbuffers_dir}/src/idl_parser.cpp
     ${dependencies_flatbuffers_dir}/src/idl_gen_text.cpp

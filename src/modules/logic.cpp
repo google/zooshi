@@ -19,34 +19,39 @@
 namespace fpl {
 namespace fpl_project {
 
-static void SetBooleanEdges(event::Outputs* out, bool value, int bool_index,
-                            int true_index, int false_index) {
-  out->Set(bool_index, value);
+static void SetBooleanEdges(event::NodeArguments* args, bool value,
+                            int bool_index, int true_index, int false_index) {
+  args->SetOutput(bool_index, value);
   if (value) {
-    out->Set(true_index);
+    args->SetOutput(true_index);
   } else {
-    out->Set(false_index);
+    args->SetOutput(false_index);
   }
 }
 
+// All logical nodes have three outputs, the boolean result of the logical
+// operation, and two void outputs which carry no data. The first one is
+// triggered when the result evaluates true, the second is triggered when the
+// result evaluates false.
+//
 // clang-format off
-#define LOGICAL_NODE(name, op)                                     \
-  class name : public event::BaseNode {                            \
-   public:                                                         \
-    static void OnRegister(event::NodeSignature* node_sig) {       \
-      node_sig->AddInput<bool>();                                  \
-      node_sig->AddInput<bool>();                                  \
-      node_sig->AddOutput<bool>();                                 \
-      node_sig->AddOutput<void>();                                 \
-      node_sig->AddOutput<void>();                                 \
-    }                                                              \
-                                                                   \
-    virtual void Execute(event::Inputs* in, event::Outputs* out) { \
-      auto a = in->Get<bool>(0);                                   \
-      auto b = in->Get<bool>(1);                                   \
-      bool result = *a op *b;                                      \
-      SetBooleanEdges(out, result, 0, 1, 2);                       \
-    }                                                              \
+#define LOGICAL_NODE(name, op)                               \
+  class name : public event::BaseNode {                      \
+   public:                                                   \
+    static void OnRegister(event::NodeSignature* node_sig) { \
+      node_sig->AddInput<bool>();                            \
+      node_sig->AddInput<bool>();                            \
+      node_sig->AddOutput<bool>();                           \
+      node_sig->AddOutput<void>();                           \
+      node_sig->AddOutput<void>();                           \
+    }                                                        \
+                                                             \
+    virtual void Execute(event::NodeArguments* args) {       \
+      auto a = args->GetInput<bool>(0);                      \
+      auto b = args->GetInput<bool>(1);                      \
+      bool result = *a op *b;                                \
+      SetBooleanEdges(args, result, 0, 1, 2);                \
+    }                                                        \
   }
 
 LOGICAL_NODE(AndNode, &&);
@@ -59,16 +64,15 @@ class NotNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<bool>();
-    node_sig->AddInput<bool>();
     node_sig->AddOutput<bool>();
     node_sig->AddOutput<void>();
     node_sig->AddOutput<void>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto a = in->Get<bool>(0);
+  virtual void Execute(event::NodeArguments* args) {
+    auto a = args->GetInput<bool>(0);
     bool result = !*a;
-    SetBooleanEdges(out, result, 0, 1, 2);
+    SetBooleanEdges(args, result, 0, 1, 2);
   }
 };
 

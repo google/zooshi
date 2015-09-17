@@ -31,11 +31,16 @@ class PlayerEntityNode : public event::BaseNode {
       : services_component_(services_component) {}
 
   static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
     node_sig->AddOutput<entity::EntityRef>();
   }
 
-  virtual void Initialize(event::Inputs* /*in*/, event::Outputs* out) {
-    out->Set(0, services_component_->player_entity());
+  virtual void Initialize(event::NodeArguments* args) {
+    args->SetOutput(0, services_component_->player_entity());
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    args->SetOutput(0, services_component_->player_entity());
   }
 
  private:
@@ -49,11 +54,16 @@ class RaftEntityNode : public event::BaseNode {
       : services_component_(services_component) {}
 
   static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
     node_sig->AddOutput<entity::EntityRef>();
   }
 
-  virtual void Initialize(event::Inputs* /*in*/, event::Outputs* out) {
-    out->Set(0, services_component_->raft_entity());
+  virtual void Initialize(event::NodeArguments* args) {
+    args->SetOutput(0, services_component_->raft_entity());
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    args->SetOutput(0, services_component_->raft_entity());
   }
 
  private:
@@ -67,20 +77,37 @@ class EntityNode : public event::BaseNode {
       : meta_component_(meta_component) {}
 
   static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
     node_sig->AddInput<std::string>();
     node_sig->AddOutput<entity::EntityRef>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto entity_id = in->Get<std::string>(0);
+  virtual void Execute(event::NodeArguments* args) {
+    auto entity_id = args->GetInput<std::string>(0);
     entity::EntityRef entity =
         meta_component_->GetEntityFromDictionary(entity_id->c_str());
     assert(entity.IsValid());
-    out->Set(0, entity);
+    args->SetOutput(0, entity);
   }
 
  private:
   component_library::MetaComponent* meta_component_;
+};
+
+// Given an input string, return the named entity.
+class DeleteEntityNode : public event::BaseNode {
+ public:
+  static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<entity::EntityRef>();
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    auto entity_ref = args->GetInput<entity::EntityRef>(0);
+    entity_manager_->DeleteEntity(*entity_ref);
+  }
+
+ private:
+  entity::EntityManager* entity_manager_;
 };
 
 void InitializeEntityModule(event::EventSystem* event_system,

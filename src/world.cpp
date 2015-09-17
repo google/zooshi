@@ -14,9 +14,10 @@
 
 #include "components_generated.h"
 #include "config_generated.h"
+#include "event/graph_factory.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
-#include "graph_factory.h"
+#include "fplbase/render_target.h"
 #include "input_config_generated.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
@@ -25,7 +26,6 @@
 #include "rail_def_generated.h"
 #include "world.h"
 #include "zooshi_entity_factory.h"
-#include "fplbase/render_target.h"
 
 #ifdef ANDROID_CARDBOARD
 #include "fplbase/renderer_hmd.h"
@@ -52,8 +52,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
                        event::EventManager* event_manager,
-                       event::EventSystem* event_system,
-                       GraphDictionary* graph_dictionary, Renderer* renderer,
+                       event::GraphFactory* graph_factory, Renderer* renderer,
                        WorldEditor* world_editor) {
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
@@ -72,10 +71,10 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   // to happen BEFORE other components are registered, because many of them
   // depend on it during their own init functions.
   common_services_component.Initialize(asset_manager, entity_factory.get(),
-                                       event_manager, input_system, renderer);
+                                       graph_factory, input_system, renderer);
   services_component.Initialize(config, asset_manager, input_system,
-                                audio_engine, event_manager, event_system,
-                                graph_dictionary, font_manager, &rail_manager,
+                                audio_engine, event_manager, graph_factory,
+                                font_manager, &rail_manager,
                                 entity_factory.get(), this, world_editor);
 
   entity_factory->SetComponentType(
@@ -149,6 +148,9 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       entity_manager.RegisterComponent(&transform_component),
       ComponentDataUnion_TransformDef, "TransformDef");
 
+  physics_component.set_collision_callback(&PatronComponent::CollisionHandler,
+                                           &patron_component);
+
   services_component.LoadComponentDefBinarySchema(kComponentDefBinarySchema);
   entity_factory->set_debug_entity_creation(false);
   entity_factory->SetFlatbufferSchema(kComponentDefBinarySchema);
@@ -193,6 +195,7 @@ void LoadWorldDef(World* world, const WorldDef* world_def,
   world->services_component.set_raft_entity(raft_entity);
 
   world->graph_component.PostLoadFixup();
+  world->physics_component.PostLoadFixup();
 }
 
 }  // fpl_project

@@ -21,7 +21,7 @@
 #include "config_generated.h"
 #include "entity/component.h"
 #include "event/event_manager.h"
-#include "event/event_system.h"
+#include "event/graph_factory.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
@@ -54,8 +54,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   void Initialize(const Config* config, AssetManager* asset_manager,
                   InputSystem* input_system, pindrop::AudioEngine* audio_engine,
                   event::EventManager* event_manager,
-                  event::EventSystem* event_system,
-                  GraphDictionary* graph_dictionary, FontManager* font_manager,
+                  event::GraphFactory* graph_factory, FontManager* font_manager,
                   RailManager* rail_manager,
                   component_library::EntityFactory* entity_factory,
                   World* world, editor::WorldEditor* world_editor) {
@@ -64,8 +63,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
     input_system_ = input_system;
     audio_engine_ = audio_engine;
     event_manager_ = event_manager;
-    event_system_ = event_system;
-    graph_dictionary_ = graph_dictionary;
+    graph_factory_ = graph_factory;
     font_manager_ = font_manager;
     rail_manager_ = rail_manager;
     entity_factory_ = entity_factory;
@@ -79,8 +77,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   AssetManager* asset_manager() { return asset_manager_; }
   pindrop::AudioEngine* audio_engine() { return audio_engine_; }
   event::EventManager* event_manager() { return event_manager_; }
-  event::EventSystem* event_system() { return event_system_; }
-  GraphDictionary* graph_dictionary() { return graph_dictionary_; }
+  event::GraphFactory* graph_factory() { return graph_factory_; }
   FontManager* font_manager() { return font_manager_; }
   InputSystem* input_system() { return input_system_; }
   RailManager* rail_manager() { return rail_manager_; }
@@ -121,8 +118,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
   AssetManager* asset_manager_;
   pindrop::AudioEngine* audio_engine_;
   event::EventManager* event_manager_;
-  event::EventSystem* event_system_;
-  GraphDictionary* graph_dictionary_;
+  event::GraphFactory* graph_factory_;
   InputSystem* input_system_;
   FontManager* font_manager_;
   RailManager* rail_manager_;

@@ -15,8 +15,12 @@
 #include "components/graph.h"
 
 #include <cstdio>
-#include "components/services.h"
+
+#include "component_library/common_services.h"
+#include "components_generated.h"
 #include "event/graph.h"
+#include "event/graph_state.h"
+#include "event/graph_factory.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::GraphComponent,
                             fpl::fpl_project::GraphData)
@@ -24,20 +28,21 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::GraphComponent,
 namespace fpl {
 namespace fpl_project {
 
-void GraphComponent::RegisterListener(int event_id, entity::EntityRef* entity,
-                                      event::NodeEventListener* listener) {
-  auto graph_data = Data<GraphData>(*entity);
+using fpl::component_library::CommonServicesComponent;
+
+fpl::event::NodeEventBroadcaster* GraphComponent::GetCreateBroadcaster(
+    entity::EntityRef entity) {
+  auto graph_data = Data<GraphData>(entity);
   if (!graph_data) {
-    graph_data = AddEntity(*entity);
+    graph_data = AddEntity(entity);
   }
-  graph_data->broadcaster.RegisterListener(event_id, listener);
+  return &graph_data->broadcaster;
 }
 
 void GraphComponent::Init() {
-  ServicesComponent* services =
-      entity_manager_->GetComponent<ServicesComponent>();
-  event_system_ = services->event_system();
-  graph_dictionary_ = services->graph_dictionary();
+  auto common_services_component =
+      entity_manager_->GetComponent<CommonServicesComponent>();
+  graph_factory_ = common_services_component->graph_factory();
 }
 
 void GraphComponent::AddFromRawData(entity::EntityRef& entity,
@@ -49,23 +54,24 @@ void GraphComponent::AddFromRawData(entity::EntityRef& entity,
     for (size_t i = 0; i < filename_list->size(); ++i) {
       auto filename = filename_list->Get(i);
       graph_data->graphs.push_back(SerializableGraphState());
+      graph_data->graphs.back().graph_state.reset(new event::GraphState);
       graph_data->graphs.back().filename = filename->c_str();
     }
   }
 }
 
 void GraphComponent::PostLoadFixup() {
-  auto services_component = entity_manager_->GetComponent<ServicesComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     entity::EntityRef& entity = iter->entity;
     GraphData* graph_data = Data<GraphData>(entity);
     for (auto graph_iter = graph_data->graphs.begin();
          graph_iter != graph_data->graphs.end(); ++graph_iter) {
-      event::Graph* graph = LoadGraph(event_system_, graph_dictionary_,
-                                      graph_iter->filename.c_str(),
-                                      services_component->audio_engine());
-      graph_iter->graph_state.Initialize(graph);
+      event::Graph* graph =
+          graph_factory_->LoadGraph(graph_iter->filename.c_str());
+      if (graph) {
+        graph_iter->graph_state->Initialize(graph);
+      }
     }
   }
 }
@@ -95,7 +101,7 @@ void GraphComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     GraphData* graph_data = Data<GraphData>(entity);
     for (auto graph_iter = graph_data->graphs.begin();
          graph_iter != graph_data->graphs.end(); ++graph_iter) {
-      graph_iter->graph_state.Execute();
+      graph_iter->graph_state->Execute();
     }
   }
 }

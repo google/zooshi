@@ -23,58 +23,57 @@ namespace fpl {
 namespace fpl_project {
 
 // clang-format off
-#define COMPARISON_NODE(name, op)                                  \
-  template <typename T>                                            \
-  class name : public event::BaseNode {                            \
-   public:                                                         \
-    static void OnRegister(event::NodeSignature* node_sig) {       \
-      node_sig->AddInput<T>();                                     \
-      node_sig->AddInput<T>();                                     \
-      node_sig->AddOutput<bool>();                                 \
-    }                                                              \
-                                                                   \
-    virtual void Execute(event::Inputs* in, event::Outputs* out) { \
-      auto a = in->Get<T>(0);                                      \
-      auto b = in->Get<T>(1);                                      \
-      out->Set(0, *a op *b);                                       \
-    }                                                              \
+#define COMPARISON_NODE(name, op)                            \
+  template <typename T>                                      \
+  class name : public event::BaseNode {                      \
+   public:                                                   \
+    static void OnRegister(event::NodeSignature* node_sig) { \
+      node_sig->AddInput<T>();                               \
+      node_sig->AddInput<T>();                               \
+      node_sig->AddOutput<bool>();                           \
+    }                                                        \
+                                                             \
+    virtual void Execute(event::NodeArguments* args) {       \
+      auto a = args->GetInput<T>(0);                         \
+      auto b = args->GetInput<T>(1);                         \
+      args->SetOutput(0, *a op *b);                          \
+    }                                                        \
   }
 
-#define ARITHMETIC_NODE(name, op)                                  \
-  template <typename T>                                            \
-  class name : public event::BaseNode {                            \
-   public:                                                         \
-    static void OnRegister(event::NodeSignature* node_sig) {       \
-      node_sig->AddInput<T>();                                     \
-      node_sig->AddInput<T>();                                     \
-      node_sig->AddOutput<T>();                                    \
-    }                                                              \
-                                                                   \
-    virtual void Execute(event::Inputs* in, event::Outputs* out) { \
-      auto a = in->Get<T>(0);                                      \
-      auto b = in->Get<T>(1);                                      \
-      out->Set(0, *a op *b);                                       \
-    }                                                              \
+#define ARITHMETIC_NODE(name, op)                            \
+  template <typename T>                                      \
+  class name : public event::BaseNode {                      \
+   public:                                                   \
+    static void OnRegister(event::NodeSignature* node_sig) { \
+      node_sig->AddInput<T>();                               \
+      node_sig->AddInput<T>();                               \
+      node_sig->AddOutput<T>();                              \
+    }                                                        \
+                                                             \
+    virtual void Execute(event::NodeArguments* args) {       \
+      auto a = args->GetInput<T>(0);                         \
+      auto b = args->GetInput<T>(1);                         \
+      args->SetOutput(0, *a op *b);                          \
+    }                                                        \
   }
-// clang-format on
 
 // Returns true if both input values are equal.
-COMPARISON_NODE(EqualsNode, == );
+COMPARISON_NODE(EqualsNode, ==);
 
 // Returns true if both input values are not equal.
-COMPARISON_NODE(NotEqualsNode, != );
+COMPARISON_NODE(NotEqualsNode, !=);
 
 // Returns true if the first input is greater than the second input.
-COMPARISON_NODE(GreaterThanNode, > );
+COMPARISON_NODE(GreaterThanNode, >);
 
 // Returns true if the first input is greater than or equal to the second input.
-COMPARISON_NODE(GreaterThanOrEqualsNode, >= );
+COMPARISON_NODE(GreaterThanOrEqualsNode, >=);
 
 // Returns true if the first input is less than the second input.
-COMPARISON_NODE(LessThanNode, < );
+COMPARISON_NODE(LessThanNode, <);
 
 // Returns true if the first input is less than or equal to the second input.
-COMPARISON_NODE(LessThanOrEqualsNode, <= );
+COMPARISON_NODE(LessThanOrEqualsNode, <=);
 
 // Retuns the sum of the arguments.
 ARITHMETIC_NODE(AddNode, +);
@@ -86,7 +85,8 @@ ARITHMETIC_NODE(SubtractNode, -);
 ARITHMETIC_NODE(MultiplyNode, *);
 
 // Retuns the quotient of the arguments.
-ARITHMETIC_NODE(DivideNode, / );
+ARITHMETIC_NODE(DivideNode, /);
+// clang-format on
 
 template <typename T>
 class MaxNode : public event::BaseNode {
@@ -97,10 +97,10 @@ class MaxNode : public event::BaseNode {
     node_sig->AddOutput<T>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto a = in->Get<T>(0);
-    auto b = in->Get<T>(1);
-    out->Set(0, std::max(*a, *b));
+  virtual void Execute(event::NodeArguments* args) {
+    auto a = args->GetInput<T>(0);
+    auto b = args->GetInput<T>(1);
+    args->SetOutput(0, std::max(*a, *b));
   }
 };
 
@@ -113,10 +113,10 @@ class MinNode : public event::BaseNode {
     node_sig->AddOutput<T>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto a = in->Get<T>(0);
-    auto b = in->Get<T>(1);
-    out->Set(0, std::min(*a, *b));
+  virtual void Execute(event::NodeArguments* args) {
+    auto a = args->GetInput<T>(0);
+    auto b = args->GetInput<T>(1);
+    args->SetOutput(0, std::min(*a, *b));
   }
 };
 

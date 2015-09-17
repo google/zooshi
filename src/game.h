@@ -27,7 +27,6 @@
 #include "fplbase/input.h"
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
-#include "graph_factory.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
@@ -37,6 +36,7 @@
 #include "states/states.h"
 #include "states/world_editor_state.h"
 #include "world.h"
+#include "zooshi_graph_factory.h"
 
 #if defined(PLATFORM_MOBILE)
 #define USING_GOOGLE_PLAY_GAMES
@@ -132,9 +132,7 @@ class Game : event::EventListener {
 
   // The event system.
   event::EventSystem event_system_;
-
-  // A dictionary of all loaded event graphs.
-  GraphDictionary graph_dictionary_;
+  ZooshiGraphFactory graph_factory_;
 
   // Shaders we use.
   Shader* shader_lit_textured_normal_;

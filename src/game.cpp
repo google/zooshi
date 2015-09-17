@@ -27,7 +27,6 @@
 #include "events/play_sound.h"
 #include "fplbase/input.h"
 #include "fplbase/utilities.h"
-#include "graph_factory.h"
 #include "graph_generated.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
@@ -47,6 +46,7 @@
 #include "motive/util/benchmark.h"
 #include "pindrop/pindrop.h"
 #include "world.h"
+#include "zooshi_graph_factory.h"
 
 #ifdef __ANDROID__
 #include "fplbase/renderer_android.h"
@@ -104,6 +104,7 @@ static const char kVersion[] = "FPL Project 0.0.1";
 Game::Game()
     : asset_manager_(renderer_),
       event_manager_(EventSinkUnion_Size),
+      graph_factory_(&event_system_, &LoadFile, &audio_engine_),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       prev_world_time_(0),
@@ -275,16 +276,17 @@ void Game::InitializeEventSystem() {
   event::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
   event::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
 
+  InitializeAttributesModule(&event_system_, &world_.attributes_component,
+                             &world_.graph_component);
   InitializeAudioModule(&event_system_, &audio_engine_);
   InitializeDebugModule(&event_system_);
   InitializeEntityModule(&event_system_, &world_.services_component,
                          &world_.meta_component);
   InitializeLogicModule(&event_system_);
   InitializeMathModule(&event_system_);
-  InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component);
+  InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
+                              &world_.graph_component);
   InitializeStringModule(&event_system_);
-  InitializeAttributesModule(&event_system_, &world_.attributes_component,
-                             &world_.graph_component);
   InitializeVec3Module(&event_system_);
 }
 
@@ -347,7 +349,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &event_manager_,
-                    &event_system_, &graph_dictionary_, &renderer_,
+                    &graph_factory_,  &renderer_,
                     world_editor_.get());
 
   world_renderer_.Initialize(&world_);

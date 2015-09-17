@@ -15,11 +15,14 @@
 #ifndef COMPONENTS_PATRON_H_
 #define COMPONENTS_PATRON_H_
 
+#include "component_library/physics.h"
 #include "components_generated.h"
 #include "config_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
 #include "event/event_manager.h"
+#include "event/graph.h"
+#include "event/graph_state.h"
 #include "events_generated.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
@@ -27,12 +30,6 @@
 #include "motive/motivator.h"
 
 namespace fpl {
-namespace event {
-
-class EventManager;
-
-}  // event
-
 namespace fpl_project {
 
 enum PatronState {
@@ -171,6 +168,9 @@ class PatronComponent : public entity::Component<PatronData>,
   void PostLoadFixup();
 
   virtual void OnEvent(const event::EventPayload& payload);
+
+  static void CollisionHandler(
+      fpl::component_library::CollisionData* collision_data, void* user_data);
 
  private:
   void HandleCollision(const entity::EntityRef& patron_entity,

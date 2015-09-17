@@ -13,8 +13,12 @@
 // limitations under the License.
 
 include "common.fbs";
+include "attributes.fbs";
 
 namespace fpl.fpl_project.graph;
+
+table Pulse {
+}
 
 table Bool {
   value:bool;
@@ -55,6 +59,7 @@ table OutputEdgeTarget {
 table Max {}
 
 union InputType {
+  Pulse,
   Bool,
   Int,
   Float,

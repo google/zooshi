@@ -15,17 +15,21 @@
 #ifndef FPL_COMPONENTS_GRAPH_H_
 #define FPL_COMPONENTS_GRAPH_H_
 
+#include <memory>
+
 #include "entity/component.h"
-#include "event/graph.h"
 #include "event/event.h"
-#include "graph_factory.h"
+#include "event/graph.h"
+#include "event/graph_state.h"
+#include "event/graph_factory.h"
+#include "graph_generated.h"
 
 namespace fpl {
 namespace fpl_project {
 
 struct SerializableGraphState {
   std::string filename;
-  event::GraphState graph_state;
+  std::unique_ptr<event::GraphState> graph_state;
 };
 
 struct GraphData {
@@ -39,10 +43,10 @@ class GraphComponent : public entity::Component<GraphData> {
   // must be done after because graphs may reference entities.
   void PostLoadFixup();
 
-  // This is a convenience function to handle associating an entity with a given
-  // listener object.
-  void RegisterListener(int event_id, entity::EntityRef* entity,
-                        event::NodeEventListener* listener);
+  // Gets the broadcaster for an entity, even if that entity does not yet have
+  // one.
+  fpl::event::NodeEventBroadcaster* GetCreateBroadcaster(
+      entity::EntityRef entity);
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
@@ -51,8 +55,7 @@ class GraphComponent : public entity::Component<GraphData> {
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
  private:
-  event::EventSystem* event_system_;
-  GraphDictionary* graph_dictionary_;
+  event::GraphFactory* graph_factory_;
 };
 
 }  // fpl_project

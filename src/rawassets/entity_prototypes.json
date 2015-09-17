@@ -516,12 +516,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
-          "data": {
-            "filename_list": [
-              "graphs/test.fplgraph"
-            ]
-          }
+          "data_type": "GraphDef"
         },
         {
           "data_type": "TransformDef",

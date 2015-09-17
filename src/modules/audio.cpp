@@ -32,19 +32,20 @@ class PlaySoundNode : public event::BaseNode {
       : audio_engine_(audio_engine) {}
 
   static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
     node_sig->AddInput<pindrop::SoundHandle>();
     node_sig->AddInput<vec3>();
     node_sig->AddInput<float>();
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto handle = in->Get<pindrop::SoundHandle>(0);
-    auto location = in->Get<vec3>(1);
-    auto gain = in->Get<float>(2);
+  virtual void Execute(event::NodeArguments* args) {
+    auto handle = args->GetInput<pindrop::SoundHandle>(1);
+    auto location = args->GetInput<vec3>(2);
+    auto gain = args->GetInput<float>(3);
     pindrop::Channel channel =
         audio_engine_->PlaySound(*handle, *location, *gain);
-    out->Set(0, channel);
+    args->SetOutput(0, channel);
   }
 
  private:
@@ -60,10 +61,10 @@ class PlayingNode : public event::BaseNode {
     node_sig->AddOutput<bool>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto channel = in->Get<pindrop::Channel>(0);
-    out->Set(0, *channel);
-    out->Set(1, channel->Playing());
+  virtual void Execute(event::NodeArguments* args) {
+    auto channel = args->GetInput<pindrop::Channel>(0);
+    args->SetOutput(0, *channel);
+    args->SetOutput(1, channel->Playing());
   }
 };
 
@@ -75,10 +76,10 @@ class StopNode : public event::BaseNode {
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto channel = in->Get<pindrop::Channel>(0);
+  virtual void Execute(event::NodeArguments* args) {
+    auto channel = args->GetInput<pindrop::Channel>(0);
     channel->Stop();
-    out->Set(0, *channel);
+    args->SetOutput(0, *channel);
   }
 };
 
@@ -91,11 +92,11 @@ class SetGainNode : public event::BaseNode {
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto channel = in->Get<pindrop::Channel>(0);
-    auto gain = in->Get<float>(0);
+  virtual void Execute(event::NodeArguments* args) {
+    auto channel = args->GetInput<pindrop::Channel>(0);
+    auto gain = args->GetInput<float>(0);
     channel->SetGain(*gain);
-    out->Set(0, *channel);
+    args->SetOutput(0, *channel);
   }
 };
 
@@ -108,10 +109,10 @@ class GainNode : public event::BaseNode {
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto channel = in->Get<pindrop::Channel>(0);
-    out->Set(0, *channel);
-    out->Set(1, channel->Gain());
+  virtual void Execute(event::NodeArguments* args) {
+    auto channel = args->GetInput<pindrop::Channel>(0);
+    args->SetOutput(0, *channel);
+    args->SetOutput(1, channel->Gain());
   }
 };
 
@@ -124,11 +125,11 @@ class SetLocationNode : public event::BaseNode {
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto channel = in->Get<pindrop::Channel>(0);
-    auto location = in->Get<vec3>(1);
+  virtual void Execute(event::NodeArguments* args) {
+    auto channel = args->GetInput<pindrop::Channel>(0);
+    auto location = args->GetInput<vec3>(1);
     channel->SetLocation(*location);
-    out->Set(0, *channel);
+    args->SetOutput(0, *channel);
   }
 };
 
@@ -141,10 +142,10 @@ class LocationNode : public event::BaseNode {
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto channel = in->Get<pindrop::Channel>(0);
-    out->Set(0, *channel);
-    out->Set(1, channel->Location());
+  virtual void Execute(event::NodeArguments* args) {
+    auto channel = args->GetInput<pindrop::Channel>(0);
+    args->SetOutput(0, *channel);
+    args->SetOutput(1, channel->Location());
   }
 };
 

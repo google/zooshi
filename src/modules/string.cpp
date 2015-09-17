@@ -31,11 +31,11 @@ class IntToStringNode : public event::BaseNode {
     node_sig->AddOutput<std::string>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto i = in->Get<int>(0);
+  virtual void Execute(event::NodeArguments* args) {
+    auto i = args->GetInput<int>(0);
     std::stringstream stream;
     stream << *i;
-    out->Set(0, stream.str());
+    args->SetOutput(0, stream.str());
   }
 };
 
@@ -47,11 +47,11 @@ class FloatToStringNode : public event::BaseNode {
     node_sig->AddOutput<std::string>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto f = in->Get<float>(0);
+  virtual void Execute(event::NodeArguments* args) {
+    auto f = args->GetInput<float>(0);
     std::stringstream stream;
     stream << *f;
-    out->Set(0, stream.str());
+    args->SetOutput(0, stream.str());
   }
 };
 
@@ -64,10 +64,10 @@ class ConcatNode : public event::BaseNode {
     node_sig->AddOutput<std::string>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto str_a = in->Get<std::string>(0);
-    auto str_b = in->Get<std::string>(1);
-    out->Set(0, *str_a + *str_b);
+  virtual void Execute(event::NodeArguments* args) {
+    auto str_a = args->GetInput<std::string>(0);
+    auto str_b = args->GetInput<std::string>(1);
+    args->SetOutput(0, *str_a + *str_b);
   }
 };
 

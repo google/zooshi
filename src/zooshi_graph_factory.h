@@ -12,37 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "modules/debug.h"
+#ifndef FPL_ZOOSHI_ZOOSHI_GRAPH_FACTORY_H_
+#define FPL_ZOOSHI_ZOOSHI_GRAPH_FACTORY_H_
 
 #include <string>
 
 #include "event/event_system.h"
-#include "event/base_node.h"
-#include "fplbase/utilities.h"
+#include "event/graph.h"
+#include "event/graph_factory.h"
+#include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
 
-// Prints a string to the logger.
-class ConsolePrintNode : public event::BaseNode {
+class ZooshiGraphFactory : public event::GraphFactory {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
-    node_sig->AddInput<void>();
-    node_sig->AddInput<std::string>();
-    node_sig->AddOutput<std::string>();
-  }
+  ZooshiGraphFactory(event::EventSystem* event_system,
+                     event::LoadFileCallback load_file_callback,
+                     pindrop::AudioEngine* audio_engine)
+      : event::GraphFactory(event_system, load_file_callback),
+        audio_engine_(audio_engine) {}
 
-  virtual void Execute(event::NodeArguments* args) {
-    auto str = args->GetInput<std::string>(1);
-    LogInfo("%s\n", str->c_str());
-    args->SetOutput(0, *str);
-  }
+ private:
+  virtual bool ParseData(event::EventSystem* event_system, event::Graph* graph,
+                         const std::string* data);
+
+  pindrop::AudioEngine* audio_engine_;
 };
-
-void InitializeDebugModule(event::EventSystem* event_system) {
-  event::Module* module = event_system->AddModule("debug");
-  module->RegisterNode<ConsolePrintNode>("console_print");
-}
 
 }  // fpl_project
 }  // fpl
+
+#endif  // FPL_ZOOSHI_ZOOSHI_GRAPH_FACTORY_H_

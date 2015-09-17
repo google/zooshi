@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include "component_library/physics.h"
 #include "components/rail_denizen.h"
 #include "entity/entity_manager.h"
 #include "event/event_system.h"
@@ -35,9 +36,9 @@ class RailDenizenNode : public event::BaseNode {
     node_sig->AddOutput<RailDenizenDataRef>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto entity = in->Get<entity::EntityRef>(0);
-    out->Set(0, RailDenizenDataRef(rail_denizen_component_, *entity));
+  virtual void Execute(event::NodeArguments* args) {
+    auto entity = args->GetInput<entity::EntityRef>(0);
+    args->SetOutput(0, RailDenizenDataRef(rail_denizen_component_, *entity));
   }
 
  private:
@@ -48,24 +49,88 @@ class RailDenizenNode : public event::BaseNode {
 class LapNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
     node_sig->AddInput<RailDenizenDataRef>();
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto rail_denizen_ref = in->Get<RailDenizenDataRef>(0);
-    out->Set(0, rail_denizen_ref->GetComponentData()->lap);
+  virtual void Execute(event::NodeArguments* args) {
+    auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
+    args->SetOutput(0, rail_denizen_ref->GetComponentData()->lap);
+  }
+};
+
+// Fires a pulse whenever a new lap has been started.
+class NewLapNode : public event::BaseNode {
+ public:
+  NewLapNode(GraphComponent* graph_component)
+      : graph_component_(graph_component) {}
+
+  static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<RailDenizenDataRef>();
+    node_sig->AddOutput<void>();
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(0);
+    args->BindBroadcaster(
+        0, graph_component_->GetCreateBroadcaster(rail_denizen_ref->entity()));
+    args->SetOutput(0);
+  }
+
+ private:
+  GraphComponent* graph_component_;
+};
+
+// Sets the rail denizen's speed.
+class GetRailSpeedNode : public event::BaseNode {
+ public:
+  static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<RailDenizenDataRef>();
+    node_sig->AddOutput<float>();
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(0);
+    args->SetOutput(0,
+                    rail_denizen_ref->GetComponentData()->spline_playback_rate);
+  }
+};
+
+// Sets the rail denizen's speed.
+class SetRailSpeedNode : public event::BaseNode {
+ public:
+  static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
+    node_sig->AddInput<RailDenizenDataRef>();
+    node_sig->AddInput<float>();
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
+    auto speed = args->GetInput<float>(2);
+    RailDenizenData* rail_denizen_data = rail_denizen_ref->GetComponentData();
+    rail_denizen_data->spline_playback_rate = *speed;
+    rail_denizen_data->motivator.SetSplinePlaybackRate(
+        rail_denizen_data->spline_playback_rate);
   }
 };
 
 void InitializeRailDenizenModule(event::EventSystem* event_system,
-                                 RailDenizenComponent* rail_denizen_component) {
+                                 RailDenizenComponent* rail_denizen_component,
+                                 GraphComponent* graph_component) {
   event::Module* module = event_system->AddModule("rail_denizen");
   auto rail_denizen_ctor = [rail_denizen_component]() {
     return new RailDenizenNode(rail_denizen_component);
   };
+  auto new_lap_ctor = [graph_component]() {
+    return new NewLapNode(graph_component);
+  };
   module->RegisterNode<RailDenizenNode>("rail_denizen", rail_denizen_ctor);
   module->RegisterNode<LapNode>("lap");
+  module->RegisterNode<NewLapNode>("new_lap", new_lap_ctor);
+  module->RegisterNode<SetRailSpeedNode>("set_rail_speed");
+  module->RegisterNode<GetRailSpeedNode>("get_rail_speed");
 }
 
 }  // fpl_project

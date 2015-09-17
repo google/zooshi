@@ -33,11 +33,11 @@ class Vec3Node : public event::BaseNode {
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto x = in->Get<float>(0);
-    auto y = in->Get<float>(1);
-    auto z = in->Get<float>(2);
-    out->Set(0, vec3(*x, *y, *z));
+  virtual void Execute(event::NodeArguments* args) {
+    auto x = args->GetInput<float>(0);
+    auto y = args->GetInput<float>(1);
+    auto z = args->GetInput<float>(2);
+    args->SetOutput(0, vec3(*x, *y, *z));
   }
 };
 
@@ -51,11 +51,11 @@ class ElementsNode : public event::BaseNode {
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto vec = in->Get<vec3>(0);
-    out->Set(0, vec->x());
-    out->Set(1, vec->y());
-    out->Set(2, vec->z());
+  virtual void Execute(event::NodeArguments* args) {
+    auto vec = args->GetInput<vec3>(0);
+    args->SetOutput(0, vec->x());
+    args->SetOutput(1, vec->y());
+    args->SetOutput(2, vec->z());
   }
 };
 
@@ -68,10 +68,10 @@ class AddNode : public event::BaseNode {
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto vec_a = in->Get<vec3>(0);
-    auto vec_b = in->Get<vec3>(1);
-    out->Set(0, *vec_a + *vec_b);
+  virtual void Execute(event::NodeArguments* args) {
+    auto vec_a = args->GetInput<vec3>(0);
+    auto vec_b = args->GetInput<vec3>(1);
+    args->SetOutput(0, *vec_a + *vec_b);
   }
 };
 
@@ -84,10 +84,10 @@ class SubtractNode : public event::BaseNode {
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto vec_a = in->Get<vec3>(0);
-    auto vec_b = in->Get<vec3>(1);
-    out->Set(0, *vec_a - *vec_b);
+  virtual void Execute(event::NodeArguments* args) {
+    auto vec_a = args->GetInput<vec3>(0);
+    auto vec_b = args->GetInput<vec3>(1);
+    args->SetOutput(0, *vec_a - *vec_b);
   }
 };
 
@@ -99,10 +99,10 @@ class ScalarMultiplyNode : public event::BaseNode {
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto vec = in->Get<vec3>(0);
-    auto scalar = in->Get<float>(1);
-    out->Set(0, *vec * *scalar);
+  virtual void Execute(event::NodeArguments* args) {
+    auto vec = args->GetInput<vec3>(0);
+    auto scalar = args->GetInput<float>(1);
+    args->SetOutput(0, *vec * *scalar);
   }
 };
 
@@ -114,10 +114,10 @@ class ScalarDivideNode : public event::BaseNode {
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto vec = in->Get<vec3>(0);
-    auto scalar = in->Get<float>(1);
-    out->Set(0, *vec / *scalar);
+  virtual void Execute(event::NodeArguments* args) {
+    auto vec = args->GetInput<vec3>(0);
+    auto scalar = args->GetInput<float>(1);
+    args->SetOutput(0, *vec / *scalar);
   }
 };
 
@@ -129,10 +129,10 @@ class CrossProductNode : public event::BaseNode {
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto vec_a = in->Get<vec3>(0);
-    auto vec_b = in->Get<vec3>(1);
-    out->Set(0, vec3::CrossProduct(*vec_a, *vec_b));
+  virtual void Execute(event::NodeArguments* args) {
+    auto vec_a = args->GetInput<vec3>(0);
+    auto vec_b = args->GetInput<vec3>(1);
+    args->SetOutput(0, vec3::CrossProduct(*vec_a, *vec_b));
   }
 };
 
@@ -144,10 +144,10 @@ class DotProductNode : public event::BaseNode {
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::Inputs* in, event::Outputs* out) {
-    auto vec_a = in->Get<vec3>(0);
-    auto vec_b = in->Get<vec3>(1);
-    out->Set(0, vec3::DotProduct(*vec_a, *vec_b));
+  virtual void Execute(event::NodeArguments* args) {
+    auto vec_a = args->GetInput<vec3>(0);
+    auto vec_b = args->GetInput<vec3>(1);
+    args->SetOutput(0, vec3::DotProduct(*vec_a, *vec_b));
   }
 };
 
