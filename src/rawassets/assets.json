@@ -5,7 +5,7 @@
     "meshes/sushi_shrimp.fplmesh",
     "meshes/Lady_Mandrill.fplmesh",
     "meshes/menacing_croc.fplmesh",
-    "meshes/Crocodile.fplmesh",
+    "meshes/crocodile_rig.fplmesh",
     "meshes/Hippo_RIG.fplmesh",
     "meshes/Bird_RIG.fplmesh",
     "meshes/Giraffe.fplmesh",
@@ -92,11 +92,11 @@
       },
       { // AnimObject_DapperCroc
         "anim_files": [
-          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
-          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
-          "",                               // PatronAction_Satisfied
-          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
+          "anims/crocodile_appear.fplanim",     // PatronAction_GetUp
+          "anims/crocodile_idle.fplanim",       // PatronAction_Idle
+          "anims/crocodile_eat.fplanim",        // PatronAction_Eat
+          "anims/crocodile_happy.fplanim",      // PatronAction_Satisfied
+          "anims/crocodile_disappear.fplanim",  // PatronAction_Fall
         ]
       },
       { // AnimObject_LadyMandrill

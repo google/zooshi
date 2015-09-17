@@ -1087,9 +1087,9 @@
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/Crocodile.fplmesh",
-            "shader": "shaders/textured_lit",
-            "render_pass": ["Alpha"],
+            "source_file": "meshes/crocodile_rig.fplmesh",
+            "shader": "shaders/textured_skinned_lit",
+            "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -1273,7 +1273,7 @@
           "data": {
             "source_file": "meshes/Hippo_RIG.fplmesh",
             "shader": "shaders/textured_skinned_lit",
-            "render_pass": ["Alpha"],
+            "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
         }

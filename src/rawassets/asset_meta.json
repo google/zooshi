@@ -5,6 +5,7 @@
     { "name": "rock", "recenter": 1 },
     { "name": "fern", "hierarchy": 1 },
     { "name": "grass", "recenter": 1 },
+    { "name": "crocodile", "hierarchy": 1 },
     { "name": "Lady_Mandrill", "hierarchy": 1 },
     { "name": "Hippo", "hierarchy": 1 },
     { "name": "Bird", "hierarchy": 1 },
@@ -12,6 +13,11 @@
   ],
 
   "anim_meta": [
+    { "name": "appear", "repeat": 0 },
+    { "name": "idle", "repeat": 1 },
+    { "name": "eat", "repeat": 0 },
+    { "name": "happy", "repeat": 0 },
+    { "name": "disappear", "repeat": 0 },
     { "name": "APPEAR", "repeat": 0 },
     { "name": "IDLE", "repeat": 1 },
     { "name": "EAT", "repeat": 0 },
