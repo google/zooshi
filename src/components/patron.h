@@ -74,7 +74,6 @@ struct PatronData {
         state(kPatronStateLayingDown),
         catching_state(kCatchingStateIdle),
         anim_object(AnimObject_HungryHippo),
-        time_remaining_in_action(motive::kMotiveTimeEndless),
         last_lap_fed(-1.0f) {}
 
   // The event to trigger when a projectile collides with this patron.
@@ -90,9 +89,6 @@ struct PatronData {
   // The type of patron being animated. Each patron has its own set of
   // animations.
   AnimObject anim_object;
-
-  // When reaches zero, should transition to next state.
-  motive::MotiveTime time_remaining_in_action;
 
   // Keep track of the last time this patron was fed so we know when they
   // can pop back up.

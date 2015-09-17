@@ -66,13 +66,6 @@ static const float kMaxCatchTime = 1.5f;
 static const float kHeightRangeBuffer = 0.05f;
 static const Range kCatchTimeRangeInSeconds(0.01f, kMaxCatchTime);
 static const float kCatchReturnTime = 1.0f;
-static const MotiveTime kTimeInActions[] = {
-  kMotiveTimeEndless, // PatronAction_GetUp
-  kMotiveTimeEndless, // PatronAction_Idle
-  1500,               // PatronAction_Eating
-  2000,               // PatronAction_Satisfied
-  kMotiveTimeEndless, // PatronAction_Fall
-};
 
 static inline vec3 ZeroHeight(const vec3& v) {
   vec3 v_copy = v;
@@ -354,11 +347,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     AnimationData* anim_data = Data<AnimationData>(patron_data->render_child);
     if (anim_data->motivator.Valid()) {
       const MotiveTime anim_delta_time = static_cast<MotiveTime>(delta_time);
-      patron_data->time_remaining_in_action -= anim_delta_time;
 
-      const MotiveTime time_remaining =
-          std::min(anim_data->motivator.TimeRemaining(),
-                   patron_data->time_remaining_in_action);
+      const MotiveTime time_remaining = anim_data->motivator.TimeRemaining();
       const bool anim_ending = time_remaining < anim_delta_time;
 
       if (anim_ending) {
@@ -414,10 +404,6 @@ bool PatronComponent::HasAnim(const PatronData* patron_data,
 void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {
   entity_manager_->GetComponent<AnimationComponent>()->AnimateFromTable(
       patron_data->render_child, action);
-
-  assert(0 <= action &&
-         action < static_cast<PatronAction>(FPL_ARRAYSIZE(kTimeInActions)));
-  patron_data->time_remaining_in_action = kTimeInActions[action];
 }
 
 void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
