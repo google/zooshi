@@ -18,8 +18,6 @@ uniform lowp vec4 color;
 void main()
 {
   lowp vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
-  // We only render pixels if they are opaque.
-  if (texture_color.a < 1.0)
-    discard;
+
   gl_FragColor = color * texture_color;
 }
