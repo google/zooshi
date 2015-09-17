@@ -417,23 +417,6 @@ void Game::Run() {
     if (fps_time_counter_ >= 1000) {
       OutputBenchmarks();
       ClearBenchmarks();
-
-      // Show a count of how many frames we actually rendered during the
-      // previous second.
-      // LogInfo("Running at %d FPS", fps_frame_counter_);
-      // Set it as an attribute on the player so we can show it on screen.
-      if (world_.active_player_entity) {
-        AttributesData* attrib_data =
-            (world_.entity_manager.GetComponent<AttributesComponent>() !=
-             nullptr)
-                ? world_.entity_manager.GetComponentData<AttributesData>(
-                      world_.active_player_entity)
-                : nullptr;
-
-        if (attrib_data != nullptr)
-          attrib_data->set_attribute(AttributeDef_FramesPerSecond,
-                                     static_cast<float>(fps_frame_counter_));
-      }
       fps_time_counter_ -= 1000;
       fps_frame_counter_ = 0;
     }

@@ -27,47 +27,27 @@ class InputSystem;
 class AssetManager;
 class FontManager;
 
-namespace event {
-
-class EventManager;
-
-}  // event
 namespace fpl_project {
 
 // Data for scene object components.
 class AttributesData {
  public:
-  AttributesData() : dirty_bit_(false) {
+  AttributesData() {
     for (int i = 0; i < AttributeDef_Size; ++i) {
-      attributes_[i] = 0;
+      attributes[i] = 0;
     }
   }
 
-  float attribute(int index) { return attributes_[index]; }
-
-  void set_attribute(int index, float value) {
-    dirty_bit_ = true;
-    attributes_[index] = value;
-  }
-
-  bool dirty_bit() const { return dirty_bit_; }
-  void clear_dirty_bit() { dirty_bit_ = false; }
-
- private:
-  float attributes_[AttributeDef_Size];
-  bool dirty_bit_;
+  float attributes[AttributeDef_Size];
 };
 
 class AttributesComponent : public entity::Component<AttributesData>,
                             public event::EventListener {
  public:
-  AttributesComponent() {}
-
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
   virtual void OnEvent(const event::EventPayload& event_payload);
 

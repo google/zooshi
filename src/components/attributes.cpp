@@ -51,30 +51,13 @@ void AttributesComponent::OnEvent(const event::EventPayload& event_payload) {
       AttributesData* attributes_data = Data<AttributesData>(mod_event->target);
       if (attributes_data) {
         int index = mod_event->modify_attribute->attrib();
-        float value = attributes_data->attribute(index);
-        ApplyOperation(&value, mod_event->modify_attribute->op(),
+        float* value = &attributes_data->attributes[index];
+        ApplyOperation(value, mod_event->modify_attribute->op(),
                        mod_event->modify_attribute->value());
-        attributes_data->set_attribute(index, value);
       }
       break;
     }
     default: { assert(0); }
-  }
-}
-
-void AttributesComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  for (auto iter = component_data_.begin(); iter != component_data_.end();
-       ++iter) {
-    entity::EntityRef& entity = iter->entity;
-    AttributesData* attributes_data = Data<AttributesData>(entity);
-    GraphData* graph_data = Data<GraphData>(entity);
-    if (attributes_data->dirty_bit()) {
-      attributes_data->clear_dirty_bit();
-      if (graph_data) {
-        graph_data->broadcaster.BroadcastEvent(
-            kEventIdEntityAttributesChanged);
-      }
-    }
   }
 }
 

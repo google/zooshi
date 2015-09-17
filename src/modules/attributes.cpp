@@ -77,7 +77,7 @@ class GetAttributeNode : public event::BaseNode {
     auto index = in->Get<int>(1);
     auto attributes_data = attributes_ref->GetComponentData();
     if (attributes_data) {
-      out->Set(0, attributes_data->attribute(*index));
+      out->Set(0, attributes_data->attributes[*index]);
     }
   }
 };
