@@ -1722,15 +1722,15 @@
                 "data_type": "BulletBoxDef",
                 "data": {
                   "half_extents": {
-                    "x": 0.3,
-                    "y": 0.16,
-                    "z": 0.16
+                    "x": 0.53,
+                    "y": 0.22,
+                    "z": 0.22
                   }
                 },
                 "offset": {
                   "x": 0.0,
-                  "y": 0.16,
-                  "z": 0.0
+                  "y": 0.0,
+                  "z": 0.05
                 },
                 "restitution": 1.0,
                 "collision_type": "Projectile",
