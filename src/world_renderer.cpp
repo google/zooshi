@@ -88,9 +88,6 @@ void WorldRenderer::RenderPrep(const CameraInterface& camera,
     CreateShadowMap(camera, renderer, world);
   }
   world->render_mesh_component.RenderPrep(camera);
-  RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
-  renderer.ClearDepthBuffer();
-  renderer.SetCulling(Renderer::kCullBack);
 }
 
 // Draw the shadow map in the world, so we can see it.

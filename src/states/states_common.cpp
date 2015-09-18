@@ -57,12 +57,12 @@ static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
 void RenderWorld(Renderer& renderer, World* world, Camera& camera,
                  Camera* cardboard_camera, InputSystem* input_system) {
   vec2 window_size = vec2(renderer.window_size());
+  world->river_component.UpdateRiverMeshes();
   if (world->is_in_cardboard) {
     window_size.x() = window_size.x() / 2;
     cardboard_camera->set_viewport_resolution(window_size);
   }
   camera.set_viewport_resolution(window_size);
-  world->world_renderer->RenderPrep(camera, renderer, world);
   if (world->is_in_cardboard) {
     RenderStereoscopic(renderer, world, camera, cardboard_camera, input_system);
   } else {

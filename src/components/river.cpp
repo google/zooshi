@@ -64,6 +64,7 @@ void RiverComponent::Init() {
     world_editor->AddOnUpdateEntityCallback(
         [this](const entity::EntityRef& entity) { UpdateRiverMeshes(entity); });
   }
+  update_river_mutex_ = PTHREAD_MUTEX_INITIALIZER;
 }
 
 void RiverComponent::AddFromRawData(entity::EntityRef& entity,
@@ -74,8 +75,13 @@ void RiverComponent::AddFromRawData(entity::EntityRef& entity,
   river_data->random_seed = river_def->random_seed();
 
   entity_manager_->AddEntityToComponent<RenderMeshComponent>(entity);
+  TriggerRiverUpdate(river_data);
+}
 
-  CreateRiverMesh(entity);
+void RiverComponent::TriggerRiverUpdate(RiverData* river_data) {
+  pthread_mutex_lock(&update_river_mutex_);
+  river_data->render_mesh_needs_update_ = true;
+  pthread_mutex_unlock(&update_river_mutex_);
 }
 
 entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
@@ -97,6 +103,18 @@ entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
   return fbb.ReleaseBufferPointer();
 }
 
+// Iterate through the river meshes and update any of them that need to be
+// regenerated.  Split out into a separate function so it can be called from
+// the render thread.  (Warning:  Crashes if you try to call it on the main
+// thread, because it doesn't have access to the opengl context!)
+void RiverComponent::UpdateRiverMeshes() {
+  for (auto iter = begin(); iter != end(); ++iter) {
+    RiverData* river_data = Data<RiverData>(iter->entity);
+    if (river_data->render_mesh_needs_update_)
+      CreateRiverMesh(iter->entity);
+  }
+}
+
 // Generates the actual mesh for the river, and adds it to this entitiy's
 // rendermesh component.
 void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
@@ -110,6 +128,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
                                  ->river_config();
 
   RiverData* river_data = Data<RiverData>(entity);
+  pthread_mutex_lock(&update_river_mutex_);
+  river_data->render_mesh_needs_update_ = false;
+  pthread_mutex_unlock(&update_river_mutex_);
 
   // Initialize the static mesh that will be made around the river banks.
   auto* physics_component = entity_manager_->GetComponent<PhysicsComponent>();
@@ -383,6 +404,11 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   // Add the river mesh to the river entity.
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
   mesh_data->shader = asset_manager->LoadShader(river->shader()->c_str());
+  if (mesh_data->mesh != nullptr) {
+    // Mesh's destructor handles cleaning up its GL buffers
+    delete mesh_data->mesh;
+    mesh_data->mesh = nullptr;
+  }
   mesh_data->mesh = river_mesh;
   mesh_data->culling_mask = 0;  // Never cull the river.
   mesh_data->pass_mask = 1 << RenderPass_Opaque;

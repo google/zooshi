@@ -47,8 +47,9 @@ class WorldEditorState : public StateNode {
                   editor::WorldEditor* world_editor, World* world);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
+  virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
-
+  virtual void HandleUI(Renderer* renderer);
   virtual void OnEnter();
   virtual void OnExit();
 

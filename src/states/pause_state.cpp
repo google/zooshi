@@ -115,12 +115,21 @@ GameState PauseState::PauseMenu(AssetManager& assetman, FontManager& fontman,
   return next_state;
 }
 
+void PauseState::RenderPrep(Renderer* renderer) {
+  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+}
+
 void PauseState::Render(Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_CARDBOARD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
+}
+
+void PauseState::HandleUI(Renderer* renderer) {
+  // No culling when drawing the menu.
+  renderer->SetCulling(Renderer::kNoCulling);
   next_state_ = PauseMenu(*asset_manager_, *font_manager_, *input_system_);
 }
 

@@ -26,6 +26,7 @@
 #include "event/log.h"
 #include "events/play_sound.h"
 #include "fplbase/input.h"
+#include "fplbase/systrace.h"
 #include "fplbase/utilities.h"
 #include "graph_generated.h"
 #include "input_config_generated.h"
@@ -49,6 +50,9 @@
 #include "world.h"
 #include "zooshi_graph_factory.h"
 
+// To be replaced with SDL threads:
+#include "pthread.h"
+
 #ifdef __ANDROID__
 #include "fplbase/renderer_android.h"
 #endif
@@ -67,6 +71,13 @@ using mathfu::quat;
 
 namespace fpl {
 namespace fpl_project {
+
+// Mutexes/CVs used in synchronizing the render and update threads:
+pthread_mutex_t Game::renderthread_mutex_ = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t Game::updatethread_mutex_ = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t Game::gameupdate_mutex_ = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t Game::start_render_cv_ = PTHREAD_COND_INITIALIZER;
+pthread_cond_t Game::start_update_cv_ = PTHREAD_COND_INITIALIZER;
 
 static const int kQuadNumVertices = 4;
 static const int kQuadNumIndices = 6;
@@ -92,6 +103,11 @@ static const vec3 kLightPos = vec3(0, 20, 20);
 static const int kMinUpdateTime = 1000 / 60;
 static const int kMaxUpdateTime = 1000 / 30;
 
+// Codes used in systrace logging.  Their values don't
+// actually matter much as long as they're unique.
+static const int kUpdateGameStateCode = 555;
+static const int kUpdateRenderPrepCode = 556;
+
 /// kVersion is used by Google developers to identify which
 /// applications uploaded to Google Play are derived from this application.
 /// This allows the development team at Google to determine the popularity of
@@ -107,12 +123,11 @@ Game::Game()
       graph_factory_(&event_system_, &LoadFile, &audio_engine_),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
-      prev_world_time_(0),
+      prev_render_time_(0),
+      game_exiting_(false),
       audio_config_(nullptr),
       world_(),
-      version_(kVersion),
-      fps_frame_counter_(0),
-      fps_time_counter_(0) {}
+      version_(kVersion) {}
 
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
@@ -300,6 +315,7 @@ bool Game::Initialize(const char* const binary_directory) {
   InitBenchmarks(10);
 
   input_.Initialize();
+  SystraceInit();
 
   if (!ChangeToUpstreamDir(binary_directory, kAssetsDir)) return false;
 
@@ -398,41 +414,200 @@ void Game::ToggleRelativeMouseMode() {
 
 static inline WorldTime CurrentWorldTime() { return GetTicks(); }
 
-void Game::Run() {
-  // Initialize so that we don't sleep the first time through the loop.
-  prev_world_time_ = CurrentWorldTime() - kMinUpdateTime;
+// Stuff the update thread needs to know about:
+struct UpdateThreadData {
+  UpdateThreadData(bool* exiting, World* world_ptr,
+                   StateMachine<kGameStateCount>* statemachine_ptr,
+                   Renderer* renderer_ptr, InputSystem* input_ptr,
+                   pindrop::AudioEngine* audio_engine_ptr)
+      : game_exiting(exiting),
+        world(world_ptr),
+        state_machine(statemachine_ptr),
+        renderer(renderer_ptr),
+        input(input_ptr),
+        audio_engine(audio_engine_ptr) {}
+  bool* game_exiting;
+  World* world;
+  StateMachine<kGameStateCount>* state_machine;
+  Renderer* renderer;
+  InputSystem* input;
+  pindrop::AudioEngine* audio_engine;
+};
 
-  while (!input_.exit_requested() && !state_machine_.done()) {
-    // Milliseconds elapsed since last update. To avoid burning through the
-    // CPU, enforce a minimum time between updates. For example, if
-    // min_update_time is 1, we will not exceed 1000Hz update time.
+// This is the therad that handles all of our actual game logic updates:
+static void* UpdateThread(void* data) {
+  UpdateThreadData* rt_data = static_cast<UpdateThreadData*>(data);
+  int prev_update_time;
+  prev_update_time = CurrentWorldTime() - kMinUpdateTime;
+#ifdef __ANDROID__
+  JavaVM* jvm;
+  JNIEnv* env = AndroidGetJNIEnv();
+  env->GetJavaVM(&jvm);
+
+  JNIEnv* update_env;
+
+  JavaVMAttachArgs args;
+  args.version = JNI_VERSION_1_6;  // choose your JNI version
+  args.name = "Zooshi Update";
+  args.group =
+      nullptr;  // you might want to assign the java thread to a ThreadGroup
+  jvm->AttachCurrentThread(&update_env, &args);
+#endif  //__ANDROID__
+
+  pthread_mutex_lock(&Game::updatethread_mutex_);
+  while (!*(rt_data->game_exiting)) {
+    pthread_cond_wait(&Game::start_update_cv_, &Game::updatethread_mutex_);
+
+    // -------------------------------------------
+    // Step 5b.  (See comment at the start of Run()
+    // Update everything.  This is only called once everything has been
+    // safely loaded up into openGL and the renderthread is working its way
+    // through actually putting everything on the screen.
+    // -------------------------------------------
+    pthread_mutex_lock(&Game::gameupdate_mutex_);
     const WorldTime world_time = CurrentWorldTime();
     const WorldTime delta_time =
-        std::min(world_time - prev_world_time_, kMaxUpdateTime);
-    fps_frame_counter_++;
-    fps_time_counter_ += world_time - prev_world_time_;
+        std::min(world_time - prev_update_time, kMaxUpdateTime);
+    prev_update_time = world_time;
 
-    prev_world_time_ = world_time;
-    if (delta_time < kMinUpdateTime) {
-      Delay(kMinUpdateTime - delta_time);
+    SystraceAsyncBegin("UpdateGameState", kUpdateGameStateCode);
+    rt_data->input->AdvanceFrame(&(rt_data->renderer->window_size()));
+    rt_data->state_machine->AdvanceFrame(delta_time);
+    SystraceAsyncEnd("UpdateGameState", kUpdateGameStateCode);
+
+    SystraceAsyncBegin("UpdateRenderPrep", kUpdateRenderPrepCode);
+    rt_data->state_machine->RenderPrep(rt_data->renderer);
+    SystraceAsyncEnd("UpdateRenderPrep", kUpdateRenderPrepCode);
+
+    rt_data->audio_engine->AdvanceFrame(delta_time / 1000.0f);
+
+    if (rt_data->input->exit_requested() || rt_data->state_machine->done()) {
+      *(rt_data->game_exiting) = true;
     }
+    pthread_mutex_unlock(&Game::gameupdate_mutex_);
+  }
 
-    if (fps_time_counter_ >= 1000) {
-      OutputBenchmarks();
-      ClearBenchmarks();
-      fps_time_counter_ -= 1000;
-      fps_frame_counter_ = 0;
-    }
+#ifdef __ANDROID__
+  jvm->DetachCurrentThread();
+#endif  //__ANDROID__
+  pthread_mutex_unlock(&Game::updatethread_mutex_);
 
-    input_.AdvanceFrame(&renderer_.window_size());
+  return nullptr;
+}
 
-    state_machine_.AdvanceFrame(delta_time);
+void HandleVsync() { pthread_cond_broadcast(&Game::start_render_cv_); }
+
+// Hack, to simulate vsync events on non-android devices.
+static void* VsyncSimulatorThread(void* data) {
+  (void)data;
+  while (true) {
+    HandleVsync();
+    Delay(16);
+  }
+  return nullptr;
+}
+
+// For performance, we're using multiple threads so that the game state can
+// be updating in the background while openGL renders.
+// The general plan is:
+// 1. Vsync happens.  Everything begins.
+// 2. Renderthread activates.  (The update thread is currently blocked.)
+// 3. Renderthread dumps everything into opengl, via RenderAllEntities.  (And
+//    any other similar calls, such as calls to IMGUI)  Updatethread is
+//    still blocked.  When this is complete, OpenGL now has its own copy of
+//    everything, and we can safely change world state data.
+// 4. Renderthread signals updatethread to wake up.
+// 5a.Renderthread calls gl_flush, (via Renderer.advanceframe) and waits for
+//    everything render.  Once complete, it goes to sleep and waits for the
+//    next vsync event.
+// 5b.Updatethread goes and updates the game state and gets us all ready for
+//    next frame.  Once complete, it also goes to sleep and waits for the next
+//    vsync event.
+void Game::Run() {
+  // Initialize so that we don't sleep the first time through the loop.
+  prev_render_time_ = CurrentWorldTime() - kMinUpdateTime;
+
+  // Start the update thread:
+  UpdateThreadData rt_data(&game_exiting_, &world_, &state_machine_, &renderer_,
+                           &input_, &audio_engine_);
+
+  input_.AdvanceFrame(&renderer_.window_size());
+  state_machine_.AdvanceFrame(16);
+
+  pthread_t update_thread;
+  if (pthread_create(&update_thread, nullptr, UpdateThread, &rt_data)) {
+    LogError("Error creating update thread.");
+    assert(false);
+  }
+
+#ifdef __ANDROID__
+  RegisterVsyncCallback(HandleVsync);
+#else
+  // We don't need this on android because we'll just get vsync events directly.
+  pthread_t vsync_simulator_thread;
+  if (pthread_create(&vsync_simulator_thread, nullptr, VsyncSimulatorThread,
+                     nullptr)) {
+    LogError("Error creating vsync simulator thread.");
+    assert(false);
+  }
+#endif
+  // We basically own the lock all the time, except when we're waiting
+  // for a vsync event.
+  pthread_mutex_lock(&renderthread_mutex_);
+  while (!game_exiting_) {
+    // -------------------------------------------
+    // Steps 1, 2.
+    // Wait for start of frame.  (triggered at vsync start on android.)
+    // -------------------------------------------
+    pthread_cond_wait(&start_render_cv_, &renderthread_mutex_);
+
+    // Grab the lock to make sure the game isn't still updating.
+    pthread_mutex_lock(&gameupdate_mutex_);
+
+    SystraceBegin("RenderFrame");
+
+    // Milliseconds elapsed since last update.
+    const WorldTime world_time = CurrentWorldTime();
+    prev_render_time_ = world_time;
+
+    // -------------------------------------------
+    // Step 3.
+    // Render everything.
+    // -------------------------------------------
+    SystraceBegin("StateMachine::Render()");
+
+    RenderTarget::ScreenRenderTarget(renderer_).SetAsRenderTarget();
+    renderer_.ClearDepthBuffer();
+    renderer_.SetCulling(Renderer::kCullBack);
 
     state_machine_.Render(&renderer_);
+    SystraceEnd();
 
+    pthread_mutex_unlock(&gameupdate_mutex_);
+
+    SystraceBegin("StateMachine::HandleUI()");
+    state_machine_.HandleUI(&renderer_);
+    SystraceEnd();
+
+    // -------------------------------------------
+    // Step 4.
+    // Signal the update thread that it is safe to start messing with
+    // data, now that we've already handed it all off to openGL.
+    // -------------------------------------------
+    pthread_cond_broadcast(&Game::start_update_cv_);
+
+    // -------------------------------------------
+    // Step 5a.
+    // Start openGL actually rendering.  AdvanceFrame will (among other things)
+    // trigger a gl_flush.  This thread will block until it is completed,
+    // but that's ok because the update thread is humming in the background
+    // preparing the worlds tate for next frame.
+    // -------------------------------------------
+    SystraceBegin("AdvanceFrame");
     renderer_.AdvanceFrame(input_.minimized(), input_.Time());
+    SystraceEnd();  // AdvanceFrame
 
-    audio_engine_.AdvanceFrame(delta_time / 1000.0f);
+    SystraceEnd();  // RenderFrame
 
     gpg_manager_.Update();
 
@@ -441,7 +616,13 @@ void Game::Run() {
     if (input_.GetButton(fpl::FPLK_BACKQUOTE).went_down()) {
       ToggleRelativeMouseMode();
     }
+
+    int new_time = CurrentWorldTime();
+    int frame_time = new_time - world_time;
+
+    SystraceCounter("FrameTime", frame_time);
   }
+  pthread_mutex_unlock(&renderthread_mutex_);
 }
 
 }  // fpl_project

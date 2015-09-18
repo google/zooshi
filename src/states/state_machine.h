@@ -26,7 +26,9 @@ namespace fpl_project {
 class StateNode {
  public:
   virtual void AdvanceFrame(int delta_time, int* next_state) = 0;
+  virtual void RenderPrep(Renderer* /*render*/) {}
   virtual void Render(Renderer* render) = 0;
+  virtual void HandleUI(Renderer* /*renderer*/) {}
   virtual void OnEnter() {}
   virtual void OnExit() {}
 };
@@ -57,10 +59,23 @@ class StateMachine {
     }
   }
 
+  // Prepare to render the current game state.
+  void RenderPrep(Renderer* renderer) {
+    if (valid_id(current_state_id_)) {
+      states_[current_state_id_]->RenderPrep(renderer);
+    }
+  }
   // Render the current game state.
   void Render(Renderer* renderer) {
     if (valid_id(current_state_id_)) {
       states_[current_state_id_]->Render(renderer);
+    }
+  }
+
+  // Prepare to render the current game state.
+  void HandleUI(Renderer* renderer) {
+    if (valid_id(current_state_id_)) {
+      states_[current_state_id_]->HandleUI(renderer);
     }
   }
 

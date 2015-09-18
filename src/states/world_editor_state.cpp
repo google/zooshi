@@ -65,6 +65,11 @@ void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
   }
 }
 
+void WorldEditorState::RenderPrep(Renderer* renderer) {
+  const CameraInterface* camera = world_editor_->GetCamera();
+  world_->world_renderer->RenderPrep(*camera, *renderer, world_);
+}
+
 void WorldEditorState::Render(Renderer* renderer) {
   camera_->set_viewport_resolution(vec2(renderer->window_size()));
 
@@ -76,9 +81,11 @@ void WorldEditorState::Render(Renderer* renderer) {
   renderer->DepthTest(true);
   renderer->model_view_projection() = camera_transform;
 
-  world_->world_renderer->RenderPrep(*camera, *renderer, world_);
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);
 
+}
+
+void WorldEditorState::HandleUI(Renderer* renderer) {
   world_editor_->Render(renderer);
 }
 

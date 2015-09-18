@@ -38,7 +38,9 @@ static void UpdateMusic(entity::EntityManager* entity_manager,
       entity_manager->GetComponent<ServicesComponent>()->raft_entity();
   RailDenizenData* raft_rail_denizen =
       entity_manager->GetComponentData<RailDenizenData>(raft);
+  if (raft_rail_denizen == nullptr) return;
   int current_lap = static_cast<int>(raft_rail_denizen->lap);
+  assert(current_lap >= 0);
   if (current_lap != *previous_lap) {
     pindrop::Channel* channels[] = {music_channel_1, music_channel_2,
                                     music_channel_3};
@@ -95,6 +97,10 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
     audio_engine_->PlaySound(sound_pause_);
     *next_state = kGameStatePause;
   }
+}
+
+void GameplayState::RenderPrep(Renderer* renderer) {
+  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
 }
 
 void GameplayState::Render(Renderer* renderer) {
