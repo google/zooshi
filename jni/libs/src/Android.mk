@@ -93,7 +93,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/graph_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gui.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
@@ -103,6 +102,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/entity.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/logic.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/math.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/string.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/vec3.cpp \

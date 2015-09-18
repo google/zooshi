@@ -18,7 +18,6 @@
 #include "camera.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
-#include "event/event_listener.h"
 #include "event/event_system.h"
 #include "event/graph.h"
 #include "flatbuffers/flatbuffers.h"
@@ -59,13 +58,11 @@ struct Config;
 struct InputConfig;
 struct AssetManifest;
 
-class Game : event::EventListener {
+class Game {
  public:
   Game();
   bool Initialize(const char* const binary_directory);
   void Run();
-
-  virtual void OnEvent(const event::EventPayload& payload);
 
  private:
   bool InitializeRenderer();
@@ -126,9 +123,6 @@ class Game : event::EventListener {
 
   // Manage ownership and playing of audio assets.
   pindrop::AudioEngine audio_engine_;
-
-  // The application wide event manager.
-  event::EventManager event_manager_;
 
   // The event system.
   event::EventSystem event_system_;

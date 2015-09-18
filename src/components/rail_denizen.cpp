@@ -20,14 +20,12 @@
 #include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/transform.h"
-#include "components/services.h"
+#include "components/graph.h"
 #include "components/rail_node.h"
+#include "components/services.h"
 #include "components_generated.h"
 #include "entity/component.h"
-#include "event/event_manager.h"
-#include "events/change_rail_speed.h"
-#include "events/parse_action.h"
-#include "events/utilities.h"
+#include "event/event.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "fplbase/flatbuffer_utils.h"
@@ -44,6 +42,8 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
 
 namespace fpl {
 namespace fpl_project {
+
+FPL_EVENT_DEFINE_EVENT(kNewLapEventId)
 
 using fpl::component_library::AnimationComponent;
 using fpl::component_library::CommonServicesComponent;
@@ -76,9 +76,6 @@ void RailDenizenData::Initialize(const Rail& rail, float start_time) {
 void RailDenizenComponent::Init() {
   ServicesComponent* services =
       entity_manager_->GetComponent<ServicesComponent>();
-  services->event_manager()->RegisterListener(EventSinkUnion_ChangeRailSpeed,
-                                              this);
-
   // World editor is not guaranteed to be present in all versions of the game.
   // Only set up callbacks if we actually have a world editor.
   WorldEditor* world_editor = services->world_editor();
@@ -124,14 +121,10 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     if (rail_denizen_data->lap < previous_lap) {
       rail_denizen_data->lap++;
       if (rail_denizen_data->on_new_lap) {
-        EventContext context;
-        context.source = iter->entity;
-        context.raft =
-            entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-        ParseAction(
-            rail_denizen_data->on_new_lap, &context,
-            entity_manager_->GetComponent<ServicesComponent>()->event_manager(),
-            entity_manager_);
+        GraphData* graph_data = Data<GraphData>(iter->entity);
+        if (graph_data) {
+          graph_data->broadcaster.BroadcastEvent(kNewLapEventId);
+        }
       }
     }
   }
@@ -282,25 +275,6 @@ void RailDenizenComponent::UpdateRailNodeData(entity::EntityRef entity) {
         InitializeRail(iter->entity);
       }
     }
-  }
-}
-
-void RailDenizenComponent::OnEvent(const event::EventPayload& event_payload) {
-  switch (event_payload.id()) {
-    case EventSinkUnion_ChangeRailSpeed: {
-      auto* speed_event = event_payload.ToData<ChangeRailSpeedPayload>();
-      RailDenizenData* rail_denizen_data =
-          Data<RailDenizenData>(speed_event->entity);
-      if (rail_denizen_data) {
-        ApplyOperation(&rail_denizen_data->spline_playback_rate,
-                       speed_event->change_rail_speed->op(),
-                       speed_event->change_rail_speed->value());
-        rail_denizen_data->motivator.SetSplinePlaybackRate(
-            rail_denizen_data->spline_playback_rate);
-      }
-      break;
-    }
-    default: { assert(0); }
   }
 }
 

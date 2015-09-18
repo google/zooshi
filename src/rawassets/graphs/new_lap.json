@@ -1,0 +1,59 @@
+// Increase speed by a small amount when a new lap begins.
+{
+  "node_list": [
+    {
+      "module": "entity",
+      "name": "raft_entity",
+      "input_edge_list": [
+        {
+          "edge_type": "Pulse"
+        }
+      ]
+    },
+    {
+      "module": "rail_denizen",
+      "name": "rail_denizen",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "rail_denizen",
+      "name": "new_lap",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "debug",
+      "name": "console_print",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "String",
+          "edge": {
+            "value": "New lap!"
+          }
+        }
+      ]
+    }
+  ]
+}

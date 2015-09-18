@@ -17,9 +17,9 @@
 
 #include <string>
 
+#include "components/graph.h"
 #include "components_generated.h"
 #include "entity/component.h"
-#include "event/event_manager.h"
 #include "fplbase/utilities.h"
 #include "pindrop/pindrop.h"
 
@@ -31,35 +31,20 @@ static const WorldTime kMaxProjectileDuration = 3 * kMillisecondsPerSecond;
 
 // Data for scene object components.
 struct PlayerProjectileData {
-  PlayerProjectileData() : on_collision(nullptr) {}
   entity::EntityRef owner;  // The player that "owns" this projectile.
 
-  // The list of events to that may trigger when colliding with another entity.
-  const TaggedActionDefList* on_collision;
-  std::vector<unsigned char> on_collision_flatbuffer;
+  // The graph that may trigger when colliding with another entity.
+  std::map<std::string, SerializableGraphState> on_collision;
 };
 
 class PlayerProjectileComponent
-    : public entity::Component<PlayerProjectileData>,
-      public event::EventListener {
+    : public entity::Component<PlayerProjectileData> {
  public:
-  PlayerProjectileComponent() {}
-
-  virtual void Init();
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
   virtual void CleanupEntity(entity::EntityRef& /*entity*/) {}
 
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
-
-  virtual void OnEvent(const event::EventPayload& event_payload);
-
- private:
-  void HandleCollision(const entity::EntityRef& projectile_entity,
-                       const entity::EntityRef& collided_entity,
-                       const std::string& tag);
-
-  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

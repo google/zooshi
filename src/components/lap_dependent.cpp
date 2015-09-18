@@ -18,7 +18,6 @@
 #include "component_library/rendermesh.h"
 #include "components/rail_denizen.h"
 #include "components/services.h"
-#include "world_editor/editor_event.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::LapDependentComponent,
                             fpl::fpl_project::LapDependentData)

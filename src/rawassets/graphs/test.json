@@ -5,6 +5,9 @@
       "name": "console_print",
       "input_edge_list": [
         {
+          "edge_type": "Pulse"
+        },
+        {
           "edge_type": "OutputEdgeTarget",
           "edge": {
             "node_index": 5,
@@ -15,7 +18,12 @@
     },
     {
       "module": "entity",
-      "name": "player_entity"
+      "name": "player_entity",
+      "input_edge_list": [
+        {
+          "edge_type": "Pulse"
+        }
+      ]
     },
     {
       "module": "attributes",

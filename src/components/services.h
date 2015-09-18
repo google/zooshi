@@ -16,17 +16,14 @@
 #define COMPONENTS_SERVICES_H_
 
 #include "camera.h"
-#include "components_generated.h"
 #include "component_library/entity_factory.h"
+#include "components_generated.h"
 #include "config_generated.h"
 #include "entity/component.h"
-#include "event/event_manager.h"
-#include "event/graph_factory.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
 #include "fplbase/utilities.h"
-#include "graph_factory.h"
 #include "motive/engine.h"
 #include "pindrop/pindrop.h"
 #include "railmanager.h"
@@ -53,17 +50,13 @@ class ServicesComponent : public entity::Component<ServicesData> {
 
   void Initialize(const Config* config, AssetManager* asset_manager,
                   InputSystem* input_system, pindrop::AudioEngine* audio_engine,
-                  event::EventManager* event_manager,
-                  event::GraphFactory* graph_factory, FontManager* font_manager,
-                  RailManager* rail_manager,
+                  FontManager* font_manager, RailManager* rail_manager,
                   component_library::EntityFactory* entity_factory,
                   World* world, editor::WorldEditor* world_editor) {
     config_ = config;
     asset_manager_ = asset_manager;
     input_system_ = input_system;
     audio_engine_ = audio_engine;
-    event_manager_ = event_manager;
-    graph_factory_ = graph_factory;
     font_manager_ = font_manager;
     rail_manager_ = rail_manager;
     entity_factory_ = entity_factory;
@@ -76,8 +69,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
   const Config* config() { return config_; }
   AssetManager* asset_manager() { return asset_manager_; }
   pindrop::AudioEngine* audio_engine() { return audio_engine_; }
-  event::EventManager* event_manager() { return event_manager_; }
-  event::GraphFactory* graph_factory() { return graph_factory_; }
   FontManager* font_manager() { return font_manager_; }
   InputSystem* input_system() { return input_system_; }
   RailManager* rail_manager() { return rail_manager_; }
@@ -117,8 +108,6 @@ class ServicesComponent : public entity::Component<ServicesData> {
 
   AssetManager* asset_manager_;
   pindrop::AudioEngine* audio_engine_;
-  event::EventManager* event_manager_;
-  event::GraphFactory* graph_factory_;
   InputSystem* input_system_;
   FontManager* font_manager_;
   RailManager* rail_manager_;

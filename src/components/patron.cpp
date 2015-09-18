@@ -16,24 +16,21 @@
 
 #include <vector>
 #include "component_library/animation.h"
-#include "component_library/common_services.h"
 #include "component_library/physics.h"
 #include "component_library/rendermesh.h"
 #include "component_library/transform.h"
 #include "components/attributes.h"
+#include "components/graph.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/services.h"
-#include "events/collision.h"
-#include "events/parse_action.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/anim.h"
 #include "motive/anim_table.h"
 #include "world.h"
-#include "world_editor/editor_event.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PatronComponent,
                             fpl::fpl_project::PatronData)
@@ -44,8 +41,6 @@ namespace fpl_project {
 using fpl::component_library::AnimationComponent;
 using fpl::component_library::AnimationData;
 using fpl::component_library::CollisionData;
-using fpl::component_library::CollisionPayload;
-using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::PhysicsData;
 using fpl::component_library::RenderMeshComponent;
@@ -77,9 +72,6 @@ static inline vec3 ZeroHeight(const vec3& v) {
 
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
-  event_manager_ =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
-  event_manager_->RegisterListener(EventSinkUnion_Collision, this);
   auto services = entity_manager_->GetComponent<ServicesComponent>();
   // World editor is not guaranteed to be present in all versions of the game.
   // Only set up callbacks if we actually have a world editor.
@@ -95,30 +87,6 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
   auto patron_def = static_cast<const PatronDef*>(raw_data);
   PatronData* patron_data = AddEntity(entity);
-  if (patron_def->on_collision() != nullptr) {
-    if (entity_manager_->GetComponent<CommonServicesComponent>()
-            ->entity_factory()
-            ->WillBeKeptInMemory(patron_def->on_collision())) {
-      patron_data->on_collision = patron_def->on_collision();
-    } else {
-      // Copy the on_collision into a new flatbuffer that we own.
-      flatbuffers::FlatBufferBuilder fbb;
-      auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
-                               ->component_def_binary_schema();
-      auto schema = reflection::GetSchema(binary_schema);
-      auto table_def = schema->objects()->LookupByKey("TaggedActionDefList");
-      flatbuffers::Offset<ActionDef> table =
-          flatbuffers::CopyTable(
-              fbb, *schema, *table_def,
-              (const flatbuffers::Table&)*patron_def->on_collision())
-              .o;
-      fbb.Finish(table);
-      patron_data->on_collision_flatbuffer = std::vector<uint8_t>(
-          fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
-      patron_data->on_collision = flatbuffers::GetRoot<TaggedActionDefList>(
-          patron_data->on_collision_flatbuffer.data());
-    }
-  }
   patron_data->anim_object = patron_def->anim_object();
   assert(patron_def->pop_out_radius() >= patron_def->pop_in_radius());
   if (patron_def->pop_in_radius()) {
@@ -155,28 +123,10 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  auto schema_file = entity_manager_->GetComponent<ServicesComponent>()
-                         ->component_def_binary_schema();
-  auto schema =
-      schema_file != nullptr ? reflection::GetSchema(schema_file) : nullptr;
-  auto table_def = schema != nullptr
-                       ? schema->objects()->LookupByKey("TaggedActionDefList")
-                       : nullptr;
-  auto on_collision =
-      data->on_collision != nullptr && table_def != nullptr
-          ? flatbuffers::Offset<TaggedActionDefList>(
-                flatbuffers::CopyTable(
-                    fbb, *schema, *table_def,
-                    (const flatbuffers::Table&)(*data->on_collision))
-                    .o)
-          : 0;
   auto target_tag = fbb.CreateString(data->target_tag);
 
   // Get all the on_collision events
   PatronDefBuilder builder(fbb);
-  if (on_collision.o != 0) {
-    builder.add_on_collision(on_collision);
-  }
   builder.add_min_lap(data->min_lap);
   builder.add_max_lap(data->max_lap);
   builder.add_pop_in_radius(data->pop_in_radius);
@@ -434,24 +384,6 @@ void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {
       patron_data->render_child, action);
 }
 
-void PatronComponent::OnEvent(const event::EventPayload& event_payload) {
-  switch (event_payload.id()) {
-    case EventSinkUnion_Collision: {
-      auto* collision = event_payload.ToData<CollisionPayload>();
-      if (collision->entity_a->IsRegisteredForComponent(GetComponentId())) {
-        HandleCollision(collision->entity_a, collision->entity_b,
-                        collision->tag_a);
-      } else if (collision->entity_b->IsRegisteredForComponent(
-                     GetComponentId())) {
-        HandleCollision(collision->entity_b, collision->entity_a,
-                        collision->tag_b);
-      }
-      break;
-    }
-    default: { assert(0); }
-  }
-}
-
 void PatronComponent::CollisionHandler(CollisionData* collision_data,
                                        void* user_data) {
   PatronComponent* patron_component = static_cast<PatronComponent*>(user_data);
@@ -498,27 +430,6 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       }
 
       SpawnPointDisplay(patron_entity);
-    }
-
-    // Send events to every on_collision listener with the correct tag.
-    size_t on_collision_size =
-        (patron_data->on_collision && patron_data->on_collision->action_list())
-            ? patron_data->on_collision->action_list()->size()
-            : 0;
-    EventContext context;
-    context.source_owner = projectile_data->owner;
-    context.source = proj_entity;
-    context.target = patron_entity;
-    context.raft = raft;
-    for (size_t i = 0; i < on_collision_size; ++i) {
-      auto* tagged_action = patron_data->on_collision->action_list()->Get(i);
-      const char* tag =
-          tagged_action->tag() ? tagged_action->tag()->c_str() : nullptr;
-      if (tag && strcmp(tag, part_tag.c_str()) == 0) {
-        const ActionDef* action = tagged_action->action();
-        ParseAction(action, &context, event_manager_, entity_manager_);
-        break;
-      }
     }
 
     // Even if you didn't hit the top, if got here, you got some

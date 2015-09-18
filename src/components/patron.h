@@ -16,11 +16,12 @@
 #define COMPONENTS_PATRON_H_
 
 #include "component_library/physics.h"
+#include "components/graph.h"
 #include "components_generated.h"
 #include "config_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
-#include "event/event_manager.h"
+#include "event/event.h"
 #include "event/graph.h"
 #include "event/graph_state.h"
 #include "events_generated.h"
@@ -67,15 +68,10 @@ enum CatchingState {
 // Data for scene object components.
 struct PatronData {
   PatronData()
-      : on_collision(nullptr),
-        state(kPatronStateLayingDown),
+      : state(kPatronStateLayingDown),
         catching_state(kCatchingStateIdle),
         anim_object(AnimObject_HungryHippo),
         last_lap_fed(-1.0f) {}
-
-  // The event to trigger when a projectile collides with this patron.
-  const TaggedActionDefList* on_collision;
-  std::vector<unsigned char> on_collision_flatbuffer;
 
   // Whether the patron is standing up or falling down.
   PatronState state;
@@ -148,8 +144,7 @@ struct PatronData {
   float point_display_height;
 };
 
-class PatronComponent : public entity::Component<PatronData>,
-                        public event::EventListener {
+class PatronComponent : public entity::Component<PatronData> {
  public:
   PatronComponent() {}
 
@@ -159,15 +154,10 @@ class PatronComponent : public entity::Component<PatronData>,
   virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 
-  void ShowAll();
-  void HideAll();
-
   void UpdateAndEnablePhysics();
 
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
-
-  virtual void OnEvent(const event::EventPayload& payload);
 
   static void CollisionHandler(
       fpl::component_library::CollisionData* collision_data, void* user_data);
@@ -194,7 +184,6 @@ class PatronComponent : public entity::Component<PatronData>,
                     Angle target_face_angle, float target_time);
 
   const Config* config_;
-  event::EventManager* event_manager_;
 };
 
 }  // fpl_project

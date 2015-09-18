@@ -17,8 +17,6 @@
 
 #include "components/sound.h"
 #include "config_generated.h"
-#include "events/play_sound.h"
-#include "events_generated.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #include "input_config_generated.h"

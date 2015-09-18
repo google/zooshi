@@ -294,6 +294,8 @@ set(zooshi_SRCS
     src/modules/logic.h
     src/modules/math.cpp
     src/modules/math.h
+    src/modules/physics.cpp
+    src/modules/physics.h
     src/modules/rail_denizen.cpp
     src/modules/rail_denizen.h
     src/modules/string.cpp

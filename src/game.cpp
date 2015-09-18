@@ -37,6 +37,7 @@
 #include "modules/entity.h"
 #include "modules/logic.h"
 #include "modules/math.h"
+#include "modules/physics.h"
 #include "modules/rail_denizen.h"
 #include "modules/string.h"
 #include "modules/vec3.h"
@@ -73,7 +74,7 @@ static const int kQuadNumIndices = 6;
 static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
-                                            kTangent4f, kEND};
+                                            kTangent4f,  kEND};
 
 static const char kAssetsDir[] = "assets";
 
@@ -103,7 +104,6 @@ static const char kVersion[] = "FPL Project 0.0.1";
 
 Game::Game()
     : asset_manager_(renderer_),
-      event_manager_(EventSinkUnion_Size),
       graph_factory_(&event_system_, &LoadFile, &audio_engine_),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
@@ -274,6 +274,7 @@ void Game::InitializeEventSystem() {
   event::TypeRegistry<AttributesDataRef>::RegisterType("TransformDataRef");
   event::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
   event::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
+  event::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
   event::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
 
   InitializeAttributesModule(&event_system_, &world_.attributes_component,
@@ -284,6 +285,7 @@ void Game::InitializeEventSystem() {
                          &world_.meta_component);
   InitializeLogicModule(&event_system_);
   InitializeMathModule(&event_system_);
+  InitializePhysicsModule(&event_system_, &world_.physics_component);
   InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
                               &world_.graph_component);
   InitializeStringModule(&event_system_);
@@ -330,8 +332,6 @@ bool Game::Initialize(const char* const binary_directory) {
   while (!asset_manager_.TryFinalize()) {
   }
 
-  event_manager_.RegisterListener(EventSinkUnion_PlaySound, this);
-
   InitializeEventSystem();
 
   const auto& asset_manifest = GetAssetManifest();
@@ -348,9 +348,8 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_.reset(new editor::WorldEditor());
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
-                    &font_manager_, &audio_engine_, &event_manager_,
-                    &graph_factory_,  &renderer_,
-                    world_editor_.get());
+                    &font_manager_, &audio_engine_, &graph_factory_,
+                    &renderer_, world_editor_.get());
 
   world_renderer_.Initialize(&world_);
 
@@ -442,17 +441,6 @@ void Game::Run() {
     if (input_.GetButton(fpl::FPLK_BACKQUOTE).went_down()) {
       ToggleRelativeMouseMode();
     }
-  }
-}
-
-void Game::OnEvent(const event::EventPayload& event_payload) {
-  switch (event_payload.id()) {
-    case EventSinkUnion_PlaySound: {
-      auto* payload = event_payload.ToData<PlaySoundPayload>();
-      audio_engine_.PlaySound(payload->sound_name, payload->location);
-      break;
-    }
-    default: { assert(false); }
   }
 }
 

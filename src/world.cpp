@@ -51,7 +51,6 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                        FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
-                       event::EventManager* event_manager,
                        event::GraphFactory* graph_factory, Renderer* renderer,
                        WorldEditor* world_editor) {
   entity_factory.reset(new ZooshiEntityFactory());
@@ -73,8 +72,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   common_services_component.Initialize(asset_manager, entity_factory.get(),
                                        graph_factory, input_system, renderer);
   services_component.Initialize(config, asset_manager, input_system,
-                                audio_engine, event_manager, graph_factory,
-                                font_manager, &rail_manager,
+                                audio_engine, font_manager, &rail_manager,
                                 entity_factory.get(), this, world_editor);
 
   entity_factory->SetComponentType(

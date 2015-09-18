@@ -19,20 +19,17 @@
 #include <vector>
 #include "components_generated.h"
 #include "entity/component.h"
-#include "event/event_listener.h"
+#include "event/event.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
-#include "motive/motivator.h"
 #include "motive/math/compact_spline.h"
+#include "motive/motivator.h"
 #include "railmanager.h"
 
 namespace fpl {
-namespace event {
-
-class EventManager;
-
-}  // event
 namespace fpl_project {
+
+extern fpl::event::EventId kNewLapEventId;
 
 struct RailDenizenData {
   RailDenizenData()
@@ -66,8 +63,7 @@ struct RailDenizenData {
   bool enabled;
 };
 
-class RailDenizenComponent : public entity::Component<RailDenizenData>,
-                             public event::EventListener {
+class RailDenizenComponent : public entity::Component<RailDenizenData> {
  public:
   RailDenizenComponent() {}
 
@@ -78,7 +74,6 @@ class RailDenizenComponent : public entity::Component<RailDenizenData>,
   virtual void InitEntity(entity::EntityRef& entity);
 
   void UpdateRailNodeData(entity::EntityRef entity);
-  virtual void OnEvent(const event::EventPayload& event_payload);
 
  private:
   void InitializeRail(entity::EntityRef&);

@@ -16,7 +16,6 @@
 
 #include <string>
 
-#include "component_library/physics.h"
 #include "components/rail_denizen.h"
 #include "entity/entity_manager.h"
 #include "event/event_system.h"
@@ -69,6 +68,7 @@ class NewLapNode : public event::BaseNode {
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<RailDenizenDataRef>();
     node_sig->AddOutput<void>();
+    node_sig->AddListener(kNewLapEventId);
   }
 
   virtual void Execute(event::NodeArguments* args) {

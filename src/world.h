@@ -78,7 +78,6 @@ struct World {
   void Initialize(const Config& config, InputSystem* input_system,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                   FontManager* font_manager, pindrop::AudioEngine* audio_engine,
-                  event::EventManager* event_manager,
                   event::GraphFactory* graph_factory, Renderer* renderer,
                   editor::WorldEditor* world_editor);
 

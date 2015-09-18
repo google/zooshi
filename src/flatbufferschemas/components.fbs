@@ -71,18 +71,7 @@ table GraphDef {
   filename_list:[string];
 }
 
-table TaggedActionDef {
-  tag:string;
-  action:fpl.fpl_project.ActionDef;
-}
-
-table TaggedActionDefList {
-  action_list:[TaggedActionDef];
-}
-
 table PatronDef {
-  on_collision:TaggedActionDefList;
-
   // The type of patron being animated.
   anim_object:AnimObject;
 
@@ -117,9 +106,7 @@ table PlayerDef {
   on_fire:fpl.fpl_project.ActionDef;
 }
 
-table PlayerProjectileDef {
-  on_collision:TaggedActionDefList;
-}
+table PlayerProjectileDef {}
 
 table DigitDef {
   // Must list 10 meshes.

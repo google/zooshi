@@ -18,8 +18,6 @@
 #include "config_generated.h"
 #include "attributes_generated.h"
 #include "entity/component.h"
-#include "entity/entity_manager.h"
-#include "event/event_listener.h"
 
 namespace fpl {
 
@@ -41,15 +39,12 @@ class AttributesData {
   float attributes[AttributeDef_Size];
 };
 
-class AttributesComponent : public entity::Component<AttributesData>,
-                            public event::EventListener {
+class AttributesComponent : public entity::Component<AttributesData> {
  public:
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
   virtual void InitEntity(entity::EntityRef& /*entity*/) {}
-
-  virtual void OnEvent(const event::EventPayload& event_payload);
 
  private:
   InputSystem* input_system_;

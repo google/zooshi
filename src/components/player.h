@@ -24,12 +24,6 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
-namespace event {
-
-class EventManager;
-
-}  // event
-
 namespace fpl_project {
 
 struct ActionDef;
@@ -64,7 +58,7 @@ class PlayerData {
 
 class PlayerComponent : public entity::Component<PlayerData> {
  public:
-  PlayerComponent() : event_manager_(nullptr) {}
+  PlayerComponent() {}
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
@@ -80,7 +74,6 @@ class PlayerComponent : public entity::Component<PlayerData> {
 
  private:
   const Config* config_;
-  event::EventManager* event_manager_;
   bool active_;
 };
 

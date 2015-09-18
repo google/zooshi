@@ -21,8 +21,6 @@
 #include "components/rail_denizen.h"
 #include "components/services.h"
 #include "entity/entity_common.h"
-#include "event/event_manager.h"
-#include "events/parse_action.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
 #include "mathfu/constants.h"
@@ -43,10 +41,7 @@ using fpl::component_library::TransformData;
 
 void PlayerComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
-  event_manager_ =
-      entity_manager_->GetComponent<ServicesComponent>()->event_manager();
 }
-
 void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
@@ -60,12 +55,6 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
-      EventContext context;
-      context.source = iter->entity;
-      context.raft =
-          entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-      ParseAction(player_data->on_fire(), &context, event_manager_,
-                  entity_manager_);
     }
   }
 }

@@ -16,11 +16,6 @@
 
 #include "components/graph.h"
 #include "components/services.h"
-#include "event/event_manager.h"
-#include "event/event_payload.h"
-#include "events/modify_attribute.h"
-#include "events/utilities.h"
-#include "event/event_manager.h"
 #include "event/event.h"
 #include "events_generated.h"
 #include "fplbase/asset_manager.h"
@@ -40,25 +35,6 @@ void AttributesComponent::Init() {
   input_system_ = services->input_system();
   font_manager_ = services->font_manager();
   asset_manager_ = services->asset_manager();
-  event::EventManager* event_manager = services->event_manager();
-  event_manager->RegisterListener(EventSinkUnion_ModifyAttribute, this);
-}
-
-void AttributesComponent::OnEvent(const event::EventPayload& event_payload) {
-  switch (event_payload.id()) {
-    case EventSinkUnion_ModifyAttribute: {
-      auto* mod_event = event_payload.ToData<ModifyAttributePayload>();
-      AttributesData* attributes_data = Data<AttributesData>(mod_event->target);
-      if (attributes_data) {
-        int index = mod_event->modify_attribute->attrib();
-        float* value = &attributes_data->attributes[index];
-        ApplyOperation(value, mod_event->modify_attribute->op(),
-                       mod_event->modify_attribute->value());
-      }
-      break;
-    }
-    default: { assert(0); }
-  }
 }
 
 void AttributesComponent::AddFromRawData(entity::EntityRef& entity,
