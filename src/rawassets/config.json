@@ -169,6 +169,7 @@
     "gui_bg_toolbar_color": {"r":0, "g":0, "b":0, "a":1},
     "gui_bg_edit_ui_color": {"r":0, "g":0, "b":0, "a":0.5},
     "gui_font": "fonts/NotoSansCJKjp-Bold.otf",
+    "json_output_directory" : "../src/rawassets",
     "flatbuffer_editor_config": {
       "read_only": false,
       "auto_commit_edits": true,
