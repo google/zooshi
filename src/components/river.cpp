@@ -446,6 +446,11 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       child_render_data->shader =
           asset_manager->LoadShader("shaders/textured_lit_bank");
     }
+    if (child_render_data->mesh != nullptr) {
+      // Mesh's destructor handles cleaning up its GL buffers
+      delete child_render_data->mesh;
+      child_render_data->mesh = nullptr;
+    }
     child_render_data->mesh = bank_mesh;
     child_render_data->culling_mask = 0;  // Don't cull the banks for now.
     child_render_data->pass_mask = 1 << RenderPass_Opaque;
