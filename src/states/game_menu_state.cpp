@@ -127,10 +127,14 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     *next_state = kGameStateExit;
   }
 
-  if (menu_state_ == kMenuStateFinished || menu_state_ == kMenuStateCardboard) {
+  if (menu_state_ == kMenuStateFinished) {
     *next_state = kGameStateGameplay;
     audio_engine_->PlaySound(sound_start_);
-    world_->is_in_cardboard = (menu_state_ == kMenuStateCardboard);
+    world_->is_in_cardboard = false;
+  } else if (menu_state_ == kMenuStateCardboard) {
+    *next_state = kGameStateIntro;
+    audio_engine_->PlaySound(sound_start_);
+    world_->is_in_cardboard = true;
   }
 }
 

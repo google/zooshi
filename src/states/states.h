@@ -22,6 +22,7 @@ enum GameState {
   kGameStateGameplay,
   kGameStatePause,
   kGameStateGameMenu,
+  kGameStateIntro,
   kGameStateWorldEditor,
   kGameStateCount,
   kGameStateExit = kGameStateCount

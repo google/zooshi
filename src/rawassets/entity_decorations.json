@@ -1,5 +1,36 @@
 {
-  "entity_list": [
+    "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "introbox-1",
+            "prototype": "IntroBox"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 50,
+              "z": -28.5
+            },
+            "scale": {
+              "x": 2,
+              "y": 2,
+              "z": 2
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        }	  
+      ]
+    },	
     {
       "component_list": [
         {

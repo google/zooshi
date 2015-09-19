@@ -29,6 +29,7 @@
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
+#include "states/intro_state.h"
 #include "states/gameplay_state.h"
 #include "states/pause_state.h"
 #include "states/state_machine.h"
@@ -115,6 +116,7 @@ class Game {
   PauseState pause_state_;
   GameplayState gameplay_state_;
   GameMenuState game_menu_state_;
+  IntroState intro_state_;
   WorldEditorState world_editor_state_;
 
   // Report touches, button presses, keyboard presses.
