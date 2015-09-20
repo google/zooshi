@@ -34,7 +34,9 @@ class AttributesNode : public event::BaseNode {
   AttributesNode(AttributesComponent* attributes_component,
                  GraphComponent* graph_component)
       : attributes_component_(attributes_component),
-        graph_component_(graph_component) {}
+        graph_component_(graph_component) {
+    (void)graph_component_;
+  }
 
   static void OnRegister(event::NodeSignature* node_sig) {
     node_sig->AddInput<entity::EntityRef>();
