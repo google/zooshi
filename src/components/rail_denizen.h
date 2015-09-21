@@ -35,7 +35,6 @@ struct RailDenizenData {
   RailDenizenData()
       : lap(0.0f),
         spline_playback_rate(1.0f),
-        on_new_lap(nullptr),
         motivator(),
         rail_offset(mathfu::kZeros3f),
         rail_orientation(mathfu::quat::identity),
@@ -51,8 +50,6 @@ struct RailDenizenData {
   float lap;
   float spline_playback_rate;
   float start_time;
-  const ActionDef* on_new_lap;
-  std::vector<unsigned char> on_new_lap_flatbuffer;
   motive::Motivator3f motivator;
   std::string rail_name;
   mathfu::vec3 rail_offset;

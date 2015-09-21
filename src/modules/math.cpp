@@ -31,12 +31,20 @@ namespace fpl_project {
       node_sig->AddInput<T>();                               \
       node_sig->AddInput<T>();                               \
       node_sig->AddOutput<bool>();                           \
+      node_sig->AddOutput<void>();                           \
+      node_sig->AddOutput<void>();                           \
+    }                                                        \
+                                                             \
+    virtual void Initialize(event::NodeArguments* args) {    \
+      auto a = args->GetInput<T>(0);                         \
+      auto b = args->GetInput<T>(1);                         \
+      bool result = *a op *b;                                \
+      args->SetOutput(0, result);                            \
+      args->SetOutput(result ? 1 : 2);                       \
     }                                                        \
                                                              \
     virtual void Execute(event::NodeArguments* args) {       \
-      auto a = args->GetInput<T>(0);                         \
-      auto b = args->GetInput<T>(1);                         \
-      args->SetOutput(0, *a op *b);                          \
+      Initialize(args);                                      \
     }                                                        \
   }
 
@@ -50,10 +58,14 @@ namespace fpl_project {
       node_sig->AddOutput<T>();                              \
     }                                                        \
                                                              \
-    virtual void Execute(event::NodeArguments* args) {       \
+    virtual void Initialize(event::NodeArguments* args) {    \
       auto a = args->GetInput<T>(0);                         \
       auto b = args->GetInput<T>(1);                         \
       args->SetOutput(0, *a op *b);                          \
+    }                                                        \
+                                                             \
+    virtual void Execute(event::NodeArguments* args) {       \
+      Initialize(args);                                      \
     }                                                        \
   }
 

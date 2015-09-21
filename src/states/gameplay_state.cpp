@@ -85,6 +85,9 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
     world_->skip_rendermesh_rendering = !world_->skip_rendermesh_rendering;
   }
 
+  // The state machine for the world may request a state change.
+  *next_state = requested_state_;
+
   // Switch States if necessary.
   if (world_editor_ && input_system_->GetButton(fpl::FPLK_F10).went_down()) {
     world_editor_->SetInitialCamera(main_camera_);
@@ -136,6 +139,7 @@ void GameplayState::Initialize(InputSystem* input_system, World* world,
 }
 
 void GameplayState::OnEnter() {
+  requested_state_ = kGameStateGameplay;
   world_->player_component.set_active(true);
   input_system_->SetRelativeMouseMode(true);
   music_channel_lap_1_ =

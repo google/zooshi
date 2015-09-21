@@ -120,11 +120,9 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     // previous lap amount.
     if (rail_denizen_data->lap < previous_lap) {
       rail_denizen_data->lap++;
-      if (rail_denizen_data->on_new_lap) {
-        GraphData* graph_data = Data<GraphData>(iter->entity);
-        if (graph_data) {
-          graph_data->broadcaster.BroadcastEvent(kNewLapEventId);
-        }
+      GraphData* graph_data = Data<GraphData>(iter->entity);
+      if (graph_data) {
+        graph_data->broadcaster.BroadcastEvent(kNewLapEventId);
       }
     }
   }
@@ -139,30 +137,6 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
     data->rail_name = rail_denizen_def->rail_name()->c_str();
 
   data->start_time = rail_denizen_def->start_time();
-  if (rail_denizen_def->on_new_lap()) {
-    if (entity_manager_->GetComponent<CommonServicesComponent>()
-            ->entity_factory()
-            ->WillBeKeptInMemory(rail_denizen_def->on_new_lap())) {
-      data->on_new_lap = rail_denizen_def->on_new_lap();
-    } else {
-      // Copy the on_new_lap from the source flatbuffer into our own memory.
-      flatbuffers::FlatBufferBuilder fbb;
-      auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
-                               ->component_def_binary_schema();
-      auto schema = reflection::GetSchema(binary_schema);
-      auto table_def = schema->objects()->LookupByKey("TaggedActionDefList");
-      flatbuffers::Offset<ActionDef> table =
-          flatbuffers::CopyTable(
-              fbb, *schema, *table_def,
-              *(const flatbuffers::Table*)rail_denizen_def->on_new_lap())
-              .o;
-      fbb.Finish(table);
-      data->on_new_lap_flatbuffer = std::vector<uint8_t>(
-          fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize());
-      data->on_new_lap =
-          flatbuffers::GetRoot<ActionDef>(data->on_new_lap_flatbuffer.data());
-    }
-  }
   data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
 
   auto offset = rail_denizen_def->rail_offset();
@@ -224,28 +198,10 @@ RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
   auto rail_name =
       data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;
 
-  auto schema_file = entity_manager_->GetComponent<ServicesComponent>()
-                         ->component_def_binary_schema();
-  auto schema =
-      schema_file != nullptr ? reflection::GetSchema(schema_file) : nullptr;
-  auto table_def =
-      schema != nullptr ? schema->objects()->LookupByKey("ActionDef") : nullptr;
-  auto on_new_lap =
-      data->on_new_lap != nullptr && table_def != nullptr
-          ? flatbuffers::Offset<ActionDef>(
-                flatbuffers::CopyTable(
-                    fbb, *schema, *table_def,
-                    (const flatbuffers::Table&)(*data->on_new_lap))
-                    .o)
-          : 0;
-
   RailDenizenDefBuilder builder(fbb);
 
   builder.add_start_time(data->start_time);
   builder.add_initial_playback_rate(data->spline_playback_rate);
-  if (on_new_lap.o != 0) {
-    builder.add_on_new_lap(on_new_lap);
-  }
   if (rail_name.o != 0) {
     builder.add_rail_name(rail_name);
   }

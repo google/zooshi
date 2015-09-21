@@ -104,6 +104,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/math.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/string.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/vec3.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \

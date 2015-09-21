@@ -52,6 +52,8 @@ class GameplayState : public StateNode {
   virtual void OnEnter();
   virtual void OnExit();
 
+  int* requested_state() { return &requested_state_; }
+
  protected:
   World* world_;
 
@@ -67,6 +69,8 @@ class GameplayState : public StateNode {
   // This is needed here so that when transitioning into the editor the camera
   // location can be initialized.
   editor::WorldEditor* world_editor_;
+
+  int requested_state_;
 
   // The audio engine, so that sound effects can be played.
   pindrop::AudioEngine* audio_engine_;
