@@ -504,7 +504,7 @@ static void* VsyncSimulatorThread(void* data) {
   (void)data;
   while (true) {
     HandleVsync();
-    Delay(16);
+    Delay(2);
   }
   return nullptr;
 }
