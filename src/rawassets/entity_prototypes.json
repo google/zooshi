@@ -105,19 +105,7 @@
           "data_type": "RailDenizenDef",
           "data" : {
             "start_time": 0,
-            "rail_name" : "player_path",
-            "on_new_lap": {
-              "event_list": [
-                {
-                  "event_type": "ChangeRailSpeed",
-                  "event": {
-                    "entity": "Raft",
-                    "op": "Add",
-                    "value": 0.25
-                  }
-                }
-              ]
-            }
+            "rail_name" : "player_path"
           }
         }
       ]

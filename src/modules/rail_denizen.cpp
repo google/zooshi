@@ -31,13 +31,18 @@ class RailDenizenNode : public event::BaseNode {
       : rail_denizen_component_(rail_denizen_component) {}
 
   static void OnRegister(event::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<RailDenizenDataRef>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
-    auto entity = args->GetInput<entity::EntityRef>(0);
+  virtual void Initialize(event::NodeArguments* args) {
+    auto entity = args->GetInput<entity::EntityRef>(1);
     args->SetOutput(0, RailDenizenDataRef(rail_denizen_component_, *entity));
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    Initialize(args);
   }
 
  private:
@@ -71,10 +76,14 @@ class NewLapNode : public event::BaseNode {
     node_sig->AddListener(kNewLapEventId);
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Initialize(event::NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(0);
     args->BindBroadcaster(
         0, graph_component_->GetCreateBroadcaster(rail_denizen_ref->entity()));
+  }
+
+  virtual void Execute(event::NodeArguments* args) {
+    Initialize(args);
     args->SetOutput(0);
   }
 

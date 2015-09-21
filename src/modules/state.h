@@ -12,14 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace fpl.fpl_project;
+#ifndef FPL_ZOOSHI_MODULES_STATE_H_
+#define FPL_ZOOSHI_MODULES_STATE_H_
 
-enum AttributeDef : byte {
-  ProjectilesFired,
-  PatronsFed,
-  PatronsHit,
-  TargetScore,
-  Size,
-  Unspecified
-}
+#include "event/event_system.h"
 
+namespace fpl {
+namespace fpl_project {
+
+void InitializeStateModule(event::EventSystem* event_system, int* state);
+
+}  // fpl_project
+}  // fpl
+
+#endif  // FPL_ZOOSHI_MODULES_STATE_H_

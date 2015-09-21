@@ -298,6 +298,8 @@ set(zooshi_SRCS
     src/modules/physics.h
     src/modules/rail_denizen.cpp
     src/modules/rail_denizen.h
+    src/modules/state.cpp
+    src/modules/state.h
     src/modules/string.cpp
     src/modules/string.h
     src/modules/vec3.cpp

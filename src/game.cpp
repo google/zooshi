@@ -40,6 +40,7 @@
 #include "modules/math.h"
 #include "modules/physics.h"
 #include "modules/rail_denizen.h"
+#include "modules/state.h"
 #include "modules/string.h"
 #include "modules/vec3.h"
 #include "motive/init.h"
@@ -286,7 +287,7 @@ void Game::InitializeEventSystem() {
   event::TypeRegistry<float>::RegisterType("Float");
   event::TypeRegistry<std::string>::RegisterType("String");
   event::TypeRegistry<RailDenizenDataRef>::RegisterType("RailDenizenDataRef");
-  event::TypeRegistry<AttributesDataRef>::RegisterType("TransformDataRef");
+  event::TypeRegistry<AttributesDataRef>::RegisterType("AttributesDataRef");
   event::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
   event::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
   event::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
@@ -303,6 +304,7 @@ void Game::InitializeEventSystem() {
   InitializePhysicsModule(&event_system_, &world_.physics_component);
   InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
                               &world_.graph_component);
+  InitializeStateModule(&event_system_, gameplay_state_.requested_state());
   InitializeStringModule(&event_system_);
   InitializeVec3Module(&event_system_);
 }

@@ -57,7 +57,7 @@ class AttributesNode : public event::BaseNode {
   GraphComponent* graph_component_;
 };
 
-// Returns the position from the given transfrom data.
+// Returns the value of the given attribute.
 class GetAttributeNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {
@@ -76,7 +76,7 @@ class GetAttributeNode : public event::BaseNode {
   }
 };
 
-// Returns the position from the given transfrom data.
+// Sets the value of the given attribute to the given value.
 class SetAttributeNode : public event::BaseNode {
  public:
   static void OnRegister(event::NodeSignature* node_sig) {

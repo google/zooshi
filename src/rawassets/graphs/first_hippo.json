@@ -20,6 +20,9 @@
       "name": "rail_denizen",
       "input_edge_list": [
         {
+          "edge_type": "Pulse"
+        },
+        {
           "edge_type": "OutputEdgeTarget",
           "edge": {
             "node_index": 1,

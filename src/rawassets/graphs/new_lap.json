@@ -1,4 +1,6 @@
-// Increase speed by a small amount when a new lap begins.
+// When a new lap occurs, check the score. If the score is greater than the
+// target score, increase speed, set a higher target, and keep going. If the
+// score is not higher than the target, end the game.
 {
   "node_list": [
     {
@@ -14,6 +16,9 @@
       "module": "rail_denizen",
       "name": "rail_denizen",
       "input_edge_list": [
+        {
+          "edge_type": "Pulse"
+        },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
@@ -37,8 +42,8 @@
       ]
     },
     {
-      "module": "debug",
-      "name": "console_print",
+      "module": "entity",
+      "name": "player_entity",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
@@ -46,11 +51,269 @@
             "node_index": 2,
             "edge_index": 0
           }
+        }
+      ]
+    },
+    {
+      "module": "attributes",
+      "name": "attributes",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 3,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
         },
         {
-          "edge_type": "String",
+          "edge_type": "Int",
           "edge": {
-            "value": "New lap!"
+            "value": "fpl.fpl_project.AttributeDef.PatronsHit"
+          }
+        }
+      ]
+    },
+    {
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.fpl_project.AttributeDef.TargetScore"
+          }
+        }
+      ]
+    },
+    {
+      "module": "float_math",
+      "name": "greater_than_or_equals",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 5,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 6,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "entity",
+      "name": "raft_entity",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 1
+          }
+        }
+      ]
+    },
+    {
+      "module": "rail_denizen",
+      "name": "rail_denizen",
+      "input_edge_list": [
+        {
+          "edge_type": "Pulse"
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 8,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "rail_denizen",
+      "name": "get_rail_speed",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 9,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "float_math",
+      "name": "add",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 10,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 0.25
+          }
+        }
+      ]
+    },
+    {
+      "module": "rail_denizen",
+      "name": "set_rail_speed",
+      "input_edge_list": [
+        {
+          "edge_type": "Pulse"
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 9,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 11,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "entity",
+      "name": "player_entity",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 1
+          }
+        }
+      ]
+    },
+    {
+      "module": "attributes",
+      "name": "attributes",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 13,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 14,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.fpl_project.AttributeDef.TargetScore"
+          }
+        }
+      ]
+    },
+    {
+      "module": "float_math",
+      "name": "add",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 15,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 15
+          }
+        }
+      ]
+    },
+    {
+      "module": "attributes",
+      "name": "set_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 14,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.fpl_project.AttributeDef.TargetScore"
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 16,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "game_state",
+      "name": "request_state",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 2
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 2
           }
         }
       ]
