@@ -12,18 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ZOOSHI_MOUSECONTROLLER_H
-#define ZOOSHI_MOUSECONTROLLER_H
+#ifndef ZOOSHI_GAMEPAD_CONTROLLER_H
+#define ZOOSHI_GAMEPAD_CONTROLLER_H
 
+#include "camera.h"
 #include "mathfu/glsl_mappings.h"
-#include "mathfu/constants.h"
 #include "inputcontrollers/base_player_controller.h"
 
 namespace fpl {
 namespace fpl_project {
 
-class MouseController : public BasePlayerController {
+class GamepadController : public BasePlayerController {
  public:
+  GamepadController() : BasePlayerController(kControllerGamepad) {}
+
   virtual void Update();
 
  private:
@@ -34,4 +36,4 @@ class MouseController : public BasePlayerController {
 }  // fpl_project
 }  // fpl
 
-#endif  // ZOOSHI_MOUSECONTROLLER_H
+#endif  // ZOOSHI_ANDROID_CARDBOARD_CONTROLLER_H

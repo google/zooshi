@@ -18,9 +18,7 @@
 #include "camera.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/constants.h"
-#include "fplbase/input.h"
 #include "inputcontrollers/base_player_controller.h"
-#include "input_config_generated.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -29,20 +27,9 @@ class AndroidCardboardController : public BasePlayerController {
  public:
   virtual void Update();
 
-  void set_input_system(InputSystem* input_system) {
-    input_system_ = input_system;
-  }
-  void set_input_config(const InputConfig* input_config) {
-    input_config_ = input_config;
-  }
-
  private:
-  InputSystem* input_system_;
-
   void UpdateOrientation();
   void UpdateButtons();
-
-  const InputConfig* input_config_;
 };
 
 }  // fpl_project

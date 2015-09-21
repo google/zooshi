@@ -271,6 +271,8 @@ set(zooshi_SRCS
     src/gpg_manager.h
     src/gpg_manager.cpp
     src/gui.cpp
+    src/inputcontrollers/gamepad_controller.cpp
+    src/inputcontrollers/gamepad_controller.h
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
     src/main.cpp

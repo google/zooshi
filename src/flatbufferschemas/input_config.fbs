@@ -18,6 +18,7 @@ table InputConfig {
   mouse_sensitivity:float;
   invert_x:bool;
   invert_y:bool;
+  gamepad_sensitivity:float;
 }
 
 root_type InputConfig;

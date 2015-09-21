@@ -161,8 +161,27 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       config->rendering_config()->cull_distance());
 }
 
-void LoadWorldDef(World* world, const WorldDef* world_def,
-                  BasePlayerController* input_controller) {
+void World::AddController(BasePlayerController* controller) {
+  input_controllers.push_back(
+      std::unique_ptr<BasePlayerController>(controller));
+}
+
+void World::SetActiveController(ControllerType controller_type) {
+  for (auto it = input_controllers.begin(); it != input_controllers.end();
+       ++it) {
+    BasePlayerController* controller = it->get();
+    if (controller->controller_type() == controller_type) {
+      for (auto iter = player_component.begin(); iter != player_component.end();
+           ++iter) {
+        entity_manager.GetComponentData<PlayerData>(iter->entity)
+            ->set_input_controller(controller);
+      }
+      break;
+    }
+  }
+}
+
+void LoadWorldDef(World* world, const WorldDef* world_def) {
   for (auto iter = world->entity_manager.begin();
        iter != world->entity_manager.end(); ++iter) {
     world->entity_manager.DeleteEntity(iter.ToReference());
@@ -175,11 +194,7 @@ void LoadWorldDef(World* world, const WorldDef* world_def,
                                                 &world->entity_manager);
   }
 
-  for (auto iter = world->player_component.begin();
-       iter != world->player_component.end(); ++iter) {
-    world->entity_manager.GetComponentData<PlayerData>(iter->entity)
-        ->set_input_controller(input_controller);
-  }
+  world->SetActiveController(kControllerDefault);
   world->active_player_entity = world->player_component.begin()->entity;
 
   world->transform_component.PostLoadFixup();  // sets up parent-child links

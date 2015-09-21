@@ -51,6 +51,11 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     auto event = TextButton("Play Game", kMenuSize, gui::Margin(0));
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateFinished;
+#ifdef ANDROID_GAMEPAD
+      if (!gui::IsLastEventPointerType()) {
+        next_state = kMenuStateGamepad;
+      }
+#endif
     }
 #ifdef ANDROID_CARDBOARD
     event = TextButton("Cardboard", kMenuSize, gui::Margin(0));
@@ -60,10 +65,9 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
 #endif  // ANDROID_CARDBOARD
 #ifdef USING_GOOGLE_PLAY_GAMES
     auto logged_in = gpg_manager_->LoggedIn();
-    event = TextButton(
-        *image_gpg_, gui::Margin(0, 50, 10, 0),
-        logged_in ? "Sign out" : "Sign in", kMenuSize, gui::Margin(0),
-        fpl::gui::kButtonPropertyImageLeft);
+    event = TextButton(*image_gpg_, gui::Margin(0, 50, 10, 0),
+                       logged_in ? "Sign out" : "Sign in", kMenuSize,
+                       gui::Margin(0), fpl::gui::kButtonPropertyImageLeft);
     if (event & gui::kEventWentUp) {
       gpg_manager_->ToggleSignIn();
     }
