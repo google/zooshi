@@ -12,18 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Definitions for meshes.
+#ifndef FPL_ZOOSHI_MODULES_PLAYER_H_
+#define FPL_ZOOSHI_MODULES_PLAYER_H_
 
-include "common.fbs";
+#include "components/graph.h"
+#include "components/player.h"
+#include "breadboard/event_system.h"
+#include "modules/entity.h"
 
-namespace fpl.fpl_project;
-table GPGAchievement {
-  name:string(key);
-  id:string;
-}
+namespace fpl {
+namespace fpl_project {
 
-table GPGConfig {
-  leaderboard_ids:[string];
-  achievements:[GPGAchievement];
-}
+typedef ComponentDataRef<PlayerComponent> PlayerDataRef;
 
+void InitializePlayerModule(breadboard::EventSystem* event_system,
+                            GraphComponent* graph_component);
+
+}  // fpl_project
+}  // fpl
+
+#endif  // FPL_ZOOSHI_MODULES_RAIL_DENIZEN_H_

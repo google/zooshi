@@ -530,7 +530,8 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/new_lap.fplgraph"
+              "graphs/new_lap.fplgraph",
+              "graphs/on_fire.fplgraph"
             ]
           }
         },

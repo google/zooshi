@@ -154,10 +154,10 @@ class LocationNode : public breadboard::BaseNode {
 void InitializeAudioModule(breadboard::EventSystem* event_system,
                            pindrop::AudioEngine* audio_engine) {
   breadboard::Module* module = event_system->AddModule("audio");
-  auto PlaySoundCtor = [audio_engine]() {
+  auto play_sound_ctor = [audio_engine]() {
     return new PlaySoundNode(audio_engine);
   };
-  module->RegisterNode<PlaySoundNode>("play_sound", PlaySoundCtor);
+  module->RegisterNode<PlaySoundNode>("play_sound", play_sound_ctor);
   module->RegisterNode<PlayingNode>("playing");
   module->RegisterNode<StopNode>("stop");
   module->RegisterNode<SetGainNode>("set_gain");

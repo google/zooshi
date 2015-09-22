@@ -12,18 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Definitions for meshes.
+#ifndef FPL_ZOOSHI_MODULES_GPG_H_
+#define FPL_ZOOSHI_MODULES_GPG_H_
 
-include "common.fbs";
+#include "breadboard/event_system.h"
+#include "config_generated.h"
+#include "gpg_manager.h"
+#include "pindrop/pindrop.h"
 
-namespace fpl.fpl_project;
-table GPGAchievement {
-  name:string(key);
-  id:string;
-}
+namespace fpl {
+namespace fpl_project {
 
-table GPGConfig {
-  leaderboard_ids:[string];
-  achievements:[GPGAchievement];
-}
+void InitializeGpgModule(breadboard::EventSystem* event_system,
+                         const Config* config, GPGManager* gpg_manager);
+}  // fpl_project
+}  // fpl
 
+#endif  // FPL_ZOOSHI_MODULES_GPG_H_

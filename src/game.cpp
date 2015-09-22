@@ -35,9 +35,11 @@
 #include "modules/audio.h"
 #include "modules/debug.h"
 #include "modules/entity.h"
+#include "modules/gpg.h"
 #include "modules/logic.h"
 #include "modules/math.h"
 #include "modules/physics.h"
+#include "modules/player_module.h"
 #include "modules/rail_denizen.h"
 #include "modules/state.h"
 #include "modules/string.h"
@@ -300,8 +302,10 @@ void Game::InitializeEventSystem() {
   InitializeDebugModule(&event_system_);
   InitializeEntityModule(&event_system_, &world_.services_component,
                          &world_.meta_component);
+  InitializeGpgModule(&event_system_, &GetConfig(), &gpg_manager_);
   InitializeLogicModule(&event_system_);
   InitializeMathModule(&event_system_);
+  InitializePlayerModule(&event_system_, &world_.graph_component);
   InitializePhysicsModule(&event_system_, &world_.physics_component);
   InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
                               &world_.graph_component);
