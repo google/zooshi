@@ -3,8 +3,7 @@
     "meshes/sushi_rice.fplmesh",
     "meshes/sushi_salmon.fplmesh",
     "meshes/sushi_shrimp.fplmesh",
-    "meshes/Lady_Mandrill.fplmesh",
-    "meshes/menacing_croc.fplmesh",
+    "meshes/lady_mandrill_rig.fplmesh",
     "meshes/crocodile_rig.fplmesh",
     "meshes/Hippo_RIG.fplmesh",
     "meshes/Bird_RIG.fplmesh",
@@ -102,11 +101,11 @@
       },
       { // AnimObject_LadyMandrill
         "anim_files": [
-          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
-          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
-          "",                               // PatronAction_Satisfied
-          "anims/LadyMandrill_happy_exit.fplanim", // PatronAction_Fall
+          "anims/lady_mandrill_appear.fplanim",    // PatronAction_GetUp
+          "anims/lady_mandrill_idle.fplanim",      // PatronAction_Idle
+          "anims/lady_mandrill_eat.fplanim",       // PatronAction_Eat
+          "anims/lady_mandrill_happy.fplanim",     // PatronAction_Satisfied
+          "anims/lady_mandrill_disappear.fplanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_LovelyGiraffette
