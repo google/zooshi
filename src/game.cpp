@@ -423,19 +423,17 @@ static inline WorldTime CurrentWorldTime() { return GetTicks(); }
 struct UpdateThreadData {
   UpdateThreadData(bool* exiting, World* world_ptr,
                    StateMachine<kGameStateCount>* statemachine_ptr,
-                   Renderer* renderer_ptr, InputSystem* input_ptr,
+                   Renderer* renderer_ptr,
                    pindrop::AudioEngine* audio_engine_ptr)
       : game_exiting(exiting),
         world(world_ptr),
         state_machine(statemachine_ptr),
         renderer(renderer_ptr),
-        input(input_ptr),
         audio_engine(audio_engine_ptr) {}
   bool* game_exiting;
   World* world;
   StateMachine<kGameStateCount>* state_machine;
   Renderer* renderer;
-  InputSystem* input;
   pindrop::AudioEngine* audio_engine;
 };
 
@@ -476,7 +474,6 @@ static void* UpdateThread(void* data) {
     prev_update_time = world_time;
 
     SystraceAsyncBegin("UpdateGameState", kUpdateGameStateCode);
-    rt_data->input->AdvanceFrame(&(rt_data->renderer->window_size()));
     rt_data->state_machine->AdvanceFrame(delta_time);
     SystraceAsyncEnd("UpdateGameState", kUpdateGameStateCode);
 
@@ -486,7 +483,7 @@ static void* UpdateThread(void* data) {
 
     rt_data->audio_engine->AdvanceFrame(delta_time / 1000.0f);
 
-    if (rt_data->input->exit_requested() || rt_data->state_machine->done()) {
+    if (rt_data->state_machine->done()) {
       *(rt_data->game_exiting) = true;
     }
     pthread_mutex_unlock(&Game::gameupdate_mutex_);
@@ -534,7 +531,7 @@ void Game::Run() {
 
   // Start the update thread:
   UpdateThreadData rt_data(&game_exiting_, &world_, &state_machine_, &renderer_,
-                           &input_, &audio_engine_);
+                           &audio_engine_);
 
   input_.AdvanceFrame(&renderer_.window_size());
   state_machine_.AdvanceFrame(16);
@@ -559,7 +556,7 @@ void Game::Run() {
   // We basically own the lock all the time, except when we're waiting
   // for a vsync event.
   pthread_mutex_lock(&renderthread_mutex_);
-  while (!game_exiting_) {
+  while (!input_.exit_requested() && !game_exiting_) {
     // -------------------------------------------
     // Steps 1, 2.
     // Wait for start of frame.  (triggered at vsync start on android.)
@@ -570,6 +567,15 @@ void Game::Run() {
     pthread_mutex_lock(&gameupdate_mutex_);
 
     SystraceBegin("RenderFrame");
+
+    // Input update must happen from the render thread.
+    // From the SDL documentation on SDL_PollEvent(),
+    // https://wiki.libsdl.org/SDL_PollEvent):
+    // "As this function implicitly calls SDL_PumpEvents(), you can only call
+    // this function in the thread that set the video mode."
+    SystraceBegin("Input::AdvanceFrame()");
+    input_.AdvanceFrame(&renderer_.window_size());
+    SystraceEnd();
 
     // Milliseconds elapsed since last update.
     const WorldTime world_time = CurrentWorldTime();
