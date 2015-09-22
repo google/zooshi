@@ -6,7 +6,7 @@
     { "name": "fern", "hierarchy": 1 },
     { "name": "grass", "recenter": 1 },
     { "name": "crocodile", "hierarchy": 1 },
-    { "name": "Lady_Mandrill", "hierarchy": 1 },
+    { "name": "lady_mandrill", "hierarchy": 1 },
     { "name": "Hippo", "hierarchy": 1 },
     { "name": "Bird", "hierarchy": 1 },
     { "name": "heart", "hierarchy": 1 }

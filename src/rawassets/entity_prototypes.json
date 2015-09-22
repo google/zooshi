@@ -709,9 +709,9 @@
           "data_type": "TransformDef",
           "data": {
             "scale": {
-              "x": 0.03,
-              "y": 0.03,
-              "z": 0.03
+              "x": 3.0,
+              "y": 3.0,
+              "z": 3.0
             },
             "position": {
               "x": 0.0,
@@ -728,7 +728,7 @@
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/Lady_Mandrill.fplmesh",
+            "source_file": "meshes/lady_mandrill_rig.fplmesh",
             "shader": "shaders/textured_skinned_lit",
             "render_pass" : ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
