@@ -33,6 +33,8 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerComponent,
 namespace fpl {
 namespace fpl_project {
 
+BREADBOARD_DEFINE_EVENT(kOnFireEventId)
+
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::PhysicsData;
@@ -55,6 +57,13 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     if (player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
+
+      if (player_data->on_fire()) {
+        GraphData* graph_data = Data<GraphData>(iter->entity);
+        if (graph_data) {
+          graph_data->broadcaster.BroadcastEvent(kOnFireEventId);
+        }
+      }
     }
   }
 }

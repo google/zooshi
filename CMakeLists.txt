@@ -283,10 +283,14 @@ set(zooshi_SRCS
     src/modules/debug.h
     src/modules/entity.cpp
     src/modules/entity.h
+    src/modules/gpg.cpp
+    src/modules/gpg.h
     src/modules/logic.cpp
     src/modules/logic.h
     src/modules/math.cpp
     src/modules/math.h
+    src/modules/player_module.cpp
+    src/modules/player_module.h
     src/modules/physics.cpp
     src/modules/physics.h
     src/modules/rail_denizen.cpp

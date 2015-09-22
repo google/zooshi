@@ -99,9 +99,11 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/audio.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/debug.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/entity.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/gpg.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/logic.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/math.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/physics.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/player_module.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/string.cpp \
@@ -128,6 +130,7 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/attributes.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/events.fbs \
   $(ZOOSHI_SCHEMA_DIR)/graph.fbs \
   $(ZOOSHI_SCHEMA_DIR)/gpg.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \

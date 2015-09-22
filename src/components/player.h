@@ -18,6 +18,7 @@
 #include "components_generated.h"
 #include "config_generated.h"
 #include "entity/component.h"
+#include "breadboard/event.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
@@ -25,6 +26,8 @@
 
 namespace fpl {
 namespace fpl_project {
+
+BREADBOARD_DECLARE_EVENT(kOnFireEventId);
 
 struct ActionDef;
 

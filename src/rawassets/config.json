@@ -206,6 +206,13 @@
   "gpg_config": {
     "leaderboard_ids": [
       "CgkI7IvL5LUCEAIQCQ",
+    ],
+    "achievements": [
+      {"name": "ADeliciousCycle", "id": "CgkI7IvL5LUCEAIQBQ"},
+      {"name": "AllYouCanEat", "id": "CgkI7IvL5LUCEAIQBg"},
+      {"name": "SushiChef", "id": "CgkI7IvL5LUCEAIQAw"},
+      {"name": "SushiNinja", "id": "CgkI7IvL5LUCEAIQDQ"},
+      {"name": "SushiSamurai", "id": "CgkI7IvL5LUCEAIQBA"},
     ]
   }
 }

@@ -1,0 +1,84 @@
+// When a player shoots a sushi, increment an achievement counter.
+{
+  "node_list": [
+    {
+      "module": "entity",
+      "name": "player_entity",
+      "input_edge_list": [
+        {
+          "edge_type": "Pulse"
+        }
+      ]
+    },
+    {
+      "module": "player",
+      "name": "on_fire",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "gpg",
+      "name": "increment_achievement",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "String",
+          "edge": {
+            "value": "SushiChef"
+          }
+        },
+      ]
+    },
+    {
+      "module": "gpg",
+      "name": "increment_achievement",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "String",
+          "edge": {
+            "value": "SushiNinja"
+          }
+        },
+      ]
+    },
+    {
+      "module": "gpg",
+      "name": "increment_achievement",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "String",
+          "edge": {
+            "value": "SushiSamurai"
+          }
+        },
+      ]
+    },
+  ]
+}

@@ -113,19 +113,19 @@ class DeleteEntityNode : public breadboard::BaseNode {
 void InitializeEntityModule(breadboard::EventSystem* event_system,
                             ServicesComponent* services_component,
                             component_library::MetaComponent* meta_component) {
-  auto EntityCtor = [meta_component]() {
+  auto entity_ctor = [meta_component]() {
     return new EntityNode(meta_component);
   };
-  auto PlayerEntityCtor = [services_component]() {
+  auto player_entity_ctor = [services_component]() {
     return new PlayerEntityNode(services_component);
   };
-  auto RaftEntityCtor = [services_component]() {
+  auto raft_entity_ctor = [services_component]() {
     return new RaftEntityNode(services_component);
   };
   breadboard::Module* module = event_system->AddModule("entity");
-  module->RegisterNode<EntityNode>("entity", EntityCtor);
-  module->RegisterNode<PlayerEntityNode>("player_entity", PlayerEntityCtor);
-  module->RegisterNode<RaftEntityNode>("raft_entity", RaftEntityCtor);
+  module->RegisterNode<EntityNode>("entity", entity_ctor);
+  module->RegisterNode<PlayerEntityNode>("player_entity", player_entity_ctor);
+  module->RegisterNode<RaftEntityNode>("raft_entity", raft_entity_ctor);
 }
 
 }  // fpl_project
