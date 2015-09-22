@@ -13,8 +13,6 @@
 // limitations under the License.
 
 include "attributes.fbs";
-include "component_library_events.fbs";
-include "editor_events.fbs";
 
 namespace fpl.fpl_project;
 
@@ -58,8 +56,6 @@ union EventSinkUnion {
   PlaySound,
   ModifyAttribute,
   ChangeRailSpeed,
-  fpl.Collision,
-  fpl.EditorEvent,
   Size,
 }
 

@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "breadboard/graph_factory.h"
 #include "components_generated.h"
 #include "config_generated.h"
-#include "event/graph_factory.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/render_target.h"
@@ -51,8 +51,8 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                        FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
-                       event::GraphFactory* graph_factory, Renderer* renderer,
-                       WorldEditor* world_editor) {
+                       breadboard::GraphFactory* graph_factory,
+                       Renderer* renderer, WorldEditor* world_editor) {
   entity_factory.reset(new ZooshiEntityFactory());
   motive::SmoothInit::Register();
   motive::MatrixInit::Register();

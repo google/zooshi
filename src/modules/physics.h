@@ -15,15 +15,15 @@
 #ifndef FPL_ZOOSHI_MODULES_PHYSICS_H_
 #define FPL_ZOOSHI_MODULES_PHYSICS_H_
 
+#include "breadboard/event_system.h"
 #include "component_library/physics.h"
-#include "event/event_system.h"
 #include "modules/entity.h"
 
 namespace fpl {
 namespace fpl_project {
 
 void InitializePhysicsModule(
-    event::EventSystem* event_system,
+    breadboard::EventSystem* event_system,
     fpl::component_library::PhysicsComponent* physics_component);
 
 }  // fpl_project

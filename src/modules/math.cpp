@@ -16,57 +16,57 @@
 
 #include <algorithm>
 
-#include "event/event_system.h"
-#include "event/base_node.h"
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // clang-format off
-#define COMPARISON_NODE(name, op)                            \
-  template <typename T>                                      \
-  class name : public event::BaseNode {                      \
-   public:                                                   \
-    static void OnRegister(event::NodeSignature* node_sig) { \
-      node_sig->AddInput<T>();                               \
-      node_sig->AddInput<T>();                               \
-      node_sig->AddOutput<bool>();                           \
-      node_sig->AddOutput<void>();                           \
-      node_sig->AddOutput<void>();                           \
-    }                                                        \
-                                                             \
-    virtual void Initialize(event::NodeArguments* args) {    \
-      auto a = args->GetInput<T>(0);                         \
-      auto b = args->GetInput<T>(1);                         \
-      bool result = *a op *b;                                \
-      args->SetOutput(0, result);                            \
-      args->SetOutput(result ? 1 : 2);                       \
-    }                                                        \
-                                                             \
-    virtual void Execute(event::NodeArguments* args) {       \
-      Initialize(args);                                      \
-    }                                                        \
+#define COMPARISON_NODE(name, op)                                 \
+  template <typename T>                                           \
+  class name : public breadboard::BaseNode {                      \
+   public:                                                        \
+    static void OnRegister(breadboard::NodeSignature* node_sig) { \
+      node_sig->AddInput<T>();                                    \
+      node_sig->AddInput<T>();                                    \
+      node_sig->AddOutput<bool>();                                \
+      node_sig->AddOutput<void>();                                \
+      node_sig->AddOutput<void>();                                \
+    }                                                             \
+                                                                  \
+    virtual void Initialize(breadboard::NodeArguments* args) {    \
+      auto a = args->GetInput<T>(0);                              \
+      auto b = args->GetInput<T>(1);                              \
+      bool result = *a op *b;                                    \
+      args->SetOutput(0, result);                                 \
+      args->SetOutput(result ? 1 : 2);                            \
+    }                                                             \
+                                                                  \
+    virtual void Execute(breadboard::NodeArguments* args) {       \
+      Initialize(args);                                           \
+    }                                                             \
   }
 
-#define ARITHMETIC_NODE(name, op)                            \
-  template <typename T>                                      \
-  class name : public event::BaseNode {                      \
-   public:                                                   \
-    static void OnRegister(event::NodeSignature* node_sig) { \
-      node_sig->AddInput<T>();                               \
-      node_sig->AddInput<T>();                               \
-      node_sig->AddOutput<T>();                              \
-    }                                                        \
-                                                             \
-    virtual void Initialize(event::NodeArguments* args) {    \
-      auto a = args->GetInput<T>(0);                         \
-      auto b = args->GetInput<T>(1);                         \
-      args->SetOutput(0, *a op *b);                          \
-    }                                                        \
-                                                             \
-    virtual void Execute(event::NodeArguments* args) {       \
-      Initialize(args);                                      \
-    }                                                        \
+#define ARITHMETIC_NODE(name, op)                                 \
+  template <typename T>                                           \
+  class name : public breadboard::BaseNode {                      \
+   public:                                                        \
+    static void OnRegister(breadboard::NodeSignature* node_sig) { \
+      node_sig->AddInput<T>();                                    \
+      node_sig->AddInput<T>();                                    \
+      node_sig->AddOutput<T>();                                   \
+    }                                                             \
+                                                                  \
+    virtual void Initialize(breadboard::NodeArguments* args) {    \
+      auto a = args->GetInput<T>(0);                              \
+      auto b = args->GetInput<T>(1);                              \
+      args->SetOutput(0, *a op *b);                               \
+    }                                                             \
+                                                                  \
+    virtual void Execute(breadboard::NodeArguments* args) {       \
+      Initialize(args);                                           \
+    }                                                             \
   }
 
 // Returns true if both input values are equal.
@@ -101,15 +101,15 @@ ARITHMETIC_NODE(DivideNode, /);
 // clang-format on
 
 template <typename T>
-class MaxNode : public event::BaseNode {
+class MaxNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<T>();
     node_sig->AddInput<T>();
     node_sig->AddOutput<T>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto a = args->GetInput<T>(0);
     auto b = args->GetInput<T>(1);
     args->SetOutput(0, std::max(*a, *b));
@@ -117,15 +117,15 @@ class MaxNode : public event::BaseNode {
 };
 
 template <typename T>
-class MinNode : public event::BaseNode {
+class MinNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<T>();
     node_sig->AddInput<T>();
     node_sig->AddOutput<T>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto a = args->GetInput<T>(0);
     auto b = args->GetInput<T>(1);
     args->SetOutput(0, std::min(*a, *b));
@@ -133,9 +133,9 @@ class MinNode : public event::BaseNode {
 };
 
 template <typename T>
-void InitializeMathModuleType(event::EventSystem* event_system,
+void InitializeMathModuleType(breadboard::EventSystem* event_system,
                               const char* module_name) {
-  event::Module* module = event_system->AddModule(module_name);
+  breadboard::Module* module = event_system->AddModule(module_name);
   module->RegisterNode<EqualsNode<T>>("equals");
   module->RegisterNode<NotEqualsNode<T>>("not_equals");
   module->RegisterNode<GreaterThanNode<T>>("greater_than");
@@ -150,7 +150,7 @@ void InitializeMathModuleType(event::EventSystem* event_system,
   module->RegisterNode<MinNode<T>>("min");
 }
 
-void InitializeMathModule(event::EventSystem* event_system) {
+void InitializeMathModule(breadboard::EventSystem* event_system) {
   InitializeMathModuleType<int>(event_system, "integer_math");
   InitializeMathModuleType<float>(event_system, "float_math");
 }

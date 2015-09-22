@@ -16,10 +16,10 @@
 
 #include <string>
 
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 #include "component_library/physics.h"
 #include "entity/entity_manager.h"
-#include "event/event_system.h"
-#include "event/base_node.h"
 #include "fplbase/utilities.h"
 
 namespace fpl {
@@ -30,12 +30,12 @@ using fpl::component_library::PhysicsComponent;
 
 // Returns the rail denizen component data of the given entity.
 // This node takes no inputs, but is marked as dirty when a collision occurs.
-class PhysicsCollisionNode : public event::BaseNode {
+class PhysicsCollisionNode : public breadboard::BaseNode {
  public:
   PhysicsCollisionNode(PhysicsComponent* physics_component)
       : physics_component_(physics_component) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     // Triggers when a collision occurs.
     node_sig->AddOutput<void>();
 
@@ -55,11 +55,11 @@ class PhysicsCollisionNode : public event::BaseNode {
     node_sig->AddListener(fpl::component_library::kCollisionEventId);
   }
 
-  virtual void Initialize(event::NodeArguments* args) {
+  virtual void Initialize(breadboard::NodeArguments* args) {
     args->BindBroadcaster(0, &physics_component_->broadcaster());
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     CollisionData& collision_data = physics_component_->collision_data();
     args->SetOutput(0);
     args->SetOutput(1, collision_data.this_entity);
@@ -74,9 +74,9 @@ class PhysicsCollisionNode : public event::BaseNode {
   PhysicsComponent* physics_component_;
 };
 
-void InitializePhysicsModule(event::EventSystem* event_system,
+void InitializePhysicsModule(breadboard::EventSystem* event_system,
                              PhysicsComponent* physics_component) {
-  event::Module* module = event_system->AddModule("physics");
+  breadboard::Module* module = event_system->AddModule("physics");
   auto physics_ctor = [physics_component]() {
     return new PhysicsCollisionNode(physics_component);
   };

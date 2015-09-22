@@ -15,12 +15,12 @@
 #ifndef FPL_ZOOSHI_MODULES_STRING_H_
 #define FPL_ZOOSHI_MODULES_STRING_H_
 
-#include "event/event_system.h"
+#include "breadboard/event_system.h"
 
 namespace fpl {
 namespace fpl_project {
 
-void InitializeStringModule(event::EventSystem* event_system);
+void InitializeStringModule(breadboard::EventSystem* event_system);
 
 }  // fpl_project
 }  // fpl

@@ -178,7 +178,6 @@ entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
 
   flatbuffers::FlatBufferBuilder fbb;
 
-  // TODO: output the on_fire events.
   PlayerDefBuilder builder(fbb);
 
   fbb.Finish(builder.Finish());

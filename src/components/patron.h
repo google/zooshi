@@ -15,16 +15,15 @@
 #ifndef COMPONENTS_PATRON_H_
 #define COMPONENTS_PATRON_H_
 
+#include "breadboard/event.h"
+#include "breadboard/graph.h"
+#include "breadboard/graph_state.h"
 #include "component_library/physics.h"
 #include "components/graph.h"
 #include "components_generated.h"
 #include "config_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
-#include "event/event.h"
-#include "event/graph.h"
-#include "event/graph_state.h"
-#include "events_generated.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/math/angle.h"

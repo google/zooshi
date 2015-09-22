@@ -17,25 +17,25 @@
 
 #include <string>
 
-#include "event/event_system.h"
-#include "event/graph.h"
-#include "event/graph_factory.h"
+#include "breadboard/event_system.h"
+#include "breadboard/graph.h"
+#include "breadboard/graph_factory.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
 
-class ZooshiGraphFactory : public event::GraphFactory {
+class ZooshiGraphFactory : public breadboard::GraphFactory {
  public:
-  ZooshiGraphFactory(event::EventSystem* event_system,
-                     event::LoadFileCallback load_file_callback,
+  ZooshiGraphFactory(breadboard::EventSystem* event_system,
+                     breadboard::LoadFileCallback load_file_callback,
                      pindrop::AudioEngine* audio_engine)
-      : event::GraphFactory(event_system, load_file_callback),
+      : breadboard::GraphFactory(event_system, load_file_callback),
         audio_engine_(audio_engine) {}
 
  private:
-  virtual bool ParseData(event::EventSystem* event_system, event::Graph* graph,
-                         const std::string* data);
+  virtual bool ParseData(breadboard::EventSystem* event_system,
+                         breadboard::Graph* graph, const std::string* data);
 
   pindrop::AudioEngine* audio_engine_;
 };

@@ -16,20 +16,20 @@
 
 #include <string>
 
+#include "breadboard/base_node.h"
+#include "breadboard/event.h"
+#include "breadboard/event_system.h"
 #include "components/attributes.h"
 #include "components/graph.h"
 #include "entity/entity_manager.h"
-#include "event/event.h"
-#include "event/event_system.h"
-#include "event/base_node.h"
-#include "modules/event_ids.h"
 #include "fplbase/utilities.h"
+#include "modules/event_ids.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Returns the attributes component data of the given entity.
-class AttributesNode : public event::BaseNode {
+class AttributesNode : public breadboard::BaseNode {
  public:
   AttributesNode(AttributesComponent* attributes_component,
                  GraphComponent* graph_component)
@@ -38,17 +38,17 @@ class AttributesNode : public event::BaseNode {
     (void)graph_component_;
   }
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<AttributesDataRef>();
   }
 
-  virtual void Initialize(event::NodeArguments* args) { Run(args); }
+  virtual void Initialize(breadboard::NodeArguments* args) { Run(args); }
 
-  virtual void Execute(event::NodeArguments* args) { Run(args); }
+  virtual void Execute(breadboard::NodeArguments* args) { Run(args); }
 
  private:
-  void Run(event::NodeArguments* args) {
+  void Run(breadboard::NodeArguments* args) {
     auto entity = args->GetInput<entity::EntityRef>(0);
     args->SetOutput(0, AttributesDataRef(attributes_component_, *entity));
   }
@@ -58,15 +58,15 @@ class AttributesNode : public event::BaseNode {
 };
 
 // Returns the value of the given attribute.
-class GetAttributeNode : public event::BaseNode {
+class GetAttributeNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<AttributesDataRef>();
     node_sig->AddInput<int>();
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto attributes_ref = args->GetInput<AttributesDataRef>(0);
     auto index = args->GetInput<int>(1);
     auto attributes_data = attributes_ref->GetComponentData();
@@ -77,15 +77,15 @@ class GetAttributeNode : public event::BaseNode {
 };
 
 // Sets the value of the given attribute to the given value.
-class SetAttributeNode : public event::BaseNode {
+class SetAttributeNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<AttributesDataRef>();
     node_sig->AddInput<int>();
     node_sig->AddInput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto attributes_ref = args->GetInput<AttributesDataRef>(0);
     auto index = args->GetInput<int>(1);
     auto value = args->GetInput<float>(2);
@@ -96,10 +96,10 @@ class SetAttributeNode : public event::BaseNode {
   }
 };
 
-void InitializeAttributesModule(event::EventSystem* event_system,
+void InitializeAttributesModule(breadboard::EventSystem* event_system,
                                 AttributesComponent* attributes_component,
                                 GraphComponent* graph_component) {
-  event::Module* module = event_system->AddModule("attributes");
+  breadboard::Module* module = event_system->AddModule("attributes");
   auto attributes_ctor = [attributes_component, graph_component]() {
     return new AttributesNode(attributes_component, graph_component);
   };

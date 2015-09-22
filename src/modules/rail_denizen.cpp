@@ -16,73 +16,71 @@
 
 #include <string>
 
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 #include "components/rail_denizen.h"
 #include "entity/entity_manager.h"
-#include "event/event_system.h"
-#include "event/base_node.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Returns the rail denizen component data of the given entity.
-class RailDenizenNode : public event::BaseNode {
+class RailDenizenNode : public breadboard::BaseNode {
  public:
   RailDenizenNode(RailDenizenComponent* rail_denizen_component)
       : rail_denizen_component_(rail_denizen_component) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<RailDenizenDataRef>();
   }
 
-  virtual void Initialize(event::NodeArguments* args) {
+  virtual void Initialize(breadboard::NodeArguments* args) {
     auto entity = args->GetInput<entity::EntityRef>(1);
     args->SetOutput(0, RailDenizenDataRef(rail_denizen_component_, *entity));
   }
 
-  virtual void Execute(event::NodeArguments* args) {
-    Initialize(args);
-  }
+  virtual void Execute(breadboard::NodeArguments* args) { Initialize(args); }
 
  private:
   RailDenizenComponent* rail_denizen_component_;
 };
 
 // Returns the lap value from the given rail denizen data.
-class LapNode : public event::BaseNode {
+class LapNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<RailDenizenDataRef>();
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
     args->SetOutput(0, rail_denizen_ref->GetComponentData()->lap);
   }
 };
 
 // Fires a pulse whenever a new lap has been started.
-class NewLapNode : public event::BaseNode {
+class NewLapNode : public breadboard::BaseNode {
  public:
   NewLapNode(GraphComponent* graph_component)
       : graph_component_(graph_component) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<RailDenizenDataRef>();
     node_sig->AddOutput<void>();
     node_sig->AddListener(kNewLapEventId);
   }
 
-  virtual void Initialize(event::NodeArguments* args) {
+  virtual void Initialize(breadboard::NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(0);
     args->BindBroadcaster(
         0, graph_component_->GetCreateBroadcaster(rail_denizen_ref->entity()));
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     Initialize(args);
     args->SetOutput(0);
   }
@@ -92,14 +90,14 @@ class NewLapNode : public event::BaseNode {
 };
 
 // Sets the rail denizen's speed.
-class GetRailSpeedNode : public event::BaseNode {
+class GetRailSpeedNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<RailDenizenDataRef>();
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(0);
     args->SetOutput(0,
                     rail_denizen_ref->GetComponentData()->spline_playback_rate);
@@ -107,15 +105,15 @@ class GetRailSpeedNode : public event::BaseNode {
 };
 
 // Sets the rail denizen's speed.
-class SetRailSpeedNode : public event::BaseNode {
+class SetRailSpeedNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<RailDenizenDataRef>();
     node_sig->AddInput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
     auto speed = args->GetInput<float>(2);
     RailDenizenData* rail_denizen_data = rail_denizen_ref->GetComponentData();
@@ -125,10 +123,10 @@ class SetRailSpeedNode : public event::BaseNode {
   }
 };
 
-void InitializeRailDenizenModule(event::EventSystem* event_system,
+void InitializeRailDenizenModule(breadboard::EventSystem* event_system,
                                  RailDenizenComponent* rail_denizen_component,
                                  GraphComponent* graph_component) {
-  event::Module* module = event_system->AddModule("rail_denizen");
+  breadboard::Module* module = event_system->AddModule("rail_denizen");
   auto rail_denizen_ctor = [rail_denizen_component]() {
     return new RailDenizenNode(rail_denizen_component);
   };

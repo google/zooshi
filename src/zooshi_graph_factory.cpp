@@ -16,18 +16,19 @@
 
 #include <string>
 
-#include "event/event_system.h"
-#include "event/graph.h"
-#include "graph_generated.h"
+#include "breadboard/event_system.h"
+#include "breadboard/graph.h"
 #include "fplbase/utilities.h"
-#include "mathfu/vector_3.h"
+#include "graph_generated.h"
 #include "mathfu/glsl_mappings.h"
+#include "mathfu/vector_3.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
 
-static bool ParseType(size_t node_index, size_t edge_index, event::Graph* graph,
+static bool ParseType(size_t node_index, size_t edge_index,
+                      breadboard::Graph* graph,
                       const graph::InputEdgeDef* edge_def,
                       pindrop::AudioEngine* audio_engine) {
   if (edge_def->edge_type() >= graph::InputType_Max) {
@@ -117,30 +118,30 @@ static bool ParseType(size_t node_index, size_t edge_index, event::Graph* graph,
   return true;
 }
 
-bool ZooshiGraphFactory::ParseData(event::EventSystem* event_system,
-                                   event::Graph* graph,
+bool ZooshiGraphFactory::ParseData(breadboard::EventSystem* event_system,
+                                   breadboard::Graph* graph,
                                    const std::string* data) {
   const graph::GraphDef* graph_def = graph::GetGraphDef(data->c_str());
   for (size_t i = 0; i != graph_def->node_list()->size(); ++i) {
     // Get Module.
     const graph::NodeDef* node_def = graph_def->node_list()->Get(i);
     const char* module_name = node_def->module()->c_str();
-    const event::Module* module = event_system->GetModule(module_name);
+    const breadboard::Module* module = event_system->GetModule(module_name);
     if (module == nullptr) return false;
 
     // Get NodeSignature.
     const char* node_sig_name = node_def->name()->c_str();
-    const event::NodeSignature* node_sig =
+    const breadboard::NodeSignature* node_sig =
         module->GetNodeSignature(node_sig_name);
     if (node_sig == nullptr) return false;
 
     // Create Node and fill in edges.
-    event::Node* node = graph->AddNode(node_sig);
+    breadboard::Node* node = graph->AddNode(node_sig);
     auto edges = node_def->input_edge_list();
     if (edges != nullptr) {
       for (auto iter = edges->begin(); iter != edges->end(); ++iter) {
         const graph::InputEdgeDef* edge_def = *iter;
-        node->input_edges().push_back(event::InputEdge());
+        node->input_edges().push_back(breadboard::InputEdge());
         if (edge_def->edge_type() == graph::InputType_OutputEdgeTarget) {
           const graph::OutputEdgeTarget* target =
               static_cast<const graph::OutputEdgeTarget*>(edge_def->edge());

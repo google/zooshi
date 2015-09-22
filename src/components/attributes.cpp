@@ -14,13 +14,12 @@
 
 #include "components/attributes.h"
 
+#include "breadboard/event.h"
 #include "components/graph.h"
 #include "components/services.h"
-#include "event/event.h"
-#include "events_generated.h"
+#include "flatui/flatui.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
-#include "flatui/flatui.h"
 #include "modules/event_ids.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AttributesComponent,

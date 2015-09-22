@@ -18,7 +18,6 @@
 #include "components_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
-#include "events_generated.h"
 
 namespace fpl {
 namespace fpl_project {

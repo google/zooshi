@@ -55,8 +55,8 @@ set(dependencies_flatbuffers_dir "${fpl_root}/flatbuffers"
     CACHE PATH "Directory containing the Flatbuffers library.")
 set(dependencies_fplutil_dir "${fpl_root}/fplutil"
     CACHE PATH "Directory containing the fplutil library.")
-set(dependencies_event_dir "${fpl_root}/event"
-    CACHE PATH "Directory containing the event library.")
+set(dependencies_breadboard_dir "${fpl_root}/breadboard"
+    CACHE PATH "Directory containing the breadboard library.")
 set(dependencies_pindrop_dir "${fpl_root}/pindrop"
     CACHE PATH "Directory containing the pindrop library.")
 set(dependencies_fplbase_dir "${fpl_root}/fplbase"
@@ -94,9 +94,9 @@ if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
 endif()
 
-# Include the event system.
-if(NOT zooshi_only_flatc AND NOT TARGET event)
-  add_subdirectory("${dependencies_event_dir}" ${tmp_dir}/event)
+# Include breadboard.
+if(NOT zooshi_only_flatc AND NOT TARGET breadboard)
+  add_subdirectory("${dependencies_breadboard_dir}" ${tmp_dir}/breadboard)
 endif()
 
 # Include motive.
@@ -266,13 +266,6 @@ set(zooshi_SRCS
     src/components/sound.h
     src/components/time_limit.cpp
     src/components/time_limit.h
-    src/events/change_rail_speed.h
-    src/events/modify_attribute.h
-    src/events/parse_action.cpp
-    src/events/parse_action.h
-    src/events/play_sound.h
-    src/events/utilities.cpp
-    src/events/utilities.h
     src/flatbufferschemas
     src/game.cpp
     src/game.h
@@ -349,7 +342,7 @@ include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${dependencies_bulletphysics_distr_dir}/src)
 include_directories(${dependencies_entity_dir}/include)
 include_directories(${dependencies_component_library_dir}/include)
-include_directories(${dependencies_event_dir}/include)
+include_directories(${dependencies_breadboard_dir}/include)
 include_directories(${dependencies_flatbuffers_dir}/include)
 include_directories(${dependencies_fplbase_dir}/include)
 include_directories(${dependencies_fplutil_dir}/libfplutil/include)
@@ -411,7 +404,7 @@ endif()
 # Dependencies for the executable target.
 add_dependencies(zooshi generated_includes assets)
 target_link_libraries(zooshi
-  event
+  breadboard
   motive
   fplbase
   flatui

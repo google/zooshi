@@ -14,32 +14,32 @@
 
 #include "modules/entity.h"
 
-#include "event/event_system.h"
-#include "event/base_node.h"
-#include "mathfu/glsl_mappings.h"
-#include "entity/entity_manager.h"
-#include "components/services.h"
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 #include "component_library/meta.h"
+#include "components/services.h"
+#include "entity/entity_manager.h"
+#include "mathfu/glsl_mappings.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Returns the entity representing the player.
-class PlayerEntityNode : public event::BaseNode {
+class PlayerEntityNode : public breadboard::BaseNode {
  public:
   PlayerEntityNode(ServicesComponent* services_component)
       : services_component_(services_component) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddOutput<entity::EntityRef>();
   }
 
-  virtual void Initialize(event::NodeArguments* args) {
+  virtual void Initialize(breadboard::NodeArguments* args) {
     args->SetOutput(0, services_component_->player_entity());
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     args->SetOutput(0, services_component_->player_entity());
   }
 
@@ -48,21 +48,21 @@ class PlayerEntityNode : public event::BaseNode {
 };
 
 // Returns the entity representing the raft.
-class RaftEntityNode : public event::BaseNode {
+class RaftEntityNode : public breadboard::BaseNode {
  public:
   RaftEntityNode(ServicesComponent* services_component)
       : services_component_(services_component) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddOutput<entity::EntityRef>();
   }
 
-  virtual void Initialize(event::NodeArguments* args) {
+  virtual void Initialize(breadboard::NodeArguments* args) {
     args->SetOutput(0, services_component_->raft_entity());
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     args->SetOutput(0, services_component_->raft_entity());
   }
 
@@ -71,18 +71,18 @@ class RaftEntityNode : public event::BaseNode {
 };
 
 // Given an input string, return the named entity.
-class EntityNode : public event::BaseNode {
+class EntityNode : public breadboard::BaseNode {
  public:
   EntityNode(component_library::MetaComponent* meta_component)
       : meta_component_(meta_component) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<std::string>();
     node_sig->AddOutput<entity::EntityRef>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto entity_id = args->GetInput<std::string>(0);
     entity::EntityRef entity =
         meta_component_->GetEntityFromDictionary(entity_id->c_str());
@@ -95,13 +95,13 @@ class EntityNode : public event::BaseNode {
 };
 
 // Given an input string, return the named entity.
-class DeleteEntityNode : public event::BaseNode {
+class DeleteEntityNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<entity::EntityRef>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto entity_ref = args->GetInput<entity::EntityRef>(0);
     entity_manager_->DeleteEntity(*entity_ref);
   }
@@ -110,7 +110,7 @@ class DeleteEntityNode : public event::BaseNode {
   entity::EntityManager* entity_manager_;
 };
 
-void InitializeEntityModule(event::EventSystem* event_system,
+void InitializeEntityModule(breadboard::EventSystem* event_system,
                             ServicesComponent* services_component,
                             component_library::MetaComponent* meta_component) {
   auto EntityCtor = [meta_component]() {
@@ -122,7 +122,7 @@ void InitializeEntityModule(event::EventSystem* event_system,
   auto RaftEntityCtor = [services_component]() {
     return new RaftEntityNode(services_component);
   };
-  event::Module* module = event_system->AddModule("entity");
+  breadboard::Module* module = event_system->AddModule("entity");
   module->RegisterNode<EntityNode>("entity", EntityCtor);
   module->RegisterNode<PlayerEntityNode>("player_entity", PlayerEntityCtor);
   module->RegisterNode<RaftEntityNode>("raft_entity", RaftEntityCtor);

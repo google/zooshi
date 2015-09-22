@@ -15,11 +15,11 @@
 #ifndef ZOOSHI_GAME_H
 #define ZOOSHI_GAME_H
 
+#include "breadboard/event_system.h"
+#include "breadboard/graph.h"
 #include "camera.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
-#include "event/event_system.h"
-#include "event/graph.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
@@ -29,8 +29,8 @@
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
-#include "states/intro_state.h"
 #include "states/gameplay_state.h"
+#include "states/intro_state.h"
 #include "states/pause_state.h"
 #include "states/state_machine.h"
 #include "states/states.h"
@@ -134,7 +134,7 @@ class Game {
   pindrop::AudioEngine audio_engine_;
 
   // The event system.
-  event::EventSystem event_system_;
+  breadboard::EventSystem event_system_;
   ZooshiGraphFactory graph_factory_;
 
   // Shaders we use.
@@ -166,7 +166,6 @@ class Game {
 
   // Google Play Game Services Manager.
   GPGManager gpg_manager_;
-
 };
 
 }  // fpl_project

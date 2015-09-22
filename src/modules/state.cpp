@@ -12,25 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 #include "modules/state.h"
-#include "event/event_system.h"
-#include "event/base_node.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Sets an integer that informs the state machine what state it should
 // transition to next.
-class RequestStateNode : public event::BaseNode {
+class RequestStateNode : public breadboard::BaseNode {
  public:
   RequestStateNode(int* state) : state_(state) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<int>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto new_state = args->GetInput<int>(1);
     *state_ = *new_state;
   }
@@ -39,11 +39,9 @@ class RequestStateNode : public event::BaseNode {
   int* state_;
 };
 
-void InitializeStateModule(event::EventSystem* event_system, int* state) {
-  auto request_node_ctor = [state]() {
-    return new RequestStateNode(state);
-  };
-  event::Module* module = event_system->AddModule("game_state");
+void InitializeStateModule(breadboard::EventSystem* event_system, int* state) {
+  auto request_node_ctor = [state]() { return new RequestStateNode(state); };
+  breadboard::Module* module = event_system->AddModule("game_state");
   module->RegisterNode<RequestStateNode>("request_state", request_node_ctor);
 }
 

@@ -34,8 +34,8 @@ DEPENDENCIES_SDL_MIXER_DIR?=$(THIRD_PARTY_ROOT)/sdl_mixer
 DEPENDENCIES_ENTITY_DIR?=$(FPL_ROOT)/entity
 # Location of the entity library's component collection.
 DEPENDENCIES_COMPONENT_LIBRARY_DIR?=$(DEPENDENCIES_ENTITY_DIR)/component_library
-# Location of the event library.
-DEPENDENCIES_EVENT_DIR?=$(FPL_ROOT)/event
+# Location of the breadboard library.
+DEPENDENCIES_BREADBOARD_DIR?=$(FPL_ROOT)/breadboard
 # Location of the Flatbuffers library.
 DEPENDENCIES_FLATBUFFERS_DIR?=$(FPL_ROOT)/flatbuffers
 # Location of the Pindrop library.

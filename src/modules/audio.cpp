@@ -14,8 +14,8 @@
 
 #include "modules/audio.h"
 
-#include "event/event_system.h"
-#include "event/base_node.h"
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 
@@ -26,12 +26,12 @@ namespace fpl_project {
 
 // Plays the given sound. Also takes a gain and location arguments.
 // Returns the channel the sound is playing on as an output.
-class PlaySoundNode : public event::BaseNode {
+class PlaySoundNode : public breadboard::BaseNode {
  public:
   PlaySoundNode(pindrop::AudioEngine* audio_engine)
       : audio_engine_(audio_engine) {}
 
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<pindrop::SoundHandle>();
     node_sig->AddInput<vec3>();
@@ -39,7 +39,7 @@ class PlaySoundNode : public event::BaseNode {
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto handle = args->GetInput<pindrop::SoundHandle>(1);
     auto location = args->GetInput<vec3>(2);
     auto gain = args->GetInput<float>(3);
@@ -53,15 +53,15 @@ class PlaySoundNode : public event::BaseNode {
 };
 
 // Checks if a given audio channel is playing.
-class PlayingNode : public event::BaseNode {
+class PlayingNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
     node_sig->AddOutput<pindrop::Channel>();
     node_sig->AddOutput<bool>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto channel = args->GetInput<pindrop::Channel>(0);
     args->SetOutput(0, *channel);
     args->SetOutput(1, channel->Playing());
@@ -69,14 +69,14 @@ class PlayingNode : public event::BaseNode {
 };
 
 // Stops the given audio channel.
-class StopNode : public event::BaseNode {
+class StopNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto channel = args->GetInput<pindrop::Channel>(0);
     channel->Stop();
     args->SetOutput(0, *channel);
@@ -84,15 +84,15 @@ class StopNode : public event::BaseNode {
 };
 
 // Set the gain on the given audio channel.
-class SetGainNode : public event::BaseNode {
+class SetGainNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
     node_sig->AddInput<float>();
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto channel = args->GetInput<pindrop::Channel>(0);
     auto gain = args->GetInput<float>(0);
     channel->SetGain(*gain);
@@ -101,15 +101,15 @@ class SetGainNode : public event::BaseNode {
 };
 
 // Returns the gain of the given audio channel.
-class GainNode : public event::BaseNode {
+class GainNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
     node_sig->AddOutput<pindrop::Channel>();
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto channel = args->GetInput<pindrop::Channel>(0);
     args->SetOutput(0, *channel);
     args->SetOutput(1, channel->Gain());
@@ -117,15 +117,15 @@ class GainNode : public event::BaseNode {
 };
 
 // Sets the location of the given sound channel.
-class SetLocationNode : public event::BaseNode {
+class SetLocationNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
     node_sig->AddInput<vec3>();
     node_sig->AddOutput<pindrop::Channel>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto channel = args->GetInput<pindrop::Channel>(0);
     auto location = args->GetInput<vec3>(1);
     channel->SetLocation(*location);
@@ -134,24 +134,24 @@ class SetLocationNode : public event::BaseNode {
 };
 
 // Returns the location of the given audio channel.
-class LocationNode : public event::BaseNode {
+class LocationNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<pindrop::Channel>();
     node_sig->AddOutput<pindrop::Channel>();
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto channel = args->GetInput<pindrop::Channel>(0);
     args->SetOutput(0, *channel);
     args->SetOutput(1, channel->Location());
   }
 };
 
-void InitializeAudioModule(event::EventSystem* event_system,
+void InitializeAudioModule(breadboard::EventSystem* event_system,
                            pindrop::AudioEngine* audio_engine) {
-  event::Module* module = event_system->AddModule("audio");
+  breadboard::Module* module = event_system->AddModule("audio");
   auto PlaySoundCtor = [audio_engine]() {
     return new PlaySoundNode(audio_engine);
   };

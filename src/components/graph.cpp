@@ -16,11 +16,11 @@
 
 #include <cstdio>
 
+#include "breadboard/graph.h"
+#include "breadboard/graph_factory.h"
+#include "breadboard/graph_state.h"
 #include "component_library/common_services.h"
 #include "components_generated.h"
-#include "event/graph.h"
-#include "event/graph_state.h"
-#include "event/graph_factory.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::GraphComponent,
                             fpl::fpl_project::GraphData)
@@ -30,7 +30,7 @@ namespace fpl_project {
 
 using fpl::component_library::CommonServicesComponent;
 
-fpl::event::NodeEventBroadcaster* GraphComponent::GetCreateBroadcaster(
+breadboard::NodeEventBroadcaster* GraphComponent::GetCreateBroadcaster(
     entity::EntityRef entity) {
   auto graph_data = Data<GraphData>(entity);
   if (!graph_data) {
@@ -54,7 +54,7 @@ void GraphComponent::AddFromRawData(entity::EntityRef& entity,
     for (size_t i = 0; i < filename_list->size(); ++i) {
       auto filename = filename_list->Get(i);
       graph_data->graphs.push_back(SerializableGraphState());
-      graph_data->graphs.back().graph_state.reset(new event::GraphState);
+      graph_data->graphs.back().graph_state.reset(new breadboard::GraphState);
       graph_data->graphs.back().filename = filename->c_str();
     }
   }
@@ -67,7 +67,7 @@ void GraphComponent::PostLoadFixup() {
     GraphData* graph_data = Data<GraphData>(entity);
     for (auto graph_iter = graph_data->graphs.begin();
          graph_iter != graph_data->graphs.end(); ++graph_iter) {
-      event::Graph* graph =
+      breadboard::Graph* graph =
           graph_factory_->LoadGraph(graph_iter->filename.c_str());
       if (graph) {
         graph_iter->graph_state->Initialize(graph);

@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include "breadboard/event.h"
 #include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/transform.h"
@@ -25,7 +26,6 @@
 #include "components/services.h"
 #include "components_generated.h"
 #include "entity/component.h"
-#include "event/event.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "fplbase/flatbuffer_utils.h"
@@ -43,7 +43,7 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
 namespace fpl {
 namespace fpl_project {
 
-FPL_EVENT_DEFINE_EVENT(kNewLapEventId)
+BREADBOARD_DEFINE_EVENT(kNewLapEventId)
 
 using fpl::component_library::AnimationComponent;
 using fpl::component_library::CommonServicesComponent;

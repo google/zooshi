@@ -14,8 +14,8 @@
 
 #include "modules/vec3.h"
 
-#include "event/event_system.h"
-#include "event/base_node.h"
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 #include "mathfu/glsl_mappings.h"
 
 using mathfu::vec3;
@@ -24,16 +24,16 @@ namespace fpl {
 namespace fpl_project {
 
 // Creates a vector from 3 floats.
-class Vec3Node : public event::BaseNode {
+class Vec3Node : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<float>();
     node_sig->AddInput<float>();
     node_sig->AddInput<float>();
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto x = args->GetInput<float>(0);
     auto y = args->GetInput<float>(1);
     auto z = args->GetInput<float>(2);
@@ -42,16 +42,16 @@ class Vec3Node : public event::BaseNode {
 };
 
 // Returns the individual elements of the given vector.
-class ElementsNode : public event::BaseNode {
+class ElementsNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
     node_sig->AddOutput<float>();
     node_sig->AddOutput<float>();
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto vec = args->GetInput<vec3>(0);
     args->SetOutput(0, vec->x());
     args->SetOutput(1, vec->y());
@@ -60,15 +60,15 @@ class ElementsNode : public event::BaseNode {
 };
 
 // Adds the two given vectors.
-class AddNode : public event::BaseNode {
+class AddNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
     node_sig->AddInput<vec3>();
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto vec_a = args->GetInput<vec3>(0);
     auto vec_b = args->GetInput<vec3>(1);
     args->SetOutput(0, *vec_a + *vec_b);
@@ -76,83 +76,83 @@ class AddNode : public event::BaseNode {
 };
 
 // Subtracts the two given vectors.
-class SubtractNode : public event::BaseNode {
+class SubtractNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
     node_sig->AddInput<vec3>();
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto vec_a = args->GetInput<vec3>(0);
     auto vec_b = args->GetInput<vec3>(1);
     args->SetOutput(0, *vec_a - *vec_b);
   }
 };
 
-class ScalarMultiplyNode : public event::BaseNode {
+class ScalarMultiplyNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
     node_sig->AddInput<float>();
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto vec = args->GetInput<vec3>(0);
     auto scalar = args->GetInput<float>(1);
     args->SetOutput(0, *vec * *scalar);
   }
 };
 
-class ScalarDivideNode : public event::BaseNode {
+class ScalarDivideNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
     node_sig->AddInput<float>();
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto vec = args->GetInput<vec3>(0);
     auto scalar = args->GetInput<float>(1);
     args->SetOutput(0, *vec / *scalar);
   }
 };
 
-class CrossProductNode : public event::BaseNode {
+class CrossProductNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
     node_sig->AddInput<vec3>();
     node_sig->AddOutput<vec3>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto vec_a = args->GetInput<vec3>(0);
     auto vec_b = args->GetInput<vec3>(1);
     args->SetOutput(0, vec3::CrossProduct(*vec_a, *vec_b));
   }
 };
 
-class DotProductNode : public event::BaseNode {
+class DotProductNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<vec3>();
     node_sig->AddInput<vec3>();
     node_sig->AddOutput<float>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto vec_a = args->GetInput<vec3>(0);
     auto vec_b = args->GetInput<vec3>(1);
     args->SetOutput(0, vec3::DotProduct(*vec_a, *vec_b));
   }
 };
 
-void InitializeVec3Module(event::EventSystem* event_system) {
-  event::Module* module = event_system->AddModule("vec3");
+void InitializeVec3Module(breadboard::EventSystem* event_system) {
+  breadboard::Module* module = event_system->AddModule("vec3");
   module->RegisterNode<Vec3Node>("vec3");
   module->RegisterNode<ElementsNode>("elements");
   module->RegisterNode<AddNode>("add");

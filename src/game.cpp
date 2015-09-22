@@ -20,11 +20,10 @@
 #include "anim_generated.h"
 #include "assets_generated.h"
 #include "audio_config_generated.h"
+#include "breadboard/graph.h"
+#include "breadboard/log.h"
 #include "common.h"
 #include "entity/entity.h"
-#include "event/graph.h"
-#include "event/log.h"
-#include "events/play_sound.h"
 #include "fplbase/input.h"
 #include "fplbase/systrace.h"
 #include "fplbase/utilities.h"
@@ -86,7 +85,7 @@ static const int kQuadNumIndices = 6;
 static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
 
 static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
-                                            kTangent4f,  kEND};
+                                            kTangent4f, kEND};
 
 static const char kAssetsDir[] = "assets";
 
@@ -278,20 +277,22 @@ const AssetManifest& Game::GetAssetManifest() const {
 }
 
 void Game::InitializeEventSystem() {
-  event::RegisterLogFunc(
+  breadboard::RegisterLogFunc(
       [](const char* fmt, va_list args) { LogError(fmt, args); });
 
-  event::TypeRegistry<void>::RegisterType("Pulse");
-  event::TypeRegistry<bool>::RegisterType("Bool");
-  event::TypeRegistry<int>::RegisterType("Int");
-  event::TypeRegistry<float>::RegisterType("Float");
-  event::TypeRegistry<std::string>::RegisterType("String");
-  event::TypeRegistry<RailDenizenDataRef>::RegisterType("RailDenizenDataRef");
-  event::TypeRegistry<AttributesDataRef>::RegisterType("AttributesDataRef");
-  event::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
-  event::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
-  event::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
-  event::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
+  breadboard::TypeRegistry<void>::RegisterType("Pulse");
+  breadboard::TypeRegistry<bool>::RegisterType("Bool");
+  breadboard::TypeRegistry<int>::RegisterType("Int");
+  breadboard::TypeRegistry<float>::RegisterType("Float");
+  breadboard::TypeRegistry<std::string>::RegisterType("String");
+  breadboard::TypeRegistry<RailDenizenDataRef>::RegisterType(
+      "RailDenizenDataRef");
+  breadboard::TypeRegistry<AttributesDataRef>::RegisterType(
+      "AttributesDataRef");
+  breadboard::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
+  breadboard::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
+  breadboard::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
+  breadboard::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
 
   InitializeAttributesModule(&event_system_, &world_.attributes_component,
                              &world_.graph_component);
@@ -366,8 +367,8 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_.reset(new editor::WorldEditor());
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
-                    &font_manager_, &audio_engine_, &graph_factory_,
-                    &renderer_, world_editor_.get());
+                    &font_manager_, &audio_engine_, &graph_factory_, &renderer_,
+                    world_editor_.get());
 
   world_renderer_.Initialize(&world_);
 

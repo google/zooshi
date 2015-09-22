@@ -16,31 +16,31 @@
 
 #include <string>
 
-#include "event/event_system.h"
-#include "event/base_node.h"
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 #include "fplbase/utilities.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Prints a string to the logger.
-class ConsolePrintNode : public event::BaseNode {
+class ConsolePrintNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<std::string>();
     node_sig->AddOutput<std::string>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto str = args->GetInput<std::string>(1);
     LogInfo("%s\n", str->c_str());
     args->SetOutput(0, *str);
   }
 };
 
-void InitializeDebugModule(event::EventSystem* event_system) {
-  event::Module* module = event_system->AddModule("debug");
+void InitializeDebugModule(breadboard::EventSystem* event_system) {
+  breadboard::Module* module = event_system->AddModule("debug");
   module->RegisterNode<ConsolePrintNode>("console_print");
 }
 

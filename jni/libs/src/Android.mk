@@ -55,7 +55,8 @@ ZOOSHI_GENERATED_OUTPUT_DIR := $(ZOOSHI_DIR)/gen/include
 
 LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_FPLBASE_DIR)/include \
-  $(DEPENDENCIES_ENTITY_DIR)/include \
+	$(DEPENDENCIES_ENTITY_DIR)/include \
+  $(DEPENDENCIES_BREADBOARD_DIR)/include \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/include \
   $(DEPENDENCIES_WORLD_EDITOR_DIR)/include \
   $(DEPENDENCIES_FPLUTIL_DIR)/libfplutil/include \
@@ -89,8 +90,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/simple_movement.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/events/parse_action.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/events/utilities.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gui.cpp \
@@ -129,7 +128,6 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/attributes.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/events.fbs \
   $(ZOOSHI_SCHEMA_DIR)/graph.fbs \
   $(ZOOSHI_SCHEMA_DIR)/gpg.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
@@ -165,7 +163,7 @@ endif
 clean: clean_assets clean_generated_includes
 
 LOCAL_STATIC_LIBRARIES := \
-  libevent \
+  libbreadboard \
   libgpg \
   libmathfu \
   libwebp \
@@ -189,7 +187,7 @@ LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -lz -lEGL -landroid
 
 include $(BUILD_SHARED_LIBRARY)
 
-$(call import-add-path,$(DEPENDENCIES_EVENT_DIR)/..)
+$(call import-add-path,$(DEPENDENCIES_BREADBOARD_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FLATBUFFERS_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FPLBASE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FLATUI_DIR)/..)
@@ -202,7 +200,7 @@ $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 
 $(call import-module,fplbase/jni)
 $(call import-module,entity/jni)
-$(call import-module,event/jni)
+$(call import-module,breadboard/jni)
 $(call import-module,pindrop/jni)
 $(call import-module,flatbuffers/android/jni)
 $(call import-module,flatui/jni)

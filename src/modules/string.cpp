@@ -17,21 +17,21 @@
 #include <string>
 #include <sstream>
 
-#include "event/event_system.h"
-#include "event/base_node.h"
+#include "breadboard/base_node.h"
+#include "breadboard/event_system.h"
 
 namespace fpl {
 namespace fpl_project {
 
 // Converts the given int to a string.
-class IntToStringNode : public event::BaseNode {
+class IntToStringNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<int>();
     node_sig->AddOutput<std::string>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto i = args->GetInput<int>(0);
     std::stringstream stream;
     stream << *i;
@@ -40,14 +40,14 @@ class IntToStringNode : public event::BaseNode {
 };
 
 // Converts the given float to a string.
-class FloatToStringNode : public event::BaseNode {
+class FloatToStringNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<float>();
     node_sig->AddOutput<std::string>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto f = args->GetInput<float>(0);
     std::stringstream stream;
     stream << *f;
@@ -56,23 +56,23 @@ class FloatToStringNode : public event::BaseNode {
 };
 
 // Contactenates the given strings.
-class ConcatNode : public event::BaseNode {
+class ConcatNode : public breadboard::BaseNode {
  public:
-  static void OnRegister(event::NodeSignature* node_sig) {
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<std::string>();
     node_sig->AddInput<std::string>();
     node_sig->AddOutput<std::string>();
   }
 
-  virtual void Execute(event::NodeArguments* args) {
+  virtual void Execute(breadboard::NodeArguments* args) {
     auto str_a = args->GetInput<std::string>(0);
     auto str_b = args->GetInput<std::string>(1);
     args->SetOutput(0, *str_a + *str_b);
   }
 };
 
-void InitializeStringModule(event::EventSystem* event_system) {
-  event::Module* module = event_system->AddModule("string");
+void InitializeStringModule(breadboard::EventSystem* event_system) {
+  breadboard::Module* module = event_system->AddModule("string");
   module->RegisterNode<IntToStringNode>("int_to_string");
   module->RegisterNode<FloatToStringNode>("float_to_string");
   module->RegisterNode<ConcatNode>("concat");

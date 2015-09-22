@@ -17,9 +17,9 @@
 
 #include <string>
 #include <vector>
+#include "breadboard/event.h"
 #include "components_generated.h"
 #include "entity/component.h"
-#include "event/event.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/math/compact_spline.h"
@@ -29,7 +29,7 @@
 namespace fpl {
 namespace fpl_project {
 
-extern fpl::event::EventId kNewLapEventId;
+BREADBOARD_DECLARE_EVENT(kNewLapEventId)
 
 struct RailDenizenData {
   RailDenizenData()

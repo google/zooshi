@@ -15,9 +15,9 @@
 #ifndef FPL_ZOOSHI_MODULES_ENTITY_H_
 #define FPL_ZOOSHI_MODULES_ENTITY_H_
 
-#include "event/event_system.h"
-#include "entity/entity_manager.h"
+#include "breadboard/event_system.h"
 #include "component_library/meta.h"
+#include "entity/entity_manager.h"
 
 namespace fpl {
 namespace fpl_project {
@@ -51,7 +51,7 @@ class ComponentDataRef {
   entity::EntityRef entity_;
 };
 
-void InitializeEntityModule(event::EventSystem* event_system,
+void InitializeEntityModule(breadboard::EventSystem* event_system,
                             ServicesComponent* services_component,
                             component_library::MetaComponent* meta_component);
 

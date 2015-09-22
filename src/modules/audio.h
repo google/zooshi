@@ -15,13 +15,13 @@
 #ifndef FPL_ZOOSHI_MODULES_AUDIO_H_
 #define FPL_ZOOSHI_MODULES_AUDIO_H_
 
-#include "event/event_system.h"
+#include "breadboard/event_system.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
 namespace fpl_project {
 
-void InitializeAudioModule(event::EventSystem* event_system,
+void InitializeAudioModule(breadboard::EventSystem* event_system,
                            pindrop::AudioEngine* audio_engine);
 
 }  // fpl_project
