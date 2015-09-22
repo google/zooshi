@@ -167,7 +167,6 @@ class PatronComponent : public entity::Component<PatronData> {
                        const entity::EntityRef& proj_entity,
                        const std::string& part_tag);
   void UpdateMovement(const entity::EntityRef& patron);
-  void SpawnSplatter(const mathfu::vec3& position, int count);
   void SpawnPointDisplay(const entity::EntityRef& patron);
   bool HasAnim(const PatronData* patron_data, PatronAction action) const;
   void Animate(PatronData* patron_data, PatronAction action);
