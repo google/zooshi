@@ -60,33 +60,8 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
 }
 
 void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
-                                     const void* raw_data) {
-  auto player_def = static_cast<const PlayerDef*>(raw_data);
-  PlayerData* player_data = AddEntity(entity);
-
-  // copy player_def->on_fire() into our own storage
-  if (entity_manager_->GetComponent<CommonServicesComponent>()
-          ->entity_factory()
-          ->WillBeKeptInMemory(player_def)) {
-    player_data->set_on_fire(player_def->on_fire());
-  } else {
-    //   player_data->set_on_fire(player_def->set_on_fire);
-    flatbuffers::FlatBufferBuilder fbb;
-    auto binary_schema = entity_manager_->GetComponent<ServicesComponent>()
-                             ->component_def_binary_schema();
-    auto schema = reflection::GetSchema(binary_schema);
-    auto table_def = schema->objects()->LookupByKey("TaggedActionDefList");
-    flatbuffers::Offset<ActionDef> table =
-        flatbuffers::CopyTable(
-            fbb, *schema, *table_def,
-            *(const flatbuffers::Table*)player_def->on_fire())
-            .o;
-    fbb.Finish(table);
-    player_data->set_on_fire_flatbuffer(std::vector<uint8_t>(
-        fbb.GetBufferPointer(), fbb.GetBufferPointer() + fbb.GetSize()));
-    player_data->set_on_fire(flatbuffers::GetRoot<ActionDef>(
-        player_data->on_fire_flatbuffer().data()));
-  }
+                                     const void* /*raw_data*/) {
+  AddEntity(entity);
 }
 
 void PlayerComponent::InitEntity(entity::EntityRef& entity) {

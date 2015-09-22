@@ -266,7 +266,6 @@ set(zooshi_SRCS
     src/components/sound.h
     src/components/time_limit.cpp
     src/components/time_limit.h
-    src/flatbufferschemas
     src/game.cpp
     src/game.h
     src/gpg_manager.h
@@ -299,7 +298,6 @@ set(zooshi_SRCS
     src/modules/vec3.h
     src/railmanager.cpp
     src/railmanager.h
-    src/rawassets
     src/states/game_menu_state.cpp
     src/states/game_menu_state.h
     src/states/intro_state.cpp

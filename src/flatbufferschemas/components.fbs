@@ -15,7 +15,6 @@
 include "attributes.fbs";
 include "bullet_def.fbs";
 include "common.fbs";
-include "events.fbs";
 include "library_components.fbs";
 include "editor_components.fbs";
 
@@ -28,7 +27,6 @@ table TimeLimitDef {
 table RailDenizenDef {
   start_time:float;
   initial_playback_rate:float;
-  on_new_lap:fpl.fpl_project.ActionDef;
   rail_name:string;
   rail_offset:Vec3; // Additional offset from the rail position
   rail_orientation:Vec3; // Rotation to apply to the rail
@@ -102,9 +100,7 @@ table PatronDef {
   point_display_height:float = 10.0;
 }
 
-table PlayerDef {
-  on_fire:fpl.fpl_project.ActionDef;
-}
+table PlayerDef {}
 
 table PlayerProjectileDef {}
 
