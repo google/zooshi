@@ -39,9 +39,7 @@ class PlayerEntityNode : public breadboard::BaseNode {
     args->SetOutput(0, services_component_->player_entity());
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
-    args->SetOutput(0, services_component_->player_entity());
-  }
+  virtual void Execute(breadboard::NodeArguments* args) { Initialize(args); }
 
  private:
   ServicesComponent* services_component_;
@@ -62,9 +60,7 @@ class RaftEntityNode : public breadboard::BaseNode {
     args->SetOutput(0, services_component_->raft_entity());
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
-    args->SetOutput(0, services_component_->raft_entity());
-  }
+  virtual void Execute(breadboard::NodeArguments* args) { Initialize(args); }
 
  private:
   ServicesComponent* services_component_;

@@ -32,20 +32,22 @@ class PlaySoundNode : public breadboard::BaseNode {
       : audio_engine_(audio_engine) {}
 
   static void OnRegister(breadboard::NodeSignature* node_sig) {
-    node_sig->AddInput<void>();
-    node_sig->AddInput<pindrop::SoundHandle>();
-    node_sig->AddInput<vec3>();
-    node_sig->AddInput<float>();
-    node_sig->AddOutput<pindrop::Channel>();
+    node_sig->AddInput<void>();                  // Play the sound.
+    node_sig->AddInput<pindrop::SoundHandle>();  // The sound to play.
+    node_sig->AddInput<vec3>();                  // Where to play the sound.
+    node_sig->AddInput<float>();                 // The gain of the sound.
+    node_sig->AddOutput<pindrop::Channel>();     // The sound's channel.
   }
 
   virtual void Execute(breadboard::NodeArguments* args) {
-    auto handle = args->GetInput<pindrop::SoundHandle>(1);
-    auto location = args->GetInput<vec3>(2);
-    auto gain = args->GetInput<float>(3);
-    pindrop::Channel channel =
-        audio_engine_->PlaySound(*handle, *location, *gain);
-    args->SetOutput(0, channel);
+    if (args->IsInputDirty(0)) {
+      auto handle = args->GetInput<pindrop::SoundHandle>(1);
+      auto location = args->GetInput<vec3>(2);
+      auto gain = args->GetInput<float>(3);
+      pindrop::Channel channel =
+          audio_engine_->PlaySound(*handle, *location, *gain);
+      args->SetOutput(0, channel);
+    }
   }
 
  private:

@@ -670,8 +670,7 @@
             ],
             "kinematic": true,
             "on_collision": [
-              "graphs/hit_body.fplgraph",
-              "graphs/mandrill_mouth.fplgraph"
+              "graphs/mandrill.fplgraph"
             ]
           }
         },
@@ -787,8 +786,7 @@
             ],
             "kinematic": true,
             "on_collision": [
-              "graphs/hit_body.fplgraph",
-              "graphs/croc_mouth.fplgraph"
+              "graphs/croc.fplgraph"
             ]
           }
         },
@@ -934,8 +932,7 @@
             ],
             "kinematic": true,
             "on_collision": [
-              "graphs/hit_body.fplgraph",
-              "graphs/croc_mouth.fplgraph"
+              "graphs/croc.fplgraph"
             ]
           }
         },
@@ -1095,8 +1092,7 @@
             ],
             "kinematic": true,
             "on_collision": [
-              "graphs/hit_body.fplgraph",
-              "graphs/hippo_mouth.fplgraph"
+              "graphs/hippo.fplgraph"
             ]
           }
         },
@@ -1244,8 +1240,7 @@
             ],
             "kinematic": true,
             "on_collision": [
-              "graphs/hit_body.fplgraph",
-              "graphs/hippo_mouth.fplgraph",
+              "graphs/hippo.fplgraph",
               "graphs/first_hippo.fplgraph"
             ]
           }
@@ -1314,8 +1309,7 @@
             ],
             "kinematic": true,
             "on_collision": [
-              "graphs/hit_body.fplgraph",
-              "graphs/bird_mouth.fplgraph"
+              "graphs/bird.fplgraph"
             ]
           }
         },
@@ -1486,8 +1480,7 @@
             ],
             "kinematic": true,
             "on_collision": [
-              "graphs/hit_body.fplgraph",
-              "graphs/giraffe_mouth.fplgraph"
+              "graphs/giraffe.fplgraph"
             ]
           }
         },

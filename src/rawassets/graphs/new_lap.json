@@ -126,14 +126,27 @@
       ]
     },
     {
+      "module": "logic",
+      "name": "boolean_pulse",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
       "module": "entity",
       "name": "raft_entity",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 7,
-            "edge_index": 1
+            "node_index": 8,
+            "edge_index": 0
           }
         }
       ]
@@ -148,7 +161,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 8,
+            "node_index": 9,
             "edge_index": 0
           }
         }
@@ -161,7 +174,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 9,
+            "node_index": 10,
             "edge_index": 0
           }
         }
@@ -174,7 +187,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 10,
+            "node_index": 11,
             "edge_index": 0
           }
         },
@@ -196,14 +209,14 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 9,
+            "node_index": 10,
             "edge_index": 0
           }
         },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 11,
+            "node_index": 12,
             "edge_index": 0
           }
         }
@@ -216,8 +229,8 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 7,
-            "edge_index": 1
+            "node_index": 8,
+            "edge_index": 0
           }
         }
       ]
@@ -229,7 +242,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 13,
+            "node_index": 14,
             "edge_index": 0
           }
         }
@@ -242,7 +255,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 14,
+            "node_index": 15,
             "edge_index": 0
           }
         },
@@ -261,7 +274,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 15,
+            "node_index": 16,
             "edge_index": 0
           }
         },
@@ -280,7 +293,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 14,
+            "node_index": 15,
             "edge_index": 0
           }
         },
@@ -293,7 +306,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 16,
+            "node_index": 17,
             "edge_index": 0
           }
         }
@@ -306,8 +319,8 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 7,
-            "edge_index": 2
+            "node_index": 8,
+            "edge_index": 1
           }
         },
         {

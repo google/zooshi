@@ -19,9 +19,28 @@
 
 #include "breadboard/base_node.h"
 #include "breadboard/event_system.h"
+#include "fplbase/utilities.h"
 
 namespace fpl {
 namespace fpl_project {
+
+// Compares two strings.
+class EqualsNode : public breadboard::BaseNode {
+ public:
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
+    node_sig->AddInput<std::string>();
+    node_sig->AddInput<std::string>();
+    node_sig->AddOutput<bool>();
+  }
+
+  virtual void Initialize(breadboard::NodeArguments* args) {
+    auto str_a = args->GetInput<std::string>(0);
+    auto str_b = args->GetInput<std::string>(1);
+    args->SetOutput(0, *str_a == *str_b);
+  }
+
+  virtual void Execute(breadboard::NodeArguments* args) { Initialize(args); }
+};
 
 // Converts the given int to a string.
 class IntToStringNode : public breadboard::BaseNode {
@@ -73,6 +92,7 @@ class ConcatNode : public breadboard::BaseNode {
 
 void InitializeStringModule(breadboard::EventSystem* event_system) {
   breadboard::Module* module = event_system->AddModule("string");
+  module->RegisterNode<EqualsNode>("equals");
   module->RegisterNode<IntToStringNode>("int_to_string");
   module->RegisterNode<FloatToStringNode>("float_to_string");
   module->RegisterNode<ConcatNode>("concat");
