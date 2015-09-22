@@ -57,7 +57,6 @@ using motive::MotiveTime;
 using motive::kMotiveTimeEndless;
 
 // All of these numbers were picked for purely aesthetic reasons:
-static const int kSplatterCount = 10;
 static const float kLapWaitAmount = 0.5f;
 static const float kMaxCatchTime = 1.5f;
 static const float kHeightRangeBuffer = 0.05f;
@@ -428,15 +427,10 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
       }
-
       SpawnPointDisplay(patron_entity);
+      // Delete the projectile, as it has been consumed.
+      entity_manager_->DeleteEntity(proj_entity);
     }
-
-    // Even if you didn't hit the top, if got here, you got some
-    // kind of collision, so you get a splatter.
-    TransformData* proj_transform = Data<TransformData>(proj_entity);
-    SpawnSplatter(proj_transform->position, kSplatterCount);
-    entity_manager_->DeleteEntity(proj_entity);
   }
 }
 
@@ -462,36 +456,6 @@ void PatronComponent::SpawnPointDisplay(const entity::EntityRef& patron) {
   TransformData* points_transform = Data<TransformData>(point_display);
   points_transform->position =
       patron_data->point_display_height * mathfu::kAxisZ3f;
-}
-
-void PatronComponent::SpawnSplatter(const mathfu::vec3& position, int count) {
-  // Save the position off, as the CreateEntity call can cause the reference to
-  // become invalid.
-  mathfu::vec3 pos = position;
-
-  for (int i = 0; i < count; i++) {
-    entity::EntityRef particle =
-        entity_manager_->GetComponent<ServicesComponent>()
-            ->entity_factory()
-            ->CreateEntityFromPrototype("SplatterParticle", entity_manager_);
-
-    TransformData* transform_data =
-        entity_manager_->GetComponentData<TransformData>(particle);
-    PhysicsData* physics_data =
-        entity_manager_->GetComponentData<PhysicsData>(particle);
-
-    transform_data->position = pos;
-
-    physics_data->SetVelocity(vec3(mathfu::RandomInRange(-3.0f, 3.0f),
-                                   mathfu::RandomInRange(-3.0f, 3.0f),
-                                   mathfu::RandomInRange(0.0f, 6.0f)));
-    physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(1.0f, 2.0f),
-                                          mathfu::RandomInRange(1.0f, 2.0f),
-                                          mathfu::RandomInRange(1.0f, 2.0f)));
-
-    auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
-    physics_component->UpdatePhysicsFromTransform(particle);
-  }
 }
 
 static float CalculateClosestTimeInHeightRange(

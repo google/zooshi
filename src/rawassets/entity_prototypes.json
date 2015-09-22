@@ -634,7 +634,7 @@
                   "z": 1.5
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -657,7 +657,7 @@
                   "z": 4.5
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -680,7 +680,7 @@
                   "z": 4.2
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -797,7 +797,7 @@
                   "z": 3
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -921,7 +921,7 @@
                   "z": 3
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -944,7 +944,7 @@
                   "z": 3.2
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1060,7 +1060,7 @@
                   "z": 1.75
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1083,7 +1083,7 @@
                   "z": 4.2
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1106,7 +1106,7 @@
                   "z": 4.0
                 },
                 "mass": 10.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Projectile"
@@ -1209,7 +1209,7 @@
                   "z": 1.75
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1232,7 +1232,7 @@
                   "z": 4.2
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1255,7 +1255,7 @@
                   "z": 4.0
                 },
                 "mass": 10.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Projectile"
@@ -1324,7 +1324,7 @@
                   "z": 1
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1450,7 +1450,7 @@
                   "z": 1.8
                 },
                 "mass": 100.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1473,7 +1473,7 @@
                   "z": 4.6
                 },
                 "mass": 20.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1496,7 +1496,7 @@
                   "z": 6.6
                 },
                 "mass": 20.0,
-                "restitution": 1.0,
+                "restitution": 0.3,
                 "collision_type": "Patron",
                 "collides_with": [
                   "Raycast",
@@ -1647,53 +1647,6 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
-          }
-        }
-      ]
-    },
-
-    // Splatter Particle
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "SplatterParticle"
-          }
-        },
-        {
-          "data_type": "PhysicsDef",
-          "data": {
-            "shapes": [
-              {
-                "data_type": "BulletNoShapeDef",
-                "data": {}
-              }
-            ]
-          }
-        },
-        {
-          "data_type": "TimeLimitDef",
-          "data": {
-            "timelimit": 1.5
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "scale": {
-              "x": 4.0,
-              "y": 4.0,
-              "z": 4.0
-            }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data": {
-            "source_file": "meshes/sushi_rice.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
