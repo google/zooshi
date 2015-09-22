@@ -130,7 +130,6 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/attributes.fbs \
   $(ZOOSHI_SCHEMA_DIR)/components.fbs \
   $(ZOOSHI_SCHEMA_DIR)/config.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/events.fbs \
   $(ZOOSHI_SCHEMA_DIR)/graph.fbs \
   $(ZOOSHI_SCHEMA_DIR)/gpg.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
