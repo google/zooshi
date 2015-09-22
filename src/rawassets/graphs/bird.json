@@ -175,7 +175,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": "fpl.fpl_project.AttributeDef.PatronsHit"
+            "value": "fpl.fpl_project.AttributeDef.PatronsFed"
           }
         }
       ]
@@ -213,7 +213,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": "fpl.fpl_project.AttributeDef.PatronsHit"
+            "value": "fpl.fpl_project.AttributeDef.PatronsFed"
           }
         },
         {
