@@ -7,7 +7,7 @@
     "meshes/crocodile_rig.fplmesh",
     "meshes/Hippo_RIG.fplmesh",
     "meshes/Bird_RIG.fplmesh",
-    "meshes/Giraffe.fplmesh",
+    "meshes/giraffe_rig.fplmesh",
     "meshes/ground.fplmesh",
     "meshes/background.fplmesh",
     "meshes/tree_saturated.fplmesh",
@@ -110,11 +110,11 @@
       },
       { // AnimObject_LovelyGiraffette
         "anim_files": [
-          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
-          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
-          "",                               // PatronAction_Satisfied
-          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
+          "anims/giraffe_appear.fplanim",    // PatronAction_GetUp
+          "anims/giraffe_idle.fplanim",      // PatronAction_Idle
+          "anims/giraffe_eat.fplanim",       // PatronAction_Eat
+          "anims/giraffe_happy.fplanim",     // PatronAction_Satisfied
+          "anims/giraffe_disappear.fplanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_BankerBird

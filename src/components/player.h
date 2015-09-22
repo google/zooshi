@@ -27,7 +27,7 @@
 namespace fpl {
 namespace fpl_project {
 
-BREADBOARD_DECLARE_EVENT(kOnFireEventId);
+BREADBOARD_DECLARE_EVENT(kOnFireEventId)
 
 struct ActionDef;
 
