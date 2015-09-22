@@ -12,7 +12,8 @@
         {
           "data_type": "EditOptionsDef",
           "data": {
-            "selection_option": "CycleOnly"
+            "selection_option": "CycleOnly",
+            "render_option": "OnlyInEditor"
           }
         },
         {
@@ -40,6 +41,11 @@
     {
       "component_list": [
         {
+          "data_type": "GraphDef",
+          "data": {
+          }
+        },
+        {
           "data_type": "MetaDef",
           "data": {
             "entity_id": "$6288-e1c3-3742-4a1a",
@@ -50,9 +56,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -0.00160217,
-              "y": 49.998,
-              "z": 2
+              "x": -54.147232,
+              "y": -64.561913,
+              "z": 2.000001
             },
             "scale": {
               "x": 1,
@@ -60,9 +66,9 @@
               "z": 1
             },
             "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 90
+              "x": 0.000009,
+              "y": 0.000003,
+              "z": -43.481541
             },
             "child_ids": [
               "ActivePlayer",
@@ -166,7 +172,7 @@
                   "y": 0.2,
                   "z": -0.3
                 },
-                "mass": 1000,
+                "mass": 999.999939,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
@@ -189,7 +195,7 @@
                   "y": 1.2,
                   "z": -0.3
                 },
-                "mass": 1000,
+                "mass": 999.999939,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
@@ -212,7 +218,7 @@
                   "y": -0.8,
                   "z": -0.3
                 },
-                "mass": 1000,
+                "mass": 999.999939,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
@@ -235,7 +241,7 @@
                   "y": 0.2,
                   "z": 1.4
                 },
-                "mass": 1000,
+                "mass": 999.999939,
                 "restitution": 0.1,
                 "collision_type": "Ground",
                 "collides_with": [
@@ -245,7 +251,7 @@
                 "user_tag": ""
               }
             ],
-            "kinematic": 1
+            "kinematic": true
           }
         },
         {
@@ -259,8 +265,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -0.244101,
-              "y": 50.9885,
+              "x": 4.803519,
+              "y": 53.541782,
               "z": 1
             },
             "scale": {
@@ -269,9 +275,9 @@
               "z": 6.9
             },
             "orientation": {
-              "x": -115,
-              "y": 81,
-              "z": -118
+              "x": -115.000015,
+              "y": 81.000008,
+              "z": -118.000015
             },
             "child_ids": [
               "RockMid_RenderMesh"

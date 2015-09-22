@@ -363,8 +363,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 30,
-              "y": -0,
+              "x": 30.86697,
+              "y": 0.346622,
               "z": 2
             },
             "scale": {
@@ -401,8 +401,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 30,
-              "y": -10,
+              "x": 33.546612,
+              "y": -11.83119,
               "z": 2
             },
             "scale": {
@@ -439,8 +439,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 35,
-              "y": -20,
+              "x": 38.614418,
+              "y": -23.436367,
               "z": 2
             },
             "scale": {
@@ -477,8 +477,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 35,
-              "y": -30,
+              "x": 41.342255,
+              "y": -35.744797,
               "z": 2
             },
             "scale": {
@@ -515,8 +515,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 30,
-              "y": -40,
+              "x": 44.939407,
+              "y": -46.307549,
               "z": 2
             },
             "scale": {
@@ -553,8 +553,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 20,
-              "y": -45,
+              "x": 44.295696,
+              "y": -61.270561,
               "z": 2
             },
             "scale": {
@@ -591,8 +591,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 0,
-              "y": -45,
+              "x": 36.611164,
+              "y": -78.666367,
               "z": 2
             },
             "scale": {
@@ -629,9 +629,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -10,
-              "y": -50,
-              "z": 2
+              "x": 25.972801,
+              "y": -87.897903,
+              "z": 1.999998
             },
             "scale": {
               "x": 20,
@@ -667,8 +667,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -25,
-              "y": -55,
+              "x": 8.689325,
+              "y": -90.99678,
               "z": 2
             },
             "scale": {
@@ -705,8 +705,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -30,
-              "y": -55,
+              "x": -15.501284,
+              "y": -88.33271,
               "z": 2
             },
             "scale": {
@@ -743,9 +743,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -40,
-              "y": -50,
-              "z": 2
+              "x": -49.718452,
+              "y": -68.482758,
+              "z": 2.000002
             },
             "scale": {
               "x": 20,
@@ -781,8 +781,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -45,
-              "y": -45,
+              "x": -60.568943,
+              "y": -55.338089,
               "z": 2
             },
             "scale": {
@@ -819,8 +819,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -50,
-              "y": -35,
+              "x": -63.293919,
+              "y": -41.442654,
               "z": 2
             },
             "scale": {
@@ -857,8 +857,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -50,
-              "y": -30,
+              "x": -59.647465,
+              "y": -30.754612,
               "z": 2
             },
             "scale": {
@@ -895,8 +895,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -45,
-              "y": -20,
+              "x": -51.931023,
+              "y": -21.442829,
               "z": 2
             },
             "scale": {
@@ -933,9 +933,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -40,
-              "y": -15,
-              "z": 2
+              "x": -44.67268,
+              "y": -13.679342,
+              "z": 1.999998
             },
             "scale": {
               "x": 20,
@@ -971,8 +971,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -35,
-              "y": -5,
+              "x": -39.858456,
+              "y": -6.605533,
               "z": 2
             },
             "scale": {
@@ -1009,9 +1009,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -35,
-              "y": 5,
-              "z": 2
+              "x": -37.398296,
+              "y": 5.489393,
+              "z": 2.000002
             },
             "scale": {
               "x": 20,
@@ -1047,9 +1047,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -40,
-              "y": 15,
-              "z": 2
+              "x": -43.81712,
+              "y": 19.684372,
+              "z": 2.000002
             },
             "scale": {
               "x": 20,
@@ -1085,8 +1085,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -45,
-              "y": 20,
+              "x": -57.055897,
+              "y": 28.321726,
               "z": 2
             },
             "scale": {
@@ -1123,9 +1123,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -50,
-              "y": 30,
-              "z": 2
+              "x": -65.400192,
+              "y": 34.094654,
+              "z": 2.000002
             },
             "scale": {
               "x": 20,
@@ -1161,9 +1161,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -50,
-              "y": 35,
-              "z": 2
+              "x": -71.120689,
+              "y": 43.46027,
+              "z": 1.999998
             },
             "scale": {
               "x": 20,
@@ -1199,8 +1199,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -45,
-              "y": 45,
+              "x": -68.962296,
+              "y": 57.555977,
               "z": 2
             },
             "scale": {
@@ -1237,8 +1237,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -40,
-              "y": 50,
+              "x": -49.153294,
+              "y": 68.535606,
               "z": 2
             },
             "scale": {
@@ -1275,8 +1275,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -20,
-              "y": 55,
+              "x": -26.659327,
+              "y": 58.677364,
               "z": 2
             },
             "scale": {

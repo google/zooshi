@@ -14,8 +14,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 13.5,
-              "y": 51.5,
+              "x": 13.500001,
+              "y": 51.500004,
               "z": -1
             },
             "scale": {
@@ -26,7 +26,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -100
+              "z": -96.412262
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
@@ -48,8 +48,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 43.9745,
-              "y": 56.1338,
+              "x": 43.97448,
+              "y": 56.133713,
               "z": -0.999996
             },
             "scale": {
@@ -60,7 +60,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -112
+              "z": -95.714073
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
@@ -82,9 +82,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -49.1471,
-              "y": -7.22539,
-              "z": 6.67501
+              "x": -352.065521,
+              "y": -20.761946,
+              "z": 58.593212
             },
             "scale": {
               "x": 1,
@@ -93,8 +93,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
-              "z": 156
+              "y": -0,
+              "z": -53.999985
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -116,8 +116,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 42.6393,
-              "y": -19.2573,
+              "x": 46.501022,
+              "y": -19.253975,
               "z": 0.67
             },
             "scale": {
@@ -128,7 +128,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -72
+              "z": -55.560493
             },
             "child_ids": [
               "PatronGiraffette_RenderMesh"
@@ -150,9 +150,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 30.6139,
-              "y": 16.4366,
-              "z": 0.00999897
+              "x": 53.822586,
+              "y": 15.80347,
+              "z": 0.009999
             },
             "scale": {
               "x": 1,
@@ -161,8 +161,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": 94.2
+              "y": 0,
+              "z": -12.181759
             },
             "child_ids": [
               "PatronLadyMandrill_RenderMesh"
@@ -184,9 +184,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 27.7298,
-              "y": -25.9094,
-              "z": 0.00999774
+              "x": 27.729761,
+              "y": -25.909416,
+              "z": 0.009998
             },
             "scale": {
               "x": 1,
@@ -196,7 +196,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 45
+              "z": 44.566647
             },
             "child_ids": [
               "PatronLadyMandrill_RenderMesh"
@@ -218,9 +218,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 39.8597,
-              "y": -40.2417,
-              "z": 0.00999865
+              "x": 57.807781,
+              "y": -50.880077,
+              "z": 0.009999
             },
             "scale": {
               "x": 1,
@@ -229,42 +229,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": 8
-            },
-            "child_ids": [
-              "PatronLadyMandrill_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$a153-ea8e-2beb-7209",
-            "prototype": "PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 7.70688,
-              "y": -54.9229,
-              "z": 0.010001
-            },
-            "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 31
+              "y": 0,
+              "z": -18.110697
             },
             "child_ids": [
               "PatronLadyMandrill_RenderMesh"
@@ -286,9 +252,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -13,
-              "y": -46,
-              "z": 0.01
+              "x": -9.390266,
+              "y": -72.016266,
+              "z": 0.009998
             },
             "scale": {
               "x": 1,
@@ -298,7 +264,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 120
+              "z": 120.000008
             },
             "child_ids": [
               "PatronLadyMandrill_RenderMesh"
@@ -320,8 +286,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -47.7997,
-              "y": -52.0235,
+              "x": -75.591377,
+              "y": -63.104187,
               "z": 0.36
             },
             "scale": {
@@ -346,40 +312,6 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "$0b81-3746-6528-68ee",
-            "prototype": "PatronLadyMandrill"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -43,
-              "y": -33,
-              "z": 0.01
-            },
-            "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 170
-            },
-            "child_ids": [
-              "PatronLadyMandrill_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
             "entity_id": "$e461-a91c-3a0b-5c55",
             "prototype": "PatronLadyMandrill"
           }
@@ -388,9 +320,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -28.0298,
-              "y": -14.1921,
-              "z": 0.309999
+              "x": -25.776712,
+              "y": -19.806721,
+              "z": 0.622793
             },
             "scale": {
               "x": 1,
@@ -423,7 +355,7 @@
           "data": {
             "position": {
               "x": 30.2216,
-              "y": 45.3356,
+              "y": 45.335602,
               "z": 0.135001
             },
             "scale": {
@@ -456,8 +388,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 29.6907,
-              "y": 62.7747,
+              "x": 29.690691,
+              "y": 62.774696,
               "z": 0.359998
             },
             "scale": {
@@ -468,7 +400,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -135
+              "z": -120.505997
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -490,8 +422,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 60.8797,
-              "y": 15.6457,
+              "x": 26.038782,
+              "y": 9.649434,
               "z": 0.710004
             },
             "scale": {
@@ -502,7 +434,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 2
+              "z": 50.992599
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -524,8 +456,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 42.7896,
-              "y": 0.479528,
+              "x": 42.78957,
+              "y": 0.479502,
               "z": 0.234998
             },
             "scale": {
@@ -536,7 +468,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": -15
+              "z": 8.353493
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -558,8 +490,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 27.0754,
-              "y": -57.5582,
+              "x": 31.632441,
+              "y": -62.685135,
               "z": 0.484998
             },
             "scale": {
@@ -570,7 +502,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 10
+              "z": 14.098073
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -592,9 +524,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -41.0225,
-              "y": -60.9937,
-              "z": 0.46
+              "x": -44.02562,
+              "y": -89.588219,
+              "z": 0.460002
             },
             "scale": {
               "x": 1,
@@ -603,8 +535,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
-              "z": 81
+              "y": -0,
+              "z": 91.263016
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -626,9 +558,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -60,
-              "y": -38,
-              "z": 0.01
+              "x": -79.901665,
+              "y": -33.151588,
+              "z": 0.010002
             },
             "scale": {
               "x": 1,
@@ -652,74 +584,6 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "$9a65-2005-305a-4c94",
-            "prototype": "PatronMoustacheCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -60.8233,
-              "y": -19.9114,
-              "z": 0.610001
-            },
-            "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": 156
-            },
-            "child_ids": [
-              "PatronMoustacheCroc_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$904a-0112-137c-d408",
-            "prototype": "PatronMoustacheCroc"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": -22.4653,
-              "y": 14.1666,
-              "z": 1.11
-            },
-            "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -138
-            },
-            "child_ids": [
-              "PatronMoustacheCroc_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
             "entity_id": "$06d3-7d8a-ed53-a085",
             "prototype": "PatronMoustacheCroc"
           }
@@ -728,9 +592,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -54.1759,
-              "y": 8.62978,
-              "z": 0.735
+              "x": -53.592926,
+              "y": 5.920305,
+              "z": 0.735002
             },
             "scale": {
               "x": 1,
@@ -739,8 +603,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
-              "z": 154
+              "y": -0,
+              "z": 169.785309
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -762,9 +626,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -8.85368,
-              "y": 65.9315,
-              "z": 0.884993
+              "x": -6.952784,
+              "y": 59.073338,
+              "z": 0.459993
             },
             "scale": {
               "x": 1,
@@ -773,8 +637,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": -124
+              "y": 0,
+              "z": -52.000023
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -808,7 +672,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": -106
+              "z": -106.000008
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -830,9 +694,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -9,
-              "y": 35,
-              "z": 1.085
+              "x": -43.496819,
+              "y": 36.075077,
+              "z": 0.510001
             },
             "scale": {
               "x": 1,
@@ -841,8 +705,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": -48
+              "y": 0,
+              "z": -144
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -864,9 +728,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 63.2621,
-              "y": 45.9034,
-              "z": 0.509997
+              "x": 58.993496,
+              "y": 45.085644,
+              "z": 0.668177
             },
             "scale": {
               "x": 1,
@@ -875,8 +739,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": -68
+              "y": 0,
+              "z": -32.997757
             },
             "child_ids": [
               "PatronMoustacheCroc_RenderMesh"
@@ -898,19 +762,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 41.6551,
-              "y": 37.3537,
+              "x": 39.474121,
+              "y": 29.684572,
               "z": 0.450007
             },
             "scale": {
               "x": 1.4,
-              "y": 1,
+              "y": 1.4,
               "z": 1.4
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 3.50009
+              "z": 3.329045
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
@@ -932,19 +796,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 24.2148,
-              "y": -1.50652,
-              "z": -0.874983
+              "x": 52.647007,
+              "y": -78.071533,
+              "z": 0.425017
             },
             "scale": {
               "x": 1.4,
-              "y": 1,
+              "y": 1.4,
               "z": 1.4
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": 33.5001
+              "y": 0,
+              "z": -13.932681
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
@@ -966,9 +830,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 10.0912,
-              "y": -32.2409,
-              "z": 1.22
+              "x": 20.977322,
+              "y": -1.840908,
+              "z": 1.220001
             },
             "scale": {
               "x": 1,
@@ -978,7 +842,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 123
+              "z": 48.354279
             },
             "child_ids": [
               "PatronGiraffette_RenderMesh"
@@ -1000,19 +864,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -3.95548,
-              "y": -35.684,
-              "z": 0.550017
+              "x": 31.245661,
+              "y": -40.627644,
+              "z": 0.600017
             },
             "scale": {
               "x": 1.4,
-              "y": 1,
+              "y": 1.4,
               "z": 1.4
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 115.7
+              "z": 19.812201
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
@@ -1034,8 +898,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -10.4301,
-              "y": -66.7972,
+              "x": -9.715585,
+              "y": -105.690376,
               "z": 1.22
             },
             "scale": {
@@ -1046,7 +910,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 27
+              "z": 61.997715
             },
             "child_ids": [
               "PatronGiraffette_RenderMesh"
@@ -1068,9 +932,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -23.979,
-              "y": -35.0072,
-              "z": 1.22
+              "x": -42.058502,
+              "y": -50.251205,
+              "z": 0.395003
             },
             "scale": {
               "x": 1,
@@ -1078,9 +942,9 @@
               "z": 1
             },
             "orientation": {
-              "x": 0,
+              "x": -0,
               "y": -0,
-              "z": 171
+              "z": 156.576859
             },
             "child_ids": [
               "PatronGiraffette_RenderMesh"
@@ -1102,9 +966,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -24.582,
-              "y": 0.0365874,
-              "z": 5.45
+              "x": -147.908035,
+              "y": 2.071503,
+              "z": 59.421127
             },
             "scale": {
               "x": 1,
@@ -1114,7 +978,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": -144
+              "z": 126.000008
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1136,8 +1000,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -34.9604,
-              "y": 18.8276,
+              "x": -24.88652,
+              "y": 23.109076,
               "z": -0.224988
             },
             "scale": {
@@ -1170,8 +1034,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -58.8104,
-              "y": 30.0077,
+              "x": -70.996185,
+              "y": 18.881292,
               "z": 0.309993
             },
             "scale": {
@@ -1182,7 +1046,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 157
+              "z": 85.236298
             },
             "child_ids": [
               "PatronLadyMandrill_RenderMesh"
@@ -1204,9 +1068,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -28.0147,
-              "y": -67.8032,
-              "z": 7.10001
+              "x": -153.971237,
+              "y": -302.434753,
+              "z": 44.445072
             },
             "scale": {
               "x": 1,
@@ -1216,7 +1080,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": 51
+              "z": -159.000015
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1238,9 +1102,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 8.74985,
-              "y": -21.7182,
-              "z": 6.35001
+              "x": 86.194084,
+              "y": -124.009636,
+              "z": 38.10006
             },
             "scale": {
               "x": 1,
@@ -1249,8 +1113,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
-              "z": 84
+              "y": -0,
+              "z": 144.000031
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1272,9 +1136,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 60.4414,
-              "y": 41.5009,
-              "z": 6.10001
+              "x": 120.044319,
+              "y": 91.053993,
+              "z": 12.20002
             },
             "scale": {
               "x": 1,
@@ -1284,7 +1148,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": -60
+              "z": 138.111649
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1306,9 +1170,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -45.033,
-              "y": 53.2765,
-              "z": 6.125
+              "x": -90.23484,
+              "y": 104.752632,
+              "z": 12.25
             },
             "scale": {
               "x": 1,
@@ -1317,8 +1181,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
-              "z": 171
+              "y": -0,
+              "z": 161.999985
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1340,19 +1204,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -33.5928,
-              "y": 57.7598,
-              "z": -0.224992
+              "x": -33.412491,
+              "y": 47.565472,
+              "z": 0.275008
             },
             "scale": {
               "x": 1.4,
-              "y": 1,
+              "y": 1.4,
               "z": 1.4
             },
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -155.5
+              "z": -48.000004
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
@@ -1374,9 +1238,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -62.1863,
-              "y": 49.0028,
-              "z": 1.22
+              "x": -56.95826,
+              "y": 49.589825,
+              "z": 0.370001
             },
             "scale": {
               "x": 1,
@@ -1385,8 +1249,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": 123
+              "y": 0,
+              "z": -165.659714
             },
             "child_ids": [
               "PatronGiraffette_RenderMesh"
@@ -1408,9 +1272,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -22.6417,
-              "y": 31.395,
-              "z": 6.125
+              "x": -316.781586,
+              "y": 500.008942,
+              "z": 85.75
             },
             "scale": {
               "x": -1,
@@ -1419,8 +1283,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": -84
+              "y": 0,
+              "z": -96.000076
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
@@ -1442,9 +1306,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 11.371,
-              "y": 51.3052,
-              "z": 7.125
+              "x": 20.893095,
+              "y": 104.53878,
+              "z": 14.25
             },
             "scale": {
               "x": 1,
@@ -1453,8 +1317,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
-              "z": -105
+              "y": 0,
+              "z": -30.000002
             },
             "child_ids": [
               "PatronBankerBird_RenderMesh"
