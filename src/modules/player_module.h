@@ -26,6 +26,7 @@ namespace fpl_project {
 typedef ComponentDataRef<PlayerComponent> PlayerDataRef;
 
 void InitializePlayerModule(breadboard::EventSystem* event_system,
+                            PlayerComponent* player_component,
                             GraphComponent* graph_component);
 
 }  // fpl_project

@@ -46,6 +46,32 @@ class IncrementAchievementNode : public breadboard::BaseNode {
   GPGManager* gpg_manager_;
 };
 
+// Grant specified achievement.
+class GrantAchievementNode : public breadboard::BaseNode {
+ public:
+  GrantAchievementNode(const Config* config, GPGManager* gpg_manager)
+      : config_(config), gpg_manager_(gpg_manager) {}
+
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
+    node_sig->AddInput<int32_t>();
+    node_sig->AddInput<std::string>();
+  }
+
+  virtual void Execute(breadboard::NodeArguments* args) {
+    auto flag = args->GetInput<int32_t>(0);
+    if (*flag > 0) {
+      auto name = args->GetInput<std::string>(1);
+      auto achievement =
+          config_->gpg_config()->achievements()->LookupByKey(name->c_str());
+      gpg_manager_->UnlockAchievement(achievement->id()->c_str());
+    }
+  }
+
+ private:
+  const Config* config_;
+  GPGManager* gpg_manager_;
+};
+
 void InitializeGpgModule(breadboard::EventSystem* event_system,
                          const Config* config, GPGManager* gpg_manager) {
   breadboard::Module* module = event_system->AddModule("gpg");
@@ -54,6 +80,12 @@ void InitializeGpgModule(breadboard::EventSystem* event_system,
   };
   module->RegisterNode<IncrementAchievementNode>("increment_achievement",
                                                  increment_achievement_ctor);
+
+  auto grant_achievement_ctor = [config, gpg_manager]() {
+    return new GrantAchievementNode(config, gpg_manager);
+  };
+  module->RegisterNode<GrantAchievementNode>("grant_achievement",
+                                             grant_achievement_ctor);
 }
 
 }  // fpl_project
