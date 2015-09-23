@@ -64,8 +64,14 @@ void RenderWorld(Renderer& renderer, World* world, Camera& camera,
   }
   camera.set_viewport_resolution(window_size);
   if (world->is_in_cardboard) {
+    // This takes care of setting/clearing the framebuffer for us.
     RenderStereoscopic(renderer, world, camera, cardboard_camera, input_system);
   } else {
+    // Always clear the framebuffer, even though we overwrite it with the
+    // skybox, since it's a speedup on tile-based architectures, see .e.g.:
+    // http://www.seas.upenn.edu/~pcozzi/OpenGLInsights/OpenGLInsights-TileBasedArchitectures.pdf
+    renderer.ClearFrameBuffer(mathfu::kZeros4f);
+
     world->world_renderer->RenderWorld(camera, renderer, world);
   }
 }
