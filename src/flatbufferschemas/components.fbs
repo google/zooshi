@@ -46,7 +46,6 @@ enum AnimObject : byte {
   LadyMandrill,
   LovelyGiraffette,
   BankerBird,
-  MenacingCroc,
   FernShort,
   FernMid,
   FernTall,

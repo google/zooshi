@@ -125,15 +125,6 @@
           "anims/Bird_HAPPY.fplanim",       // PatronAction_Satisfied
           "anims/Bird_DISAPPEAR.fplanim",   // PatronAction_Fall
         ]
-      },
-      { // AnimObject_MenacingCroc
-        "anim_files": [
-          "anims/Patron_APPEAR.fplanim",    // PatronAction_GetUp
-          "anims/Patron_IDLE.fplanim",      // PatronAction_Idle
-          "anims/Patron_EAT.fplanim",       // PatronAction_Eat
-          "",                               // PatronAction_Satisfied
-          "anims/Patron_DISAPPEAR.fplanim", // PatronAction_Fall
-        ]
       }, // AnimObject_FernShort
       {
         "anim_files": [
