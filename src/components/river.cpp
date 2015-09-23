@@ -62,9 +62,8 @@ void RiverComponent::Init() {
   WorldEditor* world_editor = services->world_editor();
   if (world_editor) {
     world_editor->AddOnUpdateEntityCallback(
-        [this](const entity::EntityRef& entity) { UpdateRiverMeshes(entity); });
+        [this](const entity::EntityRef& /*entity*/) { TriggerRiverUpdate();});
   }
-  update_river_mutex_ = PTHREAD_MUTEX_INITIALIZER;
 }
 
 void RiverComponent::AddFromRawData(entity::EntityRef& entity,
@@ -75,13 +74,17 @@ void RiverComponent::AddFromRawData(entity::EntityRef& entity,
   river_data->random_seed = river_def->random_seed();
 
   entity_manager_->AddEntityToComponent<RenderMeshComponent>(entity);
-  TriggerRiverUpdate(river_data);
+  TriggerRiverUpdate();
 }
 
-void RiverComponent::TriggerRiverUpdate(RiverData* river_data) {
-  pthread_mutex_lock(&update_river_mutex_);
-  river_data->render_mesh_needs_update_ = true;
-  pthread_mutex_unlock(&update_river_mutex_);
+void RiverComponent::TriggerRiverUpdate() {
+  // TODO - it would be nice if this only updated the river that we were editing
+  // (instead of marking all rivers as needing an update) but due to how river
+  // edit nodes interact with the river mesh, that's tricky.
+  for (auto iter = begin(); iter != end(); ++iter) {
+    RiverData* river_data = Data<RiverData>(iter->entity);
+    river_data->render_mesh_needs_update_ = true;
+  }
 }
 
 entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
@@ -128,9 +131,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
                                  ->river_config();
 
   RiverData* river_data = Data<RiverData>(entity);
-  pthread_mutex_lock(&update_river_mutex_);
   river_data->render_mesh_needs_update_ = false;
-  pthread_mutex_unlock(&update_river_mutex_);
 
   // Initialize the static mesh that will be made around the river banks.
   auto* physics_component = entity_manager_->GetComponent<PhysicsComponent>();

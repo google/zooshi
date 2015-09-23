@@ -81,6 +81,7 @@ void WorldEditorState::Render(Renderer* renderer) {
   renderer->DepthTest(true);
   renderer->model_view_projection() = camera_transform;
 
+  world_->river_component.UpdateRiverMeshes();
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);
 
 }
