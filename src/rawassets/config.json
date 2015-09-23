@@ -53,12 +53,12 @@
       {
         "zone_start": 0.35,
         "material": "materials/riverbank_savanna_daytime.fplmat",
-        "width": 12,
+        "width": 10,
       },
       {
         "zone_start": 0.45,
         "material": "materials/riverbank_savanna_daytime.fplmat",
-        "width": 14,
+        "width": 10,
         "banks": [
           { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
           { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
@@ -73,7 +73,7 @@
       {
         "zone_start": 0.55,
         "material": "materials/riverbank_savanna_daytime_savanna_sunset.fplmat",
-        "width": 15,
+        "width": 10,
         "banks": [
           { "x_min": -12.5, "x_max": -18.5, "z_min": 1.0, "z_max": 1.5 },
           { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
@@ -88,7 +88,7 @@
       {
         "zone_start": 0.6,
         "material": "materials/riverbank_savanna_sunset.fplmat",
-        "width": 16,
+        "width": 10,
         "banks": [
           { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
           { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
@@ -103,17 +103,17 @@
       {
         "zone_start": 0.7,
         "material": "materials/riverbank_savanna_sunset_savanna_twilight.fplmat",
-        "width": 14
+        "width": 10
       },
       {
         "zone_start": 0.75,
         "material": "materials/riverbank_savanna_twilight.fplmat",
-        "width": 12
+        "width": 9
       },
       {
         "zone_start": 0.85,
         "material": "materials/riverbank_savanna_twilight.fplmat",
-        "width": 10
+        "width": 8
       },
       {
         "zone_start": 0.95,
