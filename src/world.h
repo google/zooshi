@@ -47,6 +47,7 @@
 #include "fplbase/render_target.h"
 #include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
+#include "inputcontrollers/gamepad_controller.h"
 #include "railmanager.h"
 #include "world_editor/edit_options.h"
 #include "world_editor/world_editor.h"
@@ -123,6 +124,8 @@ struct World {
   AssetManager* asset_manager;
   WorldRenderer* world_renderer;
 
+  std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
+
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,
   // which keeps all entity files loaded in memory.
@@ -143,13 +146,15 @@ struct World {
   // Network multiplayer library for multi-screen version
   GPGMultiplayer* gpg_multiplayer;
 #endif
+
+  void AddController(BasePlayerController* controller);
+  void SetActiveController(ControllerType controller_type);
 };
 
 // Removes all entities from the world, then repopulates it based on the entity
 // definitions given in the WorldDef. The input controller is required to hook
 // up the player's controller to the player entity.
-void LoadWorldDef(World* world, const WorldDef* world_def,
-                  BasePlayerController* input_controller);
+void LoadWorldDef(World* world, const WorldDef* world_def);
 
 }  // fpl_project
 }  // fpl

@@ -1,5 +1,6 @@
 {
   "mouse_sensitivity": 0.001,
   "invert_x": false,
-  "invert_y": false
+  "invert_y": false,
+  "gamepad_sensitivity": 0.02
 }

@@ -16,6 +16,8 @@
 #define ZOOSHI_BASE_PLAYER_CONTROLLER_H
 
 #include "camera.h"
+#include "fplbase/input.h"
+#include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 
 namespace fpl {
@@ -51,9 +53,12 @@ enum LogicalButtonTypes {
   kLogicalButtonCount  // This needs to be last.
 };
 
+enum ControllerType { kControllerDefault, kControllerGamepad };
+
 class BasePlayerController {
  public:
-  BasePlayerController() : last_position_(-1) {
+  BasePlayerController(ControllerType controller_type = kControllerDefault)
+      : last_position_(-1), controller_type_(controller_type) {
     facing_.SetValue(kCameraForward);
     facing_.Update();
     up_.SetValue(kCameraUp);
@@ -74,6 +79,15 @@ class BasePlayerController {
 
   const mathfu::vec2i& last_position() const { return last_position_; }
 
+  ControllerType controller_type() const { return controller_type_; }
+
+  void set_input_system(InputSystem* input_system) {
+    input_system_ = input_system;
+  }
+  void set_input_config(const InputConfig* input_config) {
+    input_config_ = input_config;
+  }
+
  protected:
   LogicalButton buttons_[kLogicalButtonCount];
   LogicalVector facing_;
@@ -83,6 +97,11 @@ class BasePlayerController {
   // as top-left. Note that having negative values indicates not having a
   // position defined.
   mathfu::vec2i last_position_;
+
+  ControllerType controller_type_;
+
+  InputSystem* input_system_;
+  const InputConfig* input_config_;
 };
 
 }  // fpl_project

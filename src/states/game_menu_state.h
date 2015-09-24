@@ -40,6 +40,7 @@ enum MenuState {
   kMenuStateOptions,
   kMenuStateFinished,
   kMenuStateCardboard,
+  kMenuStateGamepad
 };
 
 // Constant defintions for UI elements. Colors, button sizes etc.
@@ -65,14 +66,11 @@ const auto kSaveFileName = "save_data.bin";
 const auto kSaveAppName = "zooshi";
 const auto kGPGDefaultLeaderboard = 0;
 
-
 class GameMenuState : public StateNode {
  public:
-  void Initialize(InputSystem* input_system, World* world,
-                  BasePlayerController* player_controller, const Config* config,
+  void Initialize(InputSystem* input_system, World* world, const Config* config,
                   AssetManager* asset_manager, FontManager* font_manager,
-                  const AssetManifest* manifest,
-                  GPGManager *gpg_manager,
+                  const AssetManifest* manifest, GPGManager* gpg_manager,
                   pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
@@ -108,7 +106,7 @@ class GameMenuState : public StateNode {
 #endif
 
   // In mobile platforms, UI has menu items for Google Play Game service.
-  GPGManager *gpg_manager_;
+  GPGManager* gpg_manager_;
 
   // FlatUI uses InputSystem for an input handling for a touch, gamepad,
   // mouse and keyboard.
@@ -139,9 +137,6 @@ class GameMenuState : public StateNode {
 
   // The world definition to load upon entering the menu.
   const WorldDef* world_def_;
-
-  // The controller to use for the main character when the world is created.
-  BasePlayerController* input_controller_;
 
   // Textures used in menu UI.
   Texture* background_title_;

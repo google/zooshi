@@ -52,6 +52,9 @@
 #else
 #include "inputcontrollers/mouse_controller.h"
 #endif
+#ifdef ANDROID_GAMEPAD
+#include "inputcontrollers/gamepad_controller.h"
+#endif
 
 namespace fpl {
 namespace fpl_project {
@@ -103,14 +106,6 @@ class Game {
 
   // Hold the configuration for the asset manifest source.
   std::string asset_manifest_source_;
-
-#ifdef __ANDROID__
-  // Input controller for looking around when using accelerometers on android.
-  AndroidCardboardController input_controller_;
-#else
-  // Input controller for looking around when using mouse.
-  MouseController input_controller_;
-#endif
 
   // The top level state machine that drives the game.
   StateMachine<kGameStateCount> state_machine_;

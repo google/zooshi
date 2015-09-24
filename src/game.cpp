@@ -360,14 +360,25 @@ bool Game::Initialize(const char* const binary_directory) {
 
   SetRelativeMouseMode(true);
 
-  input_controller_.set_input_system(&input_);
-  input_controller_.set_input_config(&GetInputConfig());
-
   world_editor_.reset(new editor::WorldEditor());
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &graph_factory_, &renderer_,
                     world_editor_.get());
+#ifdef __ANDROID__
+  BasePlayerController* controller = new AndroidCardboardController();
+#else
+  BasePlayerController* controller = new MouseController();
+#endif
+  controller->set_input_config(&GetInputConfig());
+  controller->set_input_system(&input_);
+  world_.AddController(controller);
+#ifdef ANDROID_GAMEPAD
+  controller = new GamepadController();
+  controller->set_input_config(&GetInputConfig());
+  controller->set_input_system(&input_);
+  world_.AddController(controller);
+#endif
 
   world_renderer_.Initialize(&world_);
 
@@ -390,9 +401,9 @@ bool Game::Initialize(const char* const binary_directory) {
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
                              world_editor_.get(), &audio_engine_);
-  game_menu_state_.Initialize(
-      &input_, &world_, &input_controller_, &GetConfig(), &asset_manager_,
-      &font_manager_, &GetAssetManifest(), &gpg_manager_, &audio_engine_);
+  game_menu_state_.Initialize(&input_, &world_, &GetConfig(), &asset_manager_,
+                              &font_manager_, &GetAssetManifest(),
+                              &gpg_manager_, &audio_engine_);
   intro_state_.Initialize(&input_, &world_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
