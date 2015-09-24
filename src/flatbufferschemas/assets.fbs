@@ -18,6 +18,7 @@ namespace fpl.fpl_project;
 
 // List of paths to all the assets we care about:
 table AssetManifest {
+  loading_material:string;
   mesh_list:[string];
   material_list:[string];
   shader_list:[string];

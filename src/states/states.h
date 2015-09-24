@@ -19,6 +19,7 @@ namespace fpl {
 namespace fpl_project {
 
 enum GameState {
+  kGameStateLoading,
   kGameStateGameplay,
   kGameStatePause,
   kGameStateGameMenu,
