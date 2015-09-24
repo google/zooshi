@@ -1,4 +1,5 @@
 {
+  "loading_material" : "materials/fpl_logo.fplmat",
   "mesh_list" : [
     "meshes/sushi_rice.fplmesh",
     "meshes/sushi_salmon.fplmesh",

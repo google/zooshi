@@ -238,9 +238,10 @@ const motive::RigAnimFb* LoadRigAnim(const char* anim_name,
 // 'asset_manager_' members have been initialized at this point.
 bool Game::InitializeAssets() {
   // Load up all of our assets, as defined in the manifest.
-  // TODO - put this into an asynchronous loding function, like we
-  // had in pie noon.
+  // Load the loading-material first, since we display that while the others
+  // load.
   const AssetManifest& asset_manifest = GetAssetManifest();
+  asset_manager_.LoadMaterial(asset_manifest.loading_material()->c_str());
   for (size_t i = 0; i < asset_manifest.mesh_list()->size(); i++) {
     asset_manager_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
   }
@@ -389,6 +390,7 @@ bool Game::Initialize(const char* const binary_directory) {
   gpg_manager_.Initialize(false);
 
   const Config* config = &GetConfig();
+  loading_state_.Initialize(asset_manifest, &asset_manager_, shader_textured_);
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
@@ -400,12 +402,13 @@ bool Game::Initialize(const char* const binary_directory) {
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 
+  state_machine_.AssignState(kGameStateLoading, &loading_state_);
   state_machine_.AssignState(kGameStateGameplay, &gameplay_state_);
   state_machine_.AssignState(kGameStatePause, &pause_state_);
   state_machine_.AssignState(kGameStateGameMenu, &game_menu_state_);
   state_machine_.AssignState(kGameStateIntro, &intro_state_);
   state_machine_.AssignState(kGameStateWorldEditor, &world_editor_state_);
-  state_machine_.SetCurrentStateId(kGameStateGameMenu);
+  state_machine_.SetCurrentStateId(kGameStateLoading);
 
   LogInfo("Initialization complete\n");
   return true;

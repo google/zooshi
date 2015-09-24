@@ -304,10 +304,12 @@ set(zooshi_SRCS
     src/railmanager.h
     src/states/game_menu_state.cpp
     src/states/game_menu_state.h
-    src/states/intro_state.cpp
-    src/states/intro_state.h
     src/states/gameplay_state.cpp
     src/states/gameplay_state.h
+    src/states/intro_state.cpp
+    src/states/intro_state.h
+    src/states/loading_state.cpp
+    src/states/loading_state.h
     src/states/pause_state.cpp
     src/states/pause_state.h
     src/states/state_machine.h

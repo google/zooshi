@@ -31,6 +31,7 @@
 #include "rail_def_generated.h"
 #include "states/gameplay_state.h"
 #include "states/intro_state.h"
+#include "states/loading_state.h"
 #include "states/pause_state.h"
 #include "states/state_machine.h"
 #include "states/states.h"
@@ -113,6 +114,7 @@ class Game {
 
   // The top level state machine that drives the game.
   StateMachine<kGameStateCount> state_machine_;
+  LoadingState loading_state_;
   PauseState pause_state_;
   GameplayState gameplay_state_;
   GameMenuState game_menu_state_;
