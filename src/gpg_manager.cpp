@@ -238,6 +238,19 @@ void GPGManager::ShowLeaderboards(const char *id) {
 #endif
 }
 
+// Submit score to specified leaderboard.
+void GPGManager::SubmitScore(std::string leaderboard_id, int64_t score) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)leaderboard_id;
+  (void)score;
+#else
+  if (!LoggedIn()) return;
+  game_services_->Leaderboards().SubmitScore(leaderboard_id.c_str(), score);
+  LogInfo("GPG: submitted score %llu for id %s", score,
+          leaderboard_id.c_str());
+#endif
+}
+
 // Unlocks a given achievement.
 void GPGManager::UnlockAchievement(std::string achievement_id) {
   if (LoggedIn()) {

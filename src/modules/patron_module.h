@@ -12,23 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Definitions for meshes.
+#ifndef FPL_ZOOSHI_MODULES_PATRON_H_
+#define FPL_ZOOSHI_MODULES_PATRON_H_
 
-include "common.fbs";
+#include "components/graph.h"
+#include "components/patron.h"
+#include "breadboard/event_system.h"
+#include "modules/entity.h"
 
-namespace fpl.fpl_project;
-table GPGLeaderboard {
-  name:string(key);
-  id:string;
-}
+namespace fpl {
+namespace fpl_project {
 
-table GPGAchievement {
-  name:string(key);
-  id:string;
-}
+typedef ComponentDataRef<PatronComponent> PatronDataRef;
 
-table GPGConfig {
-  leaderboards:[GPGLeaderboard];
-  achievements:[GPGAchievement];
-}
+void InitializePatronModule(breadboard::EventSystem* event_system,
+                            PatronComponent* patron_component);
 
+}  // fpl_project
+}  // fpl
+
+#endif  // FPL_ZOOSHI_MODULES_PATRON_H_

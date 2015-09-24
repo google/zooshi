@@ -66,6 +66,9 @@ class GPGManager {
   void ShowLeaderboards(const char *id);
   void ShowAchievements();
 
+  // Submit score to specified leaderboard.
+  void SubmitScore(std::string leaderboard_id, int64_t score);
+
   // Asynchronously fetches the stats associated with the current player
   // from the server.  (Does nothing if not logged in.)
   // The status of the data can be checked via event_data_state.

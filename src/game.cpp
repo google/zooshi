@@ -40,6 +40,7 @@
 #include "modules/logic.h"
 #include "modules/math.h"
 #include "modules/physics.h"
+#include "modules/patron_module.h"
 #include "modules/player_module.h"
 #include "modules/rail_denizen.h"
 #include "modules/state.h"
@@ -319,6 +320,7 @@ void Game::InitializeEventSystem() {
   InitializeGpgModule(&event_system_, &GetConfig(), &gpg_manager_);
   InitializeLogicModule(&event_system_);
   InitializeMathModule(&event_system_);
+  InitializePatronModule(&event_system_, &world_.patron_component);
   InitializePlayerModule(&event_system_, &world_.player_component,
                          &world_.graph_component);
   InitializePhysicsModule(&event_system_, &world_.physics_component);
@@ -443,7 +445,9 @@ bool Game::Initialize(const char* const binary_directory) {
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
-                             world_editor_.get(), &audio_engine_, &fader_);
+                             &world_.entity_manager,
+                             world_editor_.get(), &gpg_manager_,
+                             &audio_engine_, &fader_);
   game_menu_state_.Initialize(&input_, &world_, &GetConfig(), &asset_manager_,
                               &font_manager_, &GetAssetManifest(),
                               &gpg_manager_, &audio_engine_);

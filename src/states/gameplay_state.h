@@ -17,6 +17,7 @@
 
 #include "camera.h"
 #include "fplbase/input.h"
+#include "entity/entity_manager.h"
 #include "pindrop/pindrop.h"
 #include "states/state_machine.h"
 #include "world.h"
@@ -44,8 +45,10 @@ class GameplayState : public StateNode {
 
   void Initialize(InputSystem* input_system, World* world, const Config* config,
                   const InputConfig* input_config,
+                  entity::EntityManager* entitiy_manager,
                   editor::WorldEditor* world_editor,
-                  pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
+                  GPGManager* gpg_manager, pindrop::AudioEngine* audio_engine,
+                  FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
@@ -58,9 +61,13 @@ class GameplayState : public StateNode {
  protected:
   World* world_;
 
+  const Config* config_;
+
   const InputConfig* input_config_;
 
   InputSystem* input_system_;
+
+  entity::EntityManager* entity_manager_;
 
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD
@@ -70,6 +77,9 @@ class GameplayState : public StateNode {
   // This is needed here so that when transitioning into the editor the camera
   // location can be initialized.
   editor::WorldEditor* world_editor_;
+
+  // Used to submit a score to the leaderboard.
+  GPGManager* gpg_manager_;
 
   int requested_state_;
 

@@ -203,9 +203,9 @@ void GameMenuState::OptionMenuMain() {
                           "Leaderboard", kButtonSize, gui::Margin(0), property);
   if (logged_in && (event & gui::kEventWentUp)) {
     // Fill in Leaderboard list.
-    auto leaderboard_config = config_->gpg_config()->leaderboard_ids();
+    auto leaderboard_config = config_->gpg_config()->leaderboards();
     gpg_manager_->ShowLeaderboards(
-        leaderboard_config->Get(kGPGDefaultLeaderboard)->c_str());
+        leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str());
   }
 
   event = TextButton(*image_achievements_, gui::Margin(0, 20, 0, 0),

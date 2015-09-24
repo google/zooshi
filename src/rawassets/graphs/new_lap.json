@@ -326,10 +326,51 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": 2
+            "value": 3 // Return to game menu (kGameStateGameMenu).
           }
         }
       ]
-    }
+    },
+    {
+      // Node 20: Check condition.
+      "module": "patron",
+      "name": "check_delicious_cycle",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2, // void input.
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // Raft ref.
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 21: Grant achievement if the condition met.
+      "module": "gpg",
+      "name": "grant_achievement",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 20,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "String",
+          "edge": {
+            "value": "ADeliciousCycle"
+          }
+        },
+      ]
+    },
   ]
 }

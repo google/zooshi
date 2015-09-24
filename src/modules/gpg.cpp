@@ -72,6 +72,35 @@ class GrantAchievementNode : public breadboard::BaseNode {
   GPGManager* gpg_manager_;
 };
 
+// Submit score to the specified leaderboard.
+class SubmitScoreNode : public breadboard::BaseNode {
+public:
+  SubmitScoreNode(const Config* config, GPGManager* gpg_manager)
+  : config_(config), gpg_manager_(gpg_manager) {}
+
+  static void OnRegister(breadboard::NodeSignature* node_sig) {
+    node_sig->AddInput<void>();         // Pulse indicating a game clear status.
+    node_sig->AddInput<std::string>();  // Leaderboard name.
+    node_sig->AddInput<float>();        // Score value.
+  }
+
+  virtual void Execute(breadboard::NodeArguments* args) {
+    // Need the pulse check since input 2 can be active.
+    if (args->IsInputDirty(0)) {
+      auto name = args->GetInput<std::string>(1);
+      auto score = static_cast<int64_t>(*args->GetInput<float>(2));
+
+      auto leaderboard_config = config_->gpg_config()->leaderboards();
+      auto leaderboard = leaderboard_config->LookupByKey(name->c_str());
+      gpg_manager_->SubmitScore(leaderboard->id()->c_str(), score);
+    }
+  }
+
+private:
+  const Config* config_;
+  GPGManager* gpg_manager_;
+};
+
 void InitializeGpgModule(breadboard::EventSystem* event_system,
                          const Config* config, GPGManager* gpg_manager) {
   breadboard::Module* module = event_system->AddModule("gpg");
@@ -86,6 +115,12 @@ void InitializeGpgModule(breadboard::EventSystem* event_system,
   };
   module->RegisterNode<GrantAchievementNode>("grant_achievement",
                                              grant_achievement_ctor);
+
+  auto submit_score_ctor = [config, gpg_manager]() {
+    return new SubmitScoreNode(config, gpg_manager);
+  };
+  module->RegisterNode<SubmitScoreNode>("submit_score",
+                                        submit_score_ctor);
 }
 
 }  // fpl_project
