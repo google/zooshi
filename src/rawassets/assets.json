@@ -154,5 +154,6 @@
                 "fonts/NotoSans-Bold.ttf"
                ],
   "license_file": "licenses.txt",
-  "about_file": "about.txt"
+  "about_file": "about.txt",
+  "sound_bank": "sound_banks/sound_assets.bin"
 }

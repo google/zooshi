@@ -26,6 +26,7 @@ table AssetManifest {
   font_list:[string];
   license_file:string;
   about_file:string;
+  sound_bank:string;
 }
 
 root_type AssetManifest;

@@ -338,6 +338,7 @@ bool Game::Initialize(const char* const binary_directory) {
                 &asset_manifest_source_)) {
     return false;
   }
+  const auto& asset_manifest = GetAssetManifest();
 
   if (!InitializeAssets()) return false;
 
@@ -347,18 +348,11 @@ bool Game::Initialize(const char* const binary_directory) {
   if (!audio_engine_.Initialize(GetConfig().audio_config()->c_str())) {
     LogError("Failed to initialize audio engine.\n");
   }
-
-  if (!audio_engine_.LoadSoundBank("sound_banks/sound_assets.bin")) {
-    LogError("Failed to load sound bank.\n");
-  }
-
-  // Wait for everything to finish loading...
-  while (!asset_manager_.TryFinalize()) {
-  }
+  audio_engine_.LoadSoundBank(asset_manifest.sound_bank()->c_str());
+  audio_engine_.StartLoadingSoundFiles();
 
   InitializeEventSystem();
 
-  const auto& asset_manifest = GetAssetManifest();
   for (size_t i = 0; i < asset_manifest.font_list()->size(); i++) {
     font_manager_.Open(asset_manifest.font_list()->Get(i)->c_str());
   }
@@ -390,7 +384,8 @@ bool Game::Initialize(const char* const binary_directory) {
   gpg_manager_.Initialize(false);
 
   const Config* config = &GetConfig();
-  loading_state_.Initialize(asset_manifest, &asset_manager_, shader_textured_);
+  loading_state_.Initialize(asset_manifest, &asset_manager_, &audio_engine_,
+                            shader_textured_);
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),

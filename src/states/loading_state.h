@@ -17,6 +17,10 @@
 
 #include "states/state_machine.h"
 
+namespace pindrop {
+class AudioEngine;
+}
+
 namespace fpl {
 
 class AssetManager;
@@ -36,7 +40,8 @@ class LoadingState : public StateNode {
         shader_textured_(nullptr) {}
   virtual ~LoadingState() {}
   void Initialize(const AssetManifest& asset_manifest,
-                  AssetManager* asset_manager, Shader* shader_textured);
+                  AssetManager* asset_manager,
+                  pindrop::AudioEngine* audio_engine, Shader* shader_textured);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
   virtual void OnEnter() {}
@@ -47,9 +52,12 @@ class LoadingState : public StateNode {
   // loaded. The update thread then transitions to the next state.
   bool loading_complete_;
 
-  // Holds the asynchronous loader thread that we are waiting for.
+  // Holds the texture asynchronous loader thread that we are waiting for.
   // Also holds the loading texture that we display on screen.
   AssetManager* asset_manager_;
+
+  // Holds the audio asynchronous loader thread that we are waiting for.
+  pindrop::AudioEngine* audio_engine_;
 
   // Holds the name of the loading texture that we display on screen.
   const AssetManifest* asset_manifest_;

@@ -19,6 +19,7 @@
 #include "fplbase/material.h"
 #include "fplbase/shader.h"
 #include "fplbase/utilities.h"
+#include "pindrop/pindrop.h"
 #include "states/states.h"
 
 namespace fpl {
@@ -26,8 +27,10 @@ namespace fpl_project {
 
 void LoadingState::Initialize(const AssetManifest& asset_manifest,
                               AssetManager* asset_manager,
+                              pindrop::AudioEngine* audio_engine,
                               Shader* shader_textured) {
   asset_manager_ = asset_manager;
+  audio_engine_ = audio_engine;
   asset_manifest_ = &asset_manifest;
   shader_textured_ = shader_textured;
   loading_complete_ = false;
@@ -43,7 +46,7 @@ void LoadingState::AdvanceFrame(int /*delta_time*/, int* next_state) {
 void LoadingState::Render(Renderer* renderer) {
   // Ensure assets are instantiated after they've been loaded.
   // This must be called from the render thread.
-  if (asset_manager_->TryFinalize()) {
+  if (asset_manager_->TryFinalize() && audio_engine_->TryFinalize()) {
     loading_complete_ = true;
   }
 
