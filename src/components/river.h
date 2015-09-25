@@ -23,7 +23,6 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
-#include "pthread.h"
 #include "rail_denizen.h"
 
 namespace fpl {
@@ -62,9 +61,8 @@ class RiverComponent : public entity::Component<RiverData> {
   void UpdateRiverMeshes();
 
  private:
-  void TriggerRiverUpdate(RiverData* river_data);
+  void TriggerRiverUpdate();
   void CreateRiverMesh(entity::EntityRef& entity);
-  pthread_mutex_t update_river_mutex_;
 };
 
 }  // fpl_project

@@ -357,6 +357,9 @@ include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_world_editor_dir}/include)
 
+# SDL includes.
+include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
+
 # Detect clang
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   set(CMAKE_COMPILER_IS_CLANGXX 1)
@@ -393,6 +396,14 @@ if(APPLE)
 endif()
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
+
+set (SDL_LIBRARIES SDL2-static)
+if(WIN32)
+  add_definitions(-D_USE_MATH_DEFINES)
+  set(OPENGL_LIBRARIES opengl32)
+  set(SDL_LIBRARIES SDL2main ${SDL_LIBRARIES})
+  link_directories("$ENV{DXSDK_DIR}/Lib/$ENV{PROCESSOR_ARCHITECTURE}")
+endif()
 
 if(ZOOSHI_DEBUG)
   # if we want to define this, it needs to be only in debug builds

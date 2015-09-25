@@ -29,6 +29,7 @@
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
+#include "SDL_thread.h"
 #include "states/gameplay_state.h"
 #include "states/intro_state.h"
 #include "states/loading_state.h"
@@ -63,18 +64,22 @@ struct Config;
 struct InputConfig;
 struct AssetManifest;
 
+// Mutexes/CVs used in synchronizing the render and update threads
+struct GameSynchronization {
+  SDL_mutex* renderthread_mutex_;
+  SDL_mutex* updatethread_mutex_;
+  SDL_mutex* gameupdate_mutex_;
+  SDL_cond* start_render_cv_;
+  SDL_cond* start_update_cv_;
+
+  GameSynchronization();
+};
+
 class Game {
  public:
   Game();
   bool Initialize(const char* const binary_directory);
   void Run();
-
-  // TODO(ccornell): Replace with SDL threads.
-  static pthread_mutex_t renderthread_mutex_;
-  static pthread_mutex_t updatethread_mutex_;
-  static pthread_mutex_t gameupdate_mutex_;
-  static pthread_cond_t start_render_cv_;
-  static pthread_cond_t start_update_cv_;
 
  private:
   bool InitializeRenderer();
@@ -97,6 +102,9 @@ class Game {
 
   void SetRelativeMouseMode(bool relative_mouse_mode);
   void ToggleRelativeMouseMode();
+
+  // Mutexes/CVs used in synchronizing the render and update threads:
+  GameSynchronization sync_;
 
   // Hold configuration binary data.
   std::string config_source_;

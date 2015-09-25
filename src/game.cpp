@@ -52,9 +52,6 @@
 #include "world.h"
 #include "zooshi_graph_factory.h"
 
-// To be replaced with SDL threads:
-#include "pthread.h"
-
 #ifdef __ANDROID__
 #include "fplbase/renderer_android.h"
 #endif
@@ -73,13 +70,6 @@ using mathfu::quat;
 
 namespace fpl {
 namespace fpl_project {
-
-// Mutexes/CVs used in synchronizing the render and update threads:
-pthread_mutex_t Game::renderthread_mutex_ = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t Game::updatethread_mutex_ = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t Game::gameupdate_mutex_ = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t Game::start_render_cv_ = PTHREAD_COND_INITIALIZER;
-pthread_cond_t Game::start_update_cv_ = PTHREAD_COND_INITIALIZER;
 
 static const int kQuadNumVertices = 4;
 static const int kQuadNumIndices = 6;
@@ -120,6 +110,13 @@ static const int kUpdateRenderPrepCode = 556;
 /// appreciate if you left it in.
 static const char kVersion[] = "FPL Project 0.0.1";
 
+GameSynchronization::GameSynchronization()
+  : renderthread_mutex_(SDL_CreateMutex()),
+    updatethread_mutex_(SDL_CreateMutex()),
+    gameupdate_mutex_(SDL_CreateMutex()),
+    start_render_cv_(SDL_CreateCond()),
+    start_update_cv_(SDL_CreateCond()) {}
+
 Game::Game()
     : asset_manager_(renderer_),
       graph_factory_(&event_system_, &LoadFile, &audio_engine_),
@@ -129,7 +126,8 @@ Game::Game()
       game_exiting_(false),
       audio_config_(nullptr),
       world_(),
-      version_(kVersion) {}
+      version_(kVersion) {
+}
 
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
@@ -437,22 +435,26 @@ struct UpdateThreadData {
   UpdateThreadData(bool* exiting, World* world_ptr,
                    StateMachine<kGameStateCount>* statemachine_ptr,
                    Renderer* renderer_ptr,
-                   pindrop::AudioEngine* audio_engine_ptr)
+                   pindrop::AudioEngine* audio_engine_ptr,
+                   GameSynchronization* sync_ptr)
       : game_exiting(exiting),
         world(world_ptr),
         state_machine(statemachine_ptr),
         renderer(renderer_ptr),
-        audio_engine(audio_engine_ptr) {}
+        audio_engine(audio_engine_ptr),
+        sync(sync_ptr) {}
   bool* game_exiting;
   World* world;
   StateMachine<kGameStateCount>* state_machine;
   Renderer* renderer;
   pindrop::AudioEngine* audio_engine;
+  GameSynchronization* sync;
 };
 
-// This is the therad that handles all of our actual game logic updates:
-static void* UpdateThread(void* data) {
+// This is the thread that handles all of our actual game logic updates:
+static int UpdateThread(void* data) {
   UpdateThreadData* rt_data = static_cast<UpdateThreadData*>(data);
+  GameSynchronization& sync = *rt_data->sync;
   int prev_update_time;
   prev_update_time = CurrentWorldTime() - kMinUpdateTime;
 #ifdef __ANDROID__
@@ -470,9 +472,9 @@ static void* UpdateThread(void* data) {
   jvm->AttachCurrentThread(&update_env, &args);
 #endif  //__ANDROID__
 
-  pthread_mutex_lock(&Game::updatethread_mutex_);
+  SDL_LockMutex(sync.updatethread_mutex_);
   while (!*(rt_data->game_exiting)) {
-    pthread_cond_wait(&Game::start_update_cv_, &Game::updatethread_mutex_);
+    SDL_CondWait(sync.start_update_cv_, sync.updatethread_mutex_);
 
     // -------------------------------------------
     // Step 5b.  (See comment at the start of Run()
@@ -480,7 +482,7 @@ static void* UpdateThread(void* data) {
     // safely loaded up into openGL and the renderthread is working its way
     // through actually putting everything on the screen.
     // -------------------------------------------
-    pthread_mutex_lock(&Game::gameupdate_mutex_);
+    SDL_LockMutex(sync.gameupdate_mutex_);
     const WorldTime world_time = CurrentWorldTime();
     const WorldTime delta_time =
         std::min(world_time - prev_update_time, kMaxUpdateTime);
@@ -499,27 +501,30 @@ static void* UpdateThread(void* data) {
     if (rt_data->state_machine->done()) {
       *(rt_data->game_exiting) = true;
     }
-    pthread_mutex_unlock(&Game::gameupdate_mutex_);
+    SDL_UnlockMutex(sync.gameupdate_mutex_);
   }
 
 #ifdef __ANDROID__
   jvm->DetachCurrentThread();
 #endif  //__ANDROID__
-  pthread_mutex_unlock(&Game::updatethread_mutex_);
+  SDL_UnlockMutex(sync.updatethread_mutex_);
 
-  return nullptr;
+  return 0;
 }
 
-void HandleVsync() { pthread_cond_broadcast(&Game::start_render_cv_); }
+// TODO: Modify vsync callback API to take a context parameter.
+static GameSynchronization* global_vsync_context = nullptr;
+void HandleVsync() {
+  SDL_CondBroadcast(global_vsync_context->start_render_cv_);
+}
 
 // Hack, to simulate vsync events on non-android devices.
-static void* VsyncSimulatorThread(void* data) {
-  (void)data;
+static int VsyncSimulatorThread(void* /*data*/) {
   while (true) {
     HandleVsync();
     Delay(2);
   }
-  return nullptr;
+  return 0;
 }
 
 // For performance, we're using multiple threads so that the game state can
@@ -544,40 +549,42 @@ void Game::Run() {
 
   // Start the update thread:
   UpdateThreadData rt_data(&game_exiting_, &world_, &state_machine_, &renderer_,
-                           &audio_engine_);
+                           &audio_engine_, &sync_);
 
   input_.AdvanceFrame(&renderer_.window_size());
   state_machine_.AdvanceFrame(16);
 
-  pthread_t update_thread;
-  if (pthread_create(&update_thread, nullptr, UpdateThread, &rt_data)) {
+  SDL_Thread* update_thread =
+      SDL_CreateThread(UpdateThread, "Zooshi Update Thread", &rt_data);
+  if (!update_thread) {
     LogError("Error creating update thread.");
     assert(false);
   }
 
+  global_vsync_context = &sync_;
 #ifdef __ANDROID__
   RegisterVsyncCallback(HandleVsync);
 #else
   // We don't need this on android because we'll just get vsync events directly.
-  pthread_t vsync_simulator_thread;
-  if (pthread_create(&vsync_simulator_thread, nullptr, VsyncSimulatorThread,
-                     nullptr)) {
+  SDL_Thread* vsync_simulator_thread = SDL_CreateThread(
+      VsyncSimulatorThread, "Zooshi Simulated Vsync Thread", nullptr);
+  if (!vsync_simulator_thread) {
     LogError("Error creating vsync simulator thread.");
     assert(false);
   }
 #endif
   // We basically own the lock all the time, except when we're waiting
   // for a vsync event.
-  pthread_mutex_lock(&renderthread_mutex_);
+  SDL_LockMutex(sync_.renderthread_mutex_);
   while (!input_.exit_requested() && !game_exiting_) {
     // -------------------------------------------
     // Steps 1, 2.
     // Wait for start of frame.  (triggered at vsync start on android.)
     // -------------------------------------------
-    pthread_cond_wait(&start_render_cv_, &renderthread_mutex_);
+    SDL_CondWait(sync_.start_render_cv_, sync_.renderthread_mutex_);
 
     // Grab the lock to make sure the game isn't still updating.
-    pthread_mutex_lock(&gameupdate_mutex_);
+    SDL_LockMutex(sync_.gameupdate_mutex_);
 
     SystraceBegin("RenderFrame");
 
@@ -607,7 +614,7 @@ void Game::Run() {
     state_machine_.Render(&renderer_);
     SystraceEnd();
 
-    pthread_mutex_unlock(&gameupdate_mutex_);
+    SDL_UnlockMutex(sync_.gameupdate_mutex_);
 
     SystraceBegin("StateMachine::HandleUI()");
     state_machine_.HandleUI(&renderer_);
@@ -618,7 +625,7 @@ void Game::Run() {
     // Signal the update thread that it is safe to start messing with
     // data, now that we've already handed it all off to openGL.
     // -------------------------------------------
-    pthread_cond_broadcast(&Game::start_update_cv_);
+    SDL_CondBroadcast(sync_.start_update_cv_);
 
     // -------------------------------------------
     // Step 5a.
@@ -646,7 +653,7 @@ void Game::Run() {
 
     SystraceCounter("FrameTime", frame_time);
   }
-  pthread_mutex_unlock(&renderthread_mutex_);
+  SDL_UnlockMutex(sync_.renderthread_mutex_);
 }
 
 }  // fpl_project
