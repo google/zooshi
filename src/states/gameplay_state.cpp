@@ -20,6 +20,7 @@
 #include "states/states.h"
 #include "states/states_common.h"
 #include "world.h"
+#include "full_screen_fader.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -101,6 +102,7 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
     audio_engine_->PlaySound(sound_pause_);
     *next_state = kGameStatePause;
   }
+  fader_->AdvanceFrame(delta_time);
 }
 
 void GameplayState::RenderPrep(Renderer* renderer) {
@@ -114,18 +116,23 @@ void GameplayState::Render(Renderer* renderer) {
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
+  if (!fader_->Finished()) {
+    fader_->Render(renderer);
+  }
 }
 
 void GameplayState::Initialize(InputSystem* input_system, World* world,
                                const Config* config,
                                const InputConfig* input_config,
                                editor::WorldEditor* world_editor,
-                               pindrop::AudioEngine* audio_engine) {
+                               pindrop::AudioEngine* audio_engine,
+                               FullScreenFader* fader) {
   input_system_ = input_system;
   world_ = world;
   input_config_ = input_config;
   world_editor_ = world_editor;
   audio_engine_ = audio_engine;
+  fader_ = fader;
 
   sound_pause_ = audio_engine->GetSoundHandle("pause");
   music_gameplay_lap_1_ = audio_engine->GetSoundHandle("music_gameplay_lap_1");

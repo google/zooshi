@@ -36,6 +36,7 @@ namespace fpl_project {
 
 struct InputConfig;
 class WorldRenderer;
+class FullScreenFader;
 
 class GameplayState : public StateNode {
  public:
@@ -44,7 +45,7 @@ class GameplayState : public StateNode {
   void Initialize(InputSystem* input_system, World* world, const Config* config,
                   const InputConfig* input_config,
                   editor::WorldEditor* world_editor,
-                  pindrop::AudioEngine* audio_engine);
+                  pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
@@ -90,6 +91,9 @@ class GameplayState : public StateNode {
   pindrop::Channel music_channel_lap_3_;
   int previous_lap_;
   float percent_;
+
+  // Fade the screen.
+  FullScreenFader* fader_;
 };
 
 }  // fpl_project

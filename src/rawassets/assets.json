@@ -1,5 +1,6 @@
 {
   "loading_material" : "materials/fpl_logo.fplmat",
+  "fader_material" : "materials/pixel1x1.fplmat",
   "mesh_list" : [
     "meshes/sushi_rice.fplmesh",
     "meshes/sushi_salmon.fplmesh",
@@ -51,7 +52,6 @@
     "meshes/heart.fplmesh"
   ],
   "material_list": [
-    "materials/pixel1x1.fplmat",
     "materials/river.fplmat",
     "materials/Lake_daytime.fplmat",
     "materials/Lake_twilight.fplmat",

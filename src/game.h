@@ -26,6 +26,7 @@
 #include "fplbase/input.h"
 #include "fplbase/renderer.h"
 #include "fplbase/utilities.h"
+#include "full_screen_fader.h"
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
@@ -161,6 +162,9 @@ class Game {
 
   World world_;
   WorldRenderer world_renderer_;
+
+  // Fade the screen to back and from black.
+  FullScreenFader fader_;
 
   std::unique_ptr<editor::WorldEditor> world_editor_;
 

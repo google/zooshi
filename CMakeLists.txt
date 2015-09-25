@@ -276,6 +276,8 @@ set(zooshi_SRCS
     src/components/sound.h
     src/components/time_limit.cpp
     src/components/time_limit.h
+    src/full_screen_fader.cpp
+    src/full_screen_fader.h
     src/game.cpp
     src/game.h
     src/gpg_manager.h

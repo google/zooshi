@@ -19,20 +19,25 @@
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
-#include "fplbase/input.h"
+#include "fplbase/utilities.h"
 #include "pindrop/pindrop.h"
 #include "states/state_machine.h"
 #include "states/states.h"
 
 namespace fpl {
 namespace fpl_project {
+
 struct InputConfig;
 struct World;
+class FullScreenFader;
+
+static const WorldTime kIntroStateFadeTransitionDuration = 2000;
 
 class IntroState : public StateNode {
 public:
   virtual ~IntroState() {}
-  void Initialize(InputSystem* input_system, World* world);
+  void Initialize(InputSystem* input_system, World* world,
+                  FullScreenFader* fader);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
   virtual void OnEnter(int previous_state);
@@ -43,7 +48,8 @@ protected:
   World* world_;
   // The input system so that we can get input.
   InputSystem* input_system_;
-
+  // Fade the screen.
+  FullScreenFader* fader_;
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD
   Camera cardboard_camera_;

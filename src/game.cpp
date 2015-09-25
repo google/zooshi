@@ -129,6 +129,7 @@ Game::Game()
       game_exiting_(false),
       audio_config_(nullptr),
       world_(),
+      fader_(),
       version_(kVersion) {}
 
 // Initialize the 'renderer_' member. No other members have been initialized at
@@ -250,6 +251,7 @@ bool Game::InitializeAssets() {
   // load.
   const AssetManifest& asset_manifest = GetAssetManifest();
   asset_manager_.LoadMaterial(asset_manifest.loading_material()->c_str());
+  asset_manager_.LoadMaterial(asset_manifest.fader_material()->c_str());
   for (size_t i = 0; i < asset_manifest.mesh_list()->size(); i++) {
     asset_manager_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
   }
@@ -430,17 +432,22 @@ bool Game::Initialize(const char* const binary_directory) {
 
   gpg_manager_.Initialize(false);
 
+  auto fader_material =
+      asset_manager_.FindMaterial(asset_manifest.fader_material()->c_str());
+  assert(fader_material);
+  fader_.Init(fader_material, shader_textured_);
+
   const Config* config = &GetConfig();
   loading_state_.Initialize(asset_manifest, &asset_manager_, &audio_engine_,
                             shader_textured_);
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
-                             world_editor_.get(), &audio_engine_);
+                             world_editor_.get(), &audio_engine_, &fader_);
   game_menu_state_.Initialize(&input_, &world_, &GetConfig(), &asset_manager_,
                               &font_manager_, &GetAssetManifest(),
                               &gpg_manager_, &audio_engine_);
-  intro_state_.Initialize(&input_, &world_);
+  intro_state_.Initialize(&input_, &world_, &fader_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 

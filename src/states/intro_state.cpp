@@ -15,6 +15,7 @@
 #include "states/intro_state.h"
 
 #include "fplbase/input.h"
+#include "full_screen_fader.h"
 #include "states/states_common.h"
 #include "world.h"
 
@@ -25,9 +26,11 @@ using fpl::component_library::TransformData;
 namespace fpl {
 namespace fpl_project {
 
-void IntroState::Initialize(InputSystem* input_system, World* world) {
+void IntroState::Initialize(InputSystem* input_system, World* world,
+                            FullScreenFader* fader) {
   input_system_ = input_system;
   world_ = world;
+  fader_ = fader;
 }
 
 void IntroState::AdvanceFrame(int delta_time, int* next_state) {
@@ -40,20 +43,24 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   auto player_data =
       world_->entity_manager.GetComponentData<PlayerData>(player);
 
-  // Enter game.
+  // Fade to game.
   if (player_data->input_controller()->Button(kFireProjectile).Value() &&
       player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
-    // TODO(proppy): add a pause
-    // TODO(proppy): fade to black
-    auto entity = world_->meta_component.GetEntityFromDictionary("introbox-1");
-    world_->render_mesh_component.SetHiddenRecursively(entity, true);
-    *next_state = kGameStateGameplay;
+    fader_->Start(kIntroStateFadeTransitionDuration, mathfu::kZeros4f);
   }
 
   // Go back to menu.
   if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
       input_system_->GetButton(FPLK_AC_BACK).went_down()) {
     *next_state = kGameStateGameMenu;
+  }
+
+  if (fader_->AdvanceFrame(delta_time)) {
+    // Hide the box.
+    auto entity = world_->meta_component.GetEntityFromDictionary("introbox-1");
+    world_->render_mesh_component.SetHiddenRecursively(entity, true);
+    // Enter the game.
+    *next_state = kGameStateGameplay;
   }
 }
 
@@ -63,6 +70,9 @@ void IntroState::Render(Renderer* renderer) {
   cardboard_camera = &cardboard_camera_;
 #endif // ANDROID_CARDBOARD
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
+  if (!fader_->Finished()) {
+    fader_->Render(renderer);
+  }
 }
 
 void IntroState::OnEnter(int /*previous_state*/) {
