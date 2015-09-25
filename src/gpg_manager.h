@@ -17,7 +17,6 @@
 
 #include <string>
 
-#include "pthread.h"
 #ifdef USING_GOOGLE_PLAY_GAMES
 #include "gpg/gpg.h"
 #include "gpg/achievement_manager.h"

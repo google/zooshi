@@ -51,13 +51,13 @@ const auto kColorDarkGray = vec4(0.1f, 0.1f, 0.1f, 0.85f);
 const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 #ifdef USING_GOOGLE_PLAY_GAMES
-const auto kMenuSize = 100;
-const auto kButtonSize = 100;
+const auto kMenuSize = 100.0f;
+const auto kButtonSize = 100.0f;
 #else
-const auto kMenuSize = 140;
-const auto kButtonSize = 140;
+const auto kMenuSize = 140.0f;
+const auto kButtonSize = 140.0f;
 #endif
-const auto kAudioOptionButtonSize = 100;
+const auto kAudioOptionButtonSize = 100.0f;
 const auto kScrollAreaSize = vec2(900, 500);
 
 const auto kEffectVolumeDefault = 1.0f;

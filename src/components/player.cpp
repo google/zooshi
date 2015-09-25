@@ -148,8 +148,8 @@ vec3 PlayerComponent::CalculateProjectileDirection(
     const vec2 touch(player_data->input_controller()->last_position());
     const vec2 offset = fov_tan * (touch / screen_size - 0.5f);
 
-    const vec3 far = camera->up() * offset.y() + camera->Right() * offset.x();
-    forward = (forward + far).Normalized();
+    const vec3 far_vec = camera->up() * offset.y() + camera->Right() * offset.x();
+    forward = (forward + far_vec).Normalized();
   }
 
   return forward;
