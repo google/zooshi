@@ -1368,7 +1368,7 @@
             "anim_object": "LovelyGiraffette",
             "pop_in_radius": 50,
             "pop_out_radius": 60,
-            "point_display_height": 9,
+            "point_display_height": 11,
             "min_lap": 0.01,
             "max_lap": 3,
             "target_tag": "Mouth"
