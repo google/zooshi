@@ -89,12 +89,15 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
       Data<PlayerProjectileData>(projectile);
 
   TransformComponent* transform_component = GetComponent<TransformComponent>();
-  transform_data->position = transform_component->WorldPosition(source) +
-                             LoadVec3(config_->projectile_offset());
+  transform_data->position =
+      transform_component->WorldPosition(source) +
+      mathfu::kAxisZ3f * config_->projectile_height_offset();
   transform_data->orientation = transform_component->WorldOrientation(source);
   const vec3 forward = CalculateProjectileDirection(source);
   vec3 velocity = config_->projectile_speed() * forward +
                   config_->projectile_upkick() * mathfu::kAxisZ3f;
+  transform_data->position +=
+      velocity.Normalized() * config_->projectile_forward_offset();
 
   // Include the raft's current velocity to the thrown sushi.
   auto raft_entity =
