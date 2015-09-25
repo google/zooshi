@@ -88,21 +88,21 @@ FLATBUFFERS_PATHS = [
 # Directory that contains the cwebp tool.
 CWEBP_BINARY_IN_PATH = distutils.spawn.find_executable('cwebp')
 CWEBP_PATHS = [
+    os.path.dirname(CWEBP_BINARY_IN_PATH) if CWEBP_BINARY_IN_PATH else '',
     os.path.join(PROJECT_ROOT, 'bin'),
     os.path.join(PROJECT_ROOT, 'bin', 'Release'),
     os.path.join(PROJECT_ROOT, 'bin', 'Debug'),
     os.path.join(PREBUILTS_ROOT, 'libwebp',
                  '%s-x86' % platform.system().lower(),
                  'libwebp-0.4.1-%s-x86-32' % platform.system().lower(), 'bin'),
-    os.path.dirname(CWEBP_BINARY_IN_PATH) if CWEBP_BINARY_IN_PATH else '',
 ]
 
 # Directories that may contains the mesh_pipeline.
 MESH_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('mesh_pipeline')
 MESH_PIPELINE_PATHS = [
     os.path.join(FPLBASE_ROOT, 'bin', platform.system()),
-    os.path.join(PROJECT_ROOT, 'bin', platform.system(), 'Release'),
-    os.path.join(PROJECT_ROOT, 'bin', platform.system(), 'Debug'),
+    os.path.join(FPLBASE_ROOT, 'bin', platform.system(), 'Debug'),
+    os.path.join(FPLBASE_ROOT, 'bin', platform.system(), 'Release'),
     (os.path.dirname(MESH_PIPELINE_BINARY_IN_PATH)
      if MESH_PIPELINE_BINARY_IN_PATH else '')
 ]
@@ -125,8 +125,8 @@ IMAGEMAGICK_PATHS = [
 ANIM_PIPELINE_BINARY_IN_PATH = distutils.spawn.find_executable('anim_pipeline')
 ANIM_PIPELINE_PATHS = [
     os.path.join(MOTIVE_ROOT, 'bin', platform.system()),
-    os.path.join(MOTIVE_ROOT, 'bin', 'Release', platform.system()),
-    os.path.join(MOTIVE_ROOT, 'bin', 'Debug', platform.system()),
+    os.path.join(MOTIVE_ROOT, 'bin', platform.system(), 'Debug'),
+    os.path.join(MOTIVE_ROOT, 'bin', platform.system(), 'Release'),
     (os.path.dirname(ANIM_PIPELINE_BINARY_IN_PATH)
      if ANIM_PIPELINE_BINARY_IN_PATH else ''),
 ]
@@ -677,10 +677,15 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
     BuildError: Process return code was nonzero.
   """
   command = [MESH_PIPELINE, '-d', '-e', 'webp', '-b', target_directory, '-r',
-             MESH_REL_DIR, '-f',
-             '' if texture_formats is None else texture_formats,
-             '' if recenter is None else '-c',
-             '' if hierarchy is None else '-h', fbx]
+             MESH_REL_DIR]
+  if texture_formats is not None:
+    command.append('-f')
+    command.append(texture_formats)
+  if recenter is not None:
+    command.append('-c')
+  if hierarchy is not None:
+    command.append('-h')
+  command.append(fbx)
   run_subprocess(command)
 
 

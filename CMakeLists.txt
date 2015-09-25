@@ -81,7 +81,7 @@ set(dependencies_component_library_dir
 option(zooshi_build_tests "Build tests for this project." ON)
 
 # Option to enable / disable the build of cwebp from source.
-option(zooshi_build_cwebp "Build cwebp from source." ON)
+option(zooshi_build_cwebp "Build cwebp from source." OFF)
 
 # Option to only build flatc
 option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
@@ -138,6 +138,7 @@ if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
   set(BUILD_BULLET3 OFF CACHE BOOL "")
   set(BUILD_EXTRAS OFF CACHE BOOL "")
   set(BUILD_UNIT_TESTS OFF CACHE BOOL "")
+  set(USE_MSVC_RUNTIME_LIBRARY_DLL ON)
   add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
 endif()
 
@@ -202,13 +203,20 @@ add_custom_target(generated_includes DEPENDS ${FLATBUFFERS_GENERATED_INCLUDES})
 if(NOT zooshi_only_flatc)
   # Build rule that uses make to build the assets.
   get_property(flatc_location TARGET flatc PROPERTY LOCATION)
-  get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
+
+  # If building cwebp then pass in the location.
+  if(zooshi_build_cwebp)
+    get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
+    set(cwebp_option --cwebp ${cwebp_location})
+    set(cwebp_depends cwebp)
+  endif()
+
   add_custom_target(assets
     COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
     --flatc ${flatc_location}
-    --cwebp ${cwebp_location}
+    ${cwebp_option}
     --output ${CMAKE_BINARY_DIR}/assets
-    DEPENDS flatc cwebp)
+    DEPENDS flatc ${cwebp_depends})
 
   # Copy FlatUI shaders
   add_custom_command(TARGET assets POST_BUILD
@@ -368,19 +376,8 @@ endif()
 # Compiler flags.
 set(C_FLAGS_WARNINGS "")
 if(MSVC)
-  # Disable warnings, particularly needed for upstream code like Bullet,
-  # Harfbuzz, etc. to compile.
-  # 4065: switch statement contains 'default' but no 'case' labels
-  # 4244: implicit type conversion may lose data
-  # 4511: couldn't generate a default copy-constructor
-  # 4512: couldn't generate assignment operator
-  # 4706: assignment statement inside conditional expression
-  # 4127: conditional expression is constant
-  # 4100: parameter not referenced
-  # 4189: variable initialized but not referenced
-  # 4505: function is not referenced
-  # 4702: unreachable code
-  set(C_FLAGS_WARNINGS "/W4 /WX")
+  # C4127: conditional expression is constant
+  set(C_FLAGS_WARNINGS "/W4 /WX /wd4127")
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
        CMAKE_COMPILER_IS_CLANGXX)
   add_definitions(-g)
