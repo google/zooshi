@@ -56,6 +56,9 @@ void LoadingState::Render(Renderer* renderer) {
   Material* loading_material =
       asset_manager_->FindMaterial(loading_material_name);
 
+  // Always clear the background.
+  renderer->ClearFrameBuffer(mathfu::kZeros4f);
+
   // Render nothing until the loading material itself has loaded.
   if (!loading_material->textures()[0]->id()) return;
 
