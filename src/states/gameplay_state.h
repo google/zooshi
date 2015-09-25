@@ -49,8 +49,8 @@ class GameplayState : public StateNode {
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
-  virtual void OnEnter();
-  virtual void OnExit();
+  virtual void OnEnter(int previous_state);
+  virtual void OnExit(int next_state);
 
   int* requested_state() { return &requested_state_; }
 

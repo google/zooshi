@@ -133,7 +133,7 @@ void PauseState::HandleUI(Renderer* renderer) {
   next_state_ = PauseMenu(*asset_manager_, *font_manager_, *input_system_);
 }
 
-void PauseState::OnEnter() {
+void PauseState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_active(false);
   input_system_->SetRelativeMouseMode(false);
 }

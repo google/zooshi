@@ -44,8 +44,6 @@ class LoadingState : public StateNode {
                   pindrop::AudioEngine* audio_engine, Shader* shader_textured);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
-  virtual void OnEnter() {}
-  virtual void OnExit() {}
 
  protected:
   // Set to true when the render thread detetects that all assets have been

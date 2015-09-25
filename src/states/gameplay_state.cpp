@@ -59,7 +59,8 @@ static void UpdateMusic(entity::EntityManager* entity_manager,
     //    https://www.safaribooksonline.com/library/view/web-audio-api/9781449332679/s03_2.html
     // TODO: Add utility functions to Pindrop for this.
     float gain_previous = cos(*percent * 0.5f * static_cast<float>(M_PI));
-    float gain_current = cos((1.0f - *percent) * 0.5f * static_cast<float>(M_PI));
+    float gain_current =
+        cos((1.0f - *percent) * 0.5f * static_cast<float>(M_PI));
     channel_previous->SetGain(gain_previous);
     channel_current->SetGain(gain_current);
 
@@ -138,16 +139,24 @@ void GameplayState::Initialize(InputSystem* input_system, World* world,
 #endif
 }
 
-void GameplayState::OnEnter() {
+void GameplayState::OnEnter(int previous_state) {
   requested_state_ = kGameStateGameplay;
   world_->player_component.set_active(true);
   input_system_->SetRelativeMouseMode(true);
-  music_channel_lap_1_ =
-      audio_engine_->PlaySound(music_gameplay_lap_1_, mathfu::kZeros3f, 1.0f);
-  music_channel_lap_2_ =
-      audio_engine_->PlaySound(music_gameplay_lap_2_, mathfu::kZeros3f, 0.0f);
-  music_channel_lap_3_ =
-      audio_engine_->PlaySound(music_gameplay_lap_3_, mathfu::kZeros3f, 0.0f);
+
+  if (previous_state == kGameStatePause) {
+    music_channel_lap_1_.Resume();
+    music_channel_lap_2_.Resume();
+    music_channel_lap_3_.Resume();
+  } else {
+    music_channel_lap_1_ =
+        audio_engine_->PlaySound(music_gameplay_lap_1_, mathfu::kZeros3f, 1.0f);
+    music_channel_lap_2_ =
+        audio_engine_->PlaySound(music_gameplay_lap_2_, mathfu::kZeros3f, 0.0f);
+    music_channel_lap_3_ =
+        audio_engine_->PlaySound(music_gameplay_lap_3_, mathfu::kZeros3f, 0.0f);
+  }
+
   if (world_->is_in_cardboard) {
 #ifdef ANDROID_CARDBOARD
     world_->services_component.set_camera(&cardboard_camera_);
@@ -160,10 +169,16 @@ void GameplayState::OnEnter() {
 #endif  // ANDROID_CARDBOARD
 }
 
-void GameplayState::OnExit() {
-  music_channel_lap_1_.Stop();
-  music_channel_lap_2_.Stop();
-  music_channel_lap_3_.Stop();
+void GameplayState::OnExit(int next_state) {
+  if (next_state == kGameStatePause) {
+    music_channel_lap_1_.Pause();
+    music_channel_lap_2_.Pause();
+    music_channel_lap_3_.Pause();
+  } else {
+    music_channel_lap_1_.Stop();
+    music_channel_lap_2_.Stop();
+    music_channel_lap_3_.Stop();
+  }
 }
 
 }  // fpl_project

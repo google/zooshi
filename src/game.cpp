@@ -17,6 +17,7 @@
 #include <math.h>
 #include <stdarg.h>
 
+#include "SDL_events.h"
 #include "anim_generated.h"
 #include "assets_generated.h"
 #include "audio_config_generated.h"
@@ -113,11 +114,11 @@ static const int kUpdateRenderPrepCode = 556;
 static const char kVersion[] = "FPL Project 0.0.1";
 
 GameSynchronization::GameSynchronization()
-  : renderthread_mutex_(SDL_CreateMutex()),
-    updatethread_mutex_(SDL_CreateMutex()),
-    gameupdate_mutex_(SDL_CreateMutex()),
-    start_render_cv_(SDL_CreateCond()),
-    start_update_cv_(SDL_CreateCond()) {}
+    : renderthread_mutex_(SDL_CreateMutex()),
+      updatethread_mutex_(SDL_CreateMutex()),
+      gameupdate_mutex_(SDL_CreateMutex()),
+      start_render_cv_(SDL_CreateCond()),
+      start_update_cv_(SDL_CreateCond()) {}
 
 Game::Game()
     : asset_manager_(renderer_),
@@ -128,8 +129,7 @@ Game::Game()
       game_exiting_(false),
       audio_config_(nullptr),
       world_(),
-      version_(kVersion) {
-}
+      version_(kVersion) {}
 
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
@@ -323,6 +323,28 @@ void Game::InitializeEventSystem() {
   InitializeVec3Module(&event_system_);
 }
 
+// Pause the audio when the game loses focus.
+class AudioEngineVolumeControl {
+ public:
+  AudioEngineVolumeControl(pindrop::AudioEngine* audio) : audio_(audio) {}
+  void operator()(void* userdata) {
+    SDL_Event* event = static_cast<SDL_Event*>(userdata);
+    switch (event->type) {
+      case SDL_APP_WILLENTERBACKGROUND:
+        audio_->Pause(true);
+        break;
+      case SDL_APP_DIDENTERFOREGROUND:
+        audio_->Pause(false);
+        break;
+      default:
+        break;
+    }
+  }
+
+ private:
+  pindrop::AudioEngine* audio_;
+};
+
 // Initialize each member in turn. This is logically just one function, since
 // the order of initialization cannot be changed. However, it's nice for
 // debugging and readability to have each section lexographically separate.
@@ -331,6 +353,8 @@ bool Game::Initialize(const char* const binary_directory) {
   InitBenchmarks(10);
 
   input_.Initialize();
+  input_.AddAppEventCallback(AudioEngineVolumeControl(&audio_engine_));
+
   SystraceInit();
 
   if (!ChangeToUpstreamDir(binary_directory, kAssetsDir)) return false;

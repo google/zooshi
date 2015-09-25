@@ -50,8 +50,8 @@ class WorldEditorState : public StateNode {
   virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
   virtual void HandleUI(Renderer* renderer);
-  virtual void OnEnter();
-  virtual void OnExit();
+  virtual void OnEnter(int previous_state);
+  virtual void OnExit(int next_state);
 
  private:
   Renderer* renderer_;
