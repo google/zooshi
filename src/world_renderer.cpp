@@ -173,11 +173,8 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
     for (int pass = 0; pass < RenderPass_Count; pass++) {
       world->render_mesh_component.RenderPass(pass, camera, renderer);
     }
-  } else {
-    // Clear the framebuffer manually, since we are not rendering the world
-    // into it.
-    renderer.ClearFrameBuffer(mathfu::kZeros4f);
   }
+
   if (world->draw_debug_physics) {
     world->physics_component.DebugDrawWorld(&renderer, camera_transform);
   }

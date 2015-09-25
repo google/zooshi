@@ -60,6 +60,8 @@
 #include "fplbase/renderer_hmd.h"
 #endif
 
+#define ZOOSHI_OVERDRAW_DEBUG 0
+
 using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;
@@ -153,6 +155,14 @@ bool Game::InitializeRenderer() {
       size.x() && size.y() ? size : renderer_.window_size();
   InitializeUndistortFramebuffer(viewport_size.x(), viewport_size.y());
 #endif
+
+#if ZOOSHI_OVERDRAW_DEBUG
+  renderer_.SetBlendMode(BlendMode::kBlendModeAdd);
+  renderer_.force_blend_mode() = BlendMode::kBlendModeAdd;
+  renderer_.override_pixel_shader() =
+      "void main() { gl_FragColor = vec4(0.2, 0.2, 0.2, 1); }";
+#endif
+
   return true;
 }
 
