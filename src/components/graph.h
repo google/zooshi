@@ -30,11 +30,53 @@ namespace fpl_project {
 struct SerializableGraphState {
   std::string filename;
   std::unique_ptr<breadboard::GraphState> graph_state;
+
+  SerializableGraphState() {}
+  SerializableGraphState(SerializableGraphState&& other) {
+    *this = std::move(other);
+  }
+
+  SerializableGraphState& operator=(SerializableGraphState&& other) {
+    filename = std::move(other.filename);
+    graph_state = std::move(other.graph_state);
+    return *this;
+  }
+
+#ifdef _MSC_VER
+  // Provide fake versions of copy contructor and operator to let VS2012
+  // compile and link.
+  //
+  // These should never be called, since unique_ptr is not copyable.
+  // However, Visual Studio 2012 not only calls them, but links them in,
+  // when this class is in an std::pair (as it is when in an std::map).
+  //
+  // The asserts never get hit here. These functions are not actually called.
+  SerializableGraphState(const SerializableGraphState&) { assert(false); }
+  SerializableGraphState& operator=(const SerializableGraphState&) {
+    assert(false);
+    return *this;
+  }
+#endif // _MSC_VER
 };
 
 struct GraphData {
   std::vector<SerializableGraphState> graphs;
   breadboard::NodeEventBroadcaster broadcaster;
+
+  GraphData() {}
+  GraphData(GraphData&& other) {
+    *this = std::move(other);
+  }
+
+  GraphData& operator=(GraphData&& other) {
+    graphs = std::move(other.graphs);
+    broadcaster = std::move(other.broadcaster);
+    return *this;
+  }
+
+ private:
+  GraphData(GraphData&);
+  GraphData& operator=(GraphData&);
 };
 
 class GraphComponent : public entity::Component<GraphData> {
