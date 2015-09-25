@@ -165,8 +165,11 @@ table Config {
   // The initial speed of the projectiles on the up vector.
   projectile_upkick: float;
 
-  // The initial offset from the player the projectile starts at.
-  projectile_offset: fpl.Vec3;
+  // The initial offset from the player the projectile starts at, heightwise.
+  projectile_height_offset: float;
+
+  // The initial offset for the projectile in the direction it fires.
+  projectile_forward_offset: float;
 
   // The height above the patron to display the heart.
   point_display_height: float;
