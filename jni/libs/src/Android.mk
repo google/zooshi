@@ -85,6 +85,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/rail_node.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/river.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/components/scenery.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/services.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/shadow_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/simple_movement.cpp \

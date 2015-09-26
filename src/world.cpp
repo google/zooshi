@@ -136,6 +136,9 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
       entity_manager.RegisterComponent(&edit_options_component),
       ComponentDataUnion_EditOptionsDef, "EditOptionsDef");
   entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&scenery_component),
+      ComponentDataUnion_SceneryDef, "SceneryDef");
+  entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&animation_component),
       ComponentDataUnion_AnimationDef, "AnimationDef");
   entity_factory->SetComponentType(
@@ -199,6 +202,7 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
 
   world->transform_component.PostLoadFixup();  // sets up parent-child links
   world->patron_component.PostLoadFixup();
+  world->scenery_component.PostLoadFixup();
 
   entity::EntityRef player_entity = world->player_component.begin()->entity;
   world->services_component.set_player_entity(player_entity);

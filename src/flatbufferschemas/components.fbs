@@ -50,6 +50,7 @@ enum AnimObject : byte {
   FernMid,
   FernTall,
   Heart,
+  Scenery,
 }
 
 enum PatronAction : byte {
@@ -153,6 +154,11 @@ table LapDependentDef {
   max_lap:float;
 }
 
+table SceneryDef {
+  // The type of scenery being animated.
+  anim_object:AnimObject;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table ListenerDef {}
@@ -186,6 +192,7 @@ union ComponentDataUnion {
   SoundDef,
   AttributesDef,
   RailNodeDef,
+  SceneryDef,
   TransformDef,
   fpl.editor.EditOptionsDef,
   AnimationDef,

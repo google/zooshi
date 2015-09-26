@@ -37,6 +37,7 @@
 #include "components/rail_denizen.h"
 #include "components/rail_node.h"
 #include "components/river.h"
+#include "components/scenery.h"
 #include "components/services.h"
 #include "components/shadow_controller.h"
 #include "components/simple_movement.h"
@@ -107,6 +108,7 @@ struct World {
   DigitComponent digit_component;
   RiverComponent river_component;
   RailNodeComponent rail_node_component;
+  SceneryComponent scenery_component;
   ServicesComponent services_component;
   component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;

@@ -129,22 +129,39 @@
       }, // AnimObject_FernShort
       {
         "anim_files": [
-          "anims/fern_short_sway.fplanim",
+          "",                                 // kSceneryHide
+          "anims/scenery_appear.fplanim",     // kSceneryAppear
+          "anims/fern_short_sway.fplanim",    // kSceneryShow
+          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
         ]
       }, // AnimObject_FernMid
       {
         "anim_files": [
-          "anims/fern_mid_sway.fplanim",
+          "",                                 // kSceneryHide
+          "anims/scenery_appear.fplanim",     // kSceneryAppear
+          "anims/fern_mid_sway.fplanim",      // kSceneryShow
+          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
         ]
       }, // AnimObject_FernTall
       {
         "anim_files": [
-          "anims/fern_tall_sway.fplanim",
+          "",                                 // kSceneryHide
+          "anims/scenery_appear.fplanim",     // kSceneryAppear
+          "anims/fern_tall_sway.fplanim",     // kSceneryShow
+          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
         ]
       }, // AnimObject_Heart
       {
         "anim_files": [
           "anims/heart_float_up.fplanim",
+        ]
+      }, // AnimObject_Scenery
+      {
+        "anim_files": [
+          "",                                 // kSceneryHide
+          "anims/scenery_appear.fplanim",     // kSceneryAppear
+          "",                                 // kSceneryShow
+          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
         ]
       }
     ]

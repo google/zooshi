@@ -264,6 +264,8 @@ set(zooshi_SRCS
     src/components/rail_node.h
     src/components/river.cpp
     src/components/river.h
+    src/components/scenery.cpp
+    src/components/scenery.h
     src/components/services.cpp
     src/components/services.h
     src/components/shadow_controller.cpp

@@ -258,7 +258,7 @@
           "data_type": "MetaDef",
           "data": {
             "entity_id": "$de27-71b8-6bed-4ba4",
-            "prototype": "RockMid"
+            "prototype": "RockMid_Base"
           }
         },
         {

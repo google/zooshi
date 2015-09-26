@@ -1759,6 +1759,12 @@
           }
         },
         {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "RockSmallest_RenderMesh" ]
@@ -1814,6 +1820,7 @@
         },                  {
           "data_type": "TransformDef",
           "data": {
+            "position": { "x": -0.012, "y": 0.074, "z": 0.069 }
           }
         },
         {
@@ -1840,6 +1847,12 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "RockSmaller_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         },
         {
@@ -1889,9 +1902,11 @@
             "entity_id": "RockSmaller_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
-        },                  {
+        },
+        {
           "data_type": "TransformDef",
           "data": {
+            "position": { "x": -0.059, "y": -0.024, "z": -0.017 }
           }
         },
         {
@@ -1918,6 +1933,12 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "RockShort_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         },
         {
@@ -1970,6 +1991,7 @@
         },                  {
           "data_type": "TransformDef",
           "data": {
+            "position": { "x": 0.078, "y": -0.094, "z": -0.339 }
           }
         },
         {
@@ -1989,7 +2011,7 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "RockMid"
+            "entity_id": "RockMid_Base"
           }
         },
         {
@@ -2036,7 +2058,23 @@
         }
       ]
     },
-
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "RockMid",
+            "prototype": "RockMid_Base"
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
+          }
+        },
+      ]
+    },
     {
       "component_list": [
         {
@@ -2048,6 +2086,7 @@
         },                  {
           "data_type": "TransformDef",
           "data": {
+            "position": { "x": -0.146, "y": 0.291, "z": -1.627 }
           }
         },
         {
@@ -2074,6 +2113,12 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "RockTall_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         },
         {
@@ -2126,6 +2171,7 @@
         },                  {
           "data_type": "TransformDef",
           "data": {
+            "position": { "x": -0.059, "y": 0.192, "z": -2.739 }
           }
         },
         {
@@ -2155,6 +2201,12 @@
           }
         },
         {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "FernShort"
+          }
+        },
+        {
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
@@ -2174,13 +2226,6 @@
         },                  {
           "data_type": "TransformDef",
           "data": {
-          }
-        },
-        {
-          "data_type": "AnimationDef",
-          "data": {
-            "anim_table_object": "fpl.AnimObject.FernShort",
-            "anim_table_start_idx": 0
           }
         },
         {
@@ -2210,6 +2255,12 @@
           }
         },
         {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "FernMid"
+          }
+        },
+        {
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
@@ -2230,13 +2281,6 @@
         {
           "data_type": "TransformDef",
           "data": {
-          }
-        },
-        {
-          "data_type": "AnimationDef",
-          "data": {
-            "anim_table_object": "fpl.AnimObject.FernMid",
-            "anim_table_start_idx": 0
           }
         },
         {
@@ -2266,6 +2310,12 @@
           }
         },
         {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "FernTall"
+          }
+        },
+        {
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
@@ -2286,13 +2336,6 @@
         {
           "data_type": "TransformDef",
           "data": {
-          }
-        },
-        {
-          "data_type": "AnimationDef",
-          "data": {
-            "anim_table_object": "fpl.AnimObject.FernTall",
-            "anim_table_start_idx": 0
           }
         },
         {
@@ -2322,6 +2365,12 @@
           }
         },
         {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
+          }
+        },
+        {
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
@@ -2343,6 +2392,12 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "GrassSmall_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         },
         {
@@ -2391,6 +2446,12 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "GrassWide_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         },
         {
@@ -2583,6 +2644,12 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [ "LogProp_RenderMesh" ]
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         },
         {

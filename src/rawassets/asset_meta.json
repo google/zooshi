@@ -1,7 +1,6 @@
 {
   "mesh_meta": [
     { "name": "skybox", "texture_format": "F_888", "texture_size": 2048 },
-    { "name": "rock", "recenter": 1 },
     { "name": "fern", "hierarchy": 1 },
     { "name": "grass", "recenter": 1 },
     { "name": "crocodile", "hierarchy": 1 },
