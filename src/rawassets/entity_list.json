@@ -56,8 +56,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -0.001575,
-              "y": 49.998959,
+              "x": 13.279863,
+              "y": 52.093174,
               "z": 2
             },
             "scale": {
@@ -68,7 +68,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 90
+              "z": 74.031639
             },
             "child_ids": [
               "ActivePlayer",
