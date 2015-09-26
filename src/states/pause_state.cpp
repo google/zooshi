@@ -24,6 +24,8 @@
 namespace fpl {
 namespace fpl_project {
 
+using gui::TextButton;
+
 void PauseState::Initialize(InputSystem* input_system, World* world,
                             const Config* config, AssetManager* asset_manager,
                             FontManager* font_manager,

@@ -20,6 +20,8 @@
 namespace fpl {
 namespace fpl_project {
 
+using gui::TextButton;
+
 MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
                                    InputSystem &input) {
   MenuState next_state = kMenuStateStart;

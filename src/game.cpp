@@ -287,9 +287,12 @@ const AssetManifest& Game::GetAssetManifest() const {
   return *fpl::fpl_project::GetAssetManifest(asset_manifest_source_.c_str());
 }
 
+void EventSystemLogFunc(const char* fmt, va_list args) {
+  LogError(fmt, args);
+}
+
 void Game::InitializeEventSystem() {
-  breadboard::RegisterLogFunc(
-      [](const char* fmt, va_list args) { LogError(fmt, args); });
+  breadboard::RegisterLogFunc(EventSystemLogFunc);
 
   breadboard::TypeRegistry<void>::RegisterType("Pulse");
   breadboard::TypeRegistry<bool>::RegisterType("Bool");
