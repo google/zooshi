@@ -82,22 +82,30 @@ void PatronComponent::Init() {
   }
 }
 
+static float PopRadius(float desired, float min) {
+  return desired < 0.0f ? min : std::min(desired, min);
+}
+
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
   auto patron_def = static_cast<const PatronDef*>(raw_data);
   PatronData* patron_data = AddEntity(entity);
   patron_data->anim_object = patron_def->anim_object();
+
+  // Must pop-in closer than popping-out, which is closer than being culled.
+  auto render_config = config_->rendering_config();
   assert(patron_def->pop_out_radius() >= patron_def->pop_in_radius());
-  if (patron_def->pop_in_radius()) {
-    patron_data->pop_in_radius = patron_def->pop_in_radius();
-    patron_data->pop_in_radius_squared =
-        patron_data->pop_in_radius * patron_data->pop_in_radius;
-  }
-  if (patron_def->pop_out_radius()) {
-    patron_data->pop_out_radius = patron_def->pop_out_radius();
-    patron_data->pop_out_radius_squared =
-        patron_data->pop_out_radius * patron_data->pop_out_radius;
-  }
+  assert(render_config->cull_distance() >= render_config->pop_out_distance() &&
+         render_config->pop_out_distance() >= render_config->pop_in_distance());
+
+  patron_data->pop_in_radius = PopRadius(patron_def->pop_in_radius(),
+                                         render_config->pop_in_distance());
+  patron_data->pop_out_radius = PopRadius(patron_def->pop_out_radius(),
+                                          render_config->pop_out_distance());
+  patron_data->pop_in_radius_squared =
+      patron_data->pop_in_radius * patron_data->pop_in_radius;
+  patron_data->pop_out_radius_squared =
+      patron_data->pop_out_radius * patron_data->pop_out_radius;
 
   if (patron_def->min_lap() >= 0) {
     patron_data->min_lap = patron_def->min_lap();

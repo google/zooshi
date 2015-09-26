@@ -139,6 +139,16 @@ table RenderConfig {
   // Max distance at which an object renders - past this it just gets culled.
   cull_distance:float;
 
+  // When distance exceeds this amount, cullable objects should try to get
+  // themselves out-of-view in a visually pleasing way. Suddenly being culled
+  // is jarring.
+  pop_out_distance:float;
+
+  // When distance is less than this amount, cullable objects should try to
+  // bring themselves into-view in a visually pleasing way. Suddenly appearing
+  // is jarring.
+  pop_in_distance:float;
+
   // Create a shadow map each frame?  (Only necessary if one or more objects
   // are using the textured_shadowed shader.)
   create_shadow_map:bool;

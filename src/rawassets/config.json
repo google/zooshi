@@ -147,6 +147,8 @@
     "fog_color": {"r":0.95, "g":0.9, "b":0.7, "a":1.0},
     "fog_max_saturation": 0.25,
     "cull_distance": 50,
+    "pop_out_distance": 45,
+    "pop_in_distance": 40,
     "create_shadow_map":false
    },
 
