@@ -23,7 +23,7 @@ attribute vec4 aBoneWeights;
 // Affine transforms from the bone's origin to the mesh's root origin.
 // TODO: change to vec4 bone_transforms[maxbones * 3] to save memory.
 //       Affine transforms require only 3 rows since w is always (0,0,0,1).
-uniform mat4 bone_transforms[GL_MAX_VERTEX_UNIFORM_COMPONENTS / 16 - 6];
+uniform mat4 bone_transforms[MAX_VERTEX_UNIFORM_COMPONENTS / 16 - 6];
 
 // Return vertex position w.r.t. bone positions.
 // Vertex is attached to a single bone.
