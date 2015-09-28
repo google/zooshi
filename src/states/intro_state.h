@@ -35,8 +35,8 @@ public:
   void Initialize(InputSystem* input_system, World* world);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
-  virtual void OnEnter();
-  virtual void OnExit();
+  virtual void OnEnter(int previous_state);
+  virtual void OnExit(int next_state);
 
 protected:
   // The world so that we can get the player.

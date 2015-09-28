@@ -29,8 +29,8 @@ class StateNode {
   virtual void RenderPrep(Renderer* /*render*/) {}
   virtual void Render(Renderer* render) = 0;
   virtual void HandleUI(Renderer* /*renderer*/) {}
-  virtual void OnEnter() {}
-  virtual void OnExit() {}
+  virtual void OnEnter(int /*previous_state*/) {}
+  virtual void OnExit(int /*next_state*/) {}
 };
 
 template <int state_count_>
@@ -83,8 +83,12 @@ class StateMachine {
   // functions.
   void SetCurrentStateId(StateId new_id) {
     if (new_id != current_state_id_) {
-      if (valid_id(current_state_id_)) states_[current_state_id_]->OnExit();
-      if (valid_id(new_id)) states_[new_id]->OnEnter();
+      if (valid_id(current_state_id_)) {
+        states_[current_state_id_]->OnExit(new_id);
+      }
+      if (valid_id(new_id)) {
+        states_[new_id]->OnEnter(current_state_id_);
+      }
       current_state_id_ = new_id;
     }
   }

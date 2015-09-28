@@ -171,7 +171,7 @@ void GameMenuState::HandleUI(Renderer* renderer) {
   }
 }
 
-void GameMenuState::OnEnter() {
+void GameMenuState::OnEnter(int /*previous_state*/) {
   LoadWorldDef(world_, world_def_);
   music_channel_ = audio_engine_->PlaySound(music_menu_);
   world_->player_component.set_active(false);
@@ -179,7 +179,7 @@ void GameMenuState::OnEnter() {
   menu_state_ = kMenuStateStart;
 }
 
-void GameMenuState::OnExit() { music_channel_.Stop(); }
+void GameMenuState::OnExit(int /*next_state*/) { music_channel_.Stop(); }
 
 void GameMenuState::LoadData() {
   // Set default values.

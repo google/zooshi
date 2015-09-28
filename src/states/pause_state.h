@@ -39,7 +39,7 @@ class PauseState : public StateNode {
   virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
   virtual void HandleUI(Renderer* renderer);
-  virtual void OnEnter();
+  virtual void OnEnter(int previous_state);
 
  protected:
   GameState PauseMenu(AssetManager& assetman, FontManager& fontman,

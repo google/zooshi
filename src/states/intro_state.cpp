@@ -65,7 +65,7 @@ void IntroState::Render(Renderer* renderer) {
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void IntroState::OnEnter() {
+void IntroState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_active(true);
   input_system_->SetRelativeMouseMode(true);
 #ifdef ANDROID_CARDBOARD
@@ -79,7 +79,7 @@ void IntroState::OnEnter() {
   player_transform->position += mathfu::vec3(0, 0, -30);
 }
 
-void IntroState::OnExit() {
+void IntroState::OnExit(int /*next_state*/) {
   // Move the player back on the river trail.
   auto player = world_->player_component.begin()->entity;
   auto player_transform =

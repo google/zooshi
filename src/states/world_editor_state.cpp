@@ -83,16 +83,19 @@ void WorldEditorState::Render(Renderer* renderer) {
 
   world_->river_component.UpdateRiverMeshes();
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);
-
 }
 
 void WorldEditorState::HandleUI(Renderer* renderer) {
   world_editor_->Render(renderer);
 }
 
-void WorldEditorState::OnEnter() { world_editor_->Activate(); }
+void WorldEditorState::OnEnter(int /*previous_state*/) {
+  world_editor_->Activate();
+}
 
-void WorldEditorState::OnExit() { world_editor_->Deactivate(); }
+void WorldEditorState::OnExit(int /*next_state*/) {
+  world_editor_->Deactivate();
+}
 
 }  // fpl_project
 }  // fpl
