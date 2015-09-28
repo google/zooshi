@@ -35,11 +35,21 @@ using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 using fpl::entity::EntityRef;
+using fpl::editor::WorldEditor;
 using mathfu::vec3;
 using mathfu::kZeros3f;
 
 void SceneryComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
+
+  // World editor is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a world editor.
+  auto services = entity_manager_->GetComponent<ServicesComponent>();
+  WorldEditor* world_editor = services->world_editor();
+  if (world_editor) {
+    world_editor->AddOnEnterEditorCallback([this]() { ShowAll(true); });
+    world_editor->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
+  }
 }
 
 void SceneryComponent::AddFromRawData(entity::EntityRef& scenery,
@@ -79,8 +89,11 @@ void SceneryComponent::PostLoadFixup() {
         Data<AnimationData>(scenery_data->render_child);
     animation_data->anim_table_object = scenery_data->anim_object;
 
+    // Everything starts off-screen.
+    scenery_data->state = kSceneryHide;
+
     // Ensure all scenery starts hidden.
-    Hide(scenery, true);
+    Show(scenery, false);
   }
 }
 
@@ -175,13 +188,21 @@ void SceneryComponent::StopAnimating(const entity::EntityRef& scenery) {
   }
 }
 
-void SceneryComponent::Hide(const entity::EntityRef& scenery, bool hidden) {
+void SceneryComponent::Show(const entity::EntityRef& scenery, bool show) {
   TransformComponent* tf_component =
       entity_manager_->GetComponent<TransformComponent>();
   RenderMeshComponent* rm_component =
       entity_manager_->GetComponent<RenderMeshComponent>();
   const entity::EntityRef parent = tf_component->GetRootParent(scenery);
-  rm_component->SetHiddenRecursively(parent, hidden);
+  rm_component->SetHiddenRecursively(parent, !show);
+}
+
+void SceneryComponent::ShowAll(bool show) {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    entity::EntityRef scenery = iter->entity;
+    Show(scenery, show);
+  }
 }
 
 void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
@@ -191,7 +212,7 @@ void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
 
   // Hide or show the rendermesh.
   if (next_state == kSceneryHide || next_state == kSceneryAppear) {
-    Hide(scenery, next_state == kSceneryHide);
+    Show(scenery, next_state == kSceneryAppear);
   }
 
   // Animate or stop animating the scene.
