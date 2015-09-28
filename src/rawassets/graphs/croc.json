@@ -224,6 +224,68 @@
           }
         }
       ]
+    },
+    {
+      // Node 12: Set flag for the patron.
+      "module": "player",
+      "name": "fed_patron",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4, // Hit flag.
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7, // Player entity.
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // Collision target.
+            "edge_index": 1
+          }
+        }
+      ]
+    },
+    {
+      // Node 13: Check condition.
+      "module": "player",
+      "name": "check_all_patrons_fed",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7, // Player entity.
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 14: Grant achievement if the condition met.
+      "module": "gpg",
+      "name": "grant_achievement",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 13,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "String",
+          "edge": {
+            "value": "AllYouCanEat"
+          }
+        },
+      ]
     }
   ]
 }

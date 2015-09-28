@@ -317,7 +317,8 @@ void Game::InitializeEventSystem() {
   InitializeGpgModule(&event_system_, &GetConfig(), &gpg_manager_);
   InitializeLogicModule(&event_system_);
   InitializeMathModule(&event_system_);
-  InitializePlayerModule(&event_system_, &world_.graph_component);
+  InitializePlayerModule(&event_system_, &world_.player_component,
+                         &world_.graph_component);
   InitializePhysicsModule(&event_system_, &world_.physics_component);
   InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
                               &world_.graph_component);

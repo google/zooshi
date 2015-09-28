@@ -15,6 +15,8 @@
 #ifndef COMPONENTS_PLAYER_H_
 #define COMPONENTS_PLAYER_H_
 
+#include <set>
+
 #include "components_generated.h"
 #include "config_generated.h"
 #include "entity/component.h"
@@ -53,10 +55,15 @@ class PlayerData {
     on_fire_flatbuffer_ = on_fire_flatbuffer;
   }
 
+  std::set<std::string>& get_patrons_feed_status() {
+    return patrons_feed_status_;
+  }
+
  private:
   const ActionDef* on_fire_;
   std::vector<unsigned char> on_fire_flatbuffer_;
   BasePlayerController* input_controller_;
+  std::set<std::string> patrons_feed_status_;
 };
 
 class PlayerComponent : public entity::Component<PlayerData> {
