@@ -69,7 +69,8 @@ class SceneryComponent : public entity::Component<SceneryData> {
                          const mathfu::vec3& center) const;
   void Animate(const entity::EntityRef& scenery, SceneryState state);
   void StopAnimating(const entity::EntityRef& scenery);
-  void Hide(const entity::EntityRef& scenery, bool hidden);
+  void Show(const entity::EntityRef& scenery, bool show);
+  void ShowAll(bool show);
   void TransitionState(const entity::EntityRef& scenery,
                        SceneryState next_state);
 
