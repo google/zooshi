@@ -16,7 +16,7 @@
 #define FPL_ZOOSHI_MODULES_RAIL_DENIZEN_H_
 
 #include "breadboard/event_system.h"
-#include "components/graph.h"
+#include "component_library/graph.h"
 #include "components/rail_denizen.h"
 #include "modules/entity.h"
 
@@ -25,9 +25,10 @@ namespace fpl_project {
 
 typedef ComponentDataRef<RailDenizenComponent> RailDenizenDataRef;
 
-void InitializeRailDenizenModule(breadboard::EventSystem* event_system,
-                                 RailDenizenComponent* rail_denizen_component,
-                                 GraphComponent* graph_component);
+void InitializeRailDenizenModule(
+    breadboard::EventSystem* event_system,
+    RailDenizenComponent* rail_denizen_component,
+    fpl::component_library::GraphComponent* graph_component);
 
 }  // fpl_project
 }  // fpl

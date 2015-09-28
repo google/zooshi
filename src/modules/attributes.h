@@ -16,8 +16,8 @@
 #define FPL_ZOOSHI_MODULES_ATTRIBUTES_H_
 
 #include "breadboard/event_system.h"
+#include "component_library/graph.h"
 #include "components/attributes.h"
-#include "components/graph.h"
 #include "modules/entity.h"
 
 namespace fpl {
@@ -25,9 +25,10 @@ namespace fpl_project {
 
 typedef ComponentDataRef<AttributesComponent> AttributesDataRef;
 
-void InitializeAttributesModule(breadboard::EventSystem* event_system,
-                                AttributesComponent* attributes_component,
-                                GraphComponent* graph_component);
+void InitializeAttributesModule(
+    breadboard::EventSystem* event_system,
+    AttributesComponent* attributes_component,
+    fpl::component_library::GraphComponent* graph_component);
 
 }  // fpl_project
 }  // fpl

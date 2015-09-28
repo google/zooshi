@@ -21,7 +21,7 @@
 #include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/transform.h"
-#include "components/graph.h"
+#include "component_library/graph.h"
 #include "components/rail_node.h"
 #include "components/services.h"
 #include "components_generated.h"
@@ -36,6 +36,7 @@
 #include "world_editor/world_editor.h"
 
 using mathfu::vec3;
+using fpl::component_library::GraphData;
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
                             fpl::fpl_project::RailDenizenData)

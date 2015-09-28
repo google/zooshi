@@ -65,10 +65,6 @@ table SimpleMovementDef {
   velocity:Vec3;
 }
 
-table GraphDef {
-  filename_list:[string];
-}
-
 table PatronDef {
   // The type of patron being animated.
   anim_object:AnimObject;

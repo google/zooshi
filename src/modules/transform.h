@@ -12,23 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_ZOOSHI_MODULES_PHYSICS_H_
-#define FPL_ZOOSHI_MODULES_PHYSICS_H_
+#ifndef FPL_ZOOSHI_MODULES_TRANSFORM_H_
+#define FPL_ZOOSHI_MODULES_TRANSFORM_H_
 
 #include "breadboard/event_system.h"
-#include "component_library/physics.h"
-#include "component_library/graph.h"
+#include "component_library/transform.h"
 #include "modules/entity.h"
 
 namespace fpl {
 namespace fpl_project {
 
-void InitializePhysicsModule(
+typedef ComponentDataRef<fpl::component_library::TransformComponent>
+    TransformDataRef;
+
+void InitializeTransformModule(
     breadboard::EventSystem* event_system,
-    fpl::component_library::PhysicsComponent* physics_component,
-    fpl::component_library::GraphComponent* graph_component);
+    fpl::component_library::TransformComponent* transform_component);
 
 }  // fpl_project
 }  // fpl
 
-#endif  // FPL_ZOOSHI_MODULES_PHYSICS_H_
+#endif  // FPL_ZOOSHI_MODULES_TRANSFORM_H_

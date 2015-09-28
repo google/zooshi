@@ -74,9 +74,9 @@ class GrantAchievementNode : public breadboard::BaseNode {
 
 // Submit score to the specified leaderboard.
 class SubmitScoreNode : public breadboard::BaseNode {
-public:
+ public:
   SubmitScoreNode(const Config* config, GPGManager* gpg_manager)
-  : config_(config), gpg_manager_(gpg_manager) {}
+      : config_(config), gpg_manager_(gpg_manager) {}
 
   static void OnRegister(breadboard::NodeSignature* node_sig) {
     node_sig->AddInput<void>();         // Pulse indicating a game clear status.
@@ -96,7 +96,7 @@ public:
     }
   }
 
-private:
+ private:
   const Config* config_;
   GPGManager* gpg_manager_;
 };
@@ -119,8 +119,7 @@ void InitializeGpgModule(breadboard::EventSystem* event_system,
   auto submit_score_ctor = [config, gpg_manager]() {
     return new SubmitScoreNode(config, gpg_manager);
   };
-  module->RegisterNode<SubmitScoreNode>("submit_score",
-                                        submit_score_ctor);
+  module->RegisterNode<SubmitScoreNode>("submit_score", submit_score_ctor);
 }
 
 }  // fpl_project

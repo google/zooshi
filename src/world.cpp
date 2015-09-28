@@ -213,7 +213,6 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
   world->services_component.set_raft_entity(raft_entity);
 
   world->graph_component.PostLoadFixup();
-  world->physics_component.PostLoadFixup();
 }
 
 }  // fpl_project

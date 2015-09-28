@@ -3,8 +3,34 @@
 {
   "node_list": [
     {
+      "module": "entity",
+      "name": "graph_entity"
+    },
+    {
       "module": "physics",
-      "name": "collision"
+      "name": "on_collision",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "physics",
+      "name": "collision_data",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        }
+      ]
     },
     {
       "module": "string",
@@ -13,8 +39,8 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 0,
-            "edge_index": 3
+            "node_index": 2,
+            "edge_index": 2
           }
         },
         {
@@ -32,7 +58,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 1,
+            "node_index": 3,
             "edge_index": 0
           }
         }
@@ -43,7 +69,11 @@
       "name": "raft_entity",
       "input_edge_list": [
         {
-          "edge_type": "Pulse"
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
         }
       ]
     },
@@ -52,12 +82,68 @@
       "name": "rail_denizen",
       "input_edge_list": [
         {
-          "edge_type": "Pulse"
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
         },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 3,
+            "node_index": 5,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "transform",
+      "name": "transform",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "transform",
+      "name": "child",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "animation",
+      "name": "animation_complete",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 8,
             "edge_index": 0
           }
         }
@@ -70,14 +156,14 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 2,
+            "node_index": 9,
             "edge_index": 0
           }
         },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 4,
+            "node_index": 6,
             "edge_index": 0
           }
         },

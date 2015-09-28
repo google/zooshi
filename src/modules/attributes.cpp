@@ -19,11 +19,12 @@
 #include "breadboard/base_node.h"
 #include "breadboard/event.h"
 #include "breadboard/event_system.h"
+#include "component_library/graph.h"
 #include "components/attributes.h"
-#include "components/graph.h"
 #include "entity/entity_manager.h"
-#include "fplbase/utilities.h"
 #include "modules/event_ids.h"
+
+using fpl::component_library::GraphComponent;
 
 namespace fpl {
 namespace fpl_project {

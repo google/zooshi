@@ -22,6 +22,7 @@
 #include "component_library/animation.h"
 #include "component_library/common_services.h"
 #include "component_library/entity_factory.h"
+#include "component_library/graph.h"
 #include "component_library/meta.h"
 #include "component_library/physics.h"
 #include "component_library/rendermesh.h"
@@ -29,7 +30,6 @@
 #include "components/attributes.h"
 #include "components/audio_listener.h"
 #include "components/digit.h"
-#include "components/graph.h"
 #include "components/lap_dependent.h"
 #include "components/patron.h"
 #include "components/player.h"
@@ -116,7 +116,7 @@ struct World {
   editor::EditOptionsComponent edit_options_component;
   SimpleMovementComponent simple_movement_component;
   LapDependentComponent lap_dependent_component;
-  GraphComponent graph_component;
+  component_library::GraphComponent graph_component;
 
   // Each player has direct control over one entity.
   entity::EntityRef active_player_entity;

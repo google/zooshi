@@ -15,7 +15,7 @@
 #include "components/attributes.h"
 
 #include "breadboard/event.h"
-#include "components/graph.h"
+#include "component_library/graph.h"
 #include "components/services.h"
 #include "flatui/flatui.h"
 #include "fplbase/asset_manager.h"
