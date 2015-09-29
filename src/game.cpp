@@ -441,7 +441,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
   const Config* config = &GetConfig();
   loading_state_.Initialize(asset_manifest, &asset_manager_, &audio_engine_,
-                            shader_textured_);
+                            shader_textured_, &fader_);
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),

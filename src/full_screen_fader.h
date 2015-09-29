@@ -26,6 +26,11 @@ class Shader;
 
 namespace fpl_project {
 
+enum FadeType {
+  kFadeIn,
+  kFadeOutThenIn,
+};
+
 // Renders a fullscreen overlay fading effect that transitions to
 // opaque then back to transparent.
 class FullScreenFader {
@@ -38,7 +43,8 @@ class FullScreenFader {
 
   // Start the fullscreen fading effect with a duration of the given
   // fade_time and the given overlay color.
-  void Start(WorldTime fade_time, const mathfu::vec4& color);
+  void Start(WorldTime fade_time, const mathfu::vec3& color, FadeType fade_type,
+             const mathfu::vec3& bottom_left, const mathfu::vec3& top_right);
 
   // Update the fade color returning true on the frame the overlay
   // is fully opaque.
@@ -48,6 +54,8 @@ class FullScreenFader {
   // Returns true when the fullscreen fading effect is complete.
   bool Finished() const;
 
+  WorldTime current_fade_time() const { return current_fade_time_; }
+
  private:
   // Current fade time, variable state, increments with each call to
   // AdvanceFrame().
@@ -56,7 +64,11 @@ class FullScreenFader {
   WorldTime total_fade_time_;
   // Color of the overlay (the alpha component is ignored), constant, set with
   // Start().
-  mathfu::vec4 color_;
+  mathfu::vec3 color_;
+  // Extent of the fade texture. Specified externally because the
+  // view-projection-matrix is also specified externally.
+  mathfu::vec3 bottom_left_;
+  mathfu::vec3 top_right_;
   // Material used to render the overlay, set with Init().
   Material* material_;
   // Shader used to render the overlay material, set with Init().

@@ -30,6 +30,7 @@ class Shader;
 namespace fpl_project {
 
 struct AssetManifest;
+class FullScreenFader;
 
 class LoadingState : public StateNode {
  public:
@@ -41,7 +42,8 @@ class LoadingState : public StateNode {
   virtual ~LoadingState() {}
   void Initialize(const AssetManifest& asset_manifest,
                   AssetManager* asset_manager,
-                  pindrop::AudioEngine* audio_engine, Shader* shader_textured);
+                  pindrop::AudioEngine* audio_engine, Shader* shader_textured,
+                  FullScreenFader* fader);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
 
@@ -62,6 +64,8 @@ class LoadingState : public StateNode {
 
   // Simple shader to draw the loading texture on screen.
   Shader* shader_textured_;
+
+  FullScreenFader* fader_;
 };
 
 }  // zooshi

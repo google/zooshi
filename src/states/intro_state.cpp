@@ -46,7 +46,9 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   // Fade to game.
   if (player_data->input_controller()->Button(kFireProjectile).Value() &&
       player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
-    fader_->Start(kIntroStateFadeTransitionDuration, mathfu::kZeros4f);
+    fader_->Start(kIntroStateFadeTransitionDuration, mathfu::kZeros3f,
+                  kFadeOutThenIn, vec3(-1.0f, 1.0f, 0.0f),
+                  vec3(1.0f, -1.0f, 0.0f));
   }
 
   // Go back to menu.
@@ -71,6 +73,8 @@ void IntroState::Render(Renderer* renderer) {
 #endif // ANDROID_CARDBOARD
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
   if (!fader_->Finished()) {
+    renderer->model_view_projection() =
+        mat4::Ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
     fader_->Render(renderer);
   }
 }
