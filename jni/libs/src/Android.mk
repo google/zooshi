@@ -91,6 +91,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/simple_movement.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/full_screen_fader.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gui.cpp \
