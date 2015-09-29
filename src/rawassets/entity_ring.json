@@ -59,9 +59,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 55.289436,
-              "y": 1.37175,
-              "z": 0
+              "x": 59.193474,
+              "y": 10.193346,
+              "z": -0.000001
             },
             "scale": {
               "x": 5.62482,
@@ -71,7 +71,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -87.999969
+              "z": -27.999989
             }
           }
         }
@@ -170,19 +170,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 79.088638,
-              "y": 45.080017,
-              "z": 0
+              "x": 51.459877,
+              "y": 82.708923,
+              "z": 0.000001
             },
             "scale": {
-              "x": 7.17886,
-              "y": 7.17886,
-              "z": 7.17886
+              "x": 8.210766,
+              "y": 8.210766,
+              "z": 8.210766
             },
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -99
+              "z": -138
             }
           }
         }
@@ -207,19 +207,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 8.60634,
-              "y": -8.84818,
-              "z": -0.000001
+              "x": 13.785067,
+              "y": -9.557811,
+              "z": -0
             },
             "scale": {
-              "x": 7,
-              "y": 5,
-              "z": 3
+              "x": 6.780304,
+              "y": 6.780304,
+              "z": 6.780304
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 100.999992
+              "z": 52.999992
             }
           }
         }
@@ -244,19 +244,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -12.9904,
-              "y": -7.5,
-              "z": 0
+              "x": 7.593459,
+              "y": -2.22106,
+              "z": -0.000003
             },
             "scale": {
-              "x": 6.999987,
-              "y": 4.999991,
-              "z": 2.999995
+              "x": 5,
+              "y": 5,
+              "z": 5
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 60.000004
+              "z": 69.000008
             }
           }
         }
@@ -318,19 +318,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 11.7081,
-              "y": 15.5886,
+              "x": 20.712505,
+              "y": 17.636942,
               "z": 0.000001
             },
             "scale": {
-              "x": 7.000002,
-              "y": 5.000001,
-              "z": 3.000001
+              "x": 5,
+              "y": 5,
+              "z": 5
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 76.000008
+              "z": 55.000023
             }
           }
         }
@@ -355,9 +355,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -5.0271,
-              "y": -12.0638,
-              "z": -0
+              "x": -3.219982,
+              "y": 1.798819,
+              "z": 0.000002
             },
             "scale": {
               "x": 5,
@@ -367,7 +367,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 180
+              "z": -180
             }
           }
         }
@@ -404,7 +404,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -68.308022
+              "z": -38.308018
             }
           }
         }
@@ -466,8 +466,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -116.390823,
-              "y": 69.697006,
+              "x": -103.693649,
+              "y": 63.300224,
               "z": 0
             },
             "scale": {
@@ -503,9 +503,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -123.325935,
-              "y": 99.002892,
-              "z": 0
+              "x": -100.94706,
+              "y": 79.466347,
+              "z": 0.000004
             },
             "scale": {
               "x": 7.57603,
@@ -540,19 +540,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -95.238403,
-              "y": 76.117699,
+              "x": -93.605698,
+              "y": 35.650642,
               "z": 0.000004
             },
             "scale": {
-              "x": 8.7702,
-              "y": 8.7702,
-              "z": 8.7702
+              "x": 10.200209,
+              "y": 10.200209,
+              "z": 10.200209
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 132
+              "z": 114.000008
             }
           }
         }
@@ -582,9 +582,9 @@
               "z": 0.000002
             },
             "scale": {
-              "x": 7.95483,
-              "y": 7.95483,
-              "z": 7.95483
+              "x": 7.954816,
+              "y": 7.954816,
+              "z": 7.954816
             },
             "orientation": {
               "x": 0,
@@ -651,19 +651,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 34.134819,
-              "y": -105.82135,
-              "z": 4.125008
+              "x": 50.582909,
+              "y": -93.555054,
+              "z": 2.625008
             },
             "scale": {
-              "x": 0.613134,
-              "y": 0.613134,
-              "z": 0.613134
+              "x": 0.809496,
+              "y": 0.809496,
+              "z": 0.809496
             },
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 23.999994
+              "z": 5.999995
             },
             "child_ids": [
               "SavannaTree_RenderMesh"
@@ -731,19 +731,19 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -35.100239,
-              "y": -105.747124,
-              "z": 0.125
+              "x": 2.465774,
+              "y": -71.630699,
+              "z": 1.875001
             },
             "scale": {
-              "x": 0.613134,
-              "y": 0.613134,
-              "z": 0.613134
+              "x": 0.932929,
+              "y": 0.932929,
+              "z": 0.932929
             },
             "orientation": {
-              "x": 6.000008,
-              "y": -0.000002,
-              "z": 51.000011
+              "x": 0,
+              "y": -0.000003,
+              "z": 158.999939
             },
             "child_ids": [
               "SavannaTree_RenderMesh"
@@ -771,14 +771,14 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -2.36496,
-              "y": -109.564056,
-              "z": 0.5
+              "x": -2.643039,
+              "y": -109.94912,
+              "z": 1.5
             },
             "scale": {
-              "x": 0.613134,
-              "y": 0.613134,
-              "z": 0.613134
+              "x": 0.876688,
+              "y": 0.876688,
+              "z": 0.876688
             },
             "orientation": {
               "x": 0,
@@ -821,7 +821,7 @@
               "z": 0.853143
             },
             "orientation": {
-              "x": 6.000008,
+              "x": 0,
               "y": -0.000002,
               "z": 51.000011
             },
@@ -861,7 +861,7 @@
               "z": 1.126918
             },
             "orientation": {
-              "x": 6.000008,
+              "x": 0,
               "y": -0.000002,
               "z": 51.000011
             },
@@ -891,9 +891,9 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -89.103241,
-              "y": -56.62376,
-              "z": 0.125
+              "x": -84.382477,
+              "y": -62.005733,
+              "z": 0.125001
             },
             "scale": {
               "x": 0.853143,
@@ -901,13 +901,435 @@
               "z": 0.853143
             },
             "orientation": {
-              "x": 5.999998,
-              "y": -0.000004,
+              "x": 0,
+              "y": -0,
               "z": 98.999969
             },
             "child_ids": [
               "SavannaTree_RenderMesh"
             ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -64.931549,
+              "y": -7.10858,
+              "z": 1.174999
+            },
+            "scale": {
+              "x": 0.8581,
+              "y": 0.8581,
+              "z": 0.8581
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 155.999954
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -84.582649,
+              "y": 66.072678,
+              "z": 0.000004
+            },
+            "scale": {
+              "x": 7.95221,
+              "y": 7.95221,
+              "z": 7.95221
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 132
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -64.45195,
+              "y": 7.754671,
+              "z": -1.499995
+            },
+            "scale": {
+              "x": 7.092436,
+              "y": 7.092436,
+              "z": 7.092436
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 141
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -77.531433,
+              "y": -21.508961,
+              "z": 1.174999
+            },
+            "scale": {
+              "x": 0.718406,
+              "y": 0.718406,
+              "z": 0.718406
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 146.999954
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -67.306343,
+              "y": 82.41893,
+              "z": 1.750003
+            },
+            "scale": {
+              "x": 7.081037,
+              "y": 7.081037,
+              "z": 7.081037
+            },
+            "orientation": {
+              "x": -9.000013,
+              "y": -0,
+              "z": 177
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 34.134819,
+              "y": -105.82135,
+              "z": 4.125008
+            },
+            "scale": {
+              "x": 0.613134,
+              "y": 0.613134,
+              "z": 0.613134
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 23.999994
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -31.222343,
+              "y": -54.471245,
+              "z": 4.124999
+            },
+            "scale": {
+              "x": 1.104872,
+              "y": 1.104872,
+              "z": 1.104872
+            },
+            "orientation": {
+              "x": -0,
+              "y": -0.000002,
+              "z": 138
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 64.592636,
+              "y": 25.200367,
+              "z": 1.500002
+            },
+            "scale": {
+              "x": 6.23282,
+              "y": 6.23282,
+              "z": 6.23282
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -73.000038
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -34.832096,
+              "y": -102.748672,
+              "z": 1.875
+            },
+            "scale": {
+              "x": 0.770725,
+              "y": 0.770725,
+              "z": 0.770725
+            },
+            "orientation": {
+              "x": 6.000008,
+              "y": -0.000002,
+              "z": 51.000011
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 55.00201,
+              "y": 64.061134,
+              "z": 0.000001
+            },
+            "scale": {
+              "x": 9.998203,
+              "y": 9.998203,
+              "z": 9.998203
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -138
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$3769-e4be-204d-1d0d",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 69.80513,
+              "y": 41.133926,
+              "z": 0.000001
+            },
+            "scale": {
+              "x": 6.935291,
+              "y": 6.935291,
+              "z": 6.935291
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -93.999985
+            }
           }
         }
       ]

@@ -325,14 +325,14 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 35,
-              "y": 10,
+              "x": 35.304108,
+              "y": 10.056719,
               "z": 2
             },
             "scale": {
-              "x": 20,
-              "y": 20,
-              "z": 20
+              "x": 17.61944,
+              "y": 17.61944,
+              "z": 17.61944
             },
             "orientation": {
               "x": 0,
@@ -1363,7 +1363,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -1401,7 +1401,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -1439,7 +1439,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -1477,7 +1477,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -1489,6 +1489,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$769e-4be2-04d1-d0d1",
             "prototype": "RailNode"
           }
         },
@@ -1514,7 +1515,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -1526,6 +1527,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$0b58-a721-472b-5111",
             "prototype": "RailNode"
           }
         },
@@ -1551,7 +1553,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -1563,6 +1565,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$2c46-1c0e-5db3-a033",
             "prototype": "RailNode"
           }
         },
@@ -1588,7 +1591,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -1600,6 +1603,7 @@
         {
           "data_type": "MetaDef",
           "data": {
+            "entity_id": "$47c3-2de7-2e94-ad9c",
             "prototype": "RailNode"
           }
         },
@@ -1625,7 +1629,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }

@@ -2491,6 +2491,35 @@
           "data": {
             "selection_option": "Any"
           }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 0.5,
+                    "z": 1,
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0.1,
+                  "z": 0
+                },
+                "mass": 60.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
         }
       ]
     },
@@ -2515,6 +2544,35 @@
             "source_file":"meshes/fern_tall.fplmesh",
             "shader": "shaders/textured_skinned_lit",
             "culling": ["ViewAngle", "Distance"],
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 0.5,
+                    "z": 1,
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0.1,
+                  "z": 0
+                },
+                "mass": 60.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
           }
         }
       ]

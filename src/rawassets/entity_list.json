@@ -24,7 +24,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
+              "y": -0,
               "z": 0
             }
           }
@@ -87,8 +87,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 13.279863,
-              "y": 52.093174,
+              "x": -60.206581,
+              "y": -31.779909,
               "z": 2
             },
             "scale": {
@@ -99,7 +99,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 74.031639
+              "z": 28.030828
             },
             "child_ids": [
               "ActivePlayer",
@@ -172,6 +172,147 @@
           "data": {
             "entity_id": "$559e-aa73-14c2-022a",
             "prototype": "GroundPhysics"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "LapDependentDef",
+          "data": {
+            "min_lap": -1,
+            "max_lap": 0.5
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.1,
+                    "y": 1,
+                    "z": 1.6
+                  }
+                },
+                "offset": {
+                  "x": 1,
+                  "y": 0.2,
+                  "z": -0.3
+                },
+                "mass": 999.999939,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 0.1,
+                    "z": 1.6
+                  }
+                },
+                "offset": {
+                  "x": 0.5,
+                  "y": 1.2,
+                  "z": -0.3
+                },
+                "mass": 999.999939,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 0.1,
+                    "z": 1.6
+                  }
+                },
+                "offset": {
+                  "x": 0.5,
+                  "y": -0.8,
+                  "z": -0.3
+                },
+                "mass": 999.999939,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
+              },
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.5,
+                    "y": 1,
+                    "z": 0.1
+                  }
+                },
+                "offset": {
+                  "x": 0.5,
+                  "y": 0.2,
+                  "z": 1.4
+                },
+                "mass": 999.999939,
+                "restitution": 0.1,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ],
+                "user_tag": ""
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$de27-71b8-6bed-4ba4",
+            "prototype": "RockMid_Base"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 3.225894,
+              "y": 51.910477,
+              "z": 2.300005
+            },
+            "scale": {
+              "x": 4.805235,
+              "y": -5.766283,
+              "z": 6.631225
+            },
+            "orientation": {
+              "x": -113.499924,
+              "y": 78.600105,
+              "z": -110.799927
+            },
+            "child_ids": [
+              "RockMid_RenderMesh"
+            ]
           }
         }
       ]
