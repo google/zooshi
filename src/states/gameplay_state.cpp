@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "game.h"
 #include "states/gameplay_state.h"
 
 #include "fplbase/input.h"
@@ -124,13 +125,18 @@ void GameplayState::Render(Renderer* renderer) {
 void GameplayState::Initialize(InputSystem* input_system, World* world,
                                const Config* config,
                                const InputConfig* input_config,
+                               entity::EntityManager* entity_manager,
                                editor::WorldEditor* world_editor,
+                               GPGManager* gpg_manager,
                                pindrop::AudioEngine* audio_engine,
                                FullScreenFader* fader) {
   input_system_ = input_system;
+  config_ = config;
   world_ = world;
   input_config_ = input_config;
+  entity_manager_ = entity_manager;
   world_editor_ = world_editor;
+  gpg_manager_ = gpg_manager;
   audio_engine_ = audio_engine;
   fader_ = fader;
 
@@ -185,6 +191,19 @@ void GameplayState::OnExit(int next_state) {
     music_channel_lap_1_.Stop();
     music_channel_lap_2_.Stop();
     music_channel_lap_3_.Stop();
+  }
+
+  if (next_state == kGameStateGameMenu) {
+    // Finished a game, post a score.
+    auto player =
+        entity_manager_->GetComponent<PlayerComponent>()->begin()->entity;
+    auto attribute_data =
+        entity_manager_->GetComponentData<AttributesData>(player);
+    auto score = attribute_data->attributes[AttributeDef_PatronsFed];
+    auto leaderboard_config = config_->gpg_config()->leaderboards();
+    gpg_manager_->SubmitScore(
+        leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str(),
+        score);
   }
 }
 

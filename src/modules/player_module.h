@@ -32,4 +32,4 @@ void InitializePlayerModule(breadboard::EventSystem* event_system,
 }  // fpl_project
 }  // fpl
 
-#endif  // FPL_ZOOSHI_MODULES_RAIL_DENIZEN_H_
+#endif  // FPL_ZOOSHI_MODULES_PLAYER_H_

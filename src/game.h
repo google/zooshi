@@ -31,7 +31,6 @@
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
 #include "SDL_thread.h"
-#include "states/gameplay_state.h"
 #include "states/intro_state.h"
 #include "states/loading_state.h"
 #include "states/pause_state.h"
@@ -47,6 +46,7 @@
 
 // Header files that has a dependency to GPG definitions.
 #include "gpg_manager.h"
+#include "states/gameplay_state.h"
 #include "states/game_menu_state.h"
 
 #ifdef __ANDROID__
@@ -60,6 +60,8 @@
 
 namespace fpl {
 namespace fpl_project {
+
+const auto kGPGDefaultLeaderboard = "LeaderboardMain";
 
 struct Config;
 struct InputConfig;

@@ -64,7 +64,6 @@ const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;
 const auto kSaveFileName = "save_data.bin";
 const auto kSaveAppName = "zooshi";
-const auto kGPGDefaultLeaderboard = 0;
 
 class GameMenuState : public StateNode {
  public:

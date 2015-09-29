@@ -302,6 +302,8 @@ set(zooshi_SRCS
     src/modules/logic.h
     src/modules/math.cpp
     src/modules/math.h
+    src/modules/patron_module.cpp
+    src/modules/patron_module.h
     src/modules/player_module.cpp
     src/modules/player_module.h
     src/modules/physics.cpp

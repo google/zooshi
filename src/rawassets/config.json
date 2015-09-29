@@ -207,8 +207,8 @@
     ]
   },
   "gpg_config": {
-    "leaderboard_ids": [
-      "CgkI7IvL5LUCEAIQCQ",
+    "leaderboards": [
+      {"name": "LeaderboardMain", "id": "CgkI7IvL5LUCEAIQCQ"},
     ],
     "achievements": [
       {"name": "ADeliciousCycle", "id": "CgkI7IvL5LUCEAIQBQ"},

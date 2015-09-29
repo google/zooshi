@@ -106,6 +106,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/logic.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/math.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/physics.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/patron_module.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/player_module.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/state.cpp \
