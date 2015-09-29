@@ -1,5 +1,5 @@
 {
-  "loading_material" : "materials/fpl_logo.fplmat",
+  "loading_material" : "materials/loading.fplmat",
   "fader_material" : "materials/pixel1x1.fplmat",
   "mesh_list" : [
     "meshes/sushi_rice.fplmesh",

@@ -57,10 +57,11 @@ void LoadingState::Render(Renderer* renderer) {
       asset_manager_->FindMaterial(loading_material_name);
 
   // Always clear the background.
-  renderer->ClearFrameBuffer(mathfu::kZeros4f);
+  renderer->ClearFrameBuffer(mathfu::kOnes4f);
 
   // Render nothing until the loading material itself has loaded.
-  if (!loading_material->textures()[0]->id()) return;
+  const Texture* texture = loading_material->textures()[0];
+  if (!texture->id()) return;
 
   // In ortho space:
   //  - screen centered at (0,0)
@@ -79,7 +80,10 @@ void LoadingState::Render(Renderer* renderer) {
   shader_textured_->Set(*renderer);
 
   // Render the overlay in front on the screen.
-  Mesh::RenderAAQuadAlongX(vec3(-0.5f, 0.5f, 0.0f), vec3(0.5f, -0.5f, 0.0f));
+  // Don't scale the image so that the text remains crisp.
+  const vec2 size = vec2(texture->size()) / res.y();
+  Mesh::RenderAAQuadAlongX(vec3(-size.x(), size.y(), 0.0f),
+                           vec3(size.x(), -size.y(), 0.0f));
 }
 
 }  // fpl_project
