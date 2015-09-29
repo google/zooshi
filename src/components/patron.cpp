@@ -98,8 +98,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   assert(render_config->cull_distance() >= render_config->pop_out_distance() &&
          render_config->pop_out_distance() >= render_config->pop_in_distance());
 
-  patron_data->pop_in_radius = PopRadius(patron_def->pop_in_radius(),
-                                         render_config->pop_in_distance());
+  patron_data->pop_in_radius =
+      PopRadius(patron_def->pop_in_radius(), render_config->pop_in_distance());
   patron_data->pop_out_radius = PopRadius(patron_def->pop_out_radius(),
                                           render_config->pop_out_distance());
   patron_data->pop_in_radius_squared =
@@ -107,13 +107,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->pop_out_radius_squared =
       patron_data->pop_out_radius * patron_data->pop_out_radius;
 
-  if (patron_def->min_lap() >= 0) {
-    patron_data->min_lap = patron_def->min_lap();
-  }
-
-  if (patron_def->max_lap() >= 0) {
-    patron_data->max_lap = patron_def->max_lap();
-  }
+  patron_data->min_lap = patron_def->min_lap();
+  patron_data->max_lap = patron_def->max_lap();
 
   if (patron_def->target_tag()) {
     patron_data->target_tag = patron_def->target_tag()->str();
@@ -317,7 +312,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       }
     } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
                lap > patron_data->last_lap_fed + kLapWaitAmount &&
-               lap >= patron_data->min_lap && lap <= patron_data->max_lap &&
+               lap >= patron_data->min_lap &&
+               (lap <= patron_data->max_lap || patron_data->max_lap < 0) &&
                (state == kPatronStateLayingDown ||
                 state == kPatronStateFalling)) {
       // If you are in range, and the patron is standing laying down (or falling
