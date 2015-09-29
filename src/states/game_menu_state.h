@@ -54,7 +54,7 @@ const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 const auto kMenuSize = 100.0f;
 const auto kButtonSize = 100.0f;
 #else
-const auto kMenuSize = 140.0f;
+const auto kMenuSize = 150.0f;
 const auto kButtonSize = 140.0f;
 #endif
 const auto kAudioOptionButtonSize = 100.0f;
@@ -86,6 +86,7 @@ class GameMenuState : public StateNode {
                        InputSystem& input);
   void OptionMenuMain();
   void OptionMenuLicenses();
+  void OptionMenuAbout();
   void OptionMenuAudio();
 
   // Save/Load data to strage using FlatBuffres binary data.
@@ -154,11 +155,11 @@ class GameMenuState : public StateNode {
   // Option menu state.
   vec2 scroll_offset_;
   std::string license_text_;
+  std::string about_text_;
 
   // In-game menu state.
   bool show_about_;
   bool show_licences_;
-  bool show_how_to_play_;
   bool show_audio_;
 
   float slider_value_effect_;

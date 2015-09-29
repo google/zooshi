@@ -69,7 +69,6 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   menu_state_ = kMenuStateStart;
   show_about_ = false;
   show_licences_ = false;
-  show_how_to_play_ = false;
   show_audio_ = false;
 
   // Set the world def to load upon entering this state.
@@ -92,6 +91,10 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
       "textures/ui_scrollbar_background_vertical.webp");
   scrollbar_foreground_ =
       asset_manager_->LoadTexture("textures/ui_scrollbar_foreground.webp");
+
+  if (!LoadFile(manifest->about_file()->c_str(), &about_text_)) {
+    LogError("About text not found.");
+  }
 
   if (!LoadFile(manifest->license_file()->c_str(), &license_text_)) {
     LogError("License text not found.");
