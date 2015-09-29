@@ -108,7 +108,10 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -150));
-    if (show_licences_) {
+    if (show_about_) {
+      // Show 'About' screen.
+      OptionMenuAbout();
+    } else if (show_licences_) {
       // Show 'Licenses' screen.
       OptionMenuLicenses();
     } else if (show_audio_) {
@@ -129,7 +132,9 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     if (ImageButtonWithLabel(*button_back_, 60, gui::Margin(60, 35, 40, 50),
                              "Back") &
         gui::kEventWentUp) {
-      if (show_licences_) {
+      if (show_about_) {
+        show_about_ = false;
+      } else if (show_licences_) {
         show_licences_ = false;
       } else if (show_audio_) {
         show_audio_ = false;
@@ -141,37 +146,6 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::EndGroup();
     gui::EndGroup();
 
-    // Show 'About' dialog box.
-    if (show_about_) {
-      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "about_overlay");
-      gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                         mathfu::kZeros2f);
-      gui::ModalGroup();
-      gui::SetMargin(gui::Margin(10));
-      gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
-      gui::SetTextColor(vec4(1.0, 1.0, 1.0, 1.0));
-      gui::Label("Zooshi is an awesome game.", 32);
-      if (TextButton("Got it.", 32, gui::Margin(2)) & gui::kEventWentUp) {
-        show_about_ = false;
-      }
-      gui::EndGroup();
-    }
-
-    // Show 'How to play' dialog box.
-    if (show_how_to_play_) {
-      gui::StartGroup(gui::kLayoutVerticalCenter, 20, "how_to_play_overlay");
-      gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                         mathfu::kZeros2f);
-      gui::ModalGroup();
-      gui::SetMargin(gui::Margin(10));
-      gui::SetTextColor(vec4(1.0, 1.0, 1.0, 1.0));
-      gui::ColorBackground(vec4(0.2f, 0.2f, 0.2f, 0.8f));
-      gui::Label("How to play.", 32);
-      if (TextButton("OK", 32, gui::Margin(2)) & gui::kEventWentUp) {
-        show_how_to_play_ = false;
-      }
-      gui::EndGroup();
-    }
     gui::EndGroup();  // Overlay group.
   });
 
@@ -182,7 +156,7 @@ void GameMenuState::OptionMenuMain() {
   gui::SetMargin(gui::Margin(200, 400, 200, 100));
 
   gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
-  gui::SetMargin(gui::Margin(5));
+  gui::SetMargin(gui::Margin(0, 20, 0, 50));
   gui::SetTextColor(kColorBrown);
   gui::Label("Options", kMenuSize);
   gui::EndGroup();
@@ -221,14 +195,47 @@ void GameMenuState::OptionMenuMain() {
     show_licences_ = true;
   }
 
-  if (TextButton("How to play", kButtonSize, gui::Margin(2)) &
-      gui::kEventWentUp) {
-    show_how_to_play_ = true;
-  }
-
   if (TextButton("Audio", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
     show_audio_ = true;
   }
+}
+
+void GameMenuState::OptionMenuAbout() {
+  gui::SetMargin(gui::Margin(200, 400, 200, 100));
+
+  gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
+  gui::SetMargin(gui::Margin(0, 20, 0, 55));
+  gui::SetTextColor(kColorBrown);
+  gui::Label("About", kButtonSize);
+  gui::EndGroup();
+
+  gui::SetTextColor(kColorDarkGray);
+  gui::SetTextFont("fonts/NotoSans-Bold.ttf");
+
+  gui::StartGroup(gui::kLayoutHorizontalCenter);
+  gui::SetMargin(gui::Margin(50, 0, 0, 0));
+  gui::StartGroup(gui::kLayoutVerticalCenter, 0, "scroll");
+  gui::StartScroll(kScrollAreaSize, &scroll_offset_);
+  gui::Label(about_text_.c_str(), 25, vec2(kScrollAreaSize.x(), 0));
+  vec2 scroll_size = gui::GroupSize();
+  gui::EndScroll();
+  gui::EndGroup();
+
+  // Normalize the scroll offset to use for the scroll bar value.
+  auto scroll_height = (scroll_size.y() - kScrollAreaSize.y());
+  if (scroll_height > 0) {
+    auto scrollbar_value = scroll_offset_.y() / scroll_height;
+    gui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
+                   vec2(35, kScrollAreaSize.y()),
+                   kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
+                   &scrollbar_value);
+
+    // Convert back the scroll bar value to the scroll offset.
+    scroll_offset_.y() = scrollbar_value * scroll_height;
+  }
+
+  gui::EndGroup();
+  gui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
 }
 
 void GameMenuState::OptionMenuLicenses() {
@@ -254,14 +261,16 @@ void GameMenuState::OptionMenuLicenses() {
 
   // Normalize the scroll offset to use for the scroll bar value.
   auto scroll_height = (scroll_size.y() - kScrollAreaSize.y());
-  auto scrollbar_value = scroll_offset_.y() / scroll_height;
-  gui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
-                 vec2(35, kScrollAreaSize.y()),
-                 kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
-                 &scrollbar_value);
+  if (scroll_height > 0) {
+    auto scrollbar_value = scroll_offset_.y() / scroll_height;
+    gui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
+                   vec2(35, kScrollAreaSize.y()),
+                   kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
+                   &scrollbar_value);
 
-  // Convert back the scroll bar value to the scroll offset.
-  scroll_offset_.y() = scrollbar_value * scroll_height;
+    // Convert back the scroll bar value to the scroll offset.
+    scroll_offset_.y() = scrollbar_value * scroll_height;
+  }
 
   gui::EndGroup();
   gui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
