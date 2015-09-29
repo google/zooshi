@@ -683,7 +683,7 @@
             "pop_out_radius": 60,
             "point_display_height": 6.5,
             "min_lap": 0.01,
-            "max_lap": 3,
+            "max_lap": -1,
             "target_tag": "Mouth"
           }
         },
@@ -822,7 +822,7 @@
             "pop_out_radius": 60,
             "point_display_height": 6.5,
             "min_lap": 0.01,
-            "max_lap": 3,
+            "max_lap": -1,
             "target_tag": "Mouth"
           }
         },
@@ -982,7 +982,7 @@
             "pop_out_radius": 60,
             "point_display_height": 6.5,
             "min_lap": 0.01,
-            "max_lap": 3,
+            "max_lap": -1,
             "target_tag": "Mouth"
           }
         },
@@ -1199,7 +1199,7 @@
             "pop_out_radius": 60,
             "point_display_height": 3,
             "min_lap": 0.01,
-            "max_lap": 3
+            "max_lap": -1
           }
         },
         {
@@ -1370,7 +1370,7 @@
             "pop_out_radius": 60,
             "point_display_height": 11,
             "min_lap": 0.01,
-            "max_lap": 3,
+            "max_lap": -1,
             "target_tag": "Mouth"
           }
         },

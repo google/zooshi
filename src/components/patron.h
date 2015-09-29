@@ -95,8 +95,8 @@ struct PatronData {
   float pop_out_radius;
 
   // Each time the raft makes a lap around the river, its lap counter is
-  // incremented.  Patrons will only stand up when the lap counter is in the
-  // range [min_lap, max_lap].
+  // incremented. Patrons will only stand up when the lap counter is in the
+  // range [min_lap, max_lap]. A negative value indicates no limits.
   float min_lap;
   float max_lap;
 
