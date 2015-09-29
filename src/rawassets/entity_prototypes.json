@@ -1525,7 +1525,8 @@
           "data" : {
             "source_file":"meshes/ground.fplmesh",
             "shader": "shaders/textured_lit",
-            "culling": []
+            "culling": [],
+            "hidden": true
           }
         },
         {
@@ -2529,7 +2530,7 @@
             "source_file":"meshes/large_mountain.fplmesh",
             "shader": "shaders/textured_lit",
             "render_pass" : ["Opaque"],
-            "culling": ["ViewAngle"]
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -2577,7 +2578,7 @@
             "source_file":"meshes/skinny_mountain.fplmesh",
             "shader": "shaders/textured_lit",
             "render_pass" : ["Opaque"],
-            "culling": ["ViewAngle"]
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -2625,7 +2626,7 @@
             "source_file":"meshes/wide_mountain.fplmesh",
             "shader": "shaders/textured_lit",
             "render_pass" : ["Opaque"],
-            "culling": ["ViewAngle"]
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -2726,7 +2727,7 @@
           "data" : {
             "source_file":"meshes/savanna_tree01.fplmesh",
             "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle"]
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -2822,7 +2823,7 @@
           "data" : {
             "source_file":"meshes/Tree_03.fplmesh",
             "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle"]
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -2871,7 +2872,7 @@
           "data" : {
             "source_file":"meshes/Tree_04.fplmesh",
             "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle"]
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
