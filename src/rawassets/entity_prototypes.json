@@ -1585,7 +1585,7 @@
           "data" : {
             "source_file":"meshes/tree_saturated.fplmesh",
             "shader": "shaders/textured_lit",
-            "culling": []
+            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
