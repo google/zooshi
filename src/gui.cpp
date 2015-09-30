@@ -216,7 +216,7 @@ void GameMenuState::OptionMenuAbout() {
   gui::SetMargin(gui::Margin(50, 0, 0, 0));
   gui::StartGroup(gui::kLayoutVerticalCenter, 0, "scroll");
   gui::StartScroll(kScrollAreaSize, &scroll_offset_);
-  gui::Label(about_text_.c_str(), 25, vec2(kScrollAreaSize.x(), 0));
+  gui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x(), 0));
   vec2 scroll_size = gui::GroupSize();
   gui::EndScroll();
   gui::EndGroup();
