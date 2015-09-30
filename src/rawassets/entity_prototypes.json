@@ -519,14 +519,6 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
-          }
-        },
-        {
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
@@ -562,14 +554,6 @@
               "y": 0.0,
               "z": 0.0
             }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/sushi_rice.fplmesh",
-            "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
