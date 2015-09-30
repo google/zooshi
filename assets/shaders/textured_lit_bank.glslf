@@ -28,7 +28,7 @@ void main()
   lowp vec4 texture_color =
     texture2D(texture_unit_0, vTexCoord) * (1.0 - vColor.a) +
     texture2D(texture_unit_1, vTexCoord) * vColor.a;
-  vec4 final_color = vec4(vColor.rgb, 1) * texture_color;
+  lowp vec4 final_color = vec4(vColor.rgb, 1) * texture_color;
   final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist,
     fog_max_dist, fog_color,  fog_max_saturation);
   gl_FragColor = final_color;
