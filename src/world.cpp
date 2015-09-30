@@ -202,6 +202,7 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
 
   world->transform_component.PostLoadFixup();  // sets up parent-child links
   world->patron_component.PostLoadFixup();
+  world->rail_denizen_component.PostLoadFixup();
   world->scenery_component.PostLoadFixup();
 
   entity::EntityRef player_entity = world->player_component.begin()->entity;

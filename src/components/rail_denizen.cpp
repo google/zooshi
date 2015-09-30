@@ -82,6 +82,8 @@ void RailDenizenComponent::Init() {
   if (world_editor) {
     world_editor->AddOnUpdateEntityCallback([this](
         const entity::EntityRef& entity) { UpdateRailNodeData(entity); });
+    world_editor->AddOnEnterEditorCallback([this]() { OnEnterEditor(); });
+    world_editor->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }
 }
 
@@ -99,12 +101,10 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     position += rail_denizen_data->rail_offset;
     transform_data->position = position;
     if (rail_denizen_data->update_orientation) {
-      transform_data->orientation = mathfu::quat::RotateFromTo(
-          rail_denizen_data->Velocity(), mathfu::kAxisY3f);
-      if (rail_denizen_data->inherit_transform_data) {
-        transform_data->orientation =
-            rail_denizen_data->rail_orientation * transform_data->orientation;
-      }
+      transform_data->orientation =
+          rail_denizen_data->rail_orientation *
+          mathfu::quat::RotateFromTo(rail_denizen_data->Velocity(),
+                                     mathfu::kAxisY3f);
     }
 
     float previous_lap = rail_denizen_data->lap;
@@ -144,14 +144,23 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   auto scale = rail_denizen_def->rail_scale();
   if (offset != nullptr) {
     data->rail_offset = LoadVec3(offset);
+  } else {
+    data->rail_offset = mathfu::kZeros3f;
   }
+  data->internal_rail_offset = data->rail_offset;
   if (orientation != nullptr) {
     data->rail_orientation =
         mathfu::quat::FromEulerAngles(LoadVec3(orientation));
+  } else {
+    data->rail_orientation = mathfu::quat::identity;
   }
+  data->internal_rail_orientation = data->rail_orientation;
   if (scale != nullptr) {
     data->rail_scale = LoadVec3(scale);
+  } else {
+    data->rail_scale = mathfu::kOnes3f;
   }
+  data->internal_rail_scale = data->rail_scale;
   data->update_orientation =
       rail_denizen_def->update_orientation() ? true : false;
   data->inherit_transform_data =
@@ -188,12 +197,13 @@ RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  Vec3 rail_offset(data->rail_offset.x(), data->rail_offset.y(),
-                   data->rail_offset.z());
-  mathfu::vec3 euler = data->rail_orientation.ToEulerAngles();
+  Vec3 rail_offset(data->internal_rail_offset.x(),
+                   data->internal_rail_offset.y(),
+                   data->internal_rail_offset.z());
+  mathfu::vec3 euler = data->internal_rail_orientation.ToEulerAngles();
   Vec3 rail_orientation(euler.x(), euler.y(), euler.z());
-  Vec3 rail_scale(data->rail_scale.x(), data->rail_scale.y(),
-                  data->rail_scale.z());
+  Vec3 rail_scale(data->internal_rail_scale.x(), data->internal_rail_scale.y(),
+                  data->internal_rail_scale.z());
 
   auto rail_name =
       data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;
@@ -230,6 +240,39 @@ void RailDenizenComponent::UpdateRailNodeData(entity::EntityRef entity) {
       if (rail_denizen_data->rail_name == rail_name) {
         InitializeRail(iter->entity);
       }
+    }
+  }
+}
+
+void RailDenizenComponent::PostLoadFixup() {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    RailDenizenData* rail_data = Data<RailDenizenData>(iter->entity);
+    if (rail_data->inherit_transform_data) {
+      TransformData* transform_data = Data<TransformData>(iter->entity);
+      rail_data->rail_offset =
+          transform_data->position + rail_data->internal_rail_offset;
+      rail_data->rail_orientation =
+          transform_data->orientation * rail_data->internal_rail_orientation;
+      rail_data->rail_scale =
+          transform_data->scale * rail_data->internal_rail_scale;
+    }
+  }
+}
+
+void RailDenizenComponent::OnEnterEditor() {
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    // If an entity inherits its offsets from the transform data, the transform
+    // data needs to be reset, or else it will copy its own movement from the
+    // transform data.
+    RailDenizenData* rail_data = GetComponentData(iter->entity);
+    if (rail_data->inherit_transform_data) {
+      TransformData* td = Data<TransformData>(iter->entity);
+      td->position = rail_data->rail_offset - rail_data->internal_rail_offset;
+      td->orientation = rail_data->rail_orientation *
+                        rail_data->internal_rail_orientation.Inverse();
+      td->scale = rail_data->rail_scale / rail_data->internal_rail_scale;
     }
   }
 }

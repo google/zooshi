@@ -52,9 +52,16 @@ struct RailDenizenData {
   float start_time;
   motive::Motivator3f motivator;
   std::string rail_name;
+  // Additional transform to apply from the rail to the entity being driven.
   mathfu::vec3 rail_offset;
   mathfu::quat rail_orientation;
   mathfu::vec3 rail_scale;
+  // Additional transform that does not take into account any inherited
+  // transform data. Should be used by editor and parsing data, while the above
+  // ones should be used when driving motion.
+  mathfu::vec3 internal_rail_offset;
+  mathfu::quat internal_rail_orientation;
+  mathfu::vec3 internal_rail_scale;
   bool update_orientation;
   bool inherit_transform_data;
   bool enabled;
@@ -72,8 +79,12 @@ class RailDenizenComponent : public entity::Component<RailDenizenData> {
 
   void UpdateRailNodeData(entity::EntityRef entity);
 
+  // This needs to be called after the entities have been loaded from data.
+  void PostLoadFixup();
+
  private:
   void InitializeRail(entity::EntityRef&);
+  void OnEnterEditor();
 };
 
 }  // fpl_project
