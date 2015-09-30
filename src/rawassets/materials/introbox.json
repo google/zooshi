@@ -1,8 +1,0 @@
-{
-  texture_filenames: [
-    "textures/introbox.webp"
-  ],
-  "desired_format": [
-    "F_888"
-  ]
-}
