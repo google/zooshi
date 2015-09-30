@@ -200,14 +200,6 @@ void PatronComponent::PostLoadFixup() {
     // We don't want patrons moving until they are up.
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
-      if (rail_denizen_data->inherit_transform_data) {
-        TransformData* patron_transform = Data<TransformData>(patron);
-        rail_denizen_data->rail_offset += patron_transform->position;
-        rail_denizen_data->rail_scale =
-            patron_transform->scale * rail_denizen_data->rail_scale;
-        rail_denizen_data->rail_orientation =
-            patron_transform->orientation * rail_denizen_data->rail_orientation;
-      }
       rail_denizen_data->enabled = false;
     }
   }
