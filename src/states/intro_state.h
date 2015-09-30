@@ -35,10 +35,12 @@ static const WorldTime kIntroStateFadeTransitionDuration = 2000;
 
 class IntroState : public StateNode {
 public:
+  IntroState();
   virtual ~IntroState() {}
   void Initialize(InputSystem* input_system, World* world,
                   FullScreenFader* fader);
   virtual void AdvanceFrame(int delta_time, int* next_state);
+  virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
@@ -50,6 +52,10 @@ protected:
   InputSystem* input_system_;
   // Fade the screen.
   FullScreenFader* fader_;
+  // Time after fade triggered and before fade started. In milliseconds.
+  // Also takes values kFadeTimerPending before being triggered,
+  // and kFadeTimerComplete after completing.
+  int fade_timer_;
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD
   Camera cardboard_camera_;

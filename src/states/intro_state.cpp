@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <limits.h>
+
 #include "states/intro_state.h"
 
 #include "fplbase/input.h"
@@ -25,6 +27,16 @@ using fpl::component_library::TransformData;
 
 namespace fpl {
 namespace fpl_project {
+
+static const int kFadeTimerPending = INT_MAX;
+static const int kFadeTimerComplete = INT_MAX - 1;
+static const int kFadeWaitTime = 500; // In milliseconds.
+
+IntroState::IntroState()
+    : world_(nullptr),
+      input_system_(nullptr),
+      fader_(nullptr),
+      fade_timer_(kFadeTimerPending) {}
 
 void IntroState::Initialize(InputSystem* input_system, World* world,
                             FullScreenFader* fader) {
@@ -43,12 +55,25 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   auto player_data =
       world_->entity_manager.GetComponentData<PlayerData>(player);
 
-  // Fade to game.
+  // Start countdown timer before we fade to game.
   if (player_data->input_controller()->Button(kFireProjectile).Value() &&
-      player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
+      player_data->input_controller()->Button(kFireProjectile).HasChanged() &&
+      fade_timer_ == kFadeTimerPending) {
+    fade_timer_ = kFadeWaitTime;
+  }
+
+  // Fade to game.
+  if (fade_timer_ <= 0) {
     fader_->Start(kIntroStateFadeTransitionDuration, mathfu::kZeros3f,
                   kFadeOutThenIn, vec3(-1.0f, 1.0f, 0.0f),
                   vec3(1.0f, -1.0f, 0.0f));
+    fade_timer_ = kFadeTimerComplete;
+  }
+
+  // Update the fade timer, if it's active.
+  if (fade_timer_ != kFadeTimerPending &&
+      fade_timer_ != kFadeTimerComplete) {
+    fade_timer_ -= delta_time;
   }
 
   // Go back to menu.
@@ -64,6 +89,10 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
     // Enter the game.
     *next_state = kGameStateGameplay;
   }
+}
+
+void IntroState::RenderPrep(Renderer* renderer) {
+  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
 }
 
 void IntroState::Render(Renderer* renderer) {
@@ -90,7 +119,8 @@ void IntroState::OnEnter(int /*previous_state*/) {
   auto player_transform =
       world_->entity_manager.GetComponentData<TransformData>(player);
   // TODO(proppy): get position of the introbox entity
-  player_transform->position += mathfu::vec3(0, 0, -30);
+  player_transform->position += mathfu::vec3(0, 0, 30);
+  fade_timer_ = kFadeTimerPending;
 }
 
 void IntroState::OnExit(int /*next_state*/) {
