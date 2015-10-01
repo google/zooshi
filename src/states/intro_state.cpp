@@ -123,7 +123,7 @@ void IntroState::OnEnter(int /*previous_state*/) {
   auto player_transform =
       world_->entity_manager.GetComponentData<TransformData>(player);
   // TODO(proppy): get position of the introbox entity
-  player_transform->position += mathfu::vec3(0, 0, 30);
+  player_transform->position += mathfu::vec3(0, 0, 500);
   fade_timer_ = kFadeTimerPending;
   HideBox(false);
 }
