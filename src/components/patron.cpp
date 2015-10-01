@@ -201,6 +201,7 @@ void PatronComponent::PostLoadFixup() {
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
+      rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
     }
   }
 }
@@ -301,6 +302,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       auto rail_denizen_data = Data<RailDenizenData>(patron);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
+        rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
       }
     } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
                lap > patron_data->last_lap_fed + kLapWaitAmount &&
@@ -353,6 +355,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             auto rail_denizen_data = Data<RailDenizenData>(patron);
             if (rail_denizen_data != nullptr) {
               rail_denizen_data->enabled = true;
+              rail_denizen_data->motivator.SetSplinePlaybackRate(
+                  rail_denizen_data->spline_playback_rate);
             }
           }  // fallthrough
 
@@ -422,6 +426,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       auto rail_denizen_data = Data<RailDenizenData>(patron_entity);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
+        rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
       }
       SpawnPointDisplay(patron_entity);
       // Delete the projectile, as it has been consumed.
