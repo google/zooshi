@@ -204,7 +204,11 @@
       "name": "set_rail_speed",
       "input_edge_list": [
         {
-          "edge_type": "Pulse"
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2,
+            "edge_index": 0
+          }
         },
         {
           "edge_type": "OutputEdgeTarget",

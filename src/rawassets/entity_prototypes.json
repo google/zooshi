@@ -654,8 +654,13 @@
                 "user_tag": "Mouth"
               }
             ],
-            "kinematic": true,
-            "on_collision": [
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data" : {
+            "filename_list": [
               "graphs/mandrill.fplgraph"
             ]
           }
@@ -793,8 +798,13 @@
                 "user_tag": "Mouth"
               }
             ],
-            "kinematic": true,
-            "on_collision": [
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data" : {
+            "filename_list": [
               "graphs/croc.fplgraph"
             ]
           }
@@ -953,8 +963,13 @@
                 "user_tag": "Mouth"
               }
             ],
-            "kinematic": true,
-            "on_collision": [
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data" : {
+            "filename_list": [
               "graphs/hippo.fplgraph"
             ]
           }
@@ -1101,10 +1116,15 @@
                 "user_tag": "Mouth"
               }
             ],
-            "kinematic": true,
-            "on_collision": [
-              "graphs/hippo.fplgraph",
-              "graphs/first_hippo.fplgraph"
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data" : {
+            "filename_list": [
+              "graphs/first_hippo.fplgraph",
+              "graphs/hippo.fplgraph"
             ]
           }
         },
@@ -1170,8 +1190,13 @@
                 "user_tag": "Mouth"
               }
             ],
-            "kinematic": true,
-            "on_collision": [
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data" : {
+            "filename_list": [
               "graphs/bird.fplgraph"
             ]
           }
@@ -1341,8 +1366,13 @@
                 "user_tag": "Mouth"
               }
             ],
-            "kinematic": true,
-            "on_collision": [
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data" : {
+            "filename_list": [
               "graphs/giraffe.fplgraph"
             ]
           }

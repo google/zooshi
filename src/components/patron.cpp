@@ -16,11 +16,11 @@
 
 #include <vector>
 #include "component_library/animation.h"
+#include "component_library/graph.h"
 #include "component_library/physics.h"
 #include "component_library/rendermesh.h"
 #include "component_library/transform.h"
 #include "components/attributes.h"
-#include "components/graph.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"

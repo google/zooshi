@@ -31,7 +31,6 @@ using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 
-
 void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
                                                const void* /*raw_data*/) {
   AddEntity(entity);

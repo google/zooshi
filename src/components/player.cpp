@@ -36,6 +36,8 @@ namespace fpl_project {
 BREADBOARD_DEFINE_EVENT(kOnFireEventId)
 
 using fpl::component_library::CommonServicesComponent;
+using fpl::component_library::GraphComponent;
+using fpl::component_library::GraphData;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::PhysicsData;
 using fpl::component_library::TransformComponent;

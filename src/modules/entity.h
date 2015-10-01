@@ -16,6 +16,7 @@
 #define FPL_ZOOSHI_MODULES_ENTITY_H_
 
 #include "breadboard/event_system.h"
+#include "component_library/graph.h"
 #include "component_library/meta.h"
 #include "entity/entity_manager.h"
 
@@ -51,9 +52,12 @@ class ComponentDataRef {
   entity::EntityRef entity_;
 };
 
+void SetGraphEntity(entity::EntityRef entity);
+
 void InitializeEntityModule(breadboard::EventSystem* event_system,
                             ServicesComponent* services_component,
-                            component_library::MetaComponent* meta_component);
+                            component_library::MetaComponent* meta_component,
+                            component_library::GraphComponent* graph_component);
 
 }  // fpl_project
 }  // fpl

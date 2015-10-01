@@ -20,6 +20,8 @@
 #include "breadboard/event_system.h"
 #include "breadboard/base_node.h"
 
+using fpl::component_library::GraphComponent;
+
 namespace fpl {
 namespace fpl_project {
 

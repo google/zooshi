@@ -21,6 +21,8 @@
 #include "components/rail_denizen.h"
 #include "entity/entity_manager.h"
 
+using fpl::component_library::GraphComponent;
+
 namespace fpl {
 namespace fpl_project {
 
@@ -114,12 +116,14 @@ class SetRailSpeedNode : public breadboard::BaseNode {
   }
 
   virtual void Execute(breadboard::NodeArguments* args) {
-    auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
-    auto speed = args->GetInput<float>(2);
-    RailDenizenData* rail_denizen_data = rail_denizen_ref->GetComponentData();
-    rail_denizen_data->spline_playback_rate = *speed;
-    rail_denizen_data->motivator.SetSplinePlaybackRate(
-        rail_denizen_data->spline_playback_rate);
+    if (args->IsInputDirty(0)) {
+      auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
+      auto speed = args->GetInput<float>(2);
+      RailDenizenData* rail_denizen_data = rail_denizen_ref->GetComponentData();
+      rail_denizen_data->spline_playback_rate = *speed;
+      rail_denizen_data->motivator.SetSplinePlaybackRate(
+          rail_denizen_data->spline_playback_rate);
+    }
   }
 };
 

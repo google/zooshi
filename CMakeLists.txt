@@ -248,8 +248,6 @@ set(zooshi_SRCS
     src/components/audio_listener.h
     src/components/digit.cpp
     src/components/digit.h
-    src/components/graph.cpp
-    src/components/graph.h
     src/components/lap_dependent.cpp
     src/components/lap_dependent.h
     src/components/patron.cpp
@@ -288,6 +286,8 @@ set(zooshi_SRCS
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
     src/main.cpp
+    src/modules/animation.cpp
+    src/modules/animation.h
     src/modules/attributes.cpp
     src/modules/attributes.h
     src/modules/audio.cpp
@@ -304,16 +304,18 @@ set(zooshi_SRCS
     src/modules/math.h
     src/modules/patron_module.cpp
     src/modules/patron_module.h
-    src/modules/player_module.cpp
-    src/modules/player_module.h
     src/modules/physics.cpp
     src/modules/physics.h
+    src/modules/player_module.cpp
+    src/modules/player_module.h
     src/modules/rail_denizen.cpp
     src/modules/rail_denizen.h
     src/modules/state.cpp
     src/modules/state.h
     src/modules/string.cpp
     src/modules/string.h
+    src/modules/transform.cpp
+    src/modules/transform.h
     src/modules/vec3.cpp
     src/modules/vec3.h
     src/railmanager.cpp
@@ -424,13 +426,13 @@ endif()
 # Dependencies for the executable target.
 add_dependencies(zooshi generated_includes assets)
 target_link_libraries(zooshi
-  breadboard
   motive
   fplbase
   flatui
   flatbuffers
   entity
   component_library
+  breadboard
   world_editor
   pindrop
   BulletDynamics

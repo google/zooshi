@@ -15,7 +15,7 @@
 #ifndef FPL_ZOOSHI_MODULES_PATRON_H_
 #define FPL_ZOOSHI_MODULES_PATRON_H_
 
-#include "components/graph.h"
+#include "component_library/graph.h"
 #include "components/patron.h"
 #include "breadboard/event_system.h"
 #include "modules/entity.h"

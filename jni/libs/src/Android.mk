@@ -77,7 +77,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/digit.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/graph.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/lap_dependent.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
@@ -98,6 +97,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/gamepad_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/animation.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/audio.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/debug.cpp \
@@ -105,12 +105,13 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/gpg.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/logic.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/math.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/patron_module.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/physics.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/player_module.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/string.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/transform.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/vec3.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/game_menu_state.cpp \

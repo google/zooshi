@@ -32,6 +32,7 @@
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
+#include "modules/animation.h"
 #include "modules/attributes.h"
 #include "modules/audio.h"
 #include "modules/debug.h"
@@ -45,6 +46,7 @@
 #include "modules/rail_denizen.h"
 #include "modules/state.h"
 #include "modules/string.h"
+#include "modules/transform.h"
 #include "modules/vec3.h"
 #include "motive/init.h"
 #include "motive/io/flatbuffers.h"
@@ -290,9 +292,7 @@ const AssetManifest& Game::GetAssetManifest() const {
   return *fpl::fpl_project::GetAssetManifest(asset_manifest_source_.c_str());
 }
 
-void EventSystemLogFunc(const char* fmt, va_list args) {
-  LogError(fmt, args);
-}
+void EventSystemLogFunc(const char* fmt, va_list args) { LogError(fmt, args); }
 
 void Game::InitializeEventSystem() {
   breadboard::RegisterLogFunc(EventSystemLogFunc);
@@ -302,32 +302,35 @@ void Game::InitializeEventSystem() {
   breadboard::TypeRegistry<int>::RegisterType("Int");
   breadboard::TypeRegistry<float>::RegisterType("Float");
   breadboard::TypeRegistry<std::string>::RegisterType("String");
-  breadboard::TypeRegistry<RailDenizenDataRef>::RegisterType(
-      "RailDenizenDataRef");
-  breadboard::TypeRegistry<AttributesDataRef>::RegisterType(
-      "AttributesDataRef");
+
+  breadboard::TypeRegistry<AttributesDataRef>::RegisterType("AttributesData");
+  breadboard::TypeRegistry<RailDenizenDataRef>::RegisterType("RailDenizenData");
+  breadboard::TypeRegistry<TransformDataRef>::RegisterType("TransformData");
   breadboard::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
   breadboard::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
-  breadboard::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
   breadboard::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
+  breadboard::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
 
+  InitializeAnimationModule(&event_system_, &world_.graph_component);
   InitializeAttributesModule(&event_system_, &world_.attributes_component,
                              &world_.graph_component);
   InitializeAudioModule(&event_system_, &audio_engine_);
   InitializeDebugModule(&event_system_);
   InitializeEntityModule(&event_system_, &world_.services_component,
-                         &world_.meta_component);
+                         &world_.meta_component, &world_.graph_component);
   InitializeGpgModule(&event_system_, &GetConfig(), &gpg_manager_);
   InitializeLogicModule(&event_system_);
   InitializeMathModule(&event_system_);
   InitializePatronModule(&event_system_, &world_.patron_component);
   InitializePlayerModule(&event_system_, &world_.player_component,
                          &world_.graph_component);
-  InitializePhysicsModule(&event_system_, &world_.physics_component);
+  InitializePhysicsModule(&event_system_, &world_.physics_component,
+                          &world_.graph_component);
   InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
                               &world_.graph_component);
   InitializeStateModule(&event_system_, gameplay_state_.requested_state());
   InitializeStringModule(&event_system_);
+  InitializeTransformModule(&event_system_, &world_.transform_component);
   InitializeVec3Module(&event_system_);
 }
 
@@ -445,9 +448,8 @@ bool Game::Initialize(const char* const binary_directory) {
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
-                             &world_.entity_manager,
-                             world_editor_.get(), &gpg_manager_,
-                             &audio_engine_, &fader_);
+                             &world_.entity_manager, world_editor_.get(),
+                             &gpg_manager_, &audio_engine_, &fader_);
   game_menu_state_.Initialize(&input_, &world_, &GetConfig(), &asset_manager_,
                               &font_manager_, &GetAssetManifest(),
                               &gpg_manager_, &audio_engine_);

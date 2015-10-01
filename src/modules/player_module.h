@@ -15,7 +15,7 @@
 #ifndef FPL_ZOOSHI_MODULES_PLAYER_H_
 #define FPL_ZOOSHI_MODULES_PLAYER_H_
 
-#include "components/graph.h"
+#include "component_library/graph.h"
 #include "components/player.h"
 #include "breadboard/event_system.h"
 #include "modules/entity.h"
@@ -25,9 +25,9 @@ namespace fpl_project {
 
 typedef ComponentDataRef<PlayerComponent> PlayerDataRef;
 
-void InitializePlayerModule(breadboard::EventSystem* event_system,
-                            PlayerComponent* player_component,
-                            GraphComponent* graph_component);
+void InitializePlayerModule(
+    breadboard::EventSystem* event_system, PlayerComponent* player_component,
+    fpl::component_library::GraphComponent* graph_component);
 
 }  // fpl_project
 }  // fpl

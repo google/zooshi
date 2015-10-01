@@ -17,14 +17,14 @@
 
 #include <string>
 
-#include "components/graph.h"
+#include "component_library/graph.h"
 #include "components_generated.h"
 #include "entity/component.h"
 #include "fplbase/utilities.h"
 #include "pindrop/pindrop.h"
 
+using fpl::component_library::SerializableGraphState;
 namespace fpl {
-
 namespace fpl_project {
 
 static const WorldTime kMaxProjectileDuration = 3 * kMillisecondsPerSecond;
