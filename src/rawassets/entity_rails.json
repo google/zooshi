@@ -1343,7 +1343,7 @@
         {
           "data_type": "RailNodeDef",
           "data": {
-            "rail_name": "line_loop",
+            "rail_name": "bird_loop",
             "total_time": 4000,
             "reliable_distance": 1
           }
@@ -1352,7 +1352,7 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -1,
+              "x": 0,
               "y": 0,
               "z": 0
             },
@@ -1363,7 +1363,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
+              "y": 0,
               "z": 0
             }
           }
@@ -1383,7 +1383,7 @@
           "data_type": "RailNodeDef",
           "data": {
             "ordering": 1,
-            "rail_name": "line_loop"
+            "rail_name": "bird_loop"
           }
         },
         {
@@ -1391,7 +1391,7 @@
           "data": {
             "position": {
               "x": 0,
-              "y": 0,
+              "y": 0.5,
               "z": 0
             },
             "scale": {
@@ -1401,7 +1401,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
+              "y": 0,
               "z": 0
             }
           }
@@ -1421,15 +1421,15 @@
           "data_type": "RailNodeDef",
           "data": {
             "ordering": 2,
-            "rail_name": "line_loop"
+            "rail_name": "bird_loop"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 1,
-              "y": 0,
+              "x": 0.5,
+              "y": 1,
               "z": 0
             },
             "scale": {
@@ -1439,7 +1439,7 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
+              "y": 0,
               "z": 0
             }
           }
@@ -1459,14 +1459,51 @@
           "data_type": "RailNodeDef",
           "data": {
             "ordering": 3,
-            "rail_name": "line_loop"
+            "rail_name": "bird_loop"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
             "position": {
+              "x": 1,
+              "y": 0.5,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
               "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 4,
+            "rail_name": "bird_loop"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 1,
               "y": 0,
               "z": 0
             },
@@ -1477,7 +1514,118 @@
             },
             "orientation": {
               "x": 0,
-              "y": -0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 5,
+            "rail_name": "bird_loop"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 1,
+              "y": -0.5,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 6,
+            "rail_name": "bird_loop"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0.5,
+              "y": -1,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 7,
+            "rail_name": "bird_loop"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": -0.5,
+              "z": 0
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
               "z": 0
             }
           }
