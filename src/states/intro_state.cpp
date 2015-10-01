@@ -45,6 +45,12 @@ void IntroState::Initialize(InputSystem* input_system, World* world,
   fader_ = fader;
 }
 
+void IntroState::HideBox(bool hide) {
+  // TODO: find a better way to get the entity than by string name.
+  auto entity = world_->meta_component.GetEntityFromDictionary("introbox-1");
+  world_->render_mesh_component.SetHiddenRecursively(entity, hide);
+}
+
 void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   // Update components so that the player can throw sushi.
   world_->entity_manager.UpdateComponents(delta_time);
@@ -83,9 +89,7 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   }
 
   if (fader_->AdvanceFrame(delta_time)) {
-    // Hide the box.
-    auto entity = world_->meta_component.GetEntityFromDictionary("introbox-1");
-    world_->render_mesh_component.SetHiddenRecursively(entity, true);
+    HideBox(true);
     // Enter the game.
     *next_state = kGameStateGameplay;
   }
@@ -121,6 +125,7 @@ void IntroState::OnEnter(int /*previous_state*/) {
   // TODO(proppy): get position of the introbox entity
   player_transform->position += mathfu::vec3(0, 0, 30);
   fade_timer_ = kFadeTimerPending;
+  HideBox(false);
 }
 
 void IntroState::OnExit(int /*next_state*/) {
