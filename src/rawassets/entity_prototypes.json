@@ -372,7 +372,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/temp_sign.fplmesh",
+            "source_file":"meshes/raft_sign.fplmesh",
             "shader": "shaders/textured_lit",
             "render_pass" : ["Alpha"]
           }
@@ -404,7 +404,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/sushi_rice.fplmesh",
+            "source_file":"meshes/sushi_salmon.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"],
             "hidden": true
@@ -1518,33 +1518,6 @@
           "data_type": "EditOptionsDef",
           "data": {
             "render_option": "OnlyInEditor"
-          }
-        }
-      ]
-    },
-
-    // Background
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "Background"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "scale": { "x": 100.0, "y": 100.0, "z": 100.0 }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/background.fplmesh",
-            "shader": "shaders/textured_lit",
-            "culling": ["ViewAngle", "Distance"]
           }
         }
       ]
@@ -2718,53 +2691,6 @@
       ]
     },
 
-    // Pointy Tree
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "PointyTree"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "child_ids": [ "PointyTree_RenderMesh" ]
-          }
-        },
-        {
-          "data_type": "EditOptionsDef",
-          "data": {
-            "selection_option": "PointerOnly"
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "PointyTree_RenderMesh",
-            "prototype": "RenderMeshPrototype"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/Tree_02.fplmesh",
-            "shader": "shaders/textured_shadowed"
-          }
-        }
-      ]
-    },
-
     // Baobab Tree
     {
       "component_list": [
@@ -2862,55 +2788,6 @@
         }
       ]
     },
-
-    // Mountain Range
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "MountainRange"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "child_ids": ["MountainRange_RenderMesh"]
-          }
-        },
-        {
-          "data_type": "EditOptionsDef",
-          "data": {
-            "selection_option": "PointerOnly"
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "MountainRange_RenderMesh",
-            "prototype": "RenderMeshPrototype"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
-          "data" : {
-            "source_file":"meshes/Mountain_all.fplmesh",
-            "shader": "shaders/textured_opaque",
-            "culling": []
-          }
-        }
-      ]
-    },
-
     // Heart
     {
       "component_list": [
