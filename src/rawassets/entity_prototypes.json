@@ -162,7 +162,8 @@
           "data" : {
             "source_file": "meshes/introbox.fplmesh",
             "shader": "shaders/textured_opaque",
-            "culling": ["Distance"]
+            "culling": ["Distance"],
+            "hidden": true
           }
         }
       ]

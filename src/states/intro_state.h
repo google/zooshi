@@ -46,6 +46,8 @@ public:
   virtual void OnExit(int next_state);
 
 protected:
+  void HideBox(bool hide);
+
   // The world so that we can get the player.
   World* world_;
   // The input system so that we can get input.
