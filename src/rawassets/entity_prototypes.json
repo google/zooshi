@@ -1575,6 +1575,12 @@
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
+          }
         }
       ]
     },
@@ -1665,6 +1671,12 @@
           "data": {
             "selection_option": "Any"
           }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
+          }
         }
       ]
     },
@@ -1710,6 +1722,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         }
       ]
@@ -2693,6 +2711,12 @@
           "data": {
             "selection_option": "PointerOnly"
           }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
+          }
         }
       ]
     },
@@ -2740,6 +2764,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         }
       ]
@@ -2789,6 +2819,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "SceneryDef",
+          "data": {
+            "anim_object": "Scenery"
           }
         }
       ]
