@@ -450,10 +450,10 @@ bool Game::Initialize(const char* const binary_directory) {
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
                              &world_.entity_manager, world_editor_.get(),
                              &gpg_manager_, &audio_engine_, &fader_);
-  game_menu_state_.Initialize(&input_, &world_, &GetConfig(), &asset_manager_,
+  game_menu_state_.Initialize(&input_, &world_, config, &asset_manager_,
                               &font_manager_, &GetAssetManifest(),
                               &gpg_manager_, &audio_engine_);
-  intro_state_.Initialize(&input_, &world_, &fader_);
+  intro_state_.Initialize(&input_, &world_, config, &fader_);
   world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
                                  &world_);
 

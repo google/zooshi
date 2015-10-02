@@ -16,6 +16,7 @@
 #define ZOOSHI_INTRO_STATE_H_
 
 #include "camera.h"
+#include "config_generated.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
@@ -37,7 +38,7 @@ class IntroState : public StateNode {
 public:
   IntroState();
   virtual ~IntroState() {}
-  void Initialize(InputSystem* input_system, World* world,
+  void Initialize(InputSystem* input_system, World* world, const Config* config,
                   FullScreenFader* fader);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);

@@ -39,10 +39,17 @@ IntroState::IntroState()
       fade_timer_(kFadeTimerPending) {}
 
 void IntroState::Initialize(InputSystem* input_system, World* world,
+                            const Config* config,
                             FullScreenFader* fader) {
   input_system_ = input_system;
   world_ = world;
   fader_ = fader;
+
+#ifdef ANDROID_CARDBOARD
+  cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
+#else
+  (void)config;
+#endif
 }
 
 void IntroState::HideBox(bool hide) {
