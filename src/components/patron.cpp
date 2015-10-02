@@ -307,6 +307,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         entity_manager_->GetComponent<RenderMeshComponent>();
     TransformComponent* tf_component =
         entity_manager_->GetComponent<TransformComponent>();
+    PhysicsComponent* physics_component =
+        entity_manager_->GetComponent<PhysicsComponent>();
 
     rm_component->SetHiddenRecursively(tf_component->GetRootParent(patron),
                                        state == kPatronStateLayingDown);
@@ -354,6 +356,9 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       if (anim_ending) {
         switch (patron_data->state) {
           case kPatronStateEating:
+            // After the patron has finished eating, disable the physics, as
+            // it is going away.
+            physics_component->DisablePhysics(patron);
             if (HasAnim(patron_data, PatronAction_Satisfied)) {
               patron_data->state = kPatronStateSatisfied;
               Animate(patron_data, PatronAction_Satisfied);
@@ -374,8 +379,6 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 
           case kPatronStateGettingUp: {
             patron_data->state = kPatronStateUpright;
-            auto physics_component =
-                entity_manager_->GetComponent<PhysicsComponent>();
             physics_component->EnablePhysics(patron);
             auto rail_denizen_data = Data<RailDenizenData>(patron);
             if (rail_denizen_data != nullptr) {
@@ -444,10 +447,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       Animate(patron_data, PatronAction_Eat);
       patron_data->last_lap_fed = raft_rail_denizen->lap;
 
-      // Disable physics and rail movement after they have been fed
-      auto physics_component =
-          entity_manager_->GetComponent<PhysicsComponent>();
-      physics_component->DisablePhysics(patron_entity);
+      // Disable rail movement after they have been fed
       auto rail_denizen_data = Data<RailDenizenData>(patron_entity);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
