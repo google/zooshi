@@ -18,6 +18,7 @@
 #include "camera.h"
 #include "fplbase/input.h"
 #include "entity/entity_manager.h"
+#include "gpg_manager.h"
 #include "pindrop/pindrop.h"
 #include "states/state_machine.h"
 #include "world.h"

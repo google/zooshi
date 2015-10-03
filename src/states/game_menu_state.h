@@ -20,6 +20,7 @@
 #include "flatui/flatui.h"
 #include "flatui/flatui_common.h"
 #include "fplbase/input.h"
+#include "gpg_manager.h"
 #include "pindrop/pindrop.h"
 #include "states/gameplay_state.h"
 #include "states/state_machine.h"

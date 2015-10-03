@@ -330,7 +330,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": 3 // Return to game menu (kGameStateGameMenu).
+            "value": 6 // Game over screen(kGameStateGameOver).
           }
         }
       ]

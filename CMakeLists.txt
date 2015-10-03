@@ -320,6 +320,8 @@ set(zooshi_SRCS
     src/modules/vec3.h
     src/railmanager.cpp
     src/railmanager.h
+    src/states/game_over_state.cpp
+    src/states/game_over_state.h
     src/states/game_menu_state.cpp
     src/states/game_menu_state.h
     src/states/gameplay_state.cpp

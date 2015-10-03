@@ -15,6 +15,7 @@
 #ifndef ZOOSHI_GAME_H
 #define ZOOSHI_GAME_H
 
+#include "SDL_thread.h"
 #include "breadboard/event_system.h"
 #include "breadboard/graph.h"
 #include "camera.h"
@@ -30,7 +31,6 @@
 #include "mathfu/glsl_mappings.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
-#include "SDL_thread.h"
 #include "states/intro_state.h"
 #include "states/loading_state.h"
 #include "states/pause_state.h"
@@ -48,6 +48,7 @@
 #include "gpg_manager.h"
 #include "states/gameplay_state.h"
 #include "states/game_menu_state.h"
+#include "states/game_over_state.h"
 
 #ifdef __ANDROID__
 #include "inputcontrollers/android_cardboard_controller.h"
@@ -125,6 +126,7 @@ class Game {
   GameplayState gameplay_state_;
   GameMenuState game_menu_state_;
   IntroState intro_state_;
+  GameOverState game_over_state_;
   WorldEditorState world_editor_state_;
 
   // Report touches, button presses, keyboard presses.

@@ -115,6 +115,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/vec3.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/game_menu_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/states/game_over_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/gameplay_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/intro_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/loading_state.cpp \
