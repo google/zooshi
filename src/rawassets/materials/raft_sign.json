@@ -1,6 +1,6 @@
 {
   "texture_filenames": [
-    "textures/raft_sign.webp"
+    "textures/raft_sign_wide.webp"
   ],
   "blendmode": "ALPHA"
 }
