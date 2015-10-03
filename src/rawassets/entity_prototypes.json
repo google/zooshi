@@ -181,9 +181,9 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 1.7, "y": 1.7, "z": 0.5 },
+            "position": { "x": -1.7, "y": 1.7, "z": 0.5 },
             "scale": { "x": 200, "y": 200, "z": 200 },
-            "orientation": { "x": 0, "y": 0, "z": 45 }
+            "orientation": { "x": 0, "y": 0, "z": -45 }
           }
         },
         {
@@ -209,7 +209,7 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "position": { "x": 1.4, "y": 2.8, "z": 0.5 },
+            "position": { "x": -1.4, "y": 2.8, "z": 0.5 },
             "scale": { "x": 200, "y": 200, "z": 200 },
             "orientation": { "x": 0, "y": 15, "z": 0 }
           }
@@ -240,7 +240,6 @@
           "data" : {
             "render_pass" : ["Alpha"],
             "shader": "shaders/textured_lit",
-            "attrib": "PatronsFed",
             "digit_mesh_list": [
               "meshes/digit_0.fplmesh",
               "meshes/digit_1.fplmesh",
@@ -258,7 +257,47 @@
       ]
     },
 
-    // Tens Digit
+    // Score Hundreds Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "HundredsDigit",
+            "prototype": "Digit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": -0.07,
+              "y": -1.21,
+              "z": 0.52
+            },
+            "scale": {
+              "x": 0.12,
+              "y": 0.12,
+              "z": 0.12
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "DigitDef",
+          "data" : {
+            "divisor": 100,
+            "attrib": "PatronsFed"
+          }
+        }
+      ]
+    },
+
+    // Score Tens Digit
     {
       "component_list": [
         {
@@ -272,18 +311,18 @@
           "data_type": "TransformDef",
           "data" : {
             "position": {
-              "x": 0.15,
-              "y": -0.01,
-              "z": 0.75
+              "x": 0.02,
+              "y": -1.21,
+              "z": 0.53
             },
             "scale": {
-              "x": 0.2,
-              "y": 0.2,
-              "z": 0.2
+              "x": 0.12,
+              "y": 0.12,
+              "z": 0.12
             },
             "orientation": {
               "x": 0.0,
-              "y": 4,
+              "y": 0.0,
               "z": 0.0
             }
           }
@@ -291,13 +330,14 @@
         {
           "data_type": "DigitDef",
           "data" : {
-            "divisor": 10
+            "divisor": 10,
+            "attrib": "PatronsFed"
           }
         }
       ]
     },
 
-    // Ones Digit
+    // Score Ones Digit
     {
       "component_list": [
         {
@@ -311,18 +351,18 @@
           "data_type": "TransformDef",
           "data" : {
             "position": {
-              "x": 0.3,
-              "y": -0.01,
-              "z": 0.76
+              "x": 0.11,
+              "y": -1.21,
+              "z": 0.54
             },
             "scale": {
-              "x": 0.2,
-              "y": 0.2,
-              "z": 0.2
+              "x": 0.12,
+              "y": 0.12,
+              "z": 0.12
             },
             "orientation": {
               "x": 0.0,
-              "y": 4,
+              "y": 0.0,
               "z": 0.0
             }
           }
@@ -330,7 +370,127 @@
         {
           "data_type": "DigitDef",
           "data" : {
-            "divisor": 1
+            "divisor": 1,
+            "attrib": "PatronsFed"
+          }
+        }
+      ]
+    },
+
+    // Target Score Hundreds Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "TargetScoreHundredsDigit",
+            "prototype": "Digit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 0.24,
+              "y": -1.21,
+              "z": 0.52
+            },
+            "scale": {
+              "x": 0.12,
+              "y": 0.12,
+              "z": 0.12
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "DigitDef",
+          "data" : {
+            "divisor": 100,
+            "attrib": "TargetScore"
+          }
+        }
+      ]
+    },
+    // Target Score Tens Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "TargetScoreTensDigit",
+            "prototype": "Digit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 0.33,
+              "y": -1.21,
+              "z": 0.53
+            },
+            "scale": {
+              "x": 0.12,
+              "y": 0.12,
+              "z": 0.12
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "DigitDef",
+          "data" : {
+            "divisor": 10,
+            "attrib": "TargetScore"
+          }
+        }
+      ]
+    },
+
+    // Target Score Ones Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "TargetScoreOnesDigit",
+            "prototype": "Digit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 0.42,
+              "y": -1.21,
+              "z": 0.54
+            },
+            "scale": {
+              "x": 0.12,
+              "y": 0.12,
+              "z": 0.12
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "data_type": "DigitDef",
+          "data" : {
+            "divisor": 1,
+            "attrib": "TargetScore"
           }
         }
       ]
@@ -349,23 +509,27 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": -2.5,
+              "x": 2.5,
               "y": 3.7,
-              "z": 0.125
+              "z": 0.31
             },
             "scale": {
-              "x": 1.9,
-              "y": 1.9,
-              "z": 1.9
+              "x": 3.0,
+              "y": 3.0,
+              "z": 3.0
             },
             "orientation": {
               "x": 0.0,
               "y": 5.0,
-              "z": -45.0
+              "z": 45.0
             },
             "child_ids": [
               "OnesDigit",
-              "TensDigit"
+              "TensDigit",
+              "HundredsDigit",
+              "TargetScoreOnesDigit",
+              "TargetScoreTensDigit",
+              "TargetScoreHundredsDigit"
             ]
           }
         },
