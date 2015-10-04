@@ -64,8 +64,9 @@ limitations under the License.
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <!-- Allow accessing the internet to load external pages -->
+    <!-- Allow accessing the internet for analytics and gpg -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Allow access to the NFC reader for Cardboard to use  -->
     <uses-permission android:name="android.permission.NFC" />

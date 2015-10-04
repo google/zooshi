@@ -17,6 +17,7 @@
 #include <math.h>
 #include <stdarg.h>
 
+#include "SDL.h"
 #include "SDL_events.h"
 #include "anim_generated.h"
 #include "assets_generated.h"
@@ -708,6 +709,13 @@ void Game::Run() {
     SystraceCounter("FrameTime", frame_time);
   }
   SDL_UnlockMutex(sync_.renderthread_mutex_);
+  // Clean up asynchronous callbacks to prevent crashing on garbage data.
+#ifdef __ANDROID__
+  RegisterVsyncCallback(nullptr);
+#endif
+  input_.AddAppEventCallback(nullptr);
+  // TODO: Move this call to SDL_Quit to FPLBase.
+  SDL_Quit();
 }
 
 }  // fpl_project
