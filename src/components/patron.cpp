@@ -117,6 +117,9 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->max_catch_distance = patron_def->max_catch_distance();
   patron_data->max_catch_angle = patron_def->max_catch_angle();
   patron_data->point_display_height = patron_def->point_display_height();
+  patron_data->max_face_angle_away_from_raft =
+      Angle::FromDegrees(patron_def->max_face_angle_away_from_raft());
+  patron_data->time_to_face_raft = patron_def->time_to_face_raft();
 }
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
@@ -137,6 +140,9 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_max_catch_distance(data->max_catch_distance);
   builder.add_max_catch_angle(data->max_catch_angle);
   builder.add_point_display_height(data->point_display_height);
+  builder.add_max_face_angle_away_from_raft(
+      data->max_face_angle_away_from_raft.ToDegrees());
+  builder.add_time_to_face_raft(data->time_to_face_raft);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
@@ -218,16 +224,15 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
     patron_data->prev_delta_position = delta_position;
 
     if (patron_data->delta_position.TargetTime() <= 0) {
-      if (patron_data->catching_state == kCatchingStateMoveToTarget) {
+      if (patron_data->move_state == kPatronMoveStateMoveToTarget) {
         const vec3 raft_position = RaftPosition();
         const Angle return_angle =
             Angle::FromYXVector(raft_position - patron_data->return_position);
         MoveToTarget(patron, patron_data->return_position, return_angle,
                      kCatchReturnTime);
-        patron_data->catching_state = kCatchingStateReturn;
+        patron_data->move_state = kPatronMoveStateReturn;
       } else {
         patron_data->delta_position.Invalidate();
-        patron_data->catching_state = kCatchingStateIdle;
         // Back to idle, so resume moving on rails, if it is on one.
         RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
         if (rail_denizen_data != nullptr &&
@@ -251,7 +256,22 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
 
     if (patron_data->delta_face_angle.TargetTime() <= 0) {
       patron_data->delta_face_angle.Invalidate();
+      patron_data->move_state = kPatronMoveStateIdle;
     }
+  }
+}
+
+void PatronComponent::FaceRaft(const entity::EntityRef& patron) {
+  const vec3 raft = RaftPosition();
+  const TransformData* transform_data = Data<TransformData>(patron);
+  const Angle to_raft(Angle::FromYXVector(raft - transform_data->position));
+  const Angle face(transform_data->orientation.ToEulerAngles().z());
+  const Angle error(to_raft - face);
+  PatronData* patron_data = Data<PatronData>(patron);
+  if (error.Abs() > patron_data->max_face_angle_away_from_raft) {
+    MoveToTarget(patron, transform_data->position, to_raft,
+                 patron_data->time_to_face_raft);
+    patron_data->move_state = kPatronMoveFaceRaft;
   }
 }
 
@@ -273,9 +293,14 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     // Move patron towards the target.
     UpdateMovement(patron);
 
+    // Set the patron's movement target.
     if (state == kPatronStateUpright &&
-        patron_data->catching_state != kCatchingStateMoveToTarget) {
+        patron_data->move_state != kPatronMoveStateMoveToTarget) {
       FindProjectileAndCatch(patron);
+    }
+    if ((state == kPatronStateUpright || state == kPatronStateGettingUp) &&
+        patron_data->move_state == kPatronMoveStateIdle) {
+      FaceRaft(patron);
     }
 
     RenderMeshComponent* rm_component =
@@ -582,7 +607,7 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
 
     // If returning from a previous attempt, limit how far from the initial
     // position to leave from again.
-    if (patron_data->catching_state == kCatchingStateReturn) {
+    if (patron_data->move_state == kPatronMoveStateReturn) {
       const float dist_sq =
           (return_position_xy - closest_position_ignore_height_xy)
               .LengthSquared();
@@ -635,7 +660,7 @@ void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
   if (closest_projectile != nullptr) {
     MoveToTarget(patron, closest_position, closest_face_angle, closest_time);
     PatronData* patron_data = GetComponentData(patron);
-    patron_data->catching_state = kCatchingStateMoveToTarget;
+    patron_data->move_state = kPatronMoveStateMoveToTarget;
     // If this is on a rail, we want to disable it until we are done.
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
@@ -654,7 +679,7 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   const Angle face_angle(patron_transform->orientation.ToEulerAngles().z());
 
   // If moving from idle, store the current position to return to later.
-  if (patron_data->catching_state == kCatchingStateIdle) {
+  if (patron_data->move_state == kPatronMoveStateIdle) {
     patron_data->return_position = position;
   }
 

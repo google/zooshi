@@ -94,6 +94,13 @@ table PatronDef {
 
   // The height above the patron at which to spawn the happy-indicator.
   point_display_height:float = 10.0;
+
+  // The angle beyond which the patron should turn to face the raft, in degrees.
+  // This is the maximum we allow the patron to face away from the raft.
+  max_face_angle_away_from_raft:float = 90.0;
+
+  // The time to take turning to face the raft, in seconds.
+  time_to_face_raft:float = 0.2;
 }
 
 table PlayerDef {}
