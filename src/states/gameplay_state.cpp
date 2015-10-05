@@ -118,6 +118,8 @@ void GameplayState::Render(Renderer* renderer) {
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
   if (!fader_->Finished()) {
+    renderer->model_view_projection() =
+        mat4::Ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
     fader_->Render(renderer);
   }
 }
