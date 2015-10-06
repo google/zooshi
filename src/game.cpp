@@ -129,7 +129,6 @@ Game::Game()
       graph_factory_(&event_system_, &LoadFile, &audio_engine_),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
-      prev_render_time_(0),
       game_exiting_(false),
       audio_config_(nullptr),
       world_(),
@@ -404,6 +403,8 @@ bool Game::Initialize(const char* const binary_directory) {
 
   SetRelativeMouseMode(true);
 
+  SetPerformanceMode(kHighPerformance);
+
   scene_lab_.reset(new scene_lab::SceneLab());
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
@@ -502,6 +503,7 @@ struct UpdateThreadData {
   Renderer* renderer;
   pindrop::AudioEngine* audio_engine;
   GameSynchronization* sync;
+  WorldTime frame_start;
 };
 
 // This is the thread that handles all of our actual game logic updates:
@@ -523,6 +525,8 @@ static int UpdateThread(void* data) {
   args.group =
       nullptr;  // you might want to assign the java thread to a ThreadGroup
   jvm->AttachCurrentThread(&update_env, &args);
+
+  WorldTime last_android_refresh = CurrentWorldTime();
 #endif  //__ANDROID__
 
   SDL_LockMutex(sync.updatethread_mutex_);
@@ -597,9 +601,6 @@ static int VsyncSimulatorThread(void* /*data*/) {
 //    next frame.  Once complete, it also goes to sleep and waits for the next
 //    vsync event.
 void Game::Run() {
-  // Initialize so that we don't sleep the first time through the loop.
-  prev_render_time_ = CurrentWorldTime() - kMinUpdateTime;
-
   // Start the update thread:
   UpdateThreadData rt_data(&game_exiting_, &world_, &state_machine_, &renderer_,
                            &audio_engine_, &sync_);
@@ -613,6 +614,13 @@ void Game::Run() {
     LogError("Error creating update thread.");
     assert(false);
   }
+
+#if DISPLAY_FRAMERATE_HISTOGRAM
+  for (int i = 0; i < kHistogramSize; i++) {
+    histogram[i] = 0;
+  }
+  last_printout = 0;
+#endif
 
   global_vsync_context = &sync_;
 #ifdef __ANDROID__
@@ -651,8 +659,7 @@ void Game::Run() {
     SystraceEnd();
 
     // Milliseconds elapsed since last update.
-    const WorldTime world_time = CurrentWorldTime();
-    prev_render_time_ = world_time;
+    rt_data.frame_start = CurrentWorldTime();
 
     // -------------------------------------------
     // Step 3.
@@ -702,7 +709,10 @@ void Game::Run() {
     }
 
     int new_time = CurrentWorldTime();
-    int frame_time = new_time - world_time;
+    int frame_time = new_time - rt_data.frame_start;
+#if DISPLAY_FRAMERATE_HISTOGRAM
+    UpdateProfiling(frame_time);
+#endif
 
     SystraceCounter("FrameTime", frame_time);
   }
@@ -715,6 +725,65 @@ void Game::Run() {
   // TODO: Move this call to SDL_Quit to FPLBase.
   SDL_Quit();
 }
+
+
+#if DISPLAY_FRAMERATE_HISTOGRAM
+static const int kSampleDuration = 5; // in seconds
+static const int kTargetFPS = 60; // Used for calculating dropped frames
+static const int kTargetFramesPerSample = kSampleDuration * kTargetFPS;
+
+// Collect framerate sample data, and print out nice histograms and statistics
+// every five seconds.
+void Game::UpdateProfiling(WorldTime frame_time) {
+  if (frame_time >= 0 && frame_time < kHistogramSize) {
+    histogram[frame_time]++;
+  }
+  int current_time = CurrentWorldTime();
+  if (current_time > last_printout + kMillisecondsPerSecond * kSampleDuration) {
+    int highest = -1;
+    int lowest = kHistogramSize;
+    for (int i = 0; i < kHistogramSize; i++) {
+      if (histogram[i] != 0) {
+        if (i > highest) highest = i;
+        if (i < lowest) lowest = i;
+      }
+    }
+
+    last_printout = current_time;
+    LogInfo("Framerate Breakdown:");
+    LogInfo("---------------------------------");
+    WorldTime total = 0;
+    int total_count = 0;
+    WorldTime median = -1;
+    int median_value = -1;
+
+    for (int i = lowest; i <= highest; i++) {
+      std::string s = "%d:";
+      for (int j = 0; j < histogram[i]; j+=4) {
+        s += "*";
+      }
+      s += " (%d)";
+      LogInfo(s.c_str(), i, histogram[i]);
+      total += histogram[i] * i;
+      total_count += histogram[i];
+      if (median == -1 || histogram[i] > median_value) {
+        median = i;
+        median_value = histogram[i];
+      }
+      histogram[i] = 0;
+    }
+    LogInfo("---------------------------------");
+    LogInfo("total frames: %d", total_count);
+    LogInfo("average: %f", (float)total/(float)total_count);
+    LogInfo("median: %d", median);
+    LogInfo("dropped frames: %d / %d (%d%%)",
+            (kTargetFramesPerSample - total_count), kTargetFramesPerSample,
+            (100 * (kTargetFramesPerSample - total_count)) /
+                kTargetFramesPerSample);
+    LogInfo("---------------------------------");
+  }
+}
+#endif
 
 }  // zooshi
 }  // fpl
