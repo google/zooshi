@@ -56,6 +56,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -90,6 +96,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
@@ -130,6 +142,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -164,6 +182,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
@@ -204,6 +228,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -238,6 +268,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
@@ -278,6 +314,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -312,6 +354,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
@@ -352,6 +400,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -367,7 +421,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": -180
+              "z": 180
             }
           }
         }
@@ -386,6 +440,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
@@ -426,6 +486,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -463,6 +529,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -478,7 +550,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 76
+              "z": 76.000008
             }
           }
         }
@@ -497,6 +569,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
@@ -537,6 +615,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -574,6 +658,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -608,6 +698,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
@@ -968,6 +1064,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -1005,6 +1107,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -1020,7 +1128,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 141
+              "z": 108.000008
             }
           }
         }
@@ -1082,6 +1190,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -1095,7 +1209,7 @@
               "z": 7.081037
             },
             "orientation": {
-              "x": -9.000013,
+              "x": -9.000015,
               "y": -0,
               "z": 177
             }
@@ -1199,12 +1313,18 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 64.592636,
-              "y": 25.200367,
-              "z": 1.500002
+              "x": 65.824844,
+              "y": 24.490244,
+              "z": 1.250002
             },
             "scale": {
               "x": 6.23282,
@@ -1214,7 +1334,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -73.000038
+              "z": -57.40007
             }
           }
         }
@@ -1276,6 +1396,12 @@
           }
         },
         {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -1310,6 +1436,12 @@
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "AnimationDef",
+          "data": {
+            "anim_table_object": 9
           }
         },
         {
