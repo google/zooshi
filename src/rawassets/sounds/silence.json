@@ -1,0 +1,17 @@
+{
+  "name": "silence",
+  "bus": "silence",
+  "stream": false,
+  "loop": true,
+  "gain": 0,
+
+  "audio_sample_set": [
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/silence.ogg"
+      }
+    }
+  ]
+}
+

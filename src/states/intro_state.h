@@ -39,7 +39,7 @@ public:
   IntroState();
   virtual ~IntroState() {}
   void Initialize(InputSystem* input_system, World* world, const Config* config,
-                  FullScreenFader* fader);
+                  FullScreenFader* fader, pindrop::AudioEngine* audio_engine);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
@@ -51,21 +51,34 @@ protected:
 
   // The world so that we can get the player.
   World* world_;
+
   // The input system so that we can get input.
   InputSystem* input_system_;
+
   // Fade the screen.
   FullScreenFader* fader_;
+
   // Time after fade triggered and before fade started. In milliseconds.
   // Also takes values kFadeTimerPending before being triggered,
   // and kFadeTimerComplete after completing.
   int fade_timer_;
+
+  // Pause the audio in this state.
+  pindrop::AudioEngine* audio_engine_;
+
+  // Pindrop does not currenlty have a way to manually duck buses, so we instead
+  // play a silent audio clip to get the desired fade out.
+  // b/24704836
+  pindrop::SoundHandle silence_handle_;
+  pindrop::Channel silence_channel_;
+
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD
   Camera cardboard_camera_;
 #endif  // ANDROID_CARDBOARD$
 };
 
-}  // zooshi
+}  // fpl_project
 }  // fpl
 
 #endif  // ZOOSHI_INTRO_STATE_H_
