@@ -44,7 +44,7 @@ static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
   };
 
   HeadMountedDisplayRender(input_system, &renderer, kGreenishColor,
-                           render_callback);
+                           render_callback, false);
 #else
   (void)renderer;
   (void)world;
