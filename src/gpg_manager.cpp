@@ -269,9 +269,7 @@ void GPGManager::IncrementAchievement(std::string achievement_id) {
 #ifndef USING_GOOGLE_PLAY_GAMES
     (void)achievement_id;
 #else
-    if (LoggedIn()) {
-      game_services_->Achievements().Increment(achievement_id);
-    }
+    game_services_->Achievements().Increment(achievement_id);
 #endif
   }
 }
