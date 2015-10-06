@@ -35,7 +35,7 @@ struct ActionDef;
 
 class PlayerData {
  public:
-  PlayerData() : on_fire_(nullptr), input_controller_(nullptr) {}
+  PlayerData() : input_controller_(nullptr) {}
 
   mathfu::vec3 GetFacing() const { return input_controller_->facing().Value(); }
   mathfu::vec3 GetUp() const { return input_controller_->up().Value(); }
@@ -45,23 +45,11 @@ class PlayerData {
     input_controller_ = input_controller;
   }
 
-  const ActionDef* on_fire() const { return on_fire_; }
-  void set_on_fire(const ActionDef* on_fire) { on_fire_ = on_fire; }
-  const std::vector<unsigned char>& on_fire_flatbuffer() const {
-    return on_fire_flatbuffer_;
-  }
-  void set_on_fire_flatbuffer(
-      const std::vector<unsigned char>& on_fire_flatbuffer) {
-    on_fire_flatbuffer_ = on_fire_flatbuffer;
-  }
-
   std::set<std::string>& get_patrons_feed_status() {
     return patrons_feed_status_;
   }
 
  private:
-  const ActionDef* on_fire_;
-  std::vector<unsigned char> on_fire_flatbuffer_;
   BasePlayerController* input_controller_;
   std::set<std::string> patrons_feed_status_;
 };
