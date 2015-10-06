@@ -12,17 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_ZOOSHI_MODULES_DEBUG_H_
-#define FPL_ZOOSHI_MODULES_DEBUG_H_
+#ifndef FPL_ZOOSHI_MODULES_ZOOSHI_H_
+#define FPL_ZOOSHI_MODULES_ZOOSHI_H_
 
 #include "breadboard/event_system.h"
+#include "components/services.h"
+#include "entity/entity_manager.h"
 
 namespace fpl {
 namespace zooshi {
 
-void InitializeDebugModule(breadboard::EventSystem* event_system);
+void InitializeZooshiModule(breadboard::EventSystem* event_system,
+                            ServicesComponent* services_component);
 
 }  // zooshi
 }  // fpl
 
-#endif  // FPL_ZOOSHI_MODULES_DEBUG_H_
+#endif  // FPL_ZOOSHI_MODULES_ZOOSHI_H_

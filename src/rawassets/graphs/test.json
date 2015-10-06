@@ -17,7 +17,7 @@
       ]
     },
     {
-      "module": "entity",
+      "module": "zooshi",
       "name": "player_entity",
       "input_edge_list": [
         {

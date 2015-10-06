@@ -18,17 +18,18 @@
 #include "breadboard/event_system.h"
 #include "component_library/graph.h"
 #include "components/rail_denizen.h"
-#include "modules/entity.h"
+#include "module_library/entity.h"
 
 namespace fpl {
 namespace zooshi {
 
-typedef ComponentDataRef<RailDenizenComponent> RailDenizenDataRef;
+typedef module_library::ComponentDataRef<RailDenizenComponent>
+    RailDenizenDataRef;
 
 void InitializeRailDenizenModule(
     breadboard::EventSystem* event_system,
     RailDenizenComponent* rail_denizen_component,
-    fpl::component_library::GraphComponent* graph_component);
+    component_library::GraphComponent* graph_component);
 
 }  // zooshi
 }  // fpl

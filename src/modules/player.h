@@ -12,24 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FPL_ZOOSHI_MODULES_TRANSFORM_H_
-#define FPL_ZOOSHI_MODULES_TRANSFORM_H_
+#ifndef FPL_ZOOSHI_MODULES_PLAYER_H_
+#define FPL_ZOOSHI_MODULES_PLAYER_H_
 
 #include "breadboard/event_system.h"
-#include "component_library/transform.h"
-#include "modules/entity.h"
+#include "module_library/entity.h"
+#include "component_library/graph.h"
+#include "components/player.h"
 
 namespace fpl {
 namespace zooshi {
 
-typedef ComponentDataRef<fpl::component_library::TransformComponent>
-    TransformDataRef;
+typedef module_library::ComponentDataRef<PlayerComponent> PlayerDataRef;
 
-void InitializeTransformModule(
-    breadboard::EventSystem* event_system,
-    fpl::component_library::TransformComponent* transform_component);
+void InitializePlayerModule(breadboard::EventSystem* event_system,
+                            PlayerComponent* player_component,
+                            component_library::GraphComponent* graph_component);
 
 }  // zooshi
 }  // fpl
 
-#endif  // FPL_ZOOSHI_MODULES_TRANSFORM_H_
+#endif  // FPL_ZOOSHI_MODULES_PLAYER_H_

@@ -24,6 +24,14 @@
 #include "audio_config_generated.h"
 #include "breadboard/graph.h"
 #include "breadboard/log.h"
+#include "module_library/animation.h"
+#include "module_library/common.h"
+#include "module_library/audio.h"
+#include "module_library/entity.h"
+#include "module_library/logic.h"
+#include "module_library/physics.h"
+#include "module_library/transform.h"
+#include "module_library/vec3.h"
 #include "common.h"
 #include "entity/entity.h"
 #include "fplbase/input.h"
@@ -33,22 +41,13 @@
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
-#include "modules/animation.h"
 #include "modules/attributes.h"
-#include "modules/audio.h"
-#include "modules/debug.h"
-#include "modules/entity.h"
 #include "modules/gpg.h"
-#include "modules/logic.h"
-#include "modules/math.h"
-#include "modules/physics.h"
-#include "modules/patron_module.h"
-#include "modules/player_module.h"
+#include "modules/patron.h"
+#include "modules/player.h"
 #include "modules/rail_denizen.h"
 #include "modules/state.h"
-#include "modules/string.h"
-#include "modules/transform.h"
-#include "modules/vec3.h"
+#include "modules/zooshi.h"
 #include "motive/init.h"
 #include "motive/io/flatbuffers.h"
 #include "motive/math/angle.h"
@@ -310,33 +309,35 @@ void Game::InitializeEventSystem() {
 
   breadboard::TypeRegistry<AttributesDataRef>::RegisterType("AttributesData");
   breadboard::TypeRegistry<RailDenizenDataRef>::RegisterType("RailDenizenData");
-  breadboard::TypeRegistry<TransformDataRef>::RegisterType("TransformData");
+  breadboard::TypeRegistry<module_library::TransformDataRef>::RegisterType(
+      "TransformData");
   breadboard::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
   breadboard::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
   breadboard::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
   breadboard::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
 
-  InitializeAnimationModule(&event_system_, &world_.graph_component);
+  module_library::InitializeCommonModules(&event_system_);
+
   InitializeAttributesModule(&event_system_, &world_.attributes_component,
                              &world_.graph_component);
-  InitializeAudioModule(&event_system_, &audio_engine_);
-  InitializeDebugModule(&event_system_);
-  InitializeEntityModule(&event_system_, &world_.services_component,
-                         &world_.meta_component, &world_.graph_component);
   InitializeGpgModule(&event_system_, &GetConfig(), &gpg_manager_);
-  InitializeLogicModule(&event_system_);
-  InitializeMathModule(&event_system_);
   InitializePatronModule(&event_system_, &world_.patron_component);
   InitializePlayerModule(&event_system_, &world_.player_component,
                          &world_.graph_component);
-  InitializePhysicsModule(&event_system_, &world_.physics_component,
-                          &world_.graph_component);
   InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
                               &world_.graph_component);
   InitializeStateModule(&event_system_, gameplay_state_.requested_state());
-  InitializeStringModule(&event_system_);
-  InitializeTransformModule(&event_system_, &world_.transform_component);
-  InitializeVec3Module(&event_system_);
+  InitializeZooshiModule(&event_system_, &world_.services_component);
+  module_library::InitializeAnimationModule(&event_system_,
+                                        &world_.graph_component);
+  module_library::InitializeAudioModule(&event_system_, &audio_engine_);
+  module_library::InitializeEntityModule(&event_system_, &world_.meta_component,
+                                         &world_.graph_component);
+  module_library::InitializePhysicsModule(
+      &event_system_, &world_.physics_component, &world_.graph_component);
+  module_library::InitializeTransformModule(&event_system_,
+                                            &world_.transform_component);
+  module_library::InitializeVec3Module(&event_system_);
 }
 
 // Pause the audio when the game loses focus.

@@ -57,6 +57,9 @@ set(dependencies_fplutil_dir "${fpl_root}/fplutil"
     CACHE PATH "Directory containing the fplutil library.")
 set(dependencies_breadboard_dir "${fpl_root}/breadboard"
     CACHE PATH "Directory containing the breadboard library.")
+set(dependencies_module_library_dir
+    "${dependencies_breadboard_dir}/module_library" CACHE PATH
+    "Directory containing the breadboard module library.")
 set(dependencies_pindrop_dir "${fpl_root}/pindrop"
     CACHE PATH "Directory containing the pindrop library.")
 set(dependencies_fplbase_dir "${fpl_root}/fplbase"
@@ -278,38 +281,20 @@ set(zooshi_SRCS
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
     src/main.cpp
-    src/modules/animation.cpp
-    src/modules/animation.h
     src/modules/attributes.cpp
     src/modules/attributes.h
-    src/modules/audio.cpp
-    src/modules/audio.h
-    src/modules/debug.cpp
-    src/modules/debug.h
-    src/modules/entity.cpp
-    src/modules/entity.h
     src/modules/gpg.cpp
     src/modules/gpg.h
-    src/modules/logic.cpp
-    src/modules/logic.h
-    src/modules/math.cpp
-    src/modules/math.h
-    src/modules/patron_module.cpp
-    src/modules/patron_module.h
-    src/modules/physics.cpp
-    src/modules/physics.h
-    src/modules/player_module.cpp
-    src/modules/player_module.h
+    src/modules/patron.cpp
+    src/modules/patron.h
+    src/modules/player.cpp
+    src/modules/player.h
     src/modules/rail_denizen.cpp
     src/modules/rail_denizen.h
     src/modules/state.cpp
     src/modules/state.h
-    src/modules/string.cpp
-    src/modules/string.h
-    src/modules/transform.cpp
-    src/modules/transform.h
-    src/modules/vec3.cpp
-    src/modules/vec3.h
+    src/modules/zooshi.cpp
+    src/modules/zooshi.h
     src/railmanager.cpp
     src/railmanager.h
     src/states/game_over_state.cpp
@@ -359,6 +344,7 @@ include_directories(${dependencies_bulletphysics_distr_dir}/src)
 include_directories(${dependencies_entity_dir}/include)
 include_directories(${dependencies_component_library_dir}/include)
 include_directories(${dependencies_breadboard_dir}/include)
+include_directories(${dependencies_module_library_dir}/include)
 include_directories(${dependencies_flatbuffers_dir}/include)
 include_directories(${dependencies_fplbase_dir}/include)
 include_directories(${dependencies_fplutil_dir}/libfplutil/include)
@@ -424,9 +410,10 @@ target_link_libraries(zooshi
   fplbase
   flatui
   flatbuffers
+  breadboard
   entity
   component_library
-  breadboard
+  module_library
   scene_lab
   pindrop
   BulletDynamics

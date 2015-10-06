@@ -2,7 +2,7 @@
 {
   "node_list": [
     {
-      "module": "entity",
+      "module": "zooshi",
       "name": "player_entity",
       "input_edge_list": [
         {
@@ -39,7 +39,7 @@
           "edge": {
             "value": "SushiChef"
           }
-        },
+        }
       ]
     },
     {
@@ -58,7 +58,7 @@
           "edge": {
             "value": "SushiNinja"
           }
-        },
+        }
       ]
     },
     {

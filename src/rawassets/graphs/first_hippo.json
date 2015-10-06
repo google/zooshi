@@ -53,7 +53,7 @@
     },
     {
       "module": "logic",
-      "name": "boolean_pulse",
+      "name": "if",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "module": "entity",
+      "module": "zooshi",
       "name": "raft_entity",
       "input_edge_list": [
         {
