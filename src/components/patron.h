@@ -53,30 +53,34 @@ enum PatronState {
   kPatronStateGettingUp,
 };
 
-enum CatchingState {
+enum PatronMoveState {
   // The normal state, when the patron is not reaching to thrown sushi.
-  kCatchingStateIdle,
+  kPatronMoveStateIdle,
 
   // Moving to where the patron believes it can intercept sushi.
-  kCatchingStateMoveToTarget,
+  kPatronMoveStateMoveToTarget,
 
   // Returning to the position it left when it decided to move to the sushi.
-  kCatchingStateReturn
+  kPatronMoveStateReturn,
+
+  // Turning to face the raft.
+  kPatronMoveFaceRaft
 };
 
 // Data for scene object components.
 struct PatronData {
   PatronData()
       : state(kPatronStateLayingDown),
-        catching_state(kCatchingStateIdle),
+        move_state(kPatronMoveStateIdle),
         anim_object(AnimObject_HungryHippo),
-        last_lap_fed(-1.0f) {}
+        last_lap_fed(-1.0f),
+        time_to_face_raft(0.0f) {}
 
   // Whether the patron is standing up or falling down.
   PatronState state;
 
   // Describes the behavior of the patron moving to catch sushi.
-  CatchingState catching_state;
+  PatronMoveState move_state;
 
   // The type of patron being animated. Each patron has its own set of
   // animations.
@@ -141,6 +145,13 @@ struct PatronData {
 
   // The height above the patron at which to spawn the happy-indicator.
   float point_display_height;
+
+  // The angle beyond which the patron should turn to face the raft, in degrees.
+  // This is the maximum we allow the patron to face away from the raft.
+  Angle max_face_angle_away_from_raft;
+
+  // The time to take turning to face the raft, in seconds.
+  float time_to_face_raft;
 };
 
 class PatronComponent : public entity::Component<PatronData> {
@@ -180,6 +191,7 @@ class PatronComponent : public entity::Component<PatronData> {
   void MoveToTarget(const entity::EntityRef& patron,
                     const mathfu::vec3& target_position,
                     Angle target_face_angle, float target_time);
+  void FaceRaft(const entity::EntityRef& patron);
 
   const Config* config_;
 };

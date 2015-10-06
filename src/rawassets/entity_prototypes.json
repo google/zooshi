@@ -836,6 +836,8 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "point_display_height": 6.5,
+            "max_face_angle_away_from_raft": 30,
+            "time_to_face_raft": 0.4,
             "min_lap": 0.01,
             "max_lap": -1,
             "target_tag": "Mouth"
@@ -980,6 +982,8 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "point_display_height": 6.5,
+            "max_face_angle_away_from_raft": 25,
+            "time_to_face_raft": 0.2,
             "min_lap": 0.01,
             "max_lap": -1,
             "target_tag": "Mouth"
@@ -1145,6 +1149,8 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "point_display_height": 6.5,
+            "max_face_angle_away_from_raft": 40,
+            "time_to_face_raft": 1.2,
             "min_lap": 0.01,
             "max_lap": -1,
             "target_tag": "Mouth"
@@ -1299,6 +1305,8 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "point_display_height": 6.5,
+            "max_face_angle_away_from_raft": 180,
+            "time_to_face_raft": 1.0,
             "min_lap": 0,
             "max_lap": 0
           }
@@ -1372,6 +1380,8 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "point_display_height": 3,
+            "max_face_angle_away_from_raft": 180,
+            "time_to_face_raft": 1.0,
             "min_lap": 0.01,
             "max_lap": -1
           }
@@ -1548,6 +1558,8 @@
             "pop_in_radius": 50,
             "pop_out_radius": 60,
             "point_display_height": 11,
+            "max_face_angle_away_from_raft": 30,
+            "time_to_face_raft": 0.4,
             "min_lap": 0.01,
             "max_lap": -1,
             "target_tag": "Mouth"
