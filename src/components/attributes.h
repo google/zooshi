@@ -34,9 +34,9 @@ class AttributesData {
     for (int i = 0; i < AttributeDef_Size; ++i) {
       attributes[i] = 0;
     }
-    // Start the game with a requirement of 15 points.
+    // Start the game with a requirement of 20 points.
     // TODO: Move this into a data file.
-    attributes[AttributeDef_TargetScore] = 15;
+    attributes[AttributeDef_TargetScore] = 20;
   }
 
   float attributes[AttributeDef_Size];

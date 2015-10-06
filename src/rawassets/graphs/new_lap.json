@@ -266,7 +266,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": "fpl.fpl_project.AttributeDef.TargetScore"
+            "value": "fpl.fpl_project.AttributeDef.PatronsFed"
           }
         }
       ]
@@ -285,7 +285,7 @@
         {
           "edge_type": "Float",
           "edge": {
-            "value": 15
+            "value": 20
           }
         }
       ]
@@ -373,8 +373,78 @@
           "edge": {
             "value": "ADeliciousCycle"
           }
-        },
+        }
       ]
     },
+    {
+      "module": "audio",
+      "name": "play_sound",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 8,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "SoundHandle",
+          "edge": {
+            "value": "successful_lap"
+          }
+        },
+        {
+          "edge_type": "Vec3",
+          "edge": {
+            "value": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "module": "audio",
+      "name": "play_sound",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 8,
+            "edge_index": 1
+          }
+        },
+        {
+          "edge_type": "SoundHandle",
+          "edge": {
+            "value": "unsuccessful_lap"
+          }
+        },
+        {
+          "edge_type": "Vec3",
+          "edge": {
+            "value": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 1.0
+          }
+        }
+      ]
+    }
   ]
 }
