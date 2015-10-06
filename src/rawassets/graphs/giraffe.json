@@ -123,7 +123,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 6,
+            "node_index": 18,
             "edge_index": 0
           }
         }
@@ -252,7 +252,7 @@
       ]
     },
     {
-      // Node 12: Set flag for the patron.
+      // Node 14: Set flag for the patron.
       "module": "player",
       "name": "fed_patron",
       "input_edge_list": [
@@ -280,7 +280,7 @@
       ]
     },
     {
-      // Node 13: Check condition.
+      // Node 15: Check condition.
       "module": "player",
       "name": "check_all_patrons_fed",
       "input_edge_list": [
@@ -294,7 +294,7 @@
       ]
     },
     {
-      // Node 14: Grant achievement if the condition met.
+      // Node 16: Grant achievement if the condition met.
       "module": "gpg",
       "name": "grant_achievement",
       "input_edge_list": [
@@ -310,7 +310,40 @@
           "edge": {
             "value": "AllYouCanEat"
           }
+        }
+      ]
+    },
+    {
+      "module": "patron",
+      "name": "patron_upright",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "logic",
+      "name": "and",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 17,
+            "edge_index": 0
+          }
         },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 6,
+            "edge_index": 0
+          }
+        }
       ]
     }
   ]
