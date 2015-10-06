@@ -6,7 +6,8 @@
       "child_buses": [
         "sound_effects",
         "voices",
-        "music"
+        "music",
+        "silence"
       ]
     },
     {
@@ -62,6 +63,16 @@
       "name": "gameplay_music",
       "gain": 1.0,
       "duck_gain": 0.1
+    },
+    {
+      "name": "silence",
+      "gain": 0.0,
+      "duck_gain": 0.0,
+      "duck_fade_in_time": 0.5,
+      "duck_fade_out_time": 0.5,
+      "duck_buses": [
+        "master"
+      ]
     }
   ]
 }

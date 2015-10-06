@@ -30,7 +30,8 @@ namespace fpl_project {
 
 static const int kFadeTimerPending = INT_MAX;
 static const int kFadeTimerComplete = INT_MAX - 1;
-static const int kFadeWaitTime = 500; // In milliseconds.
+static const int kFadeWaitTime = 500;  // In milliseconds.
+static const char* kSilenceHandle = "silence";
 
 IntroState::IntroState()
     : world_(nullptr),
@@ -39,11 +40,13 @@ IntroState::IntroState()
       fade_timer_(kFadeTimerPending) {}
 
 void IntroState::Initialize(InputSystem* input_system, World* world,
-                            const Config* config,
-                            FullScreenFader* fader) {
+                            const Config* config, FullScreenFader* fader,
+                            pindrop::AudioEngine* audio_engine) {
   input_system_ = input_system;
   world_ = world;
   fader_ = fader;
+  audio_engine_ = audio_engine;
+  silence_handle_ = audio_engine_->GetSoundHandle(kSilenceHandle);
 
 #ifdef ANDROID_CARDBOARD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
@@ -84,8 +87,7 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   }
 
   // Update the fade timer, if it's active.
-  if (fade_timer_ != kFadeTimerPending &&
-      fade_timer_ != kFadeTimerComplete) {
+  if (fade_timer_ != kFadeTimerPending && fade_timer_ != kFadeTimerComplete) {
     fade_timer_ -= delta_time;
   }
 
@@ -110,7 +112,7 @@ void IntroState::Render(Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_CARDBOARD
   cardboard_camera = &cardboard_camera_;
-#endif // ANDROID_CARDBOARD
+#endif  // ANDROID_CARDBOARD
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
   if (!fader_->Finished()) {
     renderer->model_view_projection() =
@@ -124,7 +126,7 @@ void IntroState::OnEnter(int /*previous_state*/) {
   input_system_->SetRelativeMouseMode(true);
 #ifdef ANDROID_CARDBOARD
   input_system_->cardboard_input().ResetHeadTracker();
-#endif // ANDROID_CARDBOARD
+#endif  // ANDROID_CARDBOARD
   // Move the player inside the intro box.
   auto player = world_->player_component.begin()->entity;
   auto player_transform =
@@ -133,6 +135,7 @@ void IntroState::OnEnter(int /*previous_state*/) {
   player_transform->position += mathfu::vec3(0, 0, 500);
   fade_timer_ = kFadeTimerPending;
   HideBox(false);
+  silence_channel_ = audio_engine_->PlaySound(silence_handle_);
 }
 
 void IntroState::OnExit(int /*next_state*/) {
@@ -141,7 +144,8 @@ void IntroState::OnExit(int /*next_state*/) {
   auto player_transform =
       world_->entity_manager.GetComponentData<TransformData>(player);
   player_transform->position = mathfu::vec3(0, 0, 0);
+  silence_channel_.Stop();
 }
 
-} // fpl_project
-} // fpl
+}  // fpl_project
+}  // fpl
