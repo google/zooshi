@@ -229,12 +229,6 @@ if(NOT zooshi_only_flatc)
                      COMMAND ${CMAKE_COMMAND} -E copy_directory
                          ${CMAKE_SOURCE_DIR}/src/rawassets/fonts
                          ${CMAKE_BINARY_DIR}/assets/fonts)
-
-  # Copy default Font resource files from FlatUI
-  add_custom_command(TARGET assets POST_BUILD
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                         ${dependencies_flatui_dir}/assets/fonts
-                         ${CMAKE_BINARY_DIR}/assets/fonts)
 endif()
 
 # zooshi source files.
