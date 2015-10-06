@@ -258,6 +258,7 @@ void GPGManager::UnlockAchievement(std::string achievement_id) {
     (void)achievement_id;
 #else
     game_services_->Achievements().Unlock(achievement_id);
+    LogInfo("GPG: unlock achievment for id %s", achievement_id.c_str());
 #endif
   }
 }
@@ -268,7 +269,9 @@ void GPGManager::IncrementAchievement(std::string achievement_id) {
 #ifndef USING_GOOGLE_PLAY_GAMES
     (void)achievement_id;
 #else
-    game_services_->Achievements().Increment(achievement_id);
+    if (LoggedIn()) {
+      game_services_->Achievements().Increment(achievement_id);
+    }
 #endif
   }
 }

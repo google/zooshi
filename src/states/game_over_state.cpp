@@ -143,8 +143,17 @@ void GameOverState::OnEnter(int /*previous_state*/) {
   input_system_->SetRelativeMouseMode(false);
 #ifdef USING_GOOGLE_PLAY_GAMES
   if (gpg_manager_->LoggedIn()) {
-    // Fill in Leaderboard list.
+    // Finished a game, post a score.
+    auto player = world_->player_component.begin()->entity;
+    auto attribute_data =
+        world_->entity_manager.GetComponentData<AttributesData>(player);
+    auto score = attribute_data->attributes[AttributeDef_PatronsFed];
     auto leaderboard_config = config_->gpg_config()->leaderboards();
+    gpg_manager_->SubmitScore(
+        leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str(),
+        score);
+
+    // Fill in Leaderboard list.
     gpg_manager_->ShowLeaderboards(
         leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str());
   }

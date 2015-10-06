@@ -60,11 +60,9 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
 
-      if (player_data->on_fire()) {
-        GraphData* graph_data = Data<GraphData>(iter->entity);
-        if (graph_data) {
-          graph_data->broadcaster.BroadcastEvent(kOnFireEventId);
-        }
+      GraphData* graph_data = Data<GraphData>(iter->entity);
+      if (graph_data) {
+        graph_data->broadcaster.BroadcastEvent(kOnFireEventId);
       }
     }
   }

@@ -194,19 +194,6 @@ void GameplayState::OnExit(int next_state) {
     music_channel_lap_2_.Stop();
     music_channel_lap_3_.Stop();
   }
-
-  if (next_state == kGameStateGameMenu) {
-    // Finished a game, post a score.
-    auto player =
-        entity_manager_->GetComponent<PlayerComponent>()->begin()->entity;
-    auto attribute_data =
-        entity_manager_->GetComponentData<AttributesData>(player);
-    auto score = attribute_data->attributes[AttributeDef_PatronsFed];
-    auto leaderboard_config = config_->gpg_config()->leaderboards();
-    gpg_manager_->SubmitScore(
-        leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str(),
-        score);
-  }
 }
 
 }  // fpl_project
