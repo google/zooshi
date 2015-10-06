@@ -13,16 +13,17 @@
     "sounds/fed_giraffe.bin",
     "sounds/fed_hippo.bin",
     "sounds/fed_lady_mandrill.bin",
-    "sounds/music_menu.bin",
+    "sounds/hit_char.bin",
+    "sounds/hit_ground.bin",
     "sounds/music_gameplay_lap_1.bin",
     "sounds/music_gameplay_lap_2.bin",
     "sounds/music_gameplay_lap_3.bin",
-    "sounds/hit_char.bin",
-    "sounds/hit_ground.bin",
+    "sounds/music_menu.bin",
     "sounds/pause.bin",
-    "sounds/point_scored.bin",
     "sounds/select.bin",
     "sounds/start.bin",
-    "sounds/throw.bin"
+    "sounds/successful_lap.bin",
+    "sounds/throw.bin",
+    "sounds/unsuccessful_lap.bin"
   ]
 }
