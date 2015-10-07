@@ -63,14 +63,9 @@ protected:
   // and kFadeTimerComplete after completing.
   int fade_timer_;
 
-  // Pause the audio in this state.
-  pindrop::AudioEngine* audio_engine_;
-
-  // Pindrop does not currenlty have a way to manually duck buses, so we instead
-  // play a silent audio clip to get the desired fade out.
-  // b/24704836
-  pindrop::SoundHandle silence_handle_;
-  pindrop::Channel silence_channel_;
+  // We need a pointer to the master bus to fade the audio when we enter this
+  // state.
+  pindrop::Bus master_bus_;
 
   Camera main_camera_;
 #ifdef ANDROID_CARDBOARD

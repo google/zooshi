@@ -31,7 +31,7 @@ namespace fpl_project {
 static const int kFadeTimerPending = INT_MAX;
 static const int kFadeTimerComplete = INT_MAX - 1;
 static const int kFadeWaitTime = 500;  // In milliseconds.
-static const char* kSilenceHandle = "silence";
+static const char* kMasterBus = "master";
 
 IntroState::IntroState()
     : world_(nullptr),
@@ -45,8 +45,7 @@ void IntroState::Initialize(InputSystem* input_system, World* world,
   input_system_ = input_system;
   world_ = world;
   fader_ = fader;
-  audio_engine_ = audio_engine;
-  silence_handle_ = audio_engine_->GetSoundHandle(kSilenceHandle);
+  master_bus_ = audio_engine->FindBus(kMasterBus);
 
 #ifdef ANDROID_CARDBOARD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
@@ -135,7 +134,7 @@ void IntroState::OnEnter(int /*previous_state*/) {
   player_transform->position += mathfu::vec3(0, 0, 500);
   fade_timer_ = kFadeTimerPending;
   HideBox(false);
-  silence_channel_ = audio_engine_->PlaySound(silence_handle_);
+  master_bus_.FadeTo(0.0f, kFadeWaitTime / kMillisecondsPerSecond);
 }
 
 void IntroState::OnExit(int /*next_state*/) {
@@ -144,7 +143,7 @@ void IntroState::OnExit(int /*next_state*/) {
   auto player_transform =
       world_->entity_manager.GetComponentData<TransformData>(player);
   player_transform->position = mathfu::vec3(0, 0, 0);
-  silence_channel_.Stop();
+  master_bus_.FadeTo(1.0f, kFadeWaitTime / kMillisecondsPerSecond);
 }
 
 }  // fpl_project
