@@ -77,9 +77,6 @@ set(dependencies_component_library_dir
     "${dependencies_entity_dir}/component_library"
     CACHE PATH "Directory containing the entity system component library")
 
-# Option to enable / disable the test build.
-option(zooshi_build_tests "Build tests for this project." ON)
-
 # Option to enable / disable the build of cwebp from source.
 option(zooshi_build_cwebp "Build cwebp from source." OFF)
 
@@ -434,13 +431,6 @@ target_link_libraries(zooshi
   BulletDynamics
   BulletCollision
   LinearMath)
-
-# Tests.
-if(NOT zooshi_only_flatc)
-  if(zooshi_build_tests)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/tests)
-  endif()
-endif()
 
 # Create a zipped tar of all the necessary files to run the game.
 add_custom_target(export
