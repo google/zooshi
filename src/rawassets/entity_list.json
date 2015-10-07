@@ -87,8 +87,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 47.058723,
-              "y": 23.097342,
+              "x": -0.001575,
+              "y": 49.998959,
               "z": 2
             },
             "scale": {
@@ -98,8 +98,8 @@
             },
             "orientation": {
               "x": 0,
-              "y": 0,
-              "z": -149.219437
+              "y": -0,
+              "z": 90
             },
             "child_ids": [
               "ActivePlayer",
@@ -172,6 +172,46 @@
           "data": {
             "entity_id": "$559e-aa73-14c2-022a",
             "prototype": "GroundPhysics"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "$1c0e-5db3-a033-47c3",
+            "prototype": "RockArch"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 9.798772,
+              "y": 51.069408,
+              "z": 1.800003
+            },
+            "scale": {
+              "x": 2,
+              "y": 2,
+              "z": 2
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -99.90007
+            },
+            "child_ids": [
+              "RockArch_RenderMesh"
+            ]
           }
         }
       ]

@@ -481,108 +481,6 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "$4140-8d23-5809-3080",
-            "prototype": "RockTall"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 8.444,
-              "y": 59.048,
-              "z": 4.3
-            },
-            "scale": {
-              "x": 1.1025,
-              "y": 1.1025,
-              "z": 1.3
-            },
-            "orientation": {
-              "x": -5.400091,
-              "y": -0.899915,
-              "z": -75.000023
-            },
-            "child_ids": [
-              "RockTall_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$4727-0c9d-e075-1516",
-            "prototype": "RockMid"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 11.6508,
-              "y": 45.1432,
-              "z": 6.875
-            },
-            "scale": {
-              "x": 0.746216,
-              "y": 0.746216,
-              "z": 0.746216
-            },
-            "orientation": {
-              "x": -109.500999,
-              "y": 6.599672,
-              "z": 74.100098
-            },
-            "child_ids": [
-              "RockMid_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$7561-494a-2546-6d6b",
-            "prototype": "RockShort"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 11.961864,
-              "y": 48.461853,
-              "z": 7.725
-            },
-            "scale": {
-              "x": 1.1025,
-              "y": 1.1025,
-              "z": 1.5025
-            },
-            "orientation": {
-              "x": 73.500023,
-              "y": 8.400017,
-              "z": 90.000618
-            },
-            "child_ids": [
-              "RockShort_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
             "entity_id": "$1b40-2826-35a4-1266",
             "prototype": "RockShort"
           }
@@ -604,108 +502,6 @@
               "x": 0.000002,
               "y": -2.099989,
               "z": -31.20043
-            },
-            "child_ids": [
-              "RockShort_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$1e5e-63ba-b832-c6bd",
-            "prototype": "RockTall"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 11.4972,
-              "y": 42.912601,
-              "z": 4.45
-            },
-            "scale": {
-              "x": 1.1025,
-              "y": 1.1025,
-              "z": 1.3
-            },
-            "orientation": {
-              "x": 7.199957,
-              "y": 2.100041,
-              "z": 104.699974
-            },
-            "child_ids": [
-              "RockTall_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$b47d-e8ac-297c-5e91",
-            "prototype": "RockMid"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 9.097163,
-              "y": 56.519951,
-              "z": 7.475
-            },
-            "scale": {
-              "x": 0.746216,
-              "y": 0.746216,
-              "z": 1.146216
-            },
-            "orientation": {
-              "x": 93.599167,
-              "y": 16.199697,
-              "z": 80.100151
-            },
-            "child_ids": [
-              "RockMid_RenderMesh"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "$5044-802a-a980-9326",
-            "prototype": "RockShort"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "position": {
-              "x": 9.485611,
-              "y": 52.454826,
-              "z": 7.725
-            },
-            "scale": {
-              "x": 0.876394,
-              "y": 0.876394,
-              "z": 1.876394
-            },
-            "orientation": {
-              "x": -85.500114,
-              "y": -4.500016,
-              "z": -113.099648
             },
             "child_ids": [
               "RockShort_RenderMesh"
@@ -1417,7 +1213,7 @@
               "z": 2.086895
             },
             "orientation": {
-              "x": -5.700078,
+              "x": -5.700079,
               "y": -3.299972,
               "z": -98.999077
             },
@@ -2949,7 +2745,7 @@
             "orientation": {
               "x": 18.000013,
               "y": 6.000008,
-              "z": 6.600436
+              "z": 6.600435
             },
             "child_ids": [
               "GrassDense_RenderMesh"
@@ -3831,8 +3627,8 @@
               "z": 2.18287
             },
             "orientation": {
-              "x": 3.000003,
-              "y": -2.999976,
+              "x": 3.000002,
+              "y": -2.999977,
               "z": -173.999985
             },
             "child_ids": [
