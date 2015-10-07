@@ -239,7 +239,7 @@
           "data_type": "DigitDef",
           "data" : {
             "render_pass" : ["Alpha"],
-            "shader": "shaders/textured_lit",
+            "shader": "shaders/textured_lit_cutout",
             "digit_mesh_list": [
               "meshes/digit_0.fplmesh",
               "meshes/digit_1.fplmesh",
@@ -537,7 +537,7 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/raft_sign.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shader": "shaders/textured_lit_cutout",
             "render_pass" : ["Alpha"]
           }
         }

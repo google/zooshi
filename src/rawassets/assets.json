@@ -67,6 +67,7 @@
     "shaders/textured",
     "shaders/textured_lit",
     "shaders/textured_lit_bank",
+    "shaders/textured_lit_cutout",
     "shaders/textured_skinned_lit",
     "shaders/textured_opaque",
     "shaders/textured_shadowed"

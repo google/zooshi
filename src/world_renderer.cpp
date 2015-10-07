@@ -46,6 +46,8 @@ void WorldRenderer::Initialize(World* world) {
       world->asset_manager->LoadShader("shaders/textured_lit_bank");
   textured_skinned_lit_shader_ =
       world->asset_manager->LoadShader("shaders/textured_skinned_lit");
+  textured_lit_cutout_shader_ =
+      world->asset_manager->LoadShader("shaders/textured_lit_cutout");
 }
 
 void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
@@ -152,6 +154,9 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
   float diffuse_intensity = shadow_intensity;
   vec4 diffuse =
       vec4(diffuse_intensity, diffuse_intensity, diffuse_intensity, 1.0f);
+
+  textured_lit_cutout_shader_->SetUniform("ambient_material", ambient);
+  textured_lit_cutout_shader_->SetUniform("diffuse_material", diffuse);
 
   textured_lit_shader_->SetUniform("ambient_material", ambient);
   textured_lit_shader_->SetUniform("diffuse_material", diffuse);
