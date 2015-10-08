@@ -160,9 +160,9 @@
               "z": 0.999999
             },
             "orientation": {
-              "x": -7.659691,
+              "x": -7.659692,
               "y": -4.739304,
-              "z": -38.814041
+              "z": -38.814037
             },
             "child_ids": [
               "PatronLadyMandrill_RenderMesh"
@@ -604,7 +604,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 101.078186
+              "z": 101.078194
             },
             "child_ids": [
               "PatronHungryHippo_RenderMesh"
