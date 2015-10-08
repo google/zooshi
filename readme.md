@@ -10,7 +10,7 @@ and toss sushi into the mouths of well-dressed animal patrons.
 games using a suite of open source game technologies from
 Fun Propulsion Labs at [Google][] such as [Breadboard][],
 [Entity System][], [FlatBuffers][], [FlatUI][], [fplbase][], [fplutil][],
-[Motive][], [WebP][], and [World Editor][].
+[Motive][], [Scene Lab][] and [WebP][].
 
 [Zooshi][] also demonstrates how to use the [Google Cardboard][] API, which
 is integrated into [fplbase][].
@@ -65,5 +65,6 @@ you would leave it in.
   [Motive]: http://google.github.io/motive/
   [Pie Noon]: http://google.github.io/pienoon/index.html
   [Programmer's Guide]: http://google.github.io/zooshi/zooshi_guide_overview.html
+  [Scene Lab]: http://google.github.io/scene_lab
   [WebP]: https://developers.google.com/speed/webp/?hl=en
   [Zooshi]: http://google.github.io/zooshi/
