@@ -25,7 +25,7 @@ class InputSystem;
 class AssetManager;
 class FontManager;
 
-namespace fpl_project {
+namespace zooshi {
 
 // Data for scene object components.
 class AttributesData {
@@ -55,10 +55,10 @@ class AttributesComponent : public entity::Component<AttributesData> {
   FontManager* font_manager_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::AttributesComponent,
-                              fpl::fpl_project::AttributesData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::AttributesComponent,
+                              fpl::zooshi::AttributesData)
 
 #endif  // FPL_COMPONENTS_ATTRIBUTES_H_

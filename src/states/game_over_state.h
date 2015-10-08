@@ -24,7 +24,7 @@
 #include "world.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 class GameOverState : public StateNode {
  public:
@@ -77,7 +77,7 @@ class GameOverState : public StateNode {
   Texture* background_game_over_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_GAME_OVER_STATE_H_

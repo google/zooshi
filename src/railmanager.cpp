@@ -24,7 +24,7 @@
 #include "rail_def_generated.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const float kSplineGranularity = 10.0f;
 
@@ -151,5 +151,5 @@ Rail *RailManager::GetRailFromComponents(
 
 void RailManager::Clear() { rail_map.clear(); }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

@@ -20,7 +20,7 @@
 #include "inputcontrollers/base_player_controller.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 class GamepadController : public BasePlayerController {
  public:
@@ -33,7 +33,7 @@ class GamepadController : public BasePlayerController {
   void UpdateButtons();
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_ANDROID_CARDBOARD_CONTROLLER_H

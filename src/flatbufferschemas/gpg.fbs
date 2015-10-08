@@ -16,7 +16,7 @@
 
 include "common.fbs";
 
-namespace fpl.fpl_project;
+namespace fpl.zooshi;
 table GPGLeaderboard {
   name:string(key);
   id:string;

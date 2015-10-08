@@ -22,7 +22,7 @@
 #include "mathfu/matrix_4x4.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Data for scene object components.
 struct ShadowControllerData {
@@ -37,10 +37,10 @@ class ShadowControllerComponent
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::ShadowControllerComponent,
-                              fpl::fpl_project::ShadowControllerData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::ShadowControllerComponent,
+                              fpl::zooshi::ShadowControllerData)
 
 #endif  // COMPONENTS_SHADOWCONTROLLER_H_

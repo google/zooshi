@@ -30,7 +30,7 @@ class WorldEditor;
 
 }  // editor
 
-namespace fpl_project {
+namespace zooshi {
 
 struct Config;
 struct InputConfig;
@@ -61,7 +61,7 @@ class WorldEditorState : public StateNode {
   editor::WorldEditor* world_editor_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_WORLD_EDITOR_STATE_H_

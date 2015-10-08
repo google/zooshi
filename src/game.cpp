@@ -76,7 +76,7 @@ using mathfu::mat4;
 using mathfu::quat;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const int kQuadNumVertices = 4;
 static const int kQuadNumIndices = 6;
@@ -282,15 +282,15 @@ bool Game::InitializeAssets() {
 }
 
 const Config& Game::GetConfig() const {
-  return *fpl::fpl_project::GetConfig(config_source_.c_str());
+  return *fpl::zooshi::GetConfig(config_source_.c_str());
 }
 
 const InputConfig& Game::GetInputConfig() const {
-  return *fpl::fpl_project::GetInputConfig(input_config_source_.c_str());
+  return *fpl::zooshi::GetInputConfig(input_config_source_.c_str());
 }
 
 const AssetManifest& Game::GetAssetManifest() const {
-  return *fpl::fpl_project::GetAssetManifest(asset_manifest_source_.c_str());
+  return *fpl::zooshi::GetAssetManifest(asset_manifest_source_.c_str());
 }
 
 void EventSystemLogFunc(const char* fmt, va_list args) { LogError(fmt, args); }
@@ -718,5 +718,5 @@ void Game::Run() {
   SDL_Quit();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

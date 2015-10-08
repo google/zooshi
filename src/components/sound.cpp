@@ -17,11 +17,11 @@
 #include "components/services.h"
 #include "pindrop/pindrop.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::SoundComponent,
-                            fpl::fpl_project::SoundData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SoundComponent,
+                            fpl::zooshi::SoundData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
@@ -61,5 +61,5 @@ void SoundComponent::AddFromRawData(entity::EntityRef& entity,
                                                  transform_data->position);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

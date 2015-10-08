@@ -25,7 +25,7 @@ namespace fpl {
 class Mesh;
 class Shader;
 
-namespace fpl_project {
+namespace zooshi {
 
 struct DigitData {
   AttributeDef attribute;
@@ -46,11 +46,11 @@ class DigitComponent : public entity::Component<DigitData> {
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::DigitComponent,
-                              fpl::fpl_project::DigitData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::DigitComponent,
+                              fpl::zooshi::DigitData)
 
 #endif  // FPL_ZOOSHI_COMPONENTS_SIGN_H_
 

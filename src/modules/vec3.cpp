@@ -21,7 +21,7 @@
 using mathfu::vec3;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Creates a vector from 3 floats.
 class Vec3Node : public breadboard::BaseNode {
@@ -163,5 +163,5 @@ void InitializeVec3Module(breadboard::EventSystem* event_system) {
   module->RegisterNode<DotProductNode>("dot_product");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

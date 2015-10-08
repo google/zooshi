@@ -21,7 +21,7 @@
 #include "modules/entity.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 typedef ComponentDataRef<RailDenizenComponent> RailDenizenDataRef;
 
@@ -30,7 +30,7 @@ void InitializeRailDenizenModule(
     RailDenizenComponent* rail_denizen_component,
     fpl::component_library::GraphComponent* graph_component);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_RAIL_DENIZEN_H_

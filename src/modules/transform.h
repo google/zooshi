@@ -20,7 +20,7 @@
 #include "modules/entity.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 typedef ComponentDataRef<fpl::component_library::TransformComponent>
     TransformDataRef;
@@ -29,7 +29,7 @@ void InitializeTransformModule(
     breadboard::EventSystem* event_system,
     fpl::component_library::TransformComponent* transform_component);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_TRANSFORM_H_

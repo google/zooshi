@@ -20,7 +20,7 @@
 #endif
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
 
@@ -100,5 +100,5 @@ gui::Event ImageButtonWithLabel(const Texture& tex, float size,
   return event;
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

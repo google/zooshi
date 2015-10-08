@@ -21,7 +21,7 @@
 #include "mathfu/glsl_mappings.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 template <class T>
 class LogicalInput {
@@ -104,7 +104,7 @@ class BasePlayerController {
   const InputConfig* input_config_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_BASE_PLAYER_CONTROLLER_H

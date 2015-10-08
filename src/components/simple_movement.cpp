@@ -17,11 +17,11 @@
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::SimpleMovementComponent,
-                            fpl::fpl_project::SimpleMovementData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SimpleMovementComponent,
+                            fpl::zooshi::SimpleMovementData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void SimpleMovementComponent::AddFromRawData(entity::EntityRef& entity,
                                              const void* raw_data) {
@@ -62,5 +62,5 @@ void SimpleMovementComponent::InitEntity(entity::EntityRef& entity) {
       entity);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

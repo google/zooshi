@@ -22,7 +22,7 @@
 #include "mathfu/matrix_4x4.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Data for scene object components.
 struct TimeLimitData {
@@ -41,10 +41,10 @@ class TimeLimitComponent : public entity::Component<TimeLimitData> {
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::TimeLimitComponent,
-                              fpl::fpl_project::TimeLimitData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::TimeLimitComponent,
+                              fpl::zooshi::TimeLimitData)
 
 #endif  // COMPONENTS_TIMELIMIT_H_

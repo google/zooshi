@@ -24,7 +24,7 @@
 using fpl::component_library::GraphComponent;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Returns the rail denizen component data of the given entity.
 class RailDenizenNode : public breadboard::BaseNode {
@@ -144,5 +144,5 @@ void InitializeRailDenizenModule(breadboard::EventSystem* event_system,
   module->RegisterNode<GetRailSpeedNode>("get_rail_speed");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

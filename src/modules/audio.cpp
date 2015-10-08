@@ -22,7 +22,7 @@
 using mathfu::vec3;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Plays the given sound. Also takes a gain and location arguments.
 // Returns the channel the sound is playing on as an output.
@@ -166,5 +166,5 @@ void InitializeAudioModule(breadboard::EventSystem* event_system,
   module->RegisterNode<LocationNode>("location");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

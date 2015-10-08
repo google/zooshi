@@ -20,7 +20,7 @@
 #include "component_library/camera_interface.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 static const mathfu::vec3 kCameraForward = mathfu::kAxisY3f;
 static const mathfu::vec3 kCameraSide = mathfu::kAxisX3f;
 static const mathfu::vec3 kCameraUp = mathfu::kAxisZ3f;
@@ -96,7 +96,7 @@ class Camera : public fpl::CameraInterface {
   float viewport_far_plane_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_CAMERA_H

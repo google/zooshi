@@ -24,7 +24,7 @@ using mathfu::mat4;
 using mathfu::quat;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const int kShadowMapTextureID = 7;
 // 45 degrees in radians:
@@ -185,5 +185,5 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

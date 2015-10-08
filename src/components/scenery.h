@@ -20,7 +20,7 @@
 #include "mathfu/glsl_mappings.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 enum SceneryState {
   kSceneryHide,       // Can be culled without visual glitches.
@@ -77,10 +77,10 @@ class SceneryComponent : public entity::Component<SceneryData> {
   const Config* config_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::SceneryComponent,
-                              fpl::fpl_project::SceneryData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::SceneryComponent,
+                              fpl::zooshi::SceneryData)
 
 #endif  // COMPONENTS_SCENERY_H_

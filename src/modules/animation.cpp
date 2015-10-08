@@ -23,7 +23,7 @@
 #include "entity/entity_manager.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using entity::EntityRef;
 using fpl::component_library::AnimationComponent;
@@ -70,5 +70,5 @@ void InitializeAnimationModule(breadboard::EventSystem* event_system,
                                               animation_complete_ctor);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

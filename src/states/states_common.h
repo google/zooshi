@@ -21,7 +21,7 @@
 #include "world.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Update the camera to the location of the player in the given world.
 void UpdateMainCamera(Camera* camera, World* world);
@@ -34,7 +34,7 @@ void RenderWorld(Renderer& renderer, World* world, Camera& camera,
 gui::Event ImageButtonWithLabel(const Texture &tex, float size,
                                 const gui::Margin &margin, const char *label);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_STATES_STATES_COMMON_H_

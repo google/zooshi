@@ -15,11 +15,11 @@
 #include "components/time_limit.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::TimeLimitComponent,
-                            fpl::fpl_project::TimeLimitData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::TimeLimitComponent,
+                            fpl::zooshi::TimeLimitData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
@@ -52,5 +52,5 @@ entity::ComponentInterface::RawDataUniquePtr TimeLimitComponent::ExportRawData(
   return fbb.ReleaseBufferPointer();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

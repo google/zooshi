@@ -24,7 +24,7 @@ class Renderer;
 class Material;
 class Shader;
 
-namespace fpl_project {
+namespace zooshi {
 
 enum FadeType {
   kFadeIn,
@@ -78,7 +78,7 @@ class FullScreenFader {
   bool opaque_;
 };
 
-}  // namespace fpl_project
+}  // namespace zooshi
 }  // namespace fpl
 
 #endif  // ZOOSHI_FULL_SCREEN_FADER_H

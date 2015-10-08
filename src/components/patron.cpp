@@ -32,11 +32,11 @@
 #include "motive/anim_table.h"
 #include "world.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PatronComponent,
-                            fpl::fpl_project::PatronData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PatronComponent,
+                            fpl::zooshi::PatronData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::AnimationComponent;
 using fpl::component_library::AnimationData;
@@ -709,5 +709,5 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
                                 target_time_ms));
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

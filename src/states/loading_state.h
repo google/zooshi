@@ -27,7 +27,7 @@ class AssetManager;
 class Material;
 class Shader;
 
-namespace fpl_project {
+namespace zooshi {
 
 struct AssetManifest;
 class FullScreenFader;

@@ -25,7 +25,7 @@
 
 using fpl::component_library::SerializableGraphState;
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const WorldTime kMaxProjectileDuration = 3 * kMillisecondsPerSecond;
 
@@ -47,10 +47,10 @@ class PlayerProjectileComponent
   virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PlayerProjectileComponent,
-                              fpl::fpl_project::PlayerProjectileData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
+                              fpl::zooshi::PlayerProjectileData)
 
 #endif  // COMPONENTS_PLAYER_PROJECTILE_H_

@@ -111,7 +111,7 @@ table DigitDef {
   // Must list 10 meshes.
   digit_mesh_list:[string];
   divisor:int = -1;
-  attrib:fpl.fpl_project.AttributeDef = Unspecified;
+  attrib:fpl.zooshi.AttributeDef = Unspecified;
   shader:string;
   render_pass: [RenderPass];
 }

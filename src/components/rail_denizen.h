@@ -27,7 +27,7 @@
 #include "railmanager.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 BREADBOARD_DECLARE_EVENT(kNewLapEventId)
 
@@ -87,10 +87,10 @@ class RailDenizenComponent : public entity::Component<RailDenizenData> {
   void OnEnterEditor();
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RailDenizenComponent,
-                              fpl::fpl_project::RailDenizenData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::RailDenizenComponent,
+                              fpl::zooshi::RailDenizenData)
 
 #endif  // COMPONENTS_RAIL_DENIZEN_H_

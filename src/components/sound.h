@@ -21,7 +21,7 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Data for scene object components.
 struct SoundData {
@@ -41,11 +41,11 @@ class SoundComponent : public entity::Component<SoundData> {
   pindrop::AudioEngine* audio_engine_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::SoundComponent,
-                              fpl::fpl_project::SoundData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::SoundComponent,
+                              fpl::zooshi::SoundData)
 
 #endif  // COMPONENTS_SOUND_H_
 

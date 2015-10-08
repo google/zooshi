@@ -27,7 +27,7 @@
 using fpl::component_library::GraphComponent;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Returns the attributes component data of the given entity.
 class AttributesNode : public breadboard::BaseNode {
@@ -109,5 +109,5 @@ void InitializeAttributesModule(breadboard::EventSystem* event_system,
   module->RegisterNode<SetAttributeNode>("set_attribute");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

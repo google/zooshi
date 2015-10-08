@@ -21,7 +21,7 @@
 #include "breadboard/event_system.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Compares two strings.
 class EqualsNode : public breadboard::BaseNode {
@@ -97,5 +97,5 @@ void InitializeStringModule(breadboard::EventSystem* event_system) {
   module->RegisterNode<ConcatNode>("concat");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

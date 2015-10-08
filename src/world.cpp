@@ -41,7 +41,7 @@ using mathfu::mat4;
 using mathfu::quat;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const char kEntityLibraryFile[] = "entity_prototypes.bin";
 static const char kComponentDefBinarySchema[] =
@@ -215,5 +215,5 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
   world->graph_component.PostLoadFixup();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

@@ -22,11 +22,11 @@
 #include "fplbase/utilities.h"
 #include "modules/event_ids.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AttributesComponent,
-                            fpl::fpl_project::AttributesData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::AttributesComponent,
+                            fpl::zooshi::AttributesData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void AttributesComponent::Init() {
   ServicesComponent* services =
@@ -51,5 +51,5 @@ entity::ComponentInterface::RawDataUniquePtr AttributesComponent::ExportRawData(
   return fbb.ReleaseBufferPointer();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

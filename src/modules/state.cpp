@@ -17,7 +17,7 @@
 #include "modules/state.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Sets an integer that informs the state machine what state it should
 // transition to next.
@@ -45,5 +45,5 @@ void InitializeStateModule(breadboard::EventSystem* event_system, int* state) {
   module->RegisterNode<RequestStateNode>("request_state", request_node_ctor);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

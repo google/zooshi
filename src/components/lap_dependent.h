@@ -20,7 +20,7 @@
 #include "entity/entity_manager.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Data for lap dependent components.
 struct LapDependentData {
@@ -47,10 +47,10 @@ class LapDependentComponent : public entity::Component<LapDependentData> {
   void DeactivateEntity(entity::EntityRef& entity);
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::LapDependentComponent,
-                              fpl::fpl_project::LapDependentData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::LapDependentComponent,
+                              fpl::zooshi::LapDependentData)
 
 #endif  // COMPONENTS_LAP_DEPENDENT_H_

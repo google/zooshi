@@ -18,11 +18,11 @@
 #include "breadboard/event_system.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void InitializeDebugModule(breadboard::EventSystem* event_system);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_DEBUG_H_

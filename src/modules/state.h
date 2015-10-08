@@ -18,11 +18,11 @@
 #include "breadboard/event_system.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void InitializeStateModule(breadboard::EventSystem* event_system, int* state);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_STATE_H_

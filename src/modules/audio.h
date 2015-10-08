@@ -19,12 +19,12 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void InitializeAudioModule(breadboard::EventSystem* event_system,
                            pindrop::AudioEngine* audio_engine);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_AUDIO_H_

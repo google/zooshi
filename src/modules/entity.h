@@ -21,7 +21,7 @@
 #include "entity/entity_manager.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 class ServicesComponent;
 
@@ -59,7 +59,7 @@ void InitializeEntityModule(breadboard::EventSystem* event_system,
                             component_library::MetaComponent* meta_component,
                             component_library::GraphComponent* graph_component);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_ENTITY_H_

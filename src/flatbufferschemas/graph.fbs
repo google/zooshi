@@ -15,7 +15,7 @@
 include "common.fbs";
 include "attributes.fbs";
 
-namespace fpl.fpl_project.graph;
+namespace fpl.zooshi.graph;
 
 table Pulse {
 }

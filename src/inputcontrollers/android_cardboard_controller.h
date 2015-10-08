@@ -21,7 +21,7 @@
 #include "inputcontrollers/base_player_controller.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 class AndroidCardboardController : public BasePlayerController {
  public:
@@ -32,7 +32,7 @@ class AndroidCardboardController : public BasePlayerController {
   void UpdateButtons();
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_ANDROID_CARDBOARD_CONTROLLER_H

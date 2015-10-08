@@ -23,7 +23,7 @@
 #include "rail_denizen.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Constant indicating a lap duration (1.0f + some threshold).
 // The threshold is for an edge case that the player feeds a patron for the next
@@ -119,5 +119,5 @@ void InitializePatronModule(breadboard::EventSystem* event_system,
                                                 check_delicious_cycle_ctor);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

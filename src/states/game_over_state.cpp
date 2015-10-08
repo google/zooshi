@@ -30,7 +30,7 @@
 #include "world.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void GameOverState::GameOverScreen(AssetManager& assetman, FontManager& fontman,
                                    InputSystem& input) {
@@ -160,5 +160,5 @@ void GameOverState::OnEnter(int /*previous_state*/) {
 #endif
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

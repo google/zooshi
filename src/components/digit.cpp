@@ -22,11 +22,11 @@
 #include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::DigitComponent,
-                            fpl::fpl_project::DigitData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::DigitComponent,
+                            fpl::zooshi::DigitData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
@@ -104,5 +104,5 @@ void DigitComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

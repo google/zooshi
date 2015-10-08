@@ -18,7 +18,7 @@
 #include "states/states_common.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using gui::TextButton;
 
@@ -311,5 +311,5 @@ void GameMenuState::OptionMenuAudio() {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

@@ -17,7 +17,7 @@
 #include "modules/logic.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // clang-format off
 #define LOGICAL_NODE(name, op)                                    \
@@ -91,5 +91,5 @@ void InitializeLogicModule(breadboard::EventSystem* event_system) {
   module->RegisterNode<NotNode>("not");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

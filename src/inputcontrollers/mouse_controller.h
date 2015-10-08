@@ -20,7 +20,7 @@
 #include "inputcontrollers/base_player_controller.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 class MouseController : public BasePlayerController {
  public:
@@ -31,7 +31,7 @@ class MouseController : public BasePlayerController {
   void UpdateButtons();
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_MOUSECONTROLLER_H

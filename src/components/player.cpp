@@ -27,11 +27,11 @@
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerComponent,
-                            fpl::fpl_project::PlayerData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PlayerComponent,
+                            fpl::zooshi::PlayerData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 BREADBOARD_DEFINE_EVENT(kOnFireEventId)
 
@@ -171,5 +171,5 @@ entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
   return fbb.ReleaseBufferPointer();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

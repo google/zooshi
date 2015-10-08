@@ -23,7 +23,7 @@
 #include "flatbuffers/flatbuffers.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 class ZooshiEntityFactory : public component_library::EntityFactory {
  public:
@@ -43,7 +43,7 @@ class ZooshiEntityFactory : public component_library::EntityFactory {
                                 std::vector<uint8_t>* entity_list);
 };
 
-}  // namespace fpl_project
+}  // namespace zooshi
 }  // namespace fpl
 
 #endif  // ZOOSHI_ENTITY_FACTORY_H_

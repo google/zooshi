@@ -21,11 +21,11 @@
 #include "flatbuffers/reflection.h"
 #include "pindrop/pindrop.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::PlayerProjectileComponent,
-                            fpl::fpl_project::PlayerProjectileData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
+                            fpl::zooshi::PlayerProjectileData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformComponent;
@@ -37,5 +37,5 @@ void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

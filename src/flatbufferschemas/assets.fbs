@@ -14,7 +14,7 @@
 
 include "anim_table.fbs";
 
-namespace fpl.fpl_project;
+namespace fpl.zooshi;
 
 // List of paths to all the assets we care about:
 table AssetManifest {

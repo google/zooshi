@@ -21,11 +21,11 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void InitializeGpgModule(breadboard::EventSystem* event_system,
                          const Config* config, GPGManager* gpg_manager);
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_GPG_H_

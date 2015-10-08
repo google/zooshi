@@ -21,7 +21,7 @@ namespace fpl {
 
 class Renderer;
 
-namespace fpl_project {
+namespace zooshi {
 
 class StateNode {
  public:
@@ -106,7 +106,7 @@ class StateMachine {
   StateNode* states_[state_count_];
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // STATE_MACHINE_H_

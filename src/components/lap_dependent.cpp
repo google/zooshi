@@ -19,11 +19,11 @@
 #include "components/rail_denizen.h"
 #include "components/services.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::LapDependentComponent,
-                            fpl::fpl_project::LapDependentData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::LapDependentComponent,
+                            fpl::zooshi::LapDependentData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::editor::WorldEditor;
 using fpl::component_library::PhysicsComponent;
@@ -146,5 +146,5 @@ void LapDependentComponent::DeactivateEntity(entity::EntityRef& entity) {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

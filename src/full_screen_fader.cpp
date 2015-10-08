@@ -20,7 +20,7 @@
 #include "fplbase/shader.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 FullScreenFader::FullScreenFader()
     : current_fade_time_(0),
@@ -81,5 +81,5 @@ bool FullScreenFader::Finished() const {
   return current_fade_time_ >= total_fade_time_;
 }
 
-}  // namespace fpl_project
+}  // namespace zooshi
 }  // namespace fpl

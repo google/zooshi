@@ -81,7 +81,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": "fpl.fpl_project.AttributeDef.PatronsFed"
+            "value": "fpl.zooshi.AttributeDef.PatronsFed"
           }
         }
       ]
@@ -100,7 +100,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": "fpl.fpl_project.AttributeDef.TargetScore"
+            "value": "fpl.zooshi.AttributeDef.TargetScore"
           }
         }
       ]
@@ -266,7 +266,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": "fpl.fpl_project.AttributeDef.PatronsFed"
+            "value": "fpl.zooshi.AttributeDef.PatronsFed"
           }
         }
       ]
@@ -304,7 +304,7 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": "fpl.fpl_project.AttributeDef.TargetScore"
+            "value": "fpl.zooshi.AttributeDef.TargetScore"
           }
         },
         {

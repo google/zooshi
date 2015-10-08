@@ -25,7 +25,7 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static bool ParseType(size_t node_index, size_t edge_index,
                       breadboard::Graph* graph,
@@ -173,5 +173,5 @@ bool ZooshiGraphFactory::ParseData(breadboard::EventSystem* event_system,
   return true;
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

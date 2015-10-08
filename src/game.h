@@ -60,7 +60,7 @@
 #endif
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 const auto kGPGDefaultLeaderboard = "LeaderboardMain";
 
@@ -181,7 +181,7 @@ class Game {
   GPGManager gpg_manager_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_GAME_H

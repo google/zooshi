@@ -20,7 +20,7 @@
 #include "breadboard/event_system.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // clang-format off
 #define COMPARISON_NODE(name, op)                                 \
@@ -153,5 +153,5 @@ void InitializeMathModule(breadboard::EventSystem* event_system) {
   InitializeMathModuleType<float>(event_system, "float_math");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

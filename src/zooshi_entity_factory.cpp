@@ -20,7 +20,7 @@
 #include "flatbuffers/reflection.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using component_library::MetaComponent;
 
@@ -171,5 +171,5 @@ bool ZooshiEntityFactory::CreateEntityList(
   return true;
 }
 
-}  // namespace fpl_project
+}  // namespace zooshi
 }  // namespace fpl

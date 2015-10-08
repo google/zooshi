@@ -28,7 +28,7 @@ using mathfu::mat4;
 using mathfu::quat;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const float kEditorViewportAngle =
     static_cast<float>(M_PI) / 3.0f;  // 60 degrees
@@ -97,5 +97,5 @@ void WorldEditorState::OnExit(int /*next_state*/) {
   world_editor_->Deactivate();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

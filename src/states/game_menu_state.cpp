@@ -43,7 +43,7 @@ using mathfu::mat4;
 using mathfu::quat;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void GameMenuState::Initialize(InputSystem* input_system, World* world,
                                const Config* config,
@@ -226,5 +226,5 @@ void GameMenuState::UpdateVolumes() {
   music_bus_.SetGain(slider_value_music_);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

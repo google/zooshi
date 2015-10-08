@@ -30,7 +30,7 @@
 #include "world_editor/world_editor.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // This needs to be forward declared here, as the World uses this as well.
 struct World;
@@ -120,10 +120,10 @@ class ServicesComponent : public entity::Component<ServicesData> {
   Camera* camera_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::ServicesComponent,
-                              fpl::fpl_project::ServicesData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::ServicesComponent,
+                              fpl::zooshi::ServicesData)
 
 #endif  // COMPONENTS_SERVICES_H_

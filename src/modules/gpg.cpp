@@ -21,7 +21,7 @@
 using mathfu::vec3;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Increment the given achievement count.
 class IncrementAchievementNode : public breadboard::BaseNode {
@@ -122,5 +122,5 @@ void InitializeGpgModule(breadboard::EventSystem* event_system,
   module->RegisterNode<SubmitScoreNode>("submit_score", submit_score_ctor);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

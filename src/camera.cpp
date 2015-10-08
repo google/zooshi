@@ -22,7 +22,7 @@ using mathfu::mat3;
 using mathfu::mat4;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const float kDefaultViewportAngle = 0.7853975f;  // 45 degrees
 static const vec2 kViewportResolution = vec2(640, 480);
@@ -62,5 +62,5 @@ mathfu::mat4 Camera::GetViewMatrix() const {
 }
 
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

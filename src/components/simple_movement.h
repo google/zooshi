@@ -22,7 +22,7 @@
 #include "mathfu/matrix_4x4.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Data for scene object components.
 struct SimpleMovementData {
@@ -42,10 +42,10 @@ class SimpleMovementComponent : public entity::Component<SimpleMovementData> {
   virtual void InitEntity(entity::EntityRef& entity);
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::SimpleMovementComponent,
-                              fpl::fpl_project::SimpleMovementData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::SimpleMovementComponent,
+                              fpl::zooshi::SimpleMovementData)
 
 #endif  // COMPONENTS_SIMPLE_MOVEMENT_H_

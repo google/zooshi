@@ -24,7 +24,7 @@
 #include "rail_def_generated.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 typedef const char* RailId;
 
@@ -77,7 +77,7 @@ class RailManager {
   std::unordered_map<RailId, std::unique_ptr<Rail>> rail_map;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // RAILMANAGER_H

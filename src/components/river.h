@@ -26,7 +26,7 @@
 #include "rail_denizen.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // All the relevent data for rivers ends up tossed into other components.
 // (Mostly rendermesh at the moment.)  This will probably be less empty
@@ -65,10 +65,10 @@ class RiverComponent : public entity::Component<RiverData> {
   void CreateRiverMesh(entity::EntityRef& entity);
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RiverComponent,
-                              fpl::fpl_project::RiverData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::RiverComponent,
+                              fpl::zooshi::RiverData)
 
 #endif  // COMPONENTS_RIVER_H

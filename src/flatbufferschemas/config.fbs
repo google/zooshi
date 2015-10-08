@@ -19,7 +19,7 @@ include "components.fbs";
 include "world_editor_config.fbs";
 include "gpg.fbs";
 
-namespace fpl.fpl_project;
+namespace fpl.zooshi;
 
 // One point in the river cross-section.
 //

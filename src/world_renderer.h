@@ -18,7 +18,7 @@
 #include "world.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 struct World;
 
@@ -65,7 +65,7 @@ class WorldRenderer {
   void SetFogUniforms(Shader* shader, World* world);
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_WORLD_RENDERER_H_

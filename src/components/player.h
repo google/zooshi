@@ -27,7 +27,7 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 BREADBOARD_DECLARE_EVENT(kOnFireEventId)
 
@@ -75,10 +75,10 @@ class PlayerComponent : public entity::Component<PlayerData> {
   bool active_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PlayerComponent,
-                              fpl::fpl_project::PlayerData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::PlayerComponent,
+                              fpl::zooshi::PlayerData)
 
 #endif  // COMPONENTS_PLAYER_H_

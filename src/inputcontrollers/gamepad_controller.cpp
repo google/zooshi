@@ -23,7 +23,7 @@ using mathfu::vec3;
 using mathfu::quat;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void GamepadController::Update() {
   UpdateFacing();

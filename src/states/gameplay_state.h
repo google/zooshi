@@ -34,7 +34,7 @@ class WorldEditor;
 
 }  // editor
 
-namespace fpl_project {
+namespace zooshi {
 
 struct InputConfig;
 class WorldRenderer;
@@ -107,7 +107,7 @@ class GameplayState : public StateNode {
   FullScreenFader* fader_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_GAMEPLAY_STATE_H_

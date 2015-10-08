@@ -16,11 +16,11 @@
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailNodeComponent,
-                            fpl::fpl_project::RailNodeData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RailNodeComponent,
+                            fpl::zooshi::RailNodeData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void RailNodeComponent::AddFromRawData(entity::EntityRef& entity,
                                        const void* raw_data) {
@@ -58,5 +58,5 @@ entity::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
   return fbb.ReleaseBufferPointer();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

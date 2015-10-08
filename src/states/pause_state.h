@@ -26,7 +26,7 @@
 #include "world.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 struct InputConfig;
 
 class PauseState : public StateNode {

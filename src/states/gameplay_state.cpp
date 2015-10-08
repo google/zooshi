@@ -27,7 +27,7 @@ using mathfu::vec2i;
 using mathfu::vec2;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Update music gain based on lap number. This logic will eventually live in
 // an event graph.
@@ -196,5 +196,5 @@ void GameplayState::OnExit(int next_state) {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

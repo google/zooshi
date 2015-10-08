@@ -16,11 +16,11 @@
 #include "component_library/transform.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::ShadowControllerComponent,
-                            fpl::fpl_project::ShadowControllerData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::ShadowControllerComponent,
+                            fpl::zooshi::ShadowControllerData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
@@ -75,5 +75,5 @@ ShadowControllerComponent::ExportRawData(const entity::EntityRef& entity) const 
   return fbb.ReleaseBufferPointer();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

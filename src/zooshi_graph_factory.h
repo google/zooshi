@@ -23,7 +23,7 @@
 #include "pindrop/pindrop.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 class ZooshiGraphFactory : public breadboard::GraphFactory {
  public:
@@ -40,7 +40,7 @@ class ZooshiGraphFactory : public breadboard::GraphFactory {
   pindrop::AudioEngine* audio_engine_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_ZOOSHI_GRAPH_FACTORY_H_

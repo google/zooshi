@@ -26,7 +26,7 @@ using fpl::component_library::TransformComponent;
 using fpl::entity::EntityRef;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Returns the transform component data of the given entity.
 class TransformNode : public breadboard::BaseNode {
@@ -91,5 +91,5 @@ void InitializeTransformModule(breadboard::EventSystem* event_system,
   module->RegisterNode<ChildNode>("child");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

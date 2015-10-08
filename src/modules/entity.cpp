@@ -27,7 +27,7 @@ using fpl::component_library::GraphComponent;
 using fpl::component_library::MetaComponent;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Returns the entity representing the player.
 class PlayerEntityNode : public breadboard::BaseNode {
@@ -151,5 +151,5 @@ void InitializeEntityModule(breadboard::EventSystem* event_system,
   module->RegisterNode<RaftEntityNode>("raft_entity", raft_entity_ctor);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

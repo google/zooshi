@@ -30,7 +30,7 @@
 #include "motive/motivator.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 enum PatronState {
   // Laying down in wait for the raft to come in range. If this patron has been
@@ -196,10 +196,10 @@ class PatronComponent : public entity::Component<PatronData> {
   const Config* config_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::PatronComponent,
-                              fpl::fpl_project::PatronData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::PatronComponent,
+                              fpl::zooshi::PatronData)
 
 #endif  // COMPONENTS_PATRON_H_

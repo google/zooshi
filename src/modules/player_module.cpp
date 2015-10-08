@@ -23,7 +23,7 @@
 using fpl::component_library::GraphComponent;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Number of patron types.
 const int32_t kPatronTypes = 6;
@@ -137,5 +137,5 @@ void InitializePlayerModule(breadboard::EventSystem* event_system,
                                                check_all_patrons_fed_ctor);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

@@ -26,7 +26,7 @@
 #include "states/states.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 struct InputConfig;
 struct World;
@@ -73,7 +73,7 @@ protected:
 #endif  // ANDROID_CARDBOARD$
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_INTRO_STATE_H_

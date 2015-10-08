@@ -35,11 +35,11 @@ using mathfu::vec4_packed;
 using mathfu::quat;
 using mathfu::kAxisZ3f;
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RiverComponent,
-                            fpl::fpl_project::RiverData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RiverComponent,
+                            fpl::zooshi::RiverData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
@@ -482,5 +482,5 @@ void RiverComponent::UpdateRiverMeshes(entity::EntityRef entity) {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

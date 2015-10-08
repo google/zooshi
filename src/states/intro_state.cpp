@@ -26,7 +26,7 @@ using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 static const int kFadeTimerPending = INT_MAX;
 static const int kFadeTimerComplete = INT_MAX - 1;
@@ -146,5 +146,5 @@ void IntroState::OnExit(int /*next_state*/) {
   master_bus_.FadeTo(1.0f, kFadeWaitTime / kMillisecondsPerSecond);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

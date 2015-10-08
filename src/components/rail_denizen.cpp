@@ -38,11 +38,11 @@
 using mathfu::vec3;
 using fpl::component_library::GraphData;
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::RailDenizenComponent,
-                            fpl::fpl_project::RailDenizenData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RailDenizenComponent,
+                            fpl::zooshi::RailDenizenData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 BREADBOARD_DEFINE_EVENT(kNewLapEventId)
 
@@ -278,5 +278,5 @@ void RailDenizenComponent::OnEnterEditor() {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

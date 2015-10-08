@@ -20,13 +20,13 @@
 #include "modules/entity.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 void InitializeAnimationModule(
     breadboard::EventSystem* event_system,
     fpl::component_library::GraphComponent* graph_component);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // FPL_ZOOSHI_MODULES_ANIMATION_H_

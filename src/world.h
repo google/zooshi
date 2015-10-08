@@ -65,7 +65,7 @@ namespace fpl {
 class InputSystem;
 class AssetManager;
 
-namespace fpl_project {
+namespace zooshi {
 
 class WorldRenderer;
 struct Config;
@@ -158,7 +158,7 @@ struct World {
 // up the player's controller to the player entity.
 void LoadWorldDef(World* world, const WorldDef* world_def);
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_WORLD_H_

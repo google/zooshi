@@ -22,7 +22,7 @@
 #include "world.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using gui::TextButton;
 
@@ -140,5 +140,5 @@ void PauseState::OnEnter(int /*previous_state*/) {
   input_system_->SetRelativeMouseMode(false);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

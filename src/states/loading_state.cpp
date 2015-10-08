@@ -24,7 +24,7 @@
 #include "states/states.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using mathfu::kOnes3f;
 using mathfu::kZeros3f;
@@ -114,5 +114,5 @@ void LoadingState::Render(Renderer* renderer) {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

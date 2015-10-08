@@ -21,7 +21,7 @@
 #include "fplbase/utilities.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Prints a string to the logger.
 class ConsolePrintNode : public breadboard::BaseNode {
@@ -44,5 +44,5 @@ void InitializeDebugModule(breadboard::EventSystem* event_system) {
   module->RegisterNode<ConsolePrintNode>("console_print");
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

@@ -18,11 +18,11 @@
 #include "entity/entity_common.h"
 #include "pindrop/pindrop.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::AudioListenerComponent,
-                            fpl::fpl_project::AudioListenerData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::AudioListenerComponent,
+                            fpl::zooshi::AudioListenerData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
@@ -72,5 +72,5 @@ AudioListenerComponent::ExportRawData(const entity::EntityRef& entity) const {
   return fbb.ReleaseBufferPointer();
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

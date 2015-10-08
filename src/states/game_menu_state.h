@@ -29,7 +29,7 @@ namespace fpl {
 
 class InputSystem;
 
-namespace fpl_project {
+namespace zooshi {
 
 class BasePlayerController;
 struct Config;
@@ -172,7 +172,7 @@ class GameMenuState : public StateNode {
   pindrop::Bus music_bus_;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
 #endif  // ZOOSHI_GAME_MENU_STATE_H_

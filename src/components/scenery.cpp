@@ -23,11 +23,11 @@
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::fpl_project::SceneryComponent,
-                            fpl::fpl_project::SceneryData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SceneryComponent,
+                            fpl::zooshi::SceneryData)
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::AnimationComponent;
 using fpl::component_library::AnimationData;
@@ -241,5 +241,5 @@ void SceneryComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   }
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl

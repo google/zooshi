@@ -21,7 +21,7 @@
 #include "entity/component.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 // Data for scene object components.
 struct RailNodeData {
@@ -40,10 +40,10 @@ class RailNodeComponent : public entity::Component<RailNodeData> {
   virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
 };
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::fpl_project::RailNodeComponent,
-                              fpl::fpl_project::RailNodeData)
+FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::RailNodeComponent,
+                              fpl::zooshi::RailNodeData)
 
 #endif  // COMPONENTS_RAIL_NODE_H_

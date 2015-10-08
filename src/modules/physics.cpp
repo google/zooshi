@@ -22,7 +22,7 @@
 #include "entity/entity_manager.h"
 
 namespace fpl {
-namespace fpl_project {
+namespace zooshi {
 
 using fpl::component_library::CollisionData;
 using fpl::component_library::GraphComponent;
@@ -110,5 +110,5 @@ void InitializePhysicsModule(breadboard::EventSystem* event_system,
                                           collision_data_ctor);
 }
 
-}  // fpl_project
+}  // zooshi
 }  // fpl
