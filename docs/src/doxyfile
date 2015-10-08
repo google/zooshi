@@ -744,6 +744,16 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = "index.md" \
+                         "programmers_guide/assets.md" \
+                         "programmers_guide/building.md" \
+                         "programmers_guide/building_android.md" \
+                         "programmers_guide/building_linux.md" \
+                         "programmers_guide/building_osx.md" \
+                         "programmers_guide/building_windows.md" \
+                         "programmers_guide/components.md" \
+                         "programmers_guide/gameplay.md" \
+                         "programmers_guide/overview.md" \
+                         "programmers_guide/play_games_services.md" \
                          "../../readme.md" \
                          "contributing.md" \
                          "groups" \
