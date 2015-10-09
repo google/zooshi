@@ -172,7 +172,7 @@ void GameplayState::OnEnter(int previous_state) {
         audio_engine_->PlaySound(music_gameplay_lap_3_, mathfu::kZeros3f, 0.0f);
   }
 
-  if (world_->is_in_cardboard) {
+  if (world_->is_in_cardboard()) {
 #ifdef ANDROID_CARDBOARD
     world_->services_component.set_camera(&cardboard_camera_);
 #endif

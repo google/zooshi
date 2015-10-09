@@ -136,7 +136,7 @@ vec3 PlayerComponent::CalculateProjectileDirection(
       camera != nullptr &&
       !entity_manager_->GetComponent<ServicesComponent>()
            ->world()
-           ->is_in_cardboard) {
+           ->is_in_cardboard()) {
     const vec2 screen_size(
         entity_manager_->GetComponent<CommonServicesComponent>()
             ->renderer()

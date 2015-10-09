@@ -139,7 +139,7 @@ void GameOverState::HandleUI(Renderer* renderer) {
 
 void GameOverState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_active(false);
-  world_->is_in_cardboard = false;
+  world_->SetIsInCardboard(false);
   input_system_->SetRelativeMouseMode(false);
 #ifdef USING_GOOGLE_PLAY_GAMES
   if (gpg_manager_->LoggedIn()) {

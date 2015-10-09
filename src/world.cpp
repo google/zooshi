@@ -184,6 +184,16 @@ void World::SetActiveController(ControllerType controller_type) {
   }
 }
 
+void World::SetIsInCardboard(bool in_cardboard) {
+  if (is_in_cardboard_ != in_cardboard) {
+    is_in_cardboard_ = in_cardboard;
+    // Turn on the Cardboard setting button when in Cardboard mode.
+#ifdef ANDROID_CARDBOARD
+    SetCardboardButtonEnabled(in_cardboard);
+#endif  // ANDROID_CARDBOARD
+  }
+}
+
 void LoadWorldDef(World* world, const WorldDef* world_def) {
   for (auto iter = world->entity_manager.begin();
        iter != world->entity_manager.end(); ++iter) {

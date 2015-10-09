@@ -73,9 +73,9 @@ struct Config;
 struct World {
  public:
   World()
-      : is_in_cardboard(false),
-        draw_debug_physics(false),
-        skip_rendermesh_rendering(false) {}
+      : draw_debug_physics(false),
+        skip_rendermesh_rendering(false),
+        is_in_cardboard_(false) {}
 
   void Initialize(const Config& config, InputSystem* input_system,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
@@ -133,9 +133,6 @@ struct World {
   // which keeps all entity files loaded in memory.
   std::map<std::string, std::string> loaded_entity_files_;
 
-  // Determines if the game is in Cardboard mode (for special rendering).
-  bool is_in_cardboard;
-
   // Determines if the debug drawing of physics should be used.
   bool draw_debug_physics;
 
@@ -151,6 +148,13 @@ struct World {
 
   void AddController(BasePlayerController* controller);
   void SetActiveController(ControllerType controller_type);
+
+  bool is_in_cardboard() const { return is_in_cardboard_; }
+  void SetIsInCardboard(bool in_cardboard);
+
+ private:
+  // Determines if the game is in Cardboard mode (for special rendering).
+  bool is_in_cardboard_;
 };
 
 // Removes all entities from the world, then repopulates it based on the entity
