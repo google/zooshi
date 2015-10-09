@@ -41,7 +41,8 @@ enum MenuState {
   kMenuStateOptions,
   kMenuStateFinished,
   kMenuStateCardboard,
-  kMenuStateGamepad
+  kMenuStateGamepad,
+  kMenuStateQuit,
 };
 
 // Constant defintions for UI elements. Colors, button sizes etc.
@@ -52,8 +53,8 @@ const auto kColorDarkGray = vec4(0.1f, 0.1f, 0.1f, 0.85f);
 const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 #ifdef USING_GOOGLE_PLAY_GAMES
-const auto kMenuSize = 100.0f;
-const auto kButtonSize = 100.0f;
+const auto kMenuSize = 75.0f;
+const auto kButtonSize = 75.0f;
 #else
 const auto kMenuSize = 150.0f;
 const auto kButtonSize = 140.0f;

@@ -26,6 +26,9 @@ namespace fpl_project {
 
 using gui::TextButton;
 
+static const auto kPauseStateLabelSize = 150.0f;
+static const auto kPauseStateButtonSize = 100.0f;
+
 void PauseState::Initialize(InputSystem* input_system, World* world,
                             const Config* config, AssetManager* asset_manager,
                             FontManager* font_manager,
@@ -98,15 +101,16 @@ GameState PauseState::PauseMenu(AssetManager& assetman, FontManager& fontman,
     gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
     gui::SetMargin(gui::Margin(10));
     gui::SetTextColor(kColorBrown);
-    gui::Label("Paused", kMenuSize);
+    gui::Label("Paused", kPauseStateLabelSize);
     gui::EndGroup();
 
-    auto event = TextButton("Continue", kButtonSize, gui::Margin(2));
+    auto event = TextButton("Continue", kPauseStateButtonSize, gui::Margin(2));
     if (event & gui::kEventWentUp) {
       next_state = kGameStateGameplay;
     }
 
-    event = TextButton("Exit", kButtonSize, gui::Margin(2));
+    event =
+        TextButton("Return to Title", kPauseStateButtonSize, gui::Margin(2));
     if (event & gui::kEventWentUp) {
       next_state = kGameStateGameMenu;
     }

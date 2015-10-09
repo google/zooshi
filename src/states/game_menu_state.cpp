@@ -145,6 +145,8 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     audio_engine_->PlaySound(sound_start_);
     world_->is_in_cardboard = false;
     world_->SetActiveController(kControllerGamepad);
+  } else if (menu_state_ == kMenuStateQuit) {
+    *next_state = kGameStateExit;
   }
 }
 
