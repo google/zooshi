@@ -58,10 +58,11 @@ void GameOverState::GameOverScreen(AssetManager& assetman, FontManager& fontman,
                        mathfu::vec2(0, -150));
     gui::SetMargin(gui::Margin(200, 280, 200, 100));
 
+    gui::Label("Congrats!", kMenuSize);
+    gui::Label("You fed", kMenuSize);
     char buffer[32] = {0};
-    sprintf(buffer, "Score: %i", score);
-
-    gui::Label("Game Over", kMenuSize);
+    snprintf(buffer, sizeof(buffer), "\n%i %s!", score,
+             score == 1 ? "animal" : "animals");
     gui::Label(static_cast<const char*>(buffer), kMenuSize);
     gui::EndGroup();
     gui::EndGroup();

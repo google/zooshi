@@ -78,6 +78,10 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateOptions;
     }
+    event = TextButton("Quit", kMenuSize, gui::Margin(0));
+    if (event & gui::kEventWentUp) {
+      next_state = kMenuStateQuit;
+    }
     gui::EndGroup();
     gui::EndGroup();
   });
