@@ -33,7 +33,7 @@
 #include "mathfu/constants.h"
 #include "motive/init.h"
 #include "rail_def_generated.h"
-#include "world_editor/world_editor.h"
+#include "scene_lab/scene_lab.h"
 
 using mathfu::vec3;
 using fpl::component_library::GraphData;
@@ -50,7 +50,7 @@ using fpl::component_library::AnimationComponent;
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformData;
 using fpl::component_library::TransformComponent;
-using fpl::editor::WorldEditor;
+using fpl::scene_lab::SceneLab;
 
 void Rail::Positions(float delta_time,
                      std::vector<mathfu::vec3_packed>* positions) const {
@@ -77,14 +77,14 @@ void RailDenizenData::Initialize(const Rail& rail, float start_time) {
 void RailDenizenComponent::Init() {
   ServicesComponent* services =
       entity_manager_->GetComponent<ServicesComponent>();
-  // World editor is not guaranteed to be present in all versions of the game.
-  // Only set up callbacks if we actually have a world editor.
-  WorldEditor* world_editor = services->world_editor();
-  if (world_editor) {
-    world_editor->AddOnUpdateEntityCallback([this](
+  // Scene Lab is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a Scene Lab.
+  SceneLab* scene_lab = services->scene_lab();
+  if (scene_lab) {
+    scene_lab->AddOnUpdateEntityCallback([this](
         const entity::EntityRef& entity) { UpdateRailNodeData(entity); });
-    world_editor->AddOnEnterEditorCallback([this]() { OnEnterEditor(); });
-    world_editor->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
+    scene_lab->AddOnEnterEditorCallback([this]() { OnEnterEditor(); });
+    scene_lab->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }
 }
 

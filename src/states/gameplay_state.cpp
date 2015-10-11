@@ -92,9 +92,9 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   *next_state = requested_state_;
 
   // Switch States if necessary.
-  if (world_editor_ && input_system_->GetButton(fpl::FPLK_F10).went_down()) {
-    world_editor_->SetInitialCamera(main_camera_);
-    *next_state = kGameStateWorldEditor;
+  if (scene_lab_ && input_system_->GetButton(fpl::FPLK_F10).went_down()) {
+    scene_lab_->SetInitialCamera(main_camera_);
+    *next_state = kGameStateSceneLab;
   }
 
   // Pause the game.
@@ -124,20 +124,17 @@ void GameplayState::Render(Renderer* renderer) {
   }
 }
 
-void GameplayState::Initialize(InputSystem* input_system, World* world,
-                               const Config* config,
-                               const InputConfig* input_config,
-                               entity::EntityManager* entity_manager,
-                               editor::WorldEditor* world_editor,
-                               GPGManager* gpg_manager,
-                               pindrop::AudioEngine* audio_engine,
-                               FullScreenFader* fader) {
+void GameplayState::Initialize(
+    InputSystem* input_system, World* world, const Config* config,
+    const InputConfig* input_config, entity::EntityManager* entity_manager,
+    scene_lab::SceneLab* scene_lab, GPGManager* gpg_manager,
+    pindrop::AudioEngine* audio_engine, FullScreenFader* fader) {
   input_system_ = input_system;
   config_ = config;
   world_ = world;
   input_config_ = input_config;
   entity_manager_ = entity_manager;
-  world_editor_ = world_editor;
+  scene_lab_ = scene_lab;
   gpg_manager_ = gpg_manager;
   audio_engine_ = audio_engine;
   fader_ = fader;

@@ -152,7 +152,7 @@
     "create_shadow_map":false
    },
 
-  "world_editor_config" : {
+  "scene_lab_config" : {
     "schema_file_text" : "flatbufferschemas/components.fbs",
     "schema_file_binary" : "flatbufferschemas/components.bfbs",
     "schema_include_paths" : ["flatbufferschemas"],

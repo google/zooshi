@@ -50,8 +50,8 @@
 #include "inputcontrollers/base_player_controller.h"
 #include "inputcontrollers/gamepad_controller.h"
 #include "railmanager.h"
-#include "world_editor/edit_options.h"
-#include "world_editor/world_editor.h"
+#include "scene_lab/edit_options.h"
+#include "scene_lab/scene_lab.h"
 #include "world_renderer.h"
 
 namespace pindrop {
@@ -81,7 +81,7 @@ struct World {
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
                   FontManager* font_manager, pindrop::AudioEngine* audio_engine,
                   breadboard::GraphFactory* graph_factory, Renderer* renderer,
-                  editor::WorldEditor* world_editor);
+                  scene_lab::SceneLab* scene_lab);
 
   // Entity manager
   entity::EntityManager entity_manager;
@@ -113,7 +113,7 @@ struct World {
   component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
   component_library::MetaComponent meta_component;
-  editor::EditOptionsComponent edit_options_component;
+  scene_lab::EditOptionsComponent edit_options_component;
   SimpleMovementComponent simple_movement_component;
   LapDependentComponent lap_dependent_component;
   component_library::GraphComponent graph_component;

@@ -16,7 +16,7 @@ include "audio_config.fbs";
 include "bullet_def.fbs";
 include "common.fbs";
 include "components.fbs";
-include "world_editor_config.fbs";
+include "scene_lab_config.fbs";
 include "gpg.fbs";
 
 namespace fpl.zooshi;
@@ -193,7 +193,8 @@ table Config {
   // The viewport angle to use when in Cardboard.
   cardboard_viewport_angle:float;
 
-  world_editor_config: fpl.editor.WorldEditorConfig;
+  // Configuration for the in-game editor, Scene Lab.
+  scene_lab_config: fpl.scene_lab.SceneLabConfig;
 
   // Entity files to load.
   world_def:WorldDef;

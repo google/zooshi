@@ -35,20 +35,20 @@ using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 using fpl::entity::EntityRef;
-using fpl::editor::WorldEditor;
+using fpl::scene_lab::SceneLab;
 using mathfu::vec3;
 using mathfu::kZeros3f;
 
 void SceneryComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
 
-  // World editor is not guaranteed to be present in all versions of the game.
-  // Only set up callbacks if we actually have a world editor.
+  // Scene Lab is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a Scene Lab.
   auto services = entity_manager_->GetComponent<ServicesComponent>();
-  WorldEditor* world_editor = services->world_editor();
-  if (world_editor) {
-    world_editor->AddOnEnterEditorCallback([this]() { ShowAll(true); });
-    world_editor->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
+  SceneLab* scene_lab = services->scene_lab();
+  if (scene_lab) {
+    scene_lab->AddOnEnterEditorCallback([this]() { ShowAll(true); });
+    scene_lab->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }
 }
 
@@ -115,8 +115,8 @@ float SceneryComponent::PopOutDistSq() const {
   return dist * dist;
 }
 
-float SceneryComponent::DistSq(
-    const entity::EntityRef& scenery, const vec3& center) const {
+float SceneryComponent::DistSq(const entity::EntityRef& scenery,
+                               const vec3& center) const {
   const TransformData* transform_data = Data<TransformData>(scenery);
   return (transform_data->position - center).LengthSquared();
 }
@@ -126,8 +126,8 @@ float SceneryComponent::AnimTimeRemaining(
   const SceneryData* scenery_data = Data<SceneryData>(scenery);
   const AnimationData* anim_data =
       Data<AnimationData>(scenery_data->render_child);
-  return anim_data->motivator.Valid() ?
-         anim_data->motivator.TimeRemaining() : 0.0f;
+  return anim_data->motivator.Valid() ? anim_data->motivator.TimeRemaining()
+                                      : 0.0f;
 }
 
 bool SceneryComponent::HasAnim(const SceneryData* scenery_data,
@@ -136,9 +136,8 @@ bool SceneryComponent::HasAnim(const SceneryData* scenery_data,
       scenery_data->render_child, state);
 }
 
-SceneryState SceneryComponent::NextState(
-    const entity::EntityRef& scenery, const vec3& center) const {
-
+SceneryState SceneryComponent::NextState(const entity::EntityRef& scenery,
+                                         const vec3& center) const {
   // Check for state transitions.
   const SceneryData* scenery_data = Data<SceneryData>(scenery);
   switch (scenery_data->state) {
@@ -181,8 +180,7 @@ void SceneryComponent::Animate(const entity::EntityRef& scenery,
 
 void SceneryComponent::StopAnimating(const entity::EntityRef& scenery) {
   const SceneryData* scenery_data = Data<SceneryData>(scenery);
-  AnimationData* anim_data =
-      Data<AnimationData>(scenery_data->render_child);
+  AnimationData* anim_data = Data<AnimationData>(scenery_data->render_child);
   if (anim_data->motivator.Valid()) {
     anim_data->motivator.Invalidate();
   }
@@ -207,7 +205,6 @@ void SceneryComponent::ShowAll(bool show) {
 
 void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
                                        SceneryState next_state) {
-
   SceneryData* scenery_data = Data<SceneryData>(scenery);
 
   // Hide or show the rendermesh.

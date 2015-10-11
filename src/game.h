@@ -36,7 +36,7 @@
 #include "states/pause_state.h"
 #include "states/state_machine.h"
 #include "states/states.h"
-#include "states/world_editor_state.h"
+#include "states/scene_lab_state.h"
 #include "world.h"
 #include "zooshi_graph_factory.h"
 
@@ -127,7 +127,7 @@ class Game {
   GameMenuState game_menu_state_;
   IntroState intro_state_;
   GameOverState game_over_state_;
-  WorldEditorState world_editor_state_;
+  SceneLabState scene_lab_state_;
 
   // Report touches, button presses, keyboard presses.
   InputSystem input_;
@@ -170,7 +170,7 @@ class Game {
   // Fade the screen to back and from black.
   FullScreenFader fader_;
 
-  std::unique_ptr<editor::WorldEditor> world_editor_;
+  std::unique_ptr<scene_lab::SceneLab> scene_lab_;
 
   bool relative_mouse_mode_;
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "states/world_editor_state.h"
+#include "states/scene_lab_state.h"
 
 #include "camera.h"
 #include "mathfu/glsl_mappings.h"
@@ -32,29 +32,28 @@ namespace zooshi {
 
 static const float kEditorViewportAngle =
     static_cast<float>(M_PI) / 3.0f;  // 60 degrees
-void WorldEditorState::Initialize(Renderer* renderer, InputSystem* input_system,
-                                  editor::WorldEditor* world_editor,
-                                  World* world) {
+void SceneLabState::Initialize(Renderer* renderer, InputSystem* input_system,
+                               scene_lab::SceneLab* scene_lab, World* world) {
   renderer_ = renderer;
   input_system_ = input_system;
-  world_editor_ = world_editor;
+  scene_lab_ = scene_lab;
   world_ = world;
   camera_ = new Camera();
   camera_->set_viewport_angle(kEditorViewportAngle);
-  world_editor->SetCamera(std::unique_ptr<CameraInterface>(camera_));
+  scene_lab->SetCamera(std::unique_ptr<CameraInterface>(camera_));
 }
 
-void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
-  world_editor_->AdvanceFrame(delta_time);
+void SceneLabState::AdvanceFrame(WorldTime delta_time, int* next_state) {
+  scene_lab_->AdvanceFrame(delta_time);
   if (input_system_->GetButton(FPLK_F11).went_down()) {
-    world_editor_->SaveWorld();
+    scene_lab_->SaveScene();
   }
 
   if (input_system_->GetButton(FPLK_F10).went_down() ||
       input_system_->GetButton(FPLK_ESCAPE).went_down()) {
-    world_editor_->RequestExit();
+    scene_lab_->RequestExit();
   }
-  if (world_editor_->IsReadyToExit()) {
+  if (scene_lab_->IsReadyToExit()) {
     *next_state = kGameStateGameplay;
   }
   if (input_system_->GetButton(FPLK_F9).went_down()) {
@@ -65,15 +64,15 @@ void WorldEditorState::AdvanceFrame(WorldTime delta_time, int* next_state) {
   }
 }
 
-void WorldEditorState::RenderPrep(Renderer* renderer) {
-  const CameraInterface* camera = world_editor_->GetCamera();
+void SceneLabState::RenderPrep(Renderer* renderer) {
+  const CameraInterface* camera = scene_lab_->GetCamera();
   world_->world_renderer->RenderPrep(*camera, *renderer, world_);
 }
 
-void WorldEditorState::Render(Renderer* renderer) {
+void SceneLabState::Render(Renderer* renderer) {
   camera_->set_viewport_resolution(vec2(renderer->window_size()));
 
-  const CameraInterface* camera = world_editor_->GetCamera();
+  const CameraInterface* camera = scene_lab_->GetCamera();
 
   mat4 camera_transform = camera->GetTransformMatrix();
   renderer->model_view_projection() = camera_transform;
@@ -85,17 +84,13 @@ void WorldEditorState::Render(Renderer* renderer) {
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);
 }
 
-void WorldEditorState::HandleUI(Renderer* renderer) {
-  world_editor_->Render(renderer);
+void SceneLabState::HandleUI(Renderer* renderer) {
+  scene_lab_->Render(renderer);
 }
 
-void WorldEditorState::OnEnter(int /*previous_state*/) {
-  world_editor_->Activate();
-}
+void SceneLabState::OnEnter(int /*previous_state*/) { scene_lab_->Activate(); }
 
-void WorldEditorState::OnExit(int /*next_state*/) {
-  world_editor_->Deactivate();
-}
+void SceneLabState::OnExit(int /*next_state*/) { scene_lab_->Deactivate(); }
 
 }  // zooshi
 }  // fpl

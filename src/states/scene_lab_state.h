@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ZOOSHI_WORLD_EDITOR_STATE_H_
-#define ZOOSHI_WORLD_EDITOR_STATE_H_
+#ifndef ZOOSHI_SCENE_LAB_STATE_H_
+#define ZOOSHI_SCENE_LAB_STATE_H_
 
 #include "camera.h"
 #include "states/state_machine.h"
@@ -24,27 +24,27 @@ namespace fpl {
 class InputSystem;
 class Renderer;
 
-namespace editor {
+namespace scene_lab {
 
-class WorldEditor;
+class SceneLab;
 
-}  // editor
+}  // namespace scene_lab
 
 namespace zooshi {
 
 struct Config;
 struct InputConfig;
 
-class WorldEditorState : public StateNode {
+class SceneLabState : public StateNode {
  public:
-  WorldEditorState()
+  SceneLabState()
       : renderer_(nullptr),
         world_(nullptr),
         input_system_(nullptr),
         camera_(nullptr),
-        world_editor_(nullptr) {}
+        scene_lab_(nullptr) {}
   void Initialize(Renderer* renderer, InputSystem* input_system,
-                  editor::WorldEditor* world_editor, World* world);
+                  scene_lab::SceneLab* scene_lab, World* world);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
@@ -58,10 +58,10 @@ class WorldEditorState : public StateNode {
   World* world_;
   InputSystem* input_system_;
   Camera* camera_;
-  editor::WorldEditor* world_editor_;
+  scene_lab::SceneLab* scene_lab_;
 };
 
 }  // zooshi
 }  // fpl
 
-#endif  // ZOOSHI_WORLD_EDITOR_STATE_H_
+#endif  // ZOOSHI_SCENE_LAB_STATE_H_
