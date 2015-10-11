@@ -58,9 +58,8 @@ using motive::kMotiveTimeEndless;
 
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kLapWaitAmount = 0.5f;
-static const float kMaxCatchTime = 1.5f;
 static const float kHeightRangeBuffer = 0.05f;
-static const Range kCatchTimeRangeInSeconds(0.01f, kMaxCatchTime);
+static const Range kCatchTimeRangeInSeconds(0.01f, 1.5f);
 static const float kCatchReturnTime = 1.0f;
 
 static inline vec3 ZeroHeight(const vec3& v) {
@@ -618,7 +617,7 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
     const float closest_t = CalculateClosestTimeInHeightRange(
         closest_t_ignore_height, kCatchTimeRangeInSeconds, target_height_range,
         projectile_position.z(), projectile_velocity.z(), config_->gravity());
-    if (closest_t <= 0.0f || closest_t > kMaxCatchTime) continue;
+    if (!kCatchTimeRangeInSeconds.Contains(closest_t)) continue;
 
     // Calculate the projectile position at `closest_t`.
     const vec3 closest_position_xy =
@@ -688,7 +687,7 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   const vec3 delta_position = target_position - position;
   const Angle delta_face_angle = target_face_angle - face_angle;
   const MotiveTime target_time_ms =
-      static_cast<MotiveTime>(1000.0f * target_time);
+      std::max(1, static_cast<MotiveTime>(1000.0f * target_time));
 
   // Set the delta movement Motivators.
   patron_data->prev_delta_position = vec3(kZeros3f);
