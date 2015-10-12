@@ -71,6 +71,8 @@ class PlayerComponent : public entity::Component<PlayerData> {
   void set_active(bool active) { active_ = active; }
 
  private:
+  mathfu::vec3 RandomProjectileAngularVelocity() const;
+
   const Config* config_;
   bool active_;
 };

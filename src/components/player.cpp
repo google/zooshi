@@ -77,6 +77,23 @@ void PlayerComponent::InitEntity(entity::EntityRef& entity) {
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
+static inline float RandomSign() {
+ return mathfu::Random<float>() < 0.5f ? -1.0f : 1.0f;
+}
+
+// Return an angle between kMinProjectileAngularVelocity and
+// kMaxProjectileAngularVelocity, in degrees. Returned angle has equal
+// probibility of being positive and negative.
+vec3 PlayerComponent::RandomProjectileAngularVelocity() const {
+  const vec3 random(mathfu::Random<float>(), mathfu::Random<float>(),
+                    mathfu::Random<float>());
+  const vec3 angle = mathfu::Lerp(
+        LoadVec3(config_->projectile_min_angular_velocity()),
+        LoadVec3(config_->projectile_max_angular_velocity()), random);
+  const vec3 sign(RandomSign(), RandomSign(), RandomSign());
+  return angle * sign;
+}
+
 entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   entity::EntityRef projectile =
       entity_manager_->GetComponent<ServicesComponent>()
@@ -92,7 +109,6 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   transform_data->position =
       transform_component->WorldPosition(source) +
       mathfu::kAxisZ3f * config_->projectile_height_offset();
-  transform_data->orientation = transform_component->WorldOrientation(source);
   const vec3 forward = CalculateProjectileDirection(source);
   vec3 velocity = config_->projectile_speed() * forward +
                   config_->projectile_upkick() * mathfu::kAxisZ3f;
@@ -106,9 +122,7 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   if (raft_rail != nullptr) velocity += raft_rail->Velocity();
 
   physics_data->SetVelocity(velocity);
-  physics_data->SetAngularVelocity(vec3(mathfu::RandomInRange(3.0f, 6.0f),
-                                        mathfu::RandomInRange(3.0f, 6.0f),
-                                        mathfu::RandomInRange(3.0f, 6.0f)));
+  physics_data->SetAngularVelocity(RandomProjectileAngularVelocity());
   auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   physics_component->UpdatePhysicsFromTransform(projectile);
 

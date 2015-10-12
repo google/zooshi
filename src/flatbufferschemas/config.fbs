@@ -179,7 +179,17 @@ table Config {
   projectile_height_offset: float;
 
   // The initial offset for the projectile in the direction it fires.
+  // It's nice to spawn projectile slightly in front of the player so that
+  // it doesn't get culled by the near plane.
   projectile_forward_offset: float;
+
+  // Minimum anglular velocity, in degrees per second, of the launched
+  // projectiles, per axis.
+  projectile_min_angular_velocity: fpl.Vec3;
+
+  // Maximum anglular velocity, in degrees per second, of the launched
+  // projectiles, per axis.
+  projectile_max_angular_velocity: fpl.Vec3;
 
   // The height above the patron to display the heart.
   point_display_height: float;
