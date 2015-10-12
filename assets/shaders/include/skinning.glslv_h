@@ -12,6 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const int kNumFloatsInVec4 = 4;
+
+// Specifies the maximum number of non-bone float uniforms.
+// This is used to reserve space for non-bone uniforms when allocating space
+// in the 'bone_transforms' array.
+const int kMaxNonBoneFloatUniforms = 96;
+
+// Calculates the number of vectors necessary to support the non-bone uniforms.
+const int kMaxNonBoneVectorUniforms = kMaxNonBoneFloatUniforms /
+                                      kNumFloatsInVec4;
+
 // Up to four indices into the bone_transforms[] array. Integers.
 // Each vertex is a linear combination of these four transforms.
 attribute vec4 aBoneIndices;
@@ -21,15 +32,31 @@ attribute vec4 aBoneIndices;
 attribute vec4 aBoneWeights;
 
 // Affine transforms from the bone's origin to the mesh's root origin.
-// TODO: change to vec4 bone_transforms[maxbones * 3] to save memory.
-//       Affine transforms require only 3 rows since w is always (0,0,0,1).
-uniform mat4 bone_transforms[MAX_VERTEX_UNIFORM_COMPONENTS / 16 - 6];
+// Since affine transforms only require 3 rows, because 'w' is always
+// (0, 0, 0, 1), we represent the bones as a vec4 array to save memory.
+// Note: To facilitate the max number of bone transforms, while still
+// allowing non-bone uniforms as well, the max size is subtracted by
+// 'kMaxNonBoneVectorUniforms'.
+uniform vec4 bone_transforms[MAX_VERTEX_UNIFORM_COMPONENTS /
+                             kNumFloatsInVec4 - kMaxNonBoneVectorUniforms];
+
+// Helper function to convert from 3x vec4 from 'bone_transforms' to a mat4.
+// Since we store elements in the 'bone_transforms' as a vec4 array, which
+// represent a mat3x4, this function combines them into a single mat4 with
+// a 'w' row set to (0, 0, 0, 1).
+// Note: This function returns the transpose of the bone affine transform.
+mat4 BoneTransformMatrixTranspose(int i) {
+  return mat4(bone_transforms[i * 3 + 0],
+              bone_transforms[i * 3 + 1],
+              bone_transforms[i * 3 + 2],
+              vec4(0, 0, 0, 1));
+}
 
 // Return vertex position w.r.t. bone positions.
 // Vertex is attached to a single bone.
 // aBoneIndices.yzw are ignored.
 // aBoneWeights is assumed to be: (1, 0, 0, 0)
 vec4 OneBoneSkinnedPosition(vec4 position) {
-  return bone_transforms[int(aBoneIndices.x)] * position;
+  return position * BoneTransformMatrixTranspose(int(aBoneIndices.x));
 }
 
