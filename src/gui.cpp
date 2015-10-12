@@ -111,7 +111,7 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     // Menu items.
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(0, -150));
+                       mathfu::vec2(0, -100));
     if (show_about_) {
       // Show 'About' screen.
       OptionMenuAbout();
@@ -131,7 +131,7 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::StartGroup(gui::kLayoutVerticalRight, 0);
     // Positioning the UI to up-left corner of the dialog.
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(-400, -250));
+                       mathfu::vec2(-450, -250));
     gui::SetTextColor(kColorLightBrown);
     if (ImageButtonWithLabel(*button_back_, 60, gui::Margin(60, 35, 40, 50),
                              "Back") &
@@ -157,12 +157,11 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
 }
 
 void GameMenuState::OptionMenuMain() {
-  gui::SetMargin(gui::Margin(200, 400, 200, 100));
+  gui::SetMargin(gui::Margin(200, 300, 200, 100));
 
   gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
   gui::SetMargin(gui::Margin(0, 20, 0, 50));
   gui::SetTextColor(kColorBrown);
-  gui::Label("Options", kMenuSize);
   gui::EndGroup();
 
   if (TextButton("About", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
@@ -243,7 +242,7 @@ void GameMenuState::OptionMenuAbout() {
 }
 
 void GameMenuState::OptionMenuLicenses() {
-  gui::SetMargin(gui::Margin(200, 400, 200, 100));
+  gui::SetMargin(gui::Margin(200, 300, 200, 100));
 
   gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
   gui::SetMargin(gui::Margin(0, 20, 0, 55));

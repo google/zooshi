@@ -26,7 +26,6 @@ namespace zooshi {
 
 using gui::TextButton;
 
-static const auto kPauseStateLabelSize = 150.0f;
 static const auto kPauseStateButtonSize = 100.0f;
 
 void PauseState::Initialize(InputSystem* input_system, World* world,
@@ -96,13 +95,8 @@ GameState PauseState::PauseMenu(AssetManager& assetman, FontManager& fontman,
     // (background + menu items).
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(0, -150));
-    gui::SetMargin(gui::Margin(200, 280, 200, 100));
-    gui::StartGroup(gui::kLayoutVerticalLeft, 50, "menu");
-    gui::SetMargin(gui::Margin(10));
+                       mathfu::vec2(0, -50));
     gui::SetTextColor(kColorBrown);
-    gui::Label("Paused", kPauseStateLabelSize);
-    gui::EndGroup();
 
     auto event = TextButton("Continue", kPauseStateButtonSize, gui::Margin(2));
     if (event & gui::kEventWentUp) {
