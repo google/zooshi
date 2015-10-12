@@ -48,7 +48,7 @@ using fpl::component_library::RenderMeshData;
 using fpl::component_library::RigidBodyData;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
-using fpl::editor::WorldEditor;
+using fpl::scene_lab::SceneLab;
 using fpl::entity::EntityRef;
 using mathfu::kZeros3f;
 using mathfu::quat;
@@ -71,13 +71,12 @@ static inline vec3 ZeroHeight(const vec3& v) {
 void PatronComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
   auto services = entity_manager_->GetComponent<ServicesComponent>();
-  // World editor is not guaranteed to be present in all versions of the game.
-  // Only set up callbacks if we actually have a world editor.
-  WorldEditor* world_editor = services->world_editor();
-  if (world_editor) {
-    world_editor->AddOnEnterEditorCallback(
-        [this]() { UpdateAndEnablePhysics(); });
-    world_editor->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
+  // Scene Lab is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a Scene Lab.
+  SceneLab* scene_lab = services->scene_lab();
+  if (scene_lab) {
+    scene_lab->AddOnEnterEditorCallback([this]() { UpdateAndEnablePhysics(); });
+    scene_lab->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }
 }
 

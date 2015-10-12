@@ -71,8 +71,8 @@ set(dependencies_motive_dir "${fpl_root}/motive"
     CACHE PATH "Directory containing the motive animation library.")
 set(dependencies_bulletphysics_distr_dir "${third_party_root}/bulletphysics"
     CACHE PATH "Directory containing the Bullet Physics distribution.")
-set(dependencies_world_editor_dir "${fpl_root}/world_editor"
-    CACHE PATH "Directory containing the World Editor library.")
+set(dependencies_scene_lab_dir "${fpl_root}/scene_lab"
+    CACHE PATH "Directory containing the Scene Lab library.")
 set(dependencies_component_library_dir
     "${dependencies_entity_dir}/component_library"
     CACHE PATH "Directory containing the entity system component library")
@@ -139,9 +139,9 @@ if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
   add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
 endif()
 
-# Include World Editor.
-if(NOT zooshi_only_flatc AND NOT TARGET world_editor)
-  add_subdirectory("${dependencies_world_editor_dir}" ${tmp_dir}/world_editor)
+# Include Scene Lab.
+if(NOT zooshi_only_flatc AND NOT TARGET scene_lab)
+  add_subdirectory("${dependencies_scene_lab_dir}" ${tmp_dir}/scene_lab)
 endif()
 
 # Include FlatBuffers in this project.
@@ -171,7 +171,7 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
     COMMAND flatc --gen-includes --gen-mutable
         -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
         -I ${dependencies_component_library_dir}/schemas
-        -I ${dependencies_world_editor_dir}/schemas
+        -I ${dependencies_scene_lab_dir}/schemas
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas -c ${flatbuffers_schema}
@@ -183,7 +183,7 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
     COMMAND flatc -b --schema
         -o ${CMAKE_BINARY_DIR}/assets/flatbufferschemas
         -I ${dependencies_component_library_dir}/schemas
-        -I ${dependencies_world_editor_dir}/schemas
+        -I ${dependencies_scene_lab_dir}/schemas
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas ${flatbuffers_schema}
@@ -327,8 +327,8 @@ set(zooshi_SRCS
     src/states/states.h
     src/states/states_common.cpp
     src/states/states_common.h
-    src/states/world_editor_state.cpp
-    src/states/world_editor_state.h
+    src/states/scene_lab_state.cpp
+    src/states/scene_lab_state.h
     src/world.cpp
     src/world.h
     src/world_renderer.cpp
@@ -351,7 +351,7 @@ endif()
 include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
-include_directories(${WORLD_EDITOR_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+include_directories(${SCENE_LAB_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${dependencies_bulletphysics_distr_dir}/src)
@@ -364,7 +364,7 @@ include_directories(${dependencies_fplutil_dir}/libfplutil/include)
 include_directories(${dependencies_flatui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
-include_directories(${dependencies_world_editor_dir}/include)
+include_directories(${dependencies_scene_lab_dir}/include)
 
 # SDL includes.
 include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
@@ -426,7 +426,7 @@ target_link_libraries(zooshi
   entity
   component_library
   breadboard
-  world_editor
+  scene_lab
   pindrop
   BulletDynamics
   BulletCollision

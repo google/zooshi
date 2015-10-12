@@ -48,8 +48,8 @@ DEPENDENCIES_FPLUTIL_DIR?=$(FPL_ROOT)/fplutil
 DEPENDENCIES_FLATUI_DIR?=$(FPL_ROOT)/flatui
 # Location of the MathFu library.
 DEPENDENCIES_MATHFU_DIR?=$(FPL_ROOT)/mathfu
-# Location of the World Editor library.
-DEPENDENCIES_WORLD_EDITOR_DIR?=$(FPL_ROOT)/world_editor
+# Location of the Scene Lab library.
+DEPENDENCIES_SCENE_LAB_DIR?=$(FPL_ROOT)/scene_lab
 # Location of the Motive library.
 DEPENDENCIES_MOTIVE_DIR?=$(FPL_ROOT)/motive
 # Location of the Google Play Games library.

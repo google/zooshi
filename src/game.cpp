@@ -404,11 +404,11 @@ bool Game::Initialize(const char* const binary_directory) {
 
   SetRelativeMouseMode(true);
 
-  world_editor_.reset(new editor::WorldEditor());
+  scene_lab_.reset(new scene_lab::SceneLab());
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &graph_factory_, &renderer_,
-                    world_editor_.get());
+                    scene_lab_.get());
 #ifdef __ANDROID__
   BasePlayerController* controller = new AndroidCardboardController();
 #else
@@ -426,14 +426,13 @@ bool Game::Initialize(const char* const binary_directory) {
 
   world_renderer_.Initialize(&world_);
 
-  world_editor_->Initialize(GetConfig().world_editor_config(),
-                            &world_.entity_manager, &font_manager_);
+  scene_lab_->Initialize(GetConfig().scene_lab_config(), &world_.entity_manager,
+                         &font_manager_);
 
-  world_editor_->AddComponentToUpdate(
+  scene_lab_->AddComponentToUpdate(
       component_library::TransformComponent::GetComponentId());
-  world_editor_->AddComponentToUpdate(
-      ShadowControllerComponent::GetComponentId());
-  world_editor_->AddComponentToUpdate(
+  scene_lab_->AddComponentToUpdate(ShadowControllerComponent::GetComponentId());
+  scene_lab_->AddComponentToUpdate(
       component_library::RenderMeshComponent::GetComponentId());
 
   gpg_manager_.Initialize(false);
@@ -449,7 +448,7 @@ bool Game::Initialize(const char* const binary_directory) {
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
-                             &world_.entity_manager, world_editor_.get(),
+                             &world_.entity_manager, scene_lab_.get(),
                              &gpg_manager_, &audio_engine_, &fader_);
   game_menu_state_.Initialize(&input_, &world_, config, &asset_manager_,
                               &font_manager_, &GetAssetManifest(),
@@ -457,8 +456,7 @@ bool Game::Initialize(const char* const binary_directory) {
   game_over_state_.Initialize(&input_, &world_, config, &asset_manager_,
                               &font_manager_, &gpg_manager_, &audio_engine_);
   intro_state_.Initialize(&input_, &world_, config, &fader_, &audio_engine_);
-  world_editor_state_.Initialize(&renderer_, &input_, world_editor_.get(),
-                                 &world_);
+  scene_lab_state_.Initialize(&renderer_, &input_, scene_lab_.get(), &world_);
 
   state_machine_.AssignState(kGameStateLoading, &loading_state_);
   state_machine_.AssignState(kGameStateGameplay, &gameplay_state_);
@@ -466,7 +464,7 @@ bool Game::Initialize(const char* const binary_directory) {
   state_machine_.AssignState(kGameStateGameMenu, &game_menu_state_);
   state_machine_.AssignState(kGameStateIntro, &intro_state_);
   state_machine_.AssignState(kGameStateGameOver, &game_over_state_);
-  state_machine_.AssignState(kGameStateWorldEditor, &world_editor_state_);
+  state_machine_.AssignState(kGameStateSceneLab, &scene_lab_state_);
   state_machine_.SetCurrentStateId(kGameStateLoading);
 
   LogInfo("Initialization complete\n");
@@ -709,7 +707,7 @@ void Game::Run() {
     SystraceCounter("FrameTime", frame_time);
   }
   SDL_UnlockMutex(sync_.renderthread_mutex_);
-  // Clean up asynchronous callbacks to prevent crashing on garbage data.
+// Clean up asynchronous callbacks to prevent crashing on garbage data.
 #ifdef __ANDROID__
   RegisterVsyncCallback(nullptr);
 #endif

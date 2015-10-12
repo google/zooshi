@@ -28,9 +28,9 @@ namespace fpl {
 class Renderer;
 class InputSystem;
 
-namespace editor {
+namespace scene_lab {
 
-class WorldEditor;
+class SceneLab;
 
 }  // editor
 
@@ -47,9 +47,8 @@ class GameplayState : public StateNode {
   void Initialize(InputSystem* input_system, World* world, const Config* config,
                   const InputConfig* input_config,
                   entity::EntityManager* entitiy_manager,
-                  editor::WorldEditor* world_editor,
-                  GPGManager* gpg_manager, pindrop::AudioEngine* audio_engine,
-                  FullScreenFader* fader);
+                  scene_lab::SceneLab* scene_lab, GPGManager* gpg_manager,
+                  pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
@@ -77,7 +76,7 @@ class GameplayState : public StateNode {
 
   // This is needed here so that when transitioning into the editor the camera
   // location can be initialized.
-  editor::WorldEditor* world_editor_;
+  scene_lab::SceneLab* scene_lab_;
 
   // Used to submit a score to the leaderboard.
   GPGManager* gpg_manager_;

@@ -60,9 +60,9 @@ ENTITY_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                            os.path.pardir, os.path.pardir,
                                            'libs', 'entity'))
 
-WORLD_EDITOR_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
+SCENE_LAB_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                                  os.path.pardir, os.path.pardir,
-                                                 'libs', 'world_editor'))
+                                                 'libs', 'scene_lab'))
 
 MOTIVE_ROOT = os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
                                            os.path.pardir, os.path.pardir,
@@ -192,7 +192,7 @@ SCHEMA_PATHS = [
     os.path.join(PROJECT_ROOT, 'src', 'flatbufferschemas', 'event'),
     os.path.join(FPLBASE_ROOT, 'schemas'),
     os.path.join(ENTITY_ROOT, 'component_library', 'schemas'),
-    os.path.join(WORLD_EDITOR_ROOT, 'schemas'),
+    os.path.join(SCENE_LAB_ROOT, 'schemas'),
     os.path.join(PINDROP_ROOT, 'schemas'),
     os.path.join(MOTIVE_ROOT, 'schemas')
 ]

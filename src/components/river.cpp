@@ -25,7 +25,7 @@
 #include "components_generated.h"
 #include "config_generated.h"
 #include "fplbase/utilities.h"
-#include "world_editor/world_editor.h"
+#include "scene_lab/scene_lab.h"
 
 using mathfu::vec2;
 using mathfu::vec2_packed;
@@ -35,8 +35,7 @@ using mathfu::vec4_packed;
 using mathfu::quat;
 using mathfu::kAxisZ3f;
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RiverComponent,
-                            fpl::zooshi::RiverData)
+FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RiverComponent, fpl::zooshi::RiverData)
 
 namespace fpl {
 namespace zooshi {
@@ -44,7 +43,7 @@ namespace zooshi {
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
-using fpl::editor::WorldEditor;
+using fpl::scene_lab::SceneLab;
 
 static const size_t kNumIndicesPerQuad = 6;
 
@@ -59,10 +58,10 @@ struct NormalMappedColorVertex {
 
 void RiverComponent::Init() {
   auto services = entity_manager_->GetComponent<ServicesComponent>();
-  WorldEditor* world_editor = services->world_editor();
-  if (world_editor) {
-    world_editor->AddOnUpdateEntityCallback(
-        [this](const entity::EntityRef& /*entity*/) { TriggerRiverUpdate();});
+  SceneLab* scene_lab = services->scene_lab();
+  if (scene_lab) {
+    scene_lab->AddOnUpdateEntityCallback(
+        [this](const entity::EntityRef& /*entity*/) { TriggerRiverUpdate(); });
   }
 }
 
@@ -113,8 +112,7 @@ entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
 void RiverComponent::UpdateRiverMeshes() {
   for (auto iter = begin(); iter != end(); ++iter) {
     RiverData* river_data = Data<RiverData>(iter->entity);
-    if (river_data->render_mesh_needs_update_)
-      CreateRiverMesh(iter->entity);
+    if (river_data->render_mesh_needs_update_) CreateRiverMesh(iter->entity);
   }
 }
 

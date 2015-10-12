@@ -58,7 +58,7 @@ LOCAL_C_INCLUDES := \
 	$(DEPENDENCIES_ENTITY_DIR)/include \
   $(DEPENDENCIES_BREADBOARD_DIR)/include \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/include \
-  $(DEPENDENCIES_WORLD_EDITOR_DIR)/include \
+  $(DEPENDENCIES_SCENE_LAB_DIR)/include \
   $(DEPENDENCIES_FPLUTIL_DIR)/libfplutil/include \
   $(DEPENDENCIES_GPG_DIR)/include \
   $(DEPENDENCIES_SDL_DIR) \
@@ -68,7 +68,7 @@ LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_BULLETPHYSICS_DIR)/src \
   $(COMPONENTS_GENERATED_OUTPUT_DIR) \
   $(ZOOSHI_GENERATED_OUTPUT_DIR) \
-  $(WORLD_EDITOR_GENERATED_OUTPUT_DIR) \
+  $(SCENE_LAB_GENERATED_OUTPUT_DIR) \
   src
 
 LOCAL_SRC_FILES := \
@@ -121,7 +121,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/states/loading_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/pause_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/states_common.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/world_editor_state.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/states/scene_lab_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world_renderer.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/zooshi_entity_factory.cpp \
@@ -151,7 +151,7 @@ $(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): | build_assets))
 ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
   $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
   $(DEPENDENCIES_FPLBASE_DIR)/schemas \
-  $(DEPENDENCIES_WORLD_EDITOR_DIR)/schemas \
+  $(DEPENDENCIES_SCENE_LAB_DIR)/schemas \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas\
 
 ifeq (,$(ZOOSHI_RUN_ONCE))
@@ -183,7 +183,7 @@ LOCAL_STATIC_LIBRARIES := \
   libpindrop \
   libentity \
   libcomponent_library \
-  libworld_editor \
+  libscene_lab \
   libmotive \
   libfreetype \
   libharfbuzz \
@@ -202,7 +202,7 @@ $(call import-add-path,$(DEPENDENCIES_FPLBASE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FLATUI_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MATHFU_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MOTIVE_DIR)/..)
-$(call import-add-path,$(DEPENDENCIES_WORLD_EDITOR_DIR)/..)
+$(call import-add-path,$(DEPENDENCIES_SCENE_LAB_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_ENTITY_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
@@ -216,6 +216,6 @@ $(call import-module,flatui/jni)
 $(call import-module,mathfu/jni)
 $(call import-module,motive/jni)
 $(call import-module,entity/component_library/jni)
-$(call import-module,world_editor/jni)
+$(call import-module,scene_lab/jni)
 $(call import-module,webp)
 

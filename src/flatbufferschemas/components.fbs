@@ -197,7 +197,7 @@ union ComponentDataUnion {
   RailNodeDef,
   SceneryDef,
   TransformDef,
-  fpl.editor.EditOptionsDef,
+  fpl.scene_lab.EditOptionsDef,
   AnimationDef,
 }
 

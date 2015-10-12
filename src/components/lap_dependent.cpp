@@ -25,19 +25,18 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::LapDependentComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::editor::WorldEditor;
+using fpl::scene_lab::SceneLab;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
 
 void LapDependentComponent::Init() {
   auto services = entity_manager_->GetComponent<ServicesComponent>();
-  // World editor is not guaranteed to be present in all versions of the game.
-  // Only set up callbacks if we actually have a world editor.
-  WorldEditor* world_editor = services->world_editor();
-  if (world_editor) {
-    world_editor->AddOnEnterEditorCallback([this]() { ActivateAllEntities(); });
-    world_editor->AddOnExitEditorCallback(
-        [this]() { DeactivateAllEntities(); });
+  // Scene Lab is not guaranteed to be present in all versions of the game.
+  // Only set up callbacks if we actually have a Scene Lab.
+  SceneLab* scene_lab = services->scene_lab();
+  if (scene_lab) {
+    scene_lab->AddOnEnterEditorCallback([this]() { ActivateAllEntities(); });
+    scene_lab->AddOnExitEditorCallback([this]() { DeactivateAllEntities(); });
   }
 }
 
