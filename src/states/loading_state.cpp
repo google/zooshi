@@ -89,9 +89,16 @@ void LoadingState::Render(Renderer* renderer) {
   loading_material->Set(*renderer);
   shader_textured_->Set(*renderer);
 
+  // Only scale the image by 2, 1, or 0.5 so that it remains crisp.
+  // We assume the loading texture is square and that the screen is wider
+  // than it is high, so only check height.
+  const int window_y = renderer->window_size().y();
+  const int image_y = texture->original_size().y();
+  const float scale = image_y * 2 <= window_y ? 2.0f :
+                      image_y > window_y ? 0.5f : 1.0f;
+
   // Render the overlay in front on the screen.
-  // Don't scale the image so that the text remains crisp.
-  const vec2 size = vec2(texture->size()) / res.y();
+  const vec2 size = scale * vec2(texture->size()) / res.y();
   const vec3 bottom_left(-size.x(), size.y(), 0.0f);
   const vec3 top_right(size.x(), -size.y(), 0.0f);
   Mesh::RenderAAQuadAlongX(bottom_left, top_right);

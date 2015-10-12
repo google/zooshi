@@ -1,6 +1,9 @@
 {
   "texture_filenames": [
     "textures/loading.webp"
+  ],
+  "original_size" : [
+    { "x": 770, "y": 680 },
   ]
 }
 
