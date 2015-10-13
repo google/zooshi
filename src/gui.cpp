@@ -59,12 +59,12 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
       }
 #endif
     }
-#ifdef ANDROID_CARDBOARD
-    event = TextButton("Cardboard", kMenuSize, gui::Margin(0));
-    if (event & gui::kEventWentUp) {
-      next_state = kMenuStateCardboard;
+    if (SupportsHeadMountedDisplay()) {
+      event = TextButton("Cardboard", kMenuSize, gui::Margin(0));
+      if (event & gui::kEventWentUp) {
+        next_state = kMenuStateCardboard;
+      }
     }
-#endif  // ANDROID_CARDBOARD
 #ifdef USING_GOOGLE_PLAY_GAMES
     auto logged_in = gpg_manager_->LoggedIn();
     event = TextButton(*image_gpg_, gui::Margin(0, 50, 10, 0),
