@@ -354,9 +354,6 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       if (anim_ending) {
         switch (patron_data->state) {
           case kPatronStateEating:
-            // After the patron has finished eating, disable the physics, as
-            // it is going away.
-            physics_component->DisablePhysics(patron);
             if (HasAnim(patron_data, PatronAction_Satisfied)) {
               patron_data->state = kPatronStateSatisfied;
               Animate(patron_data, PatronAction_Satisfied);
@@ -372,6 +369,9 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             break;
 
           case kPatronStateFalling:
+            // After the patron has finished their falling animation, turn off
+            // the physics, as they are no longer in the world.
+            physics_component->DisablePhysics(patron);
             patron_data->state = kPatronStateLayingDown;
             break;
 
