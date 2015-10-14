@@ -9,7 +9,7 @@ and toss sushi into the mouths of well-dressed animal patrons.
 [Zooshi][] serves as a demonstration of how to build cross-platform
 games using a suite of open source game technologies from
 Fun Propulsion Labs at [Google][] such as [Breadboard][],
-[Entity System][], [FlatBuffers][], [FlatUI][], [fplbase][], [fplutil][],
+[CORGI][], [FlatBuffers][], [FlatUI][], [fplbase][], [fplutil][],
 [Motive][], [Scene Lab][] and [WebP][].
 
 [Zooshi][] also demonstrates how to use the [Google Cardboard][] API, which
@@ -49,22 +49,23 @@ source, you are free to remove the version string but we would appreciate if
 you would leave it in.
 
   [Android]: https://www.android.com/
-  [Breadboard]: http://google.github.io/breadboard
-  [Build and Run Zooshi]: http://google.github.io/zooshi/zooshi_guide_building.html
-  [CONTRIBUTING]: http://github.com/google/zooshi/blob/master/CONTRIBUTING
+  [Breadboard]: https://google.github.io/breadboard/
+  [Build and Run Zooshi]: https://google.github.io/zooshi/zooshi_guide_building.html
+  [CORGI]: https://google.github.io/CORGI/
+  [CONTRIBUTING]: https://github.com/google/zooshi/blob/master/CONTRIBUTING
   [Flatbuffers]: https://google.github.io/flatbuffers/
-  [FlatUI]: http://google.github.io/flatui
-  [fplbase]: http://google.github.io/fplbase
+  [FlatUI]: https://google.github.io/flatui/
+  [fplbase]: https://google.github.io/fplbase/
   [fplutil]: https://google.github.io/fplutil/
-  [GitHub]: http://github.com/google/zooshi
-  [GitHub Releases Page]: http://github.com/google/zooshi/releases
+  [GitHub]: https://github.com/google/zooshi/
+  [GitHub Releases Page]: https://github.com/google/zooshi/releases
   [Google]: https://google.com
   [Google Cardboard]: https://www.google.com/get/cardboard/
   [Google Play]: https://play.google.com/store/apps/details?id=com.google.fpl.zooshi
   [Mathfu]: https://google.github.io/mathfu/
-  [Motive]: http://google.github.io/motive/
-  [Pie Noon]: http://google.github.io/pienoon/index.html
-  [Programmer's Guide]: http://google.github.io/zooshi/zooshi_guide_overview.html
-  [Scene Lab]: http://google.github.io/scene_lab
+  [Motive]: https://google.github.io/motive/
+  [Pie Noon]: https://google.github.io/pienoon/index.html
+  [Programmer's Guide]: https://google.github.io/zooshi/zooshi_guide_overview.html
+  [Scene Lab]: https://google.github.io/scene_lab/
   [WebP]: https://developers.google.com/speed/webp/?hl=en
-  [Zooshi]: http://google.github.io/zooshi/
+  [Zooshi]: https://google.github.io/zooshi/
