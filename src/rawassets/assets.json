@@ -1,13 +1,13 @@
 {
   "loading_material" : "materials/loading.fplmat",
-  "fader_material" : "materials/pixel1x1.fplmat",
+  "fader_material" : "materials/pixel_1x1.fplmat",
   "mesh_list" : [
     "meshes/sushi_salmon.fplmesh",
     "meshes/sushi_shrimp.fplmesh",
     "meshes/lady_mandrill_rig.fplmesh",
     "meshes/crocodile_rig.fplmesh",
-    "meshes/Hippo_RIG.fplmesh",
-    "meshes/Bird_RIG.fplmesh",
+    "meshes/hippo_rig.fplmesh",
+    "meshes/bird_rig.fplmesh",
     "meshes/giraffe_rig.fplmesh",
     "meshes/ground.fplmesh",
     "meshes/tree_saturated.fplmesh",
@@ -37,16 +37,15 @@
     "meshes/digit_7.fplmesh",
     "meshes/digit_8.fplmesh",
     "meshes/digit_9.fplmesh",
-    "meshes/Tree_02.fplmesh",
-    "meshes/Tree_03.fplmesh",
-    "meshes/Tree_04.fplmesh",
+    "meshes/tree_03.fplmesh",
+    "meshes/tree_04.fplmesh",
     "meshes/log.fplmesh",
-    "meshes/savanna_tree01.fplmesh",
+    "meshes/savanna_tree_01.fplmesh",
     "meshes/heart.fplmesh"
   ],
   "material_list": [
     "materials/river.fplmat",
-    "materials/Lake_daytime.fplmat",
+    "materials/lake_daytime.fplmat",
     "materials/riverbank_savanna_daytime_grass_daytime.fplmat",
     "materials/riverbank_grass_daytime_savanna_daytime.fplmat",
     "materials/riverbank_savanna_daytime.fplmat",
@@ -77,11 +76,11 @@
     "lists" : [
       { // AnimObject_HungryHippo
         "anim_files": [
-          "anims/Hippo_APPEAR.fplanim",     // PatronAction_GetUp
-          "anims/Hippo_IDLE.fplanim",       // PatronAction_Idle
-          "anims/Hippo_EAT.fplanim",        // PatronAction_Eat
-          "anims/Hippo_HAPPY.fplanim",      // PatronAction_Satisfied
-          "anims/Hippo_DISAPPEAR.fplanim",  // PatronAction_Fall
+          "anims/hippo_appear.fplanim",     // PatronAction_GetUp
+          "anims/hippo_idle.fplanim",       // PatronAction_Idle
+          "anims/hippo_eat.fplanim",        // PatronAction_Eat
+          "anims/hippo_happy.fplanim",      // PatronAction_Satisfied
+          "anims/hippo_disappear.fplanim",  // PatronAction_Fall
         ]
       },
       { // AnimObject_DapperCroc
@@ -113,11 +112,11 @@
       },
       { // AnimObject_BankerBird
         "anim_files": [
-          "anims/Bird_APPEAR.fplanim",      // PatronAction_GetUp
-          "anims/Bird_IDLE.fplanim",        // PatronAction_Idle
-          "anims/Bird_EAT.fplanim",         // PatronAction_Eat
-          "anims/Bird_HAPPY.fplanim",       // PatronAction_Satisfied
-          "anims/Bird_DISAPPEAR.fplanim",   // PatronAction_Fall
+          "anims/bird_appear.fplanim",      // PatronAction_GetUp
+          "anims/bird_idle.fplanim",        // PatronAction_Idle
+          "anims/bird_eat.fplanim",         // PatronAction_Eat
+          "anims/bird_happy.fplanim",       // PatronAction_Satisfied
+          "anims/bird_disappear.fplanim",   // PatronAction_Fall
         ]
       }, // AnimObject_FernShort
       {

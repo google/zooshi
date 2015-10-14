@@ -1,6 +1,6 @@
 {
     "texture_filenames": [
-        "textures/pixel1x1.webp"
+        "textures/pixel_1x1.webp"
     ],
     "blendmode": "ALPHA"
 }

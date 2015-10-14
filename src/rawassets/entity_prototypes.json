@@ -1196,7 +1196,7 @@
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/Hippo_RIG.fplmesh",
+            "source_file": "meshes/hippo_rig.fplmesh",
             "shader": "shaders/textured_skinned_lit",
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
@@ -1437,7 +1437,7 @@
         {
           "data_type": "RenderMeshDef",
           "data": {
-            "source_file": "meshes/Bird_RIG.fplmesh",
+            "source_file": "meshes/bird_rig.fplmesh",
             "shader": "shaders/textured_skinned_lit",
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
@@ -3103,7 +3103,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/savanna_tree01.fplmesh",
+            "source_file":"meshes/savanna_tree_01.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
@@ -3158,7 +3158,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/Tree_03.fplmesh",
+            "source_file":"meshes/tree_03.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }
@@ -3213,7 +3213,7 @@
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/Tree_04.fplmesh",
+            "source_file":"meshes/tree_04.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"]
           }

@@ -6,8 +6,8 @@
     { "name": "crocodile", "hierarchy": 1 },
     { "name": "lady_mandrill", "hierarchy": 1 },
     { "name": "giraffe", "hierarchy": 1 },
-    { "name": "Hippo", "hierarchy": 1 },
-    { "name": "Bird", "hierarchy": 1 },
+    { "name": "hippo", "hierarchy": 1 },
+    { "name": "bird", "hierarchy": 1 },
     { "name": "heart", "hierarchy": 1 }
   ],
 
@@ -17,11 +17,6 @@
     { "name": "eat", "repeat": 0 },
     { "name": "happy", "repeat": 0 },
     { "name": "disappear", "repeat": 0 },
-    { "name": "APPEAR", "repeat": 0 },
-    { "name": "IDLE", "repeat": 1 },
-    { "name": "EAT", "repeat": 0 },
-    { "name": "HAPPY", "repeat": 0 },
-    { "name": "DISAPPEAR", "repeat": 0 },
     { "name": "fern", "repeat": 1 }
   ]
 }

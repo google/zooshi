@@ -278,7 +278,7 @@ FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
         extension='.bin',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_level0.json')]),
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('rail_def.fbs', SCHEMA_PATHS),
         extension='.bin',
