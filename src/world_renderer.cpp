@@ -103,10 +103,10 @@ void WorldRenderer::DebugShowShadowMap(const CameraInterface& camera,
   const mat4 mvp = camera.GetTransformMatrix() * kDebugTextureWorldTransform;
   const mat4 world_matrix_inverse = kDebugTextureWorldTransform.Inverse();
 
-  renderer.camera_pos() = world_matrix_inverse * camera.position();
-  renderer.light_pos() = world_matrix_inverse * light_camera_.position();
-  renderer.model_view_projection() = mvp;
-  renderer.color() = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+  renderer.set_camera_pos(world_matrix_inverse * camera.position());
+  renderer.set_light_pos(world_matrix_inverse * light_camera_.position());
+  renderer.set_model_view_projection(mvp);
+  renderer.set_color(vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
   shadow_map_.BindAsTexture(0);
 
@@ -132,10 +132,9 @@ void WorldRenderer::SetFogUniforms(Shader* shader, World* world) {
 void WorldRenderer::RenderWorld(const CameraInterface& camera,
                                 Renderer& renderer, World* world) {
   mat4 camera_transform = camera.GetTransformMatrix();
-  renderer.model_view_projection() = camera_transform;
-  renderer.color() = mathfu::kOnes4f;
+  renderer.set_color(mathfu::kOnes4f);
   renderer.DepthTest(true);
-  renderer.model_view_projection() = camera_transform;
+  renderer.set_model_view_projection(camera_transform);
 
   assert(textured_shadowed_shader_);
   textured_shadowed_shader_->SetUniform("view_projection", camera_transform);

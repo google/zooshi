@@ -150,7 +150,7 @@ bool Game::InitializeRenderer() {
     return false;
   }
 
-  renderer_.color() = mathfu::kOnes4f;
+  renderer_.set_color(mathfu::kOnes4f);
   // Initialize the first frame as black.
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
 
