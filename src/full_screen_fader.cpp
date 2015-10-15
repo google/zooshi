@@ -68,7 +68,7 @@ void FullScreenFader::Render(Renderer* renderer) {
   float alpha = sin(t * M_PI);
 
   // Render the overlay in front on the screen.
-  renderer->color() = vec4(color_, alpha);
+  renderer->set_color(vec4(color_, alpha));
   material_->Set(*renderer);
   shader_->Set(*renderer);
   // Clear depth buffer to prevent z-fight issues.

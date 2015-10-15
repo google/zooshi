@@ -75,10 +75,9 @@ void SceneLabState::Render(Renderer* renderer) {
   const CameraInterface* camera = scene_lab_->GetCamera();
 
   mat4 camera_transform = camera->GetTransformMatrix();
-  renderer->model_view_projection() = camera_transform;
-  renderer->color() = mathfu::kOnes4f;
+  renderer->set_color(mathfu::kOnes4f);
   renderer->DepthTest(true);
-  renderer->model_view_projection() = camera_transform;
+  renderer->set_model_view_projection(camera_transform);
 
   world_->river_component.UpdateRiverMeshes();
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);

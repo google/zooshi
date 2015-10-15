@@ -81,11 +81,11 @@ void LoadingState::Render(Renderer* renderer) {
   //  - horizontal and vertical units are same distance on screen
   const vec2 res(renderer->window_size());
   const float aspect_ratio = res.x() / res.y();
-  renderer->model_view_projection() =
-      mat4::Ortho(-aspect_ratio, aspect_ratio, -1.0f, 1.0f, -1.0f, 1.0f);
+  renderer->set_model_view_projection(
+      mat4::Ortho(-aspect_ratio, aspect_ratio, -1.0f, 1.0f, -1.0f, 1.0f));
 
   // Set up rendering context.
-  renderer->color() = kOnes4f;
+  renderer->set_color(kOnes4f);
   loading_material->Set(*renderer);
   shader_textured_->Set(*renderer);
 
