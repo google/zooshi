@@ -158,6 +158,7 @@ file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
 
 # Generate rules to build the set of output files from the set of input
 # schema files.
+unset(FLATBUFFERS_GENERATED_INCLUDES)
 foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
   get_filename_component(filename ${flatbuffers_schema} NAME_WE)
   set(flatbuffers_include
