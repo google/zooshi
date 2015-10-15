@@ -70,8 +70,18 @@ vec3 Rail::PositionCalculatedSlowly(float time) const {
   return position;
 }
 
-void RailDenizenData::Initialize(const Rail& rail, float start_time) {
-  motivator.SetSpline(SplinePlayback3f(rail.splines(), start_time, true));
+void RailDenizenData::Initialize(const Rail& rail,
+                                 motive::MotiveEngine& engine) {
+  motivator.Initialize(motive::SmoothInit(), &engine);
+  motivator.SetSpline(SplinePlayback3f(rail.splines(), start_time, true,
+                                       initial_playback_rate));
+  playback_rate.InitializeWithTarget(motive::SmoothInit(), &engine,
+                                     motive::Current1f(initial_playback_rate));
+}
+
+void RailDenizenData::SetPlaybackRate(float rate, float transition_time) {
+  const auto time = static_cast<motive::MotiveTime>(transition_time);
+  playback_rate.SetTarget(motive::Target1f(rate, 0.0f, time));
 }
 
 void RailDenizenComponent::Init() {
@@ -95,6 +105,8 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     if (!rail_denizen_data->enabled) {
       continue;
     }
+    rail_denizen_data->motivator.SetSplinePlaybackRate(
+        rail_denizen_data->PlaybackRate());
     TransformData* transform_data = Data<TransformData>(iter->entity);
     vec3 position = rail_denizen_data->rail_orientation.Inverse() *
                     rail_denizen_data->Position();
@@ -138,7 +150,7 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
     data->rail_name = rail_denizen_def->rail_name()->c_str();
 
   data->start_time = rail_denizen_def->start_time();
-  data->spline_playback_rate = rail_denizen_def->initial_playback_rate();
+  data->initial_playback_rate = rail_denizen_def->initial_playback_rate();
 
   auto offset = rail_denizen_def->rail_offset();
   auto orientation = rail_denizen_def->rail_orientation();
@@ -170,11 +182,6 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 
-  motive::MotiveEngine& engine =
-      entity_manager_->GetComponent<AnimationComponent>()->engine();
-  data->motivator.Initialize(motive::SmoothInit(), &engine);
-  data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
-
   InitializeRail(entity);
 }
 
@@ -183,13 +190,13 @@ void RailDenizenComponent::InitializeRail(entity::EntityRef& entity) {
       entity_manager_->GetComponent<ServicesComponent>()->rail_manager();
   RailDenizenData* data = GetComponentData(entity);
   if (data->rail_name != "") {
+    motive::MotiveEngine& engine =
+        entity_manager_->GetComponent<AnimationComponent>()->engine();
     data->Initialize(*rail_manager->GetRailFromComponents(
-                         data->rail_name.c_str(), entity_manager_),
-                     data->start_time);
+                         data->rail_name.c_str(), entity_manager_), engine);
   } else {
     LogError("RailDenizen: Error, no rail name specified");
   }
-  data->motivator.SetSplinePlaybackRate(data->spline_playback_rate);
 }
 
 entity::ComponentInterface::RawDataUniquePtr
@@ -212,7 +219,7 @@ RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
   RailDenizenDefBuilder builder(fbb);
 
   builder.add_start_time(data->start_time);
-  builder.add_initial_playback_rate(data->spline_playback_rate);
+  builder.add_initial_playback_rate(data->initial_playback_rate);
   if (rail_name.o != 0) {
     builder.add_rail_name(rail_name);
   }

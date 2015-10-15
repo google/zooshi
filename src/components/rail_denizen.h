@@ -34,23 +34,38 @@ BREADBOARD_DECLARE_EVENT(kNewLapEventId)
 struct RailDenizenData {
   RailDenizenData()
       : lap(0.0f),
-        spline_playback_rate(1.0f),
+        initial_playback_rate(0.0f),
+        start_time(0.0f),
         motivator(),
+        playback_rate(),
         rail_offset(mathfu::kZeros3f),
         rail_orientation(mathfu::quat::identity),
         rail_scale(mathfu::kOnes3f),
+        internal_rail_offset(mathfu::kZeros3f),
+        internal_rail_orientation(mathfu::kQuatIdentityf),
+        internal_rail_scale(mathfu::kZeros3f),
+        update_orientation(false),
         inherit_transform_data(false),
         enabled(true) {}
 
-  void Initialize(const Rail& rail, float start_time);
+  void Initialize(const Rail& rail, motive::MotiveEngine& engine);
+
+  // Set speed at which the entity traverses the rail.
+  // playback_rate 0 ==> paused
+  // playback_rate 0.5 ==> half speed of authored rail (slow)
+  // playback_rate 1 ==> authored speed
+  // playback_rate 2 ==> double speed of authored rail (fast)
+  void SetPlaybackRate(float playback_rate, float transition_time);
 
   mathfu::vec3 Position() const { return motivator.Value(); }
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
+  float PlaybackRate() const { return playback_rate.Value(); }
 
   float lap;
-  float spline_playback_rate;
+  float initial_playback_rate;
   float start_time;
   motive::Motivator3f motivator;
+  motive::Motivator1f playback_rate;
   std::string rail_name;
   // Additional transform to apply from the rail to the entity being driven.
   mathfu::vec3 rail_offset;

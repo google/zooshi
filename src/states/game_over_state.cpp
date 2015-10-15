@@ -32,6 +32,8 @@
 namespace fpl {
 namespace zooshi {
 
+static const float kTimeToStopRaft = 2000.0f;
+
 void GameOverState::GameOverScreen(AssetManager& assetman, FontManager& fontman,
                                    InputSystem& input) {
   entity::EntityRef player = world_->services_component.player_entity();
@@ -100,17 +102,6 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
 
-  // Stop the raft over the course of a few seconds.
-  entity::EntityRef raft = world_->services_component.raft_entity();
-  RailDenizenData* raft_rail_denizen =
-      world_->rail_denizen_component.GetComponentData(raft);
-  raft_rail_denizen->spline_playback_rate -= delta_time / 1000.f;
-  if (raft_rail_denizen->spline_playback_rate < 0.0f) {
-    raft_rail_denizen->spline_playback_rate = 0.0f;
-  }
-  raft_rail_denizen->motivator.SetSplinePlaybackRate(
-      raft_rail_denizen->spline_playback_rate);
-
   // Return to the title screen after any key is hit.
   if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
       input_system_->GetButton(FPLK_AC_BACK).went_down() ||
@@ -142,6 +133,13 @@ void GameOverState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_active(false);
   world_->SetIsInCardboard(false);
   input_system_->SetRelativeMouseMode(false);
+
+  // Stop the raft over the course of a few seconds.
+  entity::EntityRef raft = world_->services_component.raft_entity();
+  RailDenizenData* raft_rail_denizen =
+      world_->rail_denizen_component.GetComponentData(raft);
+  raft_rail_denizen->SetPlaybackRate(0.0f, kTimeToStopRaft);
+
 #ifdef USING_GOOGLE_PLAY_GAMES
   if (gpg_manager_->LoggedIn()) {
     // Finished a game, post a score.
