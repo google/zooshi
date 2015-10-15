@@ -61,6 +61,7 @@ static const float kLapWaitAmount = 0.5f;
 static const float kHeightRangeBuffer = 0.05f;
 static const Range kCatchTimeRangeInSeconds(0.01f, 1.5f);
 static const float kCatchReturnTime = 1.0f;
+static const float kTimeToResumeMotion = 500.0f;
 
 static inline vec3 ZeroHeight(const vec3& v) {
   vec3 v_copy = v;
@@ -236,8 +237,8 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
         if (rail_denizen_data != nullptr &&
             patron_data->state == kPatronStateUpright) {
           rail_denizen_data->enabled = true;
-          rail_denizen_data->motivator.SetSplinePlaybackRate(
-              rail_denizen_data->spline_playback_rate);
+          rail_denizen_data->SetPlaybackRate(
+              rail_denizen_data->initial_playback_rate, kTimeToResumeMotion);
         }
       }
     }
@@ -381,8 +382,9 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             auto rail_denizen_data = Data<RailDenizenData>(patron);
             if (rail_denizen_data != nullptr) {
               rail_denizen_data->enabled = true;
-              rail_denizen_data->motivator.SetSplinePlaybackRate(
-                  rail_denizen_data->spline_playback_rate);
+              rail_denizen_data->SetPlaybackRate(
+                  rail_denizen_data->initial_playback_rate,
+                  kTimeToResumeMotion);
             }
           }  // fallthrough
 

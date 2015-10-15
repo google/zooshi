@@ -101,8 +101,8 @@ class GetRailSpeedNode : public breadboard::BaseNode {
 
   virtual void Execute(breadboard::NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(0);
-    args->SetOutput(0,
-                    rail_denizen_ref->GetComponentData()->spline_playback_rate);
+    args->SetOutput(
+        0, rail_denizen_ref->GetComponentData()->PlaybackRate());
   }
 };
 
@@ -117,12 +117,12 @@ class SetRailSpeedNode : public breadboard::BaseNode {
 
   virtual void Execute(breadboard::NodeArguments* args) {
     if (args->IsInputDirty(0)) {
+      // TODO: Add this as a parameter instead of being constant.
+      static const float kSetRailSpeedTransitionTime = 300.0f;
       auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
       auto speed = args->GetInput<float>(2);
       RailDenizenData* rail_denizen_data = rail_denizen_ref->GetComponentData();
-      rail_denizen_data->spline_playback_rate = *speed;
-      rail_denizen_data->motivator.SetSplinePlaybackRate(
-          rail_denizen_data->spline_playback_rate);
+      rail_denizen_data->SetPlaybackRate(*speed, kSetRailSpeedTransitionTime);
     }
   }
 };
