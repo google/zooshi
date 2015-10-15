@@ -16,12 +16,12 @@
 #include "states/gameplay_state.h"
 
 #include "fplbase/input.h"
+#include "full_screen_fader.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "states/states.h"
 #include "states/states_common.h"
 #include "world.h"
-#include "full_screen_fader.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -124,6 +124,13 @@ void GameplayState::Render(Renderer* renderer) {
   }
 }
 
+void GameplayState::HandleUI(Renderer* renderer) {
+  ServicesComponent& services = world_->services_component;
+  world_->onscreen_controller_ui.Update(services.asset_manager(),
+                                        services.font_manager(),
+                                        renderer->window_size());
+}
+
 void GameplayState::Initialize(
     InputSystem* input_system, World* world, const Config* config,
     const InputConfig* input_config, entity::EntityManager* entity_manager,
@@ -156,6 +163,14 @@ void GameplayState::OnEnter(int previous_state) {
   world_->player_component.set_state(kPlayerState_Active);
   input_system_->SetRelativeMouseMode(true);
   UpdateMainCamera(&main_camera_, world_);
+
+  // Assign textures for the onscreen controller.
+  auto* onscreen_controller_ui = &world_->onscreen_controller_ui;
+  auto* asset_manager = world_->asset_manager;
+  onscreen_controller_ui->set_base_texture(
+      asset_manager->FindTexture("textures/joystick_base.webp"));
+  onscreen_controller_ui->set_top_texture(
+      asset_manager->FindTexture("textures/joystick_tip.webp"));
 
   if (previous_state == kGameStatePause) {
     music_channel_lap_1_.Resume();

@@ -24,14 +24,6 @@
 #include "audio_config_generated.h"
 #include "breadboard/graph.h"
 #include "breadboard/log.h"
-#include "module_library/animation.h"
-#include "module_library/common.h"
-#include "module_library/audio.h"
-#include "module_library/entity.h"
-#include "module_library/logic.h"
-#include "module_library/physics.h"
-#include "module_library/transform.h"
-#include "module_library/vec3.h"
 #include "common.h"
 #include "entity/entity.h"
 #include "fplbase/input.h"
@@ -41,6 +33,14 @@
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/vector.h"
+#include "module_library/animation.h"
+#include "module_library/audio.h"
+#include "module_library/common.h"
+#include "module_library/entity.h"
+#include "module_library/logic.h"
+#include "module_library/physics.h"
+#include "module_library/transform.h"
+#include "module_library/vec3.h"
 #include "modules/attributes.h"
 #include "modules/gpg.h"
 #include "modules/patron.h"
@@ -65,6 +65,9 @@
 #endif
 
 #define ZOOSHI_OVERDRAW_DEBUG 0
+// ZOOSHI_FORCE_ONSCREEN_CONTROLLER is useful when testing the on-screen
+// controller on desktop and mobile platforms.
+#define ZOOSHI_FORCE_ONSCREEN_CONTROLLER 0
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -329,7 +332,7 @@ void Game::InitializeEventSystem() {
   InitializeStateModule(&event_system_, gameplay_state_.requested_state());
   InitializeZooshiModule(&event_system_, &world_.services_component);
   module_library::InitializeAnimationModule(&event_system_,
-                                        &world_.graph_component);
+                                            &world_.graph_component);
   module_library::InitializeAudioModule(&event_system_, &audio_engine_);
   module_library::InitializeEntityModule(&event_system_, &world_.meta_component,
                                          &world_.graph_component);
@@ -416,19 +419,42 @@ bool Game::Initialize(const char* const binary_directory) {
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &graph_factory_, &renderer_,
                     scene_lab_.get());
+
 #ifdef __ANDROID__
-  BasePlayerController* controller = new AndroidCardboardController();
-#else
-  BasePlayerController* controller = new MouseController();
-#endif
-  controller->set_input_config(&GetInputConfig());
-  controller->set_input_system(&input_);
-  world_.AddController(controller);
+  if (SupportsHeadMountedDisplay() && !ZOOSHI_FORCE_ONSCREEN_CONTROLLER) {
+    BasePlayerController* controller = new AndroidCardboardController();
+    controller->set_input_config(&GetInputConfig());
+    controller->set_input_system(&input_);
+    world_.AddController(controller);
+  }
+#endif  // __ANDROID__
+
+#if defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
+  if (!SupportsHeadMountedDisplay() || ZOOSHI_FORCE_ONSCREEN_CONTROLLER) {
+    OnscreenController* onscreen_controller = new OnscreenController();
+    onscreen_controller->set_input_config(&GetInputConfig());
+    onscreen_controller->set_input_system(&input_);
+    world_.AddController(onscreen_controller);
+    world_.onscreen_controller_ui.set_controller(onscreen_controller);
+  }
+#endif  // defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
+
+#if !ZOOSHI_FORCE_ONSCREEN_CONTROLLER && !defined(PLATFORM_MOBILE)
+  {
+    BasePlayerController* controller = new MouseController();
+    controller->set_input_config(&GetInputConfig());
+    controller->set_input_system(&input_);
+    world_.AddController(controller);
+  }
+#endif  // !ZOOSHI_FORCE_ONSCREEN_CONTROLLER && !defined(PLATFORM_MOBILE)
+
 #ifdef ANDROID_GAMEPAD
-  controller = new GamepadController();
-  controller->set_input_config(&GetInputConfig());
-  controller->set_input_system(&input_);
-  world_.AddController(controller);
+  {
+    GamepadController* controller = new GamepadController();
+    controller->set_input_config(&GetInputConfig());
+    controller->set_input_system(&input_);
+    world_.AddController(controller);
+  }
 #endif
 
   world_renderer_.Initialize(&world_);
@@ -730,10 +756,9 @@ void Game::Run() {
   SDL_Quit();
 }
 
-
 #if DISPLAY_FRAMERATE_HISTOGRAM
-static const int kSampleDuration = 5; // in seconds
-static const int kTargetFPS = 60; // Used for calculating dropped frames
+static const int kSampleDuration = 5;  // in seconds
+static const int kTargetFPS = 60;      // Used for calculating dropped frames
 static const int kTargetFramesPerSample = kSampleDuration * kTargetFPS;
 
 // Collect framerate sample data, and print out nice histograms and statistics
@@ -763,7 +788,7 @@ void Game::UpdateProfiling(WorldTime frame_time) {
 
     for (int i = lowest; i <= highest; i++) {
       std::string s = "%d:";
-      for (int j = 0; j < histogram[i]; j+=4) {
+      for (int j = 0; j < histogram[i]; j += 4) {
         s += "*";
       }
       s += " (%d)";
@@ -778,7 +803,7 @@ void Game::UpdateProfiling(WorldTime frame_time) {
     }
     LogInfo("---------------------------------");
     LogInfo("total frames: %d", total_count);
-    LogInfo("average: %f", (float)total/(float)total_count);
+    LogInfo("average: %f", (float)total / (float)total_count);
     LogInfo("median: %d", median);
     LogInfo("dropped frames: %d / %d (%d%%)",
             (kTargetFramesPerSample - total_count), kTargetFramesPerSample,

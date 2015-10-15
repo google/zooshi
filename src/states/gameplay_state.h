@@ -16,8 +16,8 @@
 #define ZOOSHI_GAMEPLAY_STATE_H_
 
 #include "camera.h"
-#include "fplbase/input.h"
 #include "entity/entity_manager.h"
+#include "fplbase/input.h"
 #include "gpg_manager.h"
 #include "pindrop/pindrop.h"
 #include "states/state_machine.h"
@@ -53,6 +53,7 @@ class GameplayState : public StateNode {
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
+  virtual void HandleUI(Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
 

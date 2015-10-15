@@ -49,6 +49,7 @@
 #include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "inputcontrollers/gamepad_controller.h"
+#include "inputcontrollers/onscreen_controller.h"
 #include "railmanager.h"
 #include "scene_lab/edit_options.h"
 #include "scene_lab/scene_lab.h"
@@ -127,6 +128,7 @@ struct World {
   WorldRenderer* world_renderer;
 
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
+  OnscreenControllerUI onscreen_controller_ui;
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,

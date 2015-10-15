@@ -170,6 +170,7 @@ void World::AddController(BasePlayerController* controller) {
 }
 
 void World::SetActiveController(ControllerType controller_type) {
+  bool set_controller = false;
   for (auto it = input_controllers.begin(); it != input_controllers.end();
        ++it) {
     BasePlayerController* controller = it->get();
@@ -178,10 +179,13 @@ void World::SetActiveController(ControllerType controller_type) {
            ++iter) {
         entity_manager.GetComponentData<PlayerData>(iter->entity)
             ->set_input_controller(controller);
+        set_controller = true;
       }
       break;
     }
   }
+  assert(set_controller);
+  (void)set_controller;
 }
 
 void World::ResetControllerFacing() {
@@ -194,7 +198,7 @@ void World::ResetControllerFacing() {
 void World::SetIsInCardboard(bool in_cardboard) {
   if (is_in_cardboard_ != in_cardboard) {
     is_in_cardboard_ = in_cardboard;
-    // Turn on the Cardboard setting button when in Cardboard mode.
+// Turn on the Cardboard setting button when in Cardboard mode.
 #ifdef ANDROID_CARDBOARD
     SetCardboardButtonEnabled(in_cardboard);
 #endif  // ANDROID_CARDBOARD

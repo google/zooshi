@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #include "inputcontrollers/gamepad_controller.h"
-#include "mathfu/glsl_mappings.h"
 #include "camera.h"
 #include "fplbase/utilities.h"
+#include "mathfu/glsl_mappings.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -30,13 +30,9 @@ void GamepadController::Update() {
   UpdateButtons();
 }
 
-void GamepadController::UpdateFacing() {
-  facing_.Update();
-  up_.Update();
-
-  up_.SetValue(kCameraUp);
+// Calculate the camera delta from button pushes.
+const mathfu::vec2 GamepadController::GetDelta() const {
   vec2 delta(0.0f);
-
 #ifdef ANDROID_GAMEPAD
   // TODO: Use only one gamepad per controller.
   for (auto it = input_system_->GamepadMap().begin();
@@ -57,6 +53,16 @@ void GamepadController::UpdateFacing() {
     }
   }
 #endif
+  return delta;
+}
+
+void GamepadController::UpdateFacing() {
+  facing_.Update();
+  up_.Update();
+
+  up_.SetValue(kCameraUp);
+
+  vec2 delta = GetDelta();
   delta *= input_config_->gamepad_sensitivity();
   if (input_config_->invert_x()) {
     delta.x() *= -1.0f;
@@ -69,13 +75,27 @@ void GamepadController::UpdateFacing() {
   // camera transformations are applied:
   vec3 facing_vector = facing_.Value();
   vec3 side_vector =
-      quat::FromAngleAxis(-static_cast<float>(M_PI_2), mathfu::kAxisZ3f) *
+      quat::FromAngleAxis(-static_cast<float>(M_PI_2), kCameraUp) *
       facing_vector;
 
   quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
-  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);
+  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), kCameraUp);
 
   facing_vector = pitch_adjustment * yaw_adjustment * facing_vector;
+
+  // Restrict rotation down so that the user doesn't end up just looking at the
+  // raft or river.  Restrict rotation up so the user doesn't end up just
+  // looking at the sky, missing the action.
+  static const vec2 kUpDownRotationLimit(-0.2f, 0.5f);
+  // Clamp the degrees of freedom to "PI / 2 * kUpRotationLimit" when rotating
+  // around kCameraSide to avoid gimbal lock.
+  facing_vector =
+      (facing_vector * (kCameraForward + kCameraSide)) +
+      (mathfu::Clamp(
+           mathfu::Vector<float, 3>::DotProduct(facing_vector, kCameraUp),
+           kUpDownRotationLimit[0], kUpDownRotationLimit[1]) *
+       kCameraUp);
+  facing_vector.Normalize();
 
   facing_.SetValue(facing_vector);
 }

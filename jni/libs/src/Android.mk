@@ -97,6 +97,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/gui.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/gamepad_controller.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/onscreen_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/gpg.cpp \

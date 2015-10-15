@@ -16,21 +16,26 @@
 #define ZOOSHI_GAMEPAD_CONTROLLER_H
 
 #include "camera.h"
-#include "mathfu/glsl_mappings.h"
 #include "inputcontrollers/base_player_controller.h"
+#include "mathfu/glsl_mappings.h"
 
 namespace fpl {
 namespace zooshi {
 
 class GamepadController : public BasePlayerController {
  public:
-  GamepadController() : BasePlayerController(kControllerGamepad) {}
+  GamepadController(ControllerType controller_type = kControllerGamepad)
+      : BasePlayerController(controller_type) {}
 
   virtual void Update();
 
+ protected:
+  // Calculate the camera delta from button pushes.
+  virtual const mathfu::vec2 GetDelta() const;
+
  private:
   void UpdateFacing();
-  void UpdateButtons();
+  virtual void UpdateButtons();
 };
 
 }  // zooshi
