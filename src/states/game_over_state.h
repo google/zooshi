@@ -35,13 +35,10 @@ class GameOverState : public StateNode {
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
   virtual void Render(Renderer* renderer);
-  virtual void HandleUI(Renderer* renderer);
   virtual void OnEnter(int previous_state);
+  virtual void OnExit(int next_state);
 
  private:
-  void GameOverScreen(AssetManager& assetman, FontManager& fontman,
-                      InputSystem& input);
-
   // The world to display in the background.
   World* world_;
 

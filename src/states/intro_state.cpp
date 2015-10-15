@@ -121,7 +121,7 @@ void IntroState::Render(Renderer* renderer) {
 }
 
 void IntroState::OnEnter(int /*previous_state*/) {
-  world_->player_component.set_active(true);
+  world_->player_component.set_state(kPlayerState_Active);
   input_system_->SetRelativeMouseMode(true);
 #ifdef ANDROID_CARDBOARD
   input_system_->cardboard_input().ResetHeadTracker();

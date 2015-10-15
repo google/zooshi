@@ -65,6 +65,15 @@ table SimpleMovementDef {
   velocity:Vec3;
 }
 
+table PatronEvent {
+  // Animation to play.
+  action:PatronAction;
+
+  // Time to start event.
+  // -1 means start as soon as previous event completes.
+  time:int = -1;
+}
+
 table PatronDef {
   // The type of patron being animated.
   anim_object:AnimObject;
@@ -74,6 +83,9 @@ table PatronDef {
   // range [min_lap, max_lap].
   min_lap:float = -1.0;
   max_lap:float = -1.0;
+
+  // Sequence of animations to play when StartEvent() is called.
+  events:[PatronEvent];
 
   // If the raft is within the pop in radius, this patron will stand up.
   pop_in_radius:float;

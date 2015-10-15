@@ -134,7 +134,16 @@
               "y": 0.8,
               "z": 0.8
             },
-            "child_ids": ["Sign", "RaftShrimp", "RaftSalmon"]
+            "child_ids": [
+              "Sign",
+              "RaftShrimp",
+              "RaftSalmon",
+              "EndBankerBird",
+              "EndHungryHippo",
+              "EndLadyMandrill",
+              "EndMoustacheCroc",
+              "EndLovelyGiraffette",
+            ]
           }
         },
         {
@@ -1320,7 +1329,7 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "PatronBankerBird"
+            "entity_id": "PatronBankerBirdNoRail"
           }
         },
         {
@@ -1387,6 +1396,23 @@
           }
         },
         {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "PatronBankerBird",
+            "prototype": "PatronBankerBirdNoRail"
+          }
+        },
+        {
           "data_type": "RailDenizenDef",
           "data" : {
             "start_time": 0,
@@ -1395,12 +1421,6 @@
             "update_orientation": true,
             "inherit_transform_data": true,
             "rail_scale": { "x": 5, "y": 5, "z": 5 }
-          }
-        },
-        {
-          "data_type": "EditOptionsDef",
-          "data": {
-            "selection_option": "Any"
           }
         }
       ]
@@ -1609,6 +1629,238 @@
             "shader": "shaders/textured_skinned_lit",
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
+          }
+        }
+      ]
+    },
+
+    // End game patrons
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "EndMoustacheCroc",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 8,
+              "y": 8,
+              "z": 0.5
+            },
+            "scale": {
+              "x": 1.25,
+              "y": 1.25,
+              "z": 1.25
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -160
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "anim_object": "DapperCroc",
+            "min_lap": 10000,
+            "events": [
+              { "action": "GetUp", "time": 2500 },
+              { "action": "Satisfied" },
+              { "action": "Fall" },
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "EndBankerBird",
+            "prototype": "PatronBankerBirdNoRail"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 4,
+              "y": 6,
+              "z": 4
+            },
+            "scale": {
+              "x": 1.25,
+              "y": 1.25,
+              "z": 1.25
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -135
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "anim_object": "BankerBird",
+            "min_lap": 10000,
+            "events": [
+              { "action": "GetUp", "time": 3500 },
+              { "action": "Satisfied" },
+              { "action": "Fall" },
+            ],
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "EndHungryHippo",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 12,
+              "z": -1
+            },
+            "scale": {
+              "x": 1.75,
+              "y": 1.75,
+              "z": 1.75
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "anim_object": "HungryHippo",
+            "min_lap": 10000,
+            "events": [
+              { "action": "GetUp", "time": 1800 },
+              { "action": "Satisfied" },
+              { "action": "Fall" },
+            ],
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "EndLovelyGiraffette",
+            "prototype": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 7,
+              "y": 14,
+              "z": 0
+            },
+            "scale": {
+              "x": 1.5,
+              "y": 1.5,
+              "z": 1.5
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -150
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "anim_object": "LovelyGiraffette",
+            "min_lap": 10000,
+            "events": [
+              { "action": "GetUp", "time": 2500 },
+              { "action": "Satisfied" },
+              { "action": "Fall" },
+            ],
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "EndLadyMandrill",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -6,
+              "y": 7,
+              "z": 0
+            },
+            "scale": {
+              "x": 1.25,
+              "y": 1.25,
+              "z": 1.25
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 150
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        },
+        {
+          "data_type": "PatronDef",
+          "data": {
+            "anim_object": "LadyMandrill",
+            "min_lap": 10000,
+            "events": [
+              { "action": "GetUp", "time": 2800 },
+              { "action": "Satisfied" },
+              { "action": "Fall" },
+            ],
           }
         }
       ]

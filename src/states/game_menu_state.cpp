@@ -181,7 +181,7 @@ void GameMenuState::HandleUI(Renderer* renderer) {
 void GameMenuState::OnEnter(int /*previous_state*/) {
   LoadWorldDef(world_, world_def_);
   music_channel_ = audio_engine_->PlaySound(music_menu_);
-  world_->player_component.set_active(false);
+  world_->player_component.set_state(kPlayerState_Disabled);
   input_system_->SetRelativeMouseMode(false);
   menu_state_ = kMenuStateStart;
 }

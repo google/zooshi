@@ -27,6 +27,7 @@
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/math/angle.h"
+#include "motive/math/range.h"
 #include "motive/motivator.h"
 
 namespace fpl {
@@ -51,6 +52,9 @@ enum PatronState {
 
   // The patron is within range of the raft, and is standing up.
   kPatronStateGettingUp,
+
+  // The patron is executing a series of PatronEvents.
+  kPatronStateInEvent,
 };
 
 enum PatronMoveState {
@@ -65,6 +69,20 @@ enum PatronMoveState {
 
   // Turning to face the raft.
   kPatronMoveFaceRaft
+};
+
+// An animation that gets triggered sometime after StartEvent() is called.
+struct PatronEvent {
+  // Animation to play.
+  PatronAction action;
+
+  // Time to start playing animation. If -1, start playing immediately after
+  // previous animation completes.
+  entity::WorldTime time;
+
+  PatronEvent() : action(PatronAction_GetUp), time(-1) {}
+  PatronEvent(PatronAction action, entity::WorldTime time)
+      : action(action), time(time) {}
 };
 
 // Data for scene object components.
@@ -103,6 +121,12 @@ struct PatronData {
   // range [min_lap, max_lap]. A negative value indicates no limits.
   float min_lap;
   float max_lap;
+
+  // Sequence of animations to follow once StartEvent() has been called.
+  std::vector<PatronEvent> events;
+
+  // Current index into the `events` array.
+  int event_index;
 
   // The tag of the body part that needs to be hit to trigger a fall.
   // Note that an empty name means any collision counts.
@@ -156,7 +180,7 @@ struct PatronData {
 
 class PatronComponent : public entity::Component<PatronData> {
  public:
-  PatronComponent() {}
+  PatronComponent() : config_(nullptr), event_time_(-1) {}
 
   virtual void Init();
   virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
@@ -169,6 +193,18 @@ class PatronComponent : public entity::Component<PatronData> {
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
 
+  // Each patron (optionally) holds a sequence of animations in
+  // `PatronData::events`. These events are followed after StartEvent() is
+  // called.
+  void StartEvent(entity::WorldTime event_start_time);
+
+  // Stop playback of event timeline, and resume normal operation.
+  void StopEvent() { event_time_ = -1; }
+
+  // Current time into the event. Starts from the `start_time` passed into
+  // StartEvent().
+  entity::WorldTime event_time() const { return event_time_; }
+
   static void CollisionHandler(
       fpl::component_library::CollisionData* collision_data, void* user_data);
 
@@ -178,6 +214,8 @@ class PatronComponent : public entity::Component<PatronData> {
                        const std::string& part_tag);
   void UpdateMovement(const entity::EntityRef& patron);
   void SpawnPointDisplay(const entity::EntityRef& patron);
+  bool AnimationEnding(const PatronData* patron_data,
+                       entity::WorldTime delta_time) const;
   bool HasAnim(const PatronData* patron_data, PatronAction action) const;
   void Animate(PatronData* patron_data, PatronAction action);
   Range TargetHeightRange(const entity::EntityRef& patron) const;
@@ -194,6 +232,9 @@ class PatronComponent : public entity::Component<PatronData> {
   void FaceRaft(const entity::EntityRef& patron);
 
   const Config* config_;
+
+  // Current time into the "event". i.e. the set-up sequence of animations.
+  entity::WorldTime event_time_;
 };
 
 }  // zooshi

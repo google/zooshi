@@ -153,7 +153,7 @@ void GameplayState::Initialize(
 
 void GameplayState::OnEnter(int previous_state) {
   requested_state_ = kGameStateGameplay;
-  world_->player_component.set_active(true);
+  world_->player_component.set_state(kPlayerState_Active);
   input_system_->SetRelativeMouseMode(true);
 
   if (previous_state == kGameStatePause) {

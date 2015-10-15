@@ -134,7 +134,7 @@ void PauseState::HandleUI(Renderer* renderer) {
 }
 
 void PauseState::OnEnter(int /*previous_state*/) {
-  world_->player_component.set_active(false);
+  world_->player_component.set_state(kPlayerState_Disabled);
   input_system_->SetRelativeMouseMode(false);
 }
 

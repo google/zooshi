@@ -51,12 +51,13 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
        ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
     TransformData* transform_data = Data<TransformData>(iter->entity);
-    if (active_) {
+    if (state_ != kPlayerState_Disabled) {
       player_data->input_controller()->Update();
     }
     transform_data->orientation =
         mathfu::quat::RotateFromTo(player_data->GetFacing(), mathfu::kAxisY3f);
-    if (player_data->input_controller()->Button(kFireProjectile).Value() &&
+    if (state_ == kPlayerState_Active &&
+        player_data->input_controller()->Button(kFireProjectile).Value() &&
         player_data->input_controller()->Button(kFireProjectile).HasChanged()) {
       SpawnProjectile(iter->entity);
 

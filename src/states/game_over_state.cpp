@@ -34,43 +34,6 @@ namespace zooshi {
 
 static const float kTimeToStopRaft = 2000.0f;
 
-void GameOverState::GameOverScreen(AssetManager& assetman, FontManager& fontman,
-                                   InputSystem& input) {
-  entity::EntityRef player = world_->services_component.player_entity();
-  AttributesData* player_attributes =
-      world_->attributes_component.GetComponentData(player);
-  int score = player_attributes->attributes[AttributeDef_PatronsFed];
-
-  gui::Run(assetman, fontman, input, [&]() {
-    gui::StartGroup(gui::kLayoutHorizontalTop, 0);
-    // Background image.
-    gui::StartGroup(gui::kLayoutVerticalCenter, 0);
-    // Positioning the UI slightly above of the center.
-    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(0, -150));
-    gui::Image(*background_game_over_, 850);
-    gui::EndGroup();
-
-    gui::SetTextColor(kColorBrown);
-
-    // Menu items. Note that we are layering 2 layouts here
-    // (background + menu items).
-    gui::StartGroup(gui::kLayoutVerticalCenter, 0);
-    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(0, -150));
-    gui::SetMargin(gui::Margin(200, 280, 200, 100));
-
-    gui::Label("Congrats!", kMenuSize);
-    gui::Label("You fed", kMenuSize);
-    char buffer[32] = {0};
-    snprintf(buffer, sizeof(buffer), "\n%i %s!", score,
-             score == 1 ? "animal" : "animals");
-    gui::Label(static_cast<const char*>(buffer), kMenuSize);
-    gui::EndGroup();
-    gui::EndGroup();
-  });
-}
-
 void GameOverState::Initialize(InputSystem* input_system, World* world,
                                const Config* config,
                                AssetManager* asset_manager,
@@ -103,11 +66,20 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
   UpdateMainCamera(&main_camera_, world_);
 
   // Return to the title screen after any key is hit.
-  if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
-      input_system_->GetButton(FPLK_AC_BACK).went_down() ||
-      input_system_->GetPointerButton(0).went_down()) {
+  static const entity::WorldTime kMinTimeInEndState = 4000.0f;
+  const bool event_over =
+      world_->patron_component.event_time() > kMinTimeInEndState;
+  const bool pointer_button_pressed =
+      input_system_->GetPointerButton(0).went_down();
+  const bool exit_button_pressed =
+      input_system_->GetButton(FPLK_ESCAPE).went_down() ||
+      input_system_->GetButton(FPLK_AC_BACK).went_down();
+  if (event_over && (pointer_button_pressed || exit_button_pressed)) {
     audio_engine_->PlaySound(sound_click_);
-    *next_state = kGameStateGameMenu;
+
+    // Stay in Cardboard unless the back button is pressed.
+    *next_state = world_->is_in_cardboard() && pointer_button_pressed
+                ? kGameStateGameplay : kGameStateGameMenu;
   }
 }
 
@@ -123,22 +95,18 @@ void GameOverState::Render(Renderer* renderer) {
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void GameOverState::HandleUI(Renderer* renderer) {
-  // No culling when drawing the game over screen.
-  renderer->SetCulling(Renderer::kNoCulling);
-  GameOverScreen(*asset_manager_, *font_manager_, *input_system_);
-}
-
 void GameOverState::OnEnter(int /*previous_state*/) {
-  world_->player_component.set_active(false);
-  world_->SetIsInCardboard(false);
-  input_system_->SetRelativeMouseMode(false);
+  world_->player_component.set_state(kPlayerState_NoProjectiles);
 
   // Stop the raft over the course of a few seconds.
   entity::EntityRef raft = world_->services_component.raft_entity();
   RailDenizenData* raft_rail_denizen =
       world_->rail_denizen_component.GetComponentData(raft);
   raft_rail_denizen->SetPlaybackRate(0.0f, kTimeToStopRaft);
+
+  // Trigger the end-game event.
+  static const entity::WorldTime kEndGameEventTime = 0;
+  world_->patron_component.StartEvent(kEndGameEventTime);
 
 #ifdef USING_GOOGLE_PLAY_GAMES
   if (gpg_manager_->LoggedIn()) {
@@ -157,6 +125,14 @@ void GameOverState::OnEnter(int /*previous_state*/) {
         leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str());
   }
 #endif
+}
+
+void GameOverState::OnExit(int next_state) {
+  world_->patron_component.StopEvent();
+
+  if (next_state == kGameStateGameplay) {
+    LoadWorldDef(world_, config_->world_def());
+  }
 }
 
 }  // zooshi

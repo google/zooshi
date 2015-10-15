@@ -33,6 +33,12 @@ BREADBOARD_DECLARE_EVENT(kOnFireEventId)
 
 struct ActionDef;
 
+enum PlayerState {
+  kPlayerState_Active,         // Input is processed and projectiles are thrown.
+  kPlayerState_NoProjectiles,  // Input is processed, but no projectiles.
+  kPlayerState_Disabled,       // Input is not processed.
+};
+
 class PlayerData {
  public:
   PlayerData() : input_controller_(nullptr) {}
@@ -68,13 +74,13 @@ class PlayerComponent : public entity::Component<PlayerData> {
   entity::EntityRef SpawnProjectile(entity::EntityRef source);
   mathfu::vec3 CalculateProjectileDirection(entity::EntityRef source) const;
 
-  void set_active(bool active) { active_ = active; }
+  void set_state(PlayerState state) { state_ = state; }
 
  private:
   mathfu::vec3 RandomProjectileAngularVelocity() const;
 
   const Config* config_;
-  bool active_;
+  PlayerState state_;
 };
 
 }  // zooshi

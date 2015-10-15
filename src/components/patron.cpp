@@ -109,6 +109,14 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->min_lap = patron_def->min_lap();
   patron_data->max_lap = patron_def->max_lap();
 
+  if (patron_def->events()) {
+    patron_data->events.resize(patron_def->events()->size());
+    for (size_t i = 0; i < patron_def->events()->size(); ++i) {
+      auto event = patron_def->events()->Get(i);
+      patron_data->events[i] = PatronEvent(event->action(), event->time());
+    }
+  }
+
   if (patron_def->target_tag()) {
     patron_data->target_tag = patron_def->target_tag()->str();
   }
@@ -133,6 +141,15 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   PatronDefBuilder builder(fbb);
   builder.add_min_lap(data->min_lap);
   builder.add_max_lap(data->max_lap);
+  if (data->events.size() > 0) {
+    std::vector<flatbuffers::Offset<fpl::PatronEvent>> events_flat(
+        data->events.size());
+    for (size_t i = 0; i < data->events.size(); ++i) {
+      const PatronEvent& event = data->events[i];
+      events_flat[i] = CreatePatronEvent(fbb, event.action, event.time);
+    }
+    builder.add_events(fbb.CreateVector(events_flat));
+  }
   builder.add_pop_in_radius(data->pop_in_radius);
   builder.add_pop_out_radius(data->pop_out_radius);
   builder.add_target_tag(target_tag);
@@ -153,8 +170,6 @@ void PatronComponent::UpdateAndEnablePhysics() {
   // Make the patrons stand up
   RenderMeshComponent* render_mesh_component =
       entity_manager_->GetComponent<RenderMeshComponent>();
-  TransformComponent* transform_component =
-      entity_manager_->GetComponent<TransformComponent>();
   auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
@@ -162,8 +177,7 @@ void PatronComponent::UpdateAndEnablePhysics() {
     physics_component->UpdatePhysicsFromTransform(patron);
     physics_component->EnablePhysics(patron);
 
-    render_mesh_component->SetHiddenRecursively(
-        transform_component->GetRootParent(patron), false);
+    render_mesh_component->SetHiddenRecursively(patron, false);
   }
 }
 
@@ -274,6 +288,30 @@ void PatronComponent::FaceRaft(const entity::EntityRef& patron) {
   }
 }
 
+bool PatronComponent::AnimationEnding(const PatronData* patron_data,
+                                      entity::WorldTime delta_time) const {
+  const AnimationData* anim_data =
+      Data<AnimationData>(patron_data->render_child);
+  if (!anim_data->motivator.Valid()) return false;
+
+  const MotiveTime anim_delta_time = static_cast<MotiveTime>(delta_time);
+  const MotiveTime time_remaining = anim_data->motivator.TimeRemaining();
+  const bool anim_ending = time_remaining < anim_delta_time;
+  return anim_ending;
+}
+
+void PatronComponent::StartEvent(entity::WorldTime event_start_time) {
+  event_time_ = event_start_time;
+
+  // Reset the event index for all patrons.
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    entity::EntityRef patron = iter->entity;
+    PatronData* patron_data = Data<PatronData>(patron);
+    patron_data->event_index = 0;
+  }
+}
+
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   entity::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
@@ -287,7 +325,34 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     entity::EntityRef patron = iter->entity;
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
+    RenderMeshComponent* rm_component =
+        entity_manager_->GetComponent<RenderMeshComponent>();
+    PhysicsComponent* physics_component =
+        entity_manager_->GetComponent<PhysicsComponent>();
+
+    // Animate patrons in the event.
+    const int num_events = static_cast<int>(patron_data->events.size());
+    if (event_time_ >= 0 && num_events > 0) {
+      const bool anim_ending = AnimationEnding(patron_data, delta_time);
+      if (patron_data->event_index < num_events) {
+        const PatronEvent& event =
+            patron_data->events[patron_data->event_index];
+        if ((event.time >= 0 && event.time <= event_time_) ||
+            (event.time < 0 && anim_ending)) {
+          // Start new animation.
+          Animate(patron_data, event.action);
+          patron_data->event_index++;
+          patron_data->state = kPatronStateInEvent;
+        }
+      } else if (anim_ending) {
+        // Disable event patron since we've played the last event.
+        patron_data->state = kPatronStateLayingDown;
+      }
+    }
+
     const PatronState state = patron_data->state;
+    rm_component->SetHiddenRecursively(patron, state == kPatronStateLayingDown);
+    if (num_events > 0) continue;
 
     // Move patron towards the target.
     UpdateMovement(patron);
@@ -302,20 +367,11 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       FaceRaft(patron);
     }
 
-    RenderMeshComponent* rm_component =
-        entity_manager_->GetComponent<RenderMeshComponent>();
-    TransformComponent* tf_component =
-        entity_manager_->GetComponent<TransformComponent>();
-    PhysicsComponent* physics_component =
-        entity_manager_->GetComponent<PhysicsComponent>();
-
-    rm_component->SetHiddenRecursively(tf_component->GetRootParent(patron),
-                                       state == kPatronStateLayingDown);
-
     // Determine the patron's distance from the raft.
     float raft_distance_squared =
         (transform_data->position - raft_transform->position).LengthSquared();
-    if (raft_distance_squared > patron_data->pop_out_radius_squared &&
+    if ((event_time_ >= 0 ||
+         raft_distance_squared > patron_data->pop_out_radius_squared) &&
         (state == kPatronStateUpright || state == kPatronStateGettingUp)) {
       // If you are too far away, and the patron is standing up (or getting up)
       // make them fall back down.
@@ -330,7 +386,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         rail_denizen_data->enabled = false;
         rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
       }
-    } else if (raft_distance_squared <= patron_data->pop_in_radius_squared &&
+    } else if (event_time_ < 0 &&
+               raft_distance_squared <= patron_data->pop_in_radius_squared &&
                lap > patron_data->last_lap_fed + kLapWaitAmount &&
                lap >= patron_data->min_lap &&
                (lap <= patron_data->max_lap || patron_data->max_lap < 0) &&
@@ -345,58 +402,53 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 
     // Transition to the next state if we're at the end of the current
     // animation.
-    AnimationData* anim_data = Data<AnimationData>(patron_data->render_child);
-    if (anim_data->motivator.Valid()) {
-      const MotiveTime anim_delta_time = static_cast<MotiveTime>(delta_time);
-
-      const MotiveTime time_remaining = anim_data->motivator.TimeRemaining();
-      const bool anim_ending = time_remaining < anim_delta_time;
-
-      if (anim_ending) {
-        switch (patron_data->state) {
-          case kPatronStateEating:
-            if (HasAnim(patron_data, PatronAction_Satisfied)) {
-              patron_data->state = kPatronStateSatisfied;
-              Animate(patron_data, PatronAction_Satisfied);
-              break;
-            }
-          // fallthrough
-          // Fallthrough to "falling" state if satisfied animation doesn't
-          // exist.
-
-          case kPatronStateSatisfied:
-            patron_data->state = kPatronStateFalling;
-            Animate(patron_data, PatronAction_Fall);
+    const bool anim_ending = AnimationEnding(patron_data, delta_time);
+    if (anim_ending) {
+      switch (patron_data->state) {
+        case kPatronStateEating:
+          if (HasAnim(patron_data, PatronAction_Satisfied)) {
+            patron_data->state = kPatronStateSatisfied;
+            Animate(patron_data, PatronAction_Satisfied);
             break;
+          }
+        // fallthrough
+        // Fallthrough to "falling" state if satisfied animation doesn't
+        // exist.
 
-          case kPatronStateFalling:
-            // After the patron has finished their falling animation, turn off
-            // the physics, as they are no longer in the world.
-            physics_component->DisablePhysics(patron);
-            patron_data->state = kPatronStateLayingDown;
-            break;
+        case kPatronStateSatisfied:
+          patron_data->state = kPatronStateFalling;
+          Animate(patron_data, PatronAction_Fall);
+          break;
 
-          case kPatronStateGettingUp: {
-            patron_data->state = kPatronStateUpright;
-            physics_component->EnablePhysics(patron);
-            auto rail_denizen_data = Data<RailDenizenData>(patron);
-            if (rail_denizen_data != nullptr) {
-              rail_denizen_data->enabled = true;
-              rail_denizen_data->SetPlaybackRate(
-                  rail_denizen_data->initial_playback_rate,
-                  kTimeToResumeMotion);
-            }
-          }  // fallthrough
+        case kPatronStateFalling:
+          // After the patron has finished their falling animation, turn off
+          // the physics, as they are no longer in the world.
+          physics_component->DisablePhysics(patron);
+          patron_data->state = kPatronStateLayingDown;
+          break;
 
-          case kPatronStateUpright:
-            Animate(patron_data, PatronAction_Idle);
-            break;
+        case kPatronStateGettingUp: {
+          patron_data->state = kPatronStateUpright;
+          physics_component->EnablePhysics(patron);
+          auto rail_denizen_data = Data<RailDenizenData>(patron);
+          if (rail_denizen_data != nullptr) {
+            rail_denizen_data->enabled = true;
+            rail_denizen_data->SetPlaybackRate(
+                rail_denizen_data->initial_playback_rate, kTimeToResumeMotion);
+          }
+        }  // fallthrough
 
-          default:
-            break;
-        }
+        case kPatronStateUpright:
+          Animate(patron_data, PatronAction_Idle);
+          break;
+
+        default:
+          break;
       }
     }
+  }
+  if (event_time_ >= 0) {
+    event_time_ += delta_time;
   }
 }
 
