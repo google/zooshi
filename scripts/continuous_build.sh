@@ -68,9 +68,16 @@ main() {
   # Log the contents of the SDK.
   find ${ANDROID_SDK_HOME} -name google-play-services_lib
 
-  # Build release.
+  # Change to zooshi directory
   cd "$(dirname "$(readlink -f $0)")/.."
 
+  # Clean the asset folder and intermediate asset folder
+  rm -rf obj/assets
+  find assets | grep -v -E \
+    '(^assets$|^assets/shaders|^assets/sounds|^assets/about\.txt|^assets/licenses\.txt)' | \
+    xargs -I@ rm -rf "@"
+
+  # Build release.
   INSTALL=0 LAUNCH=0 ./build_install_run.sh --verbose -A ''
   if [[ -n "${dist_dir}" ]]; then
     # Archive unsigned release build.
