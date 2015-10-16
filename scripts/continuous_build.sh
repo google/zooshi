@@ -73,8 +73,8 @@ main() {
 
   # Clean the asset folder and intermediate asset folder
   rm -rf obj/assets
-  find assets | grep -v -E \
-    '(^assets$|^assets/shaders|^assets/sounds|^assets/about\.txt|^assets/licenses\.txt)' | \
+  find assets | \
+    grep -v -E '^assets($|/shaders|/sounds|/about\.txt|/licenses\.txt)' | \
     xargs -I@ rm -rf "@"
 
   # Build release.
