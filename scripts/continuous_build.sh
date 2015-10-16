@@ -71,8 +71,14 @@ main() {
   # Change to zooshi directory
   cd "$(dirname "$(readlink -f $0)")/.."
 
+  # Clean intermediate directories
+  rm -rf apks
+  rm -rf bin
+  rm -rf gen
+  rm -rf libs
+  rm -rf obj
+
   # Clean the asset folder and intermediate asset folder
-  rm -rf obj/assets
   find assets | \
     grep -v -E '^assets($|/shaders|/sounds|/about\.txt|/licenses\.txt)' | \
     xargs -I@ rm -rf "@"
