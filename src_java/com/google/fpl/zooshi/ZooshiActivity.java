@@ -16,8 +16,16 @@
 
 package com.google.fpl.zooshi;
 
+import android.os.Bundle;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import com.google.fpl.fpl_base.FPLActivity;
 
 public class ZooshiActivity extends FPLActivity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+  }
 }
 
