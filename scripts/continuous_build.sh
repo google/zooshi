@@ -71,6 +71,9 @@ main() {
   # Change to zooshi directory
   cd "$(dirname "$(readlink -f $0)")/.."
 
+  # Clean git client
+  git clean -dfx
+
   # Clean intermediate directories
   rm -rf apks
   rm -rf bin
