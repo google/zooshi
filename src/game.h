@@ -82,6 +82,7 @@ struct GameSynchronization {
 class Game {
  public:
   Game();
+  ~Game();
   bool Initialize(const char* const binary_directory);
   void Run();
 

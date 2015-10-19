@@ -136,6 +136,11 @@ Game::Game()
       fader_(),
       version_(kVersion) {}
 
+Game::~Game() {
+  asset_manager_.ClearAllAssets();
+  renderer_.ShutDown();
+}
+
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
 bool Game::InitializeRenderer() {
