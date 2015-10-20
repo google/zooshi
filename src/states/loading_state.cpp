@@ -66,12 +66,15 @@ void LoadingState::Render(Renderer* renderer) {
   Material* loading_material =
       asset_manager_->FindMaterial(loading_material_name);
 
+  // Render black until the loading material itself has loaded.
+  const Texture* texture = loading_material->textures()[0];
+  if (!texture->id()) {
+    renderer->ClearFrameBuffer(mathfu::kZeros4f);
+    return;
+  }
+
   // Always clear the background.
   renderer->ClearFrameBuffer(kOnes4f);
-
-  // Render nothing until the loading material itself has loaded.
-  const Texture* texture = loading_material->textures()[0];
-  if (!texture->id()) return;
 
   // In ortho space:
   //  - screen centered at (0,0)
