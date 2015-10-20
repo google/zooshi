@@ -24,21 +24,37 @@ namespace zooshi {
 
 static const vec4 kGreenishColor(0.05f, 0.2f, 0.1f, 1.0f);
 
+static vec3 CorrectTransform(const mat4& mat) {
+  vec3 hmd_translation = (mat * mathfu::kAxisW4f * mat).xyz();
+  vec3 corrected_translation =
+      vec3(hmd_translation.x(), -hmd_translation.z(), hmd_translation.y());
+  return corrected_translation;
+}
+
 static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
                                Camera* cardboard_camera,
                                InputSystem* input_system) {
 #ifdef ANDROID_CARDBOARD
   auto render_callback = [&renderer, world, &camera, cardboard_camera](
-      const mat4& hmd_viewport_transform) {
+      const vec4i* viewport, const mat4* hmd_viewport_transform) {
     // Update the Cardboard camera with the translation changes from the given
     // transform, which contains the shifts for the eyes.
-    const vec3 hmd_translation = (hmd_viewport_transform * mathfu::kAxisW4f *
-                                  hmd_viewport_transform).xyz();
-    const vec3 corrected_translation =
-        vec3(hmd_translation.x(), -hmd_translation.z(), hmd_translation.y());
-    cardboard_camera->set_position(camera.position() + corrected_translation);
+    const vec3 corrected_translation_left =
+        CorrectTransform(hmd_viewport_transform[0]);
+    const vec3 corrected_translation_right =
+        CorrectTransform(hmd_viewport_transform[1]);
+
     cardboard_camera->set_facing(camera.facing());
     cardboard_camera->set_up(camera.up());
+
+    // Set up stereoscopic rendering parameters.
+    cardboard_camera->set_stereo(true);
+    cardboard_camera->set_position(
+        0, camera.position() + corrected_translation_left);
+    cardboard_camera->set_viewport(0, viewport[0]);
+    cardboard_camera->set_position(
+        1, camera.position() + corrected_translation_right);
+    cardboard_camera->set_viewport(1, viewport[1]);
 
     world->world_renderer->RenderWorld(*cardboard_camera, renderer, world);
   };

@@ -79,8 +79,8 @@ void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
   // Generate the shadow map:
   // TODO - modify this so that shadowcast is its own render pass
   for (int pass = 0; pass < RenderPass_Count; pass++) {
-    world->render_mesh_component.RenderPass(pass, light_camera_, renderer,
-                                            depth_shader_);
+    world->render_mesh_component.RenderPass(pass, light_camera_,
+                                            renderer, depth_shader_);
   }
 }
 
