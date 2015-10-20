@@ -180,6 +180,7 @@ void GameMenuState::HandleUI(Renderer* renderer) {
 
 void GameMenuState::OnEnter(int /*previous_state*/) {
   LoadWorldDef(world_, world_def_);
+  UpdateMainCamera(&main_camera_, world_);
   music_channel_ = audio_engine_->PlaySound(music_menu_);
   world_->player_component.set_state(kPlayerState_Disabled);
   input_system_->SetRelativeMouseMode(false);

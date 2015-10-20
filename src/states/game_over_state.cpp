@@ -97,6 +97,7 @@ void GameOverState::Render(Renderer* renderer) {
 
 void GameOverState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_state(kPlayerState_NoProjectiles);
+  UpdateMainCamera(&main_camera_, world_);
 
   // Stop the raft over the course of a few seconds.
   entity::EntityRef raft = world_->services_component.raft_entity();
