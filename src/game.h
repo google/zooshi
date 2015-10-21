@@ -44,6 +44,8 @@
 #define USING_GOOGLE_PLAY_GAMES
 #endif
 
+#define DISPLAY_FRAMERATE_HISTOGRAM 0
+
 // Header files that has a dependency to GPG definitions.
 #include "gpg_manager.h"
 #include "states/gameplay_state.h"
@@ -75,7 +77,6 @@ struct GameSynchronization {
   SDL_mutex* gameupdate_mutex_;
   SDL_cond* start_render_cv_;
   SDL_cond* start_update_cv_;
-
   GameSynchronization();
 };
 
@@ -107,6 +108,8 @@ class Game {
 
   void SetRelativeMouseMode(bool relative_mouse_mode);
   void ToggleRelativeMouseMode();
+
+  void UpdateProfiling(WorldTime frame_time);
 
   // Mutexes/CVs used in synchronizing the render and update threads:
   GameSynchronization sync_;
@@ -152,12 +155,12 @@ class Game {
   Shader* shader_lit_textured_normal_;
   Shader* shader_textured_;
 
-  // World time of previous update. We use this to calculate the delta_time of
-  // the current update. This value is tied to the real-world clock.  Note that
-  // it is distict from game_state_.time_, which is *not* tied to the real-world
-  // clock. If the game is paused, game_state.time_ will pause, but
-  // prev_world_time_ will keep chugging.
-  WorldTime prev_render_time_;
+#if DISPLAY_FRAMERATE_HISTOGRAM
+  // Profiling data.
+  static const int kHistogramSize = 64;
+  WorldTime last_printout;
+  WorldTime histogram[kHistogramSize];
+#endif
 
   bool game_exiting_;
 
