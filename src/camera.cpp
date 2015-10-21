@@ -30,9 +30,11 @@ static const float kDefaultViewportNearPlane = 1.0f;
 static const float kDefaultViewportFarPlane = 500.0f;
 
 Camera::Camera()
-    : position_(mathfu::kZeros3f),
-      facing_(mathfu::kAxisY3f),
-      up_(mathfu::kAxisZ3f) {
+    : facing_(mathfu::kAxisY3f),
+      up_(mathfu::kAxisZ3f),
+      stereo_(false) {
+  position_[0] = mathfu::kZeros3f;
+  position_[1] = mathfu::kZeros3f;
   Initialize(kDefaultViewportAngle, kViewportResolution,
              kDefaultViewportNearPlane, kDefaultViewportFarPlane);
 }
@@ -40,14 +42,16 @@ Camera::Camera()
 // returns a matrix representing our camera.
 // This is the "VP" of the MVP matrix we'll usually want.
 // (The M is the world transform of the model.)
-mathfu::mat4 Camera::GetTransformMatrix() const {
+mathfu::mat4 Camera::GetTransformMatrix(int32_t index) const {
+  assert(index < (stereo_ ? 2 : 1));
   mat4 perspective_matrix_ = mat4::Perspective(
       viewport_angle_, viewport_resolution_.x() / viewport_resolution_.y(),
       viewport_near_plane_, viewport_far_plane_, 1.0f);
 
   // Subtract the facing vector because we need to be right handed.
   // TODO(amablue): add handedness to LookAt function (b/19229170)
-  mat4 camera_matrix = mat4::LookAt(position_ - facing_, position_, up_);
+  mat4 camera_matrix = mat4::LookAt(position_[index] - facing_,
+                                    position_[index], up_);
 
   mat4 camera_transform = perspective_matrix_ * camera_matrix;
 
@@ -55,10 +59,11 @@ mathfu::mat4 Camera::GetTransformMatrix() const {
 }
 
 // returns just the View matrix - doesn't do the projection transform.
-mathfu::mat4 Camera::GetViewMatrix() const {
+mathfu::mat4 Camera::GetViewMatrix(int32_t index) const {
+  assert(index < (stereo_ ? 2 : 1));
   // Subtract the facing vector because we need to be right handed.
   // TODO(amablue): add handedness to LookAt function (b/19229170)
-  return mat4::LookAt(position_ - facing_, position_, up_);
+  return mat4::LookAt(position_[index] - facing_, position_[index], up_);
 }
 
 

@@ -30,15 +30,22 @@ class Camera : public fpl::CameraInterface {
   Camera();
 
   // returns the View/Projection matrix:
-  virtual mathfu::mat4 GetTransformMatrix() const;
+  virtual mathfu::mat4 GetTransformMatrix(int32_t index = 0) const;
 
   // returns just the V matrix:
-  virtual mathfu::mat4 GetViewMatrix() const;
+  virtual mathfu::mat4 GetViewMatrix(int32_t index = 0) const;
 
-  virtual void set_position(const mathfu::vec3& position) {
-    position_ = position;
+  virtual void set_position(int32_t index, const mathfu::vec3& position) {
+    assert(index < stereo_ ? 2 : 1);
+    position_[index] = position;
   }
-  virtual mathfu::vec3 position() const { return position_; }
+  virtual void set_position(const mathfu::vec3& position) {
+    position_[0] = position;
+  }
+  virtual mathfu::vec3 position(int32_t index = 0) const {
+    assert(index < stereo_ ? 2 : 1);
+    return position_[index];
+  }
 
   virtual void set_facing(const mathfu::vec3& facing) {
     assert(facing.LengthSquared() != 0);
@@ -78,6 +85,18 @@ class Camera : public fpl::CameraInterface {
   }
   virtual float viewport_far_plane() const { return viewport_far_plane_; }
 
+  virtual void set_viewport(int32_t index, const mathfu::vec4i& viewport) {
+    assert(index < stereo_ ? 2 : 1);
+    viewport_[index] = viewport;
+  }
+  virtual const mathfu::vec4i& viewport(int32_t index) const {
+    assert(index < stereo_ ? 2 : 1);
+    return viewport_[index];
+  }
+
+  virtual bool IsStereo() const { return stereo_; }
+  virtual void set_stereo(bool b) { stereo_ = b; }
+
   void Initialize(float viewport_angle, mathfu::vec2 viewport_resolution,
                   float viewport_near_plane, float viewport_far_plane) {
     viewport_angle_ = viewport_angle;
@@ -87,13 +106,15 @@ class Camera : public fpl::CameraInterface {
   }
 
  private:
-  mathfu::vec3 position_;
+  mathfu::vec3 position_[2];
   mathfu::vec3 facing_;
   mathfu::vec3 up_;
   float viewport_angle_;
   mathfu::vec2 viewport_resolution_;
   float viewport_near_plane_;
   float viewport_far_plane_;
+  mathfu::vec4i viewport_[2];
+  bool stereo_;
 };
 
 }  // zooshi
