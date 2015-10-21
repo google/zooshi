@@ -156,6 +156,11 @@ set(FLATBUFFERS_GENERATED_INCLUDES_DIR
     ${CMAKE_SOURCE_DIR}${CMAKE_FILES_DIRECTORY}/include)
 file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
 
+# Generate a list of the schema files in motive and pindrop as dependencies for
+# the local schema files.
+file(GLOB_RECURSE MOTIVE_SCHEMAS ${dependencies_motive_dir}/schemas/*.fbs)
+file(GLOB_RECURSE PINDROP_SCHEMAS ${dependencies_pindrop_dir}/schemas/*.fbs)
+
 # Generate rules to build the set of output files from the set of input
 # schema files.
 unset(FLATBUFFERS_GENERATED_INCLUDES)
@@ -176,7 +181,7 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas -c ${flatbuffers_schema}
-    DEPENDS flatc motive pindrop ${flatbuffers_schema})
+    DEPENDS flatc ${MOTIVE_SCHEMAS} ${PINDROP_SCHEMAS} ${flatbuffers_schema})
   list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_include})
   # Generate the binary schema files as well.
   add_custom_command(
@@ -188,7 +193,7 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
         -I ${dependencies_fplbase_dir}/schemas
         -I ${dependencies_motive_dir}/schemas
         -I ${dependencies_pindrop_dir}/schemas ${flatbuffers_schema}
-    DEPENDS flatc motive pindrop ${flatbuffers_schema})
+    DEPENDS flatc ${MOTIVE_SCHEMAS} ${PINDROP_SCHEMAS} ${flatbuffers_schema})
   # Temporarily don't generate all binary schemas until b/22063091 is fixed.
   # list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_binary_schema})
 endforeach()
