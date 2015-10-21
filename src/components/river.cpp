@@ -464,8 +464,10 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       collides_with |= static_cast<short>(*collides);
     }
   }
+  std::string user_tag = river->user_tag() ? river->user_tag()->c_str() : "";
   physics_component->FinalizeStaticMesh(entity, collision_type, collides_with,
-                                        river->mass(), river->restitution());
+                                        river->mass(), river->restitution(),
+                                        user_tag);
 }
 
 void RiverComponent::UpdateRiverMeshes(entity::EntityRef entity) {
