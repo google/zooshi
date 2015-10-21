@@ -8,7 +8,8 @@
     { "name": "giraffe", "hierarchy": 1 },
     { "name": "hippo", "hierarchy": 1 },
     { "name": "bird", "hierarchy": 1 },
-    { "name": "heart", "hierarchy": 1 }
+    { "name": "heart", "hierarchy": 1 },
+    { "name": "gate", "hierarchy": 1 }
   ],
 
   "anim_meta": [

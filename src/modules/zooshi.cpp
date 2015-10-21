@@ -15,8 +15,12 @@
 #include "modules/zooshi.h"
 
 #include "breadboard/base_node.h"
+#include "breadboard/event.h"
 #include "breadboard/module_registry.h"
-#include "component_library/meta.h"
+#include "component_library/animation.h"
+#include "component_library/graph.h"
+#include "component_library/transform.h"
+#include "components/scenery.h"
 #include "components/services.h"
 #include "entity/entity_manager.h"
 #include "mathfu/glsl_mappings.h"
@@ -26,6 +30,9 @@ using breadboard::Module;
 using breadboard::ModuleRegistry;
 using breadboard::NodeArguments;
 using breadboard::NodeSignature;
+using fpl::component_library::AnimationComponent;
+using fpl::component_library::GraphComponent;
+using fpl::component_library::TransformComponent;
 using fpl::entity::EntityManager;
 using fpl::entity::EntityRef;
 
@@ -74,17 +81,79 @@ class RaftEntityNode : public BaseNode {
   ServicesComponent* services_component_;
 };
 
+// A node that executes every frame.
+class AdvanceFrameNode : public BaseNode {
+ public:
+  AdvanceFrameNode(GraphComponent* graph_component)
+      : graph_component_(graph_component) {}
+  static void OnRegister(NodeSignature* node_sig) {
+    node_sig->AddOutput<void>();
+    node_sig->AddListener(fpl::component_library::kAdvanceFrameEventId);
+  }
+
+  virtual void Initialize(NodeArguments* args) {
+    args->BindBroadcaster(0, graph_component_->advance_frame_broadcaster());
+  }
+
+  virtual void Execute(NodeArguments* args) { args->SetOutput(0); }
+
+ private:
+  GraphComponent* graph_component_;
+};
+
+// Sets the override animation to play in the show state.
+class SetShowOverrideNode : public BaseNode {
+ public:
+  SetShowOverrideNode(SceneryComponent* scenery_component,
+                      TransformComponent* transform_component)
+      : scenery_component_(scenery_component),
+        transform_component_(transform_component) {}
+
+  static void OnRegister(NodeSignature* node_sig) {
+    node_sig->AddInput<void>();       // Void to trigger the animation.
+    node_sig->AddInput<EntityRef>();  // The entity to be animated.
+    node_sig->AddInput<int>();        // The index into the AnimTable.
+    node_sig->AddOutput<void>();
+  }
+
+  virtual void Execute(NodeArguments* args) {
+    if (args->IsInputDirty(0)) {
+      EntityRef entity = *args->GetInput<EntityRef>(1);
+      int override_idx = *args->GetInput<int>(2);
+      scenery_component_->ApplyShowOverride(
+          entity, static_cast<SceneryState>(override_idx));
+      args->SetOutput(0);
+    }
+  }
+
+ private:
+  SceneryComponent* scenery_component_;
+  TransformComponent* transform_component_;
+};
+
 void InitializeZooshiModule(ModuleRegistry* module_registry,
-                            ServicesComponent* services_component) {
+                            ServicesComponent* services_component,
+                            GraphComponent* graph_component,
+                            SceneryComponent* scenery_component,
+                            TransformComponent* transform_component) {
   auto player_entity_ctor = [services_component]() {
     return new PlayerEntityNode(services_component);
   };
   auto raft_entity_ctor = [services_component]() {
     return new RaftEntityNode(services_component);
   };
+  auto advance_frame_ctor = [graph_component]() {
+    return new AdvanceFrameNode(graph_component);
+  };
+  auto set_show_override_ctor = [scenery_component, transform_component]() {
+    return new SetShowOverrideNode(scenery_component, transform_component);
+  };
   Module* module = module_registry->RegisterModule("zooshi");
   module->RegisterNode<PlayerEntityNode>("player_entity", player_entity_ctor);
   module->RegisterNode<RaftEntityNode>("raft_entity", raft_entity_ctor);
+  module->RegisterNode<AdvanceFrameNode>("advance_frame", advance_frame_ctor);
+  module->RegisterNode<SetShowOverrideNode>("set_show_override",
+                                            set_show_override_ctor);
 }
 
 }  // zooshi

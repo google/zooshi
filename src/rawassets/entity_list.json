@@ -87,8 +87,8 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 4.455627,
-              "y": 49.91605,
+              "x": -0.001575,
+              "y": 49.998959,
               "z": 2
             },
             "scale": {
@@ -99,7 +99,7 @@
             "orientation": {
               "x": 0,
               "y": -0,
-              "z": 83.476006
+              "z": 90
             },
             "child_ids": [
               "ActivePlayer",
@@ -181,8 +181,8 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "$1c0e-5db3-a033-47c3",
-            "prototype": "RockArch"
+            "entity_id": "Gate",
+            "prototype": "GatePrototype"
           }
         },
         {
@@ -195,14 +195,14 @@
           "data_type": "TransformDef",
           "data": {
             "position": {
-              "x": 9.798771,
-              "y": 51.069408,
-              "z": 1.800003
+              "x": 17.280075,
+              "y": 52.725733,
+              "z": 0.0011002
             },
             "scale": {
-              "x": 2,
-              "y": 2,
-              "z": 2
+              "x": 1.656012,
+              "y": 1.656012,
+              "z": 1.656012
             },
             "orientation": {
               "x": 0,
@@ -210,7 +210,7 @@
               "z": -99.90007
             },
             "child_ids": [
-              "RockArch_RenderMesh"
+              "Gate_RenderMesh"
             ]
           }
         }

@@ -16,14 +16,21 @@
 #define FPL_ZOOSHI_MODULES_ZOOSHI_H_
 
 #include "breadboard/module_registry.h"
+#include "breadboard/event.h"
 #include "components/services.h"
+#include "components/scenery.h"
+#include "component_library/graph.h"
 #include "entity/entity_manager.h"
 
 namespace fpl {
 namespace zooshi {
 
-void InitializeZooshiModule(breadboard::ModuleRegistry* module_registry,
-                            ServicesComponent* services_component);
+void InitializeZooshiModule(
+    breadboard::ModuleRegistry* module_registry,
+    ServicesComponent* services_component,
+    component_library::GraphComponent* graph_component,
+    SceneryComponent* scenery_component,
+    component_library::TransformComponent* transform_component);
 
 }  // zooshi
 }  // fpl

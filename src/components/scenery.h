@@ -23,15 +23,16 @@ namespace fpl {
 namespace zooshi {
 
 enum SceneryState {
-  kSceneryHide,       // Can be culled without visual glitches.
-  kSceneryAppear,     // Transitioning from hide to show.
-  kSceneryShow,       // Fully on-screen. Should not be culled.
-  kSceneryDisappear,  // Transitioning from show to hide.
+  kSceneryInvalid = -1,  // An invalid scenery state.
+  kSceneryHide,          // Can be culled without visual glitches.
+  kSceneryAppear,        // Transitioning from hide to show.
+  kSceneryShow,          // Fully on-screen. Should not be culled.
+  kSceneryDisappear,     // Transitioning from show to hide.
 };
 
 // Data for scene object components.
 struct SceneryData {
-  SceneryData() : state(kSceneryHide) {}
+  SceneryData() : state(kSceneryHide), show_override(kSceneryInvalid) {}
 
   // The child of the scenery entity that has a RenderMeshComponent and
   // an AnimationComponent.
@@ -42,6 +43,11 @@ struct SceneryData {
 
   // The type of scenery being animated. Each type has its own animations.
   AnimObject anim_object;
+
+  // A Scenery object can specify an override animation that will play when in
+  // the show state. The scenery override is reset when the scenery object
+  // disappears.
+  SceneryState show_override;
 };
 
 class SceneryComponent : public entity::Component<SceneryData> {
@@ -56,6 +62,11 @@ class SceneryComponent : public entity::Component<SceneryData> {
 
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
+
+  // Apply an override animation to an entity that only applies in the `Show`
+  // state.
+  void ApplyShowOverride(const entity::EntityRef& scenery,
+                         SceneryState show_override);
 
  private:
   mathfu::vec3 CenterPosition() const;
@@ -73,6 +84,9 @@ class SceneryComponent : public entity::Component<SceneryData> {
   void ShowAll(bool show);
   void TransitionState(const entity::EntityRef& scenery,
                        SceneryState next_state);
+  void AnimateScenery(const entity::EntityRef& scenery,
+                      SceneryData* scenery_data,
+                      SceneryState state);
 
   const Config* config_;
 };

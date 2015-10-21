@@ -307,14 +307,13 @@ void Game::InitializeBreadboardModules() {
   breadboard::InitializeCommonModules(&module_registry_);
 
   // Module library initialization.
-  module_library::InitializeAnimationModule(&module_registry_,
-                                            &world_.graph_component,
-                                            &world_.animation_component,
-                                            &world_.transform_component);
+  module_library::InitializeAnimationModule(
+      &module_registry_, &world_.graph_component, &world_.animation_component,
+      &world_.transform_component);
   module_library::InitializeAudioModule(&module_registry_, &audio_engine_);
-  module_library::InitializeEntityModule(&module_registry_, &world_.entity_manager,
-                                         &world_.meta_component,
-                                         &world_.graph_component);
+  module_library::InitializeEntityModule(
+      &module_registry_, &world_.entity_manager, &world_.meta_component,
+      &world_.graph_component);
   module_library::InitializePhysicsModule(
       &module_registry_, &world_.physics_component, &world_.graph_component);
   module_library::InitializeTransformModule(&module_registry_,
@@ -331,7 +330,9 @@ void Game::InitializeBreadboardModules() {
   InitializeRailDenizenModule(&module_registry_, &world_.rail_denizen_component,
                               &world_.graph_component);
   InitializeStateModule(&module_registry_, gameplay_state_.requested_state());
-  InitializeZooshiModule(&module_registry_, &world_.services_component);
+  InitializeZooshiModule(&module_registry_, &world_.services_component,
+                         &world_.graph_component, &world_.scenery_component,
+                         &world_.transform_component);
 }
 
 // Pause the audio when the game loses focus.

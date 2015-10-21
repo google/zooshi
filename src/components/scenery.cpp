@@ -139,7 +139,7 @@ bool SceneryComponent::HasAnim(const SceneryData* scenery_data,
 SceneryState SceneryComponent::NextState(const entity::EntityRef& scenery,
                                          const vec3& center) const {
   // Check for state transitions.
-  const SceneryData* scenery_data = Data<SceneryData>(scenery);
+  SceneryData* scenery_data = Data<SceneryData>(scenery);
   switch (scenery_data->state) {
     case kSceneryHide:
       if (DistSq(scenery, center) < PopInDistSq()) {
@@ -149,6 +149,7 @@ SceneryState SceneryComponent::NextState(const entity::EntityRef& scenery,
 
     case kSceneryShow:
       if (DistSq(scenery, center) > PopOutDistSq()) {
+        scenery_data->show_override = kSceneryInvalid;
         return kSceneryDisappear;
       }
       break;
@@ -164,6 +165,8 @@ SceneryState SceneryComponent::NextState(const entity::EntityRef& scenery,
         return kSceneryHide;
       }
       break;
+    default:
+      assert(0);
   }
 
   // No transition.
@@ -203,6 +206,16 @@ void SceneryComponent::ShowAll(bool show) {
   }
 }
 
+void SceneryComponent::AnimateScenery(const entity::EntityRef& scenery,
+                                      SceneryData* scenery_data,
+                                      SceneryState state) {
+  if (HasAnim(scenery_data, state)) {
+    Animate(scenery, state);
+  } else {
+    StopAnimating(scenery);
+  }
+}
+
 void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
                                        SceneryState next_state) {
   SceneryData* scenery_data = Data<SceneryData>(scenery);
@@ -212,15 +225,34 @@ void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
     Show(scenery, next_state == kSceneryAppear);
   }
 
-  // Animate or stop animating the scene.
-  if (HasAnim(scenery_data, next_state)) {
-    Animate(scenery, next_state);
-  } else {
-    StopAnimating(scenery);
+  // If there is an override animation, we should apply it if we're in the show
+  // state.
+  SceneryState state = next_state;
+  if (next_state == kSceneryShow && scenery_data->show_override != -1) {
+    state = scenery_data->show_override;
   }
+
+  // Animate or stop animating the scenery.
+  AnimateScenery(scenery, scenery_data, state);
 
   // Update the state variable.
   scenery_data->state = next_state;
+}
+
+void SceneryComponent::ApplyShowOverride(const entity::EntityRef& scenery,
+                                         SceneryState show_override) {
+  SceneryData* scenery_data = Data<SceneryData>(scenery);
+  if (scenery_data) {
+    // If there is an override animation, we should apply it if we're in the
+    // show state.
+    if (scenery_data->state == kSceneryShow &&
+        scenery_data->show_override != show_override) {
+      AnimateScenery(scenery, scenery_data, show_override);
+    }
+
+    // Update the show_override variable.
+    scenery_data->show_override = show_override;
+  }
 }
 
 void SceneryComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {

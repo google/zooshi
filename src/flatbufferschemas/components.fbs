@@ -51,6 +51,7 @@ enum AnimObject : byte {
   FernTall,
   Heart,
   Scenery,
+  Gate,
 }
 
 enum PatronAction : byte {

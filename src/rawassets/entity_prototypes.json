@@ -2596,31 +2596,39 @@
       ]
     },
 
-    // Rock Arch
+    // Gate
     {
       "component_list": [
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "RockArch"
+            "entity_id": "GatePrototype"
           }
         },
         {
           "data_type": "TransformDef",
           "data": {
-            "child_ids": [ "RockArch_RenderMesh" ]
+            "child_ids": [ "Gate_RenderMesh" ]
           }
         },
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Gate"
           }
         },
         {
           "data_type": "EditOptionsDef",
           "data": {
             "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data": {
+            "filename_list": [
+              "graphs/gate.fplgraph"
+            ]
           }
         },
         {
@@ -2707,21 +2715,18 @@
         {
           "data_type": "MetaDef",
           "data": {
-            "entity_id": "RockArch_RenderMesh",
+            "entity_id": "Gate_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
           "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 0.078, "y": -0.094, "z": -0.339 }
-          }
         },
         {
           "data_type": "RenderMeshDef",
           "data" : {
-            "source_file":"meshes/rock_arch.fplmesh",
-            "shader": "shaders/textured_lit",
+            "source_file":"meshes/gate.fplmesh",
+            "shader": "shaders/textured_skinned_lit",
             "culling": ["ViewAngle", "Distance"]
           }
         }
