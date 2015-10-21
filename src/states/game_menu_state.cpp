@@ -198,7 +198,7 @@ void GameMenuState::LoadData() {
   std::string storage_path;
   std::string data;
   auto ret = GetStoragePath(kSaveAppName, &storage_path);
-  if (ret && LoadFile((storage_path + kSaveFileName).c_str(), &data)) {
+  if (ret && LoadPreferences((storage_path + kSaveFileName).c_str(), &data)) {
     auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
@@ -218,8 +218,9 @@ void GameMenuState::SaveData() {
   std::string storage_path;
   auto ret = GetStoragePath(kSaveAppName, &storage_path);
   if (ret) {
-    SaveFile((storage_path + kSaveFileName).c_str(), fbb.GetBufferPointer(),
-             fbb.GetSize());
+    SavePreferences((storage_path + kSaveFileName).c_str(),
+                   fbb.GetBufferPointer(),
+                   fbb.GetSize());
   }
 }
 
