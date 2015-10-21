@@ -184,6 +184,7 @@ void GameMenuState::OnEnter(int /*previous_state*/) {
   music_channel_ = audio_engine_->PlaySound(music_menu_);
   world_->player_component.set_state(kPlayerState_Disabled);
   input_system_->SetRelativeMouseMode(false);
+  world_->ResetControllerFacing();
   menu_state_ = kMenuStateStart;
 }
 

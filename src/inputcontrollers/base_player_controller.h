@@ -71,6 +71,11 @@ class BasePlayerController {
 
   virtual void Update() = 0;
 
+  void ResetFacing() {
+    facing_.SetValue(kCameraForward);
+    up_.SetValue(kCameraUp);
+  }
+
   LogicalButton& Button(int index) { return buttons_[index]; }
 
   LogicalVector& facing() { return facing_; }
