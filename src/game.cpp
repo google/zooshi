@@ -530,8 +530,6 @@ static int UpdateThread(void* data) {
   args.group =
       nullptr;  // you might want to assign the java thread to a ThreadGroup
   jvm->AttachCurrentThread(&update_env, &args);
-
-  WorldTime last_android_refresh = CurrentWorldTime();
 #endif  //__ANDROID__
 
   SDL_LockMutex(sync.updatethread_mutex_);
