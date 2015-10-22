@@ -256,7 +256,11 @@ void GameMenuState::OptionMenuLicenses() {
   gui::StartGroup(gui::kLayoutHorizontalCenter);
   gui::SetMargin(gui::Margin(50, 0, 0, 0));
   gui::StartGroup(gui::kLayoutVerticalCenter, 0, "scroll");
+  // This check event makes the scroll group controllable with a gamepad.
   gui::StartScroll(kScrollAreaSize, &scroll_offset_);
+  auto event = gui::CheckEvent(true);
+  if (!gui::IsLastEventPointerType())
+    gui::EventBackground(event);
   gui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x(), 0));
   vec2 scroll_size = gui::GroupSize();
   gui::EndScroll();

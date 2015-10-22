@@ -19,6 +19,8 @@
 #include "fplbase/renderer_hmd.h"
 #endif
 
+#include "flatui/flatui_common.h"
+
 namespace fpl {
 namespace zooshi {
 
@@ -110,6 +112,7 @@ gui::Event ImageButtonWithLabel(const Texture& tex, float size,
   gui::StartGroup(gui::kLayoutVerticalLeft, size, "ImageButtonWithLabel");
   gui::SetMargin(margin);
   auto event = gui::CheckEvent();
+  gui::EventBackground(event);
   gui::ImageBackground(tex);
   gui::Label(label, size);
   gui::EndGroup();
