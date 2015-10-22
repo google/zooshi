@@ -148,6 +148,8 @@ struct World {
 
   void AddController(BasePlayerController* controller);
   void SetActiveController(ControllerType controller_type);
+  // Reset all controllers back to the default facing values.
+  void ResetControllerFacing();
 
   bool is_in_cardboard() const { return is_in_cardboard_; }
   void SetIsInCardboard(bool in_cardboard);

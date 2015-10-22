@@ -184,6 +184,13 @@ void World::SetActiveController(ControllerType controller_type) {
   }
 }
 
+void World::ResetControllerFacing() {
+  for (auto it = input_controllers.begin(); it != input_controllers.end();
+       ++it) {
+    it->get()->ResetFacing();
+  }
+}
+
 void World::SetIsInCardboard(bool in_cardboard) {
   if (is_in_cardboard_ != in_cardboard) {
     is_in_cardboard_ = in_cardboard;
