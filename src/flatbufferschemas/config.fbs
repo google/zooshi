@@ -100,6 +100,10 @@ table RiverConfig {
 
   // The restitution of the river banks.
   restitution:float = 1;
+
+  // An arbitrary tag that is passed to the functions that handle collisions
+  // with the river.
+  user_tag:string;
 }
 
 table RenderConfig {

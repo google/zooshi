@@ -1910,6 +1910,14 @@
           }
         },
         {
+          "data_type": "GraphDef",
+          "data" : {
+            "filename_list": [
+              "graphs/sushi.fplgraph"
+            ]
+          }
+        },
+        {
           "data_type": "TimeLimitDef",
           "data": {
             "timelimit": 3.0

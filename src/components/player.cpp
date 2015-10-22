@@ -100,6 +100,8 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
       entity_manager_->GetComponent<ServicesComponent>()
           ->entity_factory()
           ->CreateEntityFromPrototype("Projectile", entity_manager_);
+  GraphComponent* graph_component = entity_manager_->GetComponent<GraphComponent>();
+  graph_component->EntityPostLoadFixup(projectile);
 
   TransformData* transform_data = Data<TransformData>(projectile);
   PhysicsData* physics_data = Data<PhysicsData>(projectile);
