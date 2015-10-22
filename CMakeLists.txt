@@ -159,10 +159,12 @@ set(FLATBUFFERS_GENERATED_INCLUDES_DIR
     ${CMAKE_SOURCE_DIR}${CMAKE_FILES_DIRECTORY}/include)
 file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
 
-# Generate a list of the schema files in motive and pindrop as dependencies for
-# the local schema files.
-file(GLOB_RECURSE MOTIVE_SCHEMAS ${dependencies_motive_dir}/schemas/*.fbs)
-file(GLOB_RECURSE PINDROP_SCHEMAS ${dependencies_pindrop_dir}/schemas/*.fbs)
+set(FLATBUFFERS_SCHEMA_INCLUDES
+    -I ${dependencies_component_library_dir}/schemas
+    -I ${dependencies_scene_lab_dir}/schemas
+    -I ${dependencies_fplbase_dir}/schemas
+    -I ${dependencies_motive_dir}/schemas
+    -I ${dependencies_pindrop_dir}/schemas)
 
 # Generate rules to build the set of output files from the set of input
 # schema files.
@@ -177,26 +179,28 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
        DESTINATION ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/)
   add_custom_command(
     OUTPUT ${flatbuffers_include}
-    COMMAND flatc --gen-includes --gen-mutable
-        -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
-        -I ${dependencies_component_library_dir}/schemas
-        -I ${dependencies_scene_lab_dir}/schemas
-        -I ${dependencies_fplbase_dir}/schemas
-        -I ${dependencies_motive_dir}/schemas
-        -I ${dependencies_pindrop_dir}/schemas -c ${flatbuffers_schema}
-    DEPENDS flatc ${MOTIVE_SCHEMAS} ${PINDROP_SCHEMAS} ${flatbuffers_schema})
+    COMMAND flatc --gen-mutable -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
+        ${FLATBUFFERS_SCHEMA_INCLUDES} -c ${flatbuffers_schema}
+    DEPENDS
+        flatc
+        motive_generated_includes
+        pindrop_generated_includes
+        component_library_generated_includes
+        ${flatbuffers_schema})
   list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_include})
   # Generate the binary schema files as well.
   add_custom_command(
     OUTPUT ${flatbuffers_binary_schema}
     COMMAND flatc -b --schema
         -o ${CMAKE_BINARY_DIR}/assets/flatbufferschemas
-        -I ${dependencies_component_library_dir}/schemas
-        -I ${dependencies_scene_lab_dir}/schemas
-        -I ${dependencies_fplbase_dir}/schemas
-        -I ${dependencies_motive_dir}/schemas
-        -I ${dependencies_pindrop_dir}/schemas ${flatbuffers_schema}
-    DEPENDS flatc ${MOTIVE_SCHEMAS} ${PINDROP_SCHEMAS} ${flatbuffers_schema})
+        ${FLATBUFFERS_SCHEMA_INCLUDES}
+        ${flatbuffers_schema}
+    DEPENDS
+        flatc
+        motive_generated_includes
+        pindrop_generated_includes
+        component_library_generated_includes
+        ${flatbuffers_schema})
   # Temporarily don't generate all binary schemas until b/22063091 is fixed.
   # list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_binary_schema})
 endforeach()

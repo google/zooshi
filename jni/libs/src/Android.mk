@@ -22,18 +22,18 @@ FLATBUFFERS_FLATC_ALWAYS_BUILD?=1
 include $(ZOOSHI_DIR)/jni/android_config.mk
 include $(DEPENDENCIES_FLATBUFFERS_DIR)/android/jni/include.mk
 
-FLATBUFFERS_FLATC_ARGS:=--gen-includes --gen-mutable
+FLATBUFFERS_FLATC_ARGS:=--gen-mutable
 
 # Build rule which builds assets for the game.
 ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 .PHONY: build_assets
+# Create a binary schema file for the components.fbs schema.
 build_assets: $(flatc_target)
 	cp -f -r $(ZOOSHI_DIR)/src/rawassets/fonts $(ZOOSHI_DIR)/assets/fonts
 	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets/shaders \
 $(ZOOSHI_DIR)/assets
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py
 	-mkdir -p $(ZOOSHI_DIR)/assets/flatbufferschemas
-	# Create a binary schema file for the components.fbs schema.
 	$(FLATBUFFERS_FLATC) -b --schema \
 	  $(foreach include,$(ZOOSHI_FLATBUFFER_INCLUDE_DIRS),-I $(include)) \
 	  -o $(ZOOSHI_DIR)/assets/flatbufferschemas \
@@ -145,7 +145,7 @@ ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
   $(DEPENDENCIES_MOTIVE_DIR)/schemas \
   $(DEPENDENCIES_FPLBASE_DIR)/schemas \
   $(DEPENDENCIES_SCENE_LAB_DIR)/schemas \
-  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas\
+  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas
 
 ifeq (,$(ZOOSHI_RUN_ONCE))
 ZOOSHI_RUN_ONCE := 1
@@ -154,7 +154,13 @@ $(call flatbuffers_header_build_rules,\
   $(ZOOSHI_SCHEMA_DIR),\
   $(ZOOSHI_GENERATED_OUTPUT_DIR),\
   $(ZOOSHI_FLATBUFFER_INCLUDE_DIRS),\
-  $(LOCAL_SRC_FILES))
+  $(LOCAL_SRC_FILES),\
+  zooshi_generated_includes,\
+  component_library_generated_includes \
+  motive_generated_includes \
+  fplbase_generated_includes \
+  pindrop_generated_includes \
+  scene_lab_generated_includes)
 
 .PHONY: clean_generated_includes
 clean_generated_includes:
