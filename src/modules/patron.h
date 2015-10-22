@@ -15,15 +15,15 @@
 #ifndef FPL_ZOOSHI_MODULES_PATRON_H_
 #define FPL_ZOOSHI_MODULES_PATRON_H_
 
+#include "breadboard/event_system.h"
+#include "module_library/entity.h"
 #include "component_library/graph.h"
 #include "components/patron.h"
-#include "breadboard/event_system.h"
-#include "modules/entity.h"
 
 namespace fpl {
 namespace zooshi {
 
-typedef ComponentDataRef<PatronComponent> PatronDataRef;
+typedef module_library::ComponentDataRef<PatronComponent> PatronDataRef;
 
 void InitializePatronModule(breadboard::EventSystem* event_system,
                             PatronComponent* patron_component);

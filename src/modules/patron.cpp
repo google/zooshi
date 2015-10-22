@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "modules/patron_module.h"
+#include "modules/patron.h"
 
 #include <string>
 

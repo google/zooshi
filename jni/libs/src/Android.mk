@@ -55,9 +55,10 @@ ZOOSHI_GENERATED_OUTPUT_DIR := $(ZOOSHI_DIR)/gen/include
 
 LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_FPLBASE_DIR)/include \
-	$(DEPENDENCIES_ENTITY_DIR)/include \
-  $(DEPENDENCIES_BREADBOARD_DIR)/include \
+  $(DEPENDENCIES_ENTITY_DIR)/include \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/include \
+  $(DEPENDENCIES_BREADBOARD_DIR)/include \
+  $(DEPENDENCIES_MODULE_LIBRARY_DIR)/include \
   $(DEPENDENCIES_SCENE_LAB_DIR)/include \
   $(DEPENDENCIES_FPLUTIL_DIR)/libfplutil/include \
   $(DEPENDENCIES_GPG_DIR)/include \
@@ -97,22 +98,13 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/gamepad_controller.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/animation.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/attributes.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/audio.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/debug.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/entity.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/gpg.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/logic.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/math.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/patron_module.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/physics.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/player_module.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/patron.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/player.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/modules/state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/string.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/transform.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/vec3.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/modules/zooshi.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/game_menu_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/states/game_over_state.cpp \
@@ -149,7 +141,8 @@ ZOOSHI_SCHEMA_FILES := \
 $(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): | build_assets))
 
 ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
-  $(DEPENDENCIES_PINDROP_DIR)/schemas $(DEPENDENCIES_MOTIVE_DIR)/schemas \
+  $(DEPENDENCIES_PINDROP_DIR)/schemas \
+  $(DEPENDENCIES_MOTIVE_DIR)/schemas \
   $(DEPENDENCIES_FPLBASE_DIR)/schemas \
   $(DEPENDENCIES_SCENE_LAB_DIR)/schemas \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas\
@@ -173,6 +166,7 @@ clean: clean_assets clean_generated_includes
 
 LOCAL_STATIC_LIBRARIES := \
   libbreadboard \
+  libmodule_library \
   libgpg \
   libmathfu \
   libwebp \
@@ -210,6 +204,7 @@ $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 $(call import-module,fplbase/jni)
 $(call import-module,entity/jni)
 $(call import-module,breadboard/jni)
+$(call import-module,breadboard/module_library/jni)
 $(call import-module,pindrop/jni)
 $(call import-module,flatbuffers/android/jni)
 $(call import-module,flatui/jni)

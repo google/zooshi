@@ -20,7 +20,6 @@
 #include "flatui/flatui.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
-#include "modules/event_ids.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::AttributesComponent,
                             fpl::zooshi::AttributesData)

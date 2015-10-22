@@ -22,7 +22,6 @@
 #include "component_library/graph.h"
 #include "components/attributes.h"
 #include "entity/entity_manager.h"
-#include "modules/event_ids.h"
 
 using fpl::component_library::GraphComponent;
 
