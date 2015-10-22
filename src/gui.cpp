@@ -112,17 +112,22 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::StartGroup(gui::kLayoutVerticalCenter, 0);
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(0, -100));
-    if (show_about_) {
-      // Show 'About' screen.
-      OptionMenuAbout();
-    } else if (show_licences_) {
-      // Show 'Licenses' screen.
-      OptionMenuLicenses();
-    } else if (show_audio_) {
-      // Show 'Audo' screen.
-      OptionMenuAudio();
-    } else {
-      OptionMenuMain();
+
+    switch (options_menu_state_) {
+      case kOptionsMenuStateMain:
+        OptionMenuMain();
+        break;
+      case kOptionsMenuStateAbout:
+        OptionMenuAbout();
+        break;
+      case kOptionsMenuStateLicenses:
+        OptionMenuLicenses();
+        break;
+      case kOptionsMenuStateAudio:
+        OptionMenuAudio();
+        break;
+      default:
+        break;
     }
 
     gui::EndGroup();
@@ -133,18 +138,18 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
                        mathfu::vec2(-450, -250));
     gui::SetTextColor(kColorLightBrown);
-    if (ImageButtonWithLabel(*button_back_, 60, gui::Margin(60, 35, 40, 50),
-                             "Back") &
-        gui::kEventWentUp) {
-      if (show_about_) {
-        show_about_ = false;
-      } else if (show_licences_) {
-        show_licences_ = false;
-      } else if (show_audio_) {
-        show_audio_ = false;
+
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      gui::Margin(60, 35, 40, 50), "Back");
+    if (event & gui::kEventWentUp) {
+      // Save data when you leave the audio page.
+      if (options_menu_state_ == kOptionsMenuStateAudio) {
         SaveData();
-      } else {
+      }
+      if (options_menu_state_ == kOptionsMenuStateMain) {
         next_state = kMenuStateStart;
+      } else {
+        options_menu_state_ = kOptionsMenuStateMain;
       }
     }
     gui::EndGroup();
@@ -165,7 +170,7 @@ void GameMenuState::OptionMenuMain() {
   gui::EndGroup();
 
   if (TextButton("About", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
-    show_about_ = true;
+    options_menu_state_ = kOptionsMenuStateAbout;
   }
 
 #ifdef USING_GOOGLE_PLAY_GAMES
@@ -195,11 +200,11 @@ void GameMenuState::OptionMenuMain() {
 
   if (TextButton("Licenses", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
     scroll_offset_ = mathfu::kZeros2f;
-    show_licences_ = true;
+    options_menu_state_ = kOptionsMenuStateLicenses;
   }
 
   if (TextButton("Audio", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
-    show_audio_ = true;
+    options_menu_state_ = kOptionsMenuStateAudio;
   }
 }
 
