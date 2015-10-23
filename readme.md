@@ -51,7 +51,7 @@ you would leave it in.
   [Android]: https://www.android.com/
   [Breadboard]: https://google.github.io/breadboard/
   [Build and Run Zooshi]: https://google.github.io/zooshi/zooshi_guide_building.html
-  [CORGI]: https://google.github.io/CORGI/
+  [CORGI]: https://google.github.io/corgi/
   [CONTRIBUTING]: https://github.com/google/zooshi/blob/master/CONTRIBUTING
   [Flatbuffers]: https://google.github.io/flatbuffers/
   [FlatUI]: https://google.github.io/flatui/
