@@ -31,7 +31,7 @@ class GamepadController : public BasePlayerController {
 
  protected:
   // Calculate the camera delta from button pushes.
-  virtual const mathfu::vec2 GetDelta() const;
+  virtual mathfu::vec2 GetDelta() const;
 
  private:
   void UpdateFacing();

@@ -37,7 +37,7 @@ class OnscreenController : public GamepadController {
 
  protected:
   // Calculate the camera delta from onscreen button pushes.
-  virtual const mathfu::vec2 GetDelta() const { return delta_; }
+  virtual mathfu::vec2 GetDelta() const { return delta_; }
 
  private:
   virtual void UpdateButtons();
@@ -55,6 +55,7 @@ class OnscreenControllerUI {
  public:
   OnscreenControllerUI()
       : controller_(nullptr),
+        location_(mathfu::kZeros2f),
         base_texture_(nullptr),
         top_texture_(nullptr),
         visible_(false) {}
@@ -76,9 +77,9 @@ class OnscreenControllerUI {
   }
 
  private:
-  // Calculate the range of movement given the current direction,
+  // Calculate the range of movement given the current magnitude,
   // dead-zone along an axis and sensitivity applied to movement.
-  static float CalculateDelta(const float direction, const float dead_zone,
+  static float CalculateDelta(const float magnitude, const float dead_zone,
                               const float sensitivity);
 
  protected:

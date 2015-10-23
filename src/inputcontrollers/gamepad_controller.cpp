@@ -31,7 +31,7 @@ void GamepadController::Update() {
 }
 
 // Calculate the camera delta from button pushes.
-const mathfu::vec2 GamepadController::GetDelta() const {
+mathfu::vec2 GamepadController::GetDelta() const {
   vec2 delta(0.0f);
 #ifdef ANDROID_GAMEPAD
   // TODO: Use only one gamepad per controller.
@@ -86,14 +86,15 @@ void GamepadController::UpdateFacing() {
   // Restrict rotation down so that the user doesn't end up just looking at the
   // raft or river.  Restrict rotation up so the user doesn't end up just
   // looking at the sky, missing the action.
+  // The unit is in the range -1.0 ... 1.0 where -1.0 is straight down and
+  // 1.0 is straight up.  The yaw angle can be defined as yaw = tan(value).
   static const vec2 kUpDownRotationLimit(-0.2f, 0.5f);
   // Clamp the degrees of freedom to "PI / 2 * kUpRotationLimit" when rotating
   // around kCameraSide to avoid gimbal lock.
   facing_vector =
       (facing_vector * (kCameraForward + kCameraSide)) +
-      (mathfu::Clamp(
-           mathfu::Vector<float, 3>::DotProduct(facing_vector, kCameraUp),
-           kUpDownRotationLimit[0], kUpDownRotationLimit[1]) *
+      (mathfu::Clamp(mathfu::vec3::DotProduct(facing_vector, kCameraUp),
+                     kUpDownRotationLimit[0], kUpDownRotationLimit[1]) *
        kCameraUp);
   facing_vector.Normalize();
 

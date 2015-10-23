@@ -31,13 +31,14 @@ namespace zooshi {
 void OnscreenController::UpdateButtons() {
   // Save the position of the last touch of the last pointer (last finger down).
   bool fire = false;
-  for (auto& pointer : input_system_->get_pointers()) {
-    if (pointer.used) {
-      if (input_system_->GetPointerButton(pointer.id).went_down()) {
-        last_position_ = pointer.mousepos;
-        fire = true;
-        break;
-      }
+  const std::vector<InputPointer>& pointers = input_system_->get_pointers();
+  for (size_t i = 0; i < pointers.size(); ++i) {
+    const InputPointer& pointer = pointers[i];
+    if (pointer.used &&
+        input_system_->GetPointerButton(pointer.id).went_down()) {
+      last_position_ = pointer.mousepos;
+      fire = true;
+      break;
     }
   }
   buttons_[kFireProjectile].SetValue(fire);
@@ -112,7 +113,7 @@ void OnscreenControllerUI::Update(AssetManager* asset_manager,
                   // Calculate the location on the unit circle to clamp to.
                   float direction_magnitude = direction.Length();
                   if (direction_magnitude > 1.0f) {
-                    direction.Normalize();
+                    direction /= direction_magnitude;
                   }
                   // Calculate the pointer position from the direction vector.
                   pointer_position =
@@ -186,18 +187,17 @@ void OnscreenControllerUI::Update(AssetManager* asset_manager,
           }
           gui::EndGroup();
         });
-    visible_ = *visible;
   }
 }
 
-// Calculate the range of movement given the current direction,
+// Calculate the range of movement given the current magnitude,
 // dead-zone along an axis and sensitivity applied to movement.
-float OnscreenControllerUI::CalculateDelta(const float direction,
+float OnscreenControllerUI::CalculateDelta(const float magnitude,
                                            const float dead_zone,
                                            const float sensitivity) {
-  return fabs(direction) < dead_zone
+  return fabs(magnitude) < dead_zone
              ? 0.0f
-             : ((direction - dead_zone) / (1.0f - dead_zone)) * sensitivity *
+             : ((magnitude - dead_zone) / (1.0f - dead_zone)) * sensitivity *
                    -1.0f;
 }
 
