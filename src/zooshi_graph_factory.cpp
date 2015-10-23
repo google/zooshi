@@ -16,8 +16,8 @@
 
 #include <string>
 
-#include "breadboard/event_system.h"
 #include "breadboard/graph.h"
+#include "breadboard/module_registry.h"
 #include "fplbase/utilities.h"
 #include "graph_generated.h"
 #include "mathfu/glsl_mappings.h"
@@ -118,7 +118,7 @@ static bool ParseType(size_t node_index, size_t edge_index,
   return true;
 }
 
-bool ZooshiGraphFactory::ParseData(breadboard::EventSystem* event_system,
+bool ZooshiGraphFactory::ParseData(breadboard::ModuleRegistry* module_registry,
                                    breadboard::Graph* graph,
                                    const std::string* data) {
   const graph::GraphDef* graph_def = graph::GetGraphDef(data->c_str());
@@ -126,7 +126,7 @@ bool ZooshiGraphFactory::ParseData(breadboard::EventSystem* event_system,
     // Get Module.
     const graph::NodeDef* node_def = graph_def->node_list()->Get(i);
     const char* module_name = node_def->module()->c_str();
-    const breadboard::Module* module = event_system->GetModule(module_name);
+    const breadboard::Module* module = module_registry->GetModule(module_name);
     if (module == nullptr) return false;
 
     // Get NodeSignature.

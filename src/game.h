@@ -16,8 +16,8 @@
 #define ZOOSHI_GAME_H
 
 #include "SDL_thread.h"
-#include "breadboard/event_system.h"
 #include "breadboard/graph.h"
+#include "breadboard/module_registry.h"
 #include "camera.h"
 #include "config_generated.h"
 #include "entity/entity_manager.h"
@@ -34,9 +34,9 @@
 #include "states/intro_state.h"
 #include "states/loading_state.h"
 #include "states/pause_state.h"
+#include "states/scene_lab_state.h"
 #include "states/state_machine.h"
 #include "states/states.h"
-#include "states/scene_lab_state.h"
 #include "world.h"
 #include "zooshi_graph_factory.h"
 
@@ -90,7 +90,7 @@ class Game {
  private:
   bool InitializeRenderer();
   bool InitializeAssets();
-  void InitializeEventSystem();
+  void InitializeBreadboardModules();
 
   Mesh* CreateVerticalQuadMesh(const char* material_name,
                                const mathfu::vec3& offset,
@@ -148,7 +148,7 @@ class Game {
   pindrop::AudioEngine audio_engine_;
 
   // The event system.
-  breadboard::EventSystem event_system_;
+  breadboard::ModuleRegistry module_registry_;
   ZooshiGraphFactory graph_factory_;
 
   // Shaders we use.

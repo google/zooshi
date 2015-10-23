@@ -15,7 +15,7 @@
 #ifndef FPL_ZOOSHI_MODULES_PLAYER_H_
 #define FPL_ZOOSHI_MODULES_PLAYER_H_
 
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "module_library/entity.h"
 #include "component_library/graph.h"
 #include "components/player.h"
@@ -25,7 +25,7 @@ namespace zooshi {
 
 typedef module_library::ComponentDataRef<PlayerComponent> PlayerDataRef;
 
-void InitializePlayerModule(breadboard::EventSystem* event_system,
+void InitializePlayerModule(breadboard::ModuleRegistry* module_registry,
                             PlayerComponent* player_component,
                             component_library::GraphComponent* graph_component);
 

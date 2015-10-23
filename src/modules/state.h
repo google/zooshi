@@ -15,12 +15,13 @@
 #ifndef FPL_ZOOSHI_MODULES_STATE_H_
 #define FPL_ZOOSHI_MODULES_STATE_H_
 
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 
 namespace fpl {
 namespace zooshi {
 
-void InitializeStateModule(breadboard::EventSystem* event_system, int* state);
+void InitializeStateModule(breadboard::ModuleRegistry* module_registry,
+                           int* state);
 
 }  // zooshi
 }  // fpl

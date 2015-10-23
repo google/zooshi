@@ -14,27 +14,32 @@
 
 #include "modules/gpg.h"
 
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "breadboard/base_node.h"
 #include "mathfu/glsl_mappings.h"
 
+using breadboard::BaseNode;
+using breadboard::Module;
+using breadboard::ModuleRegistry;
+using breadboard::NodeArguments;
+using breadboard::NodeSignature;
 using mathfu::vec3;
 
 namespace fpl {
 namespace zooshi {
 
 // Increment the given achievement count.
-class IncrementAchievementNode : public breadboard::BaseNode {
+class IncrementAchievementNode : public BaseNode {
  public:
   IncrementAchievementNode(const Config* config, GPGManager* gpg_manager)
       : config_(config), gpg_manager_(gpg_manager) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<std::string>();
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     auto name = args->GetInput<std::string>(1);
     auto achievement =
         config_->gpg_config()->achievements()->LookupByKey(name->c_str());
@@ -47,17 +52,17 @@ class IncrementAchievementNode : public breadboard::BaseNode {
 };
 
 // Grant specified achievement.
-class GrantAchievementNode : public breadboard::BaseNode {
+class GrantAchievementNode : public BaseNode {
  public:
   GrantAchievementNode(const Config* config, GPGManager* gpg_manager)
       : config_(config), gpg_manager_(gpg_manager) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<int32_t>();
     node_sig->AddInput<std::string>();
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     auto flag = args->GetInput<int32_t>(0);
     if (*flag > 0) {
       auto name = args->GetInput<std::string>(1);
@@ -73,18 +78,18 @@ class GrantAchievementNode : public breadboard::BaseNode {
 };
 
 // Submit score to the specified leaderboard.
-class SubmitScoreNode : public breadboard::BaseNode {
+class SubmitScoreNode : public BaseNode {
  public:
   SubmitScoreNode(const Config* config, GPGManager* gpg_manager)
       : config_(config), gpg_manager_(gpg_manager) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();         // Pulse indicating a game clear status.
     node_sig->AddInput<std::string>();  // Leaderboard name.
     node_sig->AddInput<float>();        // Score value.
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     // Need the pulse check since input 2 can be active.
     if (args->IsInputDirty(0)) {
       auto name = args->GetInput<std::string>(1);
@@ -101,9 +106,9 @@ class SubmitScoreNode : public breadboard::BaseNode {
   GPGManager* gpg_manager_;
 };
 
-void InitializeGpgModule(breadboard::EventSystem* event_system,
+void InitializeGpgModule(ModuleRegistry* module_registry,
                          const Config* config, GPGManager* gpg_manager) {
-  breadboard::Module* module = event_system->AddModule("gpg");
+  Module* module = module_registry->RegisterModule("gpg");
   auto increment_achievement_ctor = [config, gpg_manager]() {
     return new IncrementAchievementNode(config, gpg_manager);
   };

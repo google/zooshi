@@ -13,24 +13,30 @@
 // limitations under the License.
 
 #include "breadboard/base_node.h"
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "modules/state.h"
+
+using breadboard::BaseNode;
+using breadboard::Module;
+using breadboard::ModuleRegistry;
+using breadboard::NodeArguments;
+using breadboard::NodeSignature;
 
 namespace fpl {
 namespace zooshi {
 
 // Sets an integer that informs the state machine what state it should
 // transition to next.
-class RequestStateNode : public breadboard::BaseNode {
+class RequestStateNode : public BaseNode {
  public:
   RequestStateNode(int* state) : state_(state) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<int>();
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     auto new_state = args->GetInput<int>(1);
     *state_ = *new_state;
   }
@@ -39,9 +45,9 @@ class RequestStateNode : public breadboard::BaseNode {
   int* state_;
 };
 
-void InitializeStateModule(breadboard::EventSystem* event_system, int* state) {
+void InitializeStateModule(ModuleRegistry* module_registry, int* state) {
   auto request_node_ctor = [state]() { return new RequestStateNode(state); };
-  breadboard::Module* module = event_system->AddModule("game_state");
+  Module* module = module_registry->RegisterModule("game_state");
   module->RegisterNode<RequestStateNode>("request_state", request_node_ctor);
 }
 
