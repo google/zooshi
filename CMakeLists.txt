@@ -72,8 +72,6 @@ set(dependencies_mathfu_dir "${fpl_root}/mathfu"
     CACHE PATH "Directory containing the MathFu library.")
 set(dependencies_motive_dir "${fpl_root}/motive"
     CACHE PATH "Directory containing the motive animation library.")
-set(dependencies_bulletphysics_distr_dir "${third_party_root}/bulletphysics"
-    CACHE PATH "Directory containing the Bullet Physics distribution.")
 set(dependencies_scene_lab_dir "${fpl_root}/scene_lab"
     CACHE PATH "Directory containing the Scene Lab library.")
 set(dependencies_component_library_dir
@@ -131,16 +129,6 @@ endif()
 # Include FlatUI.
 if(NOT zooshi_only_flatc AND NOT TARGET flatui)
   add_subdirectory("${dependencies_flatui_dir}" ${tmp_dir}/flatui)
-endif()
-
-if(NOT zooshi_only_flatc AND NOT TARGET bulletphysics)
-  set(BUILD_CPU_DEMOS OFF CACHE BOOL "")
-  set(BUILD_BULLET2_DEMOS OFF CACHE BOOL "")
-  set(BUILD_BULLET3 OFF CACHE BOOL "")
-  set(BUILD_EXTRAS OFF CACHE BOOL "")
-  set(BUILD_UNIT_TESTS OFF CACHE BOOL "")
-  set(USE_MSVC_RUNTIME_LIBRARY_DLL ON)
-  add_subdirectory("${dependencies_bulletphysics_distr_dir}" ${tmp_dir}/bulletphysics)
 endif()
 
 # Include Scene Lab.
@@ -212,9 +200,6 @@ list(APPEND
 add_custom_target(generated_includes DEPENDS ${FLATBUFFERS_GENERATED_INCLUDES})
 
 if(NOT zooshi_only_flatc)
-  # Build rule that uses make to build the assets.
-  get_property(flatc_location TARGET flatc PROPERTY LOCATION)
-
   # If building cwebp then pass in the location.
   if(zooshi_build_cwebp)
     get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
@@ -224,7 +209,7 @@ if(NOT zooshi_only_flatc)
 
   add_custom_target(assets
     COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
-    --flatc ${flatc_location}
+    --flatc $<TARGET_FILE:flatc>
     ${cwebp_option}
     --output ${CMAKE_BINARY_DIR}/assets
     DEPENDS flatc ${cwebp_depends})
@@ -347,12 +332,22 @@ if(WIN32)
 endif()
 
 include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
+get_property(COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
+             TARGET component_library_generated_includes
+             PROPERTY COMPONENT_LIBRARY_DIR)
 include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+get_property(FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR
+             TARGET fplbase_generated_includes PROPERTY FPLBASE_DIR)
 include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+get_property(SCENE_LAB_FLATBUFFERS_GENERATED_INCLUDES_DIR
+             TARGET scene_lab_generated_includes PROPERTY SCENE_LAB_DIR)
 include_directories(${SCENE_LAB_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+get_property(MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR
+             TARGET motive_generated_includes PROPERTY MOTIVE_DIR)
 include_directories(${MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+get_property(PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR
+             TARGET pindrop_generated_includes PROPERTY PINDROP_DIR)
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
-include_directories(${dependencies_bulletphysics_distr_dir}/src)
 include_directories(${dependencies_entity_dir}/include)
 include_directories(${dependencies_component_library_dir}/include)
 include_directories(${dependencies_breadboard_dir}/include)
@@ -384,12 +379,6 @@ elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
   set(CMAKE_CXX_FLAGS
     "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -pedantic -Werror -Wextra -Wno-unused-function")
   # -Wno-unused-function is because of webp encode.h
-endif()
-if(APPLE)
-  set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -Wno-ignored-qualifiers -Wno-overloaded-virtual")
-  # These additional flags are needed because of Bullet's btSolverBody.h and
-  # btConvexHullShape.h causing warnings with the Apple build
 endif()
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
@@ -427,10 +416,7 @@ target_link_libraries(zooshi
   component_library
   module_library
   scene_lab
-  pindrop
-  BulletDynamics
-  BulletCollision
-  LinearMath)
+  pindrop)
 
 # Create a zipped tar of all the necessary files to run the game.
 add_custom_target(export
