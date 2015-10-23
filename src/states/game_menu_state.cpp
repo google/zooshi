@@ -67,9 +67,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
 
   // Set menu state.
   menu_state_ = kMenuStateStart;
-  show_about_ = false;
-  show_licences_ = false;
-  show_audio_ = false;
+  options_menu_state_ = kOptionsMenuStateMain;
 
   // Set the world def to load upon entering this state.
   world_def_ = config->world_def();
@@ -122,10 +120,22 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
 
-  // Exit the game.
-  if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
-      input_system_->GetButton(FPLK_AC_BACK).went_down()) {
-    *next_state = kGameStateExit;
+  bool back_button = input_system_->GetButton(FPLK_ESCAPE).went_down() ||
+                     input_system_->GetButton(FPLK_AC_BACK).went_down();
+  if (back_button) {
+    if (menu_state_ == kMenuStateOptions) {
+      // Save data when you leave the audio page.
+      if (options_menu_state_ == kOptionsMenuStateAudio) {
+        SaveData();
+      }
+      if (options_menu_state_ == kOptionsMenuStateMain) {
+        menu_state_ = kMenuStateStart;
+      } else {
+        options_menu_state_ = kOptionsMenuStateMain;
+      }
+    } else if (menu_state_ == kMenuStateStart) {
+      menu_state_ = kMenuStateQuit;
+    }
   }
 
   if (menu_state_ == kMenuStateStart) {
@@ -220,8 +230,7 @@ void GameMenuState::SaveData() {
   auto ret = GetStoragePath(kSaveAppName, &storage_path);
   if (ret) {
     SavePreferences((storage_path + kSaveFileName).c_str(),
-                   fbb.GetBufferPointer(),
-                   fbb.GetSize());
+                    fbb.GetBufferPointer(), fbb.GetSize());
   }
 }
 

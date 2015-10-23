@@ -45,6 +45,13 @@ enum MenuState {
   kMenuStateQuit,
 };
 
+enum OptionsMenuState {
+  kOptionsMenuStateMain,
+  kOptionsMenuStateAbout,
+  kOptionsMenuStateLicenses,
+  kOptionsMenuStateAudio,
+};
+
 // Constant defintions for UI elements. Colors, button sizes etc.
 const auto kColorBrown = vec4(0.37f, 0.24f, 0.09f, 0.85f);
 const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 0.85f);
@@ -160,9 +167,7 @@ class GameMenuState : public StateNode {
   std::string about_text_;
 
   // In-game menu state.
-  bool show_about_;
-  bool show_licences_;
-  bool show_audio_;
+  OptionsMenuState options_menu_state_;
 
   float slider_value_effect_;
   float slider_value_music_;
