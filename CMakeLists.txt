@@ -264,6 +264,7 @@ set(zooshi_SRCS
     src/components/sound.h
     src/components/time_limit.cpp
     src/components/time_limit.h
+    src/default_entity_factory.cpp
     src/full_screen_fader.cpp
     src/full_screen_fader.h
     src/game.cpp
@@ -316,8 +317,6 @@ set(zooshi_SRCS
     src/world.h
     src/world_renderer.cpp
     src/world_renderer.h
-    src/zooshi_entity_factory.cpp
-    src/zooshi_entity_factory.h
     src/zooshi_graph_factory.cpp
     src/zooshi_graph_factory.h
     # For outputting flatbuffer files as json.

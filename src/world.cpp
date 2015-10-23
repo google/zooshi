@@ -25,7 +25,7 @@
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
 #include "world.h"
-#include "zooshi_entity_factory.h"
+#include "component_library/default_entity_factory.h"
 
 #ifdef ANDROID_CARDBOARD
 #include "fplbase/renderer_hmd.h"
@@ -53,7 +53,7 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
                        pindrop::AudioEngine* audio_engine,
                        breadboard::GraphFactory* graph_factory,
                        Renderer* renderer, SceneLab* scene_lab) {
-  entity_factory.reset(new ZooshiEntityFactory());
+  entity_factory.reset(new fpl::component_library::DefaultEntityFactory());
   motive::SmoothInit::Register();
   motive::MatrixInit::Register();
   motive::RigInit::Register();
