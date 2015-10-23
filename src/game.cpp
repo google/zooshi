@@ -394,11 +394,8 @@ bool Game::Initialize(const char* const binary_directory) {
 
   if (!InitializeAssets()) return false;
 
-  // Some people are having trouble loading the audio engine, and it's not
-  // strictly necessary for gameplay, so don't die if the audio engine fails to
-  // initialize.
   if (!audio_engine_.Initialize(GetConfig().audio_config()->c_str())) {
-    LogError("Failed to initialize audio engine.\n");
+    return false;
   }
   audio_engine_.LoadSoundBank(asset_manifest.sound_bank()->c_str());
   audio_engine_.StartLoadingSoundFiles();
