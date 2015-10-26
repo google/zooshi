@@ -332,7 +332,9 @@ void Game::InitializeEventSystem() {
   InitializeStateModule(&event_system_, gameplay_state_.requested_state());
   InitializeZooshiModule(&event_system_, &world_.services_component);
   module_library::InitializeAnimationModule(&event_system_,
-                                            &world_.graph_component);
+                                            &world_.graph_component,
+                                            &world_.animation_component,
+                                            &world_.transform_component);
   module_library::InitializeAudioModule(&event_system_, &audio_engine_);
   module_library::InitializeEntityModule(&event_system_, &world_.entity_manager,
                                          &world_.meta_component,
