@@ -632,7 +632,13 @@
         },
         {
           "data_type": "TransformDef",
-          "data": {}
+          "data": {
+            "position": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": -0.5
+            }
+          }
         },
         {
           "data_type": "PhysicsDef",
@@ -654,7 +660,7 @@
                 "collides_with": [
                   "Projectile"
                 ],
-                "user_tag": "Ground"
+                "user_tag": "Water"
               }
             ],
             "kinematic": true
@@ -1859,8 +1865,8 @@
             "events": [
               { "action": "GetUp", "time": 2800 },
               { "action": "Satisfied" },
-              { "action": "Fall" },
-            ],
+              { "action": "Fall" }
+            ]
           }
         }
       ]
@@ -1926,6 +1932,12 @@
         {
           "data_type": "PlayerProjectileDef",
           "data": {}
+        },
+        {
+          "data_type": "SoundDef",
+          "data": {
+            "sound": "sushi_whoosh"
+          }
         }
       ]
     },

@@ -95,6 +95,90 @@
           }
         }
       ]
+    },
+    {
+      "module": "string",
+      "name": "equals",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2,
+            "edge_index": 5
+          }
+        },
+        {
+          "edge_type": "String",
+          "edge": {
+            "value": "Water"
+          }
+        }
+      ]
+    },
+    {
+      "module": "logic",
+      "name": "if",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 6,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      "module": "audio",
+      "name": "play_sound",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "SoundHandle",
+          "edge": {
+            "value": "hit_water"
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2,
+            "edge_index": 1
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 1.0
+          }
+        }
+      ]
+    },
+    {
+      "module": "entity",
+      "name": "delete_entity",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0,
+            "edge_index": 0
+          }
+        }
+      ]
     }
   ]
 }

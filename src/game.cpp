@@ -334,7 +334,8 @@ void Game::InitializeEventSystem() {
   module_library::InitializeAnimationModule(&event_system_,
                                             &world_.graph_component);
   module_library::InitializeAudioModule(&event_system_, &audio_engine_);
-  module_library::InitializeEntityModule(&event_system_, &world_.meta_component,
+  module_library::InitializeEntityModule(&event_system_, &world_.entity_manager,
+                                         &world_.meta_component,
                                          &world_.graph_component);
   module_library::InitializePhysicsModule(
       &event_system_, &world_.physics_component, &world_.graph_component);
@@ -406,8 +407,6 @@ bool Game::Initialize(const char* const binary_directory) {
     font_manager_.Open(asset_manifest.font_list()->Get(i)->c_str());
   }
   font_manager_.SetRenderer(renderer_);
-
-  SetRelativeMouseMode(true);
 
   SetPerformanceMode(kHighPerformance);
 

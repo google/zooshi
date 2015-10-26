@@ -14,6 +14,7 @@
     "sounds/fed_lady_mandrill.bin",
     "sounds/hit_char.bin",
     "sounds/hit_ground.bin",
+    "sounds/hit_water.bin",
     "sounds/music_gameplay_lap_1.bin",
     "sounds/music_gameplay_lap_2.bin",
     "sounds/music_gameplay_lap_3.bin",
@@ -22,6 +23,7 @@
     "sounds/select.bin",
     "sounds/start.bin",
     "sounds/successful_lap.bin",
+    "sounds/sushi_whoosh.bin",
     "sounds/throw.bin",
     "sounds/unsuccessful_lap.bin"
   ]
