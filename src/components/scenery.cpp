@@ -192,7 +192,7 @@ void SceneryComponent::Show(const entity::EntityRef& scenery, bool show) {
   RenderMeshComponent* rm_component =
       entity_manager_->GetComponent<RenderMeshComponent>();
   const entity::EntityRef parent = tf_component->GetRootParent(scenery);
-  rm_component->SetHiddenRecursively(parent, !show);
+  rm_component->SetVisibilityRecursively(parent, show);
 }
 
 void SceneryComponent::ShowAll(bool show) {

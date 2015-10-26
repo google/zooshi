@@ -172,7 +172,7 @@
             "source_file": "meshes/introbox.fplmesh",
             "shader": "shaders/textured_opaque",
             "culling": ["Distance"],
-            "hidden": true
+            "visible": false
           }
         }
       ]
@@ -580,7 +580,7 @@
             "source_file":"meshes/sushi_salmon.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": ["ViewAngle", "Distance"],
-            "hidden": true
+            "visible": false
           }
         },
         {
@@ -1989,7 +1989,7 @@
             "source_file":"meshes/ground.fplmesh",
             "shader": "shaders/textured_lit",
             "culling": [],
-            "hidden": true
+            "visible": false
           }
         },
         {

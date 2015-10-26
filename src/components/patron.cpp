@@ -177,7 +177,7 @@ void PatronComponent::UpdateAndEnablePhysics() {
     physics_component->UpdatePhysicsFromTransform(patron);
     physics_component->EnablePhysics(patron);
 
-    render_mesh_component->SetHiddenRecursively(patron, false);
+    render_mesh_component->SetVisibilityRecursively(patron, true);
   }
 }
 
@@ -351,7 +351,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     }
 
     const PatronState state = patron_data->state;
-    rm_component->SetHiddenRecursively(patron, state == kPatronStateLayingDown);
+    rm_component->SetVisibilityRecursively(patron,
+                                           !state == kPatronStateLayingDown);
     if (num_events > 0) continue;
 
     // Move patron towards the target.

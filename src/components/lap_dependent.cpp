@@ -79,7 +79,7 @@ void LapDependentComponent::UpdateAllEntities(
       data->currently_active = true;
       auto rm_component = entity_manager_->GetComponent<RenderMeshComponent>();
       if (rm_component) {
-        rm_component->SetHiddenRecursively(iter->entity, false);
+        rm_component->SetVisibilityRecursively(iter->entity, true);
       }
       auto phys_component = entity_manager_->GetComponent<PhysicsComponent>();
       if (phys_component) {
@@ -89,7 +89,7 @@ void LapDependentComponent::UpdateAllEntities(
       data->currently_active = false;
       auto rm_component = entity_manager_->GetComponent<RenderMeshComponent>();
       if (rm_component) {
-        rm_component->SetHiddenRecursively(iter->entity, true);
+        rm_component->SetVisibilityRecursively(iter->entity, false);
       }
       auto phys_component = entity_manager_->GetComponent<PhysicsComponent>();
       if (phys_component) {
@@ -122,7 +122,7 @@ void LapDependentComponent::ActivateEntity(entity::EntityRef& entity) {
   data->currently_active = true;
   auto rm_component = entity_manager_->GetComponent<RenderMeshComponent>();
   if (rm_component) {
-    rm_component->SetHiddenRecursively(entity, false);
+    rm_component->SetVisibilityRecursively(entity, true);
   }
   auto phys_component = entity_manager_->GetComponent<PhysicsComponent>();
   if (phys_component) {
@@ -137,7 +137,7 @@ void LapDependentComponent::DeactivateEntity(entity::EntityRef& entity) {
   data->currently_active = false;
   auto rm_component = entity_manager_->GetComponent<RenderMeshComponent>();
   if (rm_component) {
-    rm_component->SetHiddenRecursively(entity, true);
+    rm_component->SetVisibilityRecursively(entity, false);
   }
   auto phys_component = entity_manager_->GetComponent<PhysicsComponent>();
   if (phys_component) {

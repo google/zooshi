@@ -47,7 +47,9 @@ public:
   virtual void OnExit(int next_state);
 
 protected:
-  void HideBox(bool hide);
+  // Shows or hides the "intro to cardboard" box that spawns when you start
+  // the game in cardboard mode.
+  void SetBoxVisibility(bool visibility);
 
   // The world so that we can get the player.
   World* world_;

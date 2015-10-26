@@ -54,10 +54,10 @@ void IntroState::Initialize(InputSystem* input_system, World* world,
 #endif
 }
 
-void IntroState::HideBox(bool hide) {
+void IntroState::SetBoxVisibility(bool visibility) {
   // TODO: find a better way to get the entity than by string name.
   auto entity = world_->meta_component.GetEntityFromDictionary("introbox-1");
-  world_->render_mesh_component.SetHiddenRecursively(entity, hide);
+  world_->render_mesh_component.SetVisibilityRecursively(entity, visibility);
 }
 
 void IntroState::AdvanceFrame(int delta_time, int* next_state) {
@@ -97,7 +97,7 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   }
 
   if (fader_->AdvanceFrame(delta_time)) {
-    HideBox(true);
+    SetBoxVisibility(false);
     // Enter the game.
     *next_state = kGameStateGameplay;
   }
@@ -133,7 +133,7 @@ void IntroState::OnEnter(int /*previous_state*/) {
   // TODO(proppy): get position of the introbox entity
   player_transform->position += mathfu::vec3(0, 0, 500);
   fade_timer_ = kFadeTimerPending;
-  HideBox(false);
+  SetBoxVisibility(true);
   master_bus_.FadeTo(0.0f, kFadeWaitTime / kMillisecondsPerSecond);
 }
 
