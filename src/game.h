@@ -29,6 +29,7 @@
 #include "fplbase/utilities.h"
 #include "full_screen_fader.h"
 #include "mathfu/glsl_mappings.h"
+#include "module_library/default_graph_factory.h"
 #include "pindrop/pindrop.h"
 #include "rail_def_generated.h"
 #include "states/intro_state.h"
@@ -38,7 +39,6 @@
 #include "states/state_machine.h"
 #include "states/states.h"
 #include "world.h"
-#include "zooshi_graph_factory.h"
 
 #if defined(PLATFORM_MOBILE)
 #define USING_GOOGLE_PLAY_GAMES
@@ -159,7 +159,7 @@ class Game {
 
   // The event system.
   breadboard::ModuleRegistry module_registry_;
-  ZooshiGraphFactory graph_factory_;
+  module_library::DefaultGraphFactory graph_factory_;
 
   // Shaders we use.
   Shader* shader_lit_textured_normal_;

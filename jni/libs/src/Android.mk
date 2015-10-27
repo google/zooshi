@@ -57,13 +57,14 @@ LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_ENTITY_DIR)/include \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/include \
   $(DEPENDENCIES_BREADBOARD_DIR)/include \
-  $(DEPENDENCIES_MODULE_LIBRARY_DIR)/include \
+  $(DEPENDENCIES_BREADBOARD_MODULE_LIBRARY_DIR)/include \
   $(DEPENDENCIES_SCENE_LAB_DIR)/include \
   $(DEPENDENCIES_FPLUTIL_DIR)/libfplutil/include \
   $(DEPENDENCIES_GPG_DIR)/include \
   $(DEPENDENCIES_WEBP_DIR)/src \
   $(DEPENDENCIES_BULLETPHYSICS_DIR)/src \
   $(COMPONENTS_GENERATED_OUTPUT_DIR) \
+  $(BREADBOARD_MODULE_LIBRARY_GENERATED_OUTPUT_DIR) \
   $(ZOOSHI_GENERATED_OUTPUT_DIR) \
   $(SCENE_LAB_GENERATED_OUTPUT_DIR) \
   src
@@ -87,6 +88,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/default_entity_factory.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/default_graph_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/full_screen_fader.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
@@ -113,7 +115,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/states/scene_lab_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world_renderer.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/zooshi_graph_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_gen_text.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/reflection.cpp
@@ -141,7 +142,8 @@ ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
   $(DEPENDENCIES_MOTIVE_DIR)/schemas \
   $(DEPENDENCIES_FPLBASE_DIR)/schemas \
   $(DEPENDENCIES_SCENE_LAB_DIR)/schemas \
-  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas
+  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas \
+  $(DEPENDENCIES_BREADBOARD_MODULE_LIBRARY_DIR)/schemas
 
 # Override JNI_OnLoad functions.
 FPLBASE_JNI_ONLOAD_FUNCTIONS := SDL_JNI_OnLoad GPG_JNI_OnLoad
@@ -156,6 +158,7 @@ $(call flatbuffers_header_build_rules,\
   $(LOCAL_SRC_FILES),\
   zooshi_generated_includes,\
   component_library_generated_includes \
+  breadboard_module_library_generated_includes \
   motive_generated_includes \
   fplbase_generated_includes \
   pindrop_generated_includes \
