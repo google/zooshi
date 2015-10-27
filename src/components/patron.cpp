@@ -352,7 +352,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 
     const PatronState state = patron_data->state;
     rm_component->SetVisibilityRecursively(patron,
-                                           !state == kPatronStateLayingDown);
+                                           state != kPatronStateLayingDown);
     if (num_events > 0) continue;
 
     // Move patron towards the target.
