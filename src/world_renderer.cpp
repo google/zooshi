@@ -48,12 +48,14 @@ void WorldRenderer::Initialize(World* world) {
       world->asset_manager->LoadShader("shaders/textured_skinned_lit");
   textured_lit_cutout_shader_ =
       world->asset_manager->LoadShader("shaders/textured_lit_cutout");
+  river_shader_ =
+      world->asset_manager->LoadShader("shaders/origwater");
 }
 
 void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
                                     Renderer& renderer, World* world) {
   float shadow_map_resolution = static_cast<float>(
-      world->config->rendering_config()->shadow_map_resolution());
+        world->config->rendering_config()->shadow_map_resolution());
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
   float shadow_map_offset =
       world->config->rendering_config()->shadow_map_offset();
@@ -165,6 +167,15 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
 
   textured_skinned_lit_shader_->SetUniform("ambient_material", ambient);
   textured_skinned_lit_shader_->SetUniform("diffuse_material", diffuse);
+
+  float river_speed = world->config->river_config()->speed();
+  float texture_repeats = world->config->river_config()->texture_repeats();
+  float river_time = static_cast<float>(renderer.time());
+
+  river_time -= floor(river_time * river_speed) / river_speed;
+  river_shader_->SetUniform("river_time", river_time);
+  river_shader_->SetUniform("river_speed", river_speed);
+  river_shader_->SetUniform("texture_repeats", texture_repeats);
 
   SetFogUniforms(textured_shadowed_shader_, world);
   SetFogUniforms(textured_lit_shader_, world);
