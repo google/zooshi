@@ -47,7 +47,7 @@
 #define DISPLAY_FRAMERATE_HISTOGRAM 0
 
 #ifdef __ANDROID__
-#define ENABLE_SYSTRACE 0
+#define FPLBASE_ENABLE_SYSTRACE 0
 #endif
 
 // Header files that has a dependency to GPG definitions.
