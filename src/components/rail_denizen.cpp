@@ -72,9 +72,9 @@ vec3 Rail::PositionCalculatedSlowly(float time) const {
 
 void RailDenizenData::Initialize(const Rail& rail,
                                  motive::MotiveEngine& engine) {
+  const SplinePlayback playback(start_time, true, initial_playback_rate);
   motivator.Initialize(motive::SmoothInit(), &engine);
-  motivator.SetSpline(SplinePlayback3f(rail.splines(), start_time, true,
-                                       initial_playback_rate));
+  motivator.SetSplines(rail.splines(), playback);
   playback_rate.InitializeWithTarget(motive::SmoothInit(), &engine,
                                      motive::Current1f(initial_playback_rate));
 }
