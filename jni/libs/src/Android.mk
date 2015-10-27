@@ -91,6 +91,7 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/components/simple_movement.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
+  $(ZOOSHI_RELATIVE_DIR)/src/default_entity_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/full_screen_fader.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
@@ -117,7 +118,6 @@ LOCAL_SRC_FILES := \
   $(ZOOSHI_RELATIVE_DIR)/src/states/scene_lab_state.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/world_renderer.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/zooshi_entity_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/zooshi_graph_factory.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \
   $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_gen_text.cpp \
