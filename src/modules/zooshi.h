@@ -15,14 +15,14 @@
 #ifndef FPL_ZOOSHI_MODULES_ZOOSHI_H_
 #define FPL_ZOOSHI_MODULES_ZOOSHI_H_
 
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "components/services.h"
 #include "entity/entity_manager.h"
 
 namespace fpl {
 namespace zooshi {
 
-void InitializeZooshiModule(breadboard::EventSystem* event_system,
+void InitializeZooshiModule(breadboard::ModuleRegistry* module_registry,
                             ServicesComponent* services_component);
 
 }  // zooshi

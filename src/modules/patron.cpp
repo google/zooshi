@@ -17,10 +17,16 @@
 #include <string>
 
 #include "entity/entity_manager.h"
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "breadboard/base_node.h"
 #include "fplbase/utilities.h"
 #include "rail_denizen.h"
+
+using breadboard::BaseNode;
+using breadboard::Module;
+using breadboard::ModuleRegistry;
+using breadboard::NodeArguments;
+using breadboard::NodeSignature;
 
 namespace fpl {
 namespace zooshi {
@@ -31,22 +37,22 @@ namespace zooshi {
 const float kLapDuration = 1.0f + 1.0f / 20.0f;
 
 // Returns if the given entity is a patron, and standing upright.
-class PatronUprightNode : public breadboard::BaseNode {
+class PatronUprightNode : public BaseNode {
  public:
   PatronUprightNode(PatronComponent* patron_component)
       : patron_component_(patron_component) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<bool>();
   }
 
-  virtual void Initialize(breadboard::NodeArguments* args) { Run(args); }
+  virtual void Initialize(NodeArguments* args) { Run(args); }
 
-  virtual void Execute(breadboard::NodeArguments* args) { Run(args); }
+  virtual void Execute(NodeArguments* args) { Run(args); }
 
  private:
-  void Run(breadboard::NodeArguments* args) {
+  void Run(NodeArguments* args) {
     auto entity = args->GetInput<entity::EntityRef>(0);
     if (entity != nullptr && entity->IsValid()) {
       PatronData* data = patron_component_->GetComponentData(*entity);
@@ -58,18 +64,18 @@ class PatronUprightNode : public breadboard::BaseNode {
 };
 
 // Check DeliciousCycle condition.
-class CheckDeliciousCycleNode : public breadboard::BaseNode {
+class CheckDeliciousCycleNode : public BaseNode {
  public:
   CheckDeliciousCycleNode(PatronComponent* patron_component)
       : patron_component_(patron_component) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<int32_t>();
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     auto raft = args->GetInput<entity::EntityRef>(1);
     auto current_lap =
         patron_component_->Data<RailDenizenData>(*raft)->lap - kLapDuration;
@@ -104,9 +110,9 @@ class CheckDeliciousCycleNode : public breadboard::BaseNode {
   PatronComponent* patron_component_;
 };
 
-void InitializePatronModule(breadboard::EventSystem* event_system,
+void InitializePatronModule(ModuleRegistry* module_registry,
                             PatronComponent* patron_component) {
-  breadboard::Module* module = event_system->AddModule("patron");
+  Module* module = module_registry->RegisterModule("patron");
   auto patron_upright_ctor = [patron_component]() {
     return new PatronUprightNode(patron_component);
   };

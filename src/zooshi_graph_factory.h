@@ -17,9 +17,9 @@
 
 #include <string>
 
-#include "breadboard/event_system.h"
 #include "breadboard/graph.h"
 #include "breadboard/graph_factory.h"
+#include "breadboard/module_registry.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
@@ -27,14 +27,14 @@ namespace zooshi {
 
 class ZooshiGraphFactory : public breadboard::GraphFactory {
  public:
-  ZooshiGraphFactory(breadboard::EventSystem* event_system,
+  ZooshiGraphFactory(breadboard::ModuleRegistry* module_registry,
                      breadboard::LoadFileCallback load_file_callback,
                      pindrop::AudioEngine* audio_engine)
-      : breadboard::GraphFactory(event_system, load_file_callback),
+      : breadboard::GraphFactory(module_registry, load_file_callback),
         audio_engine_(audio_engine) {}
 
  private:
-  virtual bool ParseData(breadboard::EventSystem* event_system,
+  virtual bool ParseData(breadboard::ModuleRegistry* module_registry,
                          breadboard::Graph* graph, const std::string* data);
 
   pindrop::AudioEngine* audio_engine_;

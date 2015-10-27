@@ -15,7 +15,7 @@
 #ifndef FPL_ZOOSHI_MODULES_GPG_H_
 #define FPL_ZOOSHI_MODULES_GPG_H_
 
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "config_generated.h"
 #include "gpg_manager.h"
 #include "pindrop/pindrop.h"
@@ -23,7 +23,7 @@
 namespace fpl {
 namespace zooshi {
 
-void InitializeGpgModule(breadboard::EventSystem* event_system,
+void InitializeGpgModule(breadboard::ModuleRegistry* module_registry,
                          const Config* config, GPGManager* gpg_manager);
 }  // zooshi
 }  // fpl

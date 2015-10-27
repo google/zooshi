@@ -24,6 +24,7 @@
 #include "audio_config_generated.h"
 #include "breadboard/graph.h"
 #include "breadboard/log.h"
+#include "breadboard/modules/common.h"
 #include "common.h"
 #include "entity/entity.h"
 #include "fplbase/input.h"
@@ -35,9 +36,7 @@
 #include "mathfu/vector.h"
 #include "module_library/animation.h"
 #include "module_library/audio.h"
-#include "module_library/common.h"
 #include "module_library/entity.h"
-#include "module_library/logic.h"
 #include "module_library/physics.h"
 #include "module_library/transform.h"
 #include "module_library/vec3.h"
@@ -128,7 +127,7 @@ GameSynchronization::GameSynchronization()
 
 Game::Game()
     : asset_manager_(renderer_),
-      graph_factory_(&event_system_, &LoadFile, &audio_engine_),
+      graph_factory_(&module_registry_, &LoadFile, &audio_engine_),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       game_exiting_(false),
@@ -299,51 +298,40 @@ const AssetManifest& Game::GetAssetManifest() const {
   return *fpl::zooshi::GetAssetManifest(asset_manifest_source_.c_str());
 }
 
-void EventSystemLogFunc(const char* fmt, va_list args) { LogError(fmt, args); }
+void BreadboardLogFunc(const char* fmt, va_list args) { LogError(fmt, args); }
 
-void Game::InitializeEventSystem() {
-  breadboard::RegisterLogFunc(EventSystemLogFunc);
+void Game::InitializeBreadboardModules() {
+  breadboard::RegisterLogFunc(BreadboardLogFunc);
 
-  breadboard::TypeRegistry<void>::RegisterType("Pulse");
-  breadboard::TypeRegistry<bool>::RegisterType("Bool");
-  breadboard::TypeRegistry<int>::RegisterType("Int");
-  breadboard::TypeRegistry<float>::RegisterType("Float");
-  breadboard::TypeRegistry<std::string>::RegisterType("String");
+  // Common module initialization.
+  breadboard::InitializeCommonModules(&module_registry_);
 
-  breadboard::TypeRegistry<AttributesDataRef>::RegisterType("AttributesData");
-  breadboard::TypeRegistry<RailDenizenDataRef>::RegisterType("RailDenizenData");
-  breadboard::TypeRegistry<module_library::TransformDataRef>::RegisterType(
-      "TransformData");
-  breadboard::TypeRegistry<entity::EntityRef>::RegisterType("Entity");
-  breadboard::TypeRegistry<mathfu::vec3>::RegisterType("Vec3");
-  breadboard::TypeRegistry<pindrop::Channel>::RegisterType("Channel");
-  breadboard::TypeRegistry<pindrop::SoundHandle>::RegisterType("SoundHandle");
-
-  module_library::InitializeCommonModules(&event_system_);
-
-  InitializeAttributesModule(&event_system_, &world_.attributes_component,
-                             &world_.graph_component);
-  InitializeGpgModule(&event_system_, &GetConfig(), &gpg_manager_);
-  InitializePatronModule(&event_system_, &world_.patron_component);
-  InitializePlayerModule(&event_system_, &world_.player_component,
-                         &world_.graph_component);
-  InitializeRailDenizenModule(&event_system_, &world_.rail_denizen_component,
-                              &world_.graph_component);
-  InitializeStateModule(&event_system_, gameplay_state_.requested_state());
-  InitializeZooshiModule(&event_system_, &world_.services_component);
-  module_library::InitializeAnimationModule(&event_system_,
+  // Module library initialization.
+  module_library::InitializeAnimationModule(&module_registry_,
                                             &world_.graph_component,
                                             &world_.animation_component,
                                             &world_.transform_component);
-  module_library::InitializeAudioModule(&event_system_, &audio_engine_);
-  module_library::InitializeEntityModule(&event_system_, &world_.entity_manager,
+  module_library::InitializeAudioModule(&module_registry_, &audio_engine_);
+  module_library::InitializeEntityModule(&module_registry_, &world_.entity_manager,
                                          &world_.meta_component,
                                          &world_.graph_component);
   module_library::InitializePhysicsModule(
-      &event_system_, &world_.physics_component, &world_.graph_component);
-  module_library::InitializeTransformModule(&event_system_,
+      &module_registry_, &world_.physics_component, &world_.graph_component);
+  module_library::InitializeTransformModule(&module_registry_,
                                             &world_.transform_component);
-  module_library::InitializeVec3Module(&event_system_);
+  module_library::InitializeVec3Module(&module_registry_);
+
+  // Zooshi module initialization.
+  InitializeAttributesModule(&module_registry_, &world_.attributes_component,
+                             &world_.graph_component);
+  InitializeGpgModule(&module_registry_, &GetConfig(), &gpg_manager_);
+  InitializePatronModule(&module_registry_, &world_.patron_component);
+  InitializePlayerModule(&module_registry_, &world_.player_component,
+                         &world_.graph_component);
+  InitializeRailDenizenModule(&module_registry_, &world_.rail_denizen_component,
+                              &world_.graph_component);
+  InitializeStateModule(&module_registry_, gameplay_state_.requested_state());
+  InitializeZooshiModule(&module_registry_, &world_.services_component);
 }
 
 // Pause the audio when the game loses focus.
@@ -403,7 +391,7 @@ bool Game::Initialize(const char* const binary_directory) {
   audio_engine_.LoadSoundBank(asset_manifest.sound_bank()->c_str());
   audio_engine_.StartLoadingSoundFiles();
 
-  InitializeEventSystem();
+  InitializeBreadboardModules();
 
   for (size_t i = 0; i < asset_manifest.font_list()->size(); i++) {
     font_manager_.Open(asset_manifest.font_list()->Get(i)->c_str());

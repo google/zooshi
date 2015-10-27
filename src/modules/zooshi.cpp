@@ -15,61 +15,66 @@
 #include "modules/zooshi.h"
 
 #include "breadboard/base_node.h"
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "component_library/meta.h"
 #include "components/services.h"
 #include "entity/entity_manager.h"
 #include "mathfu/glsl_mappings.h"
 
-using fpl::entity::EntityRef;
+using breadboard::BaseNode;
+using breadboard::Module;
+using breadboard::ModuleRegistry;
+using breadboard::NodeArguments;
+using breadboard::NodeSignature;
 using fpl::entity::EntityManager;
+using fpl::entity::EntityRef;
 
 namespace fpl {
 namespace zooshi {
 
 // Returns the entity representing the player.
-class PlayerEntityNode : public breadboard::BaseNode {
+class PlayerEntityNode : public BaseNode {
  public:
   PlayerEntityNode(ServicesComponent* services_component)
       : services_component_(services_component) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddOutput<EntityRef>();
   }
 
-  virtual void Initialize(breadboard::NodeArguments* args) {
+  virtual void Initialize(NodeArguments* args) {
     args->SetOutput(0, services_component_->player_entity());
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) { Initialize(args); }
+  virtual void Execute(NodeArguments* args) { Initialize(args); }
 
  private:
   ServicesComponent* services_component_;
 };
 
 // Returns the entity representing the raft.
-class RaftEntityNode : public breadboard::BaseNode {
+class RaftEntityNode : public BaseNode {
  public:
   RaftEntityNode(ServicesComponent* services_component)
       : services_component_(services_component) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
     node_sig->AddOutput<EntityRef>();
   }
 
-  virtual void Initialize(breadboard::NodeArguments* args) {
+  virtual void Initialize(NodeArguments* args) {
     args->SetOutput(0, services_component_->raft_entity());
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) { Initialize(args); }
+  virtual void Execute(NodeArguments* args) { Initialize(args); }
 
  private:
   ServicesComponent* services_component_;
 };
 
-void InitializeZooshiModule(breadboard::EventSystem* event_system,
+void InitializeZooshiModule(ModuleRegistry* module_registry,
                             ServicesComponent* services_component) {
   auto player_entity_ctor = [services_component]() {
     return new PlayerEntityNode(services_component);
@@ -77,7 +82,7 @@ void InitializeZooshiModule(breadboard::EventSystem* event_system,
   auto raft_entity_ctor = [services_component]() {
     return new RaftEntityNode(services_component);
   };
-  breadboard::Module* module = event_system->AddModule("zooshi");
+  Module* module = module_registry->RegisterModule("zooshi");
   module->RegisterNode<PlayerEntityNode>("player_entity", player_entity_ctor);
   module->RegisterNode<RaftEntityNode>("raft_entity", raft_entity_ctor);
 }

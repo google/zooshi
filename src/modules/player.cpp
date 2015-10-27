@@ -17,9 +17,14 @@
 #include <string>
 
 #include "entity/entity_manager.h"
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "breadboard/base_node.h"
 
+using breadboard::BaseNode;
+using breadboard::Module;
+using breadboard::ModuleRegistry;
+using breadboard::NodeArguments;
+using breadboard::NodeSignature;
 using fpl::component_library::GraphComponent;
 
 namespace fpl {
@@ -29,24 +34,24 @@ namespace zooshi {
 const int32_t kPatronTypes = 6;
 
 // Fires a pulse whenever a on_fire has been started.
-class OnFireNode : public breadboard::BaseNode {
+class OnFireNode : public BaseNode {
  public:
   OnFireNode(GraphComponent* graph_component)
       : graph_component_(graph_component) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<void>();
     node_sig->AddListener(kOnFireEventId);
   }
 
-  virtual void Initialize(breadboard::NodeArguments* args) {
+  virtual void Initialize(NodeArguments* args) {
     // Bind the node to player entity's broadcaster.
     auto entity = args->GetInput<entity::EntityRef>(0);
     args->BindBroadcaster(0, graph_component_->GetCreateBroadcaster(*entity));
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     Initialize(args);
     args->SetOutput(0);
   }
@@ -56,19 +61,19 @@ class OnFireNode : public breadboard::BaseNode {
 };
 
 // Store a patron's feeding status for a player.
-class FedPatronNode : public breadboard::BaseNode {
+class FedPatronNode : public BaseNode {
  public:
   FedPatronNode(PlayerComponent* player_component)
       : player_component_(player_component) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<bool>();
     node_sig->AddInput<entity::EntityRef>();  // Player entity.
     node_sig->AddInput<entity::EntityRef>();  // Collision target.
     node_sig->AddOutput<void>();
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     auto hit = args->GetInput<bool>(0);
     if (*hit) {
       auto entity = args->GetInput<entity::EntityRef>(1);
@@ -90,17 +95,17 @@ class FedPatronNode : public breadboard::BaseNode {
 };
 
 // Check a patron's feeding status for a player.
-class CheckAllPatronsFedNode : public breadboard::BaseNode {
+class CheckAllPatronsFedNode : public BaseNode {
  public:
   CheckAllPatronsFedNode(PlayerComponent* player_component)
       : player_component_(player_component) {}
 
-  static void OnRegister(breadboard::NodeSignature* node_sig) {
+  static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<entity::EntityRef>();
     node_sig->AddOutput<int32_t>();
   }
 
-  virtual void Execute(breadboard::NodeArguments* args) {
+  virtual void Execute(NodeArguments* args) {
     int32_t ret = 0;
     auto entity = args->GetInput<entity::EntityRef>(0);
     auto player_data = player_component_->GetComponentData(*entity);
@@ -116,10 +121,10 @@ class CheckAllPatronsFedNode : public breadboard::BaseNode {
   PlayerComponent* player_component_;
 };
 
-void InitializePlayerModule(breadboard::EventSystem* event_system,
+void InitializePlayerModule(ModuleRegistry* module_registry,
                             PlayerComponent* player_component,
                             GraphComponent* graph_component) {
-  breadboard::Module* module = event_system->AddModule("player");
+  Module* module = module_registry->RegisterModule("player");
   auto on_fire_ctor = [graph_component]() {
     return new OnFireNode(graph_component);
   };

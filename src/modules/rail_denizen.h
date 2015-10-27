@@ -15,7 +15,7 @@
 #ifndef FPL_ZOOSHI_MODULES_RAIL_DENIZEN_H_
 #define FPL_ZOOSHI_MODULES_RAIL_DENIZEN_H_
 
-#include "breadboard/event_system.h"
+#include "breadboard/module_registry.h"
 #include "component_library/graph.h"
 #include "components/rail_denizen.h"
 #include "module_library/entity.h"
@@ -27,7 +27,7 @@ typedef module_library::ComponentDataRef<RailDenizenComponent>
     RailDenizenDataRef;
 
 void InitializeRailDenizenModule(
-    breadboard::EventSystem* event_system,
+    breadboard::ModuleRegistry* module_registry,
     RailDenizenComponent* rail_denizen_component,
     component_library::GraphComponent* graph_component);
 
