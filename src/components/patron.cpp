@@ -59,14 +59,17 @@ using motive::kMotiveTimeEndless;
 // All of these numbers were picked for purely aesthetic reasons:
 static const float kLapWaitAmount = 0.5f;
 static const float kHeightRangeBuffer = 0.05f;
-static const Range kCatchTimeRangeInSeconds(0.01f, 1.5f);
-static const float kCatchReturnTime = 1.0f;
-static const float kTimeToResumeMotion = 500.0f;
 
 static inline vec3 ZeroHeight(const vec3& v) {
   vec3 v_copy = v;
   v_copy.z() = 0.0f;
   return v_copy;
+}
+
+static inline void SetMoveState(PatronMoveState move_state,
+                                PatronData* patron_data) {
+  patron_data->move_state = move_state;
+  patron_data->time_in_move_state = 0.0f;
 }
 
 void PatronComponent::Init() {
@@ -122,11 +125,25 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   }
 
   patron_data->max_catch_distance = patron_def->max_catch_distance();
+  patron_data->max_catch_distance_for_search =
+      patron_def->max_catch_distance_for_search();
   patron_data->max_catch_angle = patron_def->max_catch_angle();
   patron_data->point_display_height = patron_def->point_display_height();
   patron_data->max_face_angle_away_from_raft =
       Angle::FromDegrees(patron_def->max_face_angle_away_from_raft());
   patron_data->time_to_face_raft = patron_def->time_to_face_raft();
+
+  patron_data->catch_time_for_search =
+      Range(patron_def->min_catch_time_for_search(),
+            patron_def->max_catch_time_for_search());
+  patron_data->catch_time =
+      Range(patron_def->min_catch_time(),
+            patron_def->max_catch_time());
+  patron_data->catch_speed =
+      Range(patron_def->min_catch_speed(),
+            patron_def->max_catch_speed());
+  patron_data->return_time = patron_def->return_time();
+  patron_data->rail_accelerate_time = patron_def->rail_accelerate_time();
 }
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
@@ -159,6 +176,15 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_max_face_angle_away_from_raft(
       data->max_face_angle_away_from_raft.ToDegrees());
   builder.add_time_to_face_raft(data->time_to_face_raft);
+  builder.add_max_catch_distance_for_search(data->max_catch_distance_for_search);
+  builder.add_min_catch_time_for_search(data->catch_time_for_search.start());
+  builder.add_max_catch_time_for_search(data->catch_time_for_search.end());
+  builder.add_min_catch_time(data->catch_time.start());
+  builder.add_max_catch_time(data->catch_time.end());
+  builder.add_min_catch_speed(data->catch_speed.start());
+  builder.add_max_catch_speed(data->catch_speed.end());
+  builder.add_return_time(data->return_time);
+  builder.add_rail_accelerate_time(data->rail_accelerate_time);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
@@ -242,8 +268,8 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
         const Angle return_angle =
             Angle::FromYXVector(raft_position - patron_data->return_position);
         MoveToTarget(patron, patron_data->return_position, return_angle,
-                     kCatchReturnTime);
-        patron_data->move_state = kPatronMoveStateReturn;
+                     patron_data->return_time);
+        SetMoveState(kPatronMoveStateReturn, patron_data);
       } else {
         patron_data->delta_position.Invalidate();
         // Back to idle, so resume moving on rails, if it is on one.
@@ -252,7 +278,8 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
             patron_data->state == kPatronStateUpright) {
           rail_denizen_data->enabled = true;
           rail_denizen_data->SetPlaybackRate(
-              rail_denizen_data->initial_playback_rate, kTimeToResumeMotion);
+              rail_denizen_data->initial_playback_rate,
+              kMillisecondsPerSecond * patron_data->rail_accelerate_time);
         }
       }
     }
@@ -269,7 +296,7 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
 
     if (patron_data->delta_face_angle.TargetTime() <= 0) {
       patron_data->delta_face_angle.Invalidate();
-      patron_data->move_state = kPatronMoveStateIdle;
+      SetMoveState(kPatronMoveStateIdle, patron_data);
     }
   }
 }
@@ -284,7 +311,7 @@ void PatronComponent::FaceRaft(const entity::EntityRef& patron) {
   if (error.Abs() > patron_data->max_face_angle_away_from_raft) {
     MoveToTarget(patron, transform_data->position, to_raft,
                  patron_data->time_to_face_raft);
-    patron_data->move_state = kPatronMoveFaceRaft;
+    SetMoveState(kPatronMoveFaceRaft, patron_data);
   }
 }
 
@@ -355,12 +382,18 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
                                            state != kPatronStateLayingDown);
     if (num_events > 0) continue;
 
+    // Remember the last idle position so we can return to later.
+    if (patron_data->move_state == kPatronMoveStateIdle) {
+      patron_data->return_position = transform_data->position;
+    }
+
     // Move patron towards the target.
     UpdateMovement(patron);
 
     // Set the patron's movement target.
     if (state == kPatronStateUpright &&
-        patron_data->move_state != kPatronMoveStateMoveToTarget) {
+        (patron_data->move_state != kPatronMoveStateMoveToTarget ||
+         patron_data->time_in_move_state > patron_data->catch_time.start())) {
       FindProjectileAndCatch(patron);
     }
     if ((state == kPatronStateUpright || state == kPatronStateGettingUp) &&
@@ -435,7 +468,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           if (rail_denizen_data != nullptr) {
             rail_denizen_data->enabled = true;
             rail_denizen_data->SetPlaybackRate(
-                rail_denizen_data->initial_playback_rate, kTimeToResumeMotion);
+                rail_denizen_data->initial_playback_rate,
+                kMillisecondsPerSecond * patron_data->rail_accelerate_time);
           }
         }  // fallthrough
 
@@ -447,6 +481,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           break;
       }
     }
+    patron_data->time_in_move_state += static_cast<float>(delta_time) / kMillisecondsPerSecond;
   }
   if (event_time_ >= 0) {
     event_time_ += delta_time;
@@ -622,9 +657,10 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
 
   // Loop through every projectile. Keep a reference to the closest one.
   const EntityRef* closest_ref = nullptr;
-  float max_dist_sq =
-      patron_data->max_catch_distance * patron_data->max_catch_distance;
+  float max_dist_sq = patron_data->max_catch_distance_for_search *
+                      patron_data->max_catch_distance_for_search;
   float closest_dist_sq = max_dist_sq;
+  vec3 closest_position_xy = mathfu::kZeros3f;
   for (auto it = projectile_component->begin();
        it != projectile_component->end(); ++it) {
     // Get movement state of projectile.
@@ -669,34 +705,53 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
 
     // Get the closest time at a catchable height.
     const float closest_t = CalculateClosestTimeInHeightRange(
-        closest_t_ignore_height, kCatchTimeRangeInSeconds, target_height_range,
-        projectile_position.z(), projectile_velocity.z(), config_->gravity());
-    if (!kCatchTimeRangeInSeconds.Contains(closest_t)) continue;
+        closest_t_ignore_height, patron_data->catch_time_for_search,
+        target_height_range, projectile_position.z(), projectile_velocity.z(),
+        config_->gravity());
+    if (!patron_data->catch_time_for_search.Contains(closest_t)) continue;
 
     // Calculate the projectile position at `closest_t`.
-    const vec3 closest_position_xy =
+    const vec3 intercept_position_xy =
         projectile_position_xy + projectile_velocity_xy * closest_t;
     const float dist_sq =
-        (patron_position_xy - closest_position_xy).LengthSquared();
+        (patron_position_xy - intercept_position_xy).LengthSquared();
     if (dist_sq > closest_dist_sq) continue;
 
     // Don't face too far away from the player in order to catch thrown sushi.
     Angle angle_to_sushi =
-        Angle::FromYXVector(projectile_position_xy - closest_position_xy);
+        Angle::FromYXVector(projectile_position_xy - intercept_position_xy);
     Angle angle_to_raft =
-        Angle::FromYXVector(raft_position_xy - closest_position_xy);
+        Angle::FromYXVector(raft_position_xy - intercept_position_xy);
     Angle difference = angle_to_raft - angle_to_sushi;
     if (fabs(difference.ToDegrees()) > patron_data->max_catch_angle) continue;
 
     // TODO: prefer projectiles that are slightly farther but with much more
     //       time to close the distance.
-    *closest_position = closest_position_xy;
-    closest_position->z() = patron_transform->position.z();
+    closest_position_xy = intercept_position_xy;
     *closest_time = closest_t;
     *closest_face_angle =
-        Angle::FromYXVector(projectile_position_xy - closest_position_xy);
+        Angle::FromYXVector(projectile_position_xy - intercept_position_xy);
     closest_ref = &it->entity;
     closest_dist_sq = dist_sq;
+  }
+
+  // Clamp the movement time so the patron doesn't move to quickly or slowly.
+  if (closest_ref != nullptr) {
+    const float clamped_dist = std::min(std::sqrt(closest_dist_sq),
+                                        patron_data->max_catch_distance);
+    const float avg_speed = clamped_dist / *closest_time;
+    const float clamped_speed = patron_data->catch_speed.Clamp(avg_speed);
+    *closest_time = patron_data->catch_time.Clamp(clamped_dist / clamped_speed);
+
+    // Ensure the returned `closest_position` is not farther than
+    // max_catch_distance from the last idle position.
+    const vec3 direction =
+        (closest_position_xy - return_position_xy).Normalized();
+    *closest_position = return_position_xy + clamped_dist * direction;
+    closest_position->z() = patron_transform->position.z();
+
+    printf("clamped_dist = %f, avg_speed = %f, clamped_speed = %f, closest_time = %f\n",
+            clamped_dist, avg_speed, clamped_speed, *closest_time);
   }
   return closest_ref;
 }
@@ -713,8 +768,9 @@ void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
   if (closest_projectile != nullptr) {
     MoveToTarget(patron, closest_position, closest_face_angle, closest_time);
     PatronData* patron_data = GetComponentData(patron);
-    patron_data->move_state = kPatronMoveStateMoveToTarget;
-    // If this is on a rail, we want to disable it until we are done.
+    SetMoveState(kPatronMoveStateMoveToTarget, patron_data);
+
+    // If patron is on a rail, we want to disable it until we are done.
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
@@ -731,17 +787,12 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   const vec3 position = patron_transform->position;
   const Angle face_angle(patron_transform->orientation.ToEulerAngles().z());
 
-  // If moving from idle, store the current position to return to later.
-  if (patron_data->move_state == kPatronMoveStateIdle) {
-    patron_data->return_position = position;
-  }
-
   // At `target_time` we want to achieve these deltas so that our position and
   // face angle with equal `target_position` and `target_face_angle`.
   const vec3 delta_position = target_position - position;
   const Angle delta_face_angle = target_face_angle - face_angle;
   const MotiveTime target_time_ms =
-      std::max(1, static_cast<MotiveTime>(1000.0f * target_time));
+      std::max(1, static_cast<MotiveTime>(kMillisecondsPerSecond * target_time));
 
   // Set the delta movement Motivators.
   patron_data->prev_delta_position = vec3(kZeros3f);

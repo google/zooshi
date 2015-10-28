@@ -92,7 +92,25 @@ struct PatronData {
         move_state(kPatronMoveStateIdle),
         anim_object(AnimObject_HungryHippo),
         last_lap_fed(-1.0f),
-        time_to_face_raft(0.0f) {}
+        pop_in_radius_squared(0.0f),
+        pop_out_radius_squared(0.0f),
+        pop_in_radius(0.0f),
+        pop_out_radius(0.0f),
+        min_lap(0.0f),
+        max_lap(0.0f),
+        event_index(0),
+        target_rigid_body_index(0),
+        prev_delta_position(mathfu::kZeros3f),
+        return_position(mathfu::kZeros3f),
+        point_display_height(0.0f),
+        time_in_move_state(0.0f),
+        max_catch_distance(0.0f),
+        max_catch_distance_for_search(0.0f),
+        max_catch_angle(0.0f),
+        return_time(0.0f),
+        rail_accelerate_time(0.0f),
+        time_to_face_raft(0.0f) {
+  }
 
   // Whether the patron is standing up or falling down.
   PatronState state;
@@ -141,13 +159,6 @@ struct PatronData {
   // an AnimationComponent.
   entity::EntityRef render_child;
 
-  // The maximum distance that the patron will move when trying to catch sushi.
-  float max_catch_distance;
-
-  // The maximum angle off of the vector to the raft that the patron will turn
-  // to face when trying to catch sushi. Note that 180 fully encompasses it.
-  float max_catch_angle;
-
   // Position to add onto the patron's trajectory.
   // Amount added on = delta_position.Value() - prev_delta_position
   motive::Motivator3f delta_position;
@@ -169,6 +180,40 @@ struct PatronData {
 
   // The height above the patron at which to spawn the happy-indicator.
   float point_display_height;
+
+  // The time since `move_state` was changed.
+  float time_in_move_state;
+
+  // The maximum distance that the patron will move when trying to catch sushi.
+  float max_catch_distance;
+  float max_catch_distance_for_search;
+
+  // The maximum angle off of the vector to the raft that the patron will turn
+  // to face when trying to catch sushi. Note that 180 fully encompasses it.
+  float max_catch_angle;
+
+  // When looking at sushi to catch, consider the sushi's trajectory over
+  // this time range. In seconds.
+  Range catch_time_for_search;
+
+  // When actually moving to catch a sushi, make sure you get to the target
+  // position within this time. Ensures we don't react too quickly or slowly.
+  // Better to smoothly move to a close position in 200ms than to jerk to it
+  // in 10ms (we'll probably catch the sushi either way since our hit region
+  // is large). Likewise, better to move to the target position in 2.5s and
+  // wait, than to take 5s to move there and look like we're not responding.
+  // In seconds.
+  Range catch_time;
+
+  // Average speed at which to travel towards the sushi catch position.
+  Range catch_speed;
+
+  // Time to return to the last idle position, after we're done trying to
+  // catch sushi.
+  float return_time;
+
+  // Time to accelerate onto the rails, if the patron is traveling along rails.
+  float rail_accelerate_time;
 
   // The angle beyond which the patron should turn to face the raft, in degrees.
   // This is the maximum we allow the patron to face away from the raft.

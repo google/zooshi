@@ -100,9 +100,38 @@ table PatronDef {
   // The maximum distance the patron will move when trying to catch sushi.
   max_catch_distance:float = 5.0;
 
+  // The maximum distance the patron will move when trying to catch sushi.
+  max_catch_distance_for_search:float = 12.0;
+
   // The maximum angle off of the vector to the raft that the patron with turn
   // to face when trying to catch sushi. Note that 180 fully encompasses it.
   max_catch_angle:float = 90.0;
+
+  // When looking at sushi to catch, consider the sushi's trajectory over
+  // this time range. In seconds.
+  min_catch_time_for_search:float = 0.01;
+  max_catch_time_for_search:float = 2.5;
+
+  // When actually moving to catch a sushi, make sure you get to the target
+  // position within this time. Ensures we don't react too quickly or slowly.
+  // Better to smoothly move to a close position in 200ms than to jerk to it
+  // in 10ms (we'll probably catch the sushi either way since our hit region
+  // is large). Likewise, better to move to the target position in 2.5s and
+  // wait, than to take 5s to move there and look like we're not responding.
+  // In seconds.
+  min_catch_time:float = 0.2;
+  max_catch_time:float = 2.5;
+
+  // Average speed at which to travel towards the sushi catch position.
+  min_catch_speed:float = 1.0;
+  max_catch_speed:float = 5.0;
+
+  // Time to return to the last idle position, after we're done trying to
+  // catch sushi.
+  return_time:float = 1.0;
+
+  // Time to accelerate onto the rails, if the patron is traveling along rails.
+  rail_accelerate_time:float = 0.5;
 
   // The height above the patron at which to spawn the happy-indicator.
   point_display_height:float = 10.0;

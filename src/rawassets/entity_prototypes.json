@@ -855,7 +855,17 @@
             "time_to_face_raft": 0.4,
             "min_lap": 0.01,
             "max_lap": -1,
-            "target_tag": "Mouth"
+            "target_tag": "Mouth",
+            "max_catch_distance": 5.0,
+            "max_catch_distance_for_search": 12.0,
+            "max_catch_angle": 120.0,
+            "min_catch_time_for_search": 0.01,
+            "max_catch_time_for_search": 4.0,
+            "min_catch_time": 0.5,
+            "max_catch_time": 4.0,
+            "min_catch_speed": 1.5,
+            "max_catch_speed": 3.0,
+            "return_time": 2.0,
           }
         },
         {
@@ -1001,7 +1011,17 @@
             "time_to_face_raft": 0.2,
             "min_lap": 0.01,
             "max_lap": -1,
-            "target_tag": "Mouth"
+            "target_tag": "Mouth",
+            "max_catch_distance": 5.0,
+            "max_catch_distance_for_search": 20.0,
+            "max_catch_angle": 160.0,
+            "min_catch_time_for_search": 0.01,
+            "max_catch_time_for_search": 5.0,
+            "min_catch_time": 0.15,
+            "max_catch_time": 0.4,
+            "min_catch_speed": 8.0,
+            "max_catch_speed": 15.0,
+            "return_time": 0.3,
           }
         },
         {
@@ -1168,7 +1188,17 @@
             "time_to_face_raft": 1.2,
             "min_lap": 0.01,
             "max_lap": -1,
-            "target_tag": "Mouth"
+            "target_tag": "Mouth",
+            "max_catch_distance": 5.0,
+            "max_catch_distance_for_search": 12.0,
+            "max_catch_angle": 90.0,
+            "min_catch_time_for_search": 0.01,
+            "max_catch_time_for_search": 2.5,
+            "min_catch_time": 0.2,
+            "max_catch_time": 2.5,
+            "min_catch_speed": 1.0,
+            "max_catch_speed": 5.0,
+            "return_time": 1.0,
           }
         },
         {
@@ -1323,7 +1353,17 @@
             "max_face_angle_away_from_raft": 180,
             "time_to_face_raft": 1.0,
             "min_lap": 0,
-            "max_lap": 0
+            "max_lap": 0,
+            "max_catch_distance": 2.5,
+            "max_catch_distance_for_search": 12.0,
+            "max_catch_angle": 40.0,
+            "min_catch_time_for_search": 0.01,
+            "max_catch_time_for_search": 2.5,
+            "min_catch_time": 0.2,
+            "max_catch_time": 2.5,
+            "min_catch_speed": 1.0,
+            "max_catch_speed": 5.0,
+            "return_time": 1.0,
           }
         }
       ]
@@ -1398,7 +1438,17 @@
             "max_face_angle_away_from_raft": 180,
             "time_to_face_raft": 1.0,
             "min_lap": 0.01,
-            "max_lap": -1
+            "max_lap": -1,
+            "max_catch_distance": 10.0,
+            "max_catch_distance_for_search": 20.0,
+            "max_catch_angle": 180.0,
+            "min_catch_time_for_search": 0.01,
+            "max_catch_time_for_search": 4.0,
+            "min_catch_time": 0.1,
+            "max_catch_time": 4.0,
+            "min_catch_speed": 5.0,
+            "max_catch_speed": 15.0,
+            "return_time": 4.0,
           }
         },
         {
@@ -1588,7 +1638,17 @@
             "time_to_face_raft": 0.4,
             "min_lap": 0.01,
             "max_lap": -1,
-            "target_tag": "Mouth"
+            "target_tag": "Mouth",
+            "max_catch_distance": 3.0,
+            "max_catch_distance_for_search": 8.0,
+            "max_catch_angle": 60.0,
+            "min_catch_time_for_search": 0.01,
+            "max_catch_time_for_search": 2.5,
+            "min_catch_time": 0.2,
+            "max_catch_time": 2.5,
+            "min_catch_speed": 3.0,
+            "max_catch_speed": 9.0,
+            "return_time": 1.0,
           }
         },
         {
