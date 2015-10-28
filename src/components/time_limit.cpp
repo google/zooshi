@@ -27,7 +27,7 @@ void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
   TimeLimitData* time_limit_data = AddEntity(entity);
   // Time limit is specified in seconds in the data files.
   time_limit_data->time_limit = static_cast<entity::WorldTime>(
-      time_limit_def->timelimit() * kMillisecondsPerSecond);
+      time_limit_def->timelimit() * 1000);
 }
 
 void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {

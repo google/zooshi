@@ -35,7 +35,7 @@ void FullScreenFader::Init(Material* material, Shader* shader) {
 }
 
 // Starts the fade.
-void FullScreenFader::Start(WorldTime fade_time, const vec3& color,
+void FullScreenFader::Start(entity::WorldTime fade_time, const vec3& color,
                             FadeType fade_type, const mathfu::vec3& bottom_left,
                             const mathfu::vec3& top_right) {
   assert(material_ && shader_);

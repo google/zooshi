@@ -30,8 +30,8 @@ using mathfu::kOnes3f;
 using mathfu::kZeros3f;
 using mathfu::kOnes4f;
 
-static const WorldTime kLoadingScreenFadeInTime = 400;
-static const WorldTime kLoadingScreenFadeOutTime = 200;
+static const entity::WorldTime kLoadingScreenFadeInTime = 400;
+static const entity::WorldTime kLoadingScreenFadeOutTime = 200;
 
 void LoadingState::Initialize(const AssetManifest& asset_manifest,
                               AssetManager* asset_manager,

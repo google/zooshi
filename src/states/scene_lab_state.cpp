@@ -43,7 +43,7 @@ void SceneLabState::Initialize(Renderer* renderer, InputSystem* input_system,
   scene_lab->SetCamera(std::unique_ptr<CameraInterface>(camera_));
 }
 
-void SceneLabState::AdvanceFrame(WorldTime delta_time, int* next_state) {
+void SceneLabState::AdvanceFrame(entity::WorldTime delta_time, int* next_state){
   scene_lab_->AdvanceFrame(delta_time);
   if (input_system_->GetButton(FPLK_F11).went_down()) {
     scene_lab_->SaveScene();

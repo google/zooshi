@@ -134,7 +134,7 @@ void IntroState::OnEnter(int /*previous_state*/) {
   player_transform->position += mathfu::vec3(0, 0, 500);
   fade_timer_ = kFadeTimerPending;
   SetBoxVisibility(true);
-  master_bus_.FadeTo(0.0f, kFadeWaitTime / kMillisecondsPerSecond);
+  master_bus_.FadeTo(0.0f, kFadeWaitTime / 1000.0f);
 }
 
 void IntroState::OnExit(int /*next_state*/) {
@@ -143,7 +143,7 @@ void IntroState::OnExit(int /*next_state*/) {
   auto player_transform =
       world_->entity_manager.GetComponentData<TransformData>(player);
   player_transform->position = mathfu::vec3(0, 0, 0);
-  master_bus_.FadeTo(1.0f, kFadeWaitTime / kMillisecondsPerSecond);
+  master_bus_.FadeTo(1.0f, kFadeWaitTime / 1000.0f);
 }
 
 }  // zooshi
