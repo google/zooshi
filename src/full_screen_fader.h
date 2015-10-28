@@ -17,6 +17,7 @@
 
 #include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
+#include "entity/entity_common.h"
 
 namespace fpl {
 
@@ -43,8 +44,9 @@ class FullScreenFader {
 
   // Start the fullscreen fading effect with a duration of the given
   // fade_time and the given overlay color.
-  void Start(WorldTime fade_time, const mathfu::vec3& color, FadeType fade_type,
-             const mathfu::vec3& bottom_left, const mathfu::vec3& top_right);
+  void Start(entity::WorldTime fade_time, const mathfu::vec3& color,
+             FadeType fade_type, const mathfu::vec3& bottom_left,
+             const mathfu::vec3& top_right);
 
   // Update the fade color returning true on the frame the overlay
   // is fully opaque.
@@ -54,14 +56,14 @@ class FullScreenFader {
   // Returns true when the fullscreen fading effect is complete.
   bool Finished() const;
 
-  WorldTime current_fade_time() const { return current_fade_time_; }
+  entity::WorldTime current_fade_time() const { return current_fade_time_; }
 
  private:
   // Current fade time, variable state, increments with each call to
   // AdvanceFrame().
-  WorldTime current_fade_time_;
+  entity::WorldTime current_fade_time_;
   // Total fade time, constant, set with Start().
-  WorldTime total_fade_time_;
+  entity::WorldTime total_fade_time_;
   // Color of the overlay (the alpha component is ignored), constant, set with
   // Start().
   mathfu::vec3 color_;

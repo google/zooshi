@@ -507,28 +507,33 @@ void Game::ToggleRelativeMouseMode() {
   input_.SetRelativeMouseMode(relative_mouse_mode_);
 }
 
-static inline WorldTime CurrentWorldTime() { return GetTicks(); }
+static inline entity::WorldTime CurrentWorldTime(const InputSystem &input) {
+  return static_cast<entity::WorldTime>(input.Time() * 1000);
+}
 
 // Stuff the update thread needs to know about:
 struct UpdateThreadData {
   UpdateThreadData(bool* exiting, World* world_ptr,
                    StateMachine<kGameStateCount>* statemachine_ptr,
                    Renderer* renderer_ptr,
+                   InputSystem* input_ptr,
                    pindrop::AudioEngine* audio_engine_ptr,
                    GameSynchronization* sync_ptr)
       : game_exiting(exiting),
         world(world_ptr),
         state_machine(statemachine_ptr),
         renderer(renderer_ptr),
+        input(input_ptr),
         audio_engine(audio_engine_ptr),
         sync(sync_ptr) {}
   bool* game_exiting;
   World* world;
   StateMachine<kGameStateCount>* state_machine;
   Renderer* renderer;
+  InputSystem *input;
   pindrop::AudioEngine* audio_engine;
   GameSynchronization* sync;
-  WorldTime frame_start;
+  entity::WorldTime frame_start;
 };
 
 // This is the thread that handles all of our actual game logic updates:
@@ -536,7 +541,7 @@ static int UpdateThread(void* data) {
   UpdateThreadData* rt_data = static_cast<UpdateThreadData*>(data);
   GameSynchronization& sync = *rt_data->sync;
   int prev_update_time;
-  prev_update_time = CurrentWorldTime() - kMinUpdateTime;
+  prev_update_time = CurrentWorldTime(*rt_data->input) - kMinUpdateTime;
 #ifdef __ANDROID__
   JavaVM* jvm;
   JNIEnv* env = AndroidGetJNIEnv();
@@ -563,8 +568,8 @@ static int UpdateThread(void* data) {
     // through actually putting everything on the screen.
     // -------------------------------------------
     SDL_LockMutex(sync.gameupdate_mutex_);
-    const WorldTime world_time = CurrentWorldTime();
-    const WorldTime delta_time =
+    const entity::WorldTime world_time = CurrentWorldTime(*rt_data->input);
+    const entity::WorldTime delta_time =
         std::min(world_time - prev_update_time, kMaxUpdateTime);
     prev_update_time = world_time;
 
@@ -602,7 +607,7 @@ void HandleVsync() {
 static int VsyncSimulatorThread(void* /*data*/) {
   while (true) {
     HandleVsync();
-    Delay(2);
+    SDL_Delay(2);
   }
   return 0;
 }
@@ -626,7 +631,7 @@ static int VsyncSimulatorThread(void* /*data*/) {
 void Game::Run() {
   // Start the update thread:
   UpdateThreadData rt_data(&game_exiting_, &world_, &state_machine_, &renderer_,
-                           &audio_engine_, &sync_);
+                           &input_, &audio_engine_, &sync_);
 
   input_.AdvanceFrame(&renderer_.window_size());
   state_machine_.AdvanceFrame(16);
@@ -682,7 +687,7 @@ void Game::Run() {
     SystraceEnd();
 
     // Milliseconds elapsed since last update.
-    rt_data.frame_start = CurrentWorldTime();
+    rt_data.frame_start = CurrentWorldTime(input_);
 
     // -------------------------------------------
     // Step 3.
@@ -731,7 +736,7 @@ void Game::Run() {
       ToggleRelativeMouseMode();
     }
 
-    int new_time = CurrentWorldTime();
+    int new_time = CurrentWorldTime(input_);
     int frame_time = new_time - rt_data.frame_start;
 #if DISPLAY_FRAMERATE_HISTOGRAM
     UpdateProfiling(frame_time);

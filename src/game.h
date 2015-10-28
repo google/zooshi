@@ -55,6 +55,7 @@
 #include "states/gameplay_state.h"
 #include "states/game_menu_state.h"
 #include "states/game_over_state.h"
+#include "entity/entity_common.h"
 
 #ifdef __ANDROID__
 #include "inputcontrollers/android_cardboard_controller.h"
@@ -100,7 +101,7 @@ class Game {
                                const mathfu::vec3& offset,
                                const mathfu::vec2& pixel_bounds,
                                float pixel_to_world_scale);
-  void Update(WorldTime delta_time);
+  void Update(entity::WorldTime delta_time);
   void UpdateMainCamera();
   void UpdateMainCameraAndroid();
   void UpdateMainCameraMouse();
@@ -113,7 +114,7 @@ class Game {
   void SetRelativeMouseMode(bool relative_mouse_mode);
   void ToggleRelativeMouseMode();
 
-  void UpdateProfiling(WorldTime frame_time);
+  void UpdateProfiling(entity::WorldTime frame_time);
 
   // Mutexes/CVs used in synchronizing the render and update threads:
   GameSynchronization sync_;

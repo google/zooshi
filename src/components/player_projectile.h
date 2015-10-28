@@ -27,7 +27,7 @@ using fpl::component_library::SerializableGraphState;
 namespace fpl {
 namespace zooshi {
 
-static const WorldTime kMaxProjectileDuration = 3 * kMillisecondsPerSecond;
+static const entity::WorldTime kMaxProjectileDuration = 3000;
 
 // Data for scene object components.
 struct PlayerProjectileData {

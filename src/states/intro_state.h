@@ -32,7 +32,7 @@ struct InputConfig;
 struct World;
 class FullScreenFader;
 
-static const WorldTime kIntroStateFadeTransitionDuration = 2000;
+static const int kIntroStateFadeTransitionDuration = 2000;
 
 class IntroState : public StateNode {
 public:
