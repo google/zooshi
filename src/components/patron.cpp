@@ -279,7 +279,8 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
           rail_denizen_data->enabled = true;
           rail_denizen_data->SetPlaybackRate(
               rail_denizen_data->initial_playback_rate,
-              kMillisecondsPerSecond * patron_data->rail_accelerate_time);
+              entity::kMillisecondsPerSecond *
+                patron_data->rail_accelerate_time);
         }
       }
     }
@@ -469,7 +470,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             rail_denizen_data->enabled = true;
             rail_denizen_data->SetPlaybackRate(
                 rail_denizen_data->initial_playback_rate,
-                kMillisecondsPerSecond * patron_data->rail_accelerate_time);
+                entity::kMillisecondsPerSecond *
+                  patron_data->rail_accelerate_time);
           }
         }  // fallthrough
 
@@ -481,7 +483,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           break;
       }
     }
-    patron_data->time_in_move_state += static_cast<float>(delta_time) / kMillisecondsPerSecond;
+    patron_data->time_in_move_state += static_cast<float>(delta_time) /
+                                       entity::kMillisecondsPerSecond;
   }
   if (event_time_ >= 0) {
     event_time_ += delta_time;
@@ -792,7 +795,8 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   const vec3 delta_position = target_position - position;
   const Angle delta_face_angle = target_face_angle - face_angle;
   const MotiveTime target_time_ms =
-      std::max(1, static_cast<MotiveTime>(kMillisecondsPerSecond * target_time));
+      std::max(1, static_cast<MotiveTime>(entity::kMillisecondsPerSecond *
+                                          target_time));
 
   // Set the delta movement Motivators.
   patron_data->prev_delta_position = vec3(kZeros3f);
