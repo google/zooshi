@@ -148,6 +148,8 @@ struct World {
   GPGMultiplayer* gpg_multiplayer;
 #endif
 
+  Material* cardboard_settings_gear;
+
   void AddController(BasePlayerController* controller);
   void SetActiveController(ControllerType controller_type);
   // Reset all controllers back to the default facing values.

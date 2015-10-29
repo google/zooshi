@@ -58,7 +58,8 @@
     "materials/riverbank_grass_sunset.fplmat",
     "materials/ui_images.fplmat",
     "materials/joystick_base.fplmat",
-    "materials/joystick_tip.fplmat"
+    "materials/joystick_tip.fplmat",
+    "materials/settings_gear.fplmat"
   ],
   "shader_list": [
     "shaders/color",
