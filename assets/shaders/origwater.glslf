@@ -15,16 +15,19 @@
 varying mediump vec2 vTexCoord;
 uniform sampler2D texture_unit_0;
 uniform lowp vec4 color;
-uniform float time;
-void main()
-{
-  const float flow_speed = 2.0;    // Speed of water flowing down river.
-  const float scale = 0.01;        // Size of wobble displacement.
-  const float time_scale = 5.0;    // Speed over time of wobble.
-  const float coord_scale = 10.0;  // Wobble frequency.
-  vec2 tc = vTexCoord +
-            vec2(0, -time / flow_speed) +
-            sin(vTexCoord * coord_scale + time * time_scale) * scale;
+uniform highp float river_speed;
+uniform highp float river_time;
+uniform highp float texture_repeats;
+void main() {
+  highp float tex_v = vTexCoord.y;
+
+  // This is basically equivalent to tex_v = fract(tex_v * texture_repeats),
+  // except that it makes us less likely to get math errors on devices with
+  // low floating point percision.
+  tex_v = fract(fract(((tex_v / 16.0) * (texture_repeats / 16.0))) * 256.0);
+
+  highp vec2 tc = vec2(vTexCoord.x, tex_v + fract(-river_time * river_speed));
+
   lowp vec4 texture_color = texture2D(texture_unit_0, tc);
 
   gl_FragColor = color * texture_color;

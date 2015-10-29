@@ -17,6 +17,8 @@
   "cardboard_viewport_angle": 1.570796, // 90 degrees
 
   "river_config" : {
+    "speed" : 0.3,
+    "texture_repeats" : 16,
     "rail_filename": "rails/player_path.bin",
     "spline_stepsize": 700.0,
     "track_height": -1.89,

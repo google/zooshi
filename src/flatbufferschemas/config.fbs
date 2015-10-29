@@ -70,6 +70,9 @@ table RiverZone {
 }
 
 table RiverConfig {
+  // How fast the river flows.
+  speed:float;
+  texture_repeats:float;
   rail_filename:string;
   spline_stepsize: float;
   track_height:float;

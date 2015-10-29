@@ -320,15 +320,16 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     // The river has two of the middle vertices of the bank.
     // The texture coordinates are different, however.
     const size_t river_vert = bank_verts.size() - num_bank_contours + river_idx;
+    float normalized_texture_v = i / static_cast<float>(segment_count);
     river_verts.push_back(NormalMappedVertex());
     river_verts.back().pos = bank_verts[river_vert].pos;
-    river_verts.back().tc = vec2(0.0f, texture_v);
+    river_verts.back().tc = vec2(0.0f, normalized_texture_v);
     river_verts.back().norm = bank_verts[river_vert].norm;
     river_verts.back().tangent = bank_verts[river_vert].tangent;
 
     river_verts.push_back(NormalMappedVertex());
     river_verts.back().pos = bank_verts[river_vert + 1].pos;
-    river_verts.back().tc = vec2(1.0f, texture_v);
+    river_verts.back().tc = vec2(1.0f, normalized_texture_v);
     river_verts.back().norm = bank_verts[river_vert + 1].norm;
     river_verts.back().tangent = bank_verts[river_vert + 1].tangent;
   }
