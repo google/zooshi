@@ -44,7 +44,6 @@
     "meshes/heart.fplmesh"
   ],
   "material_list": [
-    "materials/river.fplmat",
     "materials/lake_daytime.fplmat",
     "materials/riverbank_savanna_daytime_grass_daytime.fplmat",
     "materials/riverbank_grass_daytime_savanna_daytime.fplmat",
