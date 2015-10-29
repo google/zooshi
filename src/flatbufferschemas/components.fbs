@@ -127,6 +127,10 @@ table PatronDef {
   min_catch_speed:float = 1.0;
   max_catch_speed:float = 5.0;
 
+  // When moving towards a sushi, wait this amount of time before adjusting
+  // the search for another sushi.
+  time_between_catch_searches:float = 0.3;
+
   // Time to return to the last idle position, after we're done trying to
   // catch sushi.
   return_time:float = 1.0;

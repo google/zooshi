@@ -865,6 +865,7 @@
             "max_catch_time": 4.0,
             "min_catch_speed": 1.5,
             "max_catch_speed": 3.0,
+            "time_between_catch_searches": 0.6,
             "return_time": 2.0,
           }
         },
@@ -1013,15 +1014,16 @@
             "max_lap": -1,
             "target_tag": "Mouth",
             "max_catch_distance": 5.0,
-            "max_catch_distance_for_search": 20.0,
-            "max_catch_angle": 160.0,
+            "max_catch_distance_for_search": 15.0,
+            "max_catch_angle": 100.0,
             "min_catch_time_for_search": 0.01,
-            "max_catch_time_for_search": 5.0,
+            "max_catch_time_for_search": 2.0,
             "min_catch_time": 0.15,
             "max_catch_time": 0.4,
             "min_catch_speed": 8.0,
             "max_catch_speed": 15.0,
-            "return_time": 0.3,
+            "time_between_catch_searches": 0.2,
+            "return_time": 0.5,
           }
         },
         {
@@ -1198,6 +1200,7 @@
             "max_catch_time": 2.5,
             "min_catch_speed": 1.0,
             "max_catch_speed": 5.0,
+            "time_between_catch_searches": 0.4,
             "return_time": 1.0,
           }
         },
@@ -1363,6 +1366,7 @@
             "max_catch_time": 2.5,
             "min_catch_speed": 1.0,
             "max_catch_speed": 5.0,
+            "time_between_catch_searches": 0.4,
             "return_time": 1.0,
           }
         }
@@ -1439,16 +1443,17 @@
             "time_to_face_raft": 1.0,
             "min_lap": 0.01,
             "max_lap": -1,
-            "max_catch_distance": 10.0,
-            "max_catch_distance_for_search": 20.0,
-            "max_catch_angle": 180.0,
-            "min_catch_time_for_search": 0.01,
+            "max_catch_distance": 3.0,
+            "max_catch_distance_for_search": 10.0,
+            "max_catch_angle": 140.0,
+            "min_catch_time_for_search": 0.1,
             "max_catch_time_for_search": 4.0,
             "min_catch_time": 0.1,
             "max_catch_time": 4.0,
             "min_catch_speed": 5.0,
-            "max_catch_speed": 15.0,
-            "return_time": 4.0,
+            "max_catch_speed": 8.0,
+            "time_between_catch_searches": 0.3,
+            "return_time": 1.0,
           }
         },
         {
@@ -1648,6 +1653,7 @@
             "max_catch_time": 2.5,
             "min_catch_speed": 3.0,
             "max_catch_speed": 9.0,
+            "time_between_catch_searches": 0.3,
             "return_time": 1.0,
           }
         },

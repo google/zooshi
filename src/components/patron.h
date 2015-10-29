@@ -107,6 +107,7 @@ struct PatronData {
         max_catch_distance(0.0f),
         max_catch_distance_for_search(0.0f),
         max_catch_angle(0.0f),
+        time_between_catch_searches(0.0f),
         return_time(0.0f),
         rail_accelerate_time(0.0f),
         time_to_face_raft(0.0f) {
@@ -207,6 +208,10 @@ struct PatronData {
 
   // Average speed at which to travel towards the sushi catch position.
   Range catch_speed;
+
+  // When moving towards a sushi, wait this amount of time before adjusting
+  // the search for another sushi.
+  float time_between_catch_searches;
 
   // Time to return to the last idle position, after we're done trying to
   // catch sushi.

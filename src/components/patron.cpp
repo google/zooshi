@@ -142,6 +142,8 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->catch_speed =
       Range(patron_def->min_catch_speed(),
             patron_def->max_catch_speed());
+  patron_data->time_between_catch_searches =
+      patron_def->time_between_catch_searches();
   patron_data->return_time = patron_def->return_time();
   patron_data->rail_accelerate_time = patron_def->rail_accelerate_time();
 }
@@ -183,6 +185,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_max_catch_time(data->catch_time.end());
   builder.add_min_catch_speed(data->catch_speed.start());
   builder.add_max_catch_speed(data->catch_speed.end());
+  builder.add_time_between_catch_searches(data->time_between_catch_searches);
   builder.add_return_time(data->return_time);
   builder.add_rail_accelerate_time(data->rail_accelerate_time);
 
@@ -394,7 +397,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     // Set the patron's movement target.
     if (state == kPatronStateUpright &&
         (patron_data->move_state != kPatronMoveStateMoveToTarget ||
-         patron_data->time_in_move_state > patron_data->catch_time.start())) {
+         patron_data->time_in_move_state >
+             patron_data->time_between_catch_searches)) {
       FindProjectileAndCatch(patron);
     }
     if ((state == kPatronStateUpright || state == kPatronStateGettingUp) &&
