@@ -752,9 +752,6 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
         (closest_position_xy - return_position_xy).Normalized();
     *closest_position = return_position_xy + clamped_dist * direction;
     closest_position->z() = patron_transform->position.z();
-
-    printf("clamped_dist = %f, avg_speed = %f, clamped_speed = %f, closest_time = %f\n",
-            clamped_dist, avg_speed, clamped_speed, *closest_time);
   }
   return closest_ref;
 }

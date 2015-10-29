@@ -331,8 +331,7 @@ void Game::InitializeBreadboardModules() {
                               &world_.graph_component);
   InitializeStateModule(&module_registry_, gameplay_state_.requested_state());
   InitializeZooshiModule(&module_registry_, &world_.services_component,
-                         &world_.graph_component, &world_.scenery_component,
-                         &world_.transform_component);
+                         &world_.graph_component, &world_.scenery_component);
 }
 
 // Pause the audio when the game loses focus.

@@ -104,10 +104,8 @@ class AdvanceFrameNode : public BaseNode {
 // Sets the override animation to play in the show state.
 class SetShowOverrideNode : public BaseNode {
  public:
-  SetShowOverrideNode(SceneryComponent* scenery_component,
-                      TransformComponent* transform_component)
-      : scenery_component_(scenery_component),
-        transform_component_(transform_component) {}
+  SetShowOverrideNode(SceneryComponent* scenery_component)
+      : scenery_component_(scenery_component) {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();       // Void to trigger the animation.
@@ -128,14 +126,12 @@ class SetShowOverrideNode : public BaseNode {
 
  private:
   SceneryComponent* scenery_component_;
-  TransformComponent* transform_component_;
 };
 
 void InitializeZooshiModule(ModuleRegistry* module_registry,
                             ServicesComponent* services_component,
                             GraphComponent* graph_component,
-                            SceneryComponent* scenery_component,
-                            TransformComponent* transform_component) {
+                            SceneryComponent* scenery_component) {
   auto player_entity_ctor = [services_component]() {
     return new PlayerEntityNode(services_component);
   };
@@ -145,8 +141,8 @@ void InitializeZooshiModule(ModuleRegistry* module_registry,
   auto advance_frame_ctor = [graph_component]() {
     return new AdvanceFrameNode(graph_component);
   };
-  auto set_show_override_ctor = [scenery_component, transform_component]() {
-    return new SetShowOverrideNode(scenery_component, transform_component);
+  auto set_show_override_ctor = [scenery_component]() {
+    return new SetShowOverrideNode(scenery_component);
   };
   Module* module = module_registry->RegisterModule("zooshi");
   module->RegisterNode<PlayerEntityNode>("player_entity", player_entity_ctor);
