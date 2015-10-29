@@ -508,6 +508,11 @@ static inline entity::WorldTime CurrentWorldTime(const InputSystem &input) {
   return static_cast<entity::WorldTime>(input.Time() * 1000);
 }
 
+static inline entity::WorldTime CurrentWorldTimeSubFrame(
+    const InputSystem &input) {
+  return static_cast<entity::WorldTime>(input.CurrentTime() * 1000);
+}
+
 // Stuff the update thread needs to know about:
 struct UpdateThreadData {
   UpdateThreadData(bool* exiting, World* world_ptr,
@@ -684,7 +689,7 @@ void Game::Run() {
     SystraceEnd();
 
     // Milliseconds elapsed since last update.
-    rt_data.frame_start = CurrentWorldTime(input_);
+    rt_data.frame_start = CurrentWorldTimeSubFrame(input_);
 
     // -------------------------------------------
     // Step 3.
@@ -733,7 +738,7 @@ void Game::Run() {
       ToggleRelativeMouseMode();
     }
 
-    int new_time = CurrentWorldTime(input_);
+    int new_time = CurrentWorldTimeSubFrame(input_);
     int frame_time = new_time - rt_data.frame_start;
 #if DISPLAY_FRAMERATE_HISTOGRAM
     UpdateProfiling(frame_time);
@@ -758,12 +763,13 @@ static const int kTargetFramesPerSample = kSampleDuration * kTargetFPS;
 
 // Collect framerate sample data, and print out nice histograms and statistics
 // every five seconds.
-void Game::UpdateProfiling(WorldTime frame_time) {
+void Game::UpdateProfiling(entity::WorldTime frame_time) {
   if (frame_time >= 0 && frame_time < kHistogramSize) {
     histogram[frame_time]++;
   }
-  int current_time = CurrentWorldTime();
-  if (current_time > last_printout + kMillisecondsPerSecond * kSampleDuration) {
+  int current_time = CurrentWorldTime(input_);
+  if (current_time >
+      last_printout + entity::kMillisecondsPerSecond * kSampleDuration) {
     int highest = -1;
     int lowest = kHistogramSize;
     for (int i = 0; i < kHistogramSize; i++) {
@@ -776,9 +782,9 @@ void Game::UpdateProfiling(WorldTime frame_time) {
     last_printout = current_time;
     LogInfo("Framerate Breakdown:");
     LogInfo("---------------------------------");
-    WorldTime total = 0;
+    entity::WorldTime total = 0;
     int total_count = 0;
-    WorldTime median = -1;
+    entity::WorldTime median = -1;
     int median_value = -1;
 
     for (int i = lowest; i <= highest; i++) {
