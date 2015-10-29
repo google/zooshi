@@ -51,7 +51,8 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
                                FontManager* font_manager,
                                const AssetManifest* manifest,
                                GPGManager* gpg_manager,
-                               pindrop::AudioEngine* audio_engine) {
+                               pindrop::AudioEngine* audio_engine,
+                               FullScreenFader* fader) {
   world_ = world;
 
   // Set references used in GUI.
@@ -60,9 +61,13 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   font_manager_ = font_manager;
   audio_engine_ = audio_engine;
   config_ = config;
+  fader_ = fader;
 
   sound_start_ = audio_engine->GetSoundHandle("start");
   sound_click_ = audio_engine->GetSoundHandle("click");
+  sound_select_ = audio_engine->GetSoundHandle("select");
+  sound_adjust_ = sound_select_;
+  sound_exit_ = audio_engine->GetSoundHandle("exit");
   music_menu_ = audio_engine->GetSoundHandle("music_menu");
 
   // Set menu state.
@@ -111,6 +116,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
   sound_effects_bus_ = audio_engine->FindBus("sound_effects");
   voices_bus_ = audio_engine->FindBus("voices");
   music_bus_ = audio_engine->FindBus("music");
+  master_bus_ = audio_engine->FindBus("master");
   LoadData();
 
   UpdateVolumes();
@@ -142,21 +148,24 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     world_->SetIsInCardboard(false);
   } else if (menu_state_ == kMenuStateFinished) {
     *next_state = kGameStateGameplay;
-    audio_engine_->PlaySound(sound_start_);
     world_->SetIsInCardboard(false);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateIntro;
-    audio_engine_->PlaySound(sound_start_);
     world_->SetIsInCardboard(true);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateGamepad) {
     *next_state = kGameStateGameplay;
-    audio_engine_->PlaySound(sound_start_);
     world_->SetIsInCardboard(false);
     world_->SetActiveController(kControllerGamepad);
   } else if (menu_state_ == kMenuStateQuit) {
-    *next_state = kGameStateExit;
+    fader_->AdvanceFrame(delta_time);
+    // Perform a roughly inverse logarithmic fade out.
+    master_bus_.SetGain(cos(fader_->GetOffset() * 0.5f *
+                            static_cast<float>(M_PI)));
+    if (fader_->Finished()) {
+      *next_state = kGameStateExit;
+    }
   }
 }
 
@@ -183,6 +192,17 @@ void GameMenuState::HandleUI(Renderer* renderer) {
     case kMenuStateOptions:
       menu_state_ = OptionMenu(*asset_manager_, *font_manager_, *input_system_);
       break;
+
+  case kMenuStateQuit: {
+      gui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
+          gui::CustomElement(gui::GetVirtualResolution(), "fader", [&](
+                             const vec2i& /*pos*/, const vec2i& /*size*/) {
+                fader_->Render(renderer);
+              });
+          });
+      break;
+    }
+
     default:
       break;
   }

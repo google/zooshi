@@ -25,6 +25,7 @@ namespace zooshi {
 FullScreenFader::FullScreenFader()
     : current_fade_time_(0),
       total_fade_time_(0),
+      end_fade_time_(0),
       material_(NULL),
       shader_(NULL),
       opaque_(false) {}
@@ -40,7 +41,9 @@ void FullScreenFader::Start(entity::WorldTime fade_time, const vec3& color,
                             const mathfu::vec3& top_right) {
   assert(material_ && shader_);
   current_fade_time_ = fade_type == kFadeIn ? fade_time : 0;
-  total_fade_time_ = fade_type == kFadeIn ? 2 * fade_time : fade_time;
+  total_fade_time_ = fade_type == kFadeIn || fade_type == kFadeOut ?
+    2 * fade_time : fade_time;
+  end_fade_time_ = fade_type == kFadeOut ? fade_time : total_fade_time_;
   color_ = color;
   bottom_left_ = bottom_left;
   top_right_ = top_right;
@@ -50,7 +53,7 @@ void FullScreenFader::Start(entity::WorldTime fade_time, const vec3& color,
 // Update the fade color returning true on the frame the overlay
 // is opaque.
 bool FullScreenFader::AdvanceFrame(int delta_time) {
-  if (current_fade_time_ >= total_fade_time_) {
+  if (Finished()) {
     return false;
   }
   current_fade_time_ += delta_time;
@@ -62,11 +65,10 @@ bool FullScreenFader::AdvanceFrame(int delta_time) {
 
 // Renders the fade overlay.
 void FullScreenFader::Render(Renderer* renderer) {
-  float t = std::min(static_cast<float>(current_fade_time_) /
-                         static_cast<float>(total_fade_time_),
-                     1.0f);
+  float t = std::min(static_cast<float>(std::min(current_fade_time_,
+                                                 end_fade_time_)) /
+                         static_cast<float>(total_fade_time_), 1.0f);
   float alpha = sin(t * M_PI);
-
   // Render the overlay in front on the screen.
   renderer->set_color(vec4(color_, alpha));
   material_->Set(*renderer);
@@ -78,7 +80,14 @@ void FullScreenFader::Render(Renderer* renderer) {
 
 // Returns true when the fade is complete (overlay is transparent).
 bool FullScreenFader::Finished() const {
-  return current_fade_time_ >= total_fade_time_;
+  return current_fade_time_ >= end_fade_time_;
+}
+
+// Get the fraction (0..1) elapsed through the fader's fade time.
+float FullScreenFader::GetOffset() const {
+  return std::min(static_cast<float>(std::min(current_fade_time_,
+                                              end_fade_time_)) /
+                         static_cast<float>(end_fade_time_), 1.0f);
 }
 
 }  // namespace zooshi

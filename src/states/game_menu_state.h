@@ -79,7 +79,7 @@ class GameMenuState : public StateNode {
   void Initialize(InputSystem* input_system, World* world, const Config* config,
                   AssetManager* asset_manager, FontManager* font_manager,
                   const AssetManifest* manifest, GPGManager* gpg_manager,
-                  pindrop::AudioEngine* audio_engine);
+                  pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void RenderPrep(Renderer* renderer);
@@ -97,6 +97,33 @@ class GameMenuState : public StateNode {
   void OptionMenuLicenses();
   void OptionMenuAbout();
   void OptionMenuAudio();
+
+  // Instance a text button that plays a sound when selected.
+  gui::Event TextButton(const char* text, float size,
+                        const gui::Margin& margin);
+  gui::Event TextButton(const char* text, float size,
+                        const gui::Margin& margin,
+                        pindrop::SoundHandle& sound);
+  // Instance a text button showing an image that plays a sound when selected.
+  gui::Event TextButton(const Texture& texture,
+                        const gui::Margin& texture_margin, const char* text,
+                        float size, const gui::Margin& margin,
+                        const gui::ButtonProperty property);
+  gui::Event TextButton(const Texture& texture,
+                        const gui::Margin& texture_margin, const char* text,
+                        float size, const gui::Margin& margin,
+                        const gui::ButtonProperty property,
+                        pindrop::SoundHandle& sound);
+  // Instance an image button with label that plays a sound when selected.
+  gui::Event ImageButtonWithLabel(const Texture& tex, float size,
+                                  const gui::Margin& margin,
+                                  const char* label);
+  gui::Event ImageButtonWithLabel(const Texture& tex, float size,
+                                  const gui::Margin& margin,
+                                  const char* label,
+                                  pindrop::SoundHandle& sound);
+  // Play button sound effect when a selected event fires.
+  gui::Event PlayButtonSound(gui::Event event, pindrop::SoundHandle& sound);
 
   // Save/Load data to strage using FlatBuffres binary data.
   void SaveData();
@@ -130,12 +157,18 @@ class GameMenuState : public StateNode {
   // Asset manifest used to retrieve configurations.
   const Config* config_;
 
+  // Full screen fader, used to fade out when the game exits.
+  FullScreenFader* fader_;
+
   // The audio engine, so that sound effects can be played.
   pindrop::AudioEngine* audio_engine_;
 
   // Cache the common sounds that are going to be played.
   pindrop::SoundHandle sound_start_;
   pindrop::SoundHandle sound_click_;
+  pindrop::SoundHandle sound_adjust_;
+  pindrop::SoundHandle sound_select_;
+  pindrop::SoundHandle sound_exit_;
 
   // This will eventually be removed when there are events to handle this logic.
   pindrop::SoundHandle music_menu_;
@@ -176,6 +209,7 @@ class GameMenuState : public StateNode {
   pindrop::Bus sound_effects_bus_;
   pindrop::Bus voices_bus_;
   pindrop::Bus music_bus_;
+  pindrop::Bus master_bus_;
 };
 
 }  // zooshi

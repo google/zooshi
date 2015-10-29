@@ -20,10 +20,66 @@
 namespace fpl {
 namespace zooshi {
 
-using gui::TextButton;
+gui::Event GameMenuState::PlayButtonSound(gui::Event event,
+                                          pindrop::SoundHandle& sound) {
+  if (event & gui::kEventWentUp) {
+    audio_engine_->PlaySound(sound);
+  }
+  return event;
+}
 
-MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
-                                   InputSystem &input) {
+gui::Event GameMenuState::TextButton(const char* text, float size,
+                                     const gui::Margin& margin) {
+  return TextButton(text, size, margin, sound_click_);
+}
+
+gui::Event GameMenuState::TextButton(const char* text, float size,
+                                     const gui::Margin& margin,
+                                     pindrop::SoundHandle& sound) {
+  return PlayButtonSound(gui::TextButton(text, size, margin), sound);
+}
+
+gui::Event GameMenuState::TextButton(const Texture& texture,
+                                     const gui::Margin& texture_margin,
+                                     const char* text, float size,
+                                     const gui::Margin& margin,
+                                     const gui::ButtonProperty property) {
+  return TextButton(texture, texture_margin, text, size, margin, property,
+                    sound_click_);
+}
+
+gui::Event GameMenuState::TextButton(const Texture& texture,
+                                     const gui::Margin& texture_margin,
+                                     const char* text, float size,
+                                     const gui::Margin& margin,
+                                     const gui::ButtonProperty property,
+                                     pindrop::SoundHandle& sound) {
+  return PlayButtonSound(gui::TextButton(texture, texture_margin, text, size,
+                                         margin, property), sound);
+}
+
+gui::Event GameMenuState::ImageButtonWithLabel(const Texture& tex, float size,
+                                               const gui::Margin& margin,
+                                               const char* label) {
+  return ImageButtonWithLabel(tex, size, margin, label, sound_click_);
+}
+
+gui::Event GameMenuState::ImageButtonWithLabel(const Texture& tex, float size,
+                                               const gui::Margin& margin,
+                                               const char* label,
+                                               pindrop::SoundHandle& sound) {
+  gui::StartGroup(gui::kLayoutVerticalLeft, size, "ImageButtonWithLabel");
+  gui::SetMargin(margin);
+  auto event = PlayButtonSound(gui::CheckEvent(), sound);
+  gui::EventBackground(event);
+  gui::ImageBackground(tex);
+  gui::Label(label, size);
+  gui::EndGroup();
+  return event;
+}
+
+MenuState GameMenuState::StartMenu(AssetManager& assetman, FontManager& fontman,
+                                   InputSystem& input) {
   MenuState next_state = kMenuStateStart;
 
   // Run() accepts a lambda function that is executed 2 times,
@@ -50,7 +106,8 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
                        mathfu::vec2(0, -150));
     gui::SetMargin(gui::Margin(200, 700, 200, 100));
 
-    auto event = TextButton("Play Game", kMenuSize, gui::Margin(0));
+    auto event = TextButton("Play Game", kMenuSize, gui::Margin(0),
+                            sound_start_);
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateFinished;
 #ifdef ANDROID_GAMEPAD
@@ -60,7 +117,8 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
 #endif
     }
     if (SupportsHeadMountedDisplay()) {
-      event = TextButton("Cardboard", kMenuSize, gui::Margin(0));
+      event = TextButton("Cardboard", kMenuSize, gui::Margin(0),
+                         sound_start_);
       if (event & gui::kEventWentUp) {
         next_state = kMenuStateCardboard;
       }
@@ -69,7 +127,8 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     auto logged_in = gpg_manager_->LoggedIn();
     event = TextButton(*image_gpg_, gui::Margin(0, 50, 10, 0),
                        logged_in ? "Sign out" : "Sign in", kMenuSize,
-                       gui::Margin(0), fpl::gui::kButtonPropertyImageLeft);
+                       gui::Margin(0), fpl::gui::kButtonPropertyImageLeft,
+                       sound_select_);
     if (event & gui::kEventWentUp) {
       gpg_manager_->ToggleSignIn();
     }
@@ -78,8 +137,16 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
     if (event & gui::kEventWentUp) {
       next_state = kMenuStateOptions;
     }
-    event = TextButton("Quit", kMenuSize, gui::Margin(0));
+    event = TextButton("Quit", kMenuSize, gui::Margin(0), sound_exit_);
     if (event & gui::kEventWentUp) {
+      // The exit sound is actually around 1.2s but since we fade out the
+      // audio as well as the screen it's reasonable to shorten the duration.
+      static const int kFadeOutTimeMilliseconds = 1000;
+      fader_->Start(
+          kFadeOutTimeMilliseconds, mathfu::kZeros3f, kFadeOut,
+          vec3(vec2(gui::VirtualToPhysical(mathfu::kZeros2f)), 0.0f),
+          vec3(vec2(gui::VirtualToPhysical(gui::GetVirtualResolution())),
+               0.0f));
       next_state = kMenuStateQuit;
     }
     gui::EndGroup();
@@ -89,8 +156,8 @@ MenuState GameMenuState::StartMenu(AssetManager &assetman, FontManager &fontman,
   return next_state;
 }
 
-MenuState GameMenuState::OptionMenu(AssetManager &assetman,
-                                    FontManager &fontman, InputSystem &input) {
+MenuState GameMenuState::OptionMenu(AssetManager& assetman,
+                                    FontManager& fontman, InputSystem& input) {
   MenuState next_state = kMenuStateOptions;
 
   // FlatUI UI definitions.
@@ -140,7 +207,8 @@ MenuState GameMenuState::OptionMenu(AssetManager &assetman,
     gui::SetTextColor(kColorLightBrown);
 
     auto event = ImageButtonWithLabel(*button_back_, 60,
-                                      gui::Margin(60, 35, 40, 50), "Back");
+                                      gui::Margin(60, 35, 40, 50), "Back",
+                                      sound_exit_);
     if (event & gui::kEventWentUp) {
       // Save data when you leave the audio page.
       if (options_menu_state_ == kOptionsMenuStateAudio) {
@@ -169,7 +237,8 @@ void GameMenuState::OptionMenuMain() {
   gui::SetTextColor(kColorBrown);
   gui::EndGroup();
 
-  if (TextButton("About", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
+  if (TextButton("About", kButtonSize, gui::Margin(2),
+                 sound_select_) & gui::kEventWentUp) {
     options_menu_state_ = kOptionsMenuStateAbout;
   }
 
@@ -198,12 +267,12 @@ void GameMenuState::OptionMenuMain() {
   gui::SetTextColor(kColorBrown);
 #endif
 
-  if (TextButton("Licenses", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
+  if (TextButton("Licenses", kButtonSize, gui::Margin(2))&  gui::kEventWentUp) {
     scroll_offset_ = mathfu::kZeros2f;
     options_menu_state_ = kOptionsMenuStateLicenses;
   }
 
-  if (TextButton("Audio", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
+  if (TextButton("Audio", kButtonSize, gui::Margin(2))&  gui::kEventWentUp) {
     options_menu_state_ = kOptionsMenuStateAudio;
   }
 }
@@ -311,9 +380,8 @@ void GameMenuState::OptionMenuAudio() {
   gui::SetMargin(gui::Margin(0, 40, 0, 0));
   auto event = gui::Slider(*slider_back_, *slider_knob_, vec2(400, 60), 0.6f,
                            "EffectVolume", &slider_value_effect_);
-  if (event & gui::kEventWentUp || event & gui::kEventEndDrag) {
-    // Play some effect.
-    audio_engine_->PlaySound("fed_bird");
+  if (event & (gui::kEventWentUp | gui::kEventEndDrag)) {
+    audio_engine_->PlaySound(sound_adjust_);
   }
   gui::EndGroup();
 

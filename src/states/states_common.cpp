@@ -107,17 +107,5 @@ void UpdateMainCamera(Camera* main_camera, World* world) {
   main_camera->set_up(raft_orientation.Inverse() * player_data->GetUp());
 }
 
-gui::Event ImageButtonWithLabel(const Texture& tex, float size,
-                                const gui::Margin& margin, const char* label) {
-  gui::StartGroup(gui::kLayoutVerticalLeft, size, "ImageButtonWithLabel");
-  gui::SetMargin(margin);
-  auto event = gui::CheckEvent();
-  gui::EventBackground(event);
-  gui::ImageBackground(tex);
-  gui::Label(label, size);
-  gui::EndGroup();
-  return event;
-}
-
 }  // zooshi
 }  // fpl

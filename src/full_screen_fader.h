@@ -30,6 +30,7 @@ namespace zooshi {
 enum FadeType {
   kFadeIn,
   kFadeOutThenIn,
+  kFadeOut,
 };
 
 // Renders a fullscreen overlay fading effect that transitions to
@@ -55,6 +56,8 @@ class FullScreenFader {
   void Render(Renderer* renderer);
   // Returns true when the fullscreen fading effect is complete.
   bool Finished() const;
+  // Get the fraction (0..1) elapsed through the fader's fade time.
+  float GetOffset() const;
 
   entity::WorldTime current_fade_time() const { return current_fade_time_; }
 
@@ -64,6 +67,8 @@ class FullScreenFader {
   entity::WorldTime current_fade_time_;
   // Total fade time, constant, set with Start().
   entity::WorldTime total_fade_time_;
+  // When to stop fading (<= total_fade_time_).
+  entity::WorldTime end_fade_time_;
   // Color of the overlay (the alpha component is ignored), constant, set with
   // Start().
   mathfu::vec3 color_;

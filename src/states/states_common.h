@@ -30,10 +30,6 @@ void UpdateMainCamera(Camera* camera, World* world);
 void RenderWorld(Renderer& renderer, World* world, Camera& camera,
                  Camera* cardboard_camera, InputSystem* input_system);
 
-// Add a text button.
-gui::Event ImageButtonWithLabel(const Texture &tex, float size,
-                                const gui::Margin &margin, const char *label);
-
 }  // zooshi
 }  // fpl
 

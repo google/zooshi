@@ -475,7 +475,7 @@ bool Game::Initialize(const char* const binary_directory) {
                              &gpg_manager_, &audio_engine_, &fader_);
   game_menu_state_.Initialize(&input_, &world_, config, &asset_manager_,
                               &font_manager_, &GetAssetManifest(),
-                              &gpg_manager_, &audio_engine_);
+                              &gpg_manager_, &audio_engine_, &fader_);
   game_over_state_.Initialize(&input_, &world_, config, &asset_manager_,
                               &font_manager_, &gpg_manager_, &audio_engine_);
   intro_state_.Initialize(&input_, &world_, config, &fader_, &audio_engine_);
