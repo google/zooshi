@@ -24,13 +24,16 @@
 namespace fpl {
 namespace zooshi {
 
-// Data for scene object components.
 struct TimeLimitData {
   TimeLimitData() : time_elapsed(0), time_limit(0) {}
   entity::WorldTime time_elapsed;
   entity::WorldTime time_limit;
+  mathfu::vec3 original_scale;
 };
 
+// Component for limiting how long things stay in the world.  If they have
+// a transform component, they'll scale away to nothing.  Otherwise, they'll
+// just be removed when their time is up.
 class TimeLimitComponent : public entity::Component<TimeLimitData> {
  public:
   TimeLimitComponent() {}
@@ -38,6 +41,7 @@ class TimeLimitComponent : public entity::Component<TimeLimitData> {
   virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
   virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
 
+  virtual void InitEntity(entity::EntityRef& entity);
   virtual void UpdateAllEntities(entity::WorldTime delta_time);
 };
 
