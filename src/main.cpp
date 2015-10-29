@@ -15,7 +15,7 @@
 #include "game.h"
 #include "fplbase/utilities.h"
 
-int FPL_main(int argc, char* argv[]) {
+extern "C" int FPL_main(int argc, char* argv[]) {
   fpl::zooshi::Game game;
   const char* binary_directory = argc > 0 ? argv[0] : "";
   if (!game.Initialize(binary_directory)) {

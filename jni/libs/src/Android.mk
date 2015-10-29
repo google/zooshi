@@ -54,7 +54,6 @@ LOCAL_ARM_MODE := arm
 ZOOSHI_GENERATED_OUTPUT_DIR := $(ZOOSHI_DIR)/gen/include
 
 LOCAL_C_INCLUDES := \
-  $(DEPENDENCIES_FPLBASE_DIR)/include \
   $(DEPENDENCIES_ENTITY_DIR)/include \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/include \
   $(DEPENDENCIES_BREADBOARD_DIR)/include \
@@ -62,9 +61,6 @@ LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_SCENE_LAB_DIR)/include \
   $(DEPENDENCIES_FPLUTIL_DIR)/libfplutil/include \
   $(DEPENDENCIES_GPG_DIR)/include \
-  $(DEPENDENCIES_SDL_DIR) \
-  $(DEPENDENCIES_SDL_DIR)/include \
-  $(DEPENDENCIES_SDL_MIXER_DIR) \
   $(DEPENDENCIES_WEBP_DIR)/src \
   $(DEPENDENCIES_BULLETPHYSICS_DIR)/src \
   $(COMPONENTS_GENERATED_OUTPUT_DIR) \
@@ -73,7 +69,6 @@ LOCAL_C_INCLUDES := \
   src
 
 LOCAL_SRC_FILES := \
-  $(subst $(LOCAL_PATH)/,,$(DEPENDENCIES_SDL_DIR))/src/main/android/SDL_android_main.c \
   $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
   $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
@@ -148,6 +143,9 @@ ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
   $(DEPENDENCIES_SCENE_LAB_DIR)/schemas \
   $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas
 
+# Override JNI_OnLoad functions.
+FPLBASE_JNI_ONLOAD_FUNCTIONS := SDL_JNI_OnLoad GPG_JNI_OnLoad
+
 ifeq (,$(ZOOSHI_RUN_ONCE))
 ZOOSHI_RUN_ONCE := 1
 $(call flatbuffers_header_build_rules,\
@@ -177,8 +175,6 @@ LOCAL_STATIC_LIBRARIES := \
   libgpg \
   libmathfu \
   libwebp \
-  SDL2 \
-  SDL2_mixer \
   libfplbase \
   libflatui \
   libpindrop \
