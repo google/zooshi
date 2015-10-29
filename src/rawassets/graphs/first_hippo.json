@@ -3,10 +3,12 @@
 {
   "node_list": [
     {
+      // Node 0
       "module": "entity",
       "name": "graph_entity"
     },
     {
+      // Node 1
       "module": "physics",
       "name": "on_collision",
       "input_edge_list": [
@@ -20,6 +22,7 @@
       ]
     },
     {
+      // Node 2
       "module": "physics",
       "name": "collision_data",
       "input_edge_list": [
@@ -33,6 +36,7 @@
       ]
     },
     {
+      // Node 3
       "module": "string",
       "name": "equals",
       "input_edge_list": [
@@ -52,6 +56,7 @@
       ]
     },
     {
+      // Node 4
       "module": "logic",
       "name": "if",
       "input_edge_list": [
@@ -65,6 +70,7 @@
       ]
     },
     {
+      // Node 5
       "module": "zooshi",
       "name": "raft_entity",
       "input_edge_list": [
@@ -78,6 +84,7 @@
       ]
     },
     {
+      // Node 6
       "module": "rail_denizen",
       "name": "rail_denizen",
       "input_edge_list": [
@@ -98,6 +105,7 @@
       ]
     },
     {
+      // Node 7
       "module": "transform",
       "name": "transform",
       "input_edge_list": [
@@ -118,6 +126,7 @@
       ]
     },
     {
+      // Node 8
       "module": "transform",
       "name": "child",
       "input_edge_list": [
@@ -137,6 +146,7 @@
       ]
     },
     {
+      // Node 9
       "module": "animation",
       "name": "animation_complete",
       "input_edge_list": [
@@ -150,6 +160,7 @@
       ]
     },
     {
+      // Node 10
       "module": "rail_denizen",
       "name": "set_rail_speed",
       "input_edge_list": [
@@ -176,6 +187,7 @@
       ]
     },
     {
+      // Node 11
       "module": "entity",
       "name": "entity",
       "input_edge_list": [
@@ -195,6 +207,7 @@
       ]
     },
     {
+      // Node 12
       "module": "zooshi",
       "name": "set_show_override",
       "input_edge_list": [
@@ -216,6 +229,60 @@
           "edge_type": "Int",
           "edge": {
             "value": 4
+          }
+        }
+      ]
+    },
+    {
+      // Node 13
+      "module": "zooshi",
+      "name": "player_entity",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 9,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 14
+      "module": "attributes",
+      "name": "attributes",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 13,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 15
+      "module": "attributes",
+      "name": "set_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 14,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScore"
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 20.0
           }
         }
       ]
