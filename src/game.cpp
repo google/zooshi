@@ -365,9 +365,6 @@ bool Game::Initialize(const char* const binary_directory) {
 
   input_.Initialize();
   input_.AddAppEventCallback(AudioEngineVolumeControl(&audio_engine_));
-#ifdef ANDROID_CARDBOARD
-  input_.cardboard_input().EnableDeviceOrientationCorrection();
-#endif  // ANDROID_CARDBOARD
 
   SystraceInit();
 
