@@ -21,11 +21,13 @@ assets/graphs/
 CMakeCache.txt
 CMakeFiles/*
 CMakeLists.txt.user
+CMakeScripts/*
 Makefile
 cmake_install.cmake
 tests/CMakeFiles/*
 tests/Makefile
 tests/cmake_install.cmake
+*.xcodeproj/
 
 # Visual Studio files
 *.opensdf
