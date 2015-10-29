@@ -32,7 +32,7 @@
 namespace fpl {
 namespace zooshi {
 
-static const float kTimeToStopRaft = 2000.0f;
+static const float kTimeToStopRaft = 500.0f;
 
 void GameOverState::Initialize(InputSystem* input_system, World* world,
                                const Config* config,
