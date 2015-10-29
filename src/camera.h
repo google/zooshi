@@ -15,9 +15,9 @@
 #ifndef ZOOSHI_CAMERA_H
 #define ZOOSHI_CAMERA_H
 
+#include "component_library/camera_interface.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
-#include "component_library/camera_interface.h"
 
 namespace fpl {
 namespace zooshi {
@@ -30,22 +30,27 @@ class Camera : public fpl::CameraInterface {
   Camera();
 
   // returns the View/Projection matrix:
-  virtual mathfu::mat4 GetTransformMatrix(int32_t index = 0) const;
+  virtual mathfu::mat4 GetTransformMatrix(int32_t index) const;
+  virtual mathfu::mat4 GetTransformMatrix() const {
+    return GetTransformMatrix(0);
+  }
 
   // returns just the V matrix:
-  virtual mathfu::mat4 GetViewMatrix(int32_t index = 0) const;
+  virtual mathfu::mat4 GetViewMatrix(int32_t index) const;
+  virtual mathfu::mat4 GetViewMatrix() const { return GetViewMatrix(0); }
 
   virtual void set_position(int32_t index, const mathfu::vec3& position) {
     assert(index < stereo_ ? 2 : 1);
     position_[index] = position;
   }
   virtual void set_position(const mathfu::vec3& position) {
-    position_[0] = position;
+    set_position(0, position);
   }
-  virtual mathfu::vec3 position(int32_t index = 0) const {
+  virtual mathfu::vec3 position(int32_t index) const {
     assert(index < stereo_ ? 2 : 1);
     return position_[index];
   }
+  virtual mathfu::vec3 position() const { return position(0); }
 
   virtual void set_facing(const mathfu::vec3& facing) {
     assert(facing.LengthSquared() != 0);
@@ -89,10 +94,14 @@ class Camera : public fpl::CameraInterface {
     assert(index < stereo_ ? 2 : 1);
     viewport_[index] = viewport;
   }
+  virtual void set_viewport(const mathfu::vec4i& viewport) {
+    set_viewport(0, viewport);
+  }
   virtual const mathfu::vec4i& viewport(int32_t index) const {
     assert(index < stereo_ ? 2 : 1);
     return viewport_[index];
   }
+  virtual const mathfu::vec4i& viewport() const { return viewport(0); }
 
   virtual bool IsStereo() const { return stereo_; }
   virtual void set_stereo(bool b) { stereo_ = b; }
