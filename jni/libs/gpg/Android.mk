@@ -29,8 +29,10 @@ PRIVATE_APP_STL:=$(PRIVATE_APP_STL:_shared=)
 PRIVATE_APP_STL:=$(PRIVATE_APP_STL:_static=)
 
 LOCAL_MODULE:=libgpg
+# NOTE: -hard is removed from the ABI as GPG does not distribute a
+# armeabi-v7a-hard library.
 LOCAL_SRC_FILES:=\
-  lib/$(PRIVATE_APP_STL)/$(TARGET_ARCH_ABI)/libgpg.a
+  lib/$(PRIVATE_APP_STL)/$(subst -hard,,$(TARGET_ARCH_ABI))/libgpg.a
 
 include $(PREBUILT_STATIC_LIBRARY)
 

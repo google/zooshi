@@ -13,18 +13,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<project name="copy-google-play-games_lib" default="debug">
-
-  <!-- Location of the Android SDL activity. -->
-  <property name="sdlactivity" value="org/libsdl/app/SDLActivity.java" />
-
-  <!-- Directory of the Android FPLBase activities -->
-  <property name="fplbaseactivity" value="com/google/fpl/fpl_base/FPLActivity.java" />
+<project name="setup_fplbase_and_gpg">
+  <!--Get the location of fplbase by running ndk-build print_dependency.-->
+  <condition property="ndkbuild_exe" value="ndk-build.cmd" else="ndk-build">
+    <os family="windows"/>
+  </condition>
+  <exec executable="${ndkbuild_exe}" outputproperty="fplbasepath">
+    <arg value="print_dependency"/>
+    <arg value="DEP_DIR=FPLBASE"/>
+  </exec>
+  <!--Include the common build rules from fplbase.-->
+  <include file="${fplbasepath}/jni/custom_rules.xml" as="fplbase"/>
 
   <condition property="android_exe" value="android.bat" else="android">
-    <os family="windows" />
-  </condition>
-  <condition property="ndkbuild_exe" value="ndk-build.cmd" else="ndk-build">
     <os family="windows" />
   </condition>
 
@@ -46,59 +47,7 @@ limitations under the License.
     </exec>
   </target>
 
-  <target name="get-sdl-path"
-          description="Get SDL's location and save it in sdlpath.">
-    <exec executable="${ndkbuild_exe}" outputproperty="sdlpath">
-      <arg value="print_dependency"/>
-      <arg value="DEP_DIR=SDL"/>
-    </exec>
-  </target>
-
-  <target name="copy-sdl-activity"
-          description="Copy SDL activity into the source directory."
-          depends="get-sdl-path">
-    <copy tofile="src_java/${sdlactivity}"
-          file="${sdlpath}/android-project/src/${sdlactivity}"/>
-  </target>
-
-  <target name="get-fplbase-path"
-          description="Get FPLBase's location and save it in fplbasepath.">
-    <exec executable="${ndkbuild_exe}" outputproperty="fplbasepath">
-      <arg value="print_dependency"/>
-      <arg value="DEP_DIR=FPLBASE"/>
-    </exec>
-  </target>
-
-  <target name="copy-fplbase-activity"
-          description="Copy FPLBase activity into the source directory."
-          depends="get-fplbase-path">
-    <copy tofile="src_java/${fplbaseactivity}"
-          file="${fplbasepath}/src_java/${fplbaseactivity}"/>
-  </target>
-
-  <target name="get-cardboard-path"
-          description="Save the Cardboard SDK's location in cardboardpath.">
-    <exec executable="${ndkbuild_exe}" outputproperty="cardboardpath">
-      <arg value="print_dependency"/>
-      <arg value="DEP_DIR=CARDBOARD"/>
-    </exec>
-  </target>
-
-  <target name="copy-cardboard-libs"
-          description="Copy the Cardboard sdk into the libs directory."
-          depends="get-cardboard-path">
-    <copy todir="libs/">
-      <fileset dir="${cardboardpath}/libs"/>
-    </copy>
-  </target>
-
-  <!-- Override the -pre-compile target in sdk/tools/ant/build.xml to copy
-       the Google Play Games library and SDL Android activity to this
-       directory before the build process starts. -->
-  <target name="-pre-build"
-          depends="initialize-google-play-games_lib, copy-sdl-activity,
-                  copy-fplbase-activity, copy-cardboard-libs" />
-
+  <target name="-pre-build" depends="fplbase.setup-fplbase,
+                                     initialize-google-play-games_lib"/>
   <target name="-pre-clean" depends="initialize-google-play-games_lib" />
-
 </project>
