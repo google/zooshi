@@ -14,12 +14,17 @@
 
 #include "components/time_limit.h"
 #include "fplbase/utilities.h"
+#include "component_library/transform.h"
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::TimeLimitComponent,
                             fpl::zooshi::TimeLimitData)
 
 namespace fpl {
 namespace zooshi {
+
+// Time (in ms) taken for objects to shrink away before they're actually
+// removed.
+const WorldTime kShrinkTime = 1000;
 
 void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
@@ -35,6 +40,16 @@ void TimeLimitComponent::UpdateAllEntities(entity::WorldTime delta_time) {
        ++iter) {
     TimeLimitData* time_limit_data = Data<TimeLimitData>(iter->entity);
     time_limit_data->time_elapsed += delta_time;
+    if (time_limit_data->time_elapsed >=
+        time_limit_data->time_limit - kShrinkTime) {
+      component_library::TransformData* transform_data =
+          Data<component_library::TransformData>(iter->entity);
+      if (transform_data) {
+        float scale_factor = (time_limit_data->time_limit -
+            time_limit_data->time_elapsed) / static_cast<float>(kShrinkTime);
+        transform_data->scale = time_limit_data->original_scale * scale_factor;
+      }
+    }
     if (time_limit_data->time_elapsed >= time_limit_data->time_limit) {
       entity_manager_->DeleteEntity(iter->entity);
     }
@@ -50,6 +65,15 @@ entity::ComponentInterface::RawDataUniquePtr TimeLimitComponent::ExportRawData(
 
   fbb.Finish(CreateTimeLimitDef(fbb, static_cast<float>(data->time_limit)));
   return fbb.ReleaseBufferPointer();
+}
+
+void TimeLimitComponent::InitEntity(entity::EntityRef& entity) {
+  TimeLimitData* time_limit_data = Data<TimeLimitData>(entity);
+  component_library::TransformData* transform_data =
+      Data<component_library::TransformData>(entity);
+  if (transform_data) {
+    time_limit_data->original_scale = transform_data->scale;
+  }
 }
 
 }  // zooshi
