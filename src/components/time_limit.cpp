@@ -24,7 +24,7 @@ namespace zooshi {
 
 // Time (in ms) taken for objects to shrink away before they're actually
 // removed.
-const WorldTime kShrinkTime = 1000;
+const entity::WorldTime kShrinkTime = 1000;
 
 void TimeLimitComponent::AddFromRawData(entity::EntityRef& entity,
                                         const void* raw_data) {
