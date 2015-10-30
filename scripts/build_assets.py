@@ -662,13 +662,14 @@ def convert_png_image_to_webp(cwebp, png, out, quality, meta):
   run_subprocess(command)
 
 
-def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
+def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, unit,
                                           texture_formats, recenter, hierarchy):
   """Run the mesh_pipeline on the given fbx file.
 
   Args:
     fbx: The path to the fbx file to convert into a flatbuffer binary.
     target_directory: The path of the flatbuffer binary to write to.
+    unit: The unit in the fbx model that you want to be 1 unit in the game.
     texture_formats: String containing of texture formats to pass to the
       mesh_pipeline tool.
     recenter: Whether to recenter the exported mesh at the origin.
@@ -676,8 +677,9 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [MESH_PIPELINE, '-d', '-e', 'webp', '-a', 'z+y+x',
-             '-b', target_directory, '-r', MESH_REL_DIR]
+  command = [MESH_PIPELINE, '--details', '--texture-extension', 'webp',
+             '--axes', 'z+y+x', '--unit', unit,
+             '--base-dir', target_directory, '--relative-dir', MESH_REL_DIR]
   if texture_formats is not None:
     command.append('-f')
     command.append(texture_formats)
@@ -814,8 +816,10 @@ def generate_mesh_binaries(target_directory, meta):
     texture_formats = meta_value(fbx, meta['mesh_meta'], 'texture_format')
     recenter = meta_value(fbx, meta['mesh_meta'], 'recenter')
     hierarchy = meta_value(fbx, meta['mesh_meta'], 'hierarchy')
+    unit_meta = meta_value(fbx, meta['mesh_meta'], 'unit')
+    unit = 'cm' if unit_meta is None else unit_meta
     if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE, target):
-      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory,
+      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, unit,
                                             texture_formats, recenter,
                                             hierarchy)
 

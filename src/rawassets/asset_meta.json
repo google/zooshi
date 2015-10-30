@@ -1,15 +1,19 @@
 {
   "mesh_meta": [
-    { "name": "skybox", "texture_format": "F_888", "texture_size": 2048 },
+    { "name": "skybox", "unit": "m", "texture_format": "F_888",
+              "texture_size": 2048 },
     { "name": "fern", "hierarchy": 1 },
     { "name": "grass", "recenter": 1 },
     { "name": "crocodile", "hierarchy": 1 },
-    { "name": "lady_mandrill", "hierarchy": 1 },
+    { "name": "lady_mandrill", "hierarchy": 1, "unit": "m" },
     { "name": "giraffe", "hierarchy": 1 },
-    { "name": "hippo", "hierarchy": 1 },
-    { "name": "bird", "hierarchy": 1 },
-    { "name": "heart", "hierarchy": 1 },
-    { "name": "gate", "hierarchy": 1 }
+    { "name": "hippo", "hierarchy": 1, "unit": "m" },
+    { "name": "bird", "hierarchy": 1, "unit": "m" },
+    { "name": "heart", "hierarchy": 1, "unit": "m" },
+    { "name": "gate", "hierarchy": 1 },
+    { "name": "sushi", "unit": "m" },
+    { "name": "introbox", "unit": "m" },
+    { "name": "tree_saturated", "unit": "m" }
   ],
 
   "anim_meta": [
