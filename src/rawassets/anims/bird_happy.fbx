@@ -2373,29 +2373,29 @@ Objects:  {
 	Video: 140524822309744, "Video::Bird_RIG6:bird_A:bird:bird:Bird_D_1", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_D.tga"
+			P: "Path", "KString", "XRefUrl", "", "__________________________________________________________________________/Bird_D.tga"
 		}
 		UseMipMap: 0
-		Filename: "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_D.tga"
-		RelativeFilename: "../../../../dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_D.tga"
+		Filename: "__________________________________________________________________________/Bird_D.tga"
+		RelativeFilename: "../../../../dhilton____________________________________________________________/Bird_D.tga"
 	}
 	Video: 140524822356832, "Video::Bird_RIG6:bird_A:bird:bird:Bird_S_1", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_S.tga"
+			P: "Path", "KString", "XRefUrl", "", "__________________________________________________________________________/Bird_S.tga"
 		}
 		UseMipMap: 0
-		Filename: "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_S.tga"
-		RelativeFilename: "../../../../dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_S.tga"
+		Filename: "__________________________________________________________________________/Bird_S.tga"
+		RelativeFilename: "../../../../dhilton____________________________________________________________/Bird_S.tga"
 	}
 	Video: 140524822304160, "Video::Bird_RIG6:bird_A:bird:bird:Bird_N_1", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_N.tga"
+			P: "Path", "KString", "XRefUrl", "", "__________________________________________________________________________/Bird_N.tga"
 		}
 		UseMipMap: 0
-		Filename: "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_N.tga"
-		RelativeFilename: "../../../../dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_N.tga"
+		Filename: "__________________________________________________________________________/Bird_N.tga"
+		RelativeFilename: "../../../../dhilton____________________________________________________________/Bird_N.tga"
 	}
 	Texture: 140524822791664, "Texture::Bird_RIG6:bird_A:bird:bird:Bird_D_1", "" {
 		Type: "TextureVideoClip"
@@ -2407,8 +2407,8 @@ Objects:  {
 			P: "UseMaterial", "bool", "", "",1
 		}
 		Media: "Video::Bird_RIG6:bird_A:bird:bird:Bird_D_1"
-		FileName: "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_D.tga"
-		RelativeFilename: "../../../../dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_D.tga"
+		FileName: "__________________________________________________________________________/Bird_D.tga"
+		RelativeFilename: "../../../../dhilton____________________________________________________________/Bird_D.tga"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
@@ -2424,8 +2424,8 @@ Objects:  {
 			P: "UseMaterial", "bool", "", "",1
 		}
 		Media: "Video::Bird_RIG6:bird_A:bird:bird:Bird_S_1"
-		FileName: "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_S.tga"
-		RelativeFilename: "../../../../dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_S.tga"
+		FileName: "__________________________________________________________________________/Bird_S.tga"
+		RelativeFilename: "../../../../dhilton____________________________________________________________/Bird_S.tga"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
@@ -2441,8 +2441,8 @@ Objects:  {
 			P: "UseMaterial", "bool", "", "",1
 		}
 		Media: "Video::Bird_RIG6:bird_A:bird:bird:Bird_N_1"
-		FileName: "/Users/dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_N.tga"
-		RelativeFilename: "../../../../dhilton/Downloads/[Google] Virtuos - Zushi Delivery 2015-08-24/Bird/Bird_N.tga"
+		FileName: "__________________________________________________________________________/Bird_N.tga"
+		RelativeFilename: "../../../../dhilton____________________________________________________________/Bird_N.tga"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
