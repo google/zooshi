@@ -678,8 +678,8 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, unit,
     BuildError: Process return code was nonzero.
   """
   command = [MESH_PIPELINE, '--details', '--texture-extension', 'webp',
-             '--axes', 'z+y+x', '--unit', unit,
-             '--base-dir', target_directory, '--relative-dir', MESH_REL_DIR]
+             '--axes', 'z+y+x', '--unit', unit, '--base-dir', target_directory,
+             '--relative-dir', MESH_REL_DIR]
   if texture_formats is not None:
     command.append('-f')
     command.append(texture_formats)
@@ -701,7 +701,7 @@ def convert_fbx_anim_to_flatbuffer_binary(fbx, repeat, target):
   Raises:
     BuildError: Process return code was nonzero.
   """
-  command = [ANIM_PIPELINE, '-v', '-o', target]
+  command = [ANIM_PIPELINE, '--details', '--out', target]
   if repeat == 0:
     command.append('--norepeat')
   elif repeat == 1:
