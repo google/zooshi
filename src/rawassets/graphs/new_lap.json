@@ -301,9 +301,10 @@
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "OutputEdgeTarget",
           "edge": {
-            "value": 20
+            "node_index": 29,
+            "edge_index": 0
           }
         }
       ]
@@ -528,6 +529,93 @@
           }
         }
       ]
-    }
+    },
+    {
+      // Node 27
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScoreIncrease"
+          }
+        }
+      ]
+    },
+    {
+      // Node 28
+      "module": "float_math",
+      "name": "add",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 27,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Float", 
+          "edge": {
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      // Node 29
+      "module": "float_math",
+      "name": "min",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 28,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Float", 
+          "edge": {
+            "value": 40
+          }
+        }
+      ]
+    },
+    {
+      // Node 30
+      "module": "attributes",
+      "name": "set_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScoreIncrease"
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 29,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
   ]
 }
