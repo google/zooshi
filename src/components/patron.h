@@ -209,6 +209,9 @@ struct PatronData {
   // Average speed at which to travel towards the sushi catch position.
   Range catch_speed;
 
+  // The sushi entity trying to be caught.
+  entity::EntityRef catch_sushi;
+
   // When moving towards a sushi, wait this amount of time before adjusting
   // the search for another sushi.
   float time_between_catch_searches;
@@ -279,6 +282,7 @@ class PatronComponent : public entity::Component<PatronData> {
   void MoveToTarget(const entity::EntityRef& patron,
                     const mathfu::vec3& target_position,
                     Angle target_face_angle, float target_time);
+  bool ShouldReturnToIdle(const entity::EntityRef& patron) const;
   void FaceRaft(const entity::EntityRef& patron);
 
   const Config* config_;
