@@ -163,8 +163,8 @@ class Game {
 #if DISPLAY_FRAMERATE_HISTOGRAM
   // Profiling data.
   static const int kHistogramSize = 64;
-  WorldTime last_printout;
-  WorldTime histogram[kHistogramSize];
+  entity::WorldTime last_printout;
+  entity::WorldTime histogram[kHistogramSize];
 #endif
 
   bool game_exiting_;
