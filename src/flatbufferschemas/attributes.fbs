@@ -19,6 +19,7 @@ enum AttributeDef : byte {
   PatronsFed,
   PatronsHit,
   TargetScore,
+  TargetScoreIncrease,
   Size,
   Unspecified
 }
