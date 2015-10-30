@@ -505,6 +505,11 @@ void Game::ToggleRelativeMouseMode() {
 }
 
 static inline entity::WorldTime CurrentWorldTime(const InputSystem &input) {
+  return static_cast<entity::WorldTime>(input.CachedTime() * 1000);
+}
+
+static inline entity::WorldTime CurrentWorldTimeSubFrame(
+    const InputSystem &input) {
   return static_cast<entity::WorldTime>(input.Time() * 1000);
 }
 
@@ -725,7 +730,7 @@ void Game::Run() {
     // preparing the worlds tate for next frame.
     // -------------------------------------------
     SystraceBegin("AdvanceFrame");
-    renderer_.AdvanceFrame(input_.minimized(), input_.Time());
+    renderer_.AdvanceFrame(input_.minimized(), input_.CachedTime());
     SystraceEnd();  // AdvanceFrame
 
     SystraceEnd();  // RenderFrame
