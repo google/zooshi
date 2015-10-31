@@ -71,6 +71,11 @@ namespace zooshi {
 
 const auto kGPGDefaultLeaderboard = "LeaderboardMain";
 
+// On low RAM devices below the threshould value, the game applies a texture
+// scaling to reduce a memory footprint.
+const auto kLowRamProfileThreshold = 512;
+const auto kLowRamDeviceTextureScale = vec2(0.5f, 0.5f);
+
 struct Config;
 struct InputConfig;
 struct AssetManifest;

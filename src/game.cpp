@@ -259,6 +259,12 @@ bool Game::InitializeAssets() {
   // Load the loading-material first, since we display that while the others
   // load.
   const AssetManifest& asset_manifest = GetAssetManifest();
+
+  if (GetSystemRamSize() <= kLowRamProfileThreshold) {
+    // Reduce material size.
+    asset_manager_.SetTextureScale(kLowRamDeviceTextureScale);
+  }
+
   asset_manager_.LoadMaterial(asset_manifest.loading_material()->c_str());
   asset_manager_.LoadMaterial(asset_manifest.fader_material()->c_str());
   for (size_t i = 0; i < asset_manifest.mesh_list()->size(); i++) {
