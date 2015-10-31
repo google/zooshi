@@ -667,12 +667,30 @@ void Game::Run() {
   // We basically own the lock all the time, except when we're waiting
   // for a vsync event.
   SDL_LockMutex(sync_.renderthread_mutex_);
+  int last_frame_id = 0;
   while (!input_.exit_requested() && !game_exiting_) {
-    // -------------------------------------------
-    // Steps 1, 2.
-    // Wait for start of frame.  (triggered at vsync start on android.)
-    // -------------------------------------------
-    SDL_CondWait(sync_.start_render_cv_, sync_.renderthread_mutex_);
+#ifdef __ANDROID__
+    int current_frame_id = GetVsyncFrameId();
+#else
+    int current_frame_id = 0;
+#endif
+    // If we haven't received a vsync since we rendered the last frame,
+    // wait until we get one to draw the next thing.  (If we HAVE received
+    // a vsync since we were here last, then we're behind, and should just
+    // start drawing now to try to catch up.)
+    if (last_frame_id == current_frame_id)
+    {
+      // -------------------------------------------
+      // Steps 1, 2.
+      // Wait for start of frame.  (triggered at vsync start on android.)
+      // -------------------------------------------
+      SDL_CondWait(sync_.start_render_cv_, sync_.renderthread_mutex_);
+      last_frame_id = current_frame_id;
+    }
+    else {
+      // falling through to next frame, so update accordingly.
+      last_frame_id = current_frame_id + 1;
+    }
 
     // Grab the lock to make sure the game isn't still updating.
     SDL_LockMutex(sync_.gameupdate_mutex_);
