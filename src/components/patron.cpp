@@ -137,11 +137,9 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
       Range(patron_def->min_catch_time_for_search(),
             patron_def->max_catch_time_for_search());
   patron_data->catch_time =
-      Range(patron_def->min_catch_time(),
-            patron_def->max_catch_time());
+      Range(patron_def->min_catch_time(), patron_def->max_catch_time());
   patron_data->catch_speed =
-      Range(patron_def->min_catch_speed(),
-            patron_def->max_catch_speed());
+      Range(patron_def->min_catch_speed(), patron_def->max_catch_speed());
   patron_data->time_between_catch_searches =
       patron_def->time_between_catch_searches();
   patron_data->return_time = patron_def->return_time();
@@ -178,7 +176,8 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_max_face_angle_away_from_raft(
       data->max_face_angle_away_from_raft.ToDegrees());
   builder.add_time_to_face_raft(data->time_to_face_raft);
-  builder.add_max_catch_distance_for_search(data->max_catch_distance_for_search);
+  builder.add_max_catch_distance_for_search(
+      data->max_catch_distance_for_search);
   builder.add_min_catch_time_for_search(data->catch_time_for_search.start());
   builder.add_max_catch_time_for_search(data->catch_time_for_search.end());
   builder.add_min_catch_time(data->catch_time.start());
@@ -266,15 +265,9 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
     patron_data->prev_delta_position = delta_position;
 
     if (patron_data->delta_position.TargetTime() <= 0) {
-      if (patron_data->move_state == kPatronMoveStateMoveToTarget) {
-        const vec3 raft_position = RaftPosition();
-        const Angle return_angle =
-            Angle::FromYXVector(raft_position - patron_data->return_position);
-        MoveToTarget(patron, patron_data->return_position, return_angle,
-                     patron_data->return_time);
-        SetMoveState(kPatronMoveStateReturn, patron_data);
-      } else {
-        patron_data->delta_position.Invalidate();
+      patron_data->delta_position.Invalidate();
+      if (patron_data->move_state == kPatronMoveStateReturn) {
+        SetMoveState(kPatronMoveStateIdle, patron_data);
         // Back to idle, so resume moving on rails, if it is on one.
         RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
         if (rail_denizen_data != nullptr &&
@@ -283,7 +276,7 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
           rail_denizen_data->SetPlaybackRate(
               rail_denizen_data->initial_playback_rate,
               entity::kMillisecondsPerSecond *
-                patron_data->rail_accelerate_time);
+                  patron_data->rail_accelerate_time);
         }
       }
     }
@@ -300,7 +293,17 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
 
     if (patron_data->delta_face_angle.TargetTime() <= 0) {
       patron_data->delta_face_angle.Invalidate();
-      SetMoveState(kPatronMoveStateIdle, patron_data);
+    }
+  }
+
+  if (patron_data->move_state == kPatronMoveStateMoveToTarget) {
+    if (ShouldReturnToIdle(patron)) {
+      const vec3 raft_position = RaftPosition();
+      const Angle return_angle =
+          Angle::FromYXVector(raft_position - patron_data->return_position);
+      MoveToTarget(patron, patron_data->return_position, return_angle,
+                   patron_data->return_time);
+      SetMoveState(kPatronMoveStateReturn, patron_data);
     }
   }
 }
@@ -475,7 +478,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             rail_denizen_data->SetPlaybackRate(
                 rail_denizen_data->initial_playback_rate,
                 entity::kMillisecondsPerSecond *
-                  patron_data->rail_accelerate_time);
+                    patron_data->rail_accelerate_time);
           }
         }  // fallthrough
 
@@ -487,8 +490,8 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           break;
       }
     }
-    patron_data->time_in_move_state += static_cast<float>(delta_time) /
-                                       entity::kMillisecondsPerSecond;
+    patron_data->time_in_move_state +=
+        static_cast<float>(delta_time) / entity::kMillisecondsPerSecond;
   }
   if (event_time_ >= 0) {
     event_time_ += delta_time;
@@ -744,8 +747,8 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
 
   // Clamp the movement time so the patron doesn't move to quickly or slowly.
   if (closest_ref != nullptr) {
-    const float clamped_dist = std::min(std::sqrt(closest_dist_sq),
-                                        patron_data->max_catch_distance);
+    const float clamped_dist =
+        std::min(std::sqrt(closest_dist_sq), patron_data->max_catch_distance);
     const float avg_speed = clamped_dist / *closest_time;
     const float clamped_speed = patron_data->catch_speed.Clamp(avg_speed);
     *closest_time = patron_data->catch_time.Clamp(clamped_dist / clamped_speed);
@@ -770,8 +773,13 @@ void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
 
   // Initialize movement to that spot.
   if (closest_projectile != nullptr) {
-    MoveToTarget(patron, closest_position, closest_face_angle, closest_time);
     PatronData* patron_data = GetComponentData(patron);
+    // If already moving to catch that projectile, do nothing.
+    if (*closest_projectile == patron_data->catch_sushi) {
+      return;
+    }
+    MoveToTarget(patron, closest_position, closest_face_angle, closest_time);
+    patron_data->catch_sushi = *closest_projectile;
     SetMoveState(kPatronMoveStateMoveToTarget, patron_data);
 
     // If patron is on a rail, we want to disable it until we are done.
@@ -795,9 +803,8 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   // face angle with equal `target_position` and `target_face_angle`.
   const vec3 delta_position = target_position - position;
   const Angle delta_face_angle = target_face_angle - face_angle;
-  const MotiveTime target_time_ms =
-      std::max(1, static_cast<MotiveTime>(entity::kMillisecondsPerSecond *
-                                          target_time));
+  const MotiveTime target_time_ms = std::max(
+      1, static_cast<MotiveTime>(entity::kMillisecondsPerSecond * target_time));
 
   // Set the delta movement Motivators.
   patron_data->prev_delta_position = vec3(kZeros3f);
@@ -816,6 +823,31 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
       motive::SmoothInit(angle_range, true), motive_engine,
       motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(), 0.0f,
                                 target_time_ms));
+}
+
+bool PatronComponent::ShouldReturnToIdle(
+    const entity::EntityRef& patron) const {
+  const PatronData* patron_data = Data<PatronData>(patron);
+  const TransformData* transform_data = Data<TransformData>(patron);
+  if (patron_data->move_state == kPatronMoveStateMoveToTarget &&
+      patron_data->catch_sushi.IsValid()) {
+    const PhysicsData* sushi_physics =
+        Data<PhysicsData>(patron_data->catch_sushi);
+    const TransformData* sushi_transform =
+        Data<TransformData>(patron_data->catch_sushi);
+    if (sushi_physics != nullptr && sushi_transform != nullptr) {
+      vec3 sushi_to_patron =
+          transform_data->position - sushi_transform->position;
+      float dot = vec3::DotProduct(ZeroHeight(sushi_physics->Velocity()),
+                                   ZeroHeight(sushi_to_patron.Normalized()));
+      // If the sushi is moving towards the patron, we want the patron to stay.
+      if (dot >= 0.0f) {
+        return false;
+      }
+    }
+  }
+  // If all the checks fail, assume something is wrong, and return to idle.
+  return true;
 }
 
 }  // zooshi
