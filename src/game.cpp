@@ -514,6 +514,11 @@ static inline entity::WorldTime CurrentWorldTime(const InputSystem &input) {
   return static_cast<entity::WorldTime>(input.Time() * 1000);
 }
 
+static inline entity::WorldTime CurrentWorldTimeSubFrame(
+    const InputSystem &input) {
+  return static_cast<entity::WorldTime>(input.CurrentTime() * 1000);
+}
+
 // Stuff the update thread needs to know about:
 struct UpdateThreadData {
   UpdateThreadData(bool* exiting, World* world_ptr,
