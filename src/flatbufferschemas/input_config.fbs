@@ -22,4 +22,6 @@ table InputConfig {
 }
 
 root_type InputConfig;
+file_identifier "INCO";
+file_extension "zooinconfig";
 

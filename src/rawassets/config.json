@@ -1,9 +1,9 @@
 {
-  "audio_config": "audio_config.bin",
+  "audio_config": "audio_config.pinconfig",
 
-  "input_config": "input_config.bin",
+  "input_config": "input_config.zooinconfig",
 
-  "assets_filename": "assets.bin",
+  "assets_filename": "assets.zooassets",
 
   "projectile_speed": 40.0,
   "projectile_upkick": 7.5,
@@ -19,7 +19,7 @@
   "river_config" : {
     "speed" : 0.3,
     "texture_repeats" : 16,
-    "rail_filename": "rails/player_path.bin",
+    "rail_filename": "rails/player_path.rail",
     "spline_stepsize": 700.0,
     "track_height": -1.89,
     "texture_tile_size": 25.0,
@@ -199,16 +199,17 @@
       "text_modified_color": {"r":1, "g":1, "b":0, "a":1}, // bright yellow
       "text_committed_color": {"r":0.8, "g":1, "b":0, "a":1}, // greenish yellow
       "text_error_color": {"r":1, "g":0, "b":0, "a":1} // red
-    }
+    },
+    "binary_entity_file_ext": "zooentity"
   },
 
   "world_def": {
     "entity_files": [
-      "entity_rails.bin",
-      "entity_list.bin",
-      "entity_level_0.bin",
-      "entity_decorations.bin",
-      "entity_ring.bin"
+      "entity_rails.zooentity",
+      "entity_list.zooentity",
+      "entity_level_0.zooentity",
+      "entity_decorations.zooentity",
+      "entity_ring.zooentity"
     ]
   },
   "gpg_config": {

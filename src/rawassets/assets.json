@@ -77,93 +77,93 @@
     "lists" : [
       { // AnimObject_HungryHippo
         "anim_files": [
-          "anims/hippo_appear.fplanim",     // PatronAction_GetUp
-          "anims/hippo_idle.fplanim",       // PatronAction_Idle
-          "anims/hippo_eat.fplanim",        // PatronAction_Eat
-          "anims/hippo_happy.fplanim",      // PatronAction_Satisfied
-          "anims/hippo_disappear.fplanim",  // PatronAction_Fall
+          "anims/hippo_appear.motiveanim",        // PatronAction_GetUp
+          "anims/hippo_idle.motiveanim",          // PatronAction_Idle
+          "anims/hippo_eat.motiveanim",           // PatronAction_Eat
+          "anims/hippo_happy.motiveanim",         // PatronAction_Satisfied
+          "anims/hippo_disappear.motiveanim",     // PatronAction_Fall
         ]
       },
       { // AnimObject_DapperCroc
         "anim_files": [
-          "anims/crocodile_appear.fplanim",     // PatronAction_GetUp
-          "anims/crocodile_idle.fplanim",       // PatronAction_Idle
-          "anims/crocodile_eat.fplanim",        // PatronAction_Eat
-          "anims/crocodile_happy.fplanim",      // PatronAction_Satisfied
-          "anims/crocodile_disappear.fplanim",  // PatronAction_Fall
+          "anims/crocodile_appear.motiveanim",    // PatronAction_GetUp
+          "anims/crocodile_idle.motiveanim",      // PatronAction_Idle
+          "anims/crocodile_eat.motiveanim",       // PatronAction_Eat
+          "anims/crocodile_happy.motiveanim",     // PatronAction_Satisfied
+          "anims/crocodile_disappear.motiveanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_LadyMandrill
         "anim_files": [
-          "anims/lady_mandrill_appear.fplanim",    // PatronAction_GetUp
-          "anims/lady_mandrill_idle.fplanim",      // PatronAction_Idle
-          "anims/lady_mandrill_eat.fplanim",       // PatronAction_Eat
-          "anims/lady_mandrill_happy.fplanim",     // PatronAction_Satisfied
-          "anims/lady_mandrill_disappear.fplanim", // PatronAction_Fall
+          "anims/lady_mandrill_appear.motiveanim",    // PatronAction_GetUp
+          "anims/lady_mandrill_idle.motiveanim",      // PatronAction_Idle
+          "anims/lady_mandrill_eat.motiveanim",       // PatronAction_Eat
+          "anims/lady_mandrill_happy.motiveanim",     // PatronAction_Satisfied
+          "anims/lady_mandrill_disappear.motiveanim", // PatronAction_Fall
         ]
       },
       { // AnimObject_LovelyGiraffette
         "anim_files": [
-          "anims/giraffe_appear.fplanim",    // PatronAction_GetUp
-          "anims/giraffe_idle.fplanim",      // PatronAction_Idle
-          "anims/giraffe_eat.fplanim",       // PatronAction_Eat
-          "anims/giraffe_happy.fplanim",     // PatronAction_Satisfied
-          "anims/giraffe_disappear.fplanim", // PatronAction_Fall
+          "anims/giraffe_appear.motiveanim",      // PatronAction_GetUp
+          "anims/giraffe_idle.motiveanim",        // PatronAction_Idle
+          "anims/giraffe_eat.motiveanim",         // PatronAction_Eat
+          "anims/giraffe_happy.motiveanim",       // PatronAction_Satisfied
+          "anims/giraffe_disappear.motiveanim",   // PatronAction_Fall
         ]
       },
       { // AnimObject_BankerBird
         "anim_files": [
-          "anims/bird_appear.fplanim",      // PatronAction_GetUp
-          "anims/bird_idle.fplanim",        // PatronAction_Idle
-          "anims/bird_eat.fplanim",         // PatronAction_Eat
-          "anims/bird_happy.fplanim",       // PatronAction_Satisfied
-          "anims/bird_disappear.fplanim",   // PatronAction_Fall
+          "anims/bird_appear.motiveanim",         // PatronAction_GetUp
+          "anims/bird_idle.motiveanim",           // PatronAction_Idle
+          "anims/bird_eat.motiveanim",            // PatronAction_Eat
+          "anims/bird_happy.motiveanim",          // PatronAction_Satisfied
+          "anims/bird_disappear.motiveanim",      // PatronAction_Fall
         ]
       }, // AnimObject_FernShort
       {
         "anim_files": [
-          "",                                 // kSceneryHide
-          "anims/scenery_appear.fplanim",     // kSceneryAppear
-          "anims/fern_short_sway.fplanim",    // kSceneryShow
-          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
+          "",                                     // kSceneryHide
+          "anims/scenery_appear.motiveanim",      // kSceneryAppear
+          "anims/fern_short_sway.motiveanim",     // kSceneryShow
+          "anims/scenery_disappear.motiveanim",   // kSceneryDisappear
         ]
       }, // AnimObject_FernMid
       {
         "anim_files": [
-          "",                                 // kSceneryHide
-          "anims/scenery_appear.fplanim",     // kSceneryAppear
-          "anims/fern_mid_sway.fplanim",      // kSceneryShow
-          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
+          "",                                     // kSceneryHide
+          "anims/scenery_appear.motiveanim",      // kSceneryAppear
+          "anims/fern_mid_sway.motiveanim",       // kSceneryShow
+          "anims/scenery_disappear.motiveanim",   // kSceneryDisappear
         ]
       }, // AnimObject_FernTall
       {
         "anim_files": [
-          "",                                 // kSceneryHide
-          "anims/scenery_appear.fplanim",     // kSceneryAppear
-          "anims/fern_tall_sway.fplanim",     // kSceneryShow
-          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
+          "",                                     // kSceneryHide
+          "anims/scenery_appear.motiveanim",      // kSceneryAppear
+          "anims/fern_tall_sway.motiveanim",      // kSceneryShow
+          "anims/scenery_disappear.motiveanim",   // kSceneryDisappear
         ]
       }, // AnimObject_Heart
       {
         "anim_files": [
-          "anims/heart_float_up.fplanim",
+          "anims/heart_float_up.motiveanim",
         ]
       }, // AnimObject_Scenery
       {
         "anim_files": [
-          "",                                 // kSceneryHide
-          "anims/scenery_appear.fplanim",     // kSceneryAppear
-          "",                                 // kSceneryShow
-          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
+          "",                                     // kSceneryHide
+          "anims/scenery_appear.motiveanim",      // kSceneryAppear
+          "",                                     // kSceneryShow
+          "anims/scenery_disappear.motiveanim",   // kSceneryDisappear
         ]
       }, // AnimObject_Gate
       {
         "anim_files": [
-          "",                                 // kSceneryHide
-          "anims/scenery_appear.fplanim",     // kSceneryAppear
-          "",                                 // kSceneryShow
-          "anims/scenery_disappear.fplanim",  // kSceneryDisappear
-          "anims/gate_open.fplanim",
+          "",                                     // kSceneryHide
+          "anims/scenery_appear.motiveanim",      // kSceneryAppear
+          "",                                     // kSceneryShow
+          "anims/scenery_disappear.motiveanim",   // kSceneryDisappear
+          "anims/gate_open.motiveanim",           // extra animation
         ]
       }
     ]
@@ -174,5 +174,5 @@
                ],
   "license_file": "licenses.txt",
   "about_file": "about.txt",
-  "sound_bank": "sound_banks/sound_assets.bin"
+  "sound_bank": "sound_banks/sound_assets.pinbank"
 }

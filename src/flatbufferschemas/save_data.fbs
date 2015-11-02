@@ -24,6 +24,6 @@ table SaveData {
 }
 
 root_type SaveData;
-file_identifier "DATA";
-file_extension "bin";
+file_identifier "ZSAV";
+file_extension "zoosave";
 

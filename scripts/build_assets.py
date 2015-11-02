@@ -253,47 +253,47 @@ def find_in_paths(name, paths):
 FLATBUFFERS_CONVERSION_DATA = [
     FlatbuffersConversionData(
         schema=find_in_paths('config.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooconfig',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'config.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_prototypes.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_rails.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_list.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_ring.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_decorations.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('components.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('rail_def.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.rail',
         input_files=glob.glob(os.path.join(RAW_RAIL_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('audio_config.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.pinconfig',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'audio_config.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('input_config.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooinconfig',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'input_config.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('assets.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zooassets',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'assets.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('common.fbs', SCHEMA_PATHS),
@@ -301,15 +301,15 @@ FLATBUFFERS_CONVERSION_DATA = [
         input_files=[]),
     FlatbuffersConversionData(
         schema=find_in_paths('buses.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.pinbus',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'buses.json')]),
     FlatbuffersConversionData(
         schema=find_in_paths('sound_bank_def.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.pinbank',
         input_files=glob.glob(os.path.join(RAW_SOUND_BANK_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('sound_collection_def.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.pinsound',
         input_files=glob.glob(os.path.join(RAW_SOUND_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('materials.fbs', SCHEMA_PATHS),
@@ -321,11 +321,11 @@ FLATBUFFERS_CONVERSION_DATA = [
         input_files=glob.glob(os.path.join(RAW_MESH_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('graph.fbs', SCHEMA_PATHS),
-        extension='.fplgraph',
+        extension='.bbgraph',
         input_files=glob.glob(os.path.join(RAW_GRAPH_DEF_PATH, '*.json'))),
     FlatbuffersConversionData(
         schema=find_in_paths('save_data.fbs', SCHEMA_PATHS),
-        extension='.bin',
+        extension='.zoosave',
         input_files=[]),
 ]
 
@@ -404,7 +404,7 @@ def processed_anim_path(path, target_directory):
   Returns:
     Path to output animation file.
   """
-  return target_file_name(path, target_directory, 'fplanim')
+  return target_file_name(path, target_directory, 'motiveanim')
 
 
 class BuildError(Exception):
@@ -781,7 +781,7 @@ def tga_files_to_convert():
 
 
 def anim_files_to_convert():
-  """FBX files to convert to fplanim."""
+  """FBX files to convert to `.motiveanim`."""
   return (glob.glob(os.path.join(RAW_ANIM_PATH, '*.fbx')) +
           glob.glob(os.path.join(INTERNAL_ANIM_PATH, '*.fbx')))
 

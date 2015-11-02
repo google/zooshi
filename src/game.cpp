@@ -89,7 +89,7 @@ static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
 
 static const char kAssetsDir[] = "assets";
 
-static const char kConfigFileName[] = "config.bin";
+static const char kConfigFileName[] = "config.zooconfig";
 
 #ifdef __ANDROID__
 static const int kAndroidMaxScreenWidth = 1280;

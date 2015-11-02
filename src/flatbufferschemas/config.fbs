@@ -227,4 +227,5 @@ table Config {
 }
 
 root_type Config;
-
+file_identifier "ZCON";
+file_extension "zooconfig";

@@ -86,7 +86,7 @@ table GraphDef {
   node_list:[NodeDef];
 }
 
-file_extension "fplgraph";
-file_identifier "grph";
+file_identifier "GRPH";
+file_extension "bbgraph";
 
 root_type GraphDef;

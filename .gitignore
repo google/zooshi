@@ -1,21 +1,28 @@
 # Git ignore file for zooshi:
-*.bin
-*.fplmat
-*.fplmesh
-*.fplanim
-*.webp
 apks/
+assets/*.pinbus
+assets/*.pinconfig
+assets/*.zooassets
+assets/*.zooconfig
+assets/*.zooentity
+assets/*.zooinconfig
+assets/anims/
+assets/flatbufferschemas/
+assets/fonts/
+assets/graphs/
+assets/materials/
+assets/meshes/
+assets/rails/
+assets/shaders/font.*
+assets/shaders/font_*
+assets/sound_banks/*.pinbank
+assets/sounds/*.pinsound
+assets/textures/
 bin/
 fplbase_assets/
 gen/
 libs/
 obj/
-assets/flatbufferschemas/
-assets/*.json
-assets/fonts/
-assets/shaders/font.*
-assets/shaders/font_*
-assets/graphs/
 
 # CMake files
 CMakeCache.txt

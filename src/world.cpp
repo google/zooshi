@@ -43,7 +43,7 @@ using mathfu::quat;
 namespace fpl {
 namespace zooshi {
 
-static const char kEntityLibraryFile[] = "entity_prototypes.bin";
+static const char kEntityLibraryFile[] = "entity_prototypes.zooentity";
 static const char kComponentDefBinarySchema[] =
     "flatbufferschemas/components.bfbs";
 

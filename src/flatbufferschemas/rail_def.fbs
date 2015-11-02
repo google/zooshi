@@ -23,4 +23,5 @@ table RailDef {
 }
 
 root_type RailDef;
-
+file_identifier "RAIL";
+file_extension "rail";

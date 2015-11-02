@@ -31,5 +31,6 @@ table AssetManifest {
 }
 
 root_type AssetManifest;
-file_extension "bin";
+file_identifier "ASSE";
+file_extension "zooassets";
 

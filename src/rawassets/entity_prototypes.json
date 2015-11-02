@@ -702,8 +702,8 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/new_lap.fplgraph",
-              "graphs/on_fire.fplgraph"
+              "graphs/new_lap.bbgraph",
+              "graphs/on_fire.bbgraph"
             ]
           }
         },
@@ -840,7 +840,7 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/mandrill.fplgraph"
+              "graphs/mandrill.bbgraph"
             ]
           }
         },
@@ -997,7 +997,7 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/croc.fplgraph"
+              "graphs/croc.bbgraph"
             ]
           }
         },
@@ -1175,7 +1175,7 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/hippo.fplgraph"
+              "graphs/hippo.bbgraph"
             ]
           }
         },
@@ -1341,8 +1341,8 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/first_hippo.fplgraph",
-              "graphs/hippo.fplgraph"
+              "graphs/first_hippo.bbgraph",
+              "graphs/hippo.bbgraph"
             ]
           }
         },
@@ -1428,7 +1428,7 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/bird.fplgraph"
+              "graphs/bird.bbgraph"
             ]
           }
         },
@@ -1628,7 +1628,7 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/giraffe.fplgraph"
+              "graphs/giraffe.bbgraph"
             ]
           }
         },
@@ -1985,7 +1985,7 @@
           "data_type": "GraphDef",
           "data" : {
             "filename_list": [
-              "graphs/sushi.fplgraph"
+              "graphs/sushi.bbgraph"
             ]
           }
         },
@@ -2633,7 +2633,7 @@
           "data_type": "GraphDef",
           "data": {
             "filename_list": [
-              "graphs/gate.fplgraph"
+              "graphs/gate.bbgraph"
             ]
           }
         },

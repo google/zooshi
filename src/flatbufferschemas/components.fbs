@@ -265,3 +265,5 @@ table EntityListDef {
 }
 
 root_type EntityListDef;
+file_identifier "ENTI";
+file_extension "zooentity";

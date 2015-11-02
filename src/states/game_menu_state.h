@@ -71,7 +71,7 @@ const auto kScrollAreaSize = vec2(900, 500);
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;
-const auto kSaveFileName = "save_data.bin";
+const auto kSaveFileName = "save_data.zoosave";
 const auto kSaveAppName = "zooshi";
 
 class GameMenuState : public StateNode {

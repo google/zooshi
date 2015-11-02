@@ -5,6 +5,6 @@
   "mixer_channels": 100,
   "mixer_virtual_channels": 150,
   "listeners": 1,
-  "bus_file": "buses.bin"
+  "bus_file": "buses.pinbus"
 }
 
