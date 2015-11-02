@@ -516,7 +516,7 @@ static inline entity::WorldTime CurrentWorldTime(const InputSystem &input) {
 
 static inline entity::WorldTime CurrentWorldTimeSubFrame(
     const InputSystem &input) {
-  return static_cast<entity::WorldTime>(input.CurrentTime() * 1000);
+  return static_cast<entity::WorldTime>(input.RealTime() * 1000);
 }
 
 // Stuff the update thread needs to know about:
