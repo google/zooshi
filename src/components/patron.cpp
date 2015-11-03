@@ -266,7 +266,8 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
 
     if (patron_data->delta_position.TargetTime() <= 0) {
       patron_data->delta_position.Invalidate();
-      if (patron_data->move_state == kPatronMoveStateReturn) {
+      if (patron_data->move_state == kPatronMoveStateReturn ||
+          patron_data->move_state == kPatronMoveFaceRaft) {
         SetMoveState(kPatronMoveStateIdle, patron_data);
         // Back to idle, so resume moving on rails, if it is on one.
         RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
