@@ -59,6 +59,7 @@ struct RailDenizenData {
 
   mathfu::vec3 Position() const { return motivator.Value(); }
   mathfu::vec3 Velocity() const { return motivator.Velocity(); }
+  mathfu::vec3 Direction() const { return motivator.Direction(); }
   float PlaybackRate() const { return playback_rate.Value(); }
 
   float lap;
