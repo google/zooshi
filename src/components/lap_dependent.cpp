@@ -25,7 +25,7 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::LapDependentComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::scene_lab::SceneLab;
+using scene_lab::SceneLab;
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
 

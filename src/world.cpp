@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "breadboard/graph_factory.h"
+#include "component_library/default_entity_factory.h"
 #include "components_generated.h"
 #include "config_generated.h"
 #include "flatbuffers/flatbuffers.h"
@@ -25,13 +26,12 @@
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
 #include "world.h"
-#include "component_library/default_entity_factory.h"
 
 #ifdef ANDROID_CARDBOARD
 #include "fplbase/renderer_hmd.h"
 #endif
 
-using fpl::scene_lab::SceneLab;
+using scene_lab::SceneLab;
 using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;

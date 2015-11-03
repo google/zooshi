@@ -43,7 +43,7 @@ namespace zooshi {
 using fpl::component_library::PhysicsComponent;
 using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::RenderMeshData;
-using fpl::scene_lab::SceneLab;
+using scene_lab::SceneLab;
 
 static const size_t kNumIndicesPerQuad = 6;
 

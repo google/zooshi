@@ -48,7 +48,7 @@ using fpl::component_library::RenderMeshData;
 using fpl::component_library::RigidBodyData;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
-using fpl::scene_lab::SceneLab;
+using scene_lab::SceneLab;
 using fpl::entity::EntityRef;
 using mathfu::kZeros3f;
 using mathfu::quat;

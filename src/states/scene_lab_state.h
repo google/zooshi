@@ -19,16 +19,16 @@
 #include "states/state_machine.h"
 #include "world.h"
 
-namespace fpl {
-
-class InputSystem;
-class Renderer;
-
 namespace scene_lab {
 
 class SceneLab;
 
 }  // namespace scene_lab
+
+namespace fpl {
+
+class InputSystem;
+class Renderer;
 
 namespace zooshi {
 

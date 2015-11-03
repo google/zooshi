@@ -23,16 +23,16 @@
 #include "states/state_machine.h"
 #include "world.h"
 
-namespace fpl {
-
-class Renderer;
-class InputSystem;
-
 namespace scene_lab {
 
 class SceneLab;
 
-}  // editor
+}  // scene_lab
+
+namespace fpl {
+
+class Renderer;
+class InputSystem;
 
 namespace zooshi {
 

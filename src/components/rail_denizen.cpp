@@ -20,8 +20,8 @@
 #include "breadboard/event.h"
 #include "component_library/animation.h"
 #include "component_library/common_services.h"
-#include "component_library/transform.h"
 #include "component_library/graph.h"
+#include "component_library/transform.h"
 #include "components/rail_node.h"
 #include "components/services.h"
 #include "components_generated.h"
@@ -50,7 +50,7 @@ using fpl::component_library::AnimationComponent;
 using fpl::component_library::CommonServicesComponent;
 using fpl::component_library::TransformData;
 using fpl::component_library::TransformComponent;
-using fpl::scene_lab::SceneLab;
+using scene_lab::SceneLab;
 
 void Rail::Positions(float delta_time,
                      std::vector<mathfu::vec3_packed>* positions) const {
@@ -193,7 +193,8 @@ void RailDenizenComponent::InitializeRail(entity::EntityRef& entity) {
     motive::MotiveEngine& engine =
         entity_manager_->GetComponent<AnimationComponent>()->engine();
     data->Initialize(*rail_manager->GetRailFromComponents(
-                         data->rail_name.c_str(), entity_manager_), engine);
+                         data->rail_name.c_str(), entity_manager_),
+                     engine);
   } else {
     LogError("RailDenizen: Error, no rail name specified");
   }

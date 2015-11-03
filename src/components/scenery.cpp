@@ -18,8 +18,8 @@
 #include "component_library/animation.h"
 #include "component_library/rendermesh.h"
 #include "component_library/transform.h"
-#include "components_generated.h"
 #include "components/services.h"
+#include "components_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
 
@@ -35,7 +35,7 @@ using fpl::component_library::RenderMeshComponent;
 using fpl::component_library::TransformComponent;
 using fpl::component_library::TransformData;
 using fpl::entity::EntityRef;
-using fpl::scene_lab::SceneLab;
+using scene_lab::SceneLab;
 using mathfu::vec3;
 using mathfu::kZeros3f;
 
