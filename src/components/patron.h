@@ -270,6 +270,7 @@ class PatronComponent : public entity::Component<PatronData> {
   bool AnimationEnding(const PatronData* patron_data,
                        entity::WorldTime delta_time) const;
   bool HasAnim(const PatronData* patron_data, PatronAction action) const;
+  float AnimLength(const PatronData* patron_data, PatronAction action) const;
   void Animate(PatronData* patron_data, PatronAction action);
   Range TargetHeightRange(const entity::EntityRef& patron) const;
   bool RaftExists() const;
