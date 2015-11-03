@@ -66,7 +66,7 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
   UpdateMainCamera(&main_camera_, world_);
 
   // Return to the title screen after any key is hit.
-  static const entity::WorldTime kMinTimeInEndState = 4000.0f;
+  static const entity::WorldTime kMinTimeInEndState = 8000.0f;
   const bool event_over =
       world_->patron_component.event_time() > kMinTimeInEndState;
   const bool pointer_button_pressed =
