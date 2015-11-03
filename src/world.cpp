@@ -162,6 +162,9 @@ void World::Initialize(const Config& config_, InputSystem* input_system,
   render_mesh_component.set_light_position(vec3(-10, -20, 20));
   render_mesh_component.SetCullDistance(
       config->rendering_config()->cull_distance());
+
+  cardboard_settings_gear =
+      asset_manager->FindMaterial("materials/settings_gear.fplmat");
 }
 
 void World::AddController(BasePlayerController* controller) {

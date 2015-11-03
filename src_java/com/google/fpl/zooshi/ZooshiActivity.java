@@ -16,6 +16,9 @@
 
 package com.google.fpl.zooshi;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
@@ -26,6 +29,11 @@ public class ZooshiActivity extends FPLActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+  }
+
+  @Override
+  protected Drawable GetCardboardButtonDrawable() {
+    return new ColorDrawable(Color.TRANSPARENT);
   }
 }
 
