@@ -350,7 +350,6 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   entity::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   if (!raft) return;
-  TransformData* raft_transform = raft ? Data<TransformData>(raft) : nullptr;
   RailDenizenData* raft_rail_denizen =
       raft ? Data<RailDenizenData>(raft) : nullptr;
   float lap = raft_rail_denizen != nullptr ? raft_rail_denizen->lap : 0.0f;
@@ -410,8 +409,12 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     }
 
     // Determine the patron's distance from the raft.
+    const float disappear_time = AnimLength(patron_data, PatronAction_Fall);
+    const vec3 raft_future_position =
+        raft_rail_denizen->Position() +
+        disappear_time * raft_rail_denizen->Velocity();
     float raft_distance_squared =
-        (transform_data->position - raft_transform->position).LengthSquared();
+        (transform_data->position - raft_future_position).LengthSquared();
     if ((event_time_ >= 0 ||
          raft_distance_squared > patron_data->pop_out_radius_squared) &&
         (state == kPatronStateUpright || state == kPatronStateGettingUp)) {
@@ -502,6 +505,13 @@ bool PatronComponent::HasAnim(const PatronData* patron_data,
                               PatronAction action) const {
   return entity_manager_->GetComponent<AnimationComponent>()->HasAnim(
       patron_data->render_child, action);
+}
+
+float PatronComponent::AnimLength(const PatronData* patron_data,
+                                  PatronAction action) const {
+  return static_cast<float>(
+      entity_manager_->GetComponent<AnimationComponent>()->AnimLength(
+          patron_data->render_child, action));
 }
 
 void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {

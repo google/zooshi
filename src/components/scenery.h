@@ -15,6 +15,7 @@
 #ifndef COMPONENTS_SCENERY_H_
 #define COMPONENTS_SCENERY_H_
 
+#include "components/rail_denizen.h"
 #include "config_generated.h"
 #include "entity/component.h"
 #include "mathfu/glsl_mappings.h"
@@ -69,15 +70,16 @@ class SceneryComponent : public entity::Component<SceneryData> {
                          SceneryState show_override);
 
  private:
-  mathfu::vec3 CenterPosition() const;
+  const RailDenizenData& Raft() const;
   float PopInDistSq() const;
   float PopOutDistSq() const;
   float DistSq(const entity::EntityRef& scenery,
-               const mathfu::vec3& center) const;
+               const RailDenizenData& raft) const;
   float AnimTimeRemaining(const entity::EntityRef& scenery) const;
   bool HasAnim(const SceneryData* scenery_data, SceneryState state) const;
+  float AnimLength(const SceneryData* scenery_data, SceneryState state) const;
   SceneryState NextState(const entity::EntityRef& scenery,
-                         const mathfu::vec3& center) const;
+                         const RailDenizenData& raft) const;
   void Animate(const entity::EntityRef& scenery, SceneryState state);
   void StopAnimating(const entity::EntityRef& scenery);
   void Show(const entity::EntityRef& scenery, bool show);

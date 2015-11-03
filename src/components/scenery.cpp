@@ -97,10 +97,12 @@ void SceneryComponent::PostLoadFixup() {
   }
 }
 
-vec3 SceneryComponent::CenterPosition() const {
+const RailDenizenData& SceneryComponent::Raft() const {
   const entity::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
-  return raft ? Data<TransformData>(raft)->position : kZeros3f;
+  const RailDenizenData* rail_data = Data<RailDenizenData>(raft);
+  assert(rail_data != nullptr);
+  return *rail_data;
 }
 
 float SceneryComponent::PopInDistSq() const {
@@ -116,9 +118,13 @@ float SceneryComponent::PopOutDistSq() const {
 }
 
 float SceneryComponent::DistSq(const entity::EntityRef& scenery,
-                               const vec3& center) const {
+                               const RailDenizenData& raft) const {
+  const SceneryData* scenery_data = Data<SceneryData>(scenery);
   const TransformData* transform_data = Data<TransformData>(scenery);
-  return (transform_data->position - center).LengthSquared();
+  const float disappear_time = AnimLength(scenery_data, kSceneryDisappear);
+  const vec3 pop_out_position =
+      raft.Position() + raft.Velocity() * static_cast<float>(disappear_time);
+  return (transform_data->position - pop_out_position).LengthSquared();
 }
 
 float SceneryComponent::AnimTimeRemaining(
@@ -136,19 +142,26 @@ bool SceneryComponent::HasAnim(const SceneryData* scenery_data,
       scenery_data->render_child, state);
 }
 
+float SceneryComponent::AnimLength(const SceneryData* scenery_data,
+                                   SceneryState state) const {
+  return static_cast<float>(
+      entity_manager_->GetComponent<AnimationComponent>()->AnimLength(
+          scenery_data->render_child, state));
+}
+
 SceneryState SceneryComponent::NextState(const entity::EntityRef& scenery,
-                                         const vec3& center) const {
+                                         const RailDenizenData& raft) const {
   // Check for state transitions.
   SceneryData* scenery_data = Data<SceneryData>(scenery);
   switch (scenery_data->state) {
     case kSceneryHide:
-      if (DistSq(scenery, center) < PopInDistSq()) {
+      if (DistSq(scenery, raft) < PopInDistSq()) {
         return kSceneryAppear;
       }
       break;
 
     case kSceneryShow:
-      if (DistSq(scenery, center) > PopOutDistSq()) {
+      if (DistSq(scenery, raft) > PopOutDistSq()) {
         scenery_data->show_override = kSceneryInvalid;
         return kSceneryDisappear;
       }
@@ -256,14 +269,14 @@ void SceneryComponent::ApplyShowOverride(const entity::EntityRef& scenery,
 }
 
 void SceneryComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  const vec3 center = CenterPosition();
+  const RailDenizenData& raft = Raft();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     entity::EntityRef scenery = iter->entity;
     const SceneryData* scenery_data = Data<SceneryData>(scenery);
 
     // Execute state machine for each piece of scenery.
-    const SceneryState next_state = NextState(scenery, center);
+    const SceneryState next_state = NextState(scenery, raft);
     if (scenery_data->state != next_state) {
       TransitionState(scenery, next_state);
     }
