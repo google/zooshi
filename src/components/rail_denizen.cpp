@@ -116,7 +116,7 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
     if (rail_denizen_data->update_orientation) {
       transform_data->orientation =
           rail_denizen_data->rail_orientation *
-          mathfu::quat::RotateFromTo(rail_denizen_data->Velocity(),
+          mathfu::quat::RotateFromTo(rail_denizen_data->Direction(),
                                      mathfu::kAxisY3f);
     }
 
