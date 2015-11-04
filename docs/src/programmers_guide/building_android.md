@@ -5,7 +5,7 @@ Building for Android    {#zooshi_guide_building_android}
 
 [Zooshi][] is known to build with the following tool versions:
 
--   [Android NDK][]: android-ndk-r10c
+-   [Android NDK][]: android-ndk-r10e
 -   [Android SDK][]: Android 5.0 (API Level 21)
 -   [cwebp][]: 0.4.0 (downloaded from the [WebP Precompiled Utilities][])
 -   [Python][]: 2.7.6
