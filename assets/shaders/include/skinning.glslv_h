@@ -17,7 +17,7 @@ const int kNumFloatsInVec4 = 4;
 // Specifies the maximum number of non-bone float uniforms.
 // This is used to reserve space for non-bone uniforms when allocating space
 // in the 'bone_transforms' array.
-const int kMaxNonBoneFloatUniforms = 96;
+const int kMaxNonBoneFloatUniforms = 32;
 
 // Calculates the number of vectors necessary to support the non-bone uniforms.
 const int kMaxNonBoneVectorUniforms = kMaxNonBoneFloatUniforms /
