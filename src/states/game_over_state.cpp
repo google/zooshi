@@ -120,10 +120,6 @@ void GameOverState::OnEnter(int /*previous_state*/) {
     gpg_manager_->SubmitScore(
         leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str(),
         score);
-
-    // Fill in Leaderboard list.
-    gpg_manager_->ShowLeaderboards(
-        leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str());
   }
 #endif
 }
