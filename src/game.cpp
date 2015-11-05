@@ -513,12 +513,12 @@ void Game::ToggleRelativeMouseMode() {
   input_.SetRelativeMouseMode(relative_mouse_mode_);
 }
 
-static inline entity::WorldTime CurrentWorldTime(const InputSystem &input) {
+static inline entity::WorldTime CurrentWorldTime(const InputSystem& input) {
   return static_cast<entity::WorldTime>(input.Time() * 1000);
 }
 
 static inline entity::WorldTime CurrentWorldTimeSubFrame(
-    const InputSystem &input) {
+    const InputSystem& input) {
   return static_cast<entity::WorldTime>(input.RealTime() * 1000);
 }
 
@@ -526,8 +526,7 @@ static inline entity::WorldTime CurrentWorldTimeSubFrame(
 struct UpdateThreadData {
   UpdateThreadData(bool* exiting, World* world_ptr,
                    StateMachine<kGameStateCount>* statemachine_ptr,
-                   Renderer* renderer_ptr,
-                   InputSystem* input_ptr,
+                   Renderer* renderer_ptr, InputSystem* input_ptr,
                    pindrop::AudioEngine* audio_engine_ptr,
                    GameSynchronization* sync_ptr)
       : game_exiting(exiting),
@@ -541,7 +540,7 @@ struct UpdateThreadData {
   World* world;
   StateMachine<kGameStateCount>* state_machine;
   Renderer* renderer;
-  InputSystem *input;
+  InputSystem* input;
   pindrop::AudioEngine* audio_engine;
   GameSynchronization* sync;
   entity::WorldTime frame_start;
@@ -661,6 +660,20 @@ void Game::Run() {
   last_printout = 0;
 #endif
 
+  // variables used for regulating our framerate:
+  // Total size of our history, in frames:
+  const int kHistorySize = 60 * 5;
+  // Max number of frames we can have dropped in our history, before we
+  // switch to queue-stuffing mode, and ignore vsync pauses.
+  const int kMaxDroppedFrames = 3;
+  // Variable
+  bool missed_frame_history[kHistorySize];
+  for (int i = 0; i < kHistorySize; i++) {
+    missed_frame_history[i] = false;
+  }
+  int history_index = 0;
+  int total_dropped_frames = 0;
+
   global_vsync_context = &sync_;
 #ifdef __ANDROID__
   RegisterVsyncCallback(HandleVsync);
@@ -673,32 +686,42 @@ void Game::Run() {
     assert(false);
   }
 #endif
+  int last_frame_id = 0;
+
   // We basically own the lock all the time, except when we're waiting
   // for a vsync event.
   SDL_LockMutex(sync_.renderthread_mutex_);
-  int last_frame_id = 0;
   while (!input_.exit_requested() && !game_exiting_) {
 #ifdef __ANDROID__
     int current_frame_id = GetVsyncFrameId();
 #else
     int current_frame_id = 0;
 #endif
-    // If we haven't received a vsync since we rendered the last frame,
-    // wait until we get one to draw the next thing.  (If we HAVE received
-    // a vsync since we were here last, then we're behind, and should just
-    // start drawing now to try to catch up.)
-    if (last_frame_id == current_frame_id)
-    {
-      // -------------------------------------------
-      // Steps 1, 2.
-      // Wait for start of frame.  (triggered at vsync start on android.)
-      // -------------------------------------------
-      SDL_CondWait(sync_.start_render_cv_, sync_.renderthread_mutex_);
-      last_frame_id = current_frame_id;
+    // Update our framerate history:
+    // The oldest value falls off and is replaced with the most recent frame.
+    // Also, we update our counts.
+    if (missed_frame_history[history_index]) {
+      total_dropped_frames--;
     }
-    else {
-      // falling through to next frame, so update accordingly.
-      last_frame_id = current_frame_id + 1;
+    // We count it as a dropped frame if more than one vsync event passed since
+    // we started rendering it.  The check is implemented via equality
+    // comparisons because current_frame_id will eventually wrap.)
+    missed_frame_history[history_index] =
+        (current_frame_id != last_frame_id + 1) &&
+        (current_frame_id != last_frame_id);
+    if (missed_frame_history[history_index]) {
+      total_dropped_frames++;
+    }
+    history_index = (history_index + 1) % kHistorySize;
+    last_frame_id = current_frame_id;
+
+    // -------------------------------------------
+    // Steps 1, 2.
+    // Wait for start of frame.  (triggered at vsync start on android.)
+    // For performance, we only wait if we're not dropping frames.  Otherwise,
+    // we just keep rendering as fast as we can and stuff the render queue.
+    if (total_dropped_frames <= kMaxDroppedFrames) {
+      SDL_CondWait(sync_.start_render_cv_, sync_.renderthread_mutex_);
     }
 
     // Grab the lock to make sure the game isn't still updating.
