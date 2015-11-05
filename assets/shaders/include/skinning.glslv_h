@@ -12,16 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const int kNumFloatsInVec4 = 4;
+// Maximum number of animated bones that have vertices weighted to them.
+// If using anim_pipeline to generate the meshes, you can see which bones
+// are assigned indices in the shader by running,
+//     anim_pipeline --info my_model.fbx
+const int kMaxNumShaderBones = 42;
 
-// Specifies the maximum number of non-bone float uniforms.
-// This is used to reserve space for non-bone uniforms when allocating space
-// in the 'bone_transforms' array.
-const int kMaxNonBoneFloatUniforms = 32;
-
-// Calculates the number of vectors necessary to support the non-bone uniforms.
-const int kMaxNonBoneVectorUniforms = kMaxNonBoneFloatUniforms /
-                                      kNumFloatsInVec4;
+// Each bone is an affine transform. Since OpenGL ES2 doesn't support 4x3
+// matrices, we represent the affine transform as three vec4s.
+const int kNumVec4sInAffineTransform = 3;
 
 // Up to four indices into the bone_transforms[] array. Integers.
 // Each vertex is a linear combination of these four transforms.
@@ -37,8 +36,7 @@ attribute vec4 aBoneWeights;
 // Note: To facilitate the max number of bone transforms, while still
 // allowing non-bone uniforms as well, the max size is subtracted by
 // 'kMaxNonBoneVectorUniforms'.
-uniform vec4 bone_transforms[MAX_VERTEX_UNIFORM_COMPONENTS /
-                             kNumFloatsInVec4 - kMaxNonBoneVectorUniforms];
+uniform vec4 bone_transforms[kMaxNumShaderBones * kNumVec4sInAffineTransform];
 
 // Helper function to convert from 3x vec4 from 'bone_transforms' to a mat4.
 // Since we store elements in the 'bone_transforms' as a vec4 array, which
