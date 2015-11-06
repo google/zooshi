@@ -33,18 +33,19 @@ void AndroidCardboardController::UpdateOrientation() {
   facing_.Update();
   up_.Update();
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   // Cardboard uses a different coordinate space than we use, so we have to
   // remap the axes and swap the handedness before we can use the
   // vectors as our facing/up vectors:
-  const vec3 cardboard_forward = input_system_->cardboard_input().forward();
-  const vec3 forward = vec3(cardboard_forward.x(), -cardboard_forward.z(),
-                            cardboard_forward.y());
-  const vec3 cardboard_up = input_system_->cardboard_input().up();
-  const vec3 up = vec3(cardboard_up.x(), -cardboard_up.z(), cardboard_up.y());
+  const HeadMountedDisplayInput& head_mounted_display_input =
+    input_system_->head_mounted_display_input();
+  const vec3 hmd_forward = head_mounted_display_input.forward();
+  const vec3 forward = vec3(hmd_forward.x(), -hmd_forward.z(), hmd_forward.y());
+  const vec3 hmd_up = head_mounted_display_input.up();
+  const vec3 up = vec3(hmd_up.x(), -hmd_up.z(), hmd_up.y());
   facing_.SetValue(forward);
   up_.SetValue(up);
-#endif  // ANDROID_CARDBOARD
+#endif  // ANDROID_HMD
 }
 
 void AndroidCardboardController::UpdateButtons() {
@@ -57,10 +58,10 @@ void AndroidCardboardController::UpdateButtons() {
   if (button->went_down()) {
     last_position_ = pointer->mousepos;
   }
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   buttons_[kFireProjectile].SetValue(
-      input_system_->cardboard_input().triggered());
-#endif  // ANDROID_CARDBOARD
+      input_system_->head_mounted_display_input().triggered());
+#endif  // ANDROID_HMD
 }
 
 }  // fpl_base

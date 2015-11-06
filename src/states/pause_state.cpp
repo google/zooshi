@@ -44,7 +44,7 @@ void PauseState::Initialize(InputSystem* input_system, World* world,
   background_paused_ =
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #else
   (void)config;
@@ -70,6 +70,7 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
   if (*next_state == kGameStateGameplay) {
     audio_engine_->PlaySound(sound_continue_);
   } else if (*next_state == kGameStateGameMenu) {
+    world_->SetIsInCardboard(false);
     audio_engine_->PlaySound(sound_exit_);
   }
 
@@ -121,7 +122,7 @@ void PauseState::RenderPrep(Renderer* renderer) {
 
 void PauseState::Render(Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);

@@ -113,7 +113,7 @@ void GameplayState::RenderPrep(Renderer* renderer) {
 void GameplayState::Render(Renderer* renderer) {
   if (!world_->asset_manager) return;
   Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -151,7 +151,7 @@ void GameplayState::Initialize(
   music_gameplay_lap_2_ = audio_engine->GetSoundHandle("music_gameplay_lap_2");
   music_gameplay_lap_3_ = audio_engine->GetSoundHandle("music_gameplay_lap_3");
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #else
   (void)config;
@@ -186,15 +186,15 @@ void GameplayState::OnEnter(int previous_state) {
   }
 
   if (world_->is_in_cardboard()) {
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
     world_->services_component.set_camera(&cardboard_camera_);
 #endif
   } else {
     world_->services_component.set_camera(&main_camera_);
   }
-#ifdef ANDROID_CARDBOARD
-  input_system_->cardboard_input().ResetHeadTracker();
-#endif  // ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
+  input_system_->head_mounted_display_input().ResetHeadTracker();
+#endif  // ANDROID_HMD
 }
 
 void GameplayState::OnExit(int next_state) {

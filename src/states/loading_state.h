@@ -15,6 +15,7 @@
 #ifndef ZOOSHI_LOADING_STATE_H_
 #define ZOOSHI_LOADING_STATE_H_
 
+#include "fplbase/input.h"  // For ANDROID_HMD definition.
 #include "states/state_machine.h"
 
 namespace pindrop {
@@ -25,12 +26,14 @@ namespace fpl {
 
 class AssetManager;
 class Material;
+class InputSystem;
 class Shader;
 
 namespace zooshi {
 
 struct AssetManifest;
 class FullScreenFader;
+struct World;
 
 class LoadingState : public StateNode {
  public:
@@ -38,14 +41,18 @@ class LoadingState : public StateNode {
       : loading_complete_(false),
         asset_manager_(nullptr),
         asset_manifest_(nullptr),
-        shader_textured_(nullptr) {}
+        shader_textured_(nullptr),
+        world_(nullptr),
+        banner_rotation_(0.0f){}
   virtual ~LoadingState() {}
-  void Initialize(const AssetManifest& asset_manifest,
+  void Initialize(InputSystem *input_system, World *world,
+                  const AssetManifest& asset_manifest,
                   AssetManager* asset_manager,
                   pindrop::AudioEngine* audio_engine, Shader* shader_textured,
                   FullScreenFader* fader);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(Renderer* renderer);
+  virtual void OnEnter(int previous_state);
 
  protected:
   // Set to true when the render thread detetects that all assets have been
@@ -66,6 +73,14 @@ class LoadingState : public StateNode {
   Shader* shader_textured_;
 
   FullScreenFader* fader_;
+
+  World *world_;
+
+  // The input system so that we can get input.
+  InputSystem* input_system_;
+
+  // Rotation around Y of the banner when a VR loading screen is in use.
+  float banner_rotation_;
 };
 
 }  // zooshi

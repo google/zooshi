@@ -71,7 +71,7 @@ class PauseState : public StateNode {
   GameState next_state_;
 
   Camera main_camera_;
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   Camera cardboard_camera_;
 #endif
 };

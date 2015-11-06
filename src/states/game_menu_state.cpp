@@ -30,7 +30,7 @@
 #include "states/states_common.h"
 #include "world.h"
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -84,7 +84,7 @@ void GameMenuState::Initialize(InputSystem* input_system, World* world,
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
   button_back_ = asset_manager_->LoadTexture("textures/ui_button_back.webp");
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
   slider_back_ =
@@ -175,7 +175,7 @@ void GameMenuState::RenderPrep(Renderer* renderer) {
 
 void GameMenuState::Render(Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -216,6 +216,9 @@ void GameMenuState::OnEnter(int /*previous_state*/) {
   input_system_->SetRelativeMouseMode(false);
   world_->ResetControllerFacing();
   menu_state_ = kMenuStateStart;
+#ifdef ANDROID_HMD
+  if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
+#endif  // ANDROID_HMD
 }
 
 void GameMenuState::OnExit(int /*next_state*/) { music_channel_.Stop(); }

@@ -87,7 +87,9 @@ void SceneLabState::HandleUI(Renderer* renderer) {
   scene_lab_->Render(renderer);
 }
 
-void SceneLabState::OnEnter(int /*previous_state*/) { scene_lab_->Activate(); }
+void SceneLabState::OnEnter(int /*previous_state*/) {
+  scene_lab_->Activate();
+}
 
 void SceneLabState::OnExit(int /*next_state*/) { scene_lab_->Deactivate(); }
 

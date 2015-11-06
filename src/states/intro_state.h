@@ -70,9 +70,9 @@ protected:
   pindrop::Bus master_bus_;
 
   Camera main_camera_;
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   Camera cardboard_camera_;
-#endif  // ANDROID_CARDBOARD$
+#endif  // ANDROID_HMD
 };
 
 }  // zooshi

@@ -59,7 +59,7 @@
 #include "fplbase/renderer_android.h"
 #endif
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -79,14 +79,6 @@ using mathfu::quat;
 namespace fpl {
 namespace zooshi {
 
-static const int kQuadNumVertices = 4;
-static const int kQuadNumIndices = 6;
-
-static const unsigned short kQuadIndices[] = {0, 1, 2, 2, 1, 3};
-
-static const Attribute kQuadMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
-                                            kTangent4f, kEND};
-
 static const char kAssetsDir[] = "assets";
 
 static const char kConfigFileName[] = "config.zooconfig";
@@ -95,10 +87,6 @@ static const char kConfigFileName[] = "config.zooconfig";
 static const int kAndroidMaxScreenWidth = 1280;
 static const int kAndroidMaxScreenHeight = 720;
 #endif
-
-static const vec3 kCameraPos = vec3(4, 5, -10);
-static const vec3 kCameraOrientation = vec3(0, 0, 0);
-static const vec3 kLightPos = vec3(0, 20, 20);
 
 static const int kMinUpdateTime = 1000 / 60;
 static const int kMaxUpdateTime = 1000 / 30;
@@ -116,7 +104,7 @@ static const int kUpdateRenderPrepCode = 556;
 /// scanned for this version string.  We track which applications are using it
 /// to measure popularity.  You are free to remove it (of course) but we would
 /// appreciate if you left it in.
-static const char kVersion[] = "FPL Project 0.0.1";
+static const char kVersion[] = "Zooshi";
 
 GameSynchronization::GameSynchronization()
     : renderthread_mutex_(SDL_CreateMutex()),
@@ -159,7 +147,7 @@ bool Game::InitializeRenderer() {
   // Initialize the first frame as black.
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   vec2i size = AndroidGetScalerResolution();
   const vec2i viewport_size =
       size.x() && size.y() ? size : renderer_.window_size();
@@ -174,70 +162,6 @@ bool Game::InitializeRenderer() {
 #endif
 
   return true;
-}
-
-// Initializes 'vertices' at the specified position, aligned up-and-down.
-// 'vertices' must be an array of length kQuadNumVertices.
-static void CreateVerticalQuad(const vec3& offset, const vec2& geo_size,
-                               const vec2& texture_coord_size,
-                               NormalMappedVertex* vertices) {
-  const float half_width = geo_size[0] * 0.5f;
-  const vec3 bottom_left = offset + vec3(-half_width, 0.0f, 0.0f);
-  const vec3 top_right = offset + vec3(half_width, 0.0f, geo_size[1]);
-
-  vertices[0].pos = bottom_left;
-  vertices[1].pos = vec3(top_right[0], offset[1], bottom_left[2]);
-  vertices[2].pos = vec3(bottom_left[0], offset[1], top_right[2]);
-  vertices[3].pos = top_right;
-
-  const float coord_half_width = texture_coord_size[0] * 0.5f;
-  const vec2 coord_bottom_left(0.5f - coord_half_width, 1.0f);
-  const vec2 coord_top_right(0.5f + coord_half_width,
-                             1.0f - texture_coord_size[1]);
-
-  vertices[0].tc = coord_bottom_left;
-  vertices[1].tc = vec2(coord_top_right[0], coord_bottom_left[1]);
-  vertices[2].tc = vec2(coord_bottom_left[0], coord_top_right[1]);
-  vertices[3].tc = coord_top_right;
-
-  Mesh::ComputeNormalsTangents(vertices, &kQuadIndices[0], kQuadNumVertices,
-                               kQuadNumIndices);
-}
-
-// Creates a mesh of a single quad (two triangles) vertically upright.
-// The quad's has x and y size determined by the size of the texture.
-// The quad is offset in (x,y,z) space by the 'offset' variable.
-// Returns a mesh with the quad and texture, or nullptr if anything went wrong.
-Mesh* Game::CreateVerticalQuadMesh(const char* material_name,
-                                   const vec3& offset, const vec2& pixel_bounds,
-                                   float pixel_to_world_scale) {
-  // Don't try to load obviously invalid materials. Suppresses error logs from
-  // the material manager.
-  if (material_name == nullptr || material_name[0] == '\0') return nullptr;
-
-  // Load the material from file, and check validity.
-  Material* material = asset_manager_.LoadMaterial(material_name);
-  bool material_valid = material != nullptr && material->textures().size() > 0;
-  if (!material_valid) return nullptr;
-
-  // Create vertex geometry in proportion to the texture size.
-  // This is nice for the artist since everything is at the scale of the
-  // original artwork.
-  assert(pixel_bounds.x() && pixel_bounds.y());
-  const vec2 texture_size = vec2(mathfu::RoundUpToPowerOf2(pixel_bounds.x()),
-                                 mathfu::RoundUpToPowerOf2(pixel_bounds.y()));
-  const vec2 texture_coord_size = pixel_bounds / texture_size;
-  const vec2 geo_size = pixel_bounds * vec2(pixel_to_world_scale);
-
-  // Initialize a vertex array in the requested position.
-  NormalMappedVertex vertices[kQuadNumVertices];
-  CreateVerticalQuad(offset, geo_size, texture_coord_size, vertices);
-
-  // Create mesh and add in quad indices.
-  Mesh* mesh = new Mesh(vertices, kQuadNumVertices, sizeof(NormalMappedVertex),
-                        kQuadMeshFormat);
-  mesh->AddIndices(kQuadIndices, kQuadNumIndices, material);
-  return mesh;
 }
 
 // In our game, `anim_name` is the same as the animation file. Use it directly
@@ -371,9 +295,9 @@ bool Game::Initialize(const char* const binary_directory) {
 
   input_.Initialize();
   input_.AddAppEventCallback(AudioEngineVolumeControl(&audio_engine_));
-#ifdef ANDROID_CARDBOARD
-  input_.cardboard_input().EnableDeviceOrientationCorrection();
-#endif  // ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
+  input_.head_mounted_display_input().EnableDeviceOrientationCorrection();
+#endif  // ANDROID_HMD
 
   SystraceInit();
 
@@ -475,8 +399,8 @@ bool Game::Initialize(const char* const binary_directory) {
   fader_.Init(fader_material, shader_textured_);
 
   const Config* config = &GetConfig();
-  loading_state_.Initialize(asset_manifest, &asset_manager_, &audio_engine_,
-                            shader_textured_, &fader_);
+  loading_state_.Initialize(&input_, &world_, asset_manifest, &asset_manager_,
+                            &audio_engine_, shader_textured_, &fader_);
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
                           &font_manager_, &audio_engine_);
   gameplay_state_.Initialize(&input_, &world_, config, &GetInputConfig(),
@@ -498,6 +422,12 @@ bool Game::Initialize(const char* const binary_directory) {
   state_machine_.AssignState(kGameStateGameOver, &game_over_state_);
   state_machine_.AssignState(kGameStateSceneLab, &scene_lab_state_);
   state_machine_.SetCurrentStateId(kGameStateLoading);
+
+#ifdef ANDROID_HMD
+  if (AndroidGetActivityName() == "com.google.fpl.zooshi.ZooshiHmdActivity") {
+    world_.SetIsInCardboard(true);
+  }
+#endif  // ANDROID_HMD
 
   LogInfo("Initialization complete\n");
   return true;

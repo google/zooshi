@@ -71,7 +71,7 @@ class GameplayState : public StateNode {
   entity::EntityManager* entity_manager_;
 
   Camera main_camera_;
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
   Camera cardboard_camera_;
 #endif
 

@@ -102,10 +102,6 @@ class Game {
   bool InitializeAssets();
   void InitializeBreadboardModules();
 
-  Mesh* CreateVerticalQuadMesh(const char* material_name,
-                               const mathfu::vec3& offset,
-                               const mathfu::vec2& pixel_bounds,
-                               float pixel_to_world_scale);
   void Update(entity::WorldTime delta_time);
   void UpdateMainCamera();
   void UpdateMainCameraAndroid();

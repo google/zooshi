@@ -27,7 +27,7 @@
 #include "rail_def_generated.h"
 #include "world.h"
 
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -202,9 +202,9 @@ void World::SetIsInCardboard(bool in_cardboard) {
   if (is_in_cardboard_ != in_cardboard) {
     is_in_cardboard_ = in_cardboard;
 // Turn on the Cardboard setting button when in Cardboard mode.
-#ifdef ANDROID_CARDBOARD
+#ifdef ANDROID_HMD
     SetCardboardButtonEnabled(in_cardboard);
-#endif  // ANDROID_CARDBOARD
+#endif  // ANDROID_HMD
   }
 }
 

@@ -60,13 +60,12 @@ main() {
     ${FPLUTIL}/bin/build_all_android.py \
       --apk_keypk8 ${key_dir}/zooshi.pk8 \
       --apk_keypem ${key_dir}/zooshi.x509.pem \
-      -E dependencies google-play-services \
+      -E dependencies google-play-services_lib \
       -S "$@" ${additional_args}
   else
     echo "${key_dir} not found, skipping signing step." >&2
     ${FPLUTIL}/bin/build_all_android.py \
-      -E dependencies google-play-services \
-      google-play-services_lib -S "$@" ${additional_args}
+      -E dependencies google-play-services_lib -S "$@" ${additional_args}
   fi
 }
 
