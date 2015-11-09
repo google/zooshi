@@ -135,8 +135,8 @@ struct World {
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
   OnscreenControllerUI onscreen_controller_ui;
 #ifdef ANDROID_HMD
-  BasePlayerController *hmd_controller;
-  BasePlayerController *onscreen_controller;
+  BasePlayerController* hmd_controller;
+  BasePlayerController* onscreen_controller;
 #endif  // ANDROID_HMD
 
   // TODO: Refactor all components so they don't require their source
@@ -169,6 +169,9 @@ struct World {
 
   void SetHmdControllerEnabled(bool enabled) {
 #ifdef ANDROID_HMD
+    // hmd_controller can be NULL if the device does not support a head mounted
+    // display like Cardboard (e.g lacks a gyro), onscreen_controller can be
+    // NULL if support is compiled out.
     if (hmd_controller && onscreen_controller) {
       hmd_controller->set_enabled(enabled);
       onscreen_controller->set_enabled(!enabled);
@@ -183,7 +186,7 @@ struct World {
 #ifdef ANDROID_HMD
     return hmd_controller && hmd_controller->enabled();
 #else
-	return false;
+    return false;
 #endif  // ANDROID_HMD
   }
 

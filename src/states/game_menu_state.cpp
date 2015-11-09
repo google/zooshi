@@ -45,14 +45,11 @@ using mathfu::quat;
 namespace fpl {
 namespace zooshi {
 
-void GameMenuState::Initialize(InputSystem* input_system, World* world,
-                               const Config* config,
-                               AssetManager* asset_manager,
-                               FontManager* font_manager,
-                               const AssetManifest* manifest,
-                               GPGManager* gpg_manager,
-                               pindrop::AudioEngine* audio_engine,
-                               FullScreenFader* fader) {
+void GameMenuState::Initialize(
+    InputSystem* input_system, World* world, const Config* config,
+    AssetManager* asset_manager, FontManager* font_manager,
+    const AssetManifest* manifest, GPGManager* gpg_manager,
+    pindrop::AudioEngine* audio_engine, FullScreenFader* fader) {
   world_ = world;
 
   // Set references used in GUI.
@@ -152,7 +149,7 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateIntro;
-	world_->SetHmdControllerEnabled(true);
+    world_->SetHmdControllerEnabled(true);
     world_->SetIsInCardboard(true);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateGamepad) {
@@ -162,8 +159,8 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
   } else if (menu_state_ == kMenuStateQuit) {
     fader_->AdvanceFrame(delta_time);
     // Perform a roughly inverse logarithmic fade out.
-    master_bus_.SetGain(cos(fader_->GetOffset() * 0.5f *
-                            static_cast<float>(M_PI)));
+    master_bus_.SetGain(
+        cos(fader_->GetOffset() * 0.5f * static_cast<float>(M_PI)));
     if (fader_->Finished()) {
       *next_state = kGameStateExit;
     }
@@ -194,13 +191,13 @@ void GameMenuState::HandleUI(Renderer* renderer) {
       menu_state_ = OptionMenu(*asset_manager_, *font_manager_, *input_system_);
       break;
 
-  case kMenuStateQuit: {
+    case kMenuStateQuit: {
       gui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
-          gui::CustomElement(gui::GetVirtualResolution(), "fader", [&](
-                             const vec2i& /*pos*/, const vec2i& /*size*/) {
-                fader_->Render(renderer);
-              });
-          });
+        gui::CustomElement(gui::GetVirtualResolution(), "fader",
+                           [&](const vec2i& /*pos*/, const vec2i& /*size*/) {
+                             fader_->Render(renderer);
+                           });
+      });
       break;
     }
 
@@ -239,8 +236,8 @@ void GameMenuState::LoadData() {
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
 #ifdef ANDROID_HMD
-    world_->SetHmdControllerEnabled(
-        save_data->gyroscopic_controls_enabled() != 0);
+    world_->SetHmdControllerEnabled(save_data->gyroscopic_controls_enabled() !=
+                                    0);
 #endif  // ANDROID_HMD
   }
 }
