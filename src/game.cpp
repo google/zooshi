@@ -36,6 +36,7 @@
 #include "mathfu/vector.h"
 #include "module_library/animation.h"
 #include "module_library/audio.h"
+#include "module_library/default_graph_factory.h"
 #include "module_library/entity.h"
 #include "module_library/physics.h"
 #include "module_library/transform.h"
@@ -53,7 +54,6 @@
 #include "motive/util/benchmark.h"
 #include "pindrop/pindrop.h"
 #include "world.h"
-#include "zooshi_graph_factory.h"
 
 #ifdef __ANDROID__
 #include "fplbase/renderer_android.h"
@@ -115,7 +115,7 @@ GameSynchronization::GameSynchronization()
 
 Game::Game()
     : asset_manager_(renderer_),
-      graph_factory_(&module_registry_, &LoadFile, &audio_engine_),
+      graph_factory_(&module_registry_, &LoadFile),
       shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       game_exiting_(false),
@@ -232,6 +232,7 @@ void BreadboardLogFunc(const char* fmt, va_list args) { LogError(fmt, args); }
 
 void Game::InitializeBreadboardModules() {
   breadboard::RegisterLogFunc(BreadboardLogFunc);
+  graph_factory_.set_audio_engine(&audio_engine_);
 
   // Common module initialization.
   breadboard::InitializeCommonModules(&module_registry_);

@@ -151,6 +151,7 @@ file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
     -I ${dependencies_component_library_dir}/schemas
+    -I ${dependencies_module_library_dir}/schemas
     -I ${dependencies_scene_lab_dir}/schemas
     -I ${dependencies_fplbase_dir}/schemas
     -I ${dependencies_motive_dir}/schemas
@@ -176,6 +177,7 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
         motive_generated_includes
         pindrop_generated_includes
         component_library_generated_includes
+        breadboard_module_library_generated_includes
         ${flatbuffers_schema})
   list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_include})
   # Generate the binary schema files as well.
@@ -190,6 +192,7 @@ foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
         motive_generated_includes
         pindrop_generated_includes
         component_library_generated_includes
+        breadboard_module_library_generated_includes
         ${flatbuffers_schema})
   # Temporarily don't generate all binary schemas until b/22063091 is fixed.
   # list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_binary_schema})
@@ -266,6 +269,7 @@ set(zooshi_SRCS
     src/components/time_limit.cpp
     src/components/time_limit.h
     src/default_entity_factory.cpp
+    src/default_graph_factory.cpp
     src/full_screen_fader.cpp
     src/full_screen_fader.h
     src/game.cpp
@@ -318,8 +322,6 @@ set(zooshi_SRCS
     src/world.h
     src/world_renderer.cpp
     src/world_renderer.h
-    src/zooshi_graph_factory.cpp
-    src/zooshi_graph_factory.h
     # For outputting flatbuffer files as json.
     ${dependencies_flatbuffers_dir}/src/idl_parser.cpp
     ${dependencies_flatbuffers_dir}/src/idl_gen_text.cpp
@@ -336,6 +338,10 @@ get_property(COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
              TARGET component_library_generated_includes
              PROPERTY COMPONENT_LIBRARY_DIR)
 include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+get_property(BREADBOARD_MODULE_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
+             TARGET breadboard_module_library_generated_includes
+             PROPERTY BREADBOARD_MODULE_LIBRARY_DIR)
+include_directories(${BREADBOARD_MODULE_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR
              TARGET fplbase_generated_includes PROPERTY FPLBASE_DIR)
 include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
@@ -402,6 +408,7 @@ add_executable(zooshi ${zooshi_SRCS})
 if(NOT zooshi_only_flatc)
   # Additional flags for the target.
   mathfu_configure_flags(zooshi)
+  breadboard_module_library_configure_flags(zooshi)
 endif()
 
 # Dependencies for the executable target.

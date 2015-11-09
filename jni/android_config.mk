@@ -36,6 +36,9 @@ DEPENDENCIES_ENTITY_DIR?=$(FPL_ROOT)/entity
 DEPENDENCIES_COMPONENT_LIBRARY_DIR?=$(DEPENDENCIES_ENTITY_DIR)/component_library
 # Location of the breadboard library.
 DEPENDENCIES_BREADBOARD_DIR?=$(FPL_ROOT)/breadboard
+# Location of the breadboard module library's module collection.
+DEPENDENCIES_BREADBOARD_MODULE_LIBRARY_DIR?=\
+    $(DEPENDENCIES_BREADBOARD_DIR)/module_library
 # Location of the Flatbuffers library.
 DEPENDENCIES_FLATBUFFERS_DIR?=$(FPL_ROOT)/flatbuffers
 # Location of the Pindrop library.

@@ -12,64 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-include "common.fbs";
 include "attributes.fbs";
+include "common_modules.fbs";
+include "pindrop_module.fbs";
+include "mathfu_module.fbs";
+include "corgi_module.fbs";
 
-namespace fpl.zooshi.graph;
-
-table Pulse {
-}
-
-table Bool {
-  value:bool;
-}
-
-table Int {
-  value:int;
-}
-
-table Float {
-  value:float;
-}
-
-table String {
-  value:string;
-}
-
-table Entity {
-}
-
-table Vec3 {
-  value:fpl.Vec3;
-}
-
-table SoundHandle {
-  value:string;
-}
-
-table AudioChannel {
-}
-
-table OutputEdgeTarget {
-  node_index:int;
-  edge_index:int;
-}
-
-// Max exists to act as a sentinal value when parsing.
-table Max {}
+namespace fpl.zooshi;
 
 union InputType {
-  Pulse,
-  Bool,
-  Int,
-  Float,
-  String,
-  Entity,
-  Vec3,
-  SoundHandle,
-  AudioChannel,
-  OutputEdgeTarget,
-  Max
+  breadboard.module_library.OutputEdgeTarget,
+  breadboard.module_library.Pulse,
+  breadboard.module_library.Bool,
+  breadboard.module_library.Int,
+  breadboard.module_library.Float,
+  breadboard.module_library.String,
+  breadboard.module_library.Entity,
+  breadboard.module_library.Vec3,
+  breadboard.module_library.SoundHandle,
+  breadboard.module_library.AudioChannel,
 }
 
 table InputEdgeDef {
