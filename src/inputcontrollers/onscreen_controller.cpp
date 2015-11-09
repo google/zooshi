@@ -48,7 +48,7 @@ void OnscreenController::UpdateButtons() {
 void OnscreenControllerUI::Update(AssetManager* asset_manager,
                                   FontManager* font_manager,
                                   const vec2i& window_size) {
-  if (controller_) {
+  if (controller_ && controller_->enabled()) {
     // Size of the controller.
     static const vec2 kSize(200.0f);
     static const vec2 kHalfSize(100.0f);

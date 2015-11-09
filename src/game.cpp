@@ -340,23 +340,30 @@ bool Game::Initialize(const char* const binary_directory) {
                     scene_lab_.get());
 
 #ifdef __ANDROID__
-  if (SupportsHeadMountedDisplay() && !ZOOSHI_FORCE_ONSCREEN_CONTROLLER) {
+  if (SupportsHeadMountedDisplay()) {
     BasePlayerController* controller = new AndroidCardboardController();
     controller->set_input_config(&GetInputConfig());
     controller->set_input_system(&input_);
+    controller->set_enabled(ZOOSHI_FORCE_ONSCREEN_CONTROLLER == 0);
     world_.AddController(controller);
+    world_.hmd_controller = controller;
   }
 #endif  // __ANDROID__
 
 // If this is a mobile platform or the onscreen controller is forced on
 // instance the onscreen controller.
 #if defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
-  if (!SupportsHeadMountedDisplay() || ZOOSHI_FORCE_ONSCREEN_CONTROLLER) {
+  {
     OnscreenController* onscreen_controller = new OnscreenController();
     onscreen_controller->set_input_config(&GetInputConfig());
     onscreen_controller->set_input_system(&input_);
+    onscreen_controller->set_enabled(!SupportsHeadMountedDisplay() ||
+                                     ZOOSHI_FORCE_ONSCREEN_CONTROLLER);
     world_.AddController(onscreen_controller);
     world_.onscreen_controller_ui.set_controller(onscreen_controller);
+#ifdef ANDROID_HMD
+    world_.onscreen_controller = onscreen_controller;
+#endif  // ANDROID_HMD
   }
 #endif  // defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
 

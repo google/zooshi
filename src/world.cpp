@@ -177,7 +177,8 @@ void World::SetActiveController(ControllerType controller_type) {
   for (auto it = input_controllers.begin(); it != input_controllers.end();
        ++it) {
     BasePlayerController* controller = it->get();
-    if (controller->controller_type() == controller_type) {
+    if (controller->controller_type() == controller_type &&
+        controller->enabled()) {
       for (auto iter = player_component.begin(); iter != player_component.end();
            ++iter) {
         entity_manager.GetComponentData<PlayerData>(iter->entity)

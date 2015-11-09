@@ -21,6 +21,9 @@ namespace fpl;
 table SaveData {
   effect_volume:float;
   music_volume:float;
+  // Only used on touch devices that support head mounted displays
+  // (Android at the moment).
+  gyroscopic_controls_enabled:byte = 1;
 }
 
 root_type SaveData;

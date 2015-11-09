@@ -152,6 +152,7 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateIntro;
+	world_->SetHmdControllerEnabled(true);
     world_->SetIsInCardboard(true);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateGamepad) {
@@ -219,6 +220,7 @@ void GameMenuState::OnEnter(int /*previous_state*/) {
 #ifdef ANDROID_HMD
   if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
 #endif  // ANDROID_HMD
+  LoadData();
 }
 
 void GameMenuState::OnExit(int /*next_state*/) { music_channel_.Stop(); }
@@ -236,6 +238,10 @@ void GameMenuState::LoadData() {
     auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
+#ifdef ANDROID_HMD
+    world_->SetHmdControllerEnabled(
+        save_data->gyroscopic_controls_enabled() != 0);
+#endif  // ANDROID_HMD
   }
 }
 
@@ -245,6 +251,10 @@ void GameMenuState::SaveData() {
   SaveDataBuilder builder(fbb);
   builder.add_effect_volume(slider_value_effect_);
   builder.add_music_volume(slider_value_music_);
+#ifdef ANDROID_HMD
+  builder.add_gyroscopic_controls_enabled(
+      world_->GetHmdControllerEnabled() ? 1 : 0);
+#endif  // ANDROID_HMD
   auto offset = builder.Finish();
   FinishSaveDataBuffer(fbb, offset);
 

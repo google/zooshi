@@ -58,7 +58,7 @@ enum ControllerType { kControllerDefault, kControllerGamepad };
 class BasePlayerController {
  public:
   BasePlayerController(ControllerType controller_type = kControllerDefault)
-      : last_position_(-1), controller_type_(controller_type) {
+      : last_position_(-1), controller_type_(controller_type), enabled_(true) {
     facing_.SetValue(kCameraForward);
     facing_.Update();
     up_.SetValue(kCameraUp);
@@ -93,6 +93,9 @@ class BasePlayerController {
     input_config_ = input_config;
   }
 
+  void set_enabled(bool enabled) { enabled_ = enabled; }
+  bool enabled() const { return enabled_; }
+
  protected:
   LogicalButton buttons_[kLogicalButtonCount];
   LogicalVector facing_;
@@ -107,6 +110,8 @@ class BasePlayerController {
 
   InputSystem* input_system_;
   const InputConfig* input_config_;
+
+  bool enabled_;
 };
 
 }  // zooshi

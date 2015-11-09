@@ -76,7 +76,12 @@ struct World {
   World()
       : draw_debug_physics(false),
         skip_rendermesh_rendering(false),
-        is_in_cardboard_(false) {}
+        is_in_cardboard_(false) {
+#ifdef ANDROID_HMD
+    hmd_controller = nullptr;
+    onscreen_controller = nullptr;
+#endif  // ANDROID_HMD
+  }
 
   void Initialize(const Config& config, InputSystem* input_system,
                   AssetManager* asset_mgr, WorldRenderer* worldrenderer,
@@ -129,6 +134,10 @@ struct World {
 
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
   OnscreenControllerUI onscreen_controller_ui;
+#ifdef ANDROID_HMD
+  BasePlayerController *hmd_controller;
+  BasePlayerController *onscreen_controller;
+#endif  // ANDROID_HMD
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,
@@ -157,6 +166,24 @@ struct World {
 
   bool is_in_cardboard() const { return is_in_cardboard_; }
   void SetIsInCardboard(bool in_cardboard);
+
+  void SetHmdControllerEnabled(bool enabled) {
+#ifdef ANDROID_HMD
+    if (hmd_controller && onscreen_controller) {
+      hmd_controller->set_enabled(enabled);
+      onscreen_controller->set_enabled(!enabled);
+      SetActiveController(kControllerDefault);
+    }
+#endif  // ANDROID_HMD
+  }
+
+  bool GetHmdControllerEnabled() const {
+#ifdef ANDROID_HMD
+    return hmd_controller && hmd_controller->enabled();
+#else
+	return false;
+#endif  // ANDROID_HMD
+  }
 
  private:
   // Determines if the game is in Cardboard mode (for special rendering).

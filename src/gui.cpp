@@ -267,14 +267,28 @@ void GameMenuState::OptionMenuMain() {
   gui::SetTextColor(kColorBrown);
 #endif
 
-  if (TextButton("Licenses", kButtonSize, gui::Margin(2))&  gui::kEventWentUp) {
+  if (TextButton("Licenses", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
     scroll_offset_ = mathfu::kZeros2f;
     options_menu_state_ = kOptionsMenuStateLicenses;
   }
 
-  if (TextButton("Audio", kButtonSize, gui::Margin(2))&  gui::kEventWentUp) {
+  if (TextButton("Audio", kButtonSize, gui::Margin(2)) & gui::kEventWentUp) {
     options_menu_state_ = kOptionsMenuStateAudio;
   }
+
+#ifdef ANDROID_HMD
+  // If the device supports a head mounted display allow the user to toggle
+  // between gyroscopic and onscreen controls.
+  if (SupportsHeadMountedDisplay()) {
+    const bool hmd_controller_enabled = world_->GetHmdControllerEnabled();
+    if (TextButton(hmd_controller_enabled ? "Gyroscopic Controls" :
+                   "Onscreen Controls", kButtonSize, gui::Margin(2)) &
+        gui::kEventWentUp) {
+      world_->SetHmdControllerEnabled(!hmd_controller_enabled);
+      SaveData();
+    }
+  }
+#endif  // ANDROID_HMD
 }
 
 void GameMenuState::OptionMenuAbout() {
