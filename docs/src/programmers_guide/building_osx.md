@@ -47,8 +47,19 @@ directory.
 
 # Building with Xcode
 
--   Double-click on `zooshi/zooshi.xcodeproj` to open the project in
-    [Xcode][].
+-   Open the `zooshi/zooshi.xcodeproj` project using [Xcode][] from the command
+    line:
+~~~{.sh}
+   cd zooshi
+   open zooshi.xcodeproj
+~~~
+    It's important to open the project from the command line so the modified
+    `PATH` variable is available in [Xcode][].  Failure to launch from the
+    command line can result in build errors due `Xcode` being unable to find
+    tools (like `cwebp`).  An alternative would be to either install tools in
+    system bin directories (e.g /usr/bin) or modify the system wide `PATH`
+    variable (using [environment.plist][]) to include paths to all required
+    tools.
 -   Select `Product-->Build` from the menu.
 
 You can also build the game from the command-line.
@@ -86,3 +97,4 @@ For example:
   [Xcode]: http://developer.apple.com/xcode/
   [Xquartz]: http://xquartz.macosforge.org
   [Zooshi]: @ref zooshi_guide_overview
+  [environment.plist]: https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPRuntimeConfig/Articles/EnvironmentVars.html
