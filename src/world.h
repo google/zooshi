@@ -174,6 +174,8 @@ struct World {
       onscreen_controller->set_enabled(!enabled);
       SetActiveController(kControllerDefault);
     }
+#else
+    (void)enabled;
 #endif  // ANDROID_HMD
   }
 
