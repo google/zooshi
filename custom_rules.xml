@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<project name="setup_fplbase_and_gpg">
+<project name="setup_fplbase_and_libraries">
   <!--Get the location of fplbase by running ndk-build print_dependency.-->
   <condition property="ndkbuild_exe" value="ndk-build.cmd" else="ndk-build">
     <os family="windows"/>
@@ -47,7 +47,17 @@ limitations under the License.
     </exec>
   </target>
 
+  <target name="initialize-android-support_lib"
+          description="Initialize Android Support library in the project.">
+    <!-- Copy the library to the project. -->
+    <copy todir="libs">
+      <fileset file="${sdk.dir}/extras/android/support/v4/android-support-v4.jar"/>
+    </copy>
+  </target>
+
   <target name="-pre-build" depends="fplbase.setup-fplbase,
-                                     initialize-google-play-games_lib"/>
-  <target name="-pre-clean" depends="initialize-google-play-games_lib" />
+                                     initialize-google-play-games_lib,
+                                     initialize-android-support_lib"/>
+  <target name="-pre-clean" depends="initialize-google-play-games_lib,
+                                     initialize-android-support_lib" />
 </project>
