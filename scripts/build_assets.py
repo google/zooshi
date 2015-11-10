@@ -26,6 +26,7 @@ generated files, you can call this script with the argument 'clean'.
 
 import argparse
 import distutils.dep_util
+import distutils.dir_util
 import distutils.spawn
 import glob
 import json
@@ -365,7 +366,6 @@ class ImageMagickPathResolver(DefaultPathResolver):
                             components[component_index + 1:])
 
 
-# TODO: Use distutils.dep_util.
 class FlatbuffersConversionData(object):
   """Holds data needed to convert a set of json files to flatbuffer binaries.
 
@@ -413,8 +413,7 @@ def run_subprocess(argv, capture=False):
   Raises:
     BuildError: If the command fails.
   """
-  if VERBOSE:
-    logging.debug(*argv)
+  logging.debug(' '.join(argv))
   try:
     if capture:
       process = subprocess.Popen(args=argv, bufsize=-1, stdout=subprocess.PIPE)
@@ -426,287 +425,6 @@ def run_subprocess(argv, capture=False):
   if process.returncode:
     raise BuildError(argv, process.returncode)
   return stdout
-
-
-# Directories containing projects this script depends upon.
-BREADBOARD_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                              'breadboard'))
-CORGI_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                         'entity'))
-FLATBUFFERS_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                               'flatbuffers'))
-FPLBASE_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                           'fplbase'))
-MOTIVE_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                          'motive'))
-PINDROP_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                           'pindrop'))
-SCENE_LAB_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                             'scene_lab'))
-
-# Location of FlatBuffers compiler.
-# This is usually built from source in which case the binary directory is
-# specified as a script argument.
-FLATC = BinaryPath(
-    ['bin',
-     os.path.join('bin', 'Release'),
-     os.path.join('bin', 'Debug'),
-     str(FLATBUFFERS_ROOT),
-     os.path.join(str(FLATBUFFERS_ROOT), 'bin'),
-     os.path.join(str(FLATBUFFERS_ROOT), 'Debug'),
-     os.path.join(str(FLATBUFFERS_ROOT), 'Release')], 'flatc')
-
-# Location of webp compression tool.
-CWEBP = BinaryPath(
-    ['bin',
-     os.path.join('bin', 'Release'),
-     os.path.join('bin', 'Debug'),
-     os.path.join(DefaultPathResolver.PREBUILTS_ROOT,
-                  'libwebp', '%s-x86' % platform.system().lower(),
-                  'libwebp-0.4.1-%s-x86-32' % platform.system().lower(),
-                  'bin')], 'cwebp')
-
-# Location of mesh_pipeline conversion tool.
-MESH_PIPELINE = BinaryPath(
-    [os.path.join(str(FPLBASE_ROOT), 'bin', platform.system(), p)
-     for p in ('', 'Debug', 'Release')], 'mesh_pipeline')
-
-# Location of the anim_pipeline conversion tool.
-ANIM_PIPELINE = BinaryPath(
-    [os.path.join(str(MOTIVE_ROOT), 'bin', platform.system(), p)
-     for p in ('', 'Debug', 'Release')], 'anim_pipeline')
-
-# Location of imagemagick tools.
-IMAGEMAGICK_BINARY_DIR = os.path.join(
-    DefaultPathResolver.PREBUILTS_ROOT, ImageMagickPathResolver.IMAGEMAGICK_BIN)
-IMAGEMAGICK_IDENTIFY = BinaryPath([IMAGEMAGICK_BINARY_DIR], 'identify')
-IMAGEMAGICK_CONVERT = BinaryPath([IMAGEMAGICK_BINARY_DIR], 'convert')
-
-# Graphics magick optionally overrides imagemagick tools.
-GRAPHICSMAGICK = BinaryPath([''], 'gm')
-
-# What level of quality we want to apply to the webp files.
-# Ranges from 0 to 100.
-WEBP_QUALITY = 90
-
-# Maximum width or height of a tga image
-MAX_TGA_SIZE = 1024
-
-# Display commands executed by run_subprocess().
-VERBOSE = False
-
-
-# =============================================================================
-# Project specific constants below
-# =============================================================================
-
-# The project root directory, which is one level up from this script's
-# directory.
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                            os.path.pardir))
-
-# ============================================================================
-# Below are the *internal* resource paths (i.e these are static and don't
-# move when dependent projects are relocated).
-# ============================================================================
-
-# Directory to place processed assets.
-ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
-
-# Directory where unprocessed assets can be found.
-RAW_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'src', 'rawassets')
-
-# Metadata file for assets. Store extra file-specific information here.
-ASSET_META = os.path.join(RAW_ASSETS_PATH, 'asset_meta.json')
-
-# Directory for unprocessed assets not in the main code-base.
-# NOTE: No need for expansion as this isn't redistributed.
-INTERNAL_ASSETS_PATH = os.path.join(
-    os.path.abspath(os.path.join(os.path.join(PROJECT_ROOT),
-                                 os.path.pardir, 'fpl_internal')),
-    'zooshi', 'rawassets')
-
-# Directory where unprocessed rail flatbuffer data can be found.
-RAW_RAIL_PATH = os.path.join(RAW_ASSETS_PATH, 'rails')
-
-# Directory where unprocessed event graph flatbuffer data can be found.
-RAW_GRAPH_DEF_PATH = os.path.join(RAW_ASSETS_PATH, 'graphs')
-
-# Directory where unprocessed sound flatbuffer data can be found.
-RAW_SOUND_PATH = os.path.join(RAW_ASSETS_PATH, 'sounds')
-
-# Directory where unprocessed sound flatbuffer data can be found.
-RAW_SOUND_BANK_PATH = os.path.join(RAW_ASSETS_PATH, 'sound_banks')
-
-# Directory where unprocessed material flatbuffer data can be found.
-RAW_MATERIAL_PATH = os.path.join(RAW_ASSETS_PATH, 'materials')
-
-# Directory where unprocessed textures can be found.
-TEXTURE_REL_DIR = 'textures'
-RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, TEXTURE_REL_DIR)
-
-# Directory where unprocessed FBX files can be found.
-MESH_REL_DIR = 'meshes'
-RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, MESH_REL_DIR)
-
-# Directory for textures outside of the main code-base.
-INTERNAL_TEXTURE_PATH = os.path.join(INTERNAL_ASSETS_PATH, TEXTURE_REL_DIR)
-
-# Directory where unprocessed FBX files can be found.
-INTERNAL_MESH_PATH = os.path.join(INTERNAL_ASSETS_PATH, MESH_REL_DIR)
-
-# Directory where png files are written to before they are converted to webp.
-INTERMEDIATE_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'obj', 'assets')
-
-# Directory where png files are written to before they are converted to webp.
-INTERMEDIATE_TEXTURE_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH,
-                                         TEXTURE_REL_DIR)
-
-# Directory where png files are written to before they are converted to webp.
-INTERMEDIATE_MESH_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH, MESH_REL_DIR)
-
-# Directories for animations.
-RAW_ANIM_PATH = os.path.join(RAW_ASSETS_PATH, 'anims')
-INTERNAL_ANIM_PATH = os.path.join(INTERNAL_ASSETS_PATH, 'anims')
-
-# Directory inside the assets directory where flatbuffer schemas are copied.
-SCHEMA_OUTPUT_PATH = 'flatbufferschemas'
-
-# ============================================================================
-# The following constants reference data in external components.
-# ============================================================================
-
-# Location of flatbuffer schemas in this project.
-PROJECT_SCHEMA_PATH = DependencyPath(os.path.join('src', 'flatbufferschemas'))
-
-# A list of json files and their schemas that will be converted to binary files
-# by the flatbuffer compiler.
-FLATBUFFERS_CONVERSION_DATA = [
-    FlatbuffersConversionData(
-        schema=PROJECT_SCHEMA_PATH.join('config.fbs'),
-        extension='.zooconfig',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'config.json'),]),
-    FlatbuffersConversionData(
-        schema=PROJECT_SCHEMA_PATH.join('components.fbs'),
-        extension='.zooentity',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_prototypes.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_rails.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_list.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_ring.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_decorations.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json')]),
-    FlatbuffersConversionData(
-        schema=PROJECT_SCHEMA_PATH.join('rail_def.fbs'),
-        extension='.rail',
-        input_files=glob.glob(os.path.join(RAW_RAIL_PATH, '*.json'))),
-    FlatbuffersConversionData(
-        schema=PINDROP_ROOT.join('schemas', 'audio_config.fbs'),
-        extension='.pinconfig',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'audio_config.json')]),
-    FlatbuffersConversionData(
-        schema=PROJECT_SCHEMA_PATH.join('input_config.fbs'),
-        extension='.zooinconfig',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'input_config.json')]),
-    FlatbuffersConversionData(
-        schema=PROJECT_SCHEMA_PATH.join('assets.fbs'),
-        extension='.zooassets',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'assets.json')]),
-    FlatbuffersConversionData(
-        schema=PINDROP_ROOT.join('schemas', 'buses.fbs'),
-        extension='.pinbus',
-        input_files=[os.path.join(RAW_ASSETS_PATH, 'buses.json')]),
-    FlatbuffersConversionData(
-        schema=PINDROP_ROOT.join('schemas', 'sound_bank_def.fbs'),
-        extension='.pinbank',
-        input_files=glob.glob(os.path.join(RAW_SOUND_BANK_PATH, '*.json'))),
-    FlatbuffersConversionData(
-        schema=PINDROP_ROOT.join('schemas', 'sound_collection_def.fbs'),
-        extension='.pinsound',
-        input_files=glob.glob(os.path.join(RAW_SOUND_PATH, '*.json'))),
-    FlatbuffersConversionData(
-        schema=FPLBASE_ROOT.join('schemas', 'materials.fbs'),
-        extension='.fplmat',
-        input_files=glob.glob(os.path.join(RAW_MATERIAL_PATH, '*.json'))),
-    FlatbuffersConversionData(
-        schema=FPLBASE_ROOT.join('schemas', 'mesh.fbs'),
-        extension='.fplmesh',
-        input_files=glob.glob(os.path.join(RAW_MESH_PATH, '*.json'))),
-    FlatbuffersConversionData(
-        schema=PROJECT_SCHEMA_PATH.join('graph.fbs'),
-        extension='.bbgraph',
-        input_files=glob.glob(os.path.join(RAW_GRAPH_DEF_PATH, '*.json'))),
-    # Empty file lists to make other project schemas available to include.
-    FlatbuffersConversionData(
-        schema=BREADBOARD_ROOT.join('module_library', 'schemas',
-                                    'common_modules.fbs'),
-        extension='', input_files=[]),
-    FlatbuffersConversionData(
-        schema=CORGI_ROOT.join('component_library', 'schemas',
-                               'bullet_def.fbs'),
-        extension='', input_files=[]),
-    FlatbuffersConversionData(
-        schema=MOTIVE_ROOT.join('schemas', 'anim_table.fbs'),
-        extension='', input_files=[]),
-    FlatbuffersConversionData(
-        schema=SCENE_LAB_ROOT.join('schemas', 'editor_components.fbs'),
-        extension='', input_files=[]),
-]
-
-
-def target_file_name(path, target_directory, target_extension):
-  """Take the path to a raw png asset and convert it to target webp path.
-
-  Args:
-    path: Source file path.
-    target_directory: Path to put the target assets.
-    target_extension: Extension of target assets.
-
-  Returns:
-    Path to the webp file generated from the png file.
-  """
-  no_path = path.replace(RAW_ASSETS_PATH, '').replace(
-      INTERNAL_ASSETS_PATH, '').replace(INTERMEDIATE_ASSETS_PATH, '')
-  no_ext = os.path.splitext(no_path)[0]
-  target = target_directory + no_ext + '.' + target_extension
-  return target
-
-
-def intermediate_texture_path(path):
-  """Take the path to an image and convert it to an intermediate png path.
-
-  Args:
-    path: Path to the target assets directory.
-
-  Returns:
-    Path to intermediate png file generated from an image path.
-  """
-  return target_file_name(path, INTERMEDIATE_ASSETS_PATH, 'png')
-
-
-def processed_texture_path(path, target_directory):
-  """Take the path to a raw png asset and convert it to target webp path.
-
-  Args:
-    path: Path to the source image file.
-    target_directory: Path to the target assets directory.
-
-  Returns:
-    Path to processed webp.
-  """
-  return target_file_name(path, target_directory, 'webp')
-
-
-def processed_anim_path(path, target_directory):
-  """Take the path to a raw anim asset and convert it to target anim path.
-
-  Args:
-    path: Path to the source animation file.
-    target_directory: Path to the target assets directory.
-
-  Returns:
-    Path to output animation file.
-  """
-  return target_file_name(path, target_directory, 'motiveanim')
 
 
 def convert_json_to_flatbuffer_binary(flatc, json_path, schema, out_dir,
@@ -901,74 +619,38 @@ class Image(object):
     run_subprocess(convert_args)
 
 
-def texture_size_upper_bound(filename, meta):
-  """Returns the maximum texture size for this filename.
-
-  First checks the metadata file to see if the maximum texture size was
-  specified there. If not, return the default maximum size.
-
-  Args:
-    filename: Texture file name.
-    meta: Metadata object. Queriable on keys with [].
-
-  Returns:
-    Upper bound of the texture size.
-  """
-  meta_upper_bound = meta_value(filename, meta['mesh_meta'], 'texture_size')
-  if meta_upper_bound is None:
-    return MAX_TGA_SIZE
-  return meta_upper_bound
-
-
-def convert_png_image_to_webp(cwebp, png, out, quality, meta):
-  """Run the webp converter on the given png file.
-
-  Args:
-    cwebp: Path to the cwebp binary.
-    png: The path to the png file to convert into a webp file.
-    out: The path of the webp to write to.
-    quality: The quality of the processed image, where quality is between 0
-        (poor) to 100 (very good). Typical value is around 80.
-    meta: Metadata object. Queriable on keys with [].
-
-  Raises:
-    BuildError: Process return code was nonzero.
-  """
-  size_upper_bound = texture_size_upper_bound(png, meta)
-  image = Image.read_attributes(png, size_upper_bound)
-  target_image_size = image.calculate_power_of_two_size()
-  if target_image_size != image.size:
-    logging.info('Resizing %s from (%d, %d) to (%d, %d)',
-                 png, image.size[0], image.size[1], target_image_size[0],
-                 target_image_size[1])
-
-  command = [cwebp, '-resize', str(target_image_size[0]),
-             str(target_image_size[1]), '-q', str(quality), png, '-o', out]
-  run_subprocess(command)
-
-
-def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, unit,
-                                          texture_formats, recenter,
-                                          hierarchy, mesh_relative_dir):
+def convert_fbx_mesh_to_flatbuffer_binary(mesh_pipeline, fbx, asset_directory,
+                                          relative_path, unit, texture_formats,
+                                          recenter, hierarchy):
   """Run the mesh_pipeline on the given fbx file.
 
   Args:
+    mesh_pipeline: Path to the mesh_pipeline binary.
     fbx: The path to the fbx file to convert into a flatbuffer binary.
-    target_directory: The path of the flatbuffer binary to write to.
+    asset_directory: Root directory for assets used by the application's
+      runtime.
+    relative_path: Directory relative to the asset directory to write the mesh
+      flatbuffer and its' dependencies.  This is currently required so that
+      it's possible to read dependencies of a mesh (e.g materials) from the
+      asset_directory.
     unit: The unit in the fbx model that you want to be 1 unit in the game.
     texture_formats: String containing of texture formats to pass to the
       mesh_pipeline tool.
     recenter: Whether to recenter the exported mesh at the origin.
     hierarchy: Whether to transform vertices relative to the local pivot of
       each submesh.
-    mesh_relative_dir: Directory to place mesh data.
 
   Raises:
-    BuildError: Process return code was nonzero.
+    BuildError: Process return code was nonzero or the mesh_pipeline path
+      was not specified.
   """
-  command = [MESH_PIPELINE.resolve(), '--details', '--texture-extension',
-             'webp', '--axes', 'z+y+x', '--unit', unit, '--base-dir',
-             target_directory, '--relative-dir', mesh_relative_dir]
+  if not mesh_pipeline:
+    raise BuildError([mesh_pipeline], 1,
+                     'mesh_pipeline not found, unable to generate fplbase mesh '
+                     'binaries.')
+  command = [mesh_pipeline, '--details', '--texture-extension',
+             'webp', '--axes', 'z+y+x', '--unit', unit,
+             '--base-dir', asset_directory, '--relative-dir', relative_path]
   if texture_formats is not None:
     command.append('-f')
     command.append(texture_formats)
@@ -980,100 +662,83 @@ def convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, unit,
   run_subprocess(command)
 
 
-def convert_fbx_anim_to_flatbuffer_binary(fbx, repeat, target):
+def processed_file_path(source_path, asset_roots, target_directory,
+                        target_extension):
+  """Take the path to an asset and convert it to target path.
+
+  Args:
+    source_path: Path to the source file.
+    asset_roots: List of potential root directories each input file.
+    target_directory: Path to the target assets directory.
+    target_extension: Extension of the target file.
+
+  Returns:
+    Tuple (target_file, relative_path) where target_file is a path to the
+    target file derived from the source path and relative_path is a relative
+    path to the target file from the matching asset root.
+  """
+  relative_path = source_path
+  for asset_root in asset_roots:
+    if source_path.startswith(asset_root):
+      relative_path = os.path.relpath(source_path, asset_root)
+      break
+  return (os.path.join(target_directory, os.path.splitext(relative_path)[0] +
+                       os.path.extsep + target_extension),
+          os.path.dirname(relative_path))
+
+
+def generate_mesh_binaries(mesh_pipeline, input_files, asset_roots,
+                           target_directory, meta):
+  """Run the mesh pipeline on the all of the FBX files.
+
+  Args:
+    mesh_pipeline: Path to the mesh_pipeline binary.
+    input_files: List of fbx files to convert.
+    asset_roots: List of potential root directories each input file.
+    target_directory: Path to the target assets directory.
+    meta: Metadata object.
+
+  Raises:
+    BuildError: mesh_pipeline path was not specified.
+  """
+  for fbx in input_files:
+    target, relative_path = processed_file_path(fbx, asset_roots,
+                                                target_directory, 'fplmesh')
+    texture_formats = meta_value(fbx, meta['mesh_meta'], 'texture_format')
+    recenter = meta_value(fbx, meta['mesh_meta'], 'recenter')
+    hierarchy = meta_value(fbx, meta['mesh_meta'], 'hierarchy')
+    unit_meta = meta_value(fbx, meta['mesh_meta'], 'unit')
+    unit = 'cm' if unit_meta is None else unit_meta
+    if distutils.dep_util.newer_group([fbx, mesh_pipeline], target):
+      convert_fbx_mesh_to_flatbuffer_binary(
+          mesh_pipeline, fbx, target_directory, relative_path, unit,
+          texture_formats, recenter, hierarchy)
+
+
+def convert_fbx_anim_to_flatbuffer_binary(anim_pipeline, fbx, repeat, target):
   """Run the anim_pipeline on the given fbx file.
 
   Args:
+    anim_pipeline: Path to the anim_pipeline tool.
     fbx: The path to the fbx file to convert into a flatbuffer binary.
     repeat: Whether the animation should loop / repeat.
     target: The path of the flatbuffer binary to write to.
 
   Raises:
-    BuildError: Process return code was nonzero.
+    BuildError: Process return code was nonzero or the anim_pipeline path was
+      not specified.
   """
-  command = [ANIM_PIPELINE.resolve(), '--details', '--out', target]
+  if not anim_pipeline:
+    raise BuildError([anim_pipeline], 1,
+                     'anim_pipeline not found, unable to generate motive '
+                     'animation files.')
+  command = [anim_pipeline, '--details', '--out', target]
   if repeat == 0:
     command.append('--norepeat')
   elif repeat == 1:
     command.append('--repeat')
   command.append(fbx)
   run_subprocess(command)
-
-
-def needs_rebuild(source, target):
-  """Checks if the source file needs to be rebuilt.
-
-  Args:
-    source: The source file to be compared.
-    target: The target file which we may need to rebuild.
-
-  Returns:
-    True if the source file is newer than the target, or if the target file
-    does not exist.
-  """
-  return not os.path.isfile(target) or (
-      os.path.getmtime(source) > os.path.getmtime(target))
-
-
-def processed_mesh_path(path, target_directory):
-  """Take the path to an fbx asset and convert it to target mesh path.
-
-  Args:
-    path: Path to the source mesh file.
-    target_directory: Path to the target assets directory.
-
-  Returns:
-    Path to the target mesh.
-  """
-  return path.replace(RAW_ASSETS_PATH, target_directory).replace(
-      INTERNAL_ASSETS_PATH, target_directory).replace('.fbx', '.fplmesh')
-
-
-def processed_json_path(path, target_directory, target_extension):
-  """Take the path to a raw json asset and convert it to target bin path.
-
-  Args:
-    path: Path to the source JSON file.
-    target_directory: Path to the target assets directory.
-    target_extension: Extension of the target file.
-
-  Returns:
-    Path to the target file from the source JSON.
-  """
-  return path.replace(RAW_ASSETS_PATH, target_directory).replace(
-      '.json', target_extension)
-
-
-def fbx_files_to_convert():
-  """FBX files to convert to fplmesh."""
-  return (glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx')) +
-          glob.glob(os.path.join(INTERNAL_MESH_PATH, '*.fbx')))
-
-
-def texture_files(extension):
-  """List of files with `extension` in the texture paths."""
-  return (glob.glob(os.path.join(RAW_TEXTURE_PATH, extension)) +
-          glob.glob(os.path.join(RAW_MESH_PATH, extension)) +
-          glob.glob(os.path.join(INTERNAL_TEXTURE_PATH, extension)) +
-          glob.glob(os.path.join(INTERNAL_MESH_PATH, extension)) +
-          glob.glob(os.path.join(INTERMEDIATE_TEXTURE_PATH, extension)) +
-          glob.glob(os.path.join(INTERMEDIATE_MESH_PATH, extension)))
-
-
-def png_files_to_convert():
-  """PNG files to convert to webp."""
-  return texture_files('*.png')
-
-
-def tga_files_to_convert():
-  """TGA files to convert to png."""
-  return texture_files('*.tga')
-
-
-def anim_files_to_convert():
-  """FBX files to convert to `.motiveanim`."""
-  return (glob.glob(os.path.join(RAW_ANIM_PATH, '*.fbx')) +
-          glob.glob(os.path.join(INTERNAL_ANIM_PATH, '*.fbx')))
 
 
 def meta_value(file_name, meta_table, key):
@@ -1093,96 +758,105 @@ def meta_value(file_name, meta_table, key):
   return None
 
 
-def generate_mesh_binaries(target_directory, meta):
-  """Run the mesh pipeline on the all of the FBX files.
+def texture_size_upper_bound(filename, meta, max_texture_size):
+  """Returns the maximum texture size for this filename.
+
+  First checks the metadata file to see if the maximum texture size was
+  specified there. If not, return the default maximum size.
 
   Args:
-    target_directory: Path to the target assets directory.
-    meta: Metadata object.
+    filename: Texture file name.
+    meta: Metadata object. Queriable on keys with [].
+      Retrieves mesh_meta.texture_format where mesh_meta.name matches filename.
+    max_texture_size: Maximum size of the texture's dimension.
+
+  Returns:
+    Upper bound of the texture size.
   """
-  input_files = fbx_files_to_convert()
-  for fbx in input_files:
-    target = processed_mesh_path(fbx, target_directory)
-    texture_formats = meta_value(fbx, meta['mesh_meta'], 'texture_format')
-    recenter = meta_value(fbx, meta['mesh_meta'], 'recenter')
-    hierarchy = meta_value(fbx, meta['mesh_meta'], 'hierarchy')
-    unit_meta = meta_value(fbx, meta['mesh_meta'], 'unit')
-    unit = 'cm' if unit_meta is None else unit_meta
-    if needs_rebuild(fbx, target) or needs_rebuild(MESH_PIPELINE.resolve(),
-                                                   target):
-      convert_fbx_mesh_to_flatbuffer_binary(fbx, target_directory, unit,
-                                            texture_formats, recenter,
-                                            hierarchy, MESH_REL_DIR)
+  meta_upper_bound = meta_value(filename, meta['mesh_meta'], 'texture_size')
+  return meta_upper_bound if meta_upper_bound else max_texture_size
 
 
-def generate_anim_binaries(target_directory, meta):
-  """Run the mesh pipeline on the all of the FBX files.
+def convert_png_image_to_webp(cwebp, png, out, quality, meta,
+                              max_texture_size):
+  """Run the webp converter on the given png file.
 
   Args:
+    cwebp: Path to the cwebp binary.
+    png: The path to the png file to convert into a webp file.
+    out: The path of the webp to write to.
+    quality: The quality of the processed image, where quality is between 0
+        (poor) to 100 (very good). Typical value is around 80.
+    meta: Metadata object. Queriable on keys with [].
+    max_texture_size: Maximum size of the texture.
+
+  Raises:
+    BuildError: Process return code was nonzero or the cwebp path isn't
+      specified.
+  """
+  if not cwebp:
+    raise BuildError([cwebp], 1,
+                     'cwebp not found, unable to compress textures.')
+  size_upper_bound = texture_size_upper_bound(png, meta, max_texture_size)
+  image = Image.read_attributes(png, size_upper_bound)
+  target_image_size = image.calculate_power_of_two_size()
+  if target_image_size != image.size:
+    logging.info('Resizing %s from (%d, %d) to (%d, %d)',
+                 png, image.size[0], image.size[1], target_image_size[0],
+                 target_image_size[1])
+
+  command = [cwebp, '-resize', str(target_image_size[0]),
+             str(target_image_size[1]), '-q', str(quality), png, '-o', out]
+  run_subprocess(command)
+
+
+def generate_anim_binaries(anim_pipeline, input_files, asset_roots,
+                           target_directory, meta):
+  """Run the anim pipeline on the all specified FBX files.
+
+  Args:
+    anim_pipeline: Path to anim_pipeline tool.
+    input_files: Files to convert.
+    asset_roots: List of potential root directories each input file.
     target_directory: Path to the target assets directory.
     meta: Metadata object. Queriable on keys with [].
+
+  Raises:
+    BuildError: If the anim_pipeline path isn't specified.
   """
-  input_files = anim_files_to_convert()
   for fbx in input_files:
-    target = processed_anim_path(fbx, target_directory)
+    target = processed_file_path(fbx, asset_roots, target_directory,
+                                 'motiveanim')[0]
     repeat = meta_value(fbx, meta['anim_meta'], 'repeat')
-    if needs_rebuild(fbx, target) or needs_rebuild(ANIM_PIPELINE.resolve(),
-                                                   target):
-      convert_fbx_anim_to_flatbuffer_binary(fbx, repeat, target)
+    if distutils.dep_util.newer_group([fbx, anim_pipeline], target):
+      convert_fbx_anim_to_flatbuffer_binary(anim_pipeline, fbx, repeat, target)
 
 
-def generate_flatbuffer_binaries(flatc, target_directory,
-                                 conversion_data_list,
-                                 schema_output_path):
-  """Run the flatbuffer compiler on the all of the flatbuffer json files.
+def generate_png_textures(input_files, asset_roots, target_directory, meta,
+                          max_texture_size):
+  """Run the image converter to convert tga to png files and resize.
 
   Args:
-    flatc: Path to the flatc binary.
+    input_files: Files to convert.
+    asset_roots: List of potential root directories each input file.
     target_directory: Path to the target assets directory.
-    conversion_data_list: List of FlatbuffersConversionData instances that
-      reference the JSON files that are going to be converted to binary data
-      and their associated schemas.
-    schema_output_path: Path to copy schemas to.
-  """
-  for element in conversion_data_list:
-    schema = element.schema.resolve()
-    target_schema = os.path.join(target_directory, schema_output_path,
-                                 os.path.basename(schema))
-    if needs_rebuild(schema, target_schema):
-      if not os.path.exists(os.path.dirname(target_schema)):
-        os.makedirs(os.path.dirname(target_schema))
-      shutil.copy2(schema, target_schema)
-    for json_file in element.input_files:
-      target = processed_json_path(json_file, target_directory,
-                                   element.extension)
-      target_file_dir = os.path.dirname(target)
-      if not os.path.exists(target_file_dir):
-        os.makedirs(target_file_dir)
-      if needs_rebuild(json_file, target) or needs_rebuild(schema, target):
-        convert_json_to_flatbuffer_binary(
-            flatc, json_file, schema, target_file_dir, conversion_data_list)
-
-
-def generate_png_textures(meta):
-  """Run the imange converter to convert tga to png files and resize.
-
-  Args:
     meta: Metadata object. Queriable on keys with [].
+    max_texture_size: Maximum size of all textures.
   """
-  input_files = tga_files_to_convert()
   for tga in input_files:
-    out = intermediate_texture_path(tga)
+    out = processed_file_path(tga, asset_roots, target_directory, 'png')[0]
     out_dir = os.path.dirname(out)
     if not os.path.exists(out_dir):
       os.makedirs(out_dir)
-    if needs_rebuild(tga, out):
-      size_upper_bound = texture_size_upper_bound(tga, meta)
+    if distutils.dep_util.newer(tga, out):
+      size_upper_bound = texture_size_upper_bound(tga, meta, max_texture_size)
       image = Image.read_attributes(tga, size_upper_bound)
       image.convert_resize_image(
           out, image.calculate_power_of_two_size())
 
 
-def generate_webp_textures(cwebp, target_directory, meta):
+def generate_webp_textures(cwebp, input_files, asset_roots, target_directory,
+                           meta, max_texture_size):
   """Run the webp converter on off of the png files.
 
   Search for the PNG files lazily, since the mesh pipeline may
@@ -1190,82 +864,427 @@ def generate_webp_textures(cwebp, target_directory, meta):
 
   Args:
     cwebp: Path to the cwebp binary.
+    input_files: Files to convert.
+    asset_roots: List of potential root directories each input file.
     target_directory: Path to the target assets directory.
     meta: Metadata object. Queriable on keys with [].
+    max_texture_size: Maximum size of all textures.
+
+  Raises:
+    BuildError: If the cwebp path isn't specified.
   """
-  input_files = png_files_to_convert()
   for png in input_files:
-    out = processed_texture_path(png, target_directory)
+    out = processed_file_path(png, asset_roots, target_directory, 'webp')[0]
     out_dir = os.path.dirname(out)
     if not os.path.exists(out_dir):
       os.makedirs(out_dir)
-    if needs_rebuild(png, out):
-      convert_png_image_to_webp(cwebp, png, out, WEBP_QUALITY, meta)
+    if distutils.dep_util.newer(png, out):
+      convert_png_image_to_webp(cwebp, png, out, WEBP_QUALITY, meta,
+                                max_texture_size)
 
 
-def copy_assets(target_directory):
-  """Copy modified assets to the target assets directory.
-
-  All files are copied from ASSETS_PATH to the specified target_directory if
-  they're newer than the destination files.
-
-  Args:
-    target_directory: Directory to copy assets to.
-  """
-  assets_dir = target_directory
-  source_dir = os.path.realpath(ASSETS_PATH)
-  if source_dir != os.path.realpath(assets_dir):
-    for dirpath, _, files in os.walk(source_dir):
-      for name in files:
-        source_filename = os.path.join(dirpath, name)
-        relative_source_dir = os.path.relpath(source_filename, source_dir)
-        target_dir = os.path.dirname(os.path.join(assets_dir,
-                                                  relative_source_dir))
-        target_filename = os.path.join(target_dir, name)
-        if not os.path.exists(target_dir):
-          os.makedirs(target_dir)
-        if (not os.path.exists(target_filename) or
-            (os.path.getmtime(target_filename) <
-             os.path.getmtime(source_filename))):
-          shutil.copy2(source_filename, target_filename)
-
-
-def clean_webp_textures(target_directory):
-  """Delete all the processed webp textures.
+def generate_flatbuffer_binaries(flatc, conversion_data_list,
+                                 asset_roots, target_directory,
+                                 schema_output_path):
+  """Run the flatbuffer compiler on the all of the flatbuffer json files.
 
   Args:
+    flatc: Path to the flatc binary.
+    conversion_data_list: List of FlatbuffersConversionData instances that
+      reference the JSON files that are going to be converted to binary data
+      and their associated schemas.
+    asset_roots: List of potential root directories each input file.
     target_directory: Path to the target assets directory.
+    schema_output_path: Path to copy schemas to.
+
+  Raises:
+    BuildError: If flatc path isn't specified.
   """
-  input_files = png_files_to_convert()
-  for png in input_files:
-    webp = processed_texture_path(png, target_directory)
-    if os.path.isfile(webp):
-      os.remove(webp)
+  if not flatc:
+    raise BuildError([flatc], 1, 'flatc not found, unable to generate '
+                     'flatbuffer binaries.')
+  for element in conversion_data_list:
+    schema = element.schema.resolve()
+    target_schema = os.path.join(target_directory, schema_output_path,
+                                 os.path.basename(schema))
+    if distutils.dep_util.newer(schema, target_schema):
+      if not os.path.exists(os.path.dirname(target_schema)):
+        os.makedirs(os.path.dirname(target_schema))
+      shutil.copy2(schema, target_schema)
+    for json_file in element.input_files:
+      target = processed_file_path(json_file, asset_roots, target_directory,
+                                   element.extension)[0]
+      target_file_dir = os.path.dirname(target)
+      if not os.path.exists(target_file_dir):
+        os.makedirs(target_file_dir)
+      if distutils.dep_util.newer_group([json_file, schema], target):
+        convert_json_to_flatbuffer_binary(
+            flatc, json_file, schema, target_file_dir, conversion_data_list)
 
 
-def clean_flatbuffer_binaries(target_directory):
+def input_files_add_overlays(input_files, input_roots, overlay_roots):
+  """Search overlay directories for files that could replace input files.
+
+  Args:
+    input_files: List of input files.
+    input_roots: Root directories for input files.
+    overlay_roots: List of overlay directories (relative to input_root) which
+      can optionally contain files to process in addition to each file in
+      input_files.
+      For example,
+        given input_root = 'a/b/c'
+        input_files[0] = 'a/b/c/d/e.data'
+        overlay_root[0] = 'overlay'
+      will result in search for
+        'a/b/c/overlay/d/e.data'
+
+      If the target file is found, it's added to the returned list.
+
+  Returns:
+    List of files to process including files from the specified overlay
+    directories.
+  """
+  file_list = list(input_files)
+  for input_file in input_files:
+    input_file_relative = ''
+    input_root = ''
+    for current_input_root in input_roots:
+      if input_file.startswith(input_root):
+        input_file_relative = os.path.relpath(input_file, current_input_root)
+        input_root = current_input_root
+        break
+    if input_file_relative and input_root:
+      for overlay_root in overlay_roots:
+        overlay_file = os.path.join(input_root, overlay_root,
+                                    input_file_relative)
+        if os.path.exists(overlay_file):
+          file_list.append(overlay_file)
+  return file_list
+
+
+def flatbuffers_conversion_data_add_overlays(conversion_data_list,
+                                             input_root, overlay_roots):
+  """Expand the list of flatbuffer files with overlay files.
+
+  See input_files_add_overlays for the algorithm used to match
+  overlay files.
+
+  Args:
+    conversion_data_list: List of FlatbuffersConversionData to expand with
+      overlay files.
+    input_root: Root directory for input files.
+    overlay_roots: List of overlay directories (relative to input_root) which
+      can optionally contain files to process in addition to each file in
+      input_files.
+
+  Returns:
+    List of FlatbuffersConversionData instances containing overlay files.
+  """
+  processed_list = []
+  for conversion_data in conversion_data_list:
+    processed_list.append(FlatbuffersConversionData(
+        schema=conversion_data.schema,
+        extension=conversion_data.extension,
+        input_files=input_files_add_overlays(
+            conversion_data.input_files, input_root, overlay_roots)))
+  return processed_list
+
+
+def clean_files(input_files, asset_roots, target_directory, extension):
+  """Delete all the processed files.
+
+  Args:
+    input_files: Source files.
+    asset_roots: List of potential root directories each input file.
+    target_directory: Path to the target assets directory.
+    extension: Extension of each output file.
+  """
+  for input_file in input_files:
+    output_file = processed_file_path(input_file, asset_roots, target_directory,
+                                      extension)[0]
+    if os.path.isfile(output_file):
+      logging.debug('Removing %s', output_file)
+      os.remove(output_file)
+
+
+def clean_flatbuffer_binaries(conversion_data_list, asset_roots,
+                              target_directory):
   """Delete all the processed flatbuffer binaries.
 
   Args:
+    conversion_data_list: List of FlatbuffersConversionData instances that
+      reference the JSON files that are going to be converted to binary data
+      and their associated schemas.
+    asset_roots: List of potential root directories each input file.
     target_directory: Path to the target assets directory.
   """
-  for element in FLATBUFFERS_CONVERSION_DATA:
+  for element in conversion_data_list:
     for json_file in element.input_files:
-      path = processed_json_path(json_file, target_directory, element.extension)
+      path = processed_file_path(json_file, asset_roots, target_directory,
+                                 element.extension)[0]
       if os.path.isfile(path):
+        logging.debug('Removing %s', path)
         os.remove(path)
 
 
-def clean(target_directory):
-  """Delete all the processed files."""
-  clean_flatbuffer_binaries(target_directory)
-  clean_webp_textures(target_directory)
+def clean(target_directory, asset_roots, conversion_data_list,
+          input_files_extensions_dict):
+  """Delete all the processed files.
+
+  Args:
+    target_directory: Asset output directory.
+    asset_roots: List of potential root directories each input file.
+    conversion_data_list: List of FlatbuffersConversionData instances that
+      reference the JSON files that are going to be converted to binary data
+      and their associated schemas.
+    input_files_extensions_dict: Lists of input files keyed by output filename
+      extension.
+  """
+  clean_flatbuffer_binaries(conversion_data_list, asset_roots, target_directory)
+  for extension, input_files in input_files_extensions_dict.iteritems():
+    clean_files(input_files, asset_roots, target_directory, extension)
 
 
-def handle_build_error(error):
-  """Prints an error message to stderr for BuildErrors."""
-  logging.error('Error running command `%s`. Returned %s.\n%s\n',
-                ' '.join(error.argv), str(error.error_code), str(error.message))
+# Directories containing projects this script depends upon.
+BREADBOARD_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
+                                              'breadboard'))
+CORGI_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
+                                         'entity'))
+FLATBUFFERS_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
+                                               'flatbuffers'))
+FPLBASE_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
+                                           'fplbase'))
+MOTIVE_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
+                                          'motive'))
+PINDROP_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
+                                           'pindrop'))
+SCENE_LAB_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
+                                             'scene_lab'))
+
+# Location of FlatBuffers compiler.
+# This is usually built from source in which case the binary directory is
+# specified as a script argument.
+FLATC = BinaryPath(
+    ['bin',
+     os.path.join('bin', 'Release'),
+     os.path.join('bin', 'Debug'),
+     str(FLATBUFFERS_ROOT),
+     os.path.join(str(FLATBUFFERS_ROOT), 'bin'),
+     os.path.join(str(FLATBUFFERS_ROOT), 'Debug'),
+     os.path.join(str(FLATBUFFERS_ROOT), 'Release')], 'flatc')
+
+# Location of webp compression tool.
+CWEBP = BinaryPath(
+    ['bin',
+     os.path.join('bin', 'Release'),
+     os.path.join('bin', 'Debug'),
+     os.path.join(DefaultPathResolver.PREBUILTS_ROOT,
+                  'libwebp', '%s-x86' % platform.system().lower(),
+                  'libwebp-0.4.1-%s-x86-32' % platform.system().lower(),
+                  'bin')], 'cwebp')
+
+# Location of mesh_pipeline conversion tool.
+MESH_PIPELINE = BinaryPath(
+    [os.path.join(str(FPLBASE_ROOT), 'bin', platform.system(), p)
+     for p in ('', 'Debug', 'Release')], 'mesh_pipeline')
+
+# Location of the anim_pipeline conversion tool.
+ANIM_PIPELINE = BinaryPath(
+    [os.path.join(str(MOTIVE_ROOT), 'bin', platform.system(), p)
+     for p in ('', 'Debug', 'Release')], 'anim_pipeline')
+
+# Location of imagemagick tools.
+IMAGEMAGICK_BINARY_DIR = os.path.join(
+    DefaultPathResolver.PREBUILTS_ROOT, ImageMagickPathResolver.IMAGEMAGICK_BIN)
+IMAGEMAGICK_IDENTIFY = BinaryPath([IMAGEMAGICK_BINARY_DIR], 'identify')
+IMAGEMAGICK_CONVERT = BinaryPath([IMAGEMAGICK_BINARY_DIR], 'convert')
+
+# Graphics magick optionally overrides imagemagick tools.
+GRAPHICSMAGICK = BinaryPath([''], 'gm')
+
+# What level of quality we want to apply to the webp files.
+# Ranges from 0 to 100.
+WEBP_QUALITY = 90
+
+# Maximum width or height of a tga image
+MAX_TEXTURE_SIZE = 1024
+
+# =============================================================================
+# Project specific constants below
+# =============================================================================
+
+# The project root directory, which is one level up from this script's
+# directory.
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                            os.path.pardir))
+
+# ============================================================================
+# Below are the *internal* resource paths (i.e these are static and don't
+# move when dependent projects are relocated).
+# ============================================================================
+
+# Directory to place processed assets.
+ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
+
+# Directory where unprocessed assets can be found.
+RAW_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'src', 'rawassets')
+
+# Metadata file for assets. Store extra file-specific information here.
+ASSET_META = os.path.join(RAW_ASSETS_PATH, 'asset_meta.json')
+
+# Directory where unprocessed rail flatbuffer data can be found.
+RAW_RAIL_PATH = os.path.join(RAW_ASSETS_PATH, 'rails')
+
+# Directory where unprocessed event graph flatbuffer data can be found.
+RAW_GRAPH_DEF_PATH = os.path.join(RAW_ASSETS_PATH, 'graphs')
+
+# Directory where unprocessed sound flatbuffer data can be found.
+RAW_SOUND_PATH = os.path.join(RAW_ASSETS_PATH, 'sounds')
+
+# Directory where unprocessed sound flatbuffer data can be found.
+RAW_SOUND_BANK_PATH = os.path.join(RAW_ASSETS_PATH, 'sound_banks')
+
+# Directory where unprocessed material flatbuffer data can be found.
+RAW_MATERIAL_PATH = os.path.join(RAW_ASSETS_PATH, 'materials')
+
+# Directory where unprocessed textures can be found.
+RAW_TEXTURE_PATH = os.path.join(RAW_ASSETS_PATH, 'textures')
+
+# Directory where unprocessed FBX files can be found.
+RAW_MESH_PATH = os.path.join(RAW_ASSETS_PATH, 'meshes')
+
+# Directory where png files are written to before they are converted to webp.
+INTERMEDIATE_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'obj', 'assets')
+
+# Directory where png files are written to before they are converted to webp.
+INTERMEDIATE_TEXTURE_PATH = os.path.join(INTERMEDIATE_ASSETS_PATH, 'textures')
+
+# Directories for animations.
+RAW_ANIM_PATH = os.path.join(RAW_ASSETS_PATH, 'anims')
+
+# Directory inside the assets directory where flatbuffer schemas are copied.
+SCHEMA_OUTPUT_PATH = 'flatbufferschemas'
+
+# Potential root directories for source assets.
+ASSET_ROOTS = [RAW_ASSETS_PATH, INTERMEDIATE_TEXTURE_PATH]
+# Overlay directories.
+OVERLAY_DIRS = [os.path.relpath(f, RAW_ASSETS_PATH)
+                for f in glob.glob(os.path.join(RAW_ASSETS_PATH, 'overlays',
+                                                '*'))]
+
+# ============================================================================
+# The following constants reference data in external components.
+# ============================================================================
+
+# Location of flatbuffer schemas in this project.
+PROJECT_SCHEMA_PATH = DependencyPath(os.path.join('src', 'flatbufferschemas'))
+
+# A list of json files and their schemas that will be converted to binary files
+# by the flatbuffer compiler.
+FLATBUFFERS_CONVERSION_DATA = [
+    FlatbuffersConversionData(
+        schema=PROJECT_SCHEMA_PATH.join('config.fbs'),
+        extension='zooconfig',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'config.json'),]),
+    FlatbuffersConversionData(
+        schema=PROJECT_SCHEMA_PATH.join('components.fbs'),
+        extension='zooentity',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_prototypes.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_rails.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_list.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_ring.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_decorations.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json')]),
+    FlatbuffersConversionData(
+        schema=PROJECT_SCHEMA_PATH.join('rail_def.fbs'),
+        extension='rail',
+        input_files=glob.glob(os.path.join(RAW_RAIL_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=PINDROP_ROOT.join('schemas', 'audio_config.fbs'),
+        extension='pinconfig',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'audio_config.json')]),
+    FlatbuffersConversionData(
+        schema=PROJECT_SCHEMA_PATH.join('input_config.fbs'),
+        extension='zooinconfig',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'input_config.json')]),
+    FlatbuffersConversionData(
+        schema=PROJECT_SCHEMA_PATH.join('assets.fbs'),
+        extension='zooassets',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'assets.json')]),
+    FlatbuffersConversionData(
+        schema=PINDROP_ROOT.join('schemas', 'buses.fbs'),
+        extension='pinbus',
+        input_files=[os.path.join(RAW_ASSETS_PATH, 'buses.json')]),
+    FlatbuffersConversionData(
+        schema=PINDROP_ROOT.join('schemas', 'sound_bank_def.fbs'),
+        extension='pinbank',
+        input_files=glob.glob(os.path.join(RAW_SOUND_BANK_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=PINDROP_ROOT.join('schemas', 'sound_collection_def.fbs'),
+        extension='pinsound',
+        input_files=glob.glob(os.path.join(RAW_SOUND_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=FPLBASE_ROOT.join('schemas', 'materials.fbs'),
+        extension='fplmat',
+        input_files=glob.glob(os.path.join(RAW_MATERIAL_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=FPLBASE_ROOT.join('schemas', 'mesh.fbs'),
+        extension='fplmesh',
+        input_files=glob.glob(os.path.join(RAW_MESH_PATH, '*.json'))),
+    FlatbuffersConversionData(
+        schema=PROJECT_SCHEMA_PATH.join('graph.fbs'),
+        extension='bbgraph',
+        input_files=glob.glob(os.path.join(RAW_GRAPH_DEF_PATH, '*.json'))),
+    # Empty file lists to make other project schemas available to include.
+    FlatbuffersConversionData(
+        schema=BREADBOARD_ROOT.join('module_library', 'schemas',
+                                    'common_modules.fbs'),
+        extension='', input_files=[]),
+    FlatbuffersConversionData(
+        schema=CORGI_ROOT.join('component_library', 'schemas',
+                               'bullet_def.fbs'),
+        extension='', input_files=[]),
+    FlatbuffersConversionData(
+        schema=MOTIVE_ROOT.join('schemas', 'anim_table.fbs'),
+        extension='', input_files=[]),
+    FlatbuffersConversionData(
+        schema=SCENE_LAB_ROOT.join('schemas', 'editor_components.fbs'),
+        extension='', input_files=[]),
+]
+
+
+def fbx_files_to_convert():
+  """FBX files to convert to fplmesh."""
+  return glob.glob(os.path.join(RAW_MESH_PATH, '*.fbx'))
+
+
+def texture_files(pattern):
+  """List of files matching pattern in the texture paths.
+
+  Args:
+    pattern: glob style pattern.
+
+  Returns:
+    List of filenames.
+  """
+  return (glob.glob(os.path.join(RAW_TEXTURE_PATH, pattern)) +
+          glob.glob(os.path.join(RAW_MESH_PATH, pattern)) +
+          glob.glob(os.path.join(INTERMEDIATE_TEXTURE_PATH, pattern)))
+
+
+def png_files_to_convert():
+  """PNG files to convert to webp."""
+  return texture_files('*.png')
+
+
+def tga_files_to_convert():
+  """TGA files to convert to png."""
+  return texture_files('*.tga')
+
+
+def anim_files_to_convert():
+  """FBX files to convert to `.motiveanim`."""
+  return glob.glob(os.path.join(RAW_ANIM_PATH, '*.fbx'))
 
 
 def main():
@@ -1288,47 +1307,96 @@ def main():
                       help='Location of the flatbuffers compiler.')
   parser.add_argument('--cwebp', default=CWEBP.resolve(),
                       help='Location of the webp compressor.')
+  parser.add_argument('--anim-pipeline', default=ANIM_PIPELINE.resolve(),
+                      help='Location of the anim_pipeline tool.')
+  parser.add_argument('--mesh-pipeline', default=MESH_PIPELINE.resolve(),
+                      help='Location of the mesh_pipeline tool.')
   parser.add_argument('--output', default=ASSETS_PATH,
                       help='Assets output directory.')
   parser.add_argument('--meta', default=ASSET_META,
                       help='File holding metadata for assets.')
+  parser.add_argument('--max_texture_size', default=MAX_TEXTURE_SIZE,
+                      help='Max texture size in pixels along the largest '
+                      'dimension')
+  parser.add_argument('-v', '--verbose', help='Display verbose output.',
+                      action='store_true')
   parser.add_argument('args', nargs=argparse.REMAINDER)
   args = parser.parse_args()
-  target = args.args[1] if len(args.args) >= 2 else 'all'
+  target = args.args[0] if len(args.args) >= 1 else 'all'
+
   if target not in ('all', 'png', 'mesh', 'anim', 'flatbuffers', 'webp',
                     'clean'):
     sys.stderr.write('No rule to build target %s.\n' % target)
+
+  logging.basicConfig(format='%(message)s')
+  logging.getLogger().setLevel(
+      logging.DEBUG if args.verbose else logging.INFO)
 
   # Load the json file that holds asset metadata.
   meta_file = open(args.meta, 'r')
   meta = json.load(meta_file)
 
   if target != 'clean':
-    copy_assets(args.output)
+    distutils.dir_util.copy_tree(ASSETS_PATH, args.output)
   # The mesh pipeline must run before the webp texture converter,
   # since the mesh pipeline might create textures that need to be
   # converted.
   try:
     if target in ('all', 'png'):
-      generate_png_textures(meta)
+      generate_png_textures(
+          input_files_add_overlays(tga_files_to_convert(), ASSET_ROOTS,
+                                   OVERLAY_DIRS),
+          ASSET_ROOTS, INTERMEDIATE_TEXTURE_PATH, meta, args.max_texture_size)
+
     if target in ('all', 'mesh'):
-      generate_mesh_binaries(args.output, meta)
+      generate_mesh_binaries(
+          args.mesh_pipeline,
+          input_files_add_overlays(fbx_files_to_convert(), ASSET_ROOTS,
+                                   OVERLAY_DIRS),
+          ASSET_ROOTS, args.output, meta)
+
     if target in ('all', 'anim'):
-      generate_anim_binaries(args.output, meta)
+      generate_anim_binaries(
+          args.anim_pipeline,
+          input_files_add_overlays(anim_files_to_convert(), ASSET_ROOTS,
+                                   OVERLAY_DIRS),
+          ASSET_ROOTS, args.output, meta)
+
     if target in ('all', 'flatbuffers'):
-      generate_flatbuffer_binaries(args.flatc, args.output,
-                                   FLATBUFFERS_CONVERSION_DATA,
-                                   SCHEMA_OUTPUT_PATH)
+      generate_flatbuffer_binaries(
+          args.flatc, flatbuffers_conversion_data_add_overlays(
+              FLATBUFFERS_CONVERSION_DATA, ASSET_ROOTS, OVERLAY_DIRS),
+          ASSET_ROOTS, args.output, SCHEMA_OUTPUT_PATH)
+
     if target in ('all', 'webp'):
-      generate_webp_textures(args.cwebp, args.output, meta)
+      generate_webp_textures(
+          args.cwebp, input_files_add_overlays(
+              png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS),
+          ASSET_ROOTS, args.output, meta, args.max_texture_size)
+
     if target == 'clean':
       try:
-        clean(args.output)
+        clean(INTERMEDIATE_TEXTURE_PATH, ASSET_ROOTS, [],
+              {'png': input_files_add_overlays(
+                  tga_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS)})
+        clean(
+            args.output, ASSET_ROOTS,
+            flatbuffers_conversion_data_add_overlays(
+                FLATBUFFERS_CONVERSION_DATA, ASSET_ROOTS, OVERLAY_DIRS),
+            {'webp': input_files_add_overlays(
+                png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS),
+             'motiveanim': input_files_add_overlays(
+                 anim_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS),
+             'fplmesh': input_files_add_overlays(
+                 fbx_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS)})
       except OSError as error:
         sys.stderr.write('Error cleaning: %s' % str(error))
         return 1
+
   except BuildError as error:
-    handle_build_error(error)
+    logging.error('Error running command `%s`. Returned %s.\n%s\n',
+                  ' '.join(error.argv), str(error.error_code),
+                  str(error.message))
     return 1
   except DependencyPathError as error:
     logging.error('%s not found in %s', error.filename, str(error.paths))
