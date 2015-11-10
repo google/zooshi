@@ -38,10 +38,10 @@ class AttributesData {
     // TODO: Move this into a data file.
     attributes[AttributeDef_TargetScore] = 1;
 
-    // Start the game with quota requirement going up by 20
+    // Start the game with quota requirement going up by 24
     // after the first lap.
     // TODO: Move this into a data file.
-    attributes[AttributeDef_TargetScoreIncrease] = 20;
+    attributes[AttributeDef_TargetScoreIncrease] = 24;
   }
 
   float attributes[AttributeDef_Size];

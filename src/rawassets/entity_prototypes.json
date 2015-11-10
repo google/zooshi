@@ -848,13 +848,18 @@
           "data_type": "PatronDef",
           "data": {
             "anim_object": "LadyMandrill",
-            "pop_in_radius": 50,
+            "pop_in_radius": {
+              "start_y": 40, "start_x": 0, "end_y": 30, "end_x": 2
+            },
             "pop_out_radius": 60,
             "point_display_height": 6.5,
             "max_face_angle_away_from_raft": 30,
             "time_to_face_raft": 0.4,
             "min_lap": 0.01,
             "max_lap": -1,
+            "patience": {
+              "start_y": 5, "start_x": 0, "end_y": 2, "end_x": 2
+            },
             "target_tag": "Mouth",
             "max_catch_distance": 5.0,
             "max_catch_distance_for_search": 12.0,
@@ -1005,13 +1010,18 @@
           "data_type": "PatronDef",
           "data": {
             "anim_object": "DapperCroc",
-            "pop_in_radius": 50,
+            "pop_in_radius": {
+              "start_y": 50, "start_x": 1, "end_y": 30, "end_x": 3
+            },
             "pop_out_radius": 60,
             "point_display_height": 6.5,
             "max_face_angle_away_from_raft": 25,
             "time_to_face_raft": 0.2,
             "min_lap": 0.01,
             "max_lap": -1,
+            "patience": {
+              "start_y": 10, "start_x": 1, "end_y": 3, "end_x": 3
+            },
             "target_tag": "Mouth",
             "max_catch_distance": 5.0,
             "max_catch_distance_for_search": 15.0,
@@ -1183,13 +1193,18 @@
           "data_type": "PatronDef",
           "data": {
             "anim_object": "HungryHippo",
-            "pop_in_radius": 50,
+            "pop_in_radius": {
+              "start_y": 50, "start_x": 2, "end_y": 30, "end_x": 4
+            },
             "pop_out_radius": 60,
             "point_display_height": 6.5,
             "max_face_angle_away_from_raft": 40,
             "time_to_face_raft": 1.2,
             "min_lap": 0.01,
             "max_lap": -1,
+            "patience": {
+              "start_y": 11, "start_x": 2, "end_y": 3, "end_x": 4
+            },
             "target_tag": "Mouth",
             "max_catch_distance": 5.0,
             "max_catch_distance_for_search": 12.0,
@@ -1350,13 +1365,18 @@
           "data_type": "PatronDef",
           "data": {
             "anim_object": "HungryHippo",
-            "pop_in_radius": 50,
+            "pop_in_radius": {
+              "start_y": 50, "start_x": 0, "end_y": 50, "end_x": 4
+            },
             "pop_out_radius": 60,
             "point_display_height": 6.5,
             "max_face_angle_away_from_raft": 180,
             "time_to_face_raft": 1.0,
             "min_lap": 0,
             "max_lap": 0,
+            "patience": {
+              "start_y": 100000, "start_x": 0, "end_y": 100000, "end_x": 1
+            },
             "max_catch_distance": 2.5,
             "max_catch_distance_for_search": 12.0,
             "max_catch_angle": 40.0,
@@ -1436,13 +1456,18 @@
           "data_type": "PatronDef",
           "data": {
             "anim_object": "BankerBird",
-            "pop_in_radius": 50,
+            "pop_in_radius": {
+              "start_y": 50, "start_x": 1, "end_y": 30, "end_x": 4
+            },
             "pop_out_radius": 60,
             "point_display_height": 3,
             "max_face_angle_away_from_raft": 180,
             "time_to_face_raft": 1.0,
             "min_lap": 0.01,
             "max_lap": -1,
+            "patience": {
+              "start_y": 6, "start_x": 1, "end_y": 2, "end_x": 3
+            },
             "max_catch_distance": 3.0,
             "max_catch_distance_for_search": 10.0,
             "max_catch_angle": 140.0,
@@ -1636,13 +1661,18 @@
           "data_type": "PatronDef",
           "data": {
             "anim_object": "LovelyGiraffette",
-            "pop_in_radius": 50,
+            "pop_in_radius": {
+              "start_y": 42, "start_x": 0, "end_y": 30, "end_x": 3
+            },
             "pop_out_radius": 60,
             "point_display_height": 11,
             "max_face_angle_away_from_raft": 30,
             "time_to_face_raft": 0.4,
             "min_lap": 0.01,
             "max_lap": -1,
+            "patience": {
+              "start_y": 6, "start_x": 0, "end_y": 2, "end_x": 3
+            },
             "target_tag": "Mouth",
             "max_catch_distance": 3.0,
             "max_catch_distance_for_search": 8.0,
