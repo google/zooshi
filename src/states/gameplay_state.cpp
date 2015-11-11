@@ -41,7 +41,7 @@ static void UpdateMusic(entity::EntityManager* entity_manager,
   RailDenizenData* raft_rail_denizen =
       entity_manager->GetComponentData<RailDenizenData>(raft);
   if (raft_rail_denizen == nullptr) return;
-  int current_lap = static_cast<int>(raft_rail_denizen->lap);
+  int current_lap = raft_rail_denizen->lap_number;
   assert(current_lap >= 0);
   if (current_lap != *previous_lap) {
     pindrop::Channel* channels[] = {music_channel_1, music_channel_2,

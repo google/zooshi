@@ -33,7 +33,9 @@ BREADBOARD_DECLARE_EVENT(kNewLapEventId)
 
 struct RailDenizenData {
   RailDenizenData()
-      : lap(0.0f),
+      : lap_number(0),
+        lap_progress(0.0f),
+        total_lap_progress(0.0f),
         initial_playback_rate(0.0f),
         start_time(0.0f),
         motivator(),
@@ -62,7 +64,14 @@ struct RailDenizenData {
   mathfu::vec3 Direction() const { return motivator.Direction(); }
   float PlaybackRate() const { return playback_rate.Value(); }
 
-  float lap;
+  // The total number of laps completed so far.
+  int lap_number;
+  // The current progress in the current lap in the range of [0,1].
+  float lap_progress;
+  // The total distance traveled so far in laps (e.g. a value of 1.75 would mean
+  // you've traveled 1 and three quarters laps). This is the sum of the
+  // lap_number and the lap_progress.
+  float total_lap_progress;
   float initial_playback_rate;
   float start_time;
   motive::Motivator3f motivator;

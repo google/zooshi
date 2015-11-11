@@ -66,7 +66,8 @@ class LapNode : public BaseNode {
 
   virtual void Execute(NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(1);
-    args->SetOutput(0, rail_denizen_ref->GetComponentData()->lap);
+    args->SetOutput(0,
+                    rail_denizen_ref->GetComponentData()->total_lap_progress);
   }
 };
 
@@ -107,8 +108,7 @@ class GetRailSpeedNode : public BaseNode {
 
   virtual void Execute(NodeArguments* args) {
     auto rail_denizen_ref = args->GetInput<RailDenizenDataRef>(0);
-    args->SetOutput(
-        0, rail_denizen_ref->GetComponentData()->PlaybackRate());
+    args->SetOutput(0, rail_denizen_ref->GetComponentData()->PlaybackRate());
   }
 };
 

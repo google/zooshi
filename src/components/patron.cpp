@@ -353,7 +353,9 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   if (!raft) return;
   RailDenizenData* raft_rail_denizen =
       raft ? Data<RailDenizenData>(raft) : nullptr;
-  float lap = raft_rail_denizen != nullptr ? raft_rail_denizen->lap : 0.0f;
+  float lap = raft_rail_denizen != nullptr
+                  ? raft_rail_denizen->total_lap_progress
+                  : 0.0f;
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     entity::EntityRef patron = iter->entity;
@@ -554,7 +556,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
       // TODO: Make state change an action.
       patron_data->state = kPatronStateEating;
       Animate(patron_data, PatronAction_Eat);
-      patron_data->last_lap_fed = raft_rail_denizen->lap;
+      patron_data->last_lap_fed = raft_rail_denizen->total_lap_progress;
 
       // Disable rail movement after they have been fed
       auto rail_denizen_data = Data<RailDenizenData>(patron_entity);

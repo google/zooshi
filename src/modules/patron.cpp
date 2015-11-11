@@ -16,9 +16,9 @@
 
 #include <string>
 
-#include "entity/entity_manager.h"
-#include "breadboard/module_registry.h"
 #include "breadboard/base_node.h"
+#include "breadboard/module_registry.h"
+#include "entity/entity_manager.h"
 #include "fplbase/utilities.h"
 #include "rail_denizen.h"
 
@@ -78,7 +78,8 @@ class CheckDeliciousCycleNode : public BaseNode {
   virtual void Execute(NodeArguments* args) {
     auto raft = args->GetInput<entity::EntityRef>(1);
     auto current_lap =
-        patron_component_->Data<RailDenizenData>(*raft)->lap - kLapDuration;
+        patron_component_->Data<RailDenizenData>(*raft)->total_lap_progress -
+        kLapDuration;
 
     auto num_patrons = 0;
     auto patrons_fed = 0;

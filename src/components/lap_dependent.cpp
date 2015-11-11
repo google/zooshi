@@ -70,7 +70,9 @@ void LapDependentComponent::UpdateAllEntities(
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   if (!raft) return;
   RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
-  float lap = raft_rail_denizen != nullptr ? raft_rail_denizen->lap : 0.0f;
+  float lap = raft_rail_denizen != nullptr
+                  ? raft_rail_denizen->total_lap_progress
+                  : 0.0f;
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     LapDependentData* data = GetComponentData(iter->entity);
