@@ -4,10 +4,12 @@
 {
   "node_list": [
     {
+      // Node 0
       "module": "entity",
       "name": "graph_entity"
     },
     {
+      // Node 1
       "module": "physics",
       "name": "on_collision",
       "input_edge_list": [
@@ -21,6 +23,7 @@
       ]
     },
     {
+      // Node 2
       "module": "physics",
       "name": "collision_data",
       "input_edge_list": [
@@ -34,6 +37,7 @@
       ]
     },
     {
+      // Node 3
       "module": "string",
       "name": "equals",
       "input_edge_list": [
@@ -53,6 +57,7 @@
       ]
     },
     {
+      // Node 4
       "module": "logic",
       "name": "if",
       "input_edge_list": [
@@ -66,6 +71,7 @@
       ]
     },
     {
+      // Node 5
       "module": "audio",
       "name": "play_sound",
       "input_edge_list": [
@@ -98,6 +104,7 @@
       ]
     },
     {
+      // Node 6
       "module": "string",
       "name": "equals",
       "input_edge_list": [
@@ -117,19 +124,21 @@
       ]
     },
     {
+      // Node 7
       "module": "logic",
       "name": "if",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 18,
+            "node_index": 17,
             "edge_index": 0
           }
         }
       ]
     },
     {
+      // Node 8
       "module": "audio",
       "name": "play_sound",
       "input_edge_list": [
@@ -162,8 +171,14 @@
       ]
     },
     {
+      // Node 9
       "module": "zooshi",
-      "name": "player_entity",
+      "name": "player_entity"
+    },
+    {
+      // Node 10
+      "module": "attributes",
+      "name": "get_attribute",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
@@ -171,30 +186,11 @@
             "node_index": 7,
             "edge_index": 0
           }
-        }
-      ]
-    },
-    {
-      "module": "attributes",
-      "name": "attributes",
-      "input_edge_list": [
+        },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
             "node_index": 9,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      "module": "attributes",
-      "name": "get_attribute",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 10,
             "edge_index": 0
           }
         },
@@ -207,13 +203,14 @@
       ]
     },
     {
+      // Node 11
       "module": "float_math",
       "name": "add",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 11,
+            "node_index": 10,
             "edge_index": 0
           }
         },
@@ -226,13 +223,21 @@
       ]
     },
     {
+      // Node 12
       "module": "attributes",
       "name": "set_attribute",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 10,
+            "node_index": 7,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 9,
             "edge_index": 0
           }
         },
@@ -245,14 +250,14 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 12,
+            "node_index": 11,
             "edge_index": 0
           }
         }
       ]
     },
     {
-      // Node 14: Set flag for the patron.
+      // Node 13: Set flag for the patron.
       "module": "player",
       "name": "fed_patron",
       "input_edge_list": [
@@ -280,7 +285,7 @@
       ]
     },
     {
-      // Node 15: Check condition.
+      // Node 14: Check condition.
       "module": "player",
       "name": "check_all_patrons_fed",
       "input_edge_list": [
@@ -294,14 +299,14 @@
       ]
     },
     {
-      // Node 16: Grant achievement if the condition met.
+      // Node 15: Grant achievement if the condition met.
       "module": "gpg",
       "name": "grant_achievement",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 15,
+            "node_index": 14,
             "edge_index": 0
           }
         },
@@ -314,6 +319,7 @@
       ]
     },
     {
+      // Node 16
       "module": "patron",
       "name": "patron_upright",
       "input_edge_list": [
@@ -327,13 +333,14 @@
       ]
     },
     {
+      // Node 17
       "module": "logic",
       "name": "and",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 17,
+            "node_index": 16,
             "edge_index": 0
           }
         },
@@ -341,6 +348,82 @@
           "edge_type": "OutputEdgeTarget",
           "edge": {
             "node_index": 6,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 18
+      "module": "physics",
+      "name": "velocity",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2,
+            "edge_index": 3
+          }
+        }
+      ]
+    },
+    {
+      // Node 19
+      "module": "vec3",
+      "name": "length",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 18,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 20
+      "module": "float_math",
+      "name": "greater_than_or_equals",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 19,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 8.0
+          }
+        }
+      ]
+    },
+    {
+      // Node 21
+      "module": "logic",
+      "name": "and",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 3,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 20,
             "edge_index": 0
           }
         }

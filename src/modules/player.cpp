@@ -16,6 +16,7 @@
 
 #include <string>
 
+#include "component_library/meta.h"
 #include "entity/entity_manager.h"
 #include "breadboard/module_registry.h"
 #include "breadboard/base_node.h"

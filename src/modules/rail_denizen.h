@@ -18,13 +18,9 @@
 #include "breadboard/module_registry.h"
 #include "component_library/graph.h"
 #include "components/rail_denizen.h"
-#include "module_library/entity.h"
 
 namespace fpl {
 namespace zooshi {
-
-typedef module_library::ComponentDataRef<RailDenizenComponent>
-    RailDenizenDataRef;
 
 void InitializeRailDenizenModule(
     breadboard::ModuleRegistry* module_registry,

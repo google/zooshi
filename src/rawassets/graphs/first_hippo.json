@@ -58,8 +58,15 @@
     {
       // Node 4
       "module": "logic",
-      "name": "if",
+      "name": "if_gate",
       "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7,
+            "edge_index": 0
+          }
+        },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
@@ -72,21 +79,46 @@
     {
       // Node 5
       "module": "zooshi",
-      "name": "raft_entity",
+      "name": "raft_entity"
+    },
+    {
+      // Node 6
+      "module": "transform",
+      "name": "child",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 4,
+            "node_index": 0,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 7
+      "module": "animation",
+      "name": "animation_complete",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 6,
             "edge_index": 0
           }
         }
       ]
     },
     {
-      // Node 6
+      // Node 8
       "module": "rail_denizen",
-      "name": "rail_denizen",
+      "name": "set_rail_speed",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
@@ -101,82 +133,6 @@
             "node_index": 5,
             "edge_index": 0
           }
-        }
-      ]
-    },
-    {
-      // Node 7
-      "module": "transform",
-      "name": "transform",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 4,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 2,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 8
-      "module": "transform",
-      "name": "child",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 7,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "Int",
-          "edge": {
-            "value": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 9
-      "module": "animation",
-      "name": "animation_complete",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 8,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 10
-      "module": "rail_denizen",
-      "name": "set_rail_speed",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 9,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 6,
-            "edge_index": 0
-          }
         },
         {
           "edge_type": "Float",
@@ -187,14 +143,14 @@
       ]
     },
     {
-      // Node 11
+      // Node 9
       "module": "entity",
       "name": "entity",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 9,
+            "node_index": 4,
             "edge_index": 0
           }
         },
@@ -207,14 +163,46 @@
       ]
     },
     {
-      // Node 12
+      // Node 10
       "module": "zooshi",
       "name": "set_show_override",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
+            "node_index": 4,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
             "node_index": 9,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 4
+          }
+        }
+      ]
+    },
+    {
+      // Node 11
+      "module": "zooshi",
+      "name": "player_entity"
+    },
+    {
+      // Node 12
+      "module": "attributes",
+      "name": "set_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 13,
             "edge_index": 0
           }
         },
@@ -228,54 +216,6 @@
         {
           "edge_type": "Int",
           "edge": {
-            "value": 4
-          }
-        }
-      ]
-    },
-    {
-      // Node 13
-      "module": "zooshi",
-      "name": "player_entity",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 9,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 14
-      "module": "attributes",
-      "name": "attributes",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 13,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 15
-      "module": "attributes",
-      "name": "set_attribute",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 14,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "Int",
-          "edge": {
             "value": "fpl.zooshi.AttributeDef.TargetScore"
           }
         },
@@ -283,6 +223,20 @@
           "edge_type": "Float",
           "edge": {
             "value": 20.0
+          }
+        }
+      ]
+    },
+    {
+      // Node 13
+      "module": "logic",
+      "name": "if",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 3,
+            "edge_index": 0
           }
         }
       ]

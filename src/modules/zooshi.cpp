@@ -46,15 +46,12 @@ class PlayerEntityNode : public BaseNode {
       : services_component_(services_component) {}
 
   static void OnRegister(NodeSignature* node_sig) {
-    node_sig->AddInput<void>();
     node_sig->AddOutput<EntityRef>();
   }
 
   virtual void Initialize(NodeArguments* args) {
     args->SetOutput(0, services_component_->player_entity());
   }
-
-  virtual void Execute(NodeArguments* args) { Initialize(args); }
 
  private:
   ServicesComponent* services_component_;
@@ -67,15 +64,12 @@ class RaftEntityNode : public BaseNode {
       : services_component_(services_component) {}
 
   static void OnRegister(NodeSignature* node_sig) {
-    node_sig->AddInput<void>();
     node_sig->AddOutput<EntityRef>();
   }
 
   virtual void Initialize(NodeArguments* args) {
     args->SetOutput(0, services_component_->raft_entity());
   }
-
-  virtual void Execute(NodeArguments* args) { Initialize(args); }
 
  private:
   ServicesComponent* services_component_;
