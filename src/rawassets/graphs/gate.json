@@ -3,12 +3,17 @@
     {
       // Node 0
       "module": "zooshi",
-      "name": "advance_frame",
+      "name": "advance_frame"
     },
     {
       // Node 1
       "module": "zooshi",
-      "name": "player_entity",
+      "name": "player_entity"
+    },
+    {
+      // Node 2
+      "module": "attributes",
+      "name": "get_attribute",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
@@ -16,32 +21,11 @@
             "node_index": 0,
             "edge_index": 0
           }
-        }
-      ]
-    },
-    {
-      // Node 2
-      "module": "attributes",
-      "name": "attributes",
-      "input_edge_list": [
+        },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
             "node_index": 1,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 3
-      "module": "attributes",
-      "name": "get_attribute",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 2,
             "edge_index": 0
           }
         },
@@ -54,14 +38,21 @@
       ]
     },
     {
-      // Node 4
+      // Node 3
       "module": "attributes",
       "name": "get_attribute",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 2,
+            "node_index": 0,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
             "edge_index": 0
           }
         },
@@ -74,17 +65,31 @@
       ]
     },
     {
-      // Node 5
+      // Node 4
       "module": "float_math",
       "name": "greater_than_or_equals",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 3,
+            "node_index": 2,
             "edge_index": 0
           }
         },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 3,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 5
+      "module": "logic",
+      "name": "if",
+      "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
@@ -96,25 +101,11 @@
     },
     {
       // Node 6
-      "module": "logic",
-      "name": "if",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 5,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 7
       "module": "entity",
       "name": "graph_entity"
     },
     {
-      // Node 8
+      // Node 7
       "module": "animation",
       "name": "animation_index",
       "input_edge_list": [
@@ -128,21 +119,21 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 7,
+            "node_index": 6,
             "edge_index": 0
           }
         }
       ]
     },
     {
-      // Node 9: Gate's last played animation index < kSceneryDisappear
+      // Node 8: Gate's last played animation index < kSceneryDisappear
       "module": "integer_math",
       "name": "less_than",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 8, // Gate's last played animation index
+            "node_index": 7, // Gate's last played animation index
             "edge_index": 0
           }
         },
@@ -155,7 +146,7 @@
       ]
     },
     {
-      // Node 10: Gate's last played animation index < kSceneryDisappear &&
+      // Node 9:  Gate's last played animation index < kSceneryDisappear &&
       //          PatronsFed >= TargetScore
       "module": "logic",
       "name": "and",
@@ -163,21 +154,21 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 9, // Gate's last animation index < kSceneryDisappear
+            "node_index": 8, // Gate's last animation index < kSceneryDisappear
             "edge_index": 0
           }
         },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 5, // PatronsFed >= TargetScore
+            "node_index": 4, // PatronsFed >= TargetScore
             "edge_index": 0
           }
         }
       ]
     },
     {
-      // Node 11: if (Gate's last played animation index < kSceneryDisappear &&
+      // Node 10: if (Gate's last played animation index < kSceneryDisappear &&
       //              PatronsFed >= TargetScore)
       "module": "logic",
       "name": "if",
@@ -185,28 +176,28 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 10,
+            "node_index": 9,
             "edge_index": 0
           }
         }
       ]
     },
     {
-      // Node 12: Play open gate animation on Gate
+      // Node 11: Play open gate animation on Gate
       "module": "zooshi",
       "name": "set_show_override",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 11,  // "if"
+            "node_index": 10,  // "if"
             "edge_index": 0
           }
         },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 7,  // Gate entity
+            "node_index": 6,  // Gate entity
             "edge_index": 0
           }
         },

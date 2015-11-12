@@ -16,19 +16,14 @@
 #define FPL_ZOOSHI_MODULES_ATTRIBUTES_H_
 
 #include "breadboard/module_registry.h"
-#include "module_library/entity.h"
 #include "component_library/graph.h"
 #include "components/attributes.h"
 
 namespace fpl {
 namespace zooshi {
 
-typedef module_library::ComponentDataRef<AttributesComponent> AttributesDataRef;
-
-void InitializeAttributesModule(
-    breadboard::ModuleRegistry* module_registry,
-    AttributesComponent* attributes_component,
-    component_library::GraphComponent* graph_component);
+void InitializeAttributesModule(breadboard::ModuleRegistry* module_registry,
+                                AttributesComponent* attributes_component);
 
 }  // zooshi
 }  // fpl

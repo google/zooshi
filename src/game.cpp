@@ -263,8 +263,7 @@ void Game::InitializeBreadboardModules() {
   module_library::InitializeVec3Module(&module_registry_);
 
   // Zooshi module initialization.
-  InitializeAttributesModule(&module_registry_, &world_.attributes_component,
-                             &world_.graph_component);
+  InitializeAttributesModule(&module_registry_, &world_.attributes_component);
   InitializeGpgModule(&module_registry_, &GetConfig(), &gpg_manager_);
   InitializePatronModule(&module_registry_, &world_.patron_component);
   InitializePlayerModule(&module_registry_, &world_.player_component,

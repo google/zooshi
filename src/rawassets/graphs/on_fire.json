@@ -3,12 +3,7 @@
   "node_list": [
     {
       "module": "zooshi",
-      "name": "player_entity",
-      "input_edge_list": [
-        {
-          "edge_type": "Pulse"
-        }
-      ]
+      "name": "player_entity"
     },
     {
       "module": "player",
@@ -82,22 +77,6 @@
     },
     {
       "module": "transform",
-      "name": "transform",
-      "input_edge_list": [
-        {
-          "edge_type": "Pulse"
-        },
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 0,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      "module": "transform",
       "name": "world_position",
       "input_edge_list": [
         {
@@ -110,7 +89,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 5,
+            "node_index": 0,
             "edge_index": 0
           }
         }
@@ -136,7 +115,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 6,
+            "node_index": 5,
             "edge_index": 0
           }
         },

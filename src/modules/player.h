@@ -16,14 +16,11 @@
 #define FPL_ZOOSHI_MODULES_PLAYER_H_
 
 #include "breadboard/module_registry.h"
-#include "module_library/entity.h"
 #include "component_library/graph.h"
 #include "components/player.h"
 
 namespace fpl {
 namespace zooshi {
-
-typedef module_library::ComponentDataRef<PlayerComponent> PlayerDataRef;
 
 void InitializePlayerModule(breadboard::ModuleRegistry* module_registry,
                             PlayerComponent* player_component,
