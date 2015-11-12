@@ -207,7 +207,7 @@
         {
           "edge_type": "Float",
           "edge": {
-            "value": 2
+            "value": 0.9
           }
         }
       ]
@@ -484,7 +484,7 @@
         {
           "edge_type": "Float",
           "edge": {
-            "value": 2
+            "value": 0.9
           }
         }
       ]
@@ -504,7 +504,7 @@
         {
           "edge_type": "Float",
           "edge": {
-            "value": 0.2
+            "value": 0.05
           }
         }
       ]
@@ -563,9 +563,9 @@
           }
         },
         {
-          "edge_type": "Float", 
+          "edge_type": "Float",
           "edge": {
-            "value": 2
+            "value": 3
           }
         }
       ]
@@ -583,7 +583,7 @@
           }
         },
         {
-          "edge_type": "Float", 
+          "edge_type": "Float",
           "edge": {
             "value": 40
           }

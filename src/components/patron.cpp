@@ -19,11 +19,9 @@
 #include "component_library/graph.h"
 #include "component_library/physics.h"
 #include "component_library/rendermesh.h"
-#include "component_library/transform.h"
 #include "components/attributes.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
-#include "components/rail_denizen.h"
 #include "components/services.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
@@ -66,10 +64,23 @@ static inline vec3 ZeroHeight(const vec3& v) {
   return v_copy;
 }
 
+static inline bool IgnoredMoveState(PatronMoveState move_state) {
+  return move_state != kPatronMoveStateMoveToTarget;
+}
+
+static inline void SetState(PatronState state, PatronData* patron_data) {
+  patron_data->state = state;
+  patron_data->time_in_state = 0.0f;
+  patron_data->time_being_ignored = 0.0f;
+}
+
 static inline void SetMoveState(PatronMoveState move_state,
                                 PatronData* patron_data) {
   patron_data->move_state = move_state;
   patron_data->time_in_move_state = 0.0f;
+  if (!IgnoredMoveState(move_state)) {
+    patron_data->time_being_ignored = 0.0f;
+  }
 }
 
 void PatronComponent::Init() {
@@ -88,29 +99,27 @@ static float PopRadius(float desired, float min) {
   return desired < 0.0f ? min : std::min(desired, min);
 }
 
+static InterpolatedValue LoadInterpolatedValue(
+    const InterpolatedValueDef* def) {
+  return def == nullptr ? InterpolatedValue()
+                        : InterpolatedValue(def->start_y(), def->start_x(),
+                                            def->end_y(), def->end_x());
+}
+
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,
                                      const void* raw_data) {
   auto patron_def = static_cast<const PatronDef*>(raw_data);
   PatronData* patron_data = AddEntity(entity);
   patron_data->anim_object = patron_def->anim_object();
 
-  // Must pop-in closer than popping-out, which is closer than being culled.
-  auto render_config = config_->rendering_config();
-  assert(patron_def->pop_out_radius() >= patron_def->pop_in_radius());
-  assert(render_config->cull_distance() >= render_config->pop_out_distance() &&
-         render_config->pop_out_distance() >= render_config->pop_in_distance());
-
   patron_data->pop_in_radius =
-      PopRadius(patron_def->pop_in_radius(), render_config->pop_in_distance());
-  patron_data->pop_out_radius = PopRadius(patron_def->pop_out_radius(),
-                                          render_config->pop_out_distance());
-  patron_data->pop_in_radius_squared =
-      patron_data->pop_in_radius * patron_data->pop_in_radius;
-  patron_data->pop_out_radius_squared =
-      patron_data->pop_out_radius * patron_data->pop_out_radius;
+      LoadInterpolatedValue(patron_def->pop_in_radius());
+  patron_data->pop_out_radius = patron_def->pop_out_radius();
+  assert(patron_data->pop_out_radius >= patron_data->pop_in_radius.end_y());
 
   patron_data->min_lap = patron_def->min_lap();
   patron_data->max_lap = patron_def->max_lap();
+  patron_data->patience = LoadInterpolatedValue(patron_def->patience());
 
   if (patron_def->events()) {
     patron_data->events.resize(patron_def->events()->size());
@@ -146,6 +155,12 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->rail_accelerate_time = patron_def->rail_accelerate_time();
 }
 
+static inline flatbuffers::Offset<InterpolatedValueDef> SaveInterpolatedValue(
+    flatbuffers::FlatBufferBuilder& fbb, const InterpolatedValue& v) {
+  return CreateInterpolatedValueDef(fbb, v.start_y(), v.start_x(), v.end_y(),
+                                    v.end_x());
+}
+
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
     const entity::EntityRef& entity) const {
   const PatronData* data = GetComponentData(entity);
@@ -154,10 +169,14 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   flatbuffers::FlatBufferBuilder fbb;
   auto target_tag = fbb.CreateString(data->target_tag);
 
+  auto patience_fb = SaveInterpolatedValue(fbb, data->patience);
+  auto pop_in_radius_fb = SaveInterpolatedValue(fbb, data->pop_in_radius);
+
   // Get all the on_collision events
   PatronDefBuilder builder(fbb);
   builder.add_min_lap(data->min_lap);
   builder.add_max_lap(data->max_lap);
+  builder.add_patience(patience_fb);
   if (data->events.size() > 0) {
     std::vector<flatbuffers::Offset<fpl::PatronEvent>> events_flat(
         data->events.size());
@@ -167,7 +186,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
     }
     builder.add_events(fbb.CreateVector(events_flat));
   }
-  builder.add_pop_in_radius(data->pop_in_radius);
+  builder.add_pop_in_radius(pop_in_radius_fb);
   builder.add_pop_out_radius(data->pop_out_radius);
   builder.add_target_tag(target_tag);
   builder.add_max_catch_distance(data->max_catch_distance);
@@ -234,7 +253,7 @@ void PatronComponent::PostLoadFixup() {
     animation_data->anim_table_object = patron_data->anim_object;
 
     // Initialize state machine.
-    patron_data->state = kPatronStateLayingDown;
+    SetState(kPatronStateLayingDown, patron_data);
 
     // Cache the index into the physics target body.
     const PhysicsData* physics_data = Data<PhysicsData>(patron);
@@ -347,15 +366,57 @@ void PatronComponent::StartEvent(entity::WorldTime event_start_time) {
   }
 }
 
+bool PatronComponent::ShouldAppear(
+    const PatronData* patron_data, const TransformData* transform_data,
+    const RailDenizenData* raft_rail_denizen) const {
+  if (patron_data->state != kPatronStateLayingDown) return false;
+
+  // Only appear once per lap.
+  const float lap = raft_rail_denizen->total_lap_progress;
+  if (lap < patron_data->last_lap_upright + kLapWaitAmount) return false;
+
+  // Only appear within min/max lap regions.
+  if (lap < patron_data->min_lap ||
+      (lap > patron_data->max_lap && patron_data->max_lap >= 0))
+    return false;
+
+  // Determine the patron's distance from the raft.
+  const vec3 raft_position = raft_rail_denizen->Position();
+  const vec3 raft_to_patron = transform_data->position - raft_position;
+  const float dist_from_raft = raft_to_patron.Length();
+  const float pop_in_radius = patron_data->pop_in_radius.Interpolate(lap);
+  return dist_from_raft <= pop_in_radius;
+}
+
+bool PatronComponent::ShouldDisappear(
+    const PatronData* patron_data, const TransformData* transform_data,
+    const RailDenizenData* raft_rail_denizen) const {
+  if (patron_data->state != kPatronStateUpright) return false;
+
+  // When we're in an event, make non-event patrons disappear.
+  if (event_time_ >= 0) return true;
+
+  // Start disappear animation such that the patron will be disappeared
+  // when it reaches the pop_out_radius.
+  const float disappear_time = AnimLength(patron_data, PatronAction_Fall);
+  const vec3 raft_future_position =
+      raft_rail_denizen->Position() +
+      disappear_time * raft_rail_denizen->Velocity();
+  float raft_distance =
+      (transform_data->position - raft_future_position).Length();
+  if (raft_distance > patron_data->pop_out_radius) return true;
+
+  // Patron tolerance decreases as we progress around the laps.
+  const float lap = raft_rail_denizen->total_lap_progress;
+  const float patience = patron_data->patience.Interpolate(lap);
+  return patron_data->time_being_ignored > patience;
+}
+
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   entity::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   if (!raft) return;
-  RailDenizenData* raft_rail_denizen =
-      raft ? Data<RailDenizenData>(raft) : nullptr;
-  float lap = raft_rail_denizen != nullptr
-                  ? raft_rail_denizen->total_lap_progress
-                  : 0.0f;
+  const RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     entity::EntityRef patron = iter->entity;
@@ -378,11 +439,11 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           // Start new animation.
           Animate(patron_data, event.action);
           patron_data->event_index++;
-          patron_data->state = kPatronStateInEvent;
+          SetState(kPatronStateInEvent, patron_data);
         }
       } else if (anim_ending) {
         // Disable event patron since we've played the last event.
-        patron_data->state = kPatronStateLayingDown;
+        SetState(kPatronStateLayingDown, patron_data);
       }
     }
 
@@ -411,19 +472,14 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
       FaceRaft(patron);
     }
 
-    // Determine the patron's distance from the raft.
-    const float disappear_time = AnimLength(patron_data, PatronAction_Fall);
-    const vec3 raft_future_position =
-        raft_rail_denizen->Position() +
-        disappear_time * raft_rail_denizen->Velocity();
-    float raft_distance_squared =
-        (transform_data->position - raft_future_position).LengthSquared();
-    if ((event_time_ >= 0 ||
-         raft_distance_squared > patron_data->pop_out_radius_squared) &&
-        (state == kPatronStateUpright || state == kPatronStateGettingUp)) {
-      // If you are too far away, and the patron is standing up (or getting up)
-      // make them fall back down.
-      patron_data->state = kPatronStateFalling;
+    if (ShouldAppear(patron_data, transform_data, raft_rail_denizen)) {
+      SetState(kPatronStateGettingUp, patron_data);
+      Animate(patron_data, PatronAction_GetUp);
+      patron_data->last_lap_upright = raft_rail_denizen->total_lap_progress;
+
+    } else if (ShouldDisappear(patron_data, transform_data,
+                               raft_rail_denizen)) {
+      SetState(kPatronStateFalling, patron_data);
       Animate(patron_data, PatronAction_Fall);
 
       auto physics_component =
@@ -434,18 +490,6 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
         rail_denizen_data->enabled = false;
         rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
       }
-    } else if (event_time_ < 0 &&
-               raft_distance_squared <= patron_data->pop_in_radius_squared &&
-               lap > patron_data->last_lap_fed + kLapWaitAmount &&
-               lap >= patron_data->min_lap &&
-               (lap <= patron_data->max_lap || patron_data->max_lap < 0) &&
-               (state == kPatronStateLayingDown ||
-                state == kPatronStateFalling)) {
-      // If you are in range, and the patron is standing laying down (or falling
-      // down) and they have not been fed this lap, and they are in the range of
-      // laps in which they should appear, make them stand back up.
-      patron_data->state = kPatronStateGettingUp;
-      Animate(patron_data, PatronAction_GetUp);
     }
 
     // Transition to the next state if we're at the end of the current
@@ -454,17 +498,12 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
     if (anim_ending) {
       switch (patron_data->state) {
         case kPatronStateEating:
-          if (HasAnim(patron_data, PatronAction_Satisfied)) {
-            patron_data->state = kPatronStateSatisfied;
-            Animate(patron_data, PatronAction_Satisfied);
-            break;
-          }
-        // fallthrough
-        // Fallthrough to "falling" state if satisfied animation doesn't
-        // exist.
+          SetState(kPatronStateSatisfied, patron_data);
+          Animate(patron_data, PatronAction_Satisfied);
+          break;
 
         case kPatronStateSatisfied:
-          patron_data->state = kPatronStateFalling;
+          SetState(kPatronStateFalling, patron_data);
           Animate(patron_data, PatronAction_Fall);
           break;
 
@@ -472,11 +511,11 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           // After the patron has finished their falling animation, turn off
           // the physics, as they are no longer in the world.
           physics_component->DisablePhysics(patron);
-          patron_data->state = kPatronStateLayingDown;
+          SetState(kPatronStateLayingDown, patron_data);
           break;
 
         case kPatronStateGettingUp: {
-          patron_data->state = kPatronStateUpright;
+          SetState(kPatronStateUpright, patron_data);
           physics_component->EnablePhysics(patron);
           auto rail_denizen_data = Data<RailDenizenData>(patron);
           if (rail_denizen_data != nullptr) {
@@ -496,8 +535,15 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
           break;
       }
     }
-    patron_data->time_in_move_state +=
+
+    // Update timers.
+    const float delta_seconds =
         static_cast<float>(delta_time) / entity::kMillisecondsPerSecond;
+    patron_data->time_in_move_state += delta_seconds;
+    patron_data->time_in_state += delta_seconds;
+    if (IgnoredMoveState(patron_data->move_state)) {
+      patron_data->time_being_ignored += delta_seconds;
+    }
   }
   if (event_time_ >= 0) {
     event_time_ += delta_time;
@@ -554,7 +600,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
     // If the target tag was hit, consider it being fed
     if (patron_data->target_tag == "" || patron_data->target_tag == part_tag) {
       // TODO: Make state change an action.
-      patron_data->state = kPatronStateEating;
+      SetState(kPatronStateEating, patron_data);
       Animate(patron_data, PatronAction_Eat);
       patron_data->last_lap_fed = raft_rail_denizen->total_lap_progress;
 

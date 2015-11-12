@@ -20,7 +20,9 @@
 #include "breadboard/graph_state.h"
 #include "component_library/graph.h"
 #include "component_library/physics.h"
+#include "component_library/transform.h"
 #include "components_generated.h"
+#include "components/rail_denizen.h"
 #include "config_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
@@ -85,16 +87,42 @@ struct PatronEvent {
       : action(action), time(time) {}
 };
 
+class InterpolatedValue {
+ public:
+  InterpolatedValue()
+      : start_y_(0.0f), start_x_(0.0f), end_y_(0.0f), end_x_(0.0f) {}
+  InterpolatedValue(float start_y, float start_x, float end_y, float end_x)
+      : start_y_(start_y), start_x_(start_x), end_y_(end_y), end_x_(end_x) {}
+
+  float Interpolate(float x) const {
+    assert(start_x_ < end_x_);
+    const float clamped_x = mathfu::Clamp(x, start_x_, end_x_);
+    const float percent = (clamped_x - start_x_) / (end_x_ - start_x_);
+    const float y = mathfu::Lerp(start_y_, end_y_, percent);
+    return y;
+    return end_y_;
+  }
+
+  float start_y() const { return start_y_; }
+  float start_x() const { return start_x_; }
+  float end_y() const { return end_y_; }
+  float end_x() const { return end_x_; }
+
+ private:
+  float start_y_;
+  float start_x_;
+  float end_y_;
+  float end_x_;
+};
+
 // Data for scene object components.
 struct PatronData {
   PatronData()
       : state(kPatronStateLayingDown),
         move_state(kPatronMoveStateIdle),
         anim_object(AnimObject_HungryHippo),
+        last_lap_upright(-1.0f),
         last_lap_fed(-1.0f),
-        pop_in_radius_squared(0.0f),
-        pop_out_radius_squared(0.0f),
-        pop_in_radius(0.0f),
         pop_out_radius(0.0f),
         min_lap(0.0f),
         max_lap(0.0f),
@@ -103,15 +131,16 @@ struct PatronData {
         prev_delta_position(mathfu::kZeros3f),
         return_position(mathfu::kZeros3f),
         point_display_height(0.0f),
+        time_in_state(0.0f),
         time_in_move_state(0.0f),
+        time_being_ignored(0.0f),
         max_catch_distance(0.0f),
         max_catch_distance_for_search(0.0f),
         max_catch_angle(0.0f),
         time_between_catch_searches(0.0f),
         return_time(0.0f),
         rail_accelerate_time(0.0f),
-        time_to_face_raft(0.0f) {
-  }
+        time_to_face_raft(0.0f) {}
 
   // Whether the patron is standing up or falling down.
   PatronState state;
@@ -125,14 +154,13 @@ struct PatronData {
 
   // Keep track of the last time this patron was fed so we know when they
   // can pop back up.
+  float last_lap_upright;
   float last_lap_fed;
 
   // If the raft entity is within the pop_in_range it will stand up. If it is
   // once up, if it's not in the pop out range, it will fall down. As a minor
   // optimization, it's stored here as the square of the distance.
-  float pop_in_radius_squared;
-  float pop_out_radius_squared;
-  float pop_in_radius;
+  InterpolatedValue pop_in_radius;
   float pop_out_radius;
 
   // Each time the raft makes a lap around the river, its lap counter is
@@ -140,6 +168,10 @@ struct PatronData {
   // range [min_lap, max_lap]. A negative value indicates no limits.
   float min_lap;
   float max_lap;
+
+  // Time, in seconds, that patron is willing to wait until sushi is throw
+  // within catching distance. Decreases as the lap increases.
+  InterpolatedValue patience;
 
   // Sequence of animations to follow once StartEvent() has been called.
   std::vector<PatronEvent> events;
@@ -182,8 +214,14 @@ struct PatronData {
   // The height above the patron at which to spawn the happy-indicator.
   float point_display_height;
 
-  // The time since `move_state` was changed.
+  // The time since `state` was changed, in seconds.
+  float time_in_state;
+
+  // The time since `move_state` was changed, in seconds.
   float time_in_move_state;
+
+  // The time since the patron was moving towards a piece of sushi.
+  float time_being_ignored;
 
   // The maximum distance that the patron will move when trying to catch sushi.
   float max_catch_distance;
@@ -267,6 +305,12 @@ class PatronComponent : public entity::Component<PatronData> {
                        const std::string& part_tag);
   void UpdateMovement(const entity::EntityRef& patron);
   void SpawnPointDisplay(const entity::EntityRef& patron);
+  bool ShouldAppear(const PatronData* patron_data,
+                    const component_library::TransformData* transform_data,
+                    const RailDenizenData* raft_rail_denizen) const;
+  bool ShouldDisappear(const PatronData* patron_data,
+                       const component_library::TransformData* transform_data,
+                       const RailDenizenData* raft_rail_denizen) const;
   bool AnimationEnding(const PatronData* patron_data,
                        entity::WorldTime delta_time) const;
   bool HasAnim(const PatronData* patron_data, PatronAction action) const;
