@@ -267,6 +267,10 @@ struct PatronData {
 
   // The time to take turning to face the raft, in seconds.
   float time_to_face_raft;
+
+  // If true: when fed play eat, satisfied, disappear animations.
+  // If false: when fed play satisfied, disappear animations.
+  bool play_eating_animation;
 };
 
 class PatronComponent : public entity::Component<PatronData> {

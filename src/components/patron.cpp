@@ -141,6 +141,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->max_face_angle_away_from_raft =
       Angle::FromDegrees(patron_def->max_face_angle_away_from_raft());
   patron_data->time_to_face_raft = patron_def->time_to_face_raft();
+  patron_data->play_eating_animation = patron_def->play_eating_animation();
 
   patron_data->catch_time_for_search =
       Range(patron_def->min_catch_time_for_search(),
@@ -195,6 +196,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_max_face_angle_away_from_raft(
       data->max_face_angle_away_from_raft.ToDegrees());
   builder.add_time_to_face_raft(data->time_to_face_raft);
+  builder.add_play_eating_animation(data->play_eating_animation);
   builder.add_max_catch_distance_for_search(
       data->max_catch_distance_for_search);
   builder.add_min_catch_time_for_search(data->catch_time_for_search.start());
@@ -599,9 +601,12 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   if (patron_data->state == kPatronStateUpright) {
     // If the target tag was hit, consider it being fed
     if (patron_data->target_tag == "" || patron_data->target_tag == part_tag) {
-      // TODO: Make state change an action.
-      SetState(kPatronStateEating, patron_data);
-      Animate(patron_data, PatronAction_Eat);
+      SetState(patron_data->play_eating_animation
+                               ? kPatronStateEating
+                               : kPatronStateSatisfied, patron_data);
+      Animate(patron_data, patron_data->play_eating_animation
+                               ? PatronAction_Eat
+                               : PatronAction_Satisfied);
       patron_data->last_lap_fed = raft_rail_denizen->total_lap_progress;
 
       // Disable rail movement after they have been fed

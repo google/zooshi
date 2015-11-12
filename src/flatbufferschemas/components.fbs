@@ -164,6 +164,10 @@ table PatronDef {
 
   // The time to take turning to face the raft, in seconds.
   time_to_face_raft:float = 0.2;
+
+  // If true: when fed play eat, satisfied, disappear animations.
+  // If false: when fed play satisfied, disappear animations.
+  play_eating_animation:bool;
 }
 
 table PlayerDef {}
