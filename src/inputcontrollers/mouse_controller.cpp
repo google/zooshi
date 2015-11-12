@@ -66,7 +66,7 @@ void MouseController::UpdateButtons() {
   for (int i = 0; i < kLogicalButtonCount; i++) {
     buttons_[i].Update();
   }
-  const fpl::Button& mouse_button = input_system_->GetPointerButton(0);
+  const fplbase::Button& mouse_button = input_system_->GetPointerButton(0);
   if (mouse_button.went_down() || mouse_button.went_up()) {
     buttons_[kFireProjectile].SetValue(mouse_button.is_down());
   }

@@ -25,7 +25,7 @@ namespace zooshi {
 void InitializeRailDenizenModule(
     breadboard::ModuleRegistry* module_registry,
     RailDenizenComponent* rail_denizen_component,
-    component_library::GraphComponent* graph_component);
+    corgi::component_library::GraphComponent* graph_component);
 
 }  // zooshi
 }  // fpl

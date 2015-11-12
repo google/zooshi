@@ -92,23 +92,23 @@ struct RailDenizenData {
   bool enabled;
 };
 
-class RailDenizenComponent : public entity::Component<RailDenizenData> {
+class RailDenizenComponent : public corgi::Component<RailDenizenData> {
  public:
   RailDenizenComponent() {}
 
   virtual void Init();
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
-  virtual void InitEntity(entity::EntityRef& entity);
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
+  virtual void InitEntity(corgi::EntityRef& entity);
 
-  void UpdateRailNodeData(entity::EntityRef entity);
+  void UpdateRailNodeData(corgi::EntityRef entity);
 
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
 
  private:
-  void InitializeRail(entity::EntityRef&);
+  void InitializeRail(corgi::EntityRef&);
   void OnEnterEditor();
 };
 

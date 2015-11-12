@@ -28,9 +28,9 @@ table RailDenizenDef {
   start_time:float;
   initial_playback_rate:float;
   rail_name:string;
-  rail_offset:Vec3; // Additional offset from the rail position
-  rail_orientation:Vec3; // Rotation to apply to the rail
-  rail_scale:Vec3; // Scale to apply to the rail
+  rail_offset:fplbase.Vec3; // Additional offset from the rail position
+  rail_orientation:fplbase.Vec3; // Rotation to apply to the rail
+  rail_scale:fplbase.Vec3; // Scale to apply to the rail
   update_orientation:bool = true;
   inherit_transform_data:bool = false;
   enabled:bool = true;
@@ -63,7 +63,7 @@ enum PatronAction : byte {
 }
 
 table SimpleMovementDef {
-  velocity:Vec3;
+  velocity:fplbase.Vec3;
 }
 
 table PatronEvent {
@@ -191,7 +191,7 @@ table DigitDef {
   divisor:int = -1;
   attrib:fpl.zooshi.AttributeDef = Unspecified;
   shader:string;
-  render_pass: [RenderPass];
+  render_pass: [corgi.RenderPass];
 }
 
 // A spline node for a rail.
@@ -252,21 +252,21 @@ table ShadowControllerDef {}
 // Data for defining the entities themselves:
 // Union containing every component data type.
 union ComponentDataUnion {
-  CommonServicesDef,
+  corgi.CommonServicesDef,
   SimpleMovementDef,
-  GraphDef,
+  corgi.GraphDef,
   ServicesDef,
-  MetaDef,
+  corgi.MetaDef,
   RailDenizenDef,
   ShadowControllerDef,
   LapDependentDef,
   PlayerDef,
   PatronDef,
   PlayerProjectileDef,
-  PhysicsDef,
+  corgi.PhysicsDef,
   TimeLimitDef,
   DigitDef,
-  RenderMeshDef,
+  corgi.RenderMeshDef,
   ListenerDef,
   RiverDef,
   ScoreDef,
@@ -274,9 +274,9 @@ union ComponentDataUnion {
   AttributesDef,
   RailNodeDef,
   SceneryDef,
-  TransformDef,
+  corgi.TransformDef,
   scene_lab.EditOptionsDef,
-  AnimationDef,
+  corgi.AnimationDef,
 }
 
 // Actual definition for each component.  Wrapped in a table because

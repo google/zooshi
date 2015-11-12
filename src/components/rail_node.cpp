@@ -22,7 +22,7 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RailNodeComponent,
 namespace fpl {
 namespace zooshi {
 
-void RailNodeComponent::AddFromRawData(entity::EntityRef& entity,
+void RailNodeComponent::AddFromRawData(corgi::EntityRef& entity,
                                        const void* raw_data) {
   auto rail_node_def = static_cast<const RailNodeDef*>(raw_data);
 
@@ -35,8 +35,8 @@ void RailNodeComponent::AddFromRawData(entity::EntityRef& entity,
     data->reliable_distance = rail_node_def->reliable_distance();
 }
 
-entity::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
-    const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
+    const corgi::EntityRef& entity) const {
   const RailNodeData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 

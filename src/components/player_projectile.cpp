@@ -27,11 +27,11 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::CommonServicesComponent;
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
+using corgi::component_library::CommonServicesComponent;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
 
-void PlayerProjectileComponent::AddFromRawData(entity::EntityRef& entity,
+void PlayerProjectileComponent::AddFromRawData(corgi::EntityRef& entity,
                                                const void* /*raw_data*/) {
   AddEntity(entity);
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);

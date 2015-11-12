@@ -43,20 +43,21 @@ class SceneLabState : public StateNode {
         input_system_(nullptr),
         camera_(nullptr),
         scene_lab_(nullptr) {}
-  void Initialize(Renderer* renderer, InputSystem* input_system,
+  void Initialize(fplbase::Renderer* renderer,
+                  fplbase::InputSystem* input_system,
                   scene_lab::SceneLab* scene_lab, World* world);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(Renderer* renderer);
-  virtual void Render(Renderer* renderer);
-  virtual void HandleUI(Renderer* renderer);
+  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void Render(fplbase::Renderer* renderer);
+  virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
 
  private:
-  Renderer* renderer_;
+  fplbase::Renderer* renderer_;
   World* world_;
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
   Camera* camera_;
   scene_lab::SceneLab* scene_lab_;
 };

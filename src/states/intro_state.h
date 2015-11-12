@@ -38,11 +38,12 @@ class IntroState : public StateNode {
 public:
   IntroState();
   virtual ~IntroState() {}
-  void Initialize(InputSystem* input_system, World* world, const Config* config,
-                  FullScreenFader* fader, pindrop::AudioEngine* audio_engine);
+  void Initialize(fplbase::InputSystem* input_system, World* world,
+                  const Config* config, FullScreenFader* fader,
+                  pindrop::AudioEngine* audio_engine);
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(Renderer* renderer);
-  virtual void Render(Renderer* renderer);
+  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void Render(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
 
@@ -55,7 +56,7 @@ protected:
   World* world_;
 
   // The input system so that we can get input.
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
 
   // Fade the screen.
   FullScreenFader* fader_;

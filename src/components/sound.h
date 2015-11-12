@@ -28,14 +28,14 @@ struct SoundData {
   pindrop::Channel channel;
 };
 
-class SoundComponent : public entity::Component<SoundData> {
+class SoundComponent : public corgi::Component<SoundData> {
  public:
 
   virtual void Init();
-  virtual void InitEntity(entity::EntityRef& /*entity*/) {}
-  virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
-  virtual void CleanupEntity(entity::EntityRef& entity);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void InitEntity(corgi::EntityRef& /*entity*/) {}
+  virtual void AddFromRawData(corgi::EntityRef& parent, const void* raw_data);
+  virtual void CleanupEntity(corgi::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 
  private:
   pindrop::AudioEngine* audio_engine_;

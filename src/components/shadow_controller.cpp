@@ -22,12 +22,12 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::ShadowControllerComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
 
 static const float kShadowHeight = 0.15f;
 
-void ShadowControllerComponent::AddFromRawData(entity::EntityRef& entity,
+void ShadowControllerComponent::AddFromRawData(corgi::EntityRef& entity,
                                                const void* raw_data) {
   auto shadow_controller_def =
       static_cast<const ShadowControllerDef*>(raw_data);
@@ -38,7 +38,7 @@ void ShadowControllerComponent::AddFromRawData(entity::EntityRef& entity,
 }
 
 void ShadowControllerComponent::UpdateAllEntities(
-    entity::WorldTime /*delta_time*/) {
+    corgi::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     ShadowControllerData* shadow_data =
@@ -66,8 +66,8 @@ void ShadowControllerComponent::UpdateAllEntities(
   }
 }
 
-entity::ComponentInterface::RawDataUniquePtr
-ShadowControllerComponent::ExportRawData(const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr
+ShadowControllerComponent::ExportRawData(const corgi::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;

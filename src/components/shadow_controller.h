@@ -26,15 +26,15 @@ namespace zooshi {
 
 // Data for scene object components.
 struct ShadowControllerData {
-  entity::EntityRef shadow_caster;
+  corgi::EntityRef shadow_caster;
 };
 
 class ShadowControllerComponent
-    : public entity::Component<ShadowControllerData> {
+    : public corgi::Component<ShadowControllerData> {
  public:
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 };
 
 }  // zooshi

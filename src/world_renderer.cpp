@@ -52,8 +52,8 @@ void WorldRenderer::Initialize(World* world) {
       world->asset_manager->LoadShader("shaders/origwater");
 }
 
-void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
-                                    Renderer& renderer, World* world) {
+void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
+                                    fplbase::Renderer& renderer, World* world) {
   float shadow_map_resolution = static_cast<float>(
         world->config->rendering_config()->shadow_map_resolution());
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
@@ -75,19 +75,19 @@ void WorldRenderer::CreateShadowMap(const CameraInterface& camera,
   // the maximum (furthest) depth.
   shadow_map_.SetAsRenderTarget();
   renderer.ClearFrameBuffer(kShadowMapClearColor);
-  renderer.SetCulling(Renderer::kCullBack);
+  renderer.SetCulling(fplbase::Renderer::kCullBack);
 
   depth_shader_->Set(renderer);
   // Generate the shadow map:
   // TODO - modify this so that shadowcast is its own render pass
-  for (int pass = 0; pass < RenderPass_Count; pass++) {
+  for (int pass = 0; pass < corgi::RenderPass_Count; pass++) {
     world->render_mesh_component.RenderPass(pass, light_camera_,
                                             renderer, depth_shader_);
   }
 }
 
-void WorldRenderer::RenderPrep(const CameraInterface& camera,
-                               Renderer& renderer, World* world) {
+void WorldRenderer::RenderPrep(const corgi::CameraInterface& camera,
+                               fplbase::Renderer& renderer, World* world) {
   if (world->config->rendering_config()->create_shadow_map()) {
     CreateShadowMap(camera, renderer, world);
   }
@@ -95,9 +95,9 @@ void WorldRenderer::RenderPrep(const CameraInterface& camera,
 }
 
 // Draw the shadow map in the world, so we can see it.
-void WorldRenderer::DebugShowShadowMap(const CameraInterface& camera,
-                                       Renderer& renderer) {
-  RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
+void WorldRenderer::DebugShowShadowMap(const corgi::CameraInterface& camera,
+                                       fplbase::Renderer& renderer) {
+  fplbase::RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
 
   static const mat4 kDebugTextureWorldTransform =
       mat4::FromScaleVector(mathfu::vec3(10.0f, 10.0f, 10.0f));
@@ -115,11 +115,12 @@ void WorldRenderer::DebugShowShadowMap(const CameraInterface& camera,
   textured_shader_->Set(renderer);
 
   // Render a large quad in the world, with the shadowmap texture on it:
-  Mesh::RenderAAQuadAlongX(vec3(0.0f, 0.0f, 0.0f), vec3(10.0f, 0.0f, 10.0f),
-                           vec2(1.0f, 0.0f), vec2(0.0f, 1.0f));
+  fplbase::Mesh::RenderAAQuadAlongX(vec3(0.0f, 0.0f, 0.0f),
+                                    vec3(10.0f, 0.0f, 10.0f),
+                                    vec2(1.0f, 0.0f), vec2(0.0f, 1.0f));
 }
 
-void WorldRenderer::SetFogUniforms(Shader* shader, World* world) {
+void WorldRenderer::SetFogUniforms(fplbase::Shader* shader, World* world) {
   shader->SetUniform("fog_roll_in_dist",
                      world->config->rendering_config()->fog_roll_in_dist());
   shader->SetUniform("fog_max_dist",
@@ -131,8 +132,8 @@ void WorldRenderer::SetFogUniforms(Shader* shader, World* world) {
                      world->config->rendering_config()->fog_max_saturation());
 }
 
-void WorldRenderer::RenderWorld(const CameraInterface& camera,
-                                Renderer& renderer, World* world) {
+void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
+                                fplbase::Renderer& renderer, World* world) {
   mat4 camera_transform = camera.GetTransformMatrix();
   renderer.set_color(mathfu::kOnes4f);
   renderer.DepthTest(true);
@@ -185,7 +186,7 @@ void WorldRenderer::RenderWorld(const CameraInterface& camera,
   shadow_map_.BindAsTexture(kShadowMapTextureID);
 
   if (!world->skip_rendermesh_rendering) {
-    for (int pass = 0; pass < RenderPass_Count; pass++) {
+    for (int pass = 0; pass < corgi::RenderPass_Count; pass++) {
       world->render_mesh_component.RenderPass(pass, camera, renderer);
     }
   }

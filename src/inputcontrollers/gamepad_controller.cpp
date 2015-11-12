@@ -38,17 +38,17 @@ mathfu::vec2 GamepadController::GetDelta() const {
   for (auto it = input_system_->GamepadMap().begin();
        it != input_system_->GamepadMap().end(); ++it) {
     int device_id = it->first;
-    fpl::Gamepad& gamepad = input_system_->GetGamepad(device_id);
-    if (gamepad.GetButton(Gamepad::kLeft).is_down()) {
+    fplbase::Gamepad& gamepad = input_system_->GetGamepad(device_id);
+    if (gamepad.GetButton(fplbase::Gamepad::kLeft).is_down()) {
       delta.x()++;
     }
-    if (gamepad.GetButton(Gamepad::kRight).is_down()) {
+    if (gamepad.GetButton(fplbase::Gamepad::kRight).is_down()) {
       delta.x()--;
     }
-    if (gamepad.GetButton(Gamepad::kUp).is_down()) {
+    if (gamepad.GetButton(fplbase::Gamepad::kUp).is_down()) {
       delta.y()++;
     }
-    if (gamepad.GetButton(Gamepad::kDown).is_down()) {
+    if (gamepad.GetButton(fplbase::Gamepad::kDown).is_down()) {
       delta.y()--;
     }
   }
@@ -110,12 +110,13 @@ void GamepadController::UpdateButtons() {
   for (auto it = input_system_->GamepadMap().begin();
        it != input_system_->GamepadMap().end(); ++it) {
     int device_id = it->first;
-    fpl::Gamepad& gamepad = input_system_->GetGamepad(device_id);
-    const fpl::Button& button = gamepad.GetButton(Gamepad::kButtonA);
+    fplbase::Gamepad& gamepad = input_system_->GetGamepad(device_id);
+    const fplbase::Button& button =
+      gamepad.GetButton(fplbase::Gamepad::kButtonA);
     buttons_[kFireProjectile].SetValue(button.went_down());
   }
 #endif
 }
 
-}  // fpl_base
+}  // zooshi
 }  // fpl

@@ -29,12 +29,12 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SceneryComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::AnimationComponent;
-using fpl::component_library::AnimationData;
-using fpl::component_library::RenderMeshComponent;
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
-using fpl::entity::EntityRef;
+using corgi::component_library::AnimationComponent;
+using corgi::component_library::AnimationData;
+using corgi::component_library::RenderMeshComponent;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
+using corgi::EntityRef;
 using scene_lab::SceneLab;
 using mathfu::vec3;
 using mathfu::kZeros3f;
@@ -52,19 +52,19 @@ void SceneryComponent::Init() {
   }
 }
 
-void SceneryComponent::AddFromRawData(entity::EntityRef& scenery,
+void SceneryComponent::AddFromRawData(corgi::EntityRef& scenery,
                                       const void* raw_data) {
   auto scenery_def = static_cast<const SceneryDef*>(raw_data);
   SceneryData* scenery_data = AddEntity(scenery);
   scenery_data->anim_object = scenery_def->anim_object();
 }
 
-entity::ComponentInterface::RawDataUniquePtr SceneryComponent::ExportRawData(
-    const entity::EntityRef& /*scenery*/) const {
+corgi::ComponentInterface::RawDataUniquePtr SceneryComponent::ExportRawData(
+    const corgi::EntityRef& /*scenery*/) const {
   return nullptr;
 }
 
-void SceneryComponent::InitEntity(entity::EntityRef& /*scenery*/) {}
+void SceneryComponent::InitEntity(corgi::EntityRef& /*scenery*/) {}
 
 void SceneryComponent::PostLoadFixup() {
   const TransformComponent* transform_component =
@@ -73,7 +73,7 @@ void SceneryComponent::PostLoadFixup() {
   // Initialize each scenery.
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef scenery = iter->entity;
+    corgi::EntityRef scenery = iter->entity;
 
     // Get reference to the first child with a rendermesh. We assume there will
     // only be one such child.
@@ -98,7 +98,7 @@ void SceneryComponent::PostLoadFixup() {
 }
 
 const RailDenizenData& SceneryComponent::Raft() const {
-  const entity::EntityRef raft =
+  const corgi::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   const RailDenizenData* rail_data = Data<RailDenizenData>(raft);
   assert(rail_data != nullptr);
@@ -117,7 +117,7 @@ float SceneryComponent::PopOutDistSq() const {
   return dist * dist;
 }
 
-float SceneryComponent::DistSq(const entity::EntityRef& scenery,
+float SceneryComponent::DistSq(const corgi::EntityRef& scenery,
                                const RailDenizenData& raft) const {
   const SceneryData* scenery_data = Data<SceneryData>(scenery);
   const TransformData* transform_data = Data<TransformData>(scenery);
@@ -128,7 +128,7 @@ float SceneryComponent::DistSq(const entity::EntityRef& scenery,
 }
 
 float SceneryComponent::AnimTimeRemaining(
-    const entity::EntityRef& scenery) const {
+    const corgi::EntityRef& scenery) const {
   const SceneryData* scenery_data = Data<SceneryData>(scenery);
   const AnimationData* anim_data =
       Data<AnimationData>(scenery_data->render_child);
@@ -149,7 +149,7 @@ float SceneryComponent::AnimLength(const SceneryData* scenery_data,
           scenery_data->render_child, state));
 }
 
-SceneryState SceneryComponent::NextState(const entity::EntityRef& scenery,
+SceneryState SceneryComponent::NextState(const corgi::EntityRef& scenery,
                                          const RailDenizenData& raft) const {
   // Check for state transitions.
   SceneryData* scenery_data = Data<SceneryData>(scenery);
@@ -186,7 +186,7 @@ SceneryState SceneryComponent::NextState(const entity::EntityRef& scenery,
   return scenery_data->state;
 }
 
-void SceneryComponent::Animate(const entity::EntityRef& scenery,
+void SceneryComponent::Animate(const corgi::EntityRef& scenery,
                                SceneryState state) {
   AnimationComponent* anim_component =
       entity_manager_->GetComponent<AnimationComponent>();
@@ -194,7 +194,7 @@ void SceneryComponent::Animate(const entity::EntityRef& scenery,
   anim_component->AnimateFromTable(scenery_data->render_child, state);
 }
 
-void SceneryComponent::StopAnimating(const entity::EntityRef& scenery) {
+void SceneryComponent::StopAnimating(const corgi::EntityRef& scenery) {
   const SceneryData* scenery_data = Data<SceneryData>(scenery);
   AnimationData* anim_data = Data<AnimationData>(scenery_data->render_child);
   if (anim_data->motivator.Valid()) {
@@ -202,24 +202,24 @@ void SceneryComponent::StopAnimating(const entity::EntityRef& scenery) {
   }
 }
 
-void SceneryComponent::Show(const entity::EntityRef& scenery, bool show) {
+void SceneryComponent::Show(const corgi::EntityRef& scenery, bool show) {
   TransformComponent* tf_component =
       entity_manager_->GetComponent<TransformComponent>();
   RenderMeshComponent* rm_component =
       entity_manager_->GetComponent<RenderMeshComponent>();
-  const entity::EntityRef parent = tf_component->GetRootParent(scenery);
+  const corgi::EntityRef parent = tf_component->GetRootParent(scenery);
   rm_component->SetVisibilityRecursively(parent, show);
 }
 
 void SceneryComponent::ShowAll(bool show) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef scenery = iter->entity;
+    corgi::EntityRef scenery = iter->entity;
     Show(scenery, show);
   }
 }
 
-void SceneryComponent::AnimateScenery(const entity::EntityRef& scenery,
+void SceneryComponent::AnimateScenery(const corgi::EntityRef& scenery,
                                       SceneryData* scenery_data,
                                       SceneryState state) {
   if (HasAnim(scenery_data, state)) {
@@ -230,7 +230,7 @@ void SceneryComponent::AnimateScenery(const entity::EntityRef& scenery,
 }
 
 void SceneryComponent::SetVisibilityOnOtherChildren(
-    const entity::EntityRef& scenery, bool visible) {
+    const corgi::EntityRef& scenery, bool visible) {
   const SceneryData* scenery_data = Data<SceneryData>(scenery);
   const TransformData* transform_data = Data<TransformData>(scenery);
   RenderMeshComponent* rm_component =
@@ -245,7 +245,7 @@ void SceneryComponent::SetVisibilityOnOtherChildren(
   }
 }
 
-void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
+void SceneryComponent::TransitionState(const corgi::EntityRef& scenery,
                                        SceneryState next_state) {
   SceneryData* scenery_data = Data<SceneryData>(scenery);
 
@@ -273,7 +273,7 @@ void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
   scenery_data->state = next_state;
 }
 
-void SceneryComponent::ApplyShowOverride(const entity::EntityRef& scenery,
+void SceneryComponent::ApplyShowOverride(const corgi::EntityRef& scenery,
                                          SceneryState show_override) {
   SceneryData* scenery_data = Data<SceneryData>(scenery);
   if (scenery_data) {
@@ -289,11 +289,11 @@ void SceneryComponent::ApplyShowOverride(const entity::EntityRef& scenery,
   }
 }
 
-void SceneryComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+void SceneryComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   const RailDenizenData& raft = Raft();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef scenery = iter->entity;
+    corgi::EntityRef scenery = iter->entity;
     const SceneryData* scenery_data = Data<SceneryData>(scenery);
 
     // Execute state machine for each piece of scenery.

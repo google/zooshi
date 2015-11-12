@@ -20,6 +20,8 @@ using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;
 using mathfu::quat;
+using fplbase::Gamepad;
+using fplbase::InputPointer;
 
 namespace fpl {
 namespace zooshi {
@@ -37,7 +39,7 @@ void AndroidCardboardController::UpdateOrientation() {
   // Cardboard uses a different coordinate space than we use, so we have to
   // remap the axes and swap the handedness before we can use the
   // vectors as our facing/up vectors:
-  const HeadMountedDisplayInput& head_mounted_display_input =
+  const fplbase::HeadMountedDisplayInput& head_mounted_display_input =
     input_system_->head_mounted_display_input();
   const vec3 hmd_forward = head_mounted_display_input.forward();
   const vec3 forward = vec3(hmd_forward.x(), -hmd_forward.z(), hmd_forward.y());

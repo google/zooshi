@@ -25,7 +25,7 @@ extern "C" int FPL_main(int argc, char* argv[]) {
   // appropriate activity already.
   std::string launch_mode;
   std::string overlay;
-  fpl::zooshi::Game::ParseViewIntentData(fpl::AndroidGetViewIntentData(),
+  fpl::zooshi::Game::ParseViewIntentData(fplbase::AndroidGetViewIntentData(),
                                          &launch_mode, &overlay);
   fpl::zooshi::Game::SetOverlayName(overlay.c_str());
 #else
@@ -33,7 +33,7 @@ extern "C" int FPL_main(int argc, char* argv[]) {
 #endif  // defined(__ANDROID__)
 
   if (!game.Initialize(binary_directory)) {
-    fpl::LogError("FPL Game: init failed, exiting!");
+    fplbase::LogError("FPL Game: init failed, exiting!");
     return 1;
   }
 

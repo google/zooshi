@@ -80,23 +80,23 @@ struct PatronEvent {
 
   // Time to start playing animation. If -1, start playing immediately after
   // previous animation completes.
-  entity::WorldTime time;
+  corgi::WorldTime time;
 
   PatronEvent() : action(PatronAction_GetUp), time(-1) {}
-  PatronEvent(PatronAction action, entity::WorldTime time)
+  PatronEvent(PatronAction action, corgi::WorldTime time)
       : action(action), time(time) {}
 };
 
 struct Interpolants {
   Interpolants() {}
-  Interpolants(const Range& values, const Range& times)
+  Interpolants(const motive::Range& values, const motive::Range& times)
       : values(values), times(times) {
     // Assert times.begin() <= times.end(). Not necessary to check values.
     assert(times.Valid());
   }
 
-  Range values;
-  Range times;
+  motive::Range values;
+  motive::Range times;
 };
 
 // Data for scene object components.
@@ -176,7 +176,7 @@ struct PatronData {
 
   // The child of the patron entity that has a RenderMeshComponent and
   // an AnimationComponent.
-  entity::EntityRef render_child;
+  corgi::EntityRef render_child;
 
   // Position to add onto the patron's trajectory.
   // Amount added on = delta_position.Value() - prev_delta_position
@@ -195,7 +195,7 @@ struct PatronData {
   motive::Motivator1f delta_face_angle;
 
   // Set to delta_face_angle.Value() after movement is updated.
-  Angle prev_delta_face_angle;
+  motive::Angle prev_delta_face_angle;
 
   // The height above the patron at which to spawn the happy-indicator.
   float point_display_height;
@@ -219,7 +219,7 @@ struct PatronData {
 
   // When looking at sushi to catch, consider the sushi's trajectory over
   // this time range. In seconds.
-  Range catch_time_for_search;
+  motive::Range catch_time_for_search;
 
   // When actually moving to catch a sushi, make sure you get to the target
   // position within this time. Ensures we don't react too quickly or slowly.
@@ -228,13 +228,13 @@ struct PatronData {
   // is large). Likewise, better to move to the target position in 2.5s and
   // wait, than to take 5s to move there and look like we're not responding.
   // In seconds.
-  Range catch_time;
+  motive::Range catch_time;
 
   // Average speed at which to travel towards the sushi catch position.
-  Range catch_speed;
+  motive::Range catch_speed;
 
   // The sushi entity trying to be caught.
-  entity::EntityRef catch_sushi;
+  corgi::EntityRef catch_sushi;
 
   // When moving towards a sushi, wait this amount of time before adjusting
   // the search for another sushi.
@@ -249,7 +249,7 @@ struct PatronData {
 
   // The angle beyond which the patron should turn to face the raft, in degrees.
   // This is the maximum we allow the patron to face away from the raft.
-  Angle max_face_angle_away_from_raft;
+  motive::Angle max_face_angle_away_from_raft;
 
   // The time to take turning to face the raft, in seconds.
   float time_to_face_raft;
@@ -269,15 +269,15 @@ struct PatronData {
   bool play_eating_animation;
 };
 
-class PatronComponent : public entity::Component<PatronData> {
+class PatronComponent : public corgi::Component<PatronData> {
  public:
   PatronComponent() : config_(nullptr), event_time_(-1) {}
 
   virtual void Init();
-  virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
-  virtual void InitEntity(entity::EntityRef& entity);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void AddFromRawData(corgi::EntityRef& parent, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
+  virtual void InitEntity(corgi::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 
   void UpdateAndEnablePhysics();
 
@@ -287,54 +287,56 @@ class PatronComponent : public entity::Component<PatronData> {
   // Each patron (optionally) holds a sequence of animations in
   // `PatronData::events`. These events are followed after StartEvent() is
   // called.
-  void StartEvent(entity::WorldTime event_start_time);
+  void StartEvent(corgi::WorldTime event_start_time);
 
   // Stop playback of event timeline, and resume normal operation.
   void StopEvent() { event_time_ = -1; }
 
   // Current time into the event. Starts from the `start_time` passed into
   // StartEvent().
-  entity::WorldTime event_time() const { return event_time_; }
+  corgi::WorldTime event_time() const { return event_time_; }
 
   static void CollisionHandler(
-      fpl::component_library::CollisionData* collision_data, void* user_data);
+      corgi::component_library::CollisionData* collision_data, void* user_data);
 
  private:
-  void HandleCollision(const entity::EntityRef& patron_entity,
-                       const entity::EntityRef& proj_entity,
+  void HandleCollision(const corgi::EntityRef& patron_entity,
+                       const corgi::EntityRef& proj_entity,
                        const std::string& part_tag);
-  void UpdateMovement(const entity::EntityRef& patron);
-  void SpawnPointDisplay(const entity::EntityRef& patron);
-  bool ShouldAppear(const PatronData* patron_data,
-                    const component_library::TransformData* transform_data,
-                    const RailDenizenData* raft_rail_denizen) const;
-  bool ShouldDisappear(const PatronData* patron_data,
-                       const component_library::TransformData* transform_data,
-                       const RailDenizenData* raft_rail_denizen) const;
+  void UpdateMovement(const corgi::EntityRef& patron);
+  void SpawnPointDisplay(const corgi::EntityRef& patron);
+  bool ShouldAppear(
+      const PatronData* patron_data,
+      const corgi::component_library::TransformData* transform_data,
+      const RailDenizenData* raft_rail_denizen) const;
+  bool ShouldDisappear(
+      const PatronData* patron_data,
+      const corgi::component_library::TransformData* transform_data,
+      const RailDenizenData* raft_rail_denizen) const;
   bool AnimationEnding(const PatronData* patron_data,
-                       entity::WorldTime delta_time) const;
+                       corgi::WorldTime delta_time) const;
   bool HasAnim(const PatronData* patron_data, PatronAction action) const;
   float AnimLength(const PatronData* patron_data, PatronAction action) const;
   void SetAnimPlaybackRate(const PatronData* patron_data, float playback_rate);
   void Animate(PatronData* patron_data, PatronAction action);
-  Range TargetHeightRange(const entity::EntityRef& patron) const;
+  motive::Range TargetHeightRange(const corgi::EntityRef& patron) const;
   bool RaftExists() const;
   mathfu::vec3 RaftPosition() const;
-  const entity::EntityRef* ClosestProjectile(const entity::EntityRef& patron,
-                                             mathfu::vec3* closest_position,
-                                             Angle* closest_face_angle,
-                                             float* closest_time) const;
-  void FindProjectileAndCatch(const entity::EntityRef& patron);
-  void MoveToTarget(const entity::EntityRef& patron,
+  const corgi::EntityRef* ClosestProjectile(const corgi::EntityRef& patron,
+                                            mathfu::vec3* closest_position,
+                                            motive::Angle* closest_face_angle,
+                                            float* closest_time) const;
+  void FindProjectileAndCatch(const corgi::EntityRef& patron);
+  void MoveToTarget(const corgi::EntityRef& patron,
                     const mathfu::vec3& target_position,
-                    Angle target_face_angle, float target_time);
-  bool ShouldReturnToIdle(const entity::EntityRef& patron) const;
-  void FaceRaft(const entity::EntityRef& patron);
+                    motive::Angle target_face_angle, float target_time);
+  bool ShouldReturnToIdle(const corgi::EntityRef& patron) const;
+  void FaceRaft(const corgi::EntityRef& patron);
 
   const Config* config_;
 
   // Current time into the "event". i.e. the set-up sequence of animations.
-  entity::WorldTime event_time_;
+  corgi::WorldTime event_time_;
 };
 
 }  // zooshi

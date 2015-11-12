@@ -30,11 +30,11 @@ using breadboard::Module;
 using breadboard::ModuleRegistry;
 using breadboard::NodeArguments;
 using breadboard::NodeSignature;
-using fpl::component_library::AnimationComponent;
-using fpl::component_library::GraphComponent;
-using fpl::component_library::TransformComponent;
-using fpl::entity::EntityManager;
-using fpl::entity::EntityRef;
+using corgi::component_library::AnimationComponent;
+using corgi::component_library::GraphComponent;
+using corgi::component_library::TransformComponent;
+using corgi::EntityManager;
+using corgi::EntityRef;
 
 namespace fpl {
 namespace zooshi {
@@ -82,7 +82,7 @@ class AdvanceFrameNode : public BaseNode {
       : graph_component_(graph_component) {}
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddOutput<void>();
-    node_sig->AddListener(fpl::component_library::kAdvanceFrameEventId);
+    node_sig->AddListener(corgi::component_library::kAdvanceFrameEventId);
   }
 
   virtual void Initialize(NodeArguments* args) {

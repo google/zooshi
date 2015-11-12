@@ -36,18 +36,18 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PatronComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::AnimationComponent;
-using fpl::component_library::AnimationData;
-using fpl::component_library::CollisionData;
-using fpl::component_library::PhysicsComponent;
-using fpl::component_library::PhysicsData;
-using fpl::component_library::RenderMeshComponent;
-using fpl::component_library::RenderMeshData;
-using fpl::component_library::RigidBodyData;
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
+using corgi::component_library::AnimationComponent;
+using corgi::component_library::AnimationData;
+using corgi::component_library::CollisionData;
+using corgi::component_library::PhysicsComponent;
+using corgi::component_library::PhysicsData;
+using corgi::component_library::RenderMeshComponent;
+using corgi::component_library::RenderMeshData;
+using corgi::component_library::RigidBodyData;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
 using scene_lab::SceneLab;
-using fpl::entity::EntityRef;
+using corgi::EntityRef;
 using mathfu::kZeros3f;
 using mathfu::quat;
 using mathfu::vec3;
@@ -106,11 +106,11 @@ void PatronComponent::Init() {
 static Interpolants LoadInterpolants(const InterpolantsDef* def) {
   return def == nullptr
              ? Interpolants()
-             : Interpolants(Range(def->start_value(), def->end_value()),
-                            Range(def->start_time(), def->end_time()));
+             : Interpolants(motive::Range(def->start_value(), def->end_value()),
+                            motive::Range(def->start_time(), def->end_time()));
 }
 
-void PatronComponent::AddFromRawData(entity::EntityRef& entity,
+void PatronComponent::AddFromRawData(corgi::EntityRef& entity,
                                      const void* raw_data) {
   auto patron_def = static_cast<const PatronDef*>(raw_data);
   PatronData* patron_data = AddEntity(entity);
@@ -143,17 +143,17 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->max_catch_angle = patron_def->max_catch_angle();
   patron_data->point_display_height = patron_def->point_display_height();
   patron_data->max_face_angle_away_from_raft =
-      Angle::FromDegrees(patron_def->max_face_angle_away_from_raft());
+      motive::Angle::FromDegrees(patron_def->max_face_angle_away_from_raft());
   patron_data->time_to_face_raft = patron_def->time_to_face_raft();
   patron_data->play_eating_animation = patron_def->play_eating_animation() != 0;
 
   patron_data->catch_time_for_search =
-      Range(patron_def->min_catch_time_for_search(),
-            patron_def->max_catch_time_for_search());
+      motive::Range(patron_def->min_catch_time_for_search(),
+                    patron_def->max_catch_time_for_search());
   patron_data->catch_time =
-      Range(patron_def->min_catch_time(), patron_def->max_catch_time());
-  patron_data->catch_speed =
-      Range(patron_def->min_catch_speed(), patron_def->max_catch_speed());
+      motive::Range(patron_def->min_catch_time(), patron_def->max_catch_time());
+  patron_data->catch_speed = motive::Range(patron_def->min_catch_speed(),
+                                           patron_def->max_catch_speed());
   patron_data->time_between_catch_searches =
       patron_def->time_between_catch_searches();
   patron_data->return_time = patron_def->return_time();
@@ -171,8 +171,8 @@ static inline flatbuffers::Offset<InterpolantsDef> SaveInterpolants(
                                in.values.end(), in.times.end());
 }
 
-entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
-    const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
+    const corgi::EntityRef& entity) const {
   const PatronData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
@@ -225,7 +225,7 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   return fbb.ReleaseBufferPointer();
 }
 
-void PatronComponent::InitEntity(entity::EntityRef& entity) { (void)entity; }
+void PatronComponent::InitEntity(corgi::EntityRef& entity) { (void)entity; }
 
 void PatronComponent::UpdateAndEnablePhysics() {
   // Make the patrons stand up
@@ -234,7 +234,7 @@ void PatronComponent::UpdateAndEnablePhysics() {
   auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef patron = iter->entity;
+    corgi::EntityRef patron = iter->entity;
     physics_component->UpdatePhysicsFromTransform(patron);
     physics_component->EnablePhysics(patron);
 
@@ -250,7 +250,7 @@ void PatronComponent::PostLoadFixup() {
   auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef patron = iter->entity;
+    corgi::EntityRef patron = iter->entity;
     PatronData* patron_data = Data<PatronData>(patron);
 
     // Get reference to the first child with a rendermesh. We assume there will
@@ -319,7 +319,7 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
           rail_denizen_data->enabled = true;
           rail_denizen_data->SetPlaybackRate(
               rail_denizen_data->initial_playback_rate,
-              entity::kMillisecondsPerSecond *
+              corgi::kMillisecondsPerSecond *
                   patron_data->rail_accelerate_time);
         }
       }
@@ -328,8 +328,9 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
 
   // Add on delta to face angle.
   if (patron_data->delta_face_angle.Valid()) {
-    const Angle delta_face_angle(patron_data->delta_face_angle.Value());
-    const Angle delta = delta_face_angle - patron_data->prev_delta_face_angle;
+    const motive::Angle delta_face_angle(patron_data->delta_face_angle.Value());
+    const motive::Angle delta =
+        delta_face_angle - patron_data->prev_delta_face_angle;
     transform_data->orientation =
         transform_data->orientation *
         quat::FromAngleAxis(delta.ToRadians(), mathfu::kAxisZ3f);
@@ -343,8 +344,8 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
   if (patron_data->move_state == kPatronMoveStateMoveToTarget) {
     if (ShouldReturnToIdle(patron)) {
       const vec3 raft_position = RaftPosition();
-      const Angle return_angle =
-          Angle::FromYXVector(raft_position - patron_data->return_position);
+      const motive::Angle return_angle = motive::Angle::FromYXVector(
+          raft_position - patron_data->return_position);
       MoveToTarget(patron, patron_data->return_position, return_angle,
                    patron_data->return_time);
       SetMoveState(kPatronMoveStateReturn, patron_data);
@@ -352,7 +353,7 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
   }
 
   // Start moving them faster if right before they disappear.
-  const entity::EntityRef raft =
+  const corgi::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   const RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
   const bool agitated =
@@ -364,12 +365,13 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
                       agitated ? patron_data->exasperated_playback_rate : 1.0f);
 }
 
-void PatronComponent::FaceRaft(const entity::EntityRef& patron) {
+void PatronComponent::FaceRaft(const corgi::EntityRef& patron) {
   const vec3 raft = RaftPosition();
   const TransformData* transform_data = Data<TransformData>(patron);
-  const Angle to_raft(Angle::FromYXVector(raft - transform_data->position));
-  const Angle face(transform_data->orientation.ToEulerAngles().z());
-  const Angle error(to_raft - face);
+  const motive::Angle to_raft(
+      motive::Angle::FromYXVector(raft - transform_data->position));
+  const motive::Angle face(transform_data->orientation.ToEulerAngles().z());
+  const motive::Angle error(to_raft - face);
   PatronData* patron_data = Data<PatronData>(patron);
   if (error.Abs() > patron_data->max_face_angle_away_from_raft) {
     MoveToTarget(patron, transform_data->position, to_raft,
@@ -379,7 +381,7 @@ void PatronComponent::FaceRaft(const entity::EntityRef& patron) {
 }
 
 bool PatronComponent::AnimationEnding(const PatronData* patron_data,
-                                      entity::WorldTime delta_time) const {
+                                      corgi::WorldTime delta_time) const {
   const AnimationData* anim_data =
       Data<AnimationData>(patron_data->render_child);
   if (!anim_data->motivator.Valid()) return false;
@@ -390,13 +392,13 @@ bool PatronComponent::AnimationEnding(const PatronData* patron_data,
   return anim_ending;
 }
 
-void PatronComponent::StartEvent(entity::WorldTime event_start_time) {
+void PatronComponent::StartEvent(corgi::WorldTime event_start_time) {
   event_time_ = event_start_time;
 
   // Reset the event index for all patrons.
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef patron = iter->entity;
+    corgi::EntityRef patron = iter->entity;
     PatronData* patron_data = Data<PatronData>(patron);
     patron_data->event_index = 0;
   }
@@ -448,14 +450,14 @@ bool PatronComponent::ShouldDisappear(
   return time_until_exasperated <= 0.0f;
 }
 
-void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
-  entity::EntityRef raft =
+void PatronComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
+  corgi::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   if (!raft) return;
   const RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef patron = iter->entity;
+    corgi::EntityRef patron = iter->entity;
     TransformData* transform_data = Data<TransformData>(patron);
     PatronData* patron_data = Data<PatronData>(patron);
     RenderMeshComponent* rm_component =
@@ -558,7 +560,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
             rail_denizen_data->enabled = true;
             rail_denizen_data->SetPlaybackRate(
                 rail_denizen_data->initial_playback_rate,
-                entity::kMillisecondsPerSecond *
+                corgi::kMillisecondsPerSecond *
                     patron_data->rail_accelerate_time);
           }
         }  // fallthrough
@@ -574,7 +576,7 @@ void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
 
     // Update timers.
     const float delta_seconds =
-        static_cast<float>(delta_time) / entity::kMillisecondsPerSecond;
+        static_cast<float>(delta_time) / corgi::kMillisecondsPerSecond;
     patron_data->time_in_move_state += delta_seconds;
     patron_data->time_in_state += delta_seconds;
     if (IgnoredMoveState(patron_data->move_state)) {
@@ -615,7 +617,7 @@ void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {
 void PatronComponent::CollisionHandler(CollisionData* collision_data,
                                        void* user_data) {
   PatronComponent* patron_component = static_cast<PatronComponent*>(user_data);
-  entity::ComponentId id = GetComponentId();
+  corgi::ComponentId id = GetComponentId();
   if (collision_data->this_entity->IsRegisteredForComponent(id)) {
     patron_component->HandleCollision(collision_data->this_entity,
                                       collision_data->other_entity,
@@ -627,8 +629,8 @@ void PatronComponent::CollisionHandler(CollisionData* collision_data,
   }
 }
 
-void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
-                                      const entity::EntityRef& proj_entity,
+void PatronComponent::HandleCollision(const corgi::EntityRef& patron_entity,
+                                      const corgi::EntityRef& proj_entity,
                                       const std::string& part_tag) {
   // We only care about collisions with projectiles that haven't been deleted.
   PlayerProjectileData* projectile_data =
@@ -636,7 +638,7 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   if (projectile_data == nullptr || proj_entity->marked_for_deletion()) {
     return;
   }
-  entity::EntityRef raft =
+  corgi::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
   PatronData* patron_data = Data<PatronData>(patron_entity);
@@ -664,12 +666,12 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   }
 }
 
-void PatronComponent::SpawnPointDisplay(const entity::EntityRef& patron) {
+void PatronComponent::SpawnPointDisplay(const corgi::EntityRef& patron) {
   // We need the raft, so we can orient towards it:
   if (!RaftExists()) return;
 
   // Spawn from prototype:
-  entity::EntityRef point_display =
+  corgi::EntityRef point_display =
       entity_manager_->GetComponent<ServicesComponent>()
           ->entity_factory()
           ->CreateEntityFromPrototype("FloatingPointDisplay", entity_manager_);
@@ -689,8 +691,9 @@ void PatronComponent::SpawnPointDisplay(const entity::EntityRef& patron) {
 }
 
 static float CalculateClosestTimeInHeightRange(
-    float target_t, const Range& valid_times, const Range& valid_heights,
-    float start_height, float start_speed, float gravity) {
+    float target_t, const motive::Range& valid_times,
+    const motive::Range& valid_heights, float start_height, float start_speed,
+    float gravity) {
   // Let `h(t)` represent the height at time `t`.
   // Then,
   //   h(0) = start_height
@@ -701,28 +704,30 @@ static float CalculateClosestTimeInHeightRange(
 
   // Create curves with roots at the min and max heights.
   const float half_gravity = 0.5f * gravity;
-  const QuadraticCurve below_max_curve(half_gravity, start_speed,
-                                       start_height - valid_heights.end());
-  const QuadraticCurve above_min_curve(half_gravity, start_speed,
-                                       start_height - valid_heights.start());
+  const motive::QuadraticCurve below_max_curve(
+      half_gravity, start_speed, start_height - valid_heights.end());
+  const motive::QuadraticCurve above_min_curve(
+      half_gravity, start_speed, start_height - valid_heights.start());
 
   // Find time ranges where those curves are in the valid range.
-  QuadraticCurve::RangeArray below_max_ranges;
-  QuadraticCurve::RangeArray above_min_ranges;
+  motive::QuadraticCurve::RangeArray below_max_ranges;
+  motive::QuadraticCurve::RangeArray above_min_ranges;
   below_max_curve.RangesBelowZero(valid_times, &below_max_ranges);
   above_min_curve.RangesAboveZero(valid_times, &above_min_ranges);
 
   // Fine time ranges where both curves are in the valid range.
-  Range::RangeArray<4> valid_ranges;
-  Range::IntersectRanges(below_max_ranges, above_min_ranges, &valid_ranges);
+  motive::Range::RangeArray<4> valid_ranges;
+  motive::Range::IntersectRanges(below_max_ranges, above_min_ranges,
+                                 &valid_ranges);
 
   // TODO: Prefer later times, given the same distance, since we want more
   //       time to move to the catch point.
-  const float closest_t = Range::ClampToClosest(target_t, valid_ranges);
+  const float closest_t = motive::Range::ClampToClosest(target_t, valid_ranges);
   return closest_t;
 }
 
-Range PatronComponent::TargetHeightRange(const EntityRef& patron) const {
+motive::Range PatronComponent::TargetHeightRange(const EntityRef& patron)
+    const {
   // Get the physics rigid body data for the patron's target.
   const PatronData* patron_data = GetComponentData(patron);
   const PhysicsData* physics_data = Data<PhysicsData>(patron);
@@ -734,8 +739,8 @@ Range PatronComponent::TargetHeightRange(const EntityRef& patron) const {
                         &target_max);
 
   // Return the heights.
-  return Range(target_min.z() + kHeightRangeBuffer,
-               target_max.z() - kHeightRangeBuffer);
+  return motive::Range(target_min.z() + kHeightRangeBuffer,
+                       target_max.z() - kHeightRangeBuffer);
 }
 
 bool PatronComponent::RaftExists() const {
@@ -752,10 +757,9 @@ vec3 PatronComponent::RaftPosition() const {
   return raft_transform->position;
 }
 
-const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
-                                                    vec3* closest_position,
-                                                    Angle* closest_face_angle,
-                                                    float* closest_time) const {
+const EntityRef* PatronComponent::ClosestProjectile(
+    const EntityRef& patron, vec3* closest_position,
+    motive::Angle* closest_face_angle, float* closest_time) const {
   // TODO: change projectile_component to const when Component gets a
   //       const_iterator.
   PlayerProjectileComponent* projectile_component =
@@ -765,7 +769,7 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
 
   // Gather patron details. These are independent of the projectiles.
   const vec3 patron_position_xy = ZeroHeight(patron_transform->position);
-  const Range target_height_range = TargetHeightRange(patron);
+  const motive::Range target_height_range = TargetHeightRange(patron);
   const vec3 return_position_xy = ZeroHeight(patron_data->return_position);
 
   // Gather data about the raft, which is needed in the calculations.
@@ -813,9 +817,8 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
     // If returning from a previous attempt, limit how far from the initial
     // position to leave from again.
     if (patron_data->move_state == kPatronMoveStateReturn) {
-      const float dist_sq =
-          (return_position_xy - closest_position_ignore_height_xy)
-              .LengthSquared();
+      const float dist_sq = (return_position_xy -
+                             closest_position_ignore_height_xy).LengthSquared();
       if (dist_sq > max_dist_sq) continue;
     }
 
@@ -834,19 +837,19 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
     if (dist_sq > closest_dist_sq) continue;
 
     // Don't face too far away from the player in order to catch thrown sushi.
-    Angle angle_to_sushi =
-        Angle::FromYXVector(projectile_position_xy - intercept_position_xy);
-    Angle angle_to_raft =
-        Angle::FromYXVector(raft_position_xy - intercept_position_xy);
-    Angle difference = angle_to_raft - angle_to_sushi;
+    motive::Angle angle_to_sushi = motive::Angle::FromYXVector(
+        projectile_position_xy - intercept_position_xy);
+    motive::Angle angle_to_raft =
+        motive::Angle::FromYXVector(raft_position_xy - intercept_position_xy);
+    motive::Angle difference = angle_to_raft - angle_to_sushi;
     if (fabs(difference.ToDegrees()) > patron_data->max_catch_angle) continue;
 
     // TODO: prefer projectiles that are slightly farther but with much more
     //       time to close the distance.
     closest_position_xy = intercept_position_xy;
     *closest_time = closest_t;
-    *closest_face_angle =
-        Angle::FromYXVector(projectile_position_xy - intercept_position_xy);
+    *closest_face_angle = motive::Angle::FromYXVector(projectile_position_xy -
+                                                      intercept_position_xy);
     closest_ref = &it->entity;
     closest_dist_sq = dist_sq;
   }
@@ -872,7 +875,7 @@ const EntityRef* PatronComponent::ClosestProjectile(const EntityRef& patron,
 void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
   // Find the projectile that's the closest.
   vec3 closest_position;
-  Angle closest_face_angle;
+  motive::Angle closest_face_angle;
   float closest_time;
   const EntityRef* closest_projectile = ClosestProjectile(
       patron, &closest_position, &closest_face_angle, &closest_time);
@@ -899,22 +902,24 @@ void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
 
 void PatronComponent::MoveToTarget(const EntityRef& patron,
                                    const vec3& target_position,
-                                   Angle target_face_angle, float target_time) {
+                                   motive::Angle target_face_angle,
+                                   float target_time) {
   const TransformData* patron_transform = Data<TransformData>(patron);
   PatronData* patron_data = Data<PatronData>(patron);
   const vec3 position = patron_transform->position;
-  const Angle face_angle(patron_transform->orientation.ToEulerAngles().z());
+  const motive::Angle face_angle(
+      patron_transform->orientation.ToEulerAngles().z());
 
   // At `target_time` we want to achieve these deltas so that our position and
   // face angle with equal `target_position` and `target_face_angle`.
   const vec3 delta_position = target_position - position;
-  const Angle delta_face_angle = target_face_angle - face_angle;
+  const motive::Angle delta_face_angle = target_face_angle - face_angle;
   const MotiveTime target_time_ms = std::max(
-      1, static_cast<MotiveTime>(entity::kMillisecondsPerSecond * target_time));
+      1, static_cast<MotiveTime>(corgi::kMillisecondsPerSecond * target_time));
 
   // Set the delta movement Motivators.
   patron_data->prev_delta_position = vec3(kZeros3f);
-  patron_data->prev_delta_face_angle = Angle(0.0f);
+  patron_data->prev_delta_face_angle = motive::Angle(0.0f);
 
   motive::MotiveEngine* motive_engine =
       &entity_manager_->GetComponent<AnimationComponent>()->engine();
@@ -924,15 +929,14 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
       motive::Tar3f::CurrentToTarget(kZeros3f, kZeros3f, delta_position,
                                      kZeros3f, target_time_ms));
 
-  const Range angle_range(-kPi, kPi);
+  const motive::Range angle_range(-motive::kPi, motive::kPi);
   patron_data->delta_face_angle.InitializeWithTarget(
       motive::SmoothInit(angle_range, true), motive_engine,
       motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(), 0.0f,
                                 target_time_ms));
 }
 
-bool PatronComponent::ShouldReturnToIdle(
-    const entity::EntityRef& patron) const {
+bool PatronComponent::ShouldReturnToIdle(const corgi::EntityRef& patron) const {
   const PatronData* patron_data = Data<PatronData>(patron);
   const TransformData* transform_data = Data<TransformData>(patron);
   if (patron_data->move_state == kPatronMoveStateMoveToTarget &&

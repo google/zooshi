@@ -16,6 +16,7 @@
 #include "states/gameplay_state.h"
 
 #include "fplbase/input.h"
+#include "fplbase/asset_manager.h"
 #include "full_screen_fader.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
@@ -31,12 +32,12 @@ namespace zooshi {
 
 // Update music gain based on lap number. This logic will eventually live in
 // an event graph.
-static void UpdateMusic(entity::EntityManager* entity_manager,
+static void UpdateMusic(corgi::EntityManager* entity_manager,
                         int* previous_lap, float* percent, int delta_time,
                         pindrop::Channel* music_channel_1,
                         pindrop::Channel* music_channel_2,
                         pindrop::Channel* music_channel_3) {
-  entity::EntityRef raft =
+  corgi::EntityRef raft =
       entity_manager->GetComponent<ServicesComponent>()->raft_entity();
   RailDenizenData* raft_rail_denizen =
       entity_manager->GetComponentData<RailDenizenData>(raft);
@@ -81,10 +82,10 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
               &music_channel_lap_1_, &music_channel_lap_2_,
               &music_channel_lap_3_);
 
-  if (input_system_->GetButton(fpl::FPLK_F9).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_F9).went_down()) {
     world_->draw_debug_physics = !world_->draw_debug_physics;
   }
-  if (input_system_->GetButton(fpl::FPLK_F8).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_F8).went_down()) {
     world_->skip_rendermesh_rendering = !world_->skip_rendermesh_rendering;
   }
 
@@ -92,25 +93,25 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   *next_state = requested_state_;
 
   // Switch States if necessary.
-  if (scene_lab_ && input_system_->GetButton(fpl::FPLK_F10).went_down()) {
+  if (scene_lab_ && input_system_->GetButton(fplbase::FPLK_F10).went_down()) {
     scene_lab_->SetInitialCamera(main_camera_);
     *next_state = kGameStateSceneLab;
   }
 
   // Pause the game.
-  if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
-      input_system_->GetButton(FPLK_AC_BACK).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down() ||
+      input_system_->GetButton(fplbase::FPLK_AC_BACK).went_down()) {
     audio_engine_->PlaySound(sound_pause_);
     *next_state = kGameStatePause;
   }
   fader_->AdvanceFrame(delta_time);
 }
 
-void GameplayState::RenderPrep(Renderer* renderer) {
+void GameplayState::RenderPrep(fplbase::Renderer* renderer) {
   world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
 }
 
-void GameplayState::Render(Renderer* renderer) {
+void GameplayState::Render(fplbase::Renderer* renderer) {
   if (!world_->asset_manager) return;
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
@@ -119,12 +120,12 @@ void GameplayState::Render(Renderer* renderer) {
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
   if (!fader_->Finished()) {
     renderer->set_model_view_projection(
-        mat4::Ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
+        mathfu::mat4::Ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f));
     fader_->Render(renderer);
   }
 }
 
-void GameplayState::HandleUI(Renderer* renderer) {
+void GameplayState::HandleUI(fplbase::Renderer* renderer) {
   ServicesComponent& services = world_->services_component;
   world_->onscreen_controller_ui.Update(services.asset_manager(),
                                         services.font_manager(),
@@ -132,8 +133,8 @@ void GameplayState::HandleUI(Renderer* renderer) {
 }
 
 void GameplayState::Initialize(
-    InputSystem* input_system, World* world, const Config* config,
-    const InputConfig* input_config, entity::EntityManager* entity_manager,
+    fplbase::InputSystem* input_system, World* world, const Config* config,
+    const InputConfig* input_config, corgi::EntityManager* entity_manager,
     scene_lab::SceneLab* scene_lab, GPGManager* gpg_manager,
     pindrop::AudioEngine* audio_engine, FullScreenFader* fader) {
   input_system_ = input_system;

@@ -26,7 +26,7 @@ using breadboard::Module;
 using breadboard::ModuleRegistry;
 using breadboard::NodeArguments;
 using breadboard::NodeSignature;
-using fpl::component_library::GraphComponent;
+using corgi::component_library::GraphComponent;
 
 namespace fpl {
 namespace zooshi {
@@ -41,14 +41,14 @@ class OnFireNode : public BaseNode {
       : graph_component_(graph_component) {}
 
   static void OnRegister(NodeSignature* node_sig) {
-    node_sig->AddInput<entity::EntityRef>();
+    node_sig->AddInput<corgi::EntityRef>();
     node_sig->AddOutput<void>();
     node_sig->AddListener(kOnFireEventId);
   }
 
   virtual void Initialize(NodeArguments* args) {
     // Bind the node to player entity's broadcaster.
-    auto entity = args->GetInput<entity::EntityRef>(0);
+    auto entity = args->GetInput<corgi::EntityRef>(0);
     args->BindBroadcaster(0, graph_component_->GetCreateBroadcaster(*entity));
   }
 
@@ -69,20 +69,20 @@ class FedPatronNode : public BaseNode {
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<bool>();
-    node_sig->AddInput<entity::EntityRef>();  // Player entity.
-    node_sig->AddInput<entity::EntityRef>();  // Collision target.
+    node_sig->AddInput<corgi::EntityRef>();  // Player entity.
+    node_sig->AddInput<corgi::EntityRef>();  // Collision target.
     node_sig->AddOutput<void>();
   }
 
   virtual void Execute(NodeArguments* args) {
     auto hit = args->GetInput<bool>(0);
     if (*hit) {
-      auto entity = args->GetInput<entity::EntityRef>(1);
+      auto entity = args->GetInput<corgi::EntityRef>(1);
       auto player_data = player_component_->GetComponentData(*entity);
 
-      auto target_entity = args->GetInput<entity::EntityRef>(2);
-      auto target_data =
-          player_component_->Data<component_library::MetaData>(*target_entity);
+      auto target_entity = args->GetInput<corgi::EntityRef>(2);
+      auto target_data = player_component_->
+        Data<corgi::component_library::MetaData>(*target_entity);
       if (player_data) {
         auto id = target_data->prototype;
         player_data->get_patrons_feed_status().insert(id);
@@ -102,13 +102,13 @@ class CheckAllPatronsFedNode : public BaseNode {
       : player_component_(player_component) {}
 
   static void OnRegister(NodeSignature* node_sig) {
-    node_sig->AddInput<entity::EntityRef>();
+    node_sig->AddInput<corgi::EntityRef>();
     node_sig->AddOutput<int32_t>();
   }
 
   virtual void Execute(NodeArguments* args) {
     int32_t ret = 0;
-    auto entity = args->GetInput<entity::EntityRef>(0);
+    auto entity = args->GetInput<corgi::EntityRef>(0);
     auto player_data = player_component_->GetComponentData(*entity);
     if (player_data) {
       if (player_data->get_patrons_feed_status().size() >= kPatronTypes) {

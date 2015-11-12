@@ -27,8 +27,8 @@ namespace zooshi {
 void UpdateMainCamera(Camera* camera, World* world);
 
 // Render the world monoscopically or stereoscopically.
-void RenderWorld(Renderer& renderer, World* world, Camera& camera,
-                 Camera* cardboard_camera, InputSystem* input_system);
+void RenderWorld(fplbase::Renderer& renderer, World* world, Camera& camera,
+                 Camera* cardboard_camera, fplbase::InputSystem* input_system);
 
 }  // zooshi
 }  // fpl

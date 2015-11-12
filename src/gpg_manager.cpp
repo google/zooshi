@@ -19,6 +19,9 @@
 #endif
 #include "gpg_manager.h"
 
+using fplbase::LogError;
+using fplbase::LogInfo;
+
 namespace fpl {
 
 GPGManager::GPGManager() {
@@ -57,7 +60,7 @@ bool GPGManager::Initialize(bool ui_login) {
   */
   gpg::AndroidPlatformConfiguration platform_configuration;
   platform_configuration.SetActivity(
-      reinterpret_cast<jobject>(AndroidGetActivity()));
+      reinterpret_cast<jobject>(fplbase::AndroidGetActivity()));
 
   // Creates a games_services object that has lambda callbacks.
   game_services_ =
@@ -417,7 +420,7 @@ void GPGManager::FetchPlayer() {
 
 #ifdef __ANDROID__
 extern "C" JNIEXPORT jint GPG_JNI_OnLoad(JavaVM *vm, void *reserved) {
-  fpl::LogInfo("main: JNI_OnLoad called");
+  fplbase::LogInfo("main: JNI_OnLoad called");
 
   gpg::AndroidInitialization::JNI_OnLoad(vm);
 
@@ -430,6 +433,6 @@ Java_com_google_fpl_fplbase_FPLActivity_nativeOnActivityResult(
     jint result_code, jobject data) {
   gpg::AndroidSupport::OnActivityResult(env, activity, request_code,
                                         result_code, data);
-  fpl::LogInfo("GPG: nativeOnActivityResult");
+  fplbase::LogInfo("GPG: nativeOnActivityResult");
 }
 #endif

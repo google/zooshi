@@ -34,10 +34,10 @@ namespace zooshi {
 
 static const float kTimeToStopRaft = 500.0f;
 
-void GameOverState::Initialize(InputSystem* input_system, World* world,
+void GameOverState::Initialize(fplbase::InputSystem* input_system, World* world,
                                const Config* config,
-                               AssetManager* asset_manager,
-                               FontManager* font_manager,
+                               fplbase::AssetManager* asset_manager,
+                               flatui::FontManager* font_manager,
                                GPGManager* gpg_manager,
                                pindrop::AudioEngine* audio_engine) {
   world_ = world;
@@ -66,15 +66,15 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
   UpdateMainCamera(&main_camera_, world_);
 
   // Return to the title screen after any key is hit.
-  static const entity::WorldTime kMinTimeInEndState =
-      static_cast<entity::WorldTime>(8000.0f);
+  static const corgi::WorldTime kMinTimeInEndState =
+      static_cast<corgi::WorldTime>(8000.0f);
   const bool event_over =
       world_->patron_component.event_time() > kMinTimeInEndState;
   const bool pointer_button_pressed =
       input_system_->GetPointerButton(0).went_down();
   const bool exit_button_pressed =
-      input_system_->GetButton(FPLK_ESCAPE).went_down() ||
-      input_system_->GetButton(FPLK_AC_BACK).went_down();
+      input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down() ||
+      input_system_->GetButton(fplbase::FPLK_AC_BACK).went_down();
   auto player = world_->player_component.begin()->entity;
   auto player_data =
       world_->entity_manager.GetComponentData<PlayerData>(player);
@@ -92,11 +92,11 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
-void GameOverState::RenderPrep(Renderer* renderer) {
+void GameOverState::RenderPrep(fplbase::Renderer* renderer) {
   world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
 }
 
-void GameOverState::Render(Renderer* renderer) {
+void GameOverState::Render(fplbase::Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
@@ -109,13 +109,13 @@ void GameOverState::OnEnter(int /*previous_state*/) {
   UpdateMainCamera(&main_camera_, world_);
 
   // Stop the raft over the course of a few seconds.
-  entity::EntityRef raft = world_->services_component.raft_entity();
+  corgi::EntityRef raft = world_->services_component.raft_entity();
   RailDenizenData* raft_rail_denizen =
       world_->rail_denizen_component.GetComponentData(raft);
   raft_rail_denizen->SetPlaybackRate(0.0f, kTimeToStopRaft);
 
   // Trigger the end-game event.
-  static const entity::WorldTime kEndGameEventTime = 0;
+  static const corgi::WorldTime kEndGameEventTime = 0;
   world_->patron_component.StartEvent(kEndGameEventTime);
 
 #ifdef USING_GOOGLE_PLAY_GAMES

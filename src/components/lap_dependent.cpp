@@ -26,8 +26,8 @@ namespace fpl {
 namespace zooshi {
 
 using scene_lab::SceneLab;
-using fpl::component_library::PhysicsComponent;
-using fpl::component_library::RenderMeshComponent;
+using corgi::component_library::PhysicsComponent;
+using corgi::component_library::RenderMeshComponent;
 
 void LapDependentComponent::Init() {
   auto services = entity_manager_->GetComponent<ServicesComponent>();
@@ -40,7 +40,7 @@ void LapDependentComponent::Init() {
   }
 }
 
-void LapDependentComponent::AddFromRawData(entity::EntityRef& entity,
+void LapDependentComponent::AddFromRawData(corgi::EntityRef& entity,
                                            const void* raw_data) {
   auto lap_dependent_def = static_cast<const LapDependentDef*>(raw_data);
   LapDependentData* lap_dependent_data = AddEntity(entity);
@@ -48,8 +48,8 @@ void LapDependentComponent::AddFromRawData(entity::EntityRef& entity,
   lap_dependent_data->max_lap = lap_dependent_def->max_lap();
 }
 
-entity::ComponentInterface::RawDataUniquePtr
-LapDependentComponent::ExportRawData(const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr
+LapDependentComponent::ExportRawData(const corgi::EntityRef& entity) const {
   const LapDependentData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
@@ -62,11 +62,11 @@ LapDependentComponent::ExportRawData(const entity::EntityRef& entity) const {
   return fbb.ReleaseBufferPointer();
 }
 
-void LapDependentComponent::InitEntity(entity::EntityRef& /*entity*/) {}
+void LapDependentComponent::InitEntity(corgi::EntityRef& /*entity*/) {}
 
 void LapDependentComponent::UpdateAllEntities(
-    entity::WorldTime /*delta_time*/) {
-  entity::EntityRef raft =
+    corgi::WorldTime /*delta_time*/) {
+  corgi::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   if (!raft) return;
   RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
@@ -117,7 +117,7 @@ void LapDependentComponent::DeactivateAllEntities() {
   }
 }
 
-void LapDependentComponent::ActivateEntity(entity::EntityRef& entity) {
+void LapDependentComponent::ActivateEntity(corgi::EntityRef& entity) {
   auto data = GetComponentData(entity);
   if (!data) return;
 
@@ -132,7 +132,7 @@ void LapDependentComponent::ActivateEntity(entity::EntityRef& entity) {
   }
 }
 
-void LapDependentComponent::DeactivateEntity(entity::EntityRef& entity) {
+void LapDependentComponent::DeactivateEntity(corgi::EntityRef& entity) {
   auto data = GetComponentData(entity);
   if (!data) return;
 

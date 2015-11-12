@@ -23,18 +23,18 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SimpleMovementComponent,
 namespace fpl {
 namespace zooshi {
 
-void SimpleMovementComponent::AddFromRawData(entity::EntityRef& entity,
+void SimpleMovementComponent::AddFromRawData(corgi::EntityRef& entity,
                                              const void* raw_data) {
   auto simple_movement_def = static_cast<const SimpleMovementDef*>(raw_data);
   SimpleMovementData* simple_movement_data = AddEntity(entity);
   simple_movement_data->velocity = LoadVec3(simple_movement_def->velocity());
 }
 
-void SimpleMovementComponent::UpdateAllEntities(entity::WorldTime delta_time) {
+void SimpleMovementComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    component_library::TransformData* transform_data =
-        Data<component_library::TransformData>(iter->entity);
+    corgi::component_library::TransformData* transform_data =
+        Data<corgi::component_library::TransformData>(iter->entity);
     SimpleMovementData* simple_movement_data =
         Data<SimpleMovementData>(iter->entity);
 
@@ -44,22 +44,22 @@ void SimpleMovementComponent::UpdateAllEntities(entity::WorldTime delta_time) {
   }
 }
 
-entity::ComponentInterface::RawDataUniquePtr
-SimpleMovementComponent::ExportRawData(const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr
+SimpleMovementComponent::ExportRawData(const corgi::EntityRef& entity) const {
   const SimpleMovementData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  fpl::Vec3 velocity(data->velocity.x(), data->velocity.y(),
+  fplbase::Vec3 velocity(data->velocity.x(), data->velocity.y(),
                      data->velocity.z());
 
   fbb.Finish(CreateSimpleMovementDef(fbb, &velocity));
   return fbb.ReleaseBufferPointer();
 }
 
-void SimpleMovementComponent::InitEntity(entity::EntityRef& entity) {
-  entity_manager_->AddEntityToComponent<component_library::TransformComponent>(
-      entity);
+void SimpleMovementComponent::InitEntity(corgi::EntityRef& entity) {
+  entity_manager_->
+    AddEntityToComponent<corgi::component_library::TransformComponent>(entity);
 }
 
 }  // zooshi

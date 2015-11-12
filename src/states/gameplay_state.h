@@ -44,16 +44,16 @@ class GameplayState : public StateNode {
  public:
   GameplayState() : previous_lap_(0), percent_(0.0f) {}
 
-  void Initialize(InputSystem* input_system, World* world, const Config* config,
-                  const InputConfig* input_config,
-                  entity::EntityManager* entitiy_manager,
+  void Initialize(fplbase::InputSystem* input_system, World* world,
+                  const Config* config, const InputConfig* input_config,
+                  corgi::EntityManager* entitiy_manager,
                   scene_lab::SceneLab* scene_lab, GPGManager* gpg_manager,
                   pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(Renderer* renderer);
-  virtual void Render(Renderer* renderer);
-  virtual void HandleUI(Renderer* renderer);
+  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void Render(fplbase::Renderer* renderer);
+  virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
 
@@ -66,9 +66,9 @@ class GameplayState : public StateNode {
 
   const InputConfig* input_config_;
 
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
 
-  entity::EntityManager* entity_manager_;
+  corgi::EntityManager* entity_manager_;
 
   Camera main_camera_;
 #ifdef ANDROID_HMD

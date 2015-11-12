@@ -28,7 +28,7 @@ namespace zooshi {
 void InitializeZooshiModule(
     breadboard::ModuleRegistry* module_registry,
     ServicesComponent* services_component,
-    component_library::GraphComponent* graph_component,
+    corgi::component_library::GraphComponent* graph_component,
     SceneryComponent* scenery_component);
 
 }  // zooshi

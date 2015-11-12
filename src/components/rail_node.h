@@ -32,12 +32,12 @@ struct RailNodeData {
   float reliable_distance;
 };
 
-class RailNodeComponent : public entity::Component<RailNodeData> {
+class RailNodeComponent : public corgi::Component<RailNodeData> {
  public:
   RailNodeComponent() {}
 
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 };
 
 }  // zooshi

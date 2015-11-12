@@ -28,13 +28,15 @@ namespace zooshi {
 
 class GameOverState : public StateNode {
  public:
-  void Initialize(InputSystem* input_system, World* world, const Config* config,
-                  AssetManager* asset_manager, FontManager* font_manager,
+  void Initialize(fplbase::InputSystem* input_system, World* world,
+                  const Config* config,
+                  fplbase::AssetManager* asset_manager,
+                  flatui::FontManager* font_manager,
                   GPGManager* gpg_manager_, pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(Renderer* renderer);
-  virtual void Render(Renderer* renderer);
+  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void Render(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
 
@@ -53,13 +55,13 @@ class GameOverState : public StateNode {
 
   // FlatUI uses InputSystem for an input handling for a touch, gamepad,
   // mouse and keyboard.
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
 
   // FlatUI loads resources using AssetManager.
-  AssetManager* asset_manager_;
+  fplbase::AssetManager* asset_manager_;
 
   // FlatUI uses FontManager for a text rendering.
-  FontManager* font_manager_;
+  flatui::FontManager* font_manager_;
 
   // Used to display leaderboard.
   GPGManager* gpg_manager_;
@@ -71,7 +73,7 @@ class GameOverState : public StateNode {
   pindrop::SoundHandle sound_click_;
 
   // Textures used in menu UI.
-  Texture* background_game_over_;
+  fplbase::Texture* background_game_over_;
 };
 
 }  // zooshi

@@ -23,28 +23,28 @@
 #include "fplbase/utilities.h"
 #include "pindrop/pindrop.h"
 
-using fpl::component_library::SerializableGraphState;
+using corgi::component_library::SerializableGraphState;
 namespace fpl {
 namespace zooshi {
 
-static const entity::WorldTime kMaxProjectileDuration = 3000;
+static const corgi::WorldTime kMaxProjectileDuration = 3000;
 
 // Data for scene object components.
 struct PlayerProjectileData {
-  entity::EntityRef owner;  // The player that "owns" this projectile.
+  corgi::EntityRef owner;  // The player that "owns" this projectile.
 
   // The graph that may trigger when colliding with another entity.
   std::map<std::string, SerializableGraphState> on_collision;
 };
 
 class PlayerProjectileComponent
-    : public entity::Component<PlayerProjectileData> {
+    : public corgi::Component<PlayerProjectileData> {
  public:
-  virtual void InitEntity(entity::EntityRef& /*entity*/) {}
-  virtual void CleanupEntity(entity::EntityRef& /*entity*/) {}
+  virtual void InitEntity(corgi::EntityRef& /*entity*/) {}
+  virtual void CleanupEntity(corgi::EntityRef& /*entity*/) {}
 
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
+  virtual void UpdateAllEntities(corgi::WorldTime /*delta_time*/) {}
 };
 
 }  // zooshi
