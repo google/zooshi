@@ -145,12 +145,22 @@ bool Game::InitializeRenderer() {
 
 #ifdef __ANDROID__
   // Restart the app if HW scaler setting failed.
+  auto retry = LoadPreference("HWScalerRetry", 0);
+  const auto kMaxRetry = 3;
   auto current_window_size = AndroidGetScalerResolution();
   if (current_window_size.x() != window_size.x() ||
       current_window_size.y() != window_size.y() ) {
-    LogError("Restarting application.");
-    RelaunchApplication();
-    return false;
+    if (retry < kMaxRetry) {
+      LogError("Restarting application.");
+      SavePreference("HWScalerRetry", retry + 1);
+      RelaunchApplication();
+      return false;
+    }
+    // The HW may not support the API. Fallback to native resolution pass until
+    // the API success next time.
+  } else {
+    // HW scaler setting was success. Clear retry counter.
+    SavePreference("HWScalerRetry", 0);
   }
 #endif
 
