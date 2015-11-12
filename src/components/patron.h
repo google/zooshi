@@ -87,32 +87,16 @@ struct PatronEvent {
       : action(action), time(time) {}
 };
 
-class InterpolatedValue {
- public:
-  InterpolatedValue()
-      : start_y_(0.0f), start_x_(0.0f), end_y_(0.0f), end_x_(0.0f) {}
-  InterpolatedValue(float start_y, float start_x, float end_y, float end_x)
-      : start_y_(start_y), start_x_(start_x), end_y_(end_y), end_x_(end_x) {}
-
-  float Interpolate(float x) const {
-    assert(start_x_ < end_x_);
-    const float clamped_x = mathfu::Clamp(x, start_x_, end_x_);
-    const float percent = (clamped_x - start_x_) / (end_x_ - start_x_);
-    const float y = mathfu::Lerp(start_y_, end_y_, percent);
-    return y;
-    return end_y_;
+struct Interpolants {
+  Interpolants() {}
+  Interpolants(const Range& values, const Range& times)
+      : values(values), times(times) {
+    // Assert times.begin() <= times.end(). Not necessary to check values.
+    assert(times.Valid());
   }
 
-  float start_y() const { return start_y_; }
-  float start_x() const { return start_x_; }
-  float end_y() const { return end_y_; }
-  float end_x() const { return end_x_; }
-
- private:
-  float start_y_;
-  float start_x_;
-  float end_y_;
-  float end_x_;
+  Range values;
+  Range times;
 };
 
 // Data for scene object components.
@@ -160,7 +144,7 @@ struct PatronData {
   // If the raft entity is within the pop_in_range it will stand up. If it is
   // once up, if it's not in the pop out range, it will fall down. As a minor
   // optimization, it's stored here as the square of the distance.
-  InterpolatedValue pop_in_radius;
+  Interpolants pop_in_radius;
   float pop_out_radius;
 
   // Each time the raft makes a lap around the river, its lap counter is
@@ -171,7 +155,7 @@ struct PatronData {
 
   // Time, in seconds, that patron is willing to wait until sushi is throw
   // within catching distance. Decreases as the lap increases.
-  InterpolatedValue patience;
+  Interpolants patience;
 
   // Sequence of animations to follow once StartEvent() has been called.
   std::vector<PatronEvent> events;

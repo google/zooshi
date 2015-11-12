@@ -64,6 +64,14 @@ static inline vec3 ZeroHeight(const vec3& v) {
   return v_copy;
 }
 
+static inline float Interpolate(const Interpolants& in, float time) {
+  assert(in.times.Valid());
+  if (in.times.Length() == 0.0f) {
+    return time <= in.times.start() ? in.values.start() : in.values.end();
+  }
+  return in.values.Lerp(in.times.PercentClamped(time));
+}
+
 static inline bool IgnoredMoveState(PatronMoveState move_state) {
   return move_state != kPatronMoveStateMoveToTarget;
 }
@@ -99,11 +107,11 @@ static float PopRadius(float desired, float min) {
   return desired < 0.0f ? min : std::min(desired, min);
 }
 
-static InterpolatedValue LoadInterpolatedValue(
-    const InterpolatedValueDef* def) {
-  return def == nullptr ? InterpolatedValue()
-                        : InterpolatedValue(def->start_y(), def->start_x(),
-                                            def->end_y(), def->end_x());
+static Interpolants LoadInterpolants(
+    const InterpolantsDef* def) {
+  return def == nullptr ? Interpolants()
+                        : Interpolants(Range(def->start_value(), def->end_value()),
+                                       Range(def->start_time(), def->end_time()));
 }
 
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,
@@ -113,13 +121,13 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->anim_object = patron_def->anim_object();
 
   patron_data->pop_in_radius =
-      LoadInterpolatedValue(patron_def->pop_in_radius());
+      LoadInterpolants(patron_def->pop_in_radius());
   patron_data->pop_out_radius = patron_def->pop_out_radius();
-  assert(patron_data->pop_out_radius >= patron_data->pop_in_radius.end_y());
+  assert(patron_data->pop_out_radius >= patron_data->pop_in_radius.values.end());
 
   patron_data->min_lap = patron_def->min_lap();
   patron_data->max_lap = patron_def->max_lap();
-  patron_data->patience = LoadInterpolatedValue(patron_def->patience());
+  patron_data->patience = LoadInterpolants(patron_def->patience());
 
   if (patron_def->events()) {
     patron_data->events.resize(patron_def->events()->size());
@@ -156,10 +164,10 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->rail_accelerate_time = patron_def->rail_accelerate_time();
 }
 
-static inline flatbuffers::Offset<InterpolatedValueDef> SaveInterpolatedValue(
-    flatbuffers::FlatBufferBuilder& fbb, const InterpolatedValue& v) {
-  return CreateInterpolatedValueDef(fbb, v.start_y(), v.start_x(), v.end_y(),
-                                    v.end_x());
+static inline flatbuffers::Offset<InterpolantsDef> SaveInterpolants(
+    flatbuffers::FlatBufferBuilder& fbb, const Interpolants& in) {
+  return CreateInterpolantsDef(fbb, in.values.start(), in.times.start(),
+                               in.values.end(), in.times.end());
 }
 
 entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
@@ -170,8 +178,8 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   flatbuffers::FlatBufferBuilder fbb;
   auto target_tag = fbb.CreateString(data->target_tag);
 
-  auto patience_fb = SaveInterpolatedValue(fbb, data->patience);
-  auto pop_in_radius_fb = SaveInterpolatedValue(fbb, data->pop_in_radius);
+  auto patience_fb = SaveInterpolants(fbb, data->patience);
+  auto pop_in_radius_fb = SaveInterpolants(fbb, data->pop_in_radius);
 
   // Get all the on_collision events
   PatronDefBuilder builder(fbb);
@@ -386,7 +394,7 @@ bool PatronComponent::ShouldAppear(
   const vec3 raft_position = raft_rail_denizen->Position();
   const vec3 raft_to_patron = transform_data->position - raft_position;
   const float dist_from_raft = raft_to_patron.Length();
-  const float pop_in_radius = patron_data->pop_in_radius.Interpolate(lap);
+  const float pop_in_radius = Interpolate(patron_data->pop_in_radius, lap);
   return dist_from_raft <= pop_in_radius;
 }
 
@@ -410,7 +418,7 @@ bool PatronComponent::ShouldDisappear(
 
   // Patron tolerance decreases as we progress around the laps.
   const float lap = raft_rail_denizen->total_lap_progress;
-  const float patience = patron_data->patience.Interpolate(lap);
+  const float patience = Interpolate(patron_data->patience, lap);
   return patron_data->time_being_ignored > patience;
 }
 
