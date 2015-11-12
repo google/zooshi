@@ -143,6 +143,17 @@ bool Game::InitializeRenderer() {
     return false;
   }
 
+#ifdef __ANDROID__
+  // Restart the app if HW scaler setting failed.
+  auto current_window_size = AndroidGetScalerResolution();
+  if (current_window_size.x() != window_size.x() ||
+      current_window_size.y() != window_size.y() ) {
+    LogError("Restarting application.");
+    RelaunchApplication();
+    return false;
+  }
+#endif
+
   renderer_.set_color(mathfu::kOnes4f);
   // Initialize the first frame as black.
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
