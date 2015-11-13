@@ -15,6 +15,8 @@
 #ifndef ZOOSHI_GAME_H
 #define ZOOSHI_GAME_H
 
+#include <math.h>
+
 #include "SDL_thread.h"
 #include "breadboard/graph.h"
 #include "breadboard/module_registry.h"

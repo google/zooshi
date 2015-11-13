@@ -103,15 +103,11 @@ void PatronComponent::Init() {
   }
 }
 
-static float PopRadius(float desired, float min) {
-  return desired < 0.0f ? min : std::min(desired, min);
-}
-
-static Interpolants LoadInterpolants(
-    const InterpolantsDef* def) {
-  return def == nullptr ? Interpolants()
-                        : Interpolants(Range(def->start_value(), def->end_value()),
-                                       Range(def->start_time(), def->end_time()));
+static Interpolants LoadInterpolants(const InterpolantsDef* def) {
+  return def == nullptr
+             ? Interpolants()
+             : Interpolants(Range(def->start_value(), def->end_value()),
+                            Range(def->start_time(), def->end_time()));
 }
 
 void PatronComponent::AddFromRawData(entity::EntityRef& entity,
@@ -120,10 +116,10 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   PatronData* patron_data = AddEntity(entity);
   patron_data->anim_object = patron_def->anim_object();
 
-  patron_data->pop_in_radius =
-      LoadInterpolants(patron_def->pop_in_radius());
+  patron_data->pop_in_radius = LoadInterpolants(patron_def->pop_in_radius());
   patron_data->pop_out_radius = patron_def->pop_out_radius();
-  assert(patron_data->pop_out_radius >= patron_data->pop_in_radius.values.end());
+  assert(patron_data->pop_out_radius >=
+         patron_data->pop_in_radius.values.end());
 
   patron_data->min_lap = patron_def->min_lap();
   patron_data->max_lap = patron_def->max_lap();
@@ -149,7 +145,7 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
   patron_data->max_face_angle_away_from_raft =
       Angle::FromDegrees(patron_def->max_face_angle_away_from_raft());
   patron_data->time_to_face_raft = patron_def->time_to_face_raft();
-  patron_data->play_eating_animation = patron_def->play_eating_animation();
+  patron_data->play_eating_animation = patron_def->play_eating_animation() != 0;
 
   patron_data->catch_time_for_search =
       Range(patron_def->min_catch_time_for_search(),
@@ -609,9 +605,9 @@ void PatronComponent::HandleCollision(const entity::EntityRef& patron_entity,
   if (patron_data->state == kPatronStateUpright) {
     // If the target tag was hit, consider it being fed
     if (patron_data->target_tag == "" || patron_data->target_tag == part_tag) {
-      SetState(patron_data->play_eating_animation
-                               ? kPatronStateEating
-                               : kPatronStateSatisfied, patron_data);
+      SetState(patron_data->play_eating_animation ? kPatronStateEating
+                                                  : kPatronStateSatisfied,
+               patron_data);
       Animate(patron_data, patron_data->play_eating_animation
                                ? PatronAction_Eat
                                : PatronAction_Satisfied);

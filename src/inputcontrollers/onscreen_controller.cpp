@@ -28,6 +28,27 @@ using mathfu::vec2i;
 namespace fpl {
 namespace zooshi {
 
+// Size of the controller.
+static const vec2 kSize(200.0f);
+static const vec2 kHalfSize(100.0f);
+// Size of the pointer within the controller.
+static const vec2 kPointerPositionSize(50.0f);
+static const vec2 kHalfPointerPositionSize(25.0f);
+// Dead zone of the controller in the range
+// 0.01 (pretty much no dead zone - can't be 0) ...
+// 1.0 (all dead zone / disabled)
+static const vec2 kDeadZoneTolerance(0.15f);
+// Sensitivity of the controller when it's at the clamped location.
+static const vec2 kSensitivity(0.7f);
+// Color of the controller background and foreground.
+static const vec4 kBackgroundColor = vec4(1.0f, 1.0f, 1.0f, 0.5f);
+static const vec4 kForegroundColor = vec4(1.0f, 1.0f, 1.0f, 0.7f);
+// Whether to clamp the controller to a circular area
+// (default behavior clamps to a square).
+static const bool kClampToCircle = true;
+// Name of the group used to track interaction with the controller.
+static const char* kOnscreenController = "onscreen_controller";
+
 void OnscreenController::UpdateButtons() {
   // Save the position of the last touch of the last pointer (last finger down).
   bool fire = false;
@@ -49,40 +70,23 @@ void OnscreenControllerUI::Update(AssetManager* asset_manager,
                                   FontManager* font_manager,
                                   const vec2i& window_size) {
   if (controller_ && controller_->enabled()) {
-    // Size of the controller.
-    static const vec2 kSize(200.0f);
-    static const vec2 kHalfSize(100.0f);
-    // Size of the pointer within the controller.
-    static const vec2 kPointerPositionSize(50.0f);
-    static const vec2 kHalfPointerPositionSize(25.0f);
-    // Dead zone of the controller in the range
-    // 0.01 (pretty much no dead zone - can't be 0) ...
-    // 1.0 (all dead zone / disabled)
-    static const vec2 kDeadZoneTolerance(0.15f);
-    // Sensitivity of the controller when it's at the clamped location.
-    static const vec2 kSensitivity(0.7f);
-    // Color of the controller background and foreground.
-    static const vec4 kBackgroundColor = vec4(1.0f, 1.0f, 1.0f, 0.5f);
-    static const vec4 kForegroundColor = vec4(1.0f, 1.0f, 1.0f, 0.7f);
-    // Whether to clamp the controller to a circular area
-    // (default behavior clamps to a square).
-    static const bool kClampToCircle = true;
-    // Name of the group used to track interaction with the controller.
-    static const char* kOnscreenController = "onscreen_controller";
     assert(base_texture_);
     assert(top_texture_);
 
     bool* visible = &visible_;
     const bool was_visible = visible_;
-    Texture* base_texture = base_texture_;
-    Texture* top_texture = top_texture_;
+    Texture* base_texture_arg = base_texture_;
+    Texture* top_texture_arg = top_texture_;
     InputSystem* input_system = controller_->input_system_;
     vec2* delta = &controller_->delta_;
-    vec2* location = &location_;
+    vec2* location_arg = &location_;
     gui::Run(
         *asset_manager, *font_manager, *input_system,
-        [&window_size, base_texture, top_texture, input_system, was_visible,
-         visible, location, delta]() {
+        [&window_size, base_texture_arg, top_texture_arg, input_system,
+        was_visible, visible, location_arg, delta]() {
+          Texture* base_texture = base_texture_arg;
+          Texture* top_texture = top_texture_arg;
+          vec2* location = location_arg;
           vec2 pointer_position;
           gui::StartGroup(gui::kLayoutOverlay);
           {

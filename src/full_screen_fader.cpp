@@ -68,7 +68,7 @@ void FullScreenFader::Render(Renderer* renderer) {
   float t = std::min(static_cast<float>(std::min(current_fade_time_,
                                                  end_fade_time_)) /
                          static_cast<float>(total_fade_time_), 1.0f);
-  float alpha = sin(t * M_PI);
+  float alpha = sin(t * static_cast<float>(M_PI));
   // Render the overlay in front on the screen.
   renderer->set_color(vec4(color_, alpha));
   material_->Set(*renderer);
