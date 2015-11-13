@@ -149,7 +149,7 @@ bool Game::InitializeRenderer() {
   const auto kMaxRetry = 3;
   auto current_window_size = AndroidGetScalerResolution();
   if (current_window_size.x() != window_size.x() ||
-      current_window_size.y() != window_size.y() ) {
+      current_window_size.y() != window_size.y()) {
     if (retry < kMaxRetry) {
       LogError("Restarting application.");
       SavePreference("HWScalerRetry", retry + 1);
@@ -312,7 +312,9 @@ class AudioEngineVolumeControl {
 // debugging and readability to have each section lexographically separate.
 bool Game::Initialize(const char* const binary_directory) {
   LogInfo("Zooshi Initializing...");
+#if defined(BENCHMARK_MOTIVE)
   InitBenchmarks(10);
+#endif  // defined(BENCHMARK_MOTIVE)
 
   input_.Initialize();
   input_.AddAppEventCallback(AudioEngineVolumeControl(&audio_engine_));

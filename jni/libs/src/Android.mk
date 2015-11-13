@@ -12,17 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH:=$(call my-dir)
+LOCAL_PATH:=$(call my-dir)/../../..
 
 # Project directory relative to this file.
-ZOOSHI_RELATIVE_DIR:=../../..
-ZOOSHI_DIR:=$(LOCAL_PATH)/$(ZOOSHI_RELATIVE_DIR)
-# Update the flatc binary when flatbuffers source changes.
-FLATBUFFERS_FLATC_ALWAYS_BUILD?=1
+ZOOSHI_DIR:=$(LOCAL_PATH)
+FLATBUFFERS_FLATC_ARGS:=--gen-mutable
+
 include $(ZOOSHI_DIR)/jni/android_config.mk
 include $(DEPENDENCIES_FLATBUFFERS_DIR)/android/jni/include.mk
-
-FLATBUFFERS_FLATC_ARGS:=--gen-mutable
 
 # Build rule which builds assets for the game.
 ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
@@ -70,54 +67,54 @@ LOCAL_C_INCLUDES := \
   src
 
 LOCAL_SRC_FILES := \
-  $(ZOOSHI_RELATIVE_DIR)/src/camera.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/attributes.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/audio_listener.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/digit.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/lap_dependent.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/patron.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/player.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/player_projectile.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/rail_denizen.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/rail_node.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/river.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/scenery.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/services.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/shadow_controller.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/simple_movement.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/sound.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/components/time_limit.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/default_entity_factory.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/default_graph_factory.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/full_screen_fader.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/game.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/gpg_manager.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/gui.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/android_cardboard_controller.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/gamepad_controller.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/inputcontrollers/onscreen_controller.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/main.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/attributes.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/gpg.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/patron.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/player.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/rail_denizen.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/modules/zooshi.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/railmanager.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/game_menu_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/game_over_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/gameplay_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/intro_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/loading_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/pause_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/states_common.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/states/scene_lab_state.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/world.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/src/world_renderer.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_gen_text.cpp \
-  $(ZOOSHI_RELATIVE_DIR)/$(DEPENDENCIES_FLATBUFFERS_DIR)/src/reflection.cpp
+  src/camera.cpp \
+  src/components/attributes.cpp \
+  src/components/audio_listener.cpp \
+  src/components/digit.cpp \
+  src/components/lap_dependent.cpp \
+  src/components/patron.cpp \
+  src/components/player.cpp \
+  src/components/player_projectile.cpp \
+  src/components/rail_denizen.cpp \
+  src/components/rail_node.cpp \
+  src/components/river.cpp \
+  src/components/scenery.cpp \
+  src/components/services.cpp \
+  src/components/shadow_controller.cpp \
+  src/components/simple_movement.cpp \
+  src/components/sound.cpp \
+  src/components/time_limit.cpp \
+  src/default_entity_factory.cpp \
+  src/default_graph_factory.cpp \
+  src/full_screen_fader.cpp \
+  src/game.cpp \
+  src/gpg_manager.cpp \
+  src/gui.cpp \
+  src/inputcontrollers/android_cardboard_controller.cpp \
+  src/inputcontrollers/gamepad_controller.cpp \
+  src/inputcontrollers/onscreen_controller.cpp \
+  src/main.cpp \
+  src/modules/attributes.cpp \
+  src/modules/gpg.cpp \
+  src/modules/patron.cpp \
+  src/modules/player.cpp \
+  src/modules/rail_denizen.cpp \
+  src/modules/state.cpp \
+  src/modules/zooshi.cpp \
+  src/railmanager.cpp \
+  src/states/game_menu_state.cpp \
+  src/states/game_over_state.cpp \
+  src/states/gameplay_state.cpp \
+  src/states/intro_state.cpp \
+  src/states/loading_state.cpp \
+  src/states/pause_state.cpp \
+  src/states/states_common.cpp \
+  src/states/scene_lab_state.cpp \
+  src/world.cpp \
+  src/world_renderer.cpp \
+  $(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \
+  $(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_gen_text.cpp \
+  $(DEPENDENCIES_FLATBUFFERS_DIR)/src/reflection.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 
@@ -135,7 +132,8 @@ ZOOSHI_SCHEMA_FILES := \
 # Make each source file order-only dependent upon the assets (via the pipe |)
 # This guarantees build_assets will run first, but not force all src files to
 # rebuild once it has.
-$(foreach src,$(LOCAL_SRC_FILES),$(eval $(LOCAL_PATH)/$$(src): | build_assets))
+$(foreach src,$(LOCAL_SRC_FILES),\
+  $(eval $(call local-source-file-path,$(src)): | build_assets))
 
 ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
   $(DEPENDENCIES_PINDROP_DIR)/schemas \
