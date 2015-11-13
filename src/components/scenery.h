@@ -87,8 +87,9 @@ class SceneryComponent : public entity::Component<SceneryData> {
   void TransitionState(const entity::EntityRef& scenery,
                        SceneryState next_state);
   void AnimateScenery(const entity::EntityRef& scenery,
-                      SceneryData* scenery_data,
-                      SceneryState state);
+                      SceneryData* scenery_data, SceneryState state);
+  void SetVisibilityOnOtherChildren(const entity::EntityRef& scenery,
+                                    bool visible);
 
   const Config* config_;
 };

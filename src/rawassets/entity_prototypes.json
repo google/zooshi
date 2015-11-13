@@ -2650,7 +2650,16 @@
         {
           "data_type": "TransformDef",
           "data": {
-            "child_ids": [ "Gate_RenderMesh" ]
+            "child_ids": [
+              "Gate_RenderMesh",
+              "GateScoreSlash",
+              "GateOnesDigit",
+              "GateTensDigit",
+              "GateHundredsDigit",
+              "GateTargetScoreOnesDigit",
+              "GateTargetScoreTensDigit",
+              "GateTargetScoreHundredsDigit"
+            ]
           }
         },
         {
@@ -2749,7 +2758,7 @@
             ],
             "kinematic": true
           }
-        },
+        }
       ]
     },
     {
@@ -2762,7 +2771,7 @@
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "TransformDef"
         },
         {
           "data_type": "RenderMeshDef",
@@ -2770,6 +2779,228 @@
             "source_file":"meshes/gate.fplmesh",
             "shader": "shaders/textured_skinned_lit",
             "culling": ["ViewAngle", "Distance"]
+          }
+        }
+      ]
+    },
+
+    // Gate Score Slash
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateScoreSlash"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": { "x": 0, "y": 1.55, "z": 6.8 },
+            "scale": { "x": 0.6, "y": 0.12, "z": 0.6 },
+            "orientation": { "x": 0, "y": 0, "z": 180 }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/slash.fplmesh",
+            "shader": "shaders/textured_lit_cutout",
+            "culling": ["ViewAngle", "Distance"],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Gate Score Hundreds Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateHundredsDigit",
+            "prototype": "HundredsDigit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 1.2,
+              "y": 1.55,
+              "z": 6.8
+            },
+            "scale": {
+              "x": 0.6,
+              "y": 0.12,
+              "z": 0.6
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 180.0
+            }
+          }
+        }
+      ]
+    },
+    // Gate Score Tens Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateTensDigit",
+            "prototype": "TensDigit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 0.8,
+              "y": 1.55,
+              "z": 6.8
+            },
+            "scale": {
+              "x": 0.6,
+              "y": 0.12,
+              "z": 0.6
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 180.0
+            }
+          }
+        }
+      ]
+    },
+    // Gate Score Ones Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateOnesDigit",
+            "prototype": "OnesDigit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": 0.4,
+              "y": 1.55,
+              "z": 6.8
+            },
+            "scale": {
+              "x": 0.6,
+              "y": 0.12,
+              "z": 0.6
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 180.0
+            }
+          }
+        }
+      ]
+    },
+    // Gate Target Score Hundreds Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateTargetScoreHundredsDigit",
+            "prototype": "TargetScoreHundredsDigit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": -0.4,
+              "y": 1.55,
+              "z": 6.8
+            },
+            "scale": {
+              "x": 0.6,
+              "y": 0.12,
+              "z": 0.6
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 180.0
+            }
+          }
+        }
+      ]
+    },
+    // Gate Target Score Tens Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateTargetScoreTensDigit",
+            "prototype": "TargetScoreTensDigit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": -0.8,
+              "y": 1.55,
+              "z": 6.8
+            },
+            "scale": {
+              "x": 0.6,
+              "y": 0.12,
+              "z": 0.6
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 180.0
+            }
+          }
+        }
+      ]
+    },
+    // Gate Target Score Ones Digit
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateTargetScoreOnesDigit",
+            "prototype": "TargetScoreOnesDigit"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data" : {
+            "position": {
+              "x": -1.2,
+              "y": 1.55,
+              "z": 6.8
+            },
+            "scale": {
+              "x": 0.6,
+              "y": 0.12,
+              "z": 0.6
+            },
+            "orientation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 180.0
+            }
           }
         }
       ]

@@ -229,13 +229,30 @@ void SceneryComponent::AnimateScenery(const entity::EntityRef& scenery,
   }
 }
 
+void SceneryComponent::SetVisibilityOnOtherChildren(
+    const entity::EntityRef& scenery, bool visible) {
+  const SceneryData* scenery_data = Data<SceneryData>(scenery);
+  const TransformData* transform_data = Data<TransformData>(scenery);
+  RenderMeshComponent* rm_component =
+      entity_manager_->GetComponent<RenderMeshComponent>();
+  if (transform_data != nullptr) {
+    for (auto iter = transform_data->children.begin();
+         iter != transform_data->children.end(); ++iter) {
+      if (scenery_data->render_child != iter->owner) {
+        rm_component->SetVisibilityRecursively(iter->owner, visible);
+      }
+    }
+  }
+}
+
 void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
                                        SceneryState next_state) {
   SceneryData* scenery_data = Data<SceneryData>(scenery);
 
-  // Hide or show the rendermesh.
+  // Hide or show the rendermesh, but not the other children.
   if (next_state == kSceneryHide || next_state == kSceneryAppear) {
     Show(scenery, next_state == kSceneryAppear);
+    SetVisibilityOnOtherChildren(scenery, false);
   }
 
   // If there is an override animation, we should apply it if we're in the show
@@ -243,6 +260,10 @@ void SceneryComponent::TransitionState(const entity::EntityRef& scenery,
   SceneryState state = next_state;
   if (next_state == kSceneryShow && scenery_data->show_override != -1) {
     state = scenery_data->show_override;
+  }
+  // When in the show state, we want any other children to be visible.
+  if (scenery_data->state == kSceneryShow || next_state == kSceneryShow) {
+    SetVisibilityOnOtherChildren(scenery, next_state == kSceneryShow);
   }
 
   // Animate or stop animating the scenery.

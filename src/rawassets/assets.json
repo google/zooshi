@@ -41,7 +41,8 @@
     "meshes/tree_04.fplmesh",
     "meshes/log.fplmesh",
     "meshes/savanna_tree_01.fplmesh",
-    "meshes/heart.fplmesh"
+    "meshes/heart.fplmesh",
+    "meshes/slash.fplmesh"
   ],
   "material_list": [
     "materials/lake_daytime.fplmat",
