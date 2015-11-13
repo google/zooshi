@@ -75,15 +75,16 @@ table PatronEvent {
   time:int = -1;
 }
 
-// Precondition: start_x < end_x.
-// When x <= start_x, return start_y.
-// When x >= end_x, return end_y.
-// else return Lerp(start_y, end_y, (x - start_x) / (end_x - start_x))
-table InterpolatedValueDef {
-  start_y:float;
-  start_x:float;
-  end_y:float;
-  end_x:float;
+// Precondition: start_time < end_time.
+// When time <= start_time, return start_value.
+// When time >= end_time, return end_value.
+// else return Lerp(start_value, end_value,
+//                  (time - start_time) / (end_time - start_time))
+table InterpolantsDef {
+  start_time:float;
+  end_time:float;
+  start_value:float;
+  end_value:float;
 }
 
 table PatronDef {
@@ -98,15 +99,15 @@ table PatronDef {
 
   // Time the patron is willing to wait while being ignored (i.e. not passed
   // a sushi that comes close enough to chase after).
-  // In InterpolatedValueDef, x is lap. y is time, in seconds.
-  patience:InterpolatedValueDef;
+  // In InterpolantsDef, x is lap. y is time, in seconds.
+  patience:InterpolantsDef;
 
   // Sequence of animations to play when StartEvent() is called.
   events:[PatronEvent];
 
   // If the raft is within the pop in radius, this patron will stand up.
-  // In InterpolatedValueDef, x is lap. y is distance, in game units.
-  pop_in_radius:InterpolatedValueDef;
+  // In InterpolantsDef, x is lap. y is distance, in game units.
+  pop_in_radius:InterpolantsDef;
 
   // If the raft is outside the pop out radius, this patron will fall down.
   pop_out_radius:float;
