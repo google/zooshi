@@ -162,6 +162,11 @@ void PatronComponent::AddFromRawData(entity::EntityRef& entity,
       patron_def->time_between_catch_searches();
   patron_data->return_time = patron_def->return_time();
   patron_data->rail_accelerate_time = patron_def->rail_accelerate_time();
+
+  patron_data->time_exasperated_before_disappearing =
+      patron_def->time_exasperated_before_disappearing();
+  patron_data->exasperated_playback_rate =
+      patron_def->exasperated_playback_rate();
 }
 
 static inline flatbuffers::Offset<InterpolantsDef> SaveInterpolants(
@@ -216,7 +221,10 @@ entity::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_time_between_catch_searches(data->time_between_catch_searches);
   builder.add_return_time(data->return_time);
   builder.add_rail_accelerate_time(data->rail_accelerate_time);
-
+  builder.add_time_exasperated_before_disappearing(
+      data->time_exasperated_before_disappearing);
+  builder.add_exasperated_playback_rate(
+      data->exasperated_playback_rate);
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
@@ -282,6 +290,16 @@ void PatronComponent::PostLoadFixup() {
   }
 }
 
+// Return time until the patron's patience has expired.
+// That is, returns (time patron is willing to be ignored) -
+//                  (time patron has been ignored)
+static inline float TimeUntilExasperated(
+    const PatronData* patron_data, const RailDenizenData* raft_rail_denizen) {
+  const float lap = raft_rail_denizen->total_lap_progress;
+  const float patience = Interpolate(patron_data->patience, lap);
+  return patience - patron_data->time_being_ignored;
+}
+
 void PatronComponent::UpdateMovement(const EntityRef& patron) {
   TransformData* transform_data = Data<TransformData>(patron);
   PatronData* patron_data = Data<PatronData>(patron);
@@ -336,6 +354,18 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
       SetMoveState(kPatronMoveStateReturn, patron_data);
     }
   }
+
+  // Start moving them faster if right before they disappear.
+  const entity::EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  const RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
+  const bool agitated =
+      patron_data->state == kPatronStateUpright &&
+      event_time_ < 0 &&
+      TimeUntilExasperated(patron_data, raft_rail_denizen) <=
+          patron_data->time_exasperated_before_disappearing;
+  SetAnimPlaybackRate(patron_data,
+                      agitated ? patron_data->exasperated_playback_rate : 1.0f);
 }
 
 void PatronComponent::FaceRaft(const entity::EntityRef& patron) {
@@ -417,9 +447,9 @@ bool PatronComponent::ShouldDisappear(
   if (raft_distance > patron_data->pop_out_radius) return true;
 
   // Patron tolerance decreases as we progress around the laps.
-  const float lap = raft_rail_denizen->total_lap_progress;
-  const float patience = Interpolate(patron_data->patience, lap);
-  return patron_data->time_being_ignored > patience;
+  const float time_until_exasperated = TimeUntilExasperated(patron_data,
+                                                            raft_rail_denizen);
+  return time_until_exasperated <= 0.0f;
 }
 
 void PatronComponent::UpdateAllEntities(entity::WorldTime delta_time) {
@@ -571,6 +601,14 @@ float PatronComponent::AnimLength(const PatronData* patron_data,
   return static_cast<float>(
       entity_manager_->GetComponent<AnimationComponent>()->AnimLength(
           patron_data->render_child, action));
+}
+
+void PatronComponent::SetAnimPlaybackRate(const PatronData* patron_data,
+                                          float playback_rate) {
+  AnimationData* anim = Data<AnimationData>(patron_data->render_child);
+  if (anim->motivator.Valid()) {
+    anim->motivator.SetPlaybackRate(playback_rate);
+  }
 }
 
 void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {

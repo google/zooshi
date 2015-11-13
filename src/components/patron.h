@@ -124,7 +124,9 @@ struct PatronData {
         time_between_catch_searches(0.0f),
         return_time(0.0f),
         rail_accelerate_time(0.0f),
-        time_to_face_raft(0.0f) {}
+        time_to_face_raft(0.0f),
+        time_exasperated_before_disappearing(1.0f),
+        exasperated_playback_rate(2.0f) {}
 
   // Whether the patron is standing up or falling down.
   PatronState state;
@@ -252,6 +254,16 @@ struct PatronData {
   // The time to take turning to face the raft, in seconds.
   float time_to_face_raft;
 
+  // After being ignored for a while, the patron will get exasperated and idle
+  // at a faster playback rate. If still no sushi is thrown at the patron,
+  // the patron will disappear. This is the amount of time before disappearing
+  // that the patron will be exasperated. Time in seconds.
+  float time_exasperated_before_disappearing;
+
+  // When exasperated, we play the idle animation faster. Therefore, this
+  // number should be > 1.
+  float exasperated_playback_rate;
+
   // If true: when fed play eat, satisfied, disappear animations.
   // If false: when fed play satisfied, disappear animations.
   bool play_eating_animation;
@@ -303,6 +315,7 @@ class PatronComponent : public entity::Component<PatronData> {
                        entity::WorldTime delta_time) const;
   bool HasAnim(const PatronData* patron_data, PatronAction action) const;
   float AnimLength(const PatronData* patron_data, PatronAction action) const;
+  void SetAnimPlaybackRate(const PatronData* patron_data, float playback_rate);
   void Animate(PatronData* patron_data, PatronAction action);
   Range TargetHeightRange(const entity::EntityRef& patron) const;
   bool RaftExists() const;
