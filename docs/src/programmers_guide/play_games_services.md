@@ -21,7 +21,7 @@ follow the steps below to set up [Google Play Games Services][] IDs:
       -   "Sushi Samurai", incremental achievement, 10000 steps.<br>
       -   "A Delicious Cycle", regular achievement.<br>
       -   "All You Can Eat.", regular achievement.<br>
-    -    Update IDs in  `src/rawassets/config.json` in the entry below.
+-    Update IDs in `src/rawassets/config.json` in the entry below.
 
 ~~~
     "gpg_config": {
