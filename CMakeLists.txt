@@ -150,58 +150,27 @@ set(FLATBUFFERS_GENERATED_INCLUDES_DIR
 file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
-    -I ${dependencies_component_library_dir}/schemas
-    -I ${dependencies_module_library_dir}/schemas
-    -I ${dependencies_scene_lab_dir}/schemas
-    -I ${dependencies_fplbase_dir}/schemas
-    -I ${dependencies_motive_dir}/schemas
-    -I ${dependencies_pindrop_dir}/schemas)
+    ${dependencies_component_library_dir}/schemas
+    ${dependencies_module_library_dir}/schemas
+    ${dependencies_scene_lab_dir}/schemas
+    ${dependencies_fplbase_dir}/schemas
+    ${dependencies_motive_dir}/schemas
+    ${dependencies_pindrop_dir}/schemas)
 
+set(flatbuffers_additional_dependencies
+    motive_generated_includes
+    pindrop_generated_includes
+    component_library_generated_includes
+    breadboard_module_library_generated_includes)
 # Generate rules to build the set of output files from the set of input
 # schema files.
-unset(FLATBUFFERS_GENERATED_INCLUDES)
-foreach(flatbuffers_schema ${FLATBUFFERS_SCHEMAS})
-  get_filename_component(filename ${flatbuffers_schema} NAME_WE)
-  set(flatbuffers_include
-      ${FLATBUFFERS_GENERATED_INCLUDES_DIR}/${filename}_generated.h)
-  set(flatbuffers_binary_schema
-      ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/${filename}.bfbs)
-  file(COPY ${flatbuffers_schema}
-       DESTINATION ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/)
-  add_custom_command(
-    OUTPUT ${flatbuffers_include}
-    COMMAND flatc --gen-mutable -o ${FLATBUFFERS_GENERATED_INCLUDES_DIR}
-        ${FLATBUFFERS_SCHEMA_INCLUDES} -c ${flatbuffers_schema}
-    DEPENDS
-        flatc
-        motive_generated_includes
-        pindrop_generated_includes
-        component_library_generated_includes
-        breadboard_module_library_generated_includes
-        ${flatbuffers_schema})
-  list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_include})
-  # Generate the binary schema files as well.
-  add_custom_command(
-    OUTPUT ${flatbuffers_binary_schema}
-    COMMAND flatc -b --schema
-        -o ${CMAKE_BINARY_DIR}/assets/flatbufferschemas
-        ${FLATBUFFERS_SCHEMA_INCLUDES}
-        ${flatbuffers_schema}
-    DEPENDS
-        flatc
-        motive_generated_includes
-        pindrop_generated_includes
-        component_library_generated_includes
-        breadboard_module_library_generated_includes
-        ${flatbuffers_schema})
-  # Temporarily don't generate all binary schemas until b/22063091 is fixed.
-  # list(APPEND FLATBUFFERS_GENERATED_INCLUDES ${flatbuffers_binary_schema})
-endforeach()
-# Only build the components binary schema until b/22063091 is fixed.
-list(APPEND
-     FLATBUFFERS_GENERATED_INCLUDES
-     ${CMAKE_BINARY_DIR}/assets/flatbufferschemas/components.bfbs)
-add_custom_target(generated_includes DEPENDS ${FLATBUFFERS_GENERATED_INCLUDES})
+build_flatbuffers("${FLATBUFFERS_SCHEMAS}"
+                  "${FLATBUFFERS_SCHEMA_INCLUDES}"
+                  "zooshi_generated_includes"
+                  "${flatbuffers_additional_dependencies}"
+                  "${FLATBUFFERS_GENERATED_INCLUDES_DIR}"
+                  "${CMAKE_BINARY_DIR}/assets/flatbufferschemas/"
+                  "${CMAKE_BINARY_DIR}/assets/flatbufferschemas/")
 
 if(NOT zooshi_only_flatc)
   # If building cwebp then pass in the location.
@@ -333,7 +302,6 @@ if(WIN32)
   include_directories(${dependencies_fplbase_dir}/external/include)
 endif()
 
-include_directories(${FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
              TARGET component_library_generated_includes
              PROPERTY COMPONENT_LIBRARY_DIR)
@@ -412,7 +380,7 @@ if(NOT zooshi_only_flatc)
 endif()
 
 # Dependencies for the executable target.
-add_dependencies(zooshi generated_includes assets)
+add_dependencies(zooshi zooshi_generated_includes assets)
 target_link_libraries(zooshi
   motive
   fplbase
