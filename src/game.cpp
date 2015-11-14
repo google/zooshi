@@ -86,6 +86,9 @@ static const char kConfigFileName[] = "config.zooconfig";
 #ifdef __ANDROID__
 static const int kAndroidMaxScreenWidth = 1280;
 static const int kAndroidMaxScreenHeight = 720;
+
+static const int kAndroidTvMaxScreenWidth = 1920;
+static const int kAndroidTvMaxScreenHeight = 1080;
 #endif
 
 static const int kMinUpdateTime = 1000 / 60;
@@ -133,9 +136,12 @@ Game::~Game() {
 // this point.
 bool Game::InitializeRenderer() {
 #ifdef __ANDROID__
-  const vec2i window_size(kAndroidMaxScreenWidth, kAndroidMaxScreenHeight);
+  vec2i window_size(kAndroidMaxScreenWidth, kAndroidMaxScreenHeight);
+  if (IsTvDevice()) {
+    window_size = vec2i(kAndroidTvMaxScreenWidth, kAndroidTvMaxScreenHeight);
+  }
 #else
-  const vec2i window_size(1200, 800);
+  vec2i window_size(1200, 800);
 #endif
   if (!renderer_.Initialize(window_size, "Window Title!")) {
     LogError("Renderer initialization error: %s\n",
