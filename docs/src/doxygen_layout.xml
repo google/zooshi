@@ -16,6 +16,8 @@
   <navindex>
     <tab type="mainpage" visible="no" title=""/>
     <tab type="usergroup" url="@ref zooshi_guide_gameplay" title="Gameplay">
+      <tab type="user" url="@ref zooshi_guide_gameplay_cardboard"
+           title="Cardboard Gameplay"/>
     </tab>
     <tab type="usergroup" url="@ref zooshi_guide_overview"
          title="Programmer's Guide">

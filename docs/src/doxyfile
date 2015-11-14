@@ -750,14 +750,13 @@ INPUT                  = "index.md" \
                          "programmers_guide/building_linux.md" \
                          "programmers_guide/building_osx.md" \
                          "programmers_guide/building_windows.md" \
+                         "programmers_guide/cardboard_gameplay.md" \
                          "programmers_guide/components.md" \
                          "programmers_guide/gameplay.md" \
                          "programmers_guide/overview.md" \
                          "programmers_guide/play_games_services.md" \
                          "../../readme.md" \
                          "contributing.md" \
-                         "groups" \
-                         "../../src"
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -867,14 +866,14 @@ EXCLUDE_SYMBOLS        =
 # that contain example code fragments that are included (see the \include
 # command).
 
-EXAMPLE_PATH           = ../../tests/
+EXAMPLE_PATH           =
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
 # *.h) to filter out the source-files in the directories. If left blank all
 # files are included.
 
-EXAMPLE_PATTERNS       = *.cpp
+EXAMPLE_PATTERNS       =
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be
 # searched for input files to be used with the \include or \dontinclude commands
@@ -1134,21 +1133,10 @@ HTML_EXTRA_STYLESHEET  = $(SHARED_DOCS_PATH)/style.css
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = \
-  "splash.png" \
-  "programmers_guide/info_panel_data_driven_flatbuffers.png" \
-  "programmers_guide/info_panel_google_play_games.png" \
-  "programmers_guide/info_panel_multiple_control_schemes.png" \
-  "programmers_guide/info_panel_normal_mapping.png" \
-  "programmers_guide/info_panel_procedural_animation_mathfu.png" \
-  "programmers_guide/info_panel_webp_textures.png" \
-  "programmers_guide/multiplayer_dead.png" \
-  "programmers_guide/multiplayer_face.png" \
-  "programmers_guide/multiplayer_wait.png" \
-  "programmers_guide/multiplayer_throw.png" \
-  "programmers_guide/multiplayer_block.png" \
-  "programmers_guide/cardboard_in_game.png" \
-  "programmers_guide/cardboard_targeting.png"
+HTML_EXTRA_FILES       = "programmers_guide/configure_cardboard.png" \
+                         "programmers_guide/feeding_patron_cardboard.png" \
+                         "programmers_guide/onscreen_controls.png" \
+                         "programmers_guide/starting_hippo_cardboard.png"
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to
@@ -1975,7 +1963,7 @@ SEARCH_INCLUDES        = YES
 # preprocessor.
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
-INCLUDE_PATH           = "../../src/"
+INCLUDE_PATH           =
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the
