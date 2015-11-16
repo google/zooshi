@@ -53,11 +53,11 @@
 #endif
 
 // Header files that has a dependency to GPG definitions.
+#include "entity/entity_common.h"
 #include "gpg_manager.h"
-#include "states/gameplay_state.h"
 #include "states/game_menu_state.h"
 #include "states/game_over_state.h"
-#include "entity/entity_common.h"
+#include "states/gameplay_state.h"
 
 #ifdef __ANDROID__
 #include "inputcontrollers/android_cardboard_controller.h"
@@ -99,6 +99,18 @@ class Game {
   bool Initialize(const char* const binary_directory);
   void Run();
 
+  // Set the overlay directory name to optionally load assets from.
+  static void SetOverlayName(const char* overlay_name) {
+    overlay_name_ = overlay_name;
+  }
+
+#if defined(__ANDROID__)
+  // Parse launch mode and overlay directory name from Intent data.
+  static void ParseViewIntentData(const std::string& intent_data,
+                                  std::string* launch_mode,
+                                  std::string* overlay);
+#endif  // defined(__ANDROID__)
+
  private:
   bool InitializeRenderer();
   bool InitializeAssets();
@@ -118,6 +130,10 @@ class Game {
   void ToggleRelativeMouseMode();
 
   void UpdateProfiling(entity::WorldTime frame_time);
+
+  // Overrides fplbase::LoadFile() in order to optionally load files from
+  // overlay directories.
+  static bool LoadFile(const char* filename, std::string* dest);
 
   // Mutexes/CVs used in synchronizing the render and update threads:
   GameSynchronization sync_;
@@ -191,6 +207,9 @@ class Game {
 
   // Google Play Game Services Manager.
   GPGManager gpg_manager_;
+
+  // Name of the optional overlay to load assets from.
+  static std::string overlay_name_;
 };
 
 }  // zooshi

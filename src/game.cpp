@@ -82,6 +82,8 @@ static const char kAssetsDir[] = "assets";
 
 static const char kConfigFileName[] = "config.zooconfig";
 
+std::string Game::overlay_name_;
+
 #ifdef __ANDROID__
 static const int kAndroidMaxScreenWidth = 1280;
 static const int kAndroidMaxScreenHeight = 720;
@@ -124,7 +126,9 @@ Game::Game()
       audio_config_(nullptr),
       world_(),
       fader_(),
-      version_(kVersion) {}
+      version_(kVersion) {
+  fpl::SetLoadFileFunction(Game::LoadFile);
+}
 
 Game::~Game() {
   asset_manager_.ClearAllAssets();
@@ -827,6 +831,49 @@ void Game::UpdateProfiling(entity::WorldTime frame_time) {
   }
 }
 #endif
+
+bool Game::LoadFile(const char* filename, std::string* dest) {
+  const char* read_filename = filename;
+  std::string overlay;
+  if (!overlay_name_.empty()) {
+    overlay = "overlays/" + overlay_name_ + "/" + std::string(filename);
+    const char* overlay_filename = overlay.c_str();
+    auto handle = SDL_RWFromFile(overlay_filename, "rb");
+    if (handle) {
+      SDL_RWclose(handle);
+      read_filename = overlay_filename;
+    }
+  }
+  return fpl::LoadFileRaw(read_filename, dest);
+}
+
+#if defined(__ANDROID__)
+void Game::ParseViewIntentData(const std::string& intent_data,
+                               std::string* launch_mode, std::string* overlay) {
+  static const char kDefaultLaunchMode[] = "default";
+  static const char kPathPrefix[] = "http://google.github.io/zooshi/launch/";
+  assert(launch_mode);
+  assert(overlay);
+  *launch_mode = kDefaultLaunchMode;
+  *overlay = "";
+  if (intent_data.empty()) return;
+
+  fpl::LogInfo("Started with view intent %s", intent_data.c_str());
+  size_t path_prefix_length = strlen(kPathPrefix);
+  if (intent_data.compare(0, path_prefix_length, kPathPrefix) == 0) {
+    std::string launch_arguments =
+        intent_data.substr(path_prefix_length, std::string::npos);
+    size_t split_pos = launch_arguments.find("/");
+    if (split_pos != std::string::npos) {
+      *launch_mode = launch_arguments.substr(0, split_pos);
+      *overlay = launch_arguments.substr(split_pos + 1, std::string::npos);
+    }
+    fpl::LogInfo("Detected launch URL %s (mode=%s, overlay=%s)",
+                 launch_arguments.c_str(), launch_mode->c_str(),
+                 overlay->c_str());
+  }
+}
+#endif  // defined(__ANDROID__)
 
 }  // zooshi
 }  // fpl

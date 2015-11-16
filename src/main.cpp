@@ -12,12 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "game.h"
+#include <string>
+
 #include "fplbase/utilities.h"
+#include "game.h"
 
 extern "C" int FPL_main(int argc, char* argv[]) {
   fpl::zooshi::Game game;
   const char* binary_directory = argc > 0 ? argv[0] : "";
+#if defined(__ANDROID__)
+  // launch_mode is not used as the app would have launched with the
+  // appropriate activity already.
+  std::string launch_mode;
+  std::string overlay;
+  fpl::zooshi::Game::ParseViewIntentData(fpl::AndroidGetViewIntentData(),
+                                         &launch_mode, &overlay);
+  fpl::zooshi::Game::SetOverlayName(overlay.c_str());
+#else
+  fpl::zooshi::Game::SetOverlayName(argc > 1 ? argv[1] : "");
+#endif  // defined(__ANDROID__)
+
   if (!game.Initialize(binary_directory)) {
     fpl::LogError("FPL Game: init failed, exiting!");
     return 1;
