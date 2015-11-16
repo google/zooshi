@@ -18,6 +18,7 @@ assets/shaders/font_*
 assets/sound_banks/*.pinbank
 assets/sounds/*.pinsound
 assets/textures/
+assets/overlays/
 bin/
 fplbase_assets/
 gen/
