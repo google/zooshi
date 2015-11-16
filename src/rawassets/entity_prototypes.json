@@ -855,6 +855,8 @@
             "point_display_height": 6.5,
             "max_face_angle_away_from_raft": 30,
             "time_to_face_raft": 0.4,
+            "time_exasperated_before_disappearing": 1.5,
+            "exasperated_playback_rate": 2.0,
             "min_lap": 0.01,
             "max_lap": -1,
             "patience": {
@@ -1018,6 +1020,8 @@
             "point_display_height": 6.5,
             "max_face_angle_away_from_raft": 25,
             "time_to_face_raft": 0.2,
+            "time_exasperated_before_disappearing": 1.0,
+            "exasperated_playback_rate": 2.0,
             "min_lap": 0.01,
             "max_lap": -1,
             "patience": {
@@ -1202,6 +1206,8 @@
             "point_display_height": 6.5,
             "max_face_angle_away_from_raft": 40,
             "time_to_face_raft": 1.2,
+            "time_exasperated_before_disappearing": 2.0,
+            "exasperated_playback_rate": 2.3,
             "min_lap": 0.01,
             "max_lap": -1,
             "patience": {
@@ -1467,6 +1473,8 @@
             "point_display_height": 3,
             "max_face_angle_away_from_raft": 180,
             "time_to_face_raft": 1.0,
+            "time_exasperated_before_disappearing": 2.0,
+            "exasperated_playback_rate": 2.5,
             "min_lap": 0.01,
             "max_lap": -1,
             "patience": {
@@ -1673,6 +1681,8 @@
             "point_display_height": 11,
             "max_face_angle_away_from_raft": 30,
             "time_to_face_raft": 0.4,
+            "time_exasperated_before_disappearing": 1.2,
+            "exasperated_playback_rate": 1.8,
             "min_lap": 0.01,
             "max_lap": -1,
             "patience": {

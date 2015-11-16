@@ -166,6 +166,16 @@ table PatronDef {
   // The time to take turning to face the raft, in seconds.
   time_to_face_raft:float = 0.2;
 
+  // After being ignored for a while, the patron will get exasperated and idle
+  // at a faster playback rate. If still no sushi is thrown at the patron,
+  // the patron will disappear. This is the amount of time before disappearing
+  // that the patron will be exasperated. Time in seconds.
+  time_exasperated_before_disappearing:float = 1.0;
+
+  // When exasperated, we play the idle animation faster. Therefore, this
+  // number should be > 1.
+  exasperated_playback_rate:float = 2.0;
+
   // If true: when fed play eat, satisfied, disappear animations.
   // If false: when fed play satisfied, disappear animations.
   play_eating_animation:bool;
