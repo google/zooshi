@@ -40,14 +40,14 @@ class Camera : public fpl::CameraInterface {
   virtual mathfu::mat4 GetViewMatrix() const { return GetViewMatrix(0); }
 
   virtual void set_position(int32_t index, const mathfu::vec3& position) {
-    assert(index < stereo_ ? 2 : 1);
+    assert(index < (stereo_ ? 2 : 1));
     position_[index] = position;
   }
   virtual void set_position(const mathfu::vec3& position) {
     set_position(0, position);
   }
   virtual mathfu::vec3 position(int32_t index) const {
-    assert(index < stereo_ ? 2 : 1);
+    assert(index < (stereo_ ? 2 : 1));
     return position_[index];
   }
   virtual mathfu::vec3 position() const { return position(0); }
@@ -91,14 +91,14 @@ class Camera : public fpl::CameraInterface {
   virtual float viewport_far_plane() const { return viewport_far_plane_; }
 
   virtual void set_viewport(int32_t index, const mathfu::vec4i& viewport) {
-    assert(index < stereo_ ? 2 : 1);
+    assert(index < (stereo_ ? 2 : 1));
     viewport_[index] = viewport;
   }
   virtual void set_viewport(const mathfu::vec4i& viewport) {
     set_viewport(0, viewport);
   }
   virtual const mathfu::vec4i& viewport(int32_t index) const {
-    assert(index < stereo_ ? 2 : 1);
+    assert(index < (stereo_ ? 2 : 1));
     return viewport_[index];
   }
   virtual const mathfu::vec4i& viewport() const { return viewport(0); }

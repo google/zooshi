@@ -345,8 +345,9 @@ endif()
 # Compiler flags.
 set(C_FLAGS_WARNINGS "")
 if(MSVC)
-  # C4127: conditional expression is constant
-  set(C_FLAGS_WARNINGS "/W4 /WX /wd4127")
+  # C4127: Conditional expression is constant.
+  # C4305: Truncation from 'type1' to 'type2'.
+  set(C_FLAGS_WARNINGS "/W4 /WX /wd4127 /wd4305")
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
        CMAKE_COMPILER_IS_CLANGXX)
   add_definitions(-g)

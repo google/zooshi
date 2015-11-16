@@ -14,7 +14,6 @@
 
 #include "game.h"
 
-#include <math.h>
 #include <stdarg.h>
 
 #include "SDL.h"
@@ -768,8 +767,6 @@ void Game::Run() {
   RegisterVsyncCallback(nullptr);
 #endif
   input_.AddAppEventCallback(nullptr);
-  // TODO: Move this call to SDL_Quit to FPLBase.
-  SDL_Quit();
 }
 
 #if DISPLAY_FRAMERATE_HISTOGRAM

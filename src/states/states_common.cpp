@@ -26,6 +26,7 @@ namespace zooshi {
 
 static const float kGearSize = 72.0f;
 
+#ifdef ANDROID_HMD
 static vec3 CorrectTransform(const mat4& mat) {
   vec3 hmd_translation = (mat * mathfu::kAxisW4f * mat).xyz();
   vec3 corrected_translation =
@@ -47,6 +48,7 @@ static void RenderSettingsGear(Renderer& renderer, World* world) {
       vec3((res.x() - kGearSize) / 2.0f, res.y() - kGearSize, 0.0f),
       vec3((res.x() + kGearSize) / 2.0f, res.y(), 0.0f));
 }
+#endif  // ANDROID_HMD
 
 static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
                                Camera* cardboard_camera,
