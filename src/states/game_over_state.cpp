@@ -74,12 +74,20 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
   const bool exit_button_pressed =
       input_system_->GetButton(FPLK_ESCAPE).went_down() ||
       input_system_->GetButton(FPLK_AC_BACK).went_down();
-  if (event_over && (pointer_button_pressed || exit_button_pressed)) {
+  auto player = world_->player_component.begin()->entity;
+  auto player_data =
+      world_->entity_manager.GetComponentData<PlayerData>(player);
+  const bool fire_button_pressed =
+      player_data->input_controller()->Button(kFireProjectile).Value() &&
+      player_data->input_controller()->Button(kFireProjectile).HasChanged();
+  if (event_over &&
+      (pointer_button_pressed || exit_button_pressed || fire_button_pressed)) {
     audio_engine_->PlaySound(sound_click_);
 
     // Stay in Cardboard unless the back button is pressed.
-    *next_state = world_->is_in_cardboard() && pointer_button_pressed
-                ? kGameStateGameplay : kGameStateGameMenu;
+    *next_state = world_->is_in_cardboard() && !exit_button_pressed
+                      ? kGameStateGameplay
+                      : kGameStateGameMenu;
   }
 }
 
