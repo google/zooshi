@@ -24,9 +24,9 @@
 namespace fpl {
 namespace zooshi {
 
+#ifdef ANDROID_HMD
 static const float kGearSize = 72.0f;
 
-#ifdef ANDROID_HMD
 static vec3 CorrectTransform(const mat4& mat) {
   vec3 hmd_translation = (mat * mathfu::kAxisW4f * mat).xyz();
   vec3 corrected_translation =
