@@ -922,7 +922,8 @@ def generate_flatbuffer_binaries(flatc, conversion_data_list,
             flatc, json_file, schema, target_file_dir, conversion_data_list)
 
 
-def input_files_add_overlays(input_files, input_roots, overlay_roots):
+def input_files_add_overlays(input_files, input_roots, overlay_roots,
+                             overlay_globs=None):
   """Search overlay directories for files that could replace input files.
 
   Args:
@@ -939,6 +940,16 @@ def input_files_add_overlays(input_files, input_roots, overlay_roots):
         'a/b/c/overlay/d/e.data'
 
       If the target file is found, it's added to the returned list.
+    overlay_globs: There are cases where it's desirable to include new
+      assets that don't exist in input_roots in the set of overlay assets.
+      For example, new textures for a mesh.  overlay_wildcard is a glob that
+      includes files from each input file directory for example...
+        input_root = 'a/b/c'
+        input_files[0] = 'a/b/c/d/e.data'
+        overlay_root[0] = 'overlay'
+        overlay_globs[0] = '*.data'
+      would search for files matching
+        'a/b/c/overlay/d/*.data'
 
   Returns:
     List of files to process including files from the specified overlay
@@ -959,6 +970,11 @@ def input_files_add_overlays(input_files, input_roots, overlay_roots):
                                     input_file_relative)
         if os.path.exists(overlay_file):
           file_list.append(overlay_file)
+        if overlay_globs:
+          for overlay_glob in overlay_globs:
+            file_list.extend(
+                glob.glob(os.path.join(os.path.dirname(overlay_file),
+                                       overlay_glob)))
   return file_list
 
 
@@ -1345,21 +1361,21 @@ def main():
     if target in ('all', 'png'):
       generate_png_textures(
           input_files_add_overlays(tga_files_to_convert(), ASSET_ROOTS,
-                                   OVERLAY_DIRS),
+                                   OVERLAY_DIRS, overlay_globs=['*.tga']),
           ASSET_ROOTS, INTERMEDIATE_TEXTURE_PATH, meta, args.max_texture_size)
 
     if target in ('all', 'mesh'):
       generate_mesh_binaries(
           args.mesh_pipeline,
           input_files_add_overlays(fbx_files_to_convert(), ASSET_ROOTS,
-                                   OVERLAY_DIRS),
+                                   OVERLAY_DIRS, overlay_globs=['*.fbx']),
           ASSET_ROOTS, args.output, meta)
 
     if target in ('all', 'anim'):
       generate_anim_binaries(
           args.anim_pipeline,
           input_files_add_overlays(anim_files_to_convert(), ASSET_ROOTS,
-                                   OVERLAY_DIRS),
+                                   OVERLAY_DIRS, overlay_globs=['*.fbx']),
           ASSET_ROOTS, args.output, meta)
 
     if target in ('all', 'flatbuffers'):
@@ -1371,24 +1387,29 @@ def main():
     if target in ('all', 'webp'):
       generate_webp_textures(
           args.cwebp, input_files_add_overlays(
-              png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS),
+              png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
+              overlay_globs=['*.png']),
           ASSET_ROOTS, args.output, meta, args.max_texture_size)
 
     if target == 'clean':
       try:
         clean(INTERMEDIATE_TEXTURE_PATH, ASSET_ROOTS, [],
               {'png': input_files_add_overlays(
-                  tga_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS)})
+                  tga_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
+                  overlay_globs=['*.tga'])})
         clean(
             args.output, ASSET_ROOTS,
             flatbuffers_conversion_data_add_overlays(
                 FLATBUFFERS_CONVERSION_DATA, ASSET_ROOTS, OVERLAY_DIRS),
             {'webp': input_files_add_overlays(
-                png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS),
+                png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
+                overlay_globs=['*.png']),
              'motiveanim': input_files_add_overlays(
-                 anim_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS),
+                 anim_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
+                 overlay_globs=['*.fbx']),
              'fplmesh': input_files_add_overlays(
-                 fbx_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS)})
+                 fbx_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
+                 overlay_globs=['*.fbx'])})
       except OSError as error:
         sys.stderr.write('Error cleaning: %s' % str(error))
         return 1
