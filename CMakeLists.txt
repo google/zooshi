@@ -304,23 +304,27 @@ endif()
 
 get_property(COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
              TARGET component_library_generated_includes
-             PROPERTY COMPONENT_LIBRARY_DIR)
+             PROPERTY GENERATED_INCLUDES_DIR)
 include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(BREADBOARD_MODULE_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
              TARGET breadboard_module_library_generated_includes
-             PROPERTY BREADBOARD_MODULE_LIBRARY_DIR)
+             PROPERTY GENERATED_INCLUDES_DIR)
 include_directories(${BREADBOARD_MODULE_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR
-             TARGET fplbase_generated_includes PROPERTY FPLBASE_DIR)
+             TARGET fplbase_generated_includes
+             PROPERTY GENERATED_INCLUDES_DIR)
 include_directories(${FPLBASE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(SCENE_LAB_FLATBUFFERS_GENERATED_INCLUDES_DIR
-             TARGET scene_lab_generated_includes PROPERTY SCENE_LAB_DIR)
+             TARGET scene_lab_generated_includes
+             PROPERTY GENERATED_INCLUDES_DIR)
 include_directories(${SCENE_LAB_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR
-             TARGET motive_generated_includes PROPERTY MOTIVE_DIR)
+             TARGET motive_generated_includes
+             PROPERTY GENERATED_INCLUDES_DIR)
 include_directories(${MOTIVE_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR
-             TARGET pindrop_generated_includes PROPERTY PINDROP_DIR)
+             TARGET pindrop_generated_includes
+             PROPERTY GENERATED_INCLUDES_DIR)
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 include_directories(${dependencies_entity_dir}/include)
 include_directories(${dependencies_component_library_dir}/include)
