@@ -32,6 +32,7 @@ struct LapDependentData {
 
 class LapDependentComponent : public corgi::Component<LapDependentData> {
  public:
+  virtual ~LapDependentComponent() {}
 
   virtual void Init();
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);

@@ -26,6 +26,7 @@ class GamepadController : public BasePlayerController {
  public:
   GamepadController(ControllerType controller_type = kControllerGamepad)
       : BasePlayerController(controller_type) {}
+  virtual ~GamepadController() {}
 
   virtual void Update();
 

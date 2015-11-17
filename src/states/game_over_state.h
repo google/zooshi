@@ -28,6 +28,8 @@ namespace zooshi {
 
 class GameOverState : public StateNode {
  public:
+  virtual ~GameOverState() {}
+
   void Initialize(fplbase::InputSystem* input_system, World* world,
                   const Config* config,
                   fplbase::AssetManager* asset_manager,

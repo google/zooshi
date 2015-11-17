@@ -43,6 +43,7 @@ class FullScreenFader;
 class GameplayState : public StateNode {
  public:
   GameplayState() : previous_lap_(0), percent_(0.0f) {}
+  virtual ~GameplayState() {}
 
   void Initialize(fplbase::InputSystem* input_system, World* world,
                   const Config* config, const InputConfig* input_config,

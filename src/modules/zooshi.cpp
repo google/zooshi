@@ -44,6 +44,7 @@ class PlayerEntityNode : public BaseNode {
  public:
   PlayerEntityNode(ServicesComponent* services_component)
       : services_component_(services_component) {}
+  virtual ~PlayerEntityNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddOutput<EntityRef>();
@@ -62,6 +63,7 @@ class RaftEntityNode : public BaseNode {
  public:
   RaftEntityNode(ServicesComponent* services_component)
       : services_component_(services_component) {}
+  virtual ~RaftEntityNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddOutput<EntityRef>();
@@ -80,6 +82,8 @@ class AdvanceFrameNode : public BaseNode {
  public:
   AdvanceFrameNode(GraphComponent* graph_component)
       : graph_component_(graph_component) {}
+  virtual ~AdvanceFrameNode() {}
+
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddOutput<void>();
     node_sig->AddListener(corgi::component_library::kAdvanceFrameEventId);
@@ -100,6 +104,7 @@ class SetShowOverrideNode : public BaseNode {
  public:
   SetShowOverrideNode(SceneryComponent* scenery_component)
       : scenery_component_(scenery_component) {}
+  virtual ~SetShowOverrideNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();       // Void to trigger the animation.

@@ -32,6 +32,8 @@ struct ShadowControllerData {
 class ShadowControllerComponent
     : public corgi::Component<ShadowControllerData> {
  public:
+  virtual ~ShadowControllerComponent() {}
+
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
   virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
   virtual void UpdateAllEntities(corgi::WorldTime delta_time);

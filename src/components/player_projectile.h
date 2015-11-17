@@ -40,6 +40,8 @@ struct PlayerProjectileData {
 class PlayerProjectileComponent
     : public corgi::Component<PlayerProjectileData> {
  public:
+  virtual ~PlayerProjectileComponent() {}
+
   virtual void InitEntity(corgi::EntityRef& /*entity*/) {}
   virtual void CleanupEntity(corgi::EntityRef& /*entity*/) {}
 

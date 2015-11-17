@@ -34,6 +34,8 @@ struct DigitData {
 
 class DigitComponent : public corgi::Component<DigitData> {
  public:
+  virtual ~DigitComponent() {}
+
   virtual void Init() {}
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
   // Currently only exists in prototypes, so no ExportRawData is needed

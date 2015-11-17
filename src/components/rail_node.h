@@ -35,6 +35,7 @@ struct RailNodeData {
 class RailNodeComponent : public corgi::Component<RailNodeData> {
  public:
   RailNodeComponent() {}
+  virtual ~RailNodeComponent() {}
 
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
   virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;

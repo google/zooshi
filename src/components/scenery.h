@@ -54,6 +54,7 @@ struct SceneryData {
 class SceneryComponent : public corgi::Component<SceneryData> {
  public:
   SceneryComponent() {}
+  virtual ~SceneryComponent() {}
 
   virtual void Init();
   virtual void AddFromRawData(corgi::EntityRef& parent, const void* raw_data);

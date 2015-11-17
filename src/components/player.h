@@ -63,6 +63,7 @@ class PlayerData {
 class PlayerComponent : public corgi::Component<PlayerData> {
  public:
   PlayerComponent() {}
+  virtual ~PlayerComponent() {}
 
   virtual void Init();
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);

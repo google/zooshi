@@ -272,6 +272,7 @@ struct PatronData {
 class PatronComponent : public corgi::Component<PatronData> {
  public:
   PatronComponent() : config_(nullptr), event_time_(-1) {}
+  virtual ~PatronComponent() {}
 
   virtual void Init();
   virtual void AddFromRawData(corgi::EntityRef& parent, const void* raw_data);

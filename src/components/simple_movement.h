@@ -34,6 +34,7 @@ struct SimpleMovementData {
 class SimpleMovementComponent : public corgi::Component<SimpleMovementData> {
  public:
   SimpleMovementComponent() {}
+  virtual ~SimpleMovementComponent() {}
 
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
   virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;

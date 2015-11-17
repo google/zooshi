@@ -28,6 +28,7 @@ static const mathfu::vec3 kCameraUp = mathfu::kAxisZ3f;
 class Camera : public corgi::CameraInterface {
  public:
   Camera();
+  virtual ~Camera() {}
 
   // returns the View/Projection matrix:
   virtual mathfu::mat4 GetTransformMatrix(int32_t index) const;

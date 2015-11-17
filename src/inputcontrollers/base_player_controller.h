@@ -68,6 +68,7 @@ class BasePlayerController {
       buttons_[i].Update();
     }
   }
+  virtual ~BasePlayerController() {}
 
   virtual void Update() = 0;
 

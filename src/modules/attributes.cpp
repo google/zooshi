@@ -39,6 +39,7 @@ class GetAttributeNode : public BaseNode {
  public:
   GetAttributeNode(AttributesComponent* attributes_component)
       : attributes_component_(attributes_component) {}
+  virtual ~GetAttributeNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
@@ -67,6 +68,7 @@ class SetAttributeNode : public BaseNode {
  public:
   SetAttributeNode(AttributesComponent* attributes_component)
       : attributes_component_(attributes_component) {}
+  virtual ~SetAttributeNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();

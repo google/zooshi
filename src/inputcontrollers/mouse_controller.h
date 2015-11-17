@@ -24,6 +24,8 @@ namespace zooshi {
 
 class MouseController : public BasePlayerController {
  public:
+  virtual ~MouseController() {}
+
   virtual void Update();
 
  private:

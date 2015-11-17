@@ -30,6 +30,8 @@ struct AudioListenerData {
 
 class AudioListenerComponent : public corgi::Component<AudioListenerData> {
  public:
+  virtual ~AudioListenerComponent() {}
+
   virtual void Init();
   virtual void InitEntity(corgi::EntityRef& entity);
   virtual void AddFromRawData(corgi::EntityRef& parent, const void* raw_data);
