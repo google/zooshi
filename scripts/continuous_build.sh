@@ -68,6 +68,13 @@ main() {
   # Log the contents of the SDK.
   find ${ANDROID_SDK_HOME} -name google-play-services_lib
 
+  # Make sure support library v4 is installed.
+  android list sdk -a -u
+  update_package 'Android Support Library,' \
+    "${ANDROID_SDK_HOME}/extras/android/support/v4"
+  # Log the contents of the SDK.
+  find ${ANDROID_SDK_HOME} -name android-support-v4.jar
+
   # Change to zooshi directory
   cd "$(dirname "$(readlink -f $0)")/.."
 
