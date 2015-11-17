@@ -15,6 +15,7 @@ assets/meshes/
 assets/rails/
 assets/shaders/font.*
 assets/shaders/font_*
+assets/shaders/fplbase/
 assets/sound_banks/*.pinbank
 assets/sounds/*.pinsound
 assets/textures/
