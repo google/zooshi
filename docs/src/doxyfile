@@ -1136,7 +1136,17 @@ HTML_EXTRA_STYLESHEET  = $(SHARED_DOCS_PATH)/style.css
 HTML_EXTRA_FILES       = "programmers_guide/configure_cardboard.png" \
                          "programmers_guide/feeding_patron_cardboard.png" \
                          "programmers_guide/onscreen_controls.png" \
-                         "programmers_guide/starting_hippo_cardboard.png"
+                         "programmers_guide/starting_hippo_cardboard.png" \
+                         "programmers_guide/info_panel_breadboard.png" \
+                         "programmers_guide/info_panel_corgi.png" \
+                         "programmers_guide/info_panel_flatbuffers.png" \
+                         "programmers_guide/info_panel_flatui.png" \
+                         "programmers_guide/info_panel_fplbase.png" \
+                         "programmers_guide/info_panel_google_play_games.png" \
+                         "programmers_guide/info_panel_mathfu_motive.png" \
+                         "programmers_guide/info_panel_pindrop.png" \
+                         "programmers_guide/info_panel_scene_lab.png" \
+                         "programmers_guide/info_panel_webp.png"
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to
