@@ -16,8 +16,8 @@
 #define FPL_ZOOSHI_MODULES_PATRON_H_
 
 #include "breadboard/module_registry.h"
-#include "component_library/graph.h"
 #include "components/patron.h"
+#include "corgi_component_library/graph.h"
 
 namespace fpl {
 namespace zooshi {

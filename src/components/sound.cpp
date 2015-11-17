@@ -13,12 +13,11 @@
 // limitations under the License.
 
 #include "components/sound.h"
-#include "component_library/transform.h"
 #include "components/services.h"
+#include "corgi_component_library/transform.h"
 #include "pindrop/pindrop.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SoundComponent,
-                            fpl::zooshi::SoundData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::SoundComponent, fpl::zooshi::SoundData)
 
 namespace fpl {
 namespace zooshi {

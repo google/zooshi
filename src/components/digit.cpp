@@ -14,16 +14,15 @@
 
 #include "components/digit.h"
 
-#include "component_library/rendermesh.h"
 #include "components/attributes.h"
 #include "components/player.h"
 #include "components/services.h"
 #include "components_generated.h"
+#include "corgi_component_library/rendermesh.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::DigitComponent,
-                            fpl::zooshi::DigitData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::DigitComponent, fpl::zooshi::DigitData)
 
 namespace fpl {
 namespace zooshi {

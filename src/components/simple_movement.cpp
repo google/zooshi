@@ -13,12 +13,12 @@
 // limitations under the License.
 
 #include "components/simple_movement.h"
-#include "component_library/transform.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SimpleMovementComponent,
-                            fpl::zooshi::SimpleMovementData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::SimpleMovementComponent,
+                       fpl::zooshi::SimpleMovementData)
 
 namespace fpl {
 namespace zooshi {
@@ -39,8 +39,8 @@ void SimpleMovementComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
         Data<SimpleMovementData>(iter->entity);
 
     transform_data->position +=
-       (simple_movement_data->velocity * static_cast<float>(delta_time)) /
-       1000.0f;
+        (simple_movement_data->velocity * static_cast<float>(delta_time)) /
+        1000.0f;
   }
 }
 
@@ -51,15 +51,16 @@ SimpleMovementComponent::ExportRawData(const corgi::EntityRef& entity) const {
 
   flatbuffers::FlatBufferBuilder fbb;
   fplbase::Vec3 velocity(data->velocity.x(), data->velocity.y(),
-                     data->velocity.z());
+                         data->velocity.z());
 
   fbb.Finish(CreateSimpleMovementDef(fbb, &velocity));
   return fbb.ReleaseBufferPointer();
 }
 
 void SimpleMovementComponent::InitEntity(corgi::EntityRef& entity) {
-  entity_manager_->
-    AddEntityToComponent<corgi::component_library::TransformComponent>(entity);
+  entity_manager_
+      ->AddEntityToComponent<corgi::component_library::TransformComponent>(
+          entity);
 }
 
 }  // zooshi

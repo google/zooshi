@@ -18,7 +18,7 @@
 
 #include "breadboard/base_node.h"
 #include "breadboard/module_registry.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
 #include "fplbase/utilities.h"
 #include "rail_denizen.h"
 

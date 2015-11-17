@@ -15,12 +15,12 @@
 #ifndef FPL_ZOOSHI_MODULES_ZOOSHI_H_
 #define FPL_ZOOSHI_MODULES_ZOOSHI_H_
 
-#include "breadboard/module_registry.h"
 #include "breadboard/event.h"
-#include "components/services.h"
+#include "breadboard/module_registry.h"
 #include "components/scenery.h"
-#include "component_library/graph.h"
-#include "entity/entity_manager.h"
+#include "components/services.h"
+#include "corgi/entity_manager.h"
+#include "corgi_component_library/graph.h"
 
 namespace fpl {
 namespace zooshi {

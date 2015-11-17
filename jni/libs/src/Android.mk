@@ -51,8 +51,8 @@ LOCAL_ARM_MODE := arm
 ZOOSHI_GENERATED_OUTPUT_DIR := $(ZOOSHI_DIR)/gen/include
 
 LOCAL_C_INCLUDES := \
-  $(DEPENDENCIES_ENTITY_DIR)/include \
-  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/include \
+  $(DEPENDENCIES_CORGI_DIR)/include \
+  $(DEPENDENCIES_CORGI_COMPONENT_LIBRARY_DIR)/include \
   $(DEPENDENCIES_BREADBOARD_DIR)/include \
   $(DEPENDENCIES_BREADBOARD_MODULE_LIBRARY_DIR)/include \
   $(DEPENDENCIES_SCENE_LAB_DIR)/include \
@@ -140,7 +140,7 @@ ZOOSHI_FLATBUFFER_INCLUDE_DIRS := \
   $(DEPENDENCIES_MOTIVE_DIR)/schemas \
   $(DEPENDENCIES_FPLBASE_DIR)/schemas \
   $(DEPENDENCIES_SCENE_LAB_DIR)/schemas \
-  $(DEPENDENCIES_COMPONENT_LIBRARY_DIR)/schemas \
+  $(DEPENDENCIES_CORGI_COMPONENT_LIBRARY_DIR)/schemas \
   $(DEPENDENCIES_BREADBOARD_MODULE_LIBRARY_DIR)/schemas
 
 # Override JNI_OnLoad functions.
@@ -155,7 +155,7 @@ $(call flatbuffers_header_build_rules,\
   $(ZOOSHI_FLATBUFFER_INCLUDE_DIRS),\
   $(LOCAL_SRC_FILES),\
   zooshi_generated_includes,\
-  component_library_generated_includes \
+  corgi_component_library_generated_includes \
   breadboard_module_library_generated_includes \
   motive_generated_includes \
   fplbase_generated_includes \
@@ -179,8 +179,8 @@ LOCAL_STATIC_LIBRARIES := \
   libfplbase \
   libflatui \
   libpindrop \
-  libentity \
-  libcomponent_library \
+  libcorgi \
+  libcorgi_component_library \
   libscene_lab \
   libmotive \
   libfreetype \
@@ -204,11 +204,11 @@ $(call import-add-path,$(DEPENDENCIES_MATHFU_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_MOTIVE_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_SCENE_LAB_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_PINDROP_DIR)/..)
-$(call import-add-path,$(DEPENDENCIES_ENTITY_DIR)/..)
+$(call import-add-path,$(DEPENDENCIES_CORGI_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_WEBP_DIR)/..)
 
 $(call import-module,fplbase/jni)
-$(call import-module,entity/jni)
+$(call import-module,corgi/jni)
 $(call import-module,breadboard/jni)
 $(call import-module,breadboard/module_library/jni)
 $(call import-module,pindrop/jni)
@@ -216,7 +216,7 @@ $(call import-module,flatbuffers/android/jni)
 $(call import-module,flatui/jni)
 $(call import-module,mathfu/jni)
 $(call import-module,motive/jni)
-$(call import-module,entity/component_library/jni)
+$(call import-module,corgi/component_library/jni)
 $(call import-module,scene_lab/jni)
 $(call import-module,webp)
 

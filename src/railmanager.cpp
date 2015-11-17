@@ -15,8 +15,8 @@
 #include "railmanager.h"
 
 #include <map>
-#include "component_library/transform.h"
 #include "components/rail_node.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
 #include "mathfu/constants.h"
@@ -56,9 +56,9 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
   derivatives.resize(num_positions);
 
   // Calculate derivates and times from positions.
-  motive::CalculateConstSpeedCurveFromPositions<3>(&positions[0], num_positions,
-                                           total_time, reliable_distance,
-                                           &times[0], &derivatives[0]);
+  motive::CalculateConstSpeedCurveFromPositions<3>(
+      &positions[0], num_positions, total_time, reliable_distance, &times[0],
+      &derivatives[0]);
 
   // Get position extremes.
   vec3 position_min(std::numeric_limits<float>::infinity());
@@ -105,8 +105,8 @@ Rail *RailManager::GetRail(RailId rail_file) {
   return rail_map[rail_file].get();
 }
 
-Rail *RailManager::GetRailFromComponents(
-    const char *rail_name, corgi::EntityManager *entity_manager) {
+Rail *RailManager::GetRailFromComponents(const char *rail_name,
+                                         corgi::EntityManager *entity_manager) {
   std::map<float, corgi::EntityRef> rail_entities;
 
   auto *rail_component = entity_manager->GetComponent<RailNodeComponent>();
@@ -118,7 +118,8 @@ Rail *RailManager::GetRailFromComponents(
 
   if (rail_entities.size() == 0) {
     fplbase::LogInfo(
-      "RailManager: No RailNode entities with rail_name '%s' found", rail_name);
+        "RailManager: No RailNode entities with rail_name '%s' found",
+        rail_name);
     return nullptr;  // invalid rail name
   }
 
@@ -132,7 +133,8 @@ Rail *RailManager::GetRailFromComponents(
   float reliable_distance = first_data->reliable_distance;
 
   auto *transform_component =
-  entity_manager->GetComponent<corgi::component_library::TransformComponent>();
+      entity_manager
+          ->GetComponent<corgi::component_library::TransformComponent>();
   // map will sort by the key
   int i = 0;
   for (auto iter = rail_entities.begin(); iter != rail_entities.end(); ++iter) {

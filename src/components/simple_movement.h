@@ -16,7 +16,7 @@
 #define COMPONENTS_SIMPLE_MOVEMENT_H_
 
 #include "components_generated.h"
-#include "entity/component.h"
+#include "corgi/component.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
@@ -46,7 +46,7 @@ class SimpleMovementComponent : public corgi::Component<SimpleMovementData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::SimpleMovementComponent,
-                              fpl::zooshi::SimpleMovementData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::SimpleMovementComponent,
+                         fpl::zooshi::SimpleMovementData)
 
 #endif  // COMPONENTS_SIMPLE_MOVEMENT_H_

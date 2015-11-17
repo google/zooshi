@@ -17,12 +17,12 @@
 #include "breadboard/base_node.h"
 #include "breadboard/event.h"
 #include "breadboard/module_registry.h"
-#include "component_library/animation.h"
-#include "component_library/graph.h"
-#include "component_library/transform.h"
 #include "components/scenery.h"
 #include "components/services.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
+#include "corgi_component_library/animation.h"
+#include "corgi_component_library/graph.h"
+#include "corgi_component_library/transform.h"
 #include "mathfu/glsl_mappings.h"
 
 using breadboard::BaseNode;

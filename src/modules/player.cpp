@@ -16,10 +16,10 @@
 
 #include <string>
 
-#include "component_library/meta.h"
-#include "entity/entity_manager.h"
-#include "breadboard/module_registry.h"
 #include "breadboard/base_node.h"
+#include "breadboard/module_registry.h"
+#include "corgi/entity_manager.h"
+#include "corgi_component_library/meta.h"
 
 using breadboard::BaseNode;
 using breadboard::Module;
@@ -83,8 +83,9 @@ class FedPatronNode : public BaseNode {
       auto player_data = player_component_->GetComponentData(*entity);
 
       auto target_entity = args->GetInput<corgi::EntityRef>(2);
-      auto target_data = player_component_->
-        Data<corgi::component_library::MetaData>(*target_entity);
+      auto target_data =
+          player_component_->Data<corgi::component_library::MetaData>(
+              *target_entity);
       if (player_data) {
         auto id = target_data->prototype;
         player_data->get_patrons_feed_status().insert(id);

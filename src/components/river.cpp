@@ -16,14 +16,14 @@
 #include <math.h>
 #include <memory>
 #include "common.h"
-#include "component_library/physics.h"
-#include "component_library/rendermesh.h"
-#include "component_library/transform.h"
 #include "components/rail_denizen.h"
 #include "components/rail_node.h"
 #include "components/services.h"
 #include "components_generated.h"
 #include "config_generated.h"
+#include "corgi_component_library/physics.h"
+#include "corgi_component_library/rendermesh.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/utilities.h"
 #include "scene_lab/scene_lab.h"
 
@@ -38,7 +38,7 @@ using mathfu::kAxisZ3f;
 using fplbase::Material;
 using fplbase::Mesh;
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RiverComponent, fpl::zooshi::RiverData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::RiverComponent, fpl::zooshi::RiverData)
 
 namespace fpl {
 namespace zooshi {
@@ -137,12 +137,12 @@ void RiverComponent::UpdateRiverMeshes() {
 // Generates the actual mesh for the river, and adds it to this entitiy's
 // rendermesh component.
 void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
-  static const fplbase::Attribute kMeshFormat[] = {fplbase::kPosition3f,
-    fplbase::kTexCoord2f, fplbase::kNormal3f, fplbase::kTangent4f,
-    fplbase::kEND};
+  static const fplbase::Attribute kMeshFormat[] = {
+      fplbase::kPosition3f, fplbase::kTexCoord2f, fplbase::kNormal3f,
+      fplbase::kTangent4f, fplbase::kEND};
   static const fplbase::Attribute kBankMeshFormat[] = {
-    fplbase::kPosition3f, fplbase::kTexCoord2f, fplbase::kNormal3f,
-    fplbase::kTangent4f, fplbase::kColor4ub, fplbase::kEND};
+      fplbase::kPosition3f, fplbase::kTexCoord2f, fplbase::kNormal3f,
+      fplbase::kTangent4f,  fplbase::kColor4ub,   fplbase::kEND};
   std::vector<vec3_packed> track;
   const RiverConfig* river = entity_manager_->GetComponent<ServicesComponent>()
                                  ->config()

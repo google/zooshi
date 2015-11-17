@@ -25,7 +25,7 @@
 #include "breadboard/log.h"
 #include "breadboard/modules/common.h"
 #include "common.h"
-#include "entity/entity.h"
+#include "corgi/entity.h"
 #include "fplbase/input.h"
 #include "fplbase/systrace.h"
 #include "fplbase/utilities.h"
@@ -377,8 +377,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
 #ifdef __ANDROID__
   if (fplbase::SupportsHeadMountedDisplay()) {
-    BasePlayerController* controller =
-      new AndroidCardboardController();
+    BasePlayerController* controller = new AndroidCardboardController();
     controller->set_input_config(&GetInputConfig());
     controller->set_input_system(&input_);
     controller->set_enabled(ZOOSHI_FORCE_ONSCREEN_CONTROLLER == 0);
@@ -877,8 +876,7 @@ void Game::ParseViewIntentData(const std::string& intent_data,
       *overlay = launch_arguments.substr(split_pos + 1, std::string::npos);
     }
     LogInfo("Detected launch URL %s (mode=%s, overlay=%s)",
-                 launch_arguments.c_str(), launch_mode->c_str(),
-                 overlay->c_str());
+            launch_arguments.c_str(), launch_mode->c_str(), overlay->c_str());
   }
 }
 #endif  // defined(__ANDROID__)

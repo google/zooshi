@@ -14,6 +14,5 @@
 
 #include "components/services.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::ServicesComponent,
-                            fpl::zooshi::ServicesData)
-
+CORGI_DEFINE_COMPONENT(fpl::zooshi::ServicesComponent,
+                       fpl::zooshi::ServicesData)

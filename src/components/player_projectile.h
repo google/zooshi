@@ -17,9 +17,9 @@
 
 #include <string>
 
-#include "component_library/graph.h"
 #include "components_generated.h"
-#include "entity/component.h"
+#include "corgi/component.h"
+#include "corgi_component_library/graph.h"
 #include "fplbase/utilities.h"
 #include "pindrop/pindrop.h"
 
@@ -52,7 +52,7 @@ class PlayerProjectileComponent
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
-                              fpl::zooshi::PlayerProjectileData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
+                         fpl::zooshi::PlayerProjectileData)
 
 #endif  // COMPONENTS_PLAYER_PROJECTILE_H_

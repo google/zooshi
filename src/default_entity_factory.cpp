@@ -17,4 +17,4 @@
 // Set this to the namespace your component definition generated types are in.
 #define FACTORY_TYPE_NAMESPACE fpl
 
-#include "component_library/default_entity_factory.inc"
+#include "corgi_component_library/default_entity_factory.inc"

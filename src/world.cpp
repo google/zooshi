@@ -13,9 +13,9 @@
 // limitations under the License.
 
 #include "breadboard/graph_factory.h"
-#include "component_library/default_entity_factory.h"
 #include "components_generated.h"
 #include "config_generated.h"
+#include "corgi_component_library/default_entity_factory.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/render_target.h"

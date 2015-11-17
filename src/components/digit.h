@@ -17,8 +17,8 @@
 
 #include "attributes_generated.h"
 #include "config_generated.h"
-#include "entity/component.h"
-#include "entity/entity_manager.h"
+#include "corgi/component.h"
+#include "corgi/entity_manager.h"
 #include "fplbase/mesh.h"
 #include "fplbase/shader.h"
 
@@ -39,7 +39,8 @@ class DigitComponent : public corgi::Component<DigitData> {
   virtual void Init() {}
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
   // Currently only exists in prototypes, so no ExportRawData is needed
-  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& /*entity*/) const {
+  virtual RawDataUniquePtr ExportRawData(
+      const corgi::EntityRef& /*entity*/) const {
     return nullptr;
   }
   virtual void InitEntity(corgi::EntityRef& entity);
@@ -49,8 +50,6 @@ class DigitComponent : public corgi::Component<DigitData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::DigitComponent,
-                              fpl::zooshi::DigitData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::DigitComponent, fpl::zooshi::DigitData)
 
 #endif  // FPL_ZOOSHI_COMPONENTS_SIGN_H_
-

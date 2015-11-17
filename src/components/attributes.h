@@ -15,12 +15,12 @@
 #ifndef FPL_COMPONENTS_ATTRIBUTES_H_
 #define FPL_COMPONENTS_ATTRIBUTES_H_
 
-#include "config_generated.h"
 #include "attributes_generated.h"
-#include "entity/component.h"
+#include "config_generated.h"
+#include "corgi/component.h"
+#include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
-#include "flatui/font_manager.h"
 
 class InputSystem;
 class AssetManager;
@@ -67,7 +67,7 @@ class AttributesComponent : public corgi::Component<AttributesData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::AttributesComponent,
-                              fpl::zooshi::AttributesData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::AttributesComponent,
+                         fpl::zooshi::AttributesData)
 
 #endif  // FPL_COMPONENTS_ATTRIBUTES_H_

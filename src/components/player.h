@@ -17,10 +17,10 @@
 
 #include <set>
 
+#include "breadboard/event.h"
 #include "components_generated.h"
 #include "config_generated.h"
-#include "entity/component.h"
-#include "breadboard/event.h"
+#include "corgi/component.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
@@ -87,7 +87,6 @@ class PlayerComponent : public corgi::Component<PlayerData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::PlayerComponent,
-                              fpl::zooshi::PlayerData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::PlayerComponent, fpl::zooshi::PlayerData)
 
 #endif  // COMPONENTS_PLAYER_H_

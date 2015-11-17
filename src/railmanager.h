@@ -18,7 +18,7 @@
 #include <memory>
 #include <unordered_map>
 #include "components_generated.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/math/compact_spline.h"
 #include "rail_def_generated.h"

@@ -15,14 +15,14 @@
 #include "components/patron.h"
 
 #include <vector>
-#include "component_library/animation.h"
-#include "component_library/graph.h"
-#include "component_library/physics.h"
-#include "component_library/rendermesh.h"
 #include "components/attributes.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/services.h"
+#include "corgi_component_library/animation.h"
+#include "corgi_component_library/graph.h"
+#include "corgi_component_library/physics.h"
+#include "corgi_component_library/rendermesh.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
@@ -30,8 +30,7 @@
 #include "motive/anim_table.h"
 #include "world.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PatronComponent,
-                            fpl::zooshi::PatronData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::PatronComponent, fpl::zooshi::PatronData)
 
 namespace fpl {
 namespace zooshi {
@@ -219,8 +218,7 @@ corgi::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   builder.add_rail_accelerate_time(data->rail_accelerate_time);
   builder.add_time_exasperated_before_disappearing(
       data->time_exasperated_before_disappearing);
-  builder.add_exasperated_playback_rate(
-      data->exasperated_playback_rate);
+  builder.add_exasperated_playback_rate(data->exasperated_playback_rate);
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
 }
@@ -356,11 +354,10 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
   const corgi::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   const RailDenizenData* raft_rail_denizen = Data<RailDenizenData>(raft);
-  const bool agitated =
-      patron_data->state == kPatronStateUpright &&
-      event_time_ < 0 &&
-      TimeUntilExasperated(patron_data, raft_rail_denizen) <=
-          patron_data->time_exasperated_before_disappearing;
+  const bool agitated = patron_data->state == kPatronStateUpright &&
+                        event_time_ < 0 &&
+                        TimeUntilExasperated(patron_data, raft_rail_denizen) <=
+                            patron_data->time_exasperated_before_disappearing;
   SetAnimPlaybackRate(patron_data,
                       agitated ? patron_data->exasperated_playback_rate : 1.0f);
 }
@@ -445,8 +442,8 @@ bool PatronComponent::ShouldDisappear(
   if (raft_distance > patron_data->pop_out_radius) return true;
 
   // Patron tolerance decreases as we progress around the laps.
-  const float time_until_exasperated = TimeUntilExasperated(patron_data,
-                                                            raft_rail_denizen);
+  const float time_until_exasperated =
+      TimeUntilExasperated(patron_data, raft_rail_denizen);
   return time_until_exasperated <= 0.0f;
 }
 
@@ -726,8 +723,8 @@ static float CalculateClosestTimeInHeightRange(
   return closest_t;
 }
 
-motive::Range PatronComponent::TargetHeightRange(const EntityRef& patron)
-    const {
+motive::Range PatronComponent::TargetHeightRange(
+    const EntityRef& patron) const {
   // Get the physics rigid body data for the patron's target.
   const PatronData* patron_data = GetComponentData(patron);
   const PhysicsData* physics_data = Data<PhysicsData>(patron);
@@ -817,8 +814,9 @@ const EntityRef* PatronComponent::ClosestProjectile(
     // If returning from a previous attempt, limit how far from the initial
     // position to leave from again.
     if (patron_data->move_state == kPatronMoveStateReturn) {
-      const float dist_sq = (return_position_xy -
-                             closest_position_ignore_height_xy).LengthSquared();
+      const float dist_sq =
+          (return_position_xy - closest_position_ignore_height_xy)
+              .LengthSquared();
       if (dist_sq > max_dist_sq) continue;
     }
 

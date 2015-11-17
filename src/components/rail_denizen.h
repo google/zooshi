@@ -19,7 +19,7 @@
 #include <vector>
 #include "breadboard/event.h"
 #include "components_generated.h"
-#include "entity/component.h"
+#include "corgi/component.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/math/compact_spline.h"
@@ -125,7 +125,7 @@ class RailDenizenComponent : public corgi::Component<RailDenizenData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::RailDenizenComponent,
-                              fpl::zooshi::RailDenizenData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::RailDenizenComponent,
+                         fpl::zooshi::RailDenizenData)
 
 #endif  // COMPONENTS_RAIL_DENIZEN_H_

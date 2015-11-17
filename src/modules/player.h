@@ -16,16 +16,16 @@
 #define FPL_ZOOSHI_MODULES_PLAYER_H_
 
 #include "breadboard/module_registry.h"
-#include "component_library/graph.h"
 #include "components/player.h"
+#include "corgi_component_library/graph.h"
 
 namespace fpl {
 namespace zooshi {
 
-void InitializePlayerModule(breadboard::ModuleRegistry* module_registry,
-                            PlayerComponent* player_component,
-                            corgi::component_library::GraphComponent*
-                              graph_component);
+void InitializePlayerModule(
+    breadboard::ModuleRegistry* module_registry,
+    PlayerComponent* player_component,
+    corgi::component_library::GraphComponent* graph_component);
 
 }  // zooshi
 }  // fpl

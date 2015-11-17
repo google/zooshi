@@ -16,10 +16,10 @@
 #define COMPONENTS_SERVICES_H_
 
 #include "camera.h"
-#include "component_library/entity_factory.h"
 #include "components_generated.h"
 #include "config_generated.h"
-#include "entity/component.h"
+#include "corgi/component.h"
+#include "corgi_component_library/entity_factory.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
@@ -127,7 +127,7 @@ class ServicesComponent : public corgi::Component<ServicesData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::ServicesComponent,
-                              fpl::zooshi::ServicesData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::ServicesComponent,
+                         fpl::zooshi::ServicesData)
 
 #endif  // COMPONENTS_SERVICES_H_

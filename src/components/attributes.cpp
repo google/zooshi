@@ -15,14 +15,14 @@
 #include "components/attributes.h"
 
 #include "breadboard/event.h"
-#include "component_library/graph.h"
 #include "components/services.h"
+#include "corgi_component_library/graph.h"
 #include "flatui/flatui.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::AttributesComponent,
-                            fpl::zooshi::AttributesData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::AttributesComponent,
+                       fpl::zooshi::AttributesData)
 
 namespace fpl {
 namespace zooshi {

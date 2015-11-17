@@ -14,13 +14,13 @@
 
 #include "components/lap_dependent.h"
 
-#include "component_library/physics.h"
-#include "component_library/rendermesh.h"
 #include "components/rail_denizen.h"
 #include "components/services.h"
+#include "corgi_component_library/physics.h"
+#include "corgi_component_library/rendermesh.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::LapDependentComponent,
-                            fpl::zooshi::LapDependentData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::LapDependentComponent,
+                       fpl::zooshi::LapDependentData)
 
 namespace fpl {
 namespace zooshi {
@@ -64,8 +64,7 @@ LapDependentComponent::ExportRawData(const corgi::EntityRef& entity) const {
 
 void LapDependentComponent::InitEntity(corgi::EntityRef& /*entity*/) {}
 
-void LapDependentComponent::UpdateAllEntities(
-    corgi::WorldTime /*delta_time*/) {
+void LapDependentComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   corgi::EntityRef raft =
       entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
   if (!raft) return;

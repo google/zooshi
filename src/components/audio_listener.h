@@ -16,8 +16,8 @@
 #define COMPONENTS_LISTENER_H_
 
 #include "components_generated.h"
-#include "entity/entity_manager.h"
-#include "entity/component.h"
+#include "corgi/component.h"
+#include "corgi/entity_manager.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
@@ -47,7 +47,7 @@ class AudioListenerComponent : public corgi::Component<AudioListenerData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::AudioListenerComponent,
-                              fpl::zooshi::AudioListenerData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::AudioListenerComponent,
+                         fpl::zooshi::AudioListenerData)
 
 #endif  // COMPONENTS_LISTENER_H_

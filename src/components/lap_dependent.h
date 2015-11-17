@@ -16,8 +16,8 @@
 #define COMPONENTS_LAP_DEPENDENT_H_
 
 #include "components_generated.h"
-#include "entity/component.h"
-#include "entity/entity_manager.h"
+#include "corgi/component.h"
+#include "corgi/entity_manager.h"
 
 namespace fpl {
 namespace zooshi {
@@ -51,7 +51,7 @@ class LapDependentComponent : public corgi::Component<LapDependentData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::LapDependentComponent,
-                              fpl::zooshi::LapDependentData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::LapDependentComponent,
+                         fpl::zooshi::LapDependentData)
 
 #endif  // COMPONENTS_LAP_DEPENDENT_H_

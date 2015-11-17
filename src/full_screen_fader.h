@@ -15,12 +15,12 @@
 #ifndef ZOOSHI_FULL_SCREEN_FADER_H
 #define ZOOSHI_FULL_SCREEN_FADER_H
 
-#include "fplbase/utilities.h"
-#include "mathfu/glsl_mappings.h"
-#include "entity/entity_common.h"
-#include "fplbase/shader.h"
+#include "corgi/entity_common.h"
 #include "fplbase/material.h"
 #include "fplbase/renderer.h"
+#include "fplbase/shader.h"
+#include "fplbase/utilities.h"
+#include "mathfu/glsl_mappings.h"
 
 namespace fpl {
 namespace zooshi {

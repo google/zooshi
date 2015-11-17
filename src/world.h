@@ -19,14 +19,6 @@
 #include <memory>
 #include <string>
 
-#include "component_library/animation.h"
-#include "component_library/common_services.h"
-#include "component_library/entity_factory.h"
-#include "component_library/graph.h"
-#include "component_library/meta.h"
-#include "component_library/physics.h"
-#include "component_library/rendermesh.h"
-#include "component_library/transform.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
 #include "components/digit.h"
@@ -44,7 +36,15 @@
 #include "components/sound.h"
 #include "components/time_limit.h"
 #include "components_generated.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
+#include "corgi_component_library/animation.h"
+#include "corgi_component_library/common_services.h"
+#include "corgi_component_library/entity_factory.h"
+#include "corgi_component_library/graph.h"
+#include "corgi_component_library/meta.h"
+#include "corgi_component_library/physics.h"
+#include "corgi_component_library/rendermesh.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/render_target.h"
 #include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
@@ -89,8 +89,7 @@ struct World {
                   flatui::FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine,
                   breadboard::GraphFactory* graph_factory,
-                  fplbase::Renderer* renderer,
-                  scene_lab::SceneLab* scene_lab);
+                  fplbase::Renderer* renderer, scene_lab::SceneLab* scene_lab);
 
   // Entity manager
   corgi::EntityManager entity_manager;

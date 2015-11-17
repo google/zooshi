@@ -17,8 +17,8 @@
 
 #include <string>
 #include "components_generated.h"
+#include "corgi/component.h"
 #include "rail_def_generated.h"
-#include "entity/component.h"
 
 namespace fpl {
 namespace zooshi {
@@ -44,7 +44,7 @@ class RailNodeComponent : public corgi::Component<RailNodeData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::RailNodeComponent,
-                              fpl::zooshi::RailNodeData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::RailNodeComponent,
+                         fpl::zooshi::RailNodeData)
 
 #endif  // COMPONENTS_RAIL_NODE_H_

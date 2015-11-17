@@ -16,7 +16,7 @@
 #define ZOOSHI_GAMEPLAY_STATE_H_
 
 #include "camera.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
 #include "fplbase/input.h"
 #include "gpg_manager.h"
 #include "pindrop/pindrop.h"

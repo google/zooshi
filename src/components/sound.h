@@ -16,8 +16,8 @@
 #define COMPONENTS_SOUND_H_
 
 #include "components_generated.h"
-#include "entity/component.h"
-#include "entity/entity_manager.h"
+#include "corgi/component.h"
+#include "corgi/entity_manager.h"
 #include "pindrop/pindrop.h"
 
 namespace fpl {
@@ -45,8 +45,6 @@ class SoundComponent : public corgi::Component<SoundData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::SoundComponent,
-                              fpl::zooshi::SoundData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::SoundComponent, fpl::zooshi::SoundData)
 
 #endif  // COMPONENTS_SOUND_H_
-

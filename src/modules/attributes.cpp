@@ -19,9 +19,9 @@
 #include "breadboard/base_node.h"
 #include "breadboard/event.h"
 #include "breadboard/module_registry.h"
-#include "component_library/graph.h"
 #include "components/attributes.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
+#include "corgi_component_library/graph.h"
 
 using breadboard::BaseNode;
 using breadboard::Module;

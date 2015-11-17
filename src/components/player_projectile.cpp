@@ -14,15 +14,15 @@
 
 #include "components/player_projectile.h"
 
-#include "component_library/common_services.h"
-#include "component_library/transform.h"
 #include "components/services.h"
+#include "corgi_component_library/common_services.h"
+#include "corgi_component_library/transform.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "pindrop/pindrop.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
-                            fpl::zooshi::PlayerProjectileData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
+                       fpl::zooshi::PlayerProjectileData)
 
 namespace fpl {
 namespace zooshi {

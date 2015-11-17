@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #include "components/shadow_controller.h"
-#include "component_library/transform.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::ShadowControllerComponent,
-                            fpl::zooshi::ShadowControllerData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::ShadowControllerComponent,
+                       fpl::zooshi::ShadowControllerData)
 
 namespace fpl {
 namespace zooshi {

@@ -18,14 +18,14 @@
 #include "breadboard/event.h"
 #include "breadboard/graph.h"
 #include "breadboard/graph_state.h"
-#include "component_library/graph.h"
-#include "component_library/physics.h"
-#include "component_library/transform.h"
-#include "components_generated.h"
 #include "components/rail_denizen.h"
+#include "components_generated.h"
 #include "config_generated.h"
-#include "entity/component.h"
-#include "entity/entity_manager.h"
+#include "corgi/component.h"
+#include "corgi/entity_manager.h"
+#include "corgi_component_library/graph.h"
+#include "corgi_component_library/physics.h"
+#include "corgi_component_library/transform.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/math/angle.h"
@@ -343,7 +343,6 @@ class PatronComponent : public corgi::Component<PatronData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::PatronComponent,
-                              fpl::zooshi::PatronData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::PatronComponent, fpl::zooshi::PatronData)
 
 #endif  // COMPONENTS_PATRON_H_

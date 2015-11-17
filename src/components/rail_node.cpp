@@ -16,8 +16,8 @@
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/utilities.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RailNodeComponent,
-                            fpl::zooshi::RailNodeData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::RailNodeComponent,
+                       fpl::zooshi::RailNodeData)
 
 namespace fpl {
 namespace zooshi {

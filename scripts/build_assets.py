@@ -1065,7 +1065,7 @@ def clean(target_directory, asset_roots, conversion_data_list,
 BREADBOARD_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
                                               'breadboard'))
 CORGI_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
-                                         'entity'))
+                                         'corgi'))
 FLATBUFFERS_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,
                                                'flatbuffers'))
 FPLBASE_ROOT = DependencyPath(os.path.join(DefaultPathResolver.FPL_ROOT,

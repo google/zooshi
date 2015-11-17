@@ -15,16 +15,15 @@
 #include "components/scenery.h"
 
 #include <vector>
-#include "component_library/animation.h"
-#include "component_library/rendermesh.h"
-#include "component_library/transform.h"
 #include "components/services.h"
 #include "components_generated.h"
+#include "corgi_component_library/animation.h"
+#include "corgi_component_library/rendermesh.h"
+#include "corgi_component_library/transform.h"
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SceneryComponent,
-                            fpl::zooshi::SceneryData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::SceneryComponent, fpl::zooshi::SceneryData)
 
 namespace fpl {
 namespace zooshi {

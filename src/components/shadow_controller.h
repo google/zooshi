@@ -16,7 +16,7 @@
 #define COMPONENTS_SHADOWCONTROLLER_H_
 
 #include "components_generated.h"
-#include "entity/component.h"
+#include "corgi/component.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix_4x4.h"
@@ -42,7 +42,7 @@ class ShadowControllerComponent
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::ShadowControllerComponent,
-                              fpl::zooshi::ShadowControllerData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::ShadowControllerComponent,
+                         fpl::zooshi::ShadowControllerData)
 
 #endif  // COMPONENTS_SHADOWCONTROLLER_H_

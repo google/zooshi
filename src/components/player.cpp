@@ -14,21 +14,20 @@
 
 #include "components/player.h"
 #include "camera.h"
-#include "component_library/common_services.h"
-#include "component_library/physics.h"
-#include "component_library/transform.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/services.h"
-#include "entity/entity_common.h"
+#include "corgi/entity_common.h"
+#include "corgi_component_library/common_services.h"
+#include "corgi_component_library/physics.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/utilities.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "world.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::PlayerComponent,
-                            fpl::zooshi::PlayerData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::PlayerComponent, fpl::zooshi::PlayerData)
 
 namespace fpl {
 namespace zooshi {
@@ -79,7 +78,7 @@ void PlayerComponent::InitEntity(corgi::EntityRef& entity) {
 }
 
 static inline float RandomSign() {
- return mathfu::Random<float>() < 0.5f ? -1.0f : 1.0f;
+  return mathfu::Random<float>() < 0.5f ? -1.0f : 1.0f;
 }
 
 // Return an angle between kMinProjectileAngularVelocity and
@@ -87,10 +86,10 @@ static inline float RandomSign() {
 // probibility of being positive and negative.
 mathfu::vec3 PlayerComponent::RandomProjectileAngularVelocity() const {
   const mathfu::vec3 random(mathfu::Random<float>(), mathfu::Random<float>(),
-                             mathfu::Random<float>());
+                            mathfu::Random<float>());
   auto angle = mathfu::Lerp(
-        LoadVec3(config_->projectile_min_angular_velocity()),
-        LoadVec3(config_->projectile_max_angular_velocity()), random);
+      LoadVec3(config_->projectile_min_angular_velocity()),
+      LoadVec3(config_->projectile_max_angular_velocity()), random);
   const mathfu::vec3 sign(RandomSign(), RandomSign(), RandomSign());
   return angle * sign;
 }

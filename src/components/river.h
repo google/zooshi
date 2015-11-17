@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 #include "components_generated.h"
-#include "entity/component.h"
+#include "corgi/component.h"
 #include "fplbase/mesh.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
@@ -73,7 +73,6 @@ class RiverComponent : public corgi::Component<RiverData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::RiverComponent,
-                              fpl::zooshi::RiverData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::RiverComponent, fpl::zooshi::RiverData)
 
 #endif  // COMPONENTS_RIVER_H

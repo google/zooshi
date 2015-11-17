@@ -17,7 +17,7 @@
 
 #include "components/rail_denizen.h"
 #include "config_generated.h"
-#include "entity/component.h"
+#include "corgi/component.h"
 #include "mathfu/glsl_mappings.h"
 
 namespace fpl {
@@ -98,7 +98,7 @@ class SceneryComponent : public corgi::Component<SceneryData> {
 }  // zooshi
 }  // fpl
 
-FPL_ENTITY_REGISTER_COMPONENT(fpl::zooshi::SceneryComponent,
-                              fpl::zooshi::SceneryData)
+CORGI_REGISTER_COMPONENT(fpl::zooshi::SceneryComponent,
+                         fpl::zooshi::SceneryData)
 
 #endif  // COMPONENTS_SCENERY_H_

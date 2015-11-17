@@ -18,15 +18,15 @@
 #include <cmath>
 #include <limits>
 #include "breadboard/event.h"
-#include "component_library/animation.h"
-#include "component_library/common_services.h"
-#include "component_library/graph.h"
-#include "component_library/transform.h"
 #include "components/rail_node.h"
 #include "components/services.h"
 #include "components_generated.h"
-#include "entity/component.h"
-#include "entity/entity_common.h"
+#include "corgi/component.h"
+#include "corgi/entity_common.h"
+#include "corgi_component_library/animation.h"
+#include "corgi_component_library/common_services.h"
+#include "corgi_component_library/graph.h"
+#include "corgi_component_library/transform.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "fplbase/flatbuffer_utils.h"
@@ -39,8 +39,8 @@
 using mathfu::vec3;
 using corgi::component_library::GraphData;
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RailDenizenComponent,
-                            fpl::zooshi::RailDenizenData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::RailDenizenComponent,
+                       fpl::zooshi::RailDenizenData)
 
 namespace fpl {
 namespace zooshi {

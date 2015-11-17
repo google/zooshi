@@ -19,7 +19,7 @@
 #include "breadboard/base_node.h"
 #include "breadboard/module_registry.h"
 #include "components/rail_denizen.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
 
 using breadboard::BaseNode;
 using breadboard::Module;

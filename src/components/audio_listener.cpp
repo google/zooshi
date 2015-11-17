@@ -14,12 +14,12 @@
 
 #include "components/audio_listener.h"
 #include "components/services.h"
-#include "component_library/transform.h"
-#include "entity/entity_common.h"
+#include "corgi/entity_common.h"
+#include "corgi_component_library/transform.h"
 #include "pindrop/pindrop.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::AudioListenerComponent,
-                            fpl::zooshi::AudioListenerData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::AudioListenerComponent,
+                       fpl::zooshi::AudioListenerData)
 
 namespace fpl {
 namespace zooshi {

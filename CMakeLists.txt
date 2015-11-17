@@ -64,8 +64,8 @@ set(dependencies_pindrop_dir "${fpl_root}/pindrop"
     CACHE PATH "Directory containing the pindrop library.")
 set(dependencies_fplbase_dir "${fpl_root}/fplbase"
     CACHE PATH "Directory containing the FPLBase library.")
-set(dependencies_entity_dir "${fpl_root}/entity"
-    CACHE PATH "Directory containing the Entity library.")
+set(dependencies_corgi_dir "${fpl_root}/corgi"
+    CACHE PATH "Directory containing the CORGI library.")
 set(dependencies_flatui_dir "${fpl_root}/flatui"
     CACHE PATH "Directory containing the FlatUI library.")
 set(dependencies_mathfu_dir "${fpl_root}/mathfu"
@@ -74,9 +74,9 @@ set(dependencies_motive_dir "${fpl_root}/motive"
     CACHE PATH "Directory containing the motive animation library.")
 set(dependencies_scene_lab_dir "${fpl_root}/scene_lab"
     CACHE PATH "Directory containing the Scene Lab library.")
-set(dependencies_component_library_dir
-    "${dependencies_entity_dir}/component_library"
-    CACHE PATH "Directory containing the entity system component library")
+set(dependencies_corgi_component_library_dir
+    "${dependencies_corgi_dir}/component_library"
+    CACHE PATH "Directory containing the CORGI component library")
 
 # Option to enable / disable the build of cwebp from source.
 option(zooshi_build_cwebp "Build cwebp from source." OFF)
@@ -124,8 +124,8 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
 endif()
 
 # Include entities.
-if(NOT zooshi_only_flatc AND NOT TARGET entity)
-  add_subdirectory("${dependencies_entity_dir}" ${tmp_dir}/entity)
+if(NOT zooshi_only_flatc AND NOT TARGET corgi)
+  add_subdirectory("${dependencies_corgi_dir}" ${tmp_dir}/corgi)
 endif()
 
 # Include FlatUI.
@@ -151,7 +151,7 @@ set(FLATBUFFERS_GENERATED_INCLUDES_DIR
 file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
-    ${dependencies_component_library_dir}/schemas
+    ${dependencies_corgi_component_library_dir}/schemas
     ${dependencies_module_library_dir}/schemas
     ${dependencies_scene_lab_dir}/schemas
     ${dependencies_fplbase_dir}/schemas
@@ -161,7 +161,7 @@ set(FLATBUFFERS_SCHEMA_INCLUDES
 set(flatbuffers_additional_dependencies
     motive_generated_includes
     pindrop_generated_includes
-    component_library_generated_includes
+    corgi_component_library_generated_includes
     breadboard_module_library_generated_includes)
 # Generate rules to build the set of output files from the set of input
 # schema files.
@@ -307,10 +307,11 @@ if(WIN32)
   include_directories(${dependencies_fplbase_dir}/external/include)
 endif()
 
-get_property(COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
-             TARGET component_library_generated_includes
+get_property(CORGI_COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
+             TARGET corgi_component_library_generated_includes
              PROPERTY GENERATED_INCLUDES_DIR)
-include_directories(${COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
+include_directories(
+  ${CORGI_COMPONENT_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR})
 get_property(BREADBOARD_MODULE_LIBRARY_FLATBUFFERS_GENERATED_INCLUDES_DIR
              TARGET breadboard_module_library_generated_includes
              PROPERTY GENERATED_INCLUDES_DIR)
@@ -331,8 +332,8 @@ get_property(PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR
              TARGET pindrop_generated_includes
              PROPERTY GENERATED_INCLUDES_DIR)
 include_directories(${PINDROP_FLATBUFFERS_GENERATED_INCLUDES_DIR})
-include_directories(${dependencies_entity_dir}/include)
-include_directories(${dependencies_component_library_dir}/include)
+include_directories(${dependencies_corgi_dir}/include)
+include_directories(${dependencies_corgi_component_library_dir}/include)
 include_directories(${dependencies_breadboard_dir}/include)
 include_directories(${dependencies_module_library_dir}/include)
 include_directories(${dependencies_flatbuffers_dir}/include)
@@ -397,8 +398,8 @@ target_link_libraries(zooshi
   flatui
   flatbuffers
   breadboard
-  entity
-  component_library
+  corgi
+  corgi_component_library
   module_library
   scene_lab
   pindrop)

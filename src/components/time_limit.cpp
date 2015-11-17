@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #include "components/time_limit.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/utilities.h"
-#include "component_library/transform.h"
 
-FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::TimeLimitComponent,
-                            fpl::zooshi::TimeLimitData)
+CORGI_DEFINE_COMPONENT(fpl::zooshi::TimeLimitComponent,
+                       fpl::zooshi::TimeLimitData)
 
 namespace fpl {
 namespace zooshi {
@@ -31,8 +31,8 @@ void TimeLimitComponent::AddFromRawData(corgi::EntityRef& entity,
   auto time_limit_def = static_cast<const TimeLimitDef*>(raw_data);
   TimeLimitData* time_limit_data = AddEntity(entity);
   // Time limit is specified in seconds in the data files.
-  time_limit_data->time_limit = static_cast<corgi::WorldTime>(
-      time_limit_def->timelimit() * 1000);
+  time_limit_data->time_limit =
+      static_cast<corgi::WorldTime>(time_limit_def->timelimit() * 1000);
 }
 
 void TimeLimitComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
@@ -45,8 +45,9 @@ void TimeLimitComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
       corgi::component_library::TransformData* transform_data =
           Data<corgi::component_library::TransformData>(iter->entity);
       if (transform_data) {
-        float scale_factor = (time_limit_data->time_limit -
-            time_limit_data->time_elapsed) / static_cast<float>(kShrinkTime);
+        float scale_factor =
+            (time_limit_data->time_limit - time_limit_data->time_elapsed) /
+            static_cast<float>(kShrinkTime);
         transform_data->scale = time_limit_data->original_scale * scale_factor;
       }
     }

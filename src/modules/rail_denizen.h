@@ -16,8 +16,8 @@
 #define FPL_ZOOSHI_MODULES_RAIL_DENIZEN_H_
 
 #include "breadboard/module_registry.h"
-#include "component_library/graph.h"
 #include "components/rail_denizen.h"
+#include "corgi_component_library/graph.h"
 
 namespace fpl {
 namespace zooshi {

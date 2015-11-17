@@ -22,7 +22,7 @@
 #include "breadboard/module_registry.h"
 #include "camera.h"
 #include "config_generated.h"
-#include "entity/entity_manager.h"
+#include "corgi/entity_manager.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatui/font_manager.h"
 #include "fplbase/asset_manager.h"
@@ -53,7 +53,7 @@
 #endif
 
 // Header files that has a dependency to GPG definitions.
-#include "entity/entity_common.h"
+#include "corgi/entity_common.h"
 #include "gpg_manager.h"
 #include "states/game_menu_state.h"
 #include "states/game_over_state.h"
