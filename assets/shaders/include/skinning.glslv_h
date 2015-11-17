@@ -16,7 +16,7 @@
 // If using anim_pipeline to generate the meshes, you can see which bones
 // are assigned indices in the shader by running,
 //     anim_pipeline --info my_model.fbx
-const int kMaxNumShaderBones = 42;
+const int kMaxNumShaderBones = 34;
 
 // Each bone is an affine transform. Since OpenGL ES2 doesn't support 4x3
 // matrices, we represent the affine transform as three vec4s.
