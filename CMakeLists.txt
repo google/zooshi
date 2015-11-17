@@ -91,6 +91,7 @@ option(zooshi_profile_motive "Output motive profiling stats." OFF)
 if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
   set(pindrop_build_demo OFF CACHE BOOL "")
   set(pindrop_build_tests OFF CACHE BOOL "")
+  set(pindrop_async_loading ON CACHE BOOL "")
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
 endif()
 
