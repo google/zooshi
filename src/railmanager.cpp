@@ -56,7 +56,7 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
   derivatives.resize(num_positions);
 
   // Calculate derivates and times from positions.
-  CalculateConstSpeedCurveFromPositions<3>(&positions[0], num_positions,
+  motive::CalculateConstSpeedCurveFromPositions<3>(&positions[0], num_positions,
                                            total_time, reliable_distance,
                                            &times[0], &derivatives[0]);
 
@@ -73,7 +73,7 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
   // given the range limits.
   const float kRangeSafeBoundsPercent = 1.1f;
   for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-    splines_[i].Init(Range(position_min[i], position_max[i])
+    splines_[i].Init(motive::Range(position_min[i], position_max[i])
                          .Lengthen(kRangeSafeBoundsPercent),
                      spline_granularity);
   }
@@ -95,7 +95,7 @@ Rail *RailManager::GetRail(RailId rail_file) {
   if (rail_map.find(rail_file) == rail_map.end()) {
     // New rail, so we load it up:
     std::string rail_def_source;
-    if (!LoadFile(rail_file, &rail_def_source)) {
+    if (!fplbase::LoadFile(rail_file, &rail_def_source)) {
       return nullptr;
     }
     const RailDef *rail_def = GetRailDef(rail_def_source.c_str());
@@ -106,8 +106,8 @@ Rail *RailManager::GetRail(RailId rail_file) {
 }
 
 Rail *RailManager::GetRailFromComponents(
-    const char *rail_name, entity::EntityManager *entity_manager) {
-  std::map<float, entity::EntityRef> rail_entities;
+    const char *rail_name, corgi::EntityManager *entity_manager) {
+  std::map<float, corgi::EntityRef> rail_entities;
 
   auto *rail_component = entity_manager->GetComponent<RailNodeComponent>();
   for (auto i = rail_component->begin(); i != rail_component->end(); ++i) {
@@ -117,8 +117,8 @@ Rail *RailManager::GetRailFromComponents(
   }
 
   if (rail_entities.size() == 0) {
-    LogInfo("RailManager: No RailNode entities with rail_name '%s' found",
-            rail_name);
+    fplbase::LogInfo(
+      "RailManager: No RailNode entities with rail_name '%s' found", rail_name);
     return nullptr;  // invalid rail name
   }
 
@@ -132,7 +132,7 @@ Rail *RailManager::GetRailFromComponents(
   float reliable_distance = first_data->reliable_distance;
 
   auto *transform_component =
-      entity_manager->GetComponent<component_library::TransformComponent>();
+  entity_manager->GetComponent<corgi::component_library::TransformComponent>();
   // map will sort by the key
   int i = 0;
   for (auto iter = rail_entities.begin(); iter != rail_entities.end(); ++iter) {

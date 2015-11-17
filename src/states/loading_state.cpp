@@ -53,14 +53,15 @@ using mathfu::vec2;
 using mathfu::vec3;
 using mathfu::vec4;
 
-static const entity::WorldTime kLoadingScreenFadeInTime = 400;
-static const entity::WorldTime kLoadingScreenFadeOutTime = 200;
+static const corgi::WorldTime kLoadingScreenFadeInTime = 400;
+static const corgi::WorldTime kLoadingScreenFadeOutTime = 200;
 
-void LoadingState::Initialize(InputSystem *input_system, World *world,
+void LoadingState::Initialize(fplbase::InputSystem *input_system,
+                              World *world,
                               const AssetManifest& asset_manifest,
-                              AssetManager* asset_manager,
+                              fplbase::AssetManager* asset_manager,
                               pindrop::AudioEngine* audio_engine,
-                              Shader* shader_textured,
+                              fplbase::Shader* shader_textured,
                               FullScreenFader* fader) {
   input_system_ = input_system;
   world_ = world;
@@ -85,7 +86,7 @@ void LoadingState::AdvanceFrame(int delta_time, int* next_state) {
 
 #ifdef ANDROID_HMD
   // Get the direction vector from the HMD input.
-  const HeadMountedDisplayInput& head_mounted_display_input =
+  const fplbase::HeadMountedDisplayInput& head_mounted_display_input =
     input_system_->head_mounted_display_input();
   const vec3 hmd_forward = head_mounted_display_input.forward();
   const vec2 forward = vec2(hmd_forward.x(), -hmd_forward.z()).Normalized();
@@ -99,7 +100,7 @@ void LoadingState::AdvanceFrame(int delta_time, int* next_state) {
 
 }
 
-void LoadingState::Render(Renderer* renderer) {
+void LoadingState::Render(fplbase::Renderer* renderer) {
   // Ensure assets are instantiated after they've been loaded.
   // This must be called from the render thread.
   loading_complete_ =
@@ -108,11 +109,11 @@ void LoadingState::Render(Renderer* renderer) {
   // Get a handle to the loading material.
   const char* loading_material_name =
       asset_manifest_->loading_material()->c_str();
-  Material* loading_material =
+  fplbase::Material* loading_material =
       asset_manager_->FindMaterial(loading_material_name);
 
   // Render black until the loading material itself has loaded.
-  const Texture* texture = loading_material->textures()[0];
+  auto texture = loading_material->textures()[0];
   if (!texture->id() ||
       (world_->is_in_cardboard() &&
        !world_->cardboard_settings_gear->textures()[0]->id())) {
@@ -124,8 +125,8 @@ void LoadingState::Render(Renderer* renderer) {
   const float aspect_ratio = res.x() / res.y();
   if (world_->is_in_cardboard()) {
 #if ANDROID_HMD
-    Shader *shader_textured = shader_textured_;
-    HeadMountedDisplayViewSettings view_settings;
+    fplbase::Shader *shader_textured = shader_textured_;
+    fplbase::HeadMountedDisplayViewSettings view_settings;
     HeadMountedDisplayRenderStart(input_system_->head_mounted_display_input(),
                                   renderer, mathfu::kZeros4f, true,
                                   &view_settings);
@@ -151,7 +152,7 @@ void LoadingState::Render(Renderer* renderer) {
       static const float kDistance = -120.0f;
       const vec3 bottom_left(-size.x(), size.y(), kDistance);
       const vec3 top_right(size.x(), -size.y(), kDistance);
-      Mesh::RenderAAQuadAlongX(bottom_left, top_right);
+      fplbase::Mesh::RenderAAQuadAlongX(bottom_left, top_right);
     }
     HeadMountedDisplayRenderEnd(renderer, true);
 #endif // ANDROID_HMD
@@ -185,7 +186,7 @@ void LoadingState::Render(Renderer* renderer) {
     const vec2 size = scale * vec2(texture->size()) / res.y();
     const vec3 bottom_left(-size.x(), size.y(), 0.0f);
     const vec3 top_right(size.x(), -size.y(), 0.0f);
-    Mesh::RenderAAQuadAlongX(bottom_left, top_right);
+    fplbase::Mesh::RenderAAQuadAlongX(bottom_left, top_right);
   }
 
   const vec3 fade_bottom_left(-aspect_ratio, 1.0f, 0.0f);

@@ -18,13 +18,11 @@
 #include "fplbase/utilities.h"
 #include "mathfu/glsl_mappings.h"
 #include "entity/entity_common.h"
+#include "fplbase/shader.h"
+#include "fplbase/material.h"
+#include "fplbase/renderer.h"
 
 namespace fpl {
-
-class Renderer;
-class Material;
-class Shader;
-
 namespace zooshi {
 
 enum FadeType {
@@ -41,11 +39,11 @@ class FullScreenFader {
   ~FullScreenFader() {}
 
   // Initialize the fader's internal state. Call before Start().
-  void Init(Material* material, Shader* shader);
+  void Init(fplbase::Material* material, fplbase::Shader* shader);
 
   // Start the fullscreen fading effect with a duration of the given
   // fade_time and the given overlay color.
-  void Start(entity::WorldTime fade_time, const mathfu::vec3& color,
+  void Start(corgi::WorldTime fade_time, const mathfu::vec3& color,
              FadeType fade_type, const mathfu::vec3& bottom_left,
              const mathfu::vec3& top_right);
 
@@ -53,22 +51,22 @@ class FullScreenFader {
   // is fully opaque.
   bool AdvanceFrame(int delta_time);
   // Renders the fullscreen fading overlay.
-  void Render(Renderer* renderer);
+  void Render(fplbase::Renderer* renderer);
   // Returns true when the fullscreen fading effect is complete.
   bool Finished() const;
   // Get the fraction (0..1) elapsed through the fader's fade time.
   float GetOffset() const;
 
-  entity::WorldTime current_fade_time() const { return current_fade_time_; }
+  corgi::WorldTime current_fade_time() const { return current_fade_time_; }
 
  private:
   // Current fade time, variable state, increments with each call to
   // AdvanceFrame().
-  entity::WorldTime current_fade_time_;
+  corgi::WorldTime current_fade_time_;
   // Total fade time, constant, set with Start().
-  entity::WorldTime total_fade_time_;
+  corgi::WorldTime total_fade_time_;
   // When to stop fading (<= total_fade_time_).
-  entity::WorldTime end_fade_time_;
+  corgi::WorldTime end_fade_time_;
   // Color of the overlay (the alpha component is ignored), constant, set with
   // Start().
   mathfu::vec3 color_;
@@ -77,9 +75,9 @@ class FullScreenFader {
   mathfu::vec3 bottom_left_;
   mathfu::vec3 top_right_;
   // Material used to render the overlay, set with Init().
-  Material* material_;
+  fplbase::Material* material_;
   // Shader used to render the overlay material, set with Init().
-  Shader* shader_;
+  fplbase::Shader* shader_;
   // Opaque flag, variable state, true once the effect transition back
   // from opaque.
   bool opaque_;

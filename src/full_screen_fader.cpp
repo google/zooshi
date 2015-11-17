@@ -30,14 +30,16 @@ FullScreenFader::FullScreenFader()
       shader_(NULL),
       opaque_(false) {}
 
-void FullScreenFader::Init(Material* material, Shader* shader) {
+void FullScreenFader::Init(fplbase::Material* material,
+                           fplbase::Shader* shader) {
   material_ = material;
   shader_ = shader;
 }
 
 // Starts the fade.
-void FullScreenFader::Start(entity::WorldTime fade_time, const vec3& color,
-                            FadeType fade_type, const mathfu::vec3& bottom_left,
+void FullScreenFader::Start(corgi::WorldTime fade_time,
+                            const mathfu::vec3& color, FadeType fade_type,
+                            const mathfu::vec3& bottom_left,
                             const mathfu::vec3& top_right) {
   assert(material_ && shader_);
   current_fade_time_ = fade_type == kFadeIn ? fade_time : 0;
@@ -64,18 +66,18 @@ bool FullScreenFader::AdvanceFrame(int delta_time) {
 }
 
 // Renders the fade overlay.
-void FullScreenFader::Render(Renderer* renderer) {
+void FullScreenFader::Render(fplbase::Renderer* renderer) {
   float t = std::min(static_cast<float>(std::min(current_fade_time_,
                                                  end_fade_time_)) /
                          static_cast<float>(total_fade_time_), 1.0f);
   float alpha = sin(t * static_cast<float>(M_PI));
   // Render the overlay in front on the screen.
-  renderer->set_color(vec4(color_, alpha));
+  renderer->set_color(mathfu::vec4(color_, alpha));
   material_->Set(*renderer);
   shader_->Set(*renderer);
   // Clear depth buffer to prevent z-fight issues.
   renderer->ClearDepthBuffer();
-  Mesh::RenderAAQuadAlongX(bottom_left_, top_right_);
+  fplbase::Mesh::RenderAAQuadAlongX(bottom_left_, top_right_);
 }
 
 // Returns true when the fade is complete (overlay is transparent).

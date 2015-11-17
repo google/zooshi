@@ -37,7 +37,7 @@ struct SceneryData {
 
   // The child of the scenery entity that has a RenderMeshComponent and
   // an AnimationComponent.
-  entity::EntityRef render_child;
+  corgi::EntityRef render_child;
 
   // Current state of the scenery. See NextState() for state machine.
   SceneryState state;
@@ -51,44 +51,44 @@ struct SceneryData {
   SceneryState show_override;
 };
 
-class SceneryComponent : public entity::Component<SceneryData> {
+class SceneryComponent : public corgi::Component<SceneryData> {
  public:
   SceneryComponent() {}
 
   virtual void Init();
-  virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
-  virtual void InitEntity(entity::EntityRef& entity);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void AddFromRawData(corgi::EntityRef& parent, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
+  virtual void InitEntity(corgi::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
 
   // Apply an override animation to an entity that only applies in the `Show`
   // state.
-  void ApplyShowOverride(const entity::EntityRef& scenery,
+  void ApplyShowOverride(const corgi::EntityRef& scenery,
                          SceneryState show_override);
 
  private:
   const RailDenizenData& Raft() const;
   float PopInDistSq() const;
   float PopOutDistSq() const;
-  float DistSq(const entity::EntityRef& scenery,
+  float DistSq(const corgi::EntityRef& scenery,
                const RailDenizenData& raft) const;
-  float AnimTimeRemaining(const entity::EntityRef& scenery) const;
+  float AnimTimeRemaining(const corgi::EntityRef& scenery) const;
   bool HasAnim(const SceneryData* scenery_data, SceneryState state) const;
   float AnimLength(const SceneryData* scenery_data, SceneryState state) const;
-  SceneryState NextState(const entity::EntityRef& scenery,
+  SceneryState NextState(const corgi::EntityRef& scenery,
                          const RailDenizenData& raft) const;
-  void Animate(const entity::EntityRef& scenery, SceneryState state);
-  void StopAnimating(const entity::EntityRef& scenery);
-  void Show(const entity::EntityRef& scenery, bool show);
+  void Animate(const corgi::EntityRef& scenery, SceneryState state);
+  void StopAnimating(const corgi::EntityRef& scenery);
+  void Show(const corgi::EntityRef& scenery, bool show);
   void ShowAll(bool show);
-  void TransitionState(const entity::EntityRef& scenery,
+  void TransitionState(const corgi::EntityRef& scenery,
                        SceneryState next_state);
-  void AnimateScenery(const entity::EntityRef& scenery,
+  void AnimateScenery(const corgi::EntityRef& scenery,
                       SceneryData* scenery_data, SceneryState state);
-  void SetVisibilityOnOtherChildren(const entity::EntityRef& scenery,
+  void SetVisibilityOnOtherChildren(const corgi::EntityRef& scenery,
                                     bool visible);
 
   const Config* config_;

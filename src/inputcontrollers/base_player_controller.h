@@ -86,7 +86,7 @@ class BasePlayerController {
 
   ControllerType controller_type() const { return controller_type_; }
 
-  void set_input_system(InputSystem* input_system) {
+  void set_input_system(fplbase::InputSystem* input_system) {
     input_system_ = input_system;
   }
   void set_input_config(const InputConfig* input_config) {
@@ -108,7 +108,7 @@ class BasePlayerController {
 
   ControllerType controller_type_;
 
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
   const InputConfig* input_config_;
 
   bool enabled_;

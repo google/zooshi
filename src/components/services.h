@@ -44,14 +44,15 @@ struct ServicesData {};
 // components
 // don't have direct access to the gamestate, but they do have access to other
 // components.)
-class ServicesComponent : public entity::Component<ServicesData> {
+class ServicesComponent : public corgi::Component<ServicesData> {
  public:
   ServicesComponent() {}
 
-  void Initialize(const Config* config, AssetManager* asset_manager,
-                  InputSystem* input_system, pindrop::AudioEngine* audio_engine,
-                  FontManager* font_manager, RailManager* rail_manager,
-                  component_library::EntityFactory* entity_factory,
+  void Initialize(const Config* config, fplbase::AssetManager* asset_manager,
+                  fplbase::InputSystem* input_system,
+                  pindrop::AudioEngine* audio_engine,
+                  flatui::FontManager* font_manager, RailManager* rail_manager,
+                  corgi::component_library::EntityFactory* entity_factory,
                   World* world, scene_lab::SceneLab* scene_lab) {
     config_ = config;
     asset_manager_ = asset_manager;
@@ -67,16 +68,18 @@ class ServicesComponent : public entity::Component<ServicesData> {
   }
 
   const Config* config() { return config_; }
-  AssetManager* asset_manager() { return asset_manager_; }
+  fplbase::AssetManager* asset_manager() { return asset_manager_; }
   pindrop::AudioEngine* audio_engine() { return audio_engine_; }
-  FontManager* font_manager() { return font_manager_; }
-  InputSystem* input_system() { return input_system_; }
+  flatui::FontManager* font_manager() { return font_manager_; }
+  fplbase::InputSystem* input_system() { return input_system_; }
   RailManager* rail_manager() { return rail_manager_; }
-  entity::EntityRef raft_entity() { return raft_entity_; }
-  void set_raft_entity(entity::EntityRef entity) { raft_entity_ = entity; }
-  entity::EntityRef player_entity() { return player_entity_; }
-  void set_player_entity(entity::EntityRef entity) { player_entity_ = entity; }
-  component_library::EntityFactory* entity_factory() { return entity_factory_; }
+  corgi::EntityRef raft_entity() { return raft_entity_; }
+  void set_raft_entity(corgi::EntityRef entity) { raft_entity_ = entity; }
+  corgi::EntityRef player_entity() { return player_entity_; }
+  void set_player_entity(corgi::EntityRef entity) { player_entity_ = entity; }
+  corgi::component_library::EntityFactory* entity_factory() {
+    return entity_factory_;
+  }
   World* world() { return world_; }
   // Scene Lab is not guaranteed to be present in all versions of the game.
   scene_lab::SceneLab* scene_lab() { return scene_lab_; }
@@ -85,7 +88,7 @@ class ServicesComponent : public entity::Component<ServicesData> {
 
   const void* component_def_binary_schema() const {
     if (component_def_binary_schema_ == "") {
-      LogInfo(
+      fplbase::LogInfo(
           "ServicesComponent: ComponentDef binary schema not yet loaded, did "
           "you call LoadComponentDefBinarySchema()?");
       return nullptr;
@@ -94,26 +97,27 @@ class ServicesComponent : public entity::Component<ServicesData> {
   }
   // This component should never be added to an entity.  It is only provided
   // as an interface for other components to access common resources.
-  void AddFromRawData(entity::EntityRef& /*entity*/, const void* /*raw_data*/) {
+  void AddFromRawData(corgi::EntityRef& /*entity*/, const void* /*raw_data*/) {
     assert(false);
   }
   void LoadComponentDefBinarySchema(const char* filename) {
-    if (!LoadFile(filename, &component_def_binary_schema_)) {
-      LogInfo("Couldn't load ComponentDef binary schema from %s", filename);
+    if (!fplbase::LoadFile(filename, &component_def_binary_schema_)) {
+      fplbase::LogInfo("Couldn't load ComponentDef binary schema from %s",
+                       filename);
     }
   }
 
  private:
   const Config* config_;
 
-  AssetManager* asset_manager_;
+  fplbase::AssetManager* asset_manager_;
   pindrop::AudioEngine* audio_engine_;
-  InputSystem* input_system_;
-  FontManager* font_manager_;
+  fplbase::InputSystem* input_system_;
+  flatui::FontManager* font_manager_;
   RailManager* rail_manager_;
-  entity::EntityRef raft_entity_;
-  entity::EntityRef player_entity_;
-  component_library::EntityFactory* entity_factory_;
+  corgi::EntityRef raft_entity_;
+  corgi::EntityRef player_entity_;
+  corgi::component_library::EntityFactory* entity_factory_;
   std::string component_def_binary_schema_;
   World* world_;
   scene_lab::SceneLab* scene_lab_;

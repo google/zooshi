@@ -46,8 +46,8 @@ namespace fpl {
 namespace zooshi {
 
 void GameMenuState::Initialize(
-    InputSystem* input_system, World* world, const Config* config,
-    AssetManager* asset_manager, FontManager* font_manager,
+    fplbase::InputSystem* input_system, World* world, const Config* config,
+    fplbase::AssetManager* asset_manager, flatui::FontManager* font_manager,
     const AssetManifest* manifest, GPGManager* gpg_manager,
     pindrop::AudioEngine* audio_engine, FullScreenFader* fader) {
   world_ = world;
@@ -92,12 +92,12 @@ void GameMenuState::Initialize(
   scrollbar_foreground_ =
       asset_manager_->LoadTexture("textures/ui_scrollbar_foreground.webp");
 
-  if (!LoadFile(manifest->about_file()->c_str(), &about_text_)) {
-    LogError("About text not found.");
+  if (!fplbase::LoadFile(manifest->about_file()->c_str(), &about_text_)) {
+    fplbase::LogError("About text not found.");
   }
 
-  if (!LoadFile(manifest->license_file()->c_str(), &license_text_)) {
-    LogError("License text not found.");
+  if (!fplbase::LoadFile(manifest->license_file()->c_str(), &license_text_)) {
+    fplbase::LogError("License text not found.");
   }
 
   gpg_manager_ = gpg_manager;
@@ -123,8 +123,9 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
 
-  bool back_button = input_system_->GetButton(FPLK_ESCAPE).went_down() ||
-                     input_system_->GetButton(FPLK_AC_BACK).went_down();
+  bool back_button =
+      input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down() ||
+      input_system_->GetButton(fplbase::FPLK_AC_BACK).went_down();
   if (back_button) {
     if (menu_state_ == kMenuStateOptions) {
       // Save data when you leave the audio page.
@@ -167,11 +168,11 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
-void GameMenuState::RenderPrep(Renderer* renderer) {
+void GameMenuState::RenderPrep(fplbase::Renderer* renderer) {
   world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
 }
 
-void GameMenuState::Render(Renderer* renderer) {
+void GameMenuState::Render(fplbase::Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
@@ -179,9 +180,9 @@ void GameMenuState::Render(Renderer* renderer) {
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void GameMenuState::HandleUI(Renderer* renderer) {
+void GameMenuState::HandleUI(fplbase::Renderer* renderer) {
   // No culling when drawing the menu.
-  renderer->SetCulling(Renderer::kNoCulling);
+  renderer->SetCulling(fplbase::Renderer::kNoCulling);
 
   switch (menu_state_) {
     case kMenuStateStart:
@@ -192,8 +193,8 @@ void GameMenuState::HandleUI(Renderer* renderer) {
       break;
 
     case kMenuStateQuit: {
-      gui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
-        gui::CustomElement(gui::GetVirtualResolution(), "fader",
+      flatui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
+        flatui::CustomElement(flatui::GetVirtualResolution(), "fader",
                            [&](const vec2i& /*pos*/, const vec2i& /*size*/) {
                              fader_->Render(renderer);
                            });
@@ -230,8 +231,9 @@ void GameMenuState::LoadData() {
   // Retrieve save file path.
   std::string storage_path;
   std::string data;
-  auto ret = GetStoragePath(kSaveAppName, &storage_path);
-  if (ret && LoadPreferences((storage_path + kSaveFileName).c_str(), &data)) {
+  auto ret = fplbase::GetStoragePath(kSaveAppName, &storage_path);
+  if (ret && fplbase::LoadPreferences((storage_path + kSaveFileName).c_str(),
+                                      &data)) {
     auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
@@ -257,9 +259,9 @@ void GameMenuState::SaveData() {
 
   // Retrieve save file path.
   std::string storage_path;
-  auto ret = GetStoragePath(kSaveAppName, &storage_path);
+  auto ret = fplbase::GetStoragePath(kSaveAppName, &storage_path);
   if (ret) {
-    SavePreferences((storage_path + kSaveFileName).c_str(),
+    fplbase::SavePreferences((storage_path + kSaveFileName).c_str(),
                     fbb.GetBufferPointer(), fbb.GetSize());
   }
 }

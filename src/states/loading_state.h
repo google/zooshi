@@ -17,17 +17,13 @@
 
 #include "fplbase/input.h"  // For ANDROID_HMD definition.
 #include "states/state_machine.h"
+#include "fplbase/asset_manager.h"
 
 namespace pindrop {
 class AudioEngine;
 }
 
 namespace fpl {
-
-class AssetManager;
-class Material;
-class InputSystem;
-class Shader;
 
 namespace zooshi {
 
@@ -45,13 +41,14 @@ class LoadingState : public StateNode {
         world_(nullptr),
         banner_rotation_(0.0f){}
   virtual ~LoadingState() {}
-  void Initialize(InputSystem *input_system, World *world,
+  void Initialize(fplbase::InputSystem *input_system, World *world,
                   const AssetManifest& asset_manifest,
-                  AssetManager* asset_manager,
-                  pindrop::AudioEngine* audio_engine, Shader* shader_textured,
+                  fplbase::AssetManager* asset_manager,
+                  pindrop::AudioEngine* audio_engine,
+                  fplbase::Shader* shader_textured,
                   FullScreenFader* fader);
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void Render(Renderer* renderer);
+  virtual void Render(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
 
  protected:
@@ -61,7 +58,7 @@ class LoadingState : public StateNode {
 
   // Holds the texture asynchronous loader thread that we are waiting for.
   // Also holds the loading texture that we display on screen.
-  AssetManager* asset_manager_;
+  fplbase::AssetManager* asset_manager_;
 
   // Holds the audio asynchronous loader thread that we are waiting for.
   pindrop::AudioEngine* audio_engine_;
@@ -70,14 +67,14 @@ class LoadingState : public StateNode {
   const AssetManifest* asset_manifest_;
 
   // Simple shader to draw the loading texture on screen.
-  Shader* shader_textured_;
+  fplbase::Shader* shader_textured_;
 
   FullScreenFader* fader_;
 
   World *world_;
 
   // The input system so that we can get input.
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
 
   // Rotation around Y of the banner when a VR loading screen is in use.
   float banner_rotation_;

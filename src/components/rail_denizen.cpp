@@ -36,7 +36,7 @@
 #include "scene_lab/scene_lab.h"
 
 using mathfu::vec3;
-using fpl::component_library::GraphData;
+using corgi::component_library::GraphData;
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RailDenizenComponent,
                             fpl::zooshi::RailDenizenData)
@@ -46,10 +46,10 @@ namespace zooshi {
 
 BREADBOARD_DEFINE_EVENT(kNewLapEventId)
 
-using fpl::component_library::AnimationComponent;
-using fpl::component_library::CommonServicesComponent;
-using fpl::component_library::TransformData;
-using fpl::component_library::TransformComponent;
+using corgi::component_library::AnimationComponent;
+using corgi::component_library::CommonServicesComponent;
+using corgi::component_library::TransformData;
+using corgi::component_library::TransformComponent;
 using scene_lab::SceneLab;
 
 void Rail::Positions(float delta_time,
@@ -58,7 +58,7 @@ void Rail::Positions(float delta_time,
       static_cast<size_t>(std::floor(EndTime() / delta_time)) + 1;
   positions->resize(num_positions);
 
-  CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,
+  motive::CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,
                            &(*positions)[0]);
 }
 
@@ -72,7 +72,7 @@ vec3 Rail::PositionCalculatedSlowly(float time) const {
 
 void RailDenizenData::Initialize(const Rail& rail,
                                  motive::MotiveEngine& engine) {
-  const SplinePlayback playback(start_time, true, initial_playback_rate);
+  const motive::SplinePlayback playback(start_time, true, initial_playback_rate);
   motivator.Initialize(motive::SmoothInit(), &engine);
   motivator.SetSplines(rail.splines(), playback);
   playback_rate.InitializeWithTarget(motive::SmoothInit(), &engine,
@@ -92,13 +92,13 @@ void RailDenizenComponent::Init() {
   SceneLab* scene_lab = services->scene_lab();
   if (scene_lab) {
     scene_lab->AddOnUpdateEntityCallback([this](
-        const entity::EntityRef& entity) { UpdateRailNodeData(entity); });
+        const corgi::EntityRef& entity) { UpdateRailNodeData(entity); });
     scene_lab->AddOnEnterEditorCallback([this]() { OnEnterEditor(); });
     scene_lab->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }
 }
 
-void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
@@ -142,7 +142,7 @@ void RailDenizenComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   }
 }
 
-void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
+void RailDenizenComponent::AddFromRawData(corgi::EntityRef& entity,
                                           const void* raw_data) {
   auto rail_denizen_def = static_cast<const RailDenizenDef*>(raw_data);
   RailDenizenData* data = AddEntity(entity);
@@ -186,7 +186,7 @@ void RailDenizenComponent::AddFromRawData(entity::EntityRef& entity,
   InitializeRail(entity);
 }
 
-void RailDenizenComponent::InitializeRail(entity::EntityRef& entity) {
+void RailDenizenComponent::InitializeRail(corgi::EntityRef& entity) {
   RailManager* rail_manager =
       entity_manager_->GetComponent<ServicesComponent>()->rail_manager();
   RailDenizenData* data = GetComponentData(entity);
@@ -197,23 +197,24 @@ void RailDenizenComponent::InitializeRail(entity::EntityRef& entity) {
                          data->rail_name.c_str(), entity_manager_),
                      engine);
   } else {
-    LogError("RailDenizen: Error, no rail name specified");
+    fplbase::LogError("RailDenizen: Error, no rail name specified");
   }
 }
 
-entity::ComponentInterface::RawDataUniquePtr
-RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr
+RailDenizenComponent::ExportRawData(const corgi::EntityRef& entity) const {
   const RailDenizenData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  Vec3 rail_offset(data->internal_rail_offset.x(),
-                   data->internal_rail_offset.y(),
-                   data->internal_rail_offset.z());
+  fplbase::Vec3 rail_offset(data->internal_rail_offset.x(),
+                            data->internal_rail_offset.y(),
+                            data->internal_rail_offset.z());
   mathfu::vec3 euler = data->internal_rail_orientation.ToEulerAngles();
-  Vec3 rail_orientation(euler.x(), euler.y(), euler.z());
-  Vec3 rail_scale(data->internal_rail_scale.x(), data->internal_rail_scale.y(),
-                  data->internal_rail_scale.z());
+  fplbase::Vec3 rail_orientation(euler.x(), euler.y(), euler.z());
+  fplbase::Vec3 rail_scale(data->internal_rail_scale.x(),
+                           data->internal_rail_scale.y(),
+                           data->internal_rail_scale.z());
 
   auto rail_name =
       data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;
@@ -236,11 +237,11 @@ RailDenizenComponent::ExportRawData(const entity::EntityRef& entity) const {
   return fbb.ReleaseBufferPointer();
 }
 
-void RailDenizenComponent::InitEntity(entity::EntityRef& entity) {
+void RailDenizenComponent::InitEntity(corgi::EntityRef& entity) {
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
-void RailDenizenComponent::UpdateRailNodeData(entity::EntityRef entity) {
+void RailDenizenComponent::UpdateRailNodeData(corgi::EntityRef entity) {
   const RailNodeData* node_data =
       entity_manager_->GetComponentData<RailNodeData>(entity);
   if (node_data != nullptr) {

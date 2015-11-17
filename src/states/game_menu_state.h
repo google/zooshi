@@ -53,12 +53,12 @@ enum OptionsMenuState {
 };
 
 // Constant defintions for UI elements. Colors, button sizes etc.
-const auto kColorBrown = vec4(0.37f, 0.24f, 0.09f, 0.85f);
-const auto kColorLightBrown = vec4(0.82f, 0.77f, 0.60f, 0.85f);
-const auto kColorLightGray = vec4(0.4f, 0.4f, 0.4f, 0.85f);
-const auto kColorDarkGray = vec4(0.1f, 0.1f, 0.1f, 0.85f);
-const auto kPressedColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-const auto kHoverColor = vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
+const auto kColorBrown = mathfu::vec4(0.37f, 0.24f, 0.09f, 0.85f);
+const auto kColorLightBrown = mathfu::vec4(0.82f, 0.77f, 0.60f, 0.85f);
+const auto kColorLightGray = mathfu::vec4(0.4f, 0.4f, 0.4f, 0.85f);
+const auto kColorDarkGray = mathfu::vec4(0.1f, 0.1f, 0.1f, 0.85f);
+const auto kPressedColor = mathfu::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+const auto kHoverColor = mathfu::vec4::Min(kColorBrown * 1.5f, mathfu::kOnes4f);
 #ifdef USING_GOOGLE_PLAY_GAMES
 const auto kMenuSize = 75.0f;
 const auto kButtonSize = 75.0f;
@@ -67,7 +67,7 @@ const auto kMenuSize = 150.0f;
 const auto kButtonSize = 140.0f;
 #endif
 const auto kAudioOptionButtonSize = 100.0f;
-const auto kScrollAreaSize = vec2(900, 500);
+const auto kScrollAreaSize = mathfu::vec2(900, 500);
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;
@@ -76,54 +76,59 @@ const auto kSaveAppName = "zooshi";
 
 class GameMenuState : public StateNode {
  public:
-  void Initialize(InputSystem* input_system, World* world, const Config* config,
-                  AssetManager* asset_manager, FontManager* font_manager,
+  void Initialize(fplbase::InputSystem* input_system, World* world,
+                  const Config* config,
+                  fplbase::AssetManager* asset_manager,
+                  flatui::FontManager* font_manager,
                   const AssetManifest* manifest, GPGManager* gpg_manager,
                   pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(Renderer* renderer);
-  virtual void Render(Renderer* renderer);
-  virtual void HandleUI(Renderer* renderer);
+  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void Render(fplbase::Renderer* renderer);
+  virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
 
  private:
-  MenuState StartMenu(AssetManager& assetman, FontManager& fontman,
-                      InputSystem& input);
-  MenuState OptionMenu(AssetManager& assetman, FontManager& fontman,
-                       InputSystem& input);
+  MenuState StartMenu(fplbase::AssetManager& assetman,
+                      flatui::FontManager& fontman,
+                      fplbase::InputSystem& input);
+  MenuState OptionMenu(fplbase::AssetManager& assetman,
+                       flatui::FontManager& fontman,
+                       fplbase::InputSystem& input);
   void OptionMenuMain();
   void OptionMenuLicenses();
   void OptionMenuAbout();
   void OptionMenuAudio();
 
   // Instance a text button that plays a sound when selected.
-  gui::Event TextButton(const char* text, float size,
-                        const gui::Margin& margin);
-  gui::Event TextButton(const char* text, float size,
-                        const gui::Margin& margin,
+  flatui::Event TextButton(const char* text, float size,
+                        const flatui::Margin& margin);
+  flatui::Event TextButton(const char* text, float size,
+                        const flatui::Margin& margin,
                         pindrop::SoundHandle& sound);
   // Instance a text button showing an image that plays a sound when selected.
-  gui::Event TextButton(const Texture& texture,
-                        const gui::Margin& texture_margin, const char* text,
-                        float size, const gui::Margin& margin,
-                        const gui::ButtonProperty property);
-  gui::Event TextButton(const Texture& texture,
-                        const gui::Margin& texture_margin, const char* text,
-                        float size, const gui::Margin& margin,
-                        const gui::ButtonProperty property,
+  flatui::Event TextButton(const fplbase::Texture& texture,
+                        const flatui::Margin& texture_margin, const char* text,
+                        float size, const flatui::Margin& margin,
+                        const flatui::ButtonProperty property);
+  flatui::Event TextButton(const fplbase::Texture& texture,
+                        const flatui::Margin& texture_margin, const char* text,
+                        float size, const flatui::Margin& margin,
+                        const flatui::ButtonProperty property,
                         pindrop::SoundHandle& sound);
   // Instance an image button with label that plays a sound when selected.
-  gui::Event ImageButtonWithLabel(const Texture& tex, float size,
-                                  const gui::Margin& margin,
+  flatui::Event ImageButtonWithLabel(const fplbase::Texture& tex, float size,
+                                  const flatui::Margin& margin,
                                   const char* label);
-  gui::Event ImageButtonWithLabel(const Texture& tex, float size,
-                                  const gui::Margin& margin,
+  flatui::Event ImageButtonWithLabel(const fplbase::Texture& tex, float size,
+                                  const flatui::Margin& margin,
                                   const char* label,
                                   pindrop::SoundHandle& sound);
   // Play button sound effect when a selected event fires.
-  gui::Event PlayButtonSound(gui::Event event, pindrop::SoundHandle& sound);
+  flatui::Event PlayButtonSound(flatui::Event event,
+                                pindrop::SoundHandle& sound);
 
   // Save/Load data to strage using FlatBuffres binary data.
   void SaveData();
@@ -146,13 +151,13 @@ class GameMenuState : public StateNode {
 
   // FlatUI uses InputSystem for an input handling for a touch, gamepad,
   // mouse and keyboard.
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
 
   // FlatUI loads resources using AssetManager.
-  AssetManager* asset_manager_;
+  fplbase::AssetManager* asset_manager_;
 
   // FlatUI uses FontManager for a text rendering.
-  FontManager* font_manager_;
+  flatui::FontManager* font_manager_;
 
   // Asset manifest used to retrieve configurations.
   const Config* config_;
@@ -181,21 +186,21 @@ class GameMenuState : public StateNode {
   const WorldDef* world_def_;
 
   // Textures used in menu UI.
-  Texture* background_title_;
-  Texture* background_options_;
-  Texture* button_back_;
-  Texture* slider_back_;
-  Texture* slider_knob_;
-  Texture* scrollbar_back_;
-  Texture* scrollbar_foreground_;
+  fplbase::Texture* background_title_;
+  fplbase::Texture* background_options_;
+  fplbase::Texture* button_back_;
+  fplbase::Texture* slider_back_;
+  fplbase::Texture* slider_knob_;
+  fplbase::Texture* scrollbar_back_;
+  fplbase::Texture* scrollbar_foreground_;
 #ifdef USING_GOOGLE_PLAY_GAMES
-  Texture* image_gpg_;
-  Texture* image_leaderboard_;
-  Texture* image_achievements_;
+  fplbase::Texture* image_gpg_;
+  fplbase::Texture* image_leaderboard_;
+  fplbase::Texture* image_achievements_;
 #endif
 
   // Option menu state.
-  vec2 scroll_offset_;
+  mathfu::vec2 scroll_offset_;
   std::string license_text_;
   std::string about_text_;
 

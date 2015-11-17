@@ -35,13 +35,13 @@ void AttributesComponent::Init() {
   asset_manager_ = services->asset_manager();
 }
 
-void AttributesComponent::AddFromRawData(entity::EntityRef& entity,
+void AttributesComponent::AddFromRawData(corgi::EntityRef& entity,
                                          const void* /*raw_data*/) {
   AddEntity(entity);
 }
 
-entity::ComponentInterface::RawDataUniquePtr AttributesComponent::ExportRawData(
-    const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr AttributesComponent::ExportRawData(
+    const corgi::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;

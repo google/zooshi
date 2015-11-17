@@ -31,15 +31,15 @@ struct SimpleMovementData {
   mathfu::vec3 velocity;
 };
 
-class SimpleMovementComponent : public entity::Component<SimpleMovementData> {
+class SimpleMovementComponent : public corgi::Component<SimpleMovementData> {
  public:
   SimpleMovementComponent() {}
 
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
-  virtual void InitEntity(entity::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
+  virtual void InitEntity(corgi::EntityRef& entity);
 };
 
 }  // zooshi

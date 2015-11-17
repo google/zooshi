@@ -83,29 +83,32 @@ struct World {
 #endif  // ANDROID_HMD
   }
 
-  void Initialize(const Config& config, InputSystem* input_system,
-                  AssetManager* asset_mgr, WorldRenderer* worldrenderer,
-                  FontManager* font_manager, pindrop::AudioEngine* audio_engine,
-                  breadboard::GraphFactory* graph_factory, Renderer* renderer,
+  void Initialize(const Config& config, fplbase::InputSystem* input_system,
+                  fplbase::AssetManager* asset_mgr,
+                  WorldRenderer* worldrenderer,
+                  flatui::FontManager* font_manager,
+                  pindrop::AudioEngine* audio_engine,
+                  breadboard::GraphFactory* graph_factory,
+                  fplbase::Renderer* renderer,
                   scene_lab::SceneLab* scene_lab);
 
   // Entity manager
-  entity::EntityManager entity_manager;
+  corgi::EntityManager entity_manager;
 
   // Entity factory, for creating entities from data.
-  std::unique_ptr<component_library::EntityFactory> entity_factory;
+  std::unique_ptr<corgi::component_library::EntityFactory> entity_factory;
 
   // Rail Manager - manages loading and storing of rail definitions
   RailManager rail_manager;
 
   // Components
-  component_library::TransformComponent transform_component;
-  component_library::AnimationComponent animation_component;
+  corgi::component_library::TransformComponent transform_component;
+  corgi::component_library::AnimationComponent animation_component;
   RailDenizenComponent rail_denizen_component;
   PlayerComponent player_component;
   PlayerProjectileComponent player_projectile_component;
-  component_library::RenderMeshComponent render_mesh_component;
-  component_library::PhysicsComponent physics_component;
+  corgi::component_library::RenderMeshComponent render_mesh_component;
+  corgi::component_library::PhysicsComponent physics_component;
   PatronComponent patron_component;
   TimeLimitComponent time_limit_component;
   AudioListenerComponent audio_listener_component;
@@ -116,20 +119,20 @@ struct World {
   RailNodeComponent rail_node_component;
   SceneryComponent scenery_component;
   ServicesComponent services_component;
-  component_library::CommonServicesComponent common_services_component;
+  corgi::component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
-  component_library::MetaComponent meta_component;
+  corgi::component_library::MetaComponent meta_component;
   scene_lab::EditOptionsComponent edit_options_component;
   SimpleMovementComponent simple_movement_component;
   LapDependentComponent lap_dependent_component;
-  component_library::GraphComponent graph_component;
+  corgi::component_library::GraphComponent graph_component;
 
   // Each player has direct control over one entity.
-  entity::EntityRef active_player_entity;
+  corgi::EntityRef active_player_entity;
 
   const Config* config;
 
-  AssetManager* asset_manager;
+  fplbase::AssetManager* asset_manager;
   WorldRenderer* world_renderer;
 
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
@@ -157,7 +160,7 @@ struct World {
   GPGMultiplayer* gpg_multiplayer;
 #endif
 
-  Material* cardboard_settings_gear;
+  fplbase::Material* cardboard_settings_gear;
 
   void AddController(BasePlayerController* controller);
   void SetActiveController(ControllerType controller_type);

@@ -93,10 +93,10 @@ table RiverConfig {
   river_index:int;
 
   // The collision type of the river banks.
-  collision_type:fpl.BulletCollisionType;
+  collision_type:corgi.BulletCollisionType;
 
   // What the river banks can collide with.
-  collides_with:[fpl.BulletCollisionType];
+  collides_with:[corgi.BulletCollisionType];
 
   // The mass of the river banks.
   mass:float = 1000;
@@ -125,7 +125,7 @@ table RenderConfig {
   shadow_map_offset:float;
 
   // Location (in world space) of the light source:
-  light_position:fpl.Vec3;
+  light_position:fplbase.Vec3;
 
   // Intensity of shadows.  1.0 = solid black, 0.0 = invisible shadows.
   shadow_intensity:float;
@@ -137,7 +137,7 @@ table RenderConfig {
   fog_max_dist:float;
 
   // The color of the fog.
-  fog_color:fpl.ColorRGBA;
+  fog_color:fplbase.ColorRGBA;
 
   // The saturation of the color - 1.0 means that at max distance, objects
   // will be entirely fog_color-colored.  0.0 means that the fog has no effect.
@@ -192,11 +192,11 @@ table Config {
 
   // Minimum anglular velocity, in degrees per second, of the launched
   // projectiles, per axis.
-  projectile_min_angular_velocity: fpl.Vec3;
+  projectile_min_angular_velocity: fplbase.Vec3;
 
   // Maximum anglular velocity, in degrees per second, of the launched
   // projectiles, per axis.
-  projectile_max_angular_velocity: fpl.Vec3;
+  projectile_max_angular_velocity: fplbase.Vec3;
 
   // The height above the patron to display the heart.
   point_display_height: float;

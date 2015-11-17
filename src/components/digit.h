@@ -19,31 +19,29 @@
 #include "config_generated.h"
 #include "entity/component.h"
 #include "entity/entity_manager.h"
+#include "fplbase/mesh.h"
+#include "fplbase/shader.h"
 
 namespace fpl {
-
-class Mesh;
-class Shader;
-
 namespace zooshi {
 
 struct DigitData {
   AttributeDef attribute;
-  Shader* shader;
-  Mesh* digits[10];
+  fplbase::Shader* shader;
+  fplbase::Mesh* digits[10];
   int divisor;
 };
 
-class DigitComponent : public entity::Component<DigitData> {
+class DigitComponent : public corgi::Component<DigitData> {
  public:
   virtual void Init() {}
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
   // Currently only exists in prototypes, so no ExportRawData is needed
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& /*entity*/) const {
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& /*entity*/) const {
     return nullptr;
   }
-  virtual void InitEntity(entity::EntityRef& entity);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void InitEntity(corgi::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 };
 
 }  // zooshi

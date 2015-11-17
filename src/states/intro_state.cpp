@@ -21,9 +21,11 @@
 #include "states/states_common.h"
 #include "world.h"
 
-using fpl::component_library::MetaComponent;
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
+using corgi::component_library::MetaComponent;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
+using mathfu::vec3;
+using mathfu::mat4;
 
 namespace fpl {
 namespace zooshi {
@@ -39,7 +41,7 @@ IntroState::IntroState()
       fader_(nullptr),
       fade_timer_(kFadeTimerPending) {}
 
-void IntroState::Initialize(InputSystem* input_system, World* world,
+void IntroState::Initialize(fplbase::InputSystem* input_system, World* world,
                             const Config* config, FullScreenFader* fader,
                             pindrop::AudioEngine* audio_engine) {
   input_system_ = input_system;
@@ -91,8 +93,8 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   }
 
   // Go back to menu.
-  if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
-      input_system_->GetButton(FPLK_AC_BACK).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down() ||
+      input_system_->GetButton(fplbase::FPLK_AC_BACK).went_down()) {
     *next_state = kGameStateGameMenu;
   }
 
@@ -103,11 +105,11 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
-void IntroState::RenderPrep(Renderer* renderer) {
+void IntroState::RenderPrep(fplbase::Renderer* renderer) {
   world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
 }
 
-void IntroState::Render(Renderer* renderer) {
+void IntroState::Render(fplbase::Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;

@@ -18,13 +18,15 @@
 #include "config_generated.h"
 #include "attributes_generated.h"
 #include "entity/component.h"
-
-namespace fpl {
+#include "fplbase/asset_manager.h"
+#include "fplbase/input.h"
+#include "flatui/font_manager.h"
 
 class InputSystem;
 class AssetManager;
 class FontManager;
 
+namespace fpl {
 namespace zooshi {
 
 // Data for scene object components.
@@ -47,17 +49,17 @@ class AttributesData {
   float attributes[AttributeDef_Size];
 };
 
-class AttributesComponent : public entity::Component<AttributesData> {
+class AttributesComponent : public corgi::Component<AttributesData> {
  public:
   virtual void Init();
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
-  virtual void InitEntity(entity::EntityRef& /*entity*/) {}
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
+  virtual void InitEntity(corgi::EntityRef& /*entity*/) {}
 
  private:
-  InputSystem* input_system_;
-  AssetManager* asset_manager_;
-  FontManager* font_manager_;
+  fplbase::InputSystem* input_system_;
+  fplbase::AssetManager* asset_manager_;
+  flatui::FontManager* font_manager_;
 };
 
 }  // zooshi

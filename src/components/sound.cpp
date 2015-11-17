@@ -23,15 +23,15 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::SoundComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
 
 void SoundComponent::Init() {
   audio_engine_ =
       entity_manager_->GetComponent<ServicesComponent>()->audio_engine();
 }
 
-void SoundComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+void SoundComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     SoundData* sound_data = Data<SoundData>(iter->entity);
@@ -42,14 +42,14 @@ void SoundComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   }
 }
 
-void SoundComponent::CleanupEntity(entity::EntityRef& entity) {
+void SoundComponent::CleanupEntity(corgi::EntityRef& entity) {
   SoundData* sound_data = Data<SoundData>(entity);
   if (sound_data->channel.Valid()) {
     sound_data->channel.Stop();
   }
 }
 
-void SoundComponent::AddFromRawData(entity::EntityRef& entity,
+void SoundComponent::AddFromRawData(corgi::EntityRef& entity,
                                     const void* raw_data) {
   auto sound_def = static_cast<const SoundDef*>(raw_data);
 

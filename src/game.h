@@ -76,7 +76,7 @@ const auto kGPGDefaultLeaderboard = "LeaderboardMain";
 // On low RAM devices below the threshould value, the game applies a texture
 // scaling to reduce a memory footprint.
 const auto kLowRamProfileThreshold = 512;
-const auto kLowRamDeviceTextureScale = vec2(0.5f, 0.5f);
+const auto kLowRamDeviceTextureScale = mathfu::vec2(0.5f, 0.5f);
 
 struct Config;
 struct InputConfig;
@@ -116,7 +116,7 @@ class Game {
   bool InitializeAssets();
   void InitializeBreadboardModules();
 
-  void Update(entity::WorldTime delta_time);
+  void Update(corgi::WorldTime delta_time);
   void UpdateMainCamera();
   void UpdateMainCameraAndroid();
   void UpdateMainCameraMouse();
@@ -124,12 +124,12 @@ class Game {
   const InputConfig& GetInputConfig() const;
   const RailDef& GetRailDef() const;
   const AssetManifest& GetAssetManifest() const;
-  Mesh* GetCardboardFront(int renderable_id);
+  fplbase::Mesh* GetCardboardFront(int renderable_id);
 
   void SetRelativeMouseMode(bool relative_mouse_mode);
   void ToggleRelativeMouseMode();
 
-  void UpdateProfiling(entity::WorldTime frame_time);
+  void UpdateProfiling(corgi::WorldTime frame_time);
 
   // Overrides fplbase::LoadFile() in order to optionally load files from
   // overlay directories.
@@ -158,32 +158,32 @@ class Game {
   SceneLabState scene_lab_state_;
 
   // Report touches, button presses, keyboard presses.
-  InputSystem input_;
+  fplbase::InputSystem input_;
 
   // Hold rendering context.
-  Renderer renderer_;
+  fplbase::Renderer renderer_;
 
   // Load and own rendering resources.
-  AssetManager asset_manager_;
+  fplbase::AssetManager asset_manager_;
 
-  FontManager font_manager_;
+  flatui::FontManager font_manager_;
 
   // Manage ownership and playing of audio assets.
   pindrop::AudioEngine audio_engine_;
 
   // The event system.
   breadboard::ModuleRegistry module_registry_;
-  module_library::DefaultGraphFactory graph_factory_;
+  breadboard::module_library::DefaultGraphFactory graph_factory_;
 
   // Shaders we use.
-  Shader* shader_lit_textured_normal_;
-  Shader* shader_textured_;
+  fplbase::Shader* shader_lit_textured_normal_;
+  fplbase::Shader* shader_textured_;
 
 #if DISPLAY_FRAMERATE_HISTOGRAM
   // Profiling data.
   static const int kHistogramSize = 64;
-  entity::WorldTime last_printout;
-  entity::WorldTime histogram[kHistogramSize];
+  corgi::WorldTime last_printout;
+  corgi::WorldTime histogram[kHistogramSize];
 #endif
 
   bool game_exiting_;

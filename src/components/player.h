@@ -60,19 +60,19 @@ class PlayerData {
   std::set<std::string> patrons_feed_status_;
 };
 
-class PlayerComponent : public entity::Component<PlayerData> {
+class PlayerComponent : public corgi::Component<PlayerData> {
  public:
   PlayerComponent() {}
 
   virtual void Init();
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
-  virtual void InitEntity(entity::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
+  virtual void InitEntity(corgi::EntityRef& entity);
 
-  entity::EntityRef SpawnProjectile(entity::EntityRef source);
-  mathfu::vec3 CalculateProjectileDirection(entity::EntityRef source) const;
+  corgi::EntityRef SpawnProjectile(corgi::EntityRef source);
+  mathfu::vec3 CalculateProjectileDirection(corgi::EntityRef source) const;
 
   void set_state(PlayerState state) { state_ = state; }
 

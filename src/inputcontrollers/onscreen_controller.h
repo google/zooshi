@@ -61,14 +61,19 @@ class OnscreenControllerUI {
         visible_(false) {}
 
   // Render the UI.
-  void Update(AssetManager* asset_manager, FontManager* font_manager,
+  void Update(fplbase::AssetManager* asset_manager,
+              flatui::FontManager* font_manager,
               const mathfu::vec2i& window_size);
 
   // Base of the controller (e.g base of the joystick).
-  void set_base_texture(Texture* base_texture) { base_texture_ = base_texture; }
+  void set_base_texture(fplbase::Texture* base_texture) {
+    base_texture_ = base_texture;
+  }
 
   // Top of the controller (e.g top of the joystick).
-  void set_top_texture(Texture* top_texture) { top_texture_ = top_texture; }
+  void set_top_texture(fplbase::Texture* top_texture) {
+    top_texture_ = top_texture;
+  }
 
   // Associate this with an OnscreenController object which is updated by this
   // UI object.
@@ -85,8 +90,8 @@ class OnscreenControllerUI {
  protected:
   OnscreenController* controller_;
   mathfu::vec2 location_;
-  Texture* base_texture_;
-  Texture* top_texture_;
+  fplbase::Texture* base_texture_;
+  fplbase::Texture* top_texture_;
   bool visible_;
 };
 

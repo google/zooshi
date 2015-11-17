@@ -24,7 +24,8 @@ namespace zooshi {
 
 void InitializePlayerModule(breadboard::ModuleRegistry* module_registry,
                             PlayerComponent* player_component,
-                            component_library::GraphComponent* graph_component);
+                            corgi::component_library::GraphComponent*
+                              graph_component);
 
 }  // zooshi
 }  // fpl

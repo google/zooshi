@@ -43,7 +43,7 @@ class PatronUprightNode : public BaseNode {
       : patron_component_(patron_component) {}
 
   static void OnRegister(NodeSignature* node_sig) {
-    node_sig->AddInput<entity::EntityRef>();
+    node_sig->AddInput<corgi::EntityRef>();
     node_sig->AddOutput<bool>();
   }
 
@@ -53,7 +53,7 @@ class PatronUprightNode : public BaseNode {
 
  private:
   void Run(NodeArguments* args) {
-    auto entity = args->GetInput<entity::EntityRef>(0);
+    auto entity = args->GetInput<corgi::EntityRef>(0);
     if (entity != nullptr && entity->IsValid()) {
       PatronData* data = patron_component_->GetComponentData(*entity);
       args->SetOutput(0, data != nullptr && data->state == kPatronStateUpright);
@@ -71,12 +71,12 @@ class CheckDeliciousCycleNode : public BaseNode {
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
-    node_sig->AddInput<entity::EntityRef>();
+    node_sig->AddInput<corgi::EntityRef>();
     node_sig->AddOutput<int32_t>();
   }
 
   virtual void Execute(NodeArguments* args) {
-    auto raft = args->GetInput<entity::EntityRef>(1);
+    auto raft = args->GetInput<corgi::EntityRef>(1);
     auto current_lap =
         patron_component_->Data<RailDenizenData>(*raft)->total_lap_progress -
         kLapDuration;
@@ -86,7 +86,7 @@ class CheckDeliciousCycleNode : public BaseNode {
 
     for (auto iter = patron_component_->begin();
          iter != patron_component_->end(); ++iter) {
-      entity::EntityRef patron = iter->entity;
+      corgi::EntityRef patron = iter->entity;
       PatronData* patron_data = patron_component_->GetComponentData(patron);
 
       // Check if patrons are fed in the current lap.
@@ -97,7 +97,8 @@ class CheckDeliciousCycleNode : public BaseNode {
       }
       num_patrons++;
     }
-    LogInfo("Total: %d patrons, Fed:%d patrons", num_patrons, patrons_fed);
+    fplbase::LogInfo("Total: %d patrons, Fed:%d patrons", num_patrons,
+                     patrons_fed);
 
     auto ret = 1;
     if (num_patrons > patrons_fed) {

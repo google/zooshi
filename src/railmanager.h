@@ -47,7 +47,7 @@ class Rail {
   float EndTime() const { return splines_[0].EndX(); }
 
   /// Internal structure representing the rails.
-  const fpl::CompactSpline* splines() const { return splines_; }
+  const motive::CompactSpline* splines() const { return splines_; }
 
   void InitializeFromPositions(
       const std::vector<mathfu::vec3_packed>& positions,
@@ -56,7 +56,7 @@ class Rail {
  private:
   static const motive::MotiveDimension kDimensions = 3;
 
-  fpl::CompactSpline splines_[kDimensions];
+  motive::CompactSpline splines_[kDimensions];
 };
 
 // Class for handling loading and storing of rails.
@@ -69,7 +69,7 @@ class RailManager {
 
   // Returns the data for a rail specified by RailNodeComponent entities.
   Rail* GetRailFromComponents(const char* rail_name,
-                              entity::EntityManager* entity_manager);
+                              corgi::EntityManager* entity_manager);
 
   void Clear();
 

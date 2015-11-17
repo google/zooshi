@@ -47,13 +47,15 @@ static const char kEntityLibraryFile[] = "entity_prototypes.zooentity";
 static const char kComponentDefBinarySchema[] =
     "flatbufferschemas/components.bfbs";
 
-void World::Initialize(const Config& config_, InputSystem* input_system,
-                       AssetManager* asset_mgr, WorldRenderer* worldrenderer,
-                       FontManager* font_manager,
+void World::Initialize(const Config& config_,
+                       fplbase::InputSystem* input_system,
+                       fplbase::AssetManager* asset_mgr,
+                       WorldRenderer* worldrenderer,
+                       flatui::FontManager* font_manager,
                        pindrop::AudioEngine* audio_engine,
                        breadboard::GraphFactory* graph_factory,
-                       Renderer* renderer, SceneLab* scene_lab) {
-  entity_factory.reset(new fpl::component_library::DefaultEntityFactory());
+                       fplbase::Renderer* renderer, SceneLab* scene_lab) {
+  entity_factory.reset(new corgi::component_library::DefaultEntityFactory());
   motive::SmoothInit::Register();
   motive::MatrixInit::Register();
   motive::RigInit::Register();
@@ -204,7 +206,7 @@ void World::SetIsInCardboard(bool in_cardboard) {
     is_in_cardboard_ = in_cardboard;
 // Turn on the Cardboard setting button when in Cardboard mode.
 #ifdef ANDROID_HMD
-    SetCardboardButtonEnabled(in_cardboard);
+    fplbase::SetCardboardButtonEnabled(in_cardboard);
 #endif  // ANDROID_HMD
   }
 }
@@ -230,11 +232,11 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
   world->rail_denizen_component.PostLoadFixup();
   world->scenery_component.PostLoadFixup();
 
-  entity::EntityRef player_entity = world->player_component.begin()->entity;
+  corgi::EntityRef player_entity = world->player_component.begin()->entity;
   world->services_component.set_player_entity(player_entity);
   auto player_transform =
       world->transform_component.GetComponentData(player_entity);
-  entity::EntityRef raft_entity = player_transform->parent;
+  corgi::EntityRef raft_entity = player_transform->parent;
   world->services_component.set_raft_entity(raft_entity);
 
   world->graph_component.PostLoadFixup();

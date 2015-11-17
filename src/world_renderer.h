@@ -30,15 +30,18 @@ class WorldRenderer {
 
   // Call this before you call RenderWorld - it takes care of clearing
   // the frame, setting up the shadowmap, etc.
-  void RenderPrep(const CameraInterface& camera, Renderer& renderer,
+  void RenderPrep(const corgi::CameraInterface& camera,
+                  fplbase::Renderer& renderer,
                   World* world);
 
   // Render the world, viewed from the current camera.
-  void RenderWorld(const CameraInterface& camera, Renderer& renderer,
+  void RenderWorld(const corgi::CameraInterface& camera,
+                   fplbase::Renderer& renderer,
                    World* world);
 
   // Render the shadowmap into the world as a billboard, for debugging.
-  void DebugShowShadowMap(const CameraInterface& camera, Renderer& renderer);
+  void DebugShowShadowMap(const corgi::CameraInterface& camera,
+                          fplbase::Renderer& renderer);
 
   // Sets the position of the light source in the world.  (Where the light is
   // located when generating shdaow maps, etc.)
@@ -47,23 +50,23 @@ class WorldRenderer {
   }
 
  private:
-  Shader* depth_shader_;
-  Shader* textured_shader_;
-  Shader* textured_shadowed_shader_;
-  Shader* textured_lit_shader_;
-  Shader* textured_lit_cutout_shader_;
-  Shader* textured_lit_bank_shader_;
-  Shader* textured_skinned_lit_shader_;
-  Shader* river_shader_;
+  fplbase::Shader* depth_shader_;
+  fplbase::Shader* textured_shader_;
+  fplbase::Shader* textured_shadowed_shader_;
+  fplbase::Shader* textured_lit_shader_;
+  fplbase::Shader* textured_lit_cutout_shader_;
+  fplbase::Shader* textured_lit_bank_shader_;
+  fplbase::Shader* textured_skinned_lit_shader_;
+  fplbase::Shader* river_shader_;
   Camera light_camera_;
-  RenderTarget shadow_map_;
+  fplbase::RenderTarget shadow_map_;
 
   // Create the shadowmap for the current worldstate.  Needs to be called
   // before RenderWorld.
-  void CreateShadowMap(const CameraInterface& camera, Renderer& renderer,
-                       World* world);
+  void CreateShadowMap(const corgi::CameraInterface& camera,
+                       fplbase::Renderer& renderer, World* world);
 
-  void SetFogUniforms(Shader* shader, World* world);
+  void SetFogUniforms(fplbase::Shader* shader, World* world);
 };
 
 }  // zooshi

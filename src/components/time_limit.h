@@ -26,23 +26,23 @@ namespace zooshi {
 
 struct TimeLimitData {
   TimeLimitData() : time_elapsed(0), time_limit(0) {}
-  entity::WorldTime time_elapsed;
-  entity::WorldTime time_limit;
+  corgi::WorldTime time_elapsed;
+  corgi::WorldTime time_limit;
   mathfu::vec3 original_scale;
 };
 
 // Component for limiting how long things stay in the world.  If they have
 // a transform component, they'll scale away to nothing.  Otherwise, they'll
 // just be removed when their time is up.
-class TimeLimitComponent : public entity::Component<TimeLimitData> {
+class TimeLimitComponent : public corgi::Component<TimeLimitData> {
  public:
   TimeLimitComponent() {}
 
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 
-  virtual void InitEntity(entity::EntityRef& entity);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void InitEntity(corgi::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 };
 
 }  // zooshi

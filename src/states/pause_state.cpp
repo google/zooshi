@@ -24,13 +24,14 @@
 namespace fpl {
 namespace zooshi {
 
-using gui::TextButton;
+using flatui::TextButton;
 
 static const auto kPauseStateButtonSize = 100.0f;
 
-void PauseState::Initialize(InputSystem* input_system, World* world,
-                            const Config* config, AssetManager* asset_manager,
-                            FontManager* font_manager,
+void PauseState::Initialize(fplbase::InputSystem* input_system, World* world,
+                            const Config* config,
+                            fplbase::AssetManager* asset_manager,
+                            flatui::FontManager* font_manager,
                             pindrop::AudioEngine* audio_engine) {
   asset_manager_ = asset_manager;
   font_manager_ = font_manager;
@@ -57,13 +58,13 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
   *next_state = next_state_;
 
   // Unpause
-  if (input_system_->GetButton(FPLK_p).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_p).went_down()) {
     *next_state = kGameStateGameplay;
   }
 
   // Exit the game.
-  if (input_system_->GetButton(FPLK_ESCAPE).went_down() ||
-      input_system_->GetButton(FPLK_AC_BACK).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down() ||
+      input_system_->GetButton(fplbase::FPLK_AC_BACK).went_down()) {
     *next_state = kGameStateGameMenu;
   }
 
@@ -77,50 +78,52 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
   next_state_ = kGameStatePause;
 }
 
-GameState PauseState::PauseMenu(AssetManager& assetman, FontManager& fontman,
-                                InputSystem& input) {
+GameState PauseState::PauseMenu(fplbase::AssetManager& assetman,
+                                flatui::FontManager& fontman,
+                                fplbase::InputSystem& input) {
   GameState next_state = kGameStatePause;
 
-  gui::Run(assetman, fontman, input, [&]() {
-    gui::StartGroup(gui::kLayoutHorizontalTop, 0);
+  flatui::Run(assetman, fontman, input, [&]() {
+    flatui::StartGroup(flatui::kLayoutHorizontalTop, 0);
 
     // Background image.
-    gui::StartGroup(gui::kLayoutVerticalCenter, 0);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
     // Positioning the UI slightly above of the center.
-    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(0, -150));
-    gui::Image(*background_paused_, 850);
-    gui::EndGroup();
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(0, -150));
+    flatui::Image(*background_paused_, 850);
+    flatui::EndGroup();
 
     // Menu items. Note that we are layering 2 layouts here
     // (background + menu items).
-    gui::StartGroup(gui::kLayoutVerticalCenter, 0);
-    gui::PositionGroup(gui::kAlignCenter, gui::kAlignCenter,
-                       mathfu::vec2(0, -50));
-    gui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(0, -50));
+    flatui::SetTextColor(kColorBrown);
 
-    auto event = TextButton("Continue", kPauseStateButtonSize, gui::Margin(2));
-    if (event & gui::kEventWentUp) {
+    auto event =
+        TextButton("Continue", kPauseStateButtonSize, flatui::Margin(2));
+    if (event & flatui::kEventWentUp) {
       next_state = kGameStateGameplay;
     }
 
     event =
-        TextButton("Return to Title", kPauseStateButtonSize, gui::Margin(2));
-    if (event & gui::kEventWentUp) {
+        TextButton("Return to Title", kPauseStateButtonSize, flatui::Margin(2));
+    if (event & flatui::kEventWentUp) {
       next_state = kGameStateGameMenu;
     }
-    gui::EndGroup();
-    gui::EndGroup();
+    flatui::EndGroup();
+    flatui::EndGroup();
   });
 
   return next_state;
 }
 
-void PauseState::RenderPrep(Renderer* renderer) {
+void PauseState::RenderPrep(fplbase::Renderer* renderer) {
   world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
 }
 
-void PauseState::Render(Renderer* renderer) {
+void PauseState::Render(fplbase::Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
@@ -128,9 +131,9 @@ void PauseState::Render(Renderer* renderer) {
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void PauseState::HandleUI(Renderer* renderer) {
+void PauseState::HandleUI(fplbase::Renderer* renderer) {
   // No culling when drawing the menu.
-  renderer->SetCulling(Renderer::kNoCulling);
+  renderer->SetCulling(fplbase::Renderer::kNoCulling);
   next_state_ = PauseMenu(*asset_manager_, *font_manager_, *input_system_);
 }
 

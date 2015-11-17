@@ -31,18 +31,21 @@ using mathfu::vec2;
 using mathfu::vec2_packed;
 using mathfu::vec3;
 using mathfu::vec3_packed;
+using mathfu::vec4;
 using mathfu::vec4_packed;
 using mathfu::quat;
 using mathfu::kAxisZ3f;
+using fplbase::Material;
+using fplbase::Mesh;
 
 FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::RiverComponent, fpl::zooshi::RiverData)
 
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::PhysicsComponent;
-using fpl::component_library::RenderMeshComponent;
-using fpl::component_library::RenderMeshData;
+using corgi::component_library::PhysicsComponent;
+using corgi::component_library::RenderMeshComponent;
+using corgi::component_library::RenderMeshData;
 using scene_lab::SceneLab;
 
 static const size_t kNumIndicesPerQuad = 6;
@@ -61,11 +64,11 @@ void RiverComponent::Init() {
   SceneLab* scene_lab = services->scene_lab();
   if (scene_lab) {
     scene_lab->AddOnUpdateEntityCallback(
-        [this](const entity::EntityRef& /*entity*/) { TriggerRiverUpdate(); });
+        [this](const corgi::EntityRef& /*entity*/) { TriggerRiverUpdate(); });
   }
 }
 
-void RiverComponent::AddFromRawData(entity::EntityRef& entity,
+void RiverComponent::AddFromRawData(corgi::EntityRef& entity,
                                     const void* raw_data) {
   auto river_def = static_cast<const RiverDef*>(raw_data);
   RiverData* river_data = AddEntity(entity);
@@ -86,8 +89,8 @@ void RiverComponent::TriggerRiverUpdate() {
   }
 }
 
-entity::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
-    const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
+    const corgi::EntityRef& entity) const {
   const RiverData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 
@@ -118,11 +121,13 @@ void RiverComponent::UpdateRiverMeshes() {
 
 // Generates the actual mesh for the river, and adds it to this entitiy's
 // rendermesh component.
-void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
-  static const Attribute kMeshFormat[] = {kPosition3f, kTexCoord2f, kNormal3f,
-                                          kTangent4f, kEND};
-  static const Attribute kBankMeshFormat[] = {
-      kPosition3f, kTexCoord2f, kNormal3f, kTangent4f, kColor4ub, kEND};
+void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
+  static const fplbase::Attribute kMeshFormat[] = {fplbase::kPosition3f,
+    fplbase::kTexCoord2f, fplbase::kNormal3f, fplbase::kTangent4f,
+    fplbase::kEND};
+  static const fplbase::Attribute kBankMeshFormat[] = {
+    fplbase::kPosition3f, fplbase::kTexCoord2f, fplbase::kNormal3f,
+    fplbase::kTangent4f, fplbase::kColor4ub, fplbase::kEND};
   std::vector<vec3_packed> track;
   const RiverConfig* river = entity_manager_->GetComponent<ServicesComponent>()
                                  ->config()
@@ -143,7 +148,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   // Generate the spline data and store it in our track vector:
   rail->Positions(river->spline_stepsize(), &track);
 
-  AssetManager* asset_manager =
+  fplbase::AssetManager* asset_manager =
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
   const size_t num_bank_contours = river->default_banks()->Length();
@@ -411,9 +416,9 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
   }
   mesh_data->mesh = river_mesh;
   mesh_data->culling_mask = 0;  // Never cull the river.
-  mesh_data->pass_mask = 1 << RenderPass_Opaque;
+  mesh_data->pass_mask = 1 << corgi::RenderPass_Opaque;
 
-  river_data->banks.resize(num_zones, entity::EntityRef());
+  river_data->banks.resize(num_zones, corgi::EntityRef());
   for (unsigned int zone = 0; zone < num_zones; zone++) {
     Material* bank_material = asset_manager->LoadMaterial(
         river->zones()->Get(zone)->material()->c_str());
@@ -433,7 +438,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
       // Then we stick it as a child of the river entity, so it always moves
       // with it and stays aligned:
       auto transform_component =
-          GetComponent<component_library::TransformComponent>();
+          GetComponent<corgi::component_library::TransformComponent>();
       transform_component->AddChild(river_data->banks[zone], entity);
     }
 
@@ -453,7 +458,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
     }
     child_render_data->mesh = bank_mesh;
     child_render_data->culling_mask = 0;  // Don't cull the banks for now.
-    child_render_data->pass_mask = 1 << RenderPass_Opaque;
+    child_render_data->pass_mask = 1 << corgi::RenderPass_Opaque;
   }
 
   // Finalize the static physics mesh created on the river bank.
@@ -471,7 +476,7 @@ void RiverComponent::CreateRiverMesh(entity::EntityRef& entity) {
                                         user_tag);
 }
 
-void RiverComponent::UpdateRiverMeshes(entity::EntityRef entity) {
+void RiverComponent::UpdateRiverMeshes(corgi::EntityRef entity) {
   const RailNodeData* node_data =
       entity_manager_->GetComponentData<RailNodeData>(entity);
   if (node_data != nullptr) {

@@ -35,7 +35,7 @@ struct RiverData {
   RiverData()
       : render_mesh_needs_update_(false),
         random_seed(static_cast<unsigned int>(rand())) {}
-  std::vector<entity::EntityRef> banks;
+  std::vector<corgi::EntityRef> banks;
   std::string rail_name;
   // Flag for whether this river needs its meshes updated.
   bool render_mesh_needs_update_;
@@ -44,15 +44,15 @@ struct RiverData {
   unsigned int random_seed;
 };
 
-class RiverComponent : public entity::Component<RiverData> {
+class RiverComponent : public corgi::Component<RiverData> {
  public:
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 
   virtual void Init();
-  virtual void UpdateAllEntities(entity::WorldTime /*delta_time*/) {}
+  virtual void UpdateAllEntities(corgi::WorldTime /*delta_time*/) {}
 
-  void UpdateRiverMeshes(entity::EntityRef entity);
+  void UpdateRiverMeshes(corgi::EntityRef entity);
 
   // Updates the meshes for the river.
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -62,7 +62,7 @@ class RiverComponent : public entity::Component<RiverData> {
 
  private:
   void TriggerRiverUpdate();
-  void CreateRiverMesh(entity::EntityRef& entity);
+  void CreateRiverMesh(corgi::EntityRef& entity);
 };
 
 }  // zooshi

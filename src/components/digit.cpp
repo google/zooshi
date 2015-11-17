@@ -28,12 +28,12 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::DigitComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::RenderMeshComponent;
-using fpl::component_library::RenderMeshData;
+using corgi::component_library::RenderMeshComponent;
+using corgi::component_library::RenderMeshData;
 
 static const int kDigitBase = 10;
 
-void DigitComponent::AddFromRawData(entity::EntityRef& entity,
+void DigitComponent::AddFromRawData(corgi::EntityRef& entity,
                                     const void* raw_data) {
   auto digit_def = static_cast<const DigitDef*>(raw_data);
 
@@ -47,7 +47,7 @@ void DigitComponent::AddFromRawData(entity::EntityRef& entity,
   }
 
   // Assign meshes.
-  AssetManager* asset_manager =
+  fplbase::AssetManager* asset_manager =
       entity_manager_->GetComponent<ServicesComponent>()->asset_manager();
 
   if (digit_def->digit_mesh_list()) {
@@ -70,7 +70,7 @@ void DigitComponent::AddFromRawData(entity::EntityRef& entity,
   if (digit_def->render_pass() != nullptr) {
     for (size_t i = 0; i < digit_def->render_pass()->size(); i++) {
       int render_pass = digit_def->render_pass()->Get(i);
-      assert(render_pass < RenderPass_Count);
+      assert(render_pass < corgi::RenderPass_Count);
       render_mesh_data->pass_mask |= 1 << render_pass;
     }
   }
@@ -84,12 +84,12 @@ void DigitComponent::AddFromRawData(entity::EntityRef& entity,
   }
 }
 
-void DigitComponent::InitEntity(entity::EntityRef& entity) {
+void DigitComponent::InitEntity(corgi::EntityRef& entity) {
   entity_manager_->AddEntityToComponent<RenderMeshComponent>(entity);
 }
 
-void DigitComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
-  entity::EntityRef player =
+void DigitComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
+  corgi::EntityRef player =
       entity_manager_->GetComponent<PlayerComponent>()->begin()->entity;
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {

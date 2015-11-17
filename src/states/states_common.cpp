@@ -21,6 +21,11 @@
 
 #include "flatui/flatui_common.h"
 
+using mathfu::vec3;
+using mathfu::mat4;
+using mathfu::vec2i;
+using mathfu::vec2;
+
 namespace fpl {
 namespace zooshi {
 
@@ -34,7 +39,7 @@ static vec3 CorrectTransform(const mat4& mat) {
   return corrected_translation;
 }
 
-static void RenderSettingsGear(Renderer& renderer, World* world) {
+static void RenderSettingsGear(fplbase::Renderer& renderer, World* world) {
   vec2i res = renderer.window_size();
   renderer.set_model_view_projection(mathfu::OrthoHelper<float>(
       0.0f, static_cast<float>(res.x()), static_cast<float>(res.y()), 0.0f,
@@ -44,17 +49,17 @@ static void RenderSettingsGear(Renderer& renderer, World* world) {
   world->cardboard_settings_gear->Set(renderer);
   shader->Set(renderer);
 
-  Mesh::RenderAAQuadAlongX(
+  fplbase::Mesh::RenderAAQuadAlongX(
       vec3((res.x() - kGearSize) / 2.0f, res.y() - kGearSize, 0.0f),
       vec3((res.x() + kGearSize) / 2.0f, res.y(), 0.0f));
 }
 #endif  // ANDROID_HMD
 
-static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
-                               Camera* cardboard_camera,
-                               InputSystem* input_system) {
+static void RenderStereoscopic(fplbase::Renderer& renderer, World* world,
+                               Camera& camera, Camera* cardboard_camera,
+                               fplbase::InputSystem* input_system) {
 #ifdef ANDROID_HMD
-  HeadMountedDisplayViewSettings view_settings;
+  fplbase::HeadMountedDisplayViewSettings view_settings;
   HeadMountedDisplayRenderStart(input_system->head_mounted_display_input(),
                                 &renderer, mathfu::kZeros4f, true,
                                 &view_settings);
@@ -90,8 +95,8 @@ static void RenderStereoscopic(Renderer& renderer, World* world, Camera& camera,
 #endif  // ANDROID_HMD
 }
 
-void RenderWorld(Renderer& renderer, World* world, Camera& camera,
-                 Camera* cardboard_camera, InputSystem* input_system) {
+void RenderWorld(fplbase::Renderer& renderer, World* world, Camera& camera,
+                 Camera* cardboard_camera, fplbase::InputSystem* input_system) {
   vec2 window_size = vec2(renderer.window_size());
   world->river_component.UpdateRiverMeshes();
   if (world->is_in_cardboard()) {

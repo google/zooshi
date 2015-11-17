@@ -32,30 +32,33 @@ struct InputConfig;
 class PauseState : public StateNode {
  public:
   virtual ~PauseState() {}
-  void Initialize(InputSystem* input_system, World* world, const Config* config,
-                  AssetManager* asset_manager, FontManager* font_manager,
+  void Initialize(fplbase::InputSystem* input_system, World* world,
+                  const Config* config,
+                  fplbase::AssetManager* asset_manager,
+                  flatui::FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine);
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(Renderer* renderer);
-  virtual void Render(Renderer* renderer);
-  virtual void HandleUI(Renderer* renderer);
+  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void Render(fplbase::Renderer* renderer);
+  virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
 
  protected:
-  GameState PauseMenu(AssetManager& assetman, FontManager& fontman,
-                      InputSystem& input);
+  GameState PauseMenu(fplbase::AssetManager& assetman,
+                      flatui::FontManager& fontman,
+                      fplbase::InputSystem& input);
 
   World* world_;
 
   // IMGUI uses InputSystem for an input handling for a touch, gamepad,
   // mouse and keyboard.
-  InputSystem* input_system_;
+  fplbase::InputSystem* input_system_;
 
   // IMGUI loads resources using AssetManager.
-  AssetManager* asset_manager_;
+  fplbase::AssetManager* asset_manager_;
 
   // IMGUI uses FontManager for a text rendering.
-  FontManager* font_manager_;
+  flatui::FontManager* font_manager_;
 
   // The audio engine, so that sound effects can be played.
   pindrop::AudioEngine* audio_engine_;
@@ -65,7 +68,7 @@ class PauseState : public StateNode {
   pindrop::SoundHandle sound_exit_;
 
   // Texture used in paused UI .
-  Texture* background_paused_;
+  fplbase::Texture* background_paused_;
 
   // The next menu state.
   GameState next_state_;

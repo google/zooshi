@@ -35,18 +35,18 @@ namespace zooshi {
 
 BREADBOARD_DEFINE_EVENT(kOnFireEventId)
 
-using fpl::component_library::CommonServicesComponent;
-using fpl::component_library::GraphComponent;
-using fpl::component_library::GraphData;
-using fpl::component_library::PhysicsComponent;
-using fpl::component_library::PhysicsData;
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
+using corgi::component_library::CommonServicesComponent;
+using corgi::component_library::GraphComponent;
+using corgi::component_library::GraphData;
+using corgi::component_library::PhysicsComponent;
+using corgi::component_library::PhysicsData;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
 
 void PlayerComponent::Init() {
   config_ = entity_manager_->GetComponent<ServicesComponent>()->config();
 }
-void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
+void PlayerComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     PlayerData* player_data = Data<PlayerData>(iter->entity);
@@ -69,12 +69,12 @@ void PlayerComponent::UpdateAllEntities(entity::WorldTime /*delta_time*/) {
   }
 }
 
-void PlayerComponent::AddFromRawData(entity::EntityRef& entity,
+void PlayerComponent::AddFromRawData(corgi::EntityRef& entity,
                                      const void* /*raw_data*/) {
   AddEntity(entity);
 }
 
-void PlayerComponent::InitEntity(entity::EntityRef& entity) {
+void PlayerComponent::InitEntity(corgi::EntityRef& entity) {
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
@@ -85,18 +85,18 @@ static inline float RandomSign() {
 // Return an angle between kMinProjectileAngularVelocity and
 // kMaxProjectileAngularVelocity, in degrees. Returned angle has equal
 // probibility of being positive and negative.
-vec3 PlayerComponent::RandomProjectileAngularVelocity() const {
-  const vec3 random(mathfu::Random<float>(), mathfu::Random<float>(),
-                    mathfu::Random<float>());
-  const vec3 angle = mathfu::Lerp(
+mathfu::vec3 PlayerComponent::RandomProjectileAngularVelocity() const {
+  const mathfu::vec3 random(mathfu::Random<float>(), mathfu::Random<float>(),
+                             mathfu::Random<float>());
+  auto angle = mathfu::Lerp(
         LoadVec3(config_->projectile_min_angular_velocity()),
         LoadVec3(config_->projectile_max_angular_velocity()), random);
-  const vec3 sign(RandomSign(), RandomSign(), RandomSign());
+  const mathfu::vec3 sign(RandomSign(), RandomSign(), RandomSign());
   return angle * sign;
 }
 
-entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
-  entity::EntityRef projectile =
+corgi::EntityRef PlayerComponent::SpawnProjectile(corgi::EntityRef source) {
+  corgi::EntityRef projectile =
       entity_manager_->GetComponent<ServicesComponent>()
           ->entity_factory()
           ->CreateEntityFromPrototype("Projectile", entity_manager_);
@@ -113,8 +113,8 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   transform_data->position =
       transform_component->WorldPosition(source) +
       mathfu::kAxisZ3f * config_->projectile_height_offset();
-  const vec3 forward = CalculateProjectileDirection(source);
-  vec3 velocity = config_->projectile_speed() * forward +
+  auto forward = CalculateProjectileDirection(source);
+  auto velocity = config_->projectile_speed() * forward +
                   config_->projectile_upkick() * mathfu::kAxisZ3f;
   transform_data->position +=
       velocity.Normalized() * config_->projectile_forward_offset();
@@ -135,15 +135,15 @@ entity::EntityRef PlayerComponent::SpawnProjectile(entity::EntityRef source) {
   // TODO: Preferably, this should be a step in the entity creation.
   transform_component->UpdateChildLinks(projectile);
 
-  return entity::EntityRef();
+  return corgi::EntityRef();
 }
 
-vec3 PlayerComponent::CalculateProjectileDirection(
-    entity::EntityRef source) const {
+mathfu::vec3 PlayerComponent::CalculateProjectileDirection(
+    corgi::EntityRef source) const {
   PlayerData* player_data = Data<PlayerData>(source);
   TransformComponent* transform_component =
       entity_manager_->GetComponent<TransformComponent>();
-  vec3 forward = transform_component->WorldOrientation(source).Inverse() *
+  auto forward = transform_component->WorldOrientation(source).Inverse() *
                  mathfu::kAxisY3f;
   const Camera* camera =
       entity_manager_->GetComponent<ServicesComponent>()->camera();
@@ -155,7 +155,7 @@ vec3 PlayerComponent::CalculateProjectileDirection(
       !entity_manager_->GetComponent<ServicesComponent>()
            ->world()
            ->is_in_cardboard()) {
-    const vec2 screen_size(
+    const mathfu::vec2 screen_size(
         entity_manager_->GetComponent<CommonServicesComponent>()
             ->renderer()
             ->window_size());
@@ -165,19 +165,19 @@ vec3 PlayerComponent::CalculateProjectileDirection(
     float fov_y_tan = 2.0f * tan(camera->viewport_angle() * 0.5f);
     float fov_x_tan = fov_y_tan * camera->viewport_resolution().x() /
                       camera->viewport_resolution().y();
-    const vec2 fov_tan(fov_x_tan, -fov_y_tan);
-    const vec2 touch(player_data->input_controller()->last_position());
-    const vec2 offset = fov_tan * (touch / screen_size - 0.5f);
+    const mathfu::vec2 fov_tan(fov_x_tan, -fov_y_tan);
+    const mathfu::vec2 touch(player_data->input_controller()->last_position());
+    const mathfu::vec2 offset = fov_tan * (touch / screen_size - 0.5f);
 
-    const vec3 far_vec = camera->up() * offset.y() + camera->Right() * offset.x();
+    auto far_vec = camera->up() * offset.y() + camera->Right() * offset.x();
     forward = (forward + far_vec).Normalized();
   }
 
   return forward;
 }
 
-entity::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
-    const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr PlayerComponent::ExportRawData(
+    const corgi::EntityRef& entity) const {
   const PlayerData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 

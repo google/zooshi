@@ -32,7 +32,8 @@ namespace zooshi {
 
 static const float kEditorViewportAngle =
     static_cast<float>(M_PI) / 3.0f;  // 60 degrees
-void SceneLabState::Initialize(Renderer* renderer, InputSystem* input_system,
+void SceneLabState::Initialize(fplbase::Renderer* renderer,
+                               fplbase::InputSystem* input_system,
                                scene_lab::SceneLab* scene_lab, World* world) {
   renderer_ = renderer;
   input_system_ = input_system;
@@ -40,39 +41,39 @@ void SceneLabState::Initialize(Renderer* renderer, InputSystem* input_system,
   world_ = world;
   camera_ = new Camera();
   camera_->set_viewport_angle(kEditorViewportAngle);
-  scene_lab->SetCamera(std::unique_ptr<CameraInterface>(camera_));
+  scene_lab->SetCamera(std::unique_ptr<corgi::CameraInterface>(camera_));
 }
 
-void SceneLabState::AdvanceFrame(entity::WorldTime delta_time, int* next_state){
+void SceneLabState::AdvanceFrame(corgi::WorldTime delta_time, int* next_state){
   scene_lab_->AdvanceFrame(delta_time);
-  if (input_system_->GetButton(FPLK_F11).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_F11).went_down()) {
     scene_lab_->SaveScene();
   }
 
-  if (input_system_->GetButton(FPLK_F10).went_down() ||
-      input_system_->GetButton(FPLK_ESCAPE).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_F10).went_down() ||
+      input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down()) {
     scene_lab_->RequestExit();
   }
   if (scene_lab_->IsReadyToExit()) {
     *next_state = kGameStateGameplay;
   }
-  if (input_system_->GetButton(FPLK_F9).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_F9).went_down()) {
     world_->draw_debug_physics = !world_->draw_debug_physics;
   }
-  if (input_system_->GetButton(FPLK_F8).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_F8).went_down()) {
     world_->skip_rendermesh_rendering = !world_->skip_rendermesh_rendering;
   }
 }
 
-void SceneLabState::RenderPrep(Renderer* renderer) {
-  const CameraInterface* camera = scene_lab_->GetCamera();
+void SceneLabState::RenderPrep(fplbase::Renderer* renderer) {
+  const corgi::CameraInterface* camera = scene_lab_->GetCamera();
   world_->world_renderer->RenderPrep(*camera, *renderer, world_);
 }
 
-void SceneLabState::Render(Renderer* renderer) {
+void SceneLabState::Render(fplbase::Renderer* renderer) {
   camera_->set_viewport_resolution(vec2(renderer->window_size()));
 
-  const CameraInterface* camera = scene_lab_->GetCamera();
+  const auto camera = scene_lab_->GetCamera();
 
   mat4 camera_transform = camera->GetTransformMatrix();
   renderer->set_color(mathfu::kOnes4f);
@@ -83,7 +84,7 @@ void SceneLabState::Render(Renderer* renderer) {
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);
 }
 
-void SceneLabState::HandleUI(Renderer* renderer) {
+void SceneLabState::HandleUI(fplbase::Renderer* renderer) {
   scene_lab_->Render(renderer);
 }
 

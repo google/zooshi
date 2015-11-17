@@ -28,8 +28,8 @@ using breadboard::Module;
 using breadboard::ModuleRegistry;
 using breadboard::NodeArguments;
 using breadboard::NodeSignature;
-using fpl::component_library::GraphComponent;
-using fpl::entity::EntityRef;
+using corgi::component_library::GraphComponent;
+using corgi::EntityRef;
 
 namespace fpl {
 namespace zooshi {

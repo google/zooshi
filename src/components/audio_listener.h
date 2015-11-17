@@ -28,15 +28,15 @@ struct AudioListenerData {
   pindrop::Listener listener;
 };
 
-class AudioListenerComponent : public entity::Component<AudioListenerData> {
+class AudioListenerComponent : public corgi::Component<AudioListenerData> {
  public:
   virtual void Init();
-  virtual void InitEntity(entity::EntityRef& entity);
-  virtual void AddFromRawData(entity::EntityRef& parent, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
+  virtual void InitEntity(corgi::EntityRef& entity);
+  virtual void AddFromRawData(corgi::EntityRef& parent, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 
-  virtual void CleanupEntity(entity::EntityRef& entity);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void CleanupEntity(corgi::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 
  private:
   pindrop::AudioEngine* audio_engine_;

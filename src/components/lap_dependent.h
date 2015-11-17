@@ -30,21 +30,21 @@ struct LapDependentData {
   bool currently_active;
 };
 
-class LapDependentComponent : public entity::Component<LapDependentData> {
+class LapDependentComponent : public corgi::Component<LapDependentData> {
  public:
 
   virtual void Init();
-  virtual void AddFromRawData(entity::EntityRef& entity, const void* raw_data);
-  virtual RawDataUniquePtr ExportRawData(const entity::EntityRef& entity) const;
-  virtual void InitEntity(entity::EntityRef& entity);
-  virtual void UpdateAllEntities(entity::WorldTime delta_time);
+  virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
+  virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
+  virtual void InitEntity(corgi::EntityRef& entity);
+  virtual void UpdateAllEntities(corgi::WorldTime delta_time);
 
   void ActivateAllEntities();
   void DeactivateAllEntities();
 
  private:
-  void ActivateEntity(entity::EntityRef& entity);
-  void DeactivateEntity(entity::EntityRef& entity);
+  void ActivateEntity(corgi::EntityRef& entity);
+  void DeactivateEntity(corgi::EntityRef& entity);
 };
 
 }  // zooshi

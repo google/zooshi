@@ -17,7 +17,7 @@ include "common.fbs";
 namespace fpl.zooshi;
 
 table RailDef {
-  positions:[fpl.Vec3];
+  positions:[fplbase.Vec3];
   total_time:float;
   reliable_distance:float;
 }

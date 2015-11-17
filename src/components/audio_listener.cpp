@@ -24,8 +24,8 @@ FPL_ENTITY_DEFINE_COMPONENT(fpl::zooshi::AudioListenerComponent,
 namespace fpl {
 namespace zooshi {
 
-using fpl::component_library::TransformComponent;
-using fpl::component_library::TransformData;
+using corgi::component_library::TransformComponent;
+using corgi::component_library::TransformData;
 
 void AudioListenerComponent::Init() {
   audio_engine_ =
@@ -33,12 +33,12 @@ void AudioListenerComponent::Init() {
 }
 
 void AudioListenerComponent::UpdateAllEntities(
-    entity::WorldTime /*delta_time*/) {
+    corgi::WorldTime /*delta_time*/) {
   TransformComponent* transform_component =
       entity_manager_->GetComponent<TransformComponent>();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
-    entity::EntityRef& entity = iter->entity;
+    corgi::EntityRef& entity = iter->entity;
     AudioListenerData* listener_data = Data<AudioListenerData>(entity);
     assert(listener_data->listener.Valid());
     mathfu::mat4 listener_matrix = transform_component->WorldTransform(entity);
@@ -46,24 +46,24 @@ void AudioListenerComponent::UpdateAllEntities(
   }
 }
 
-void AudioListenerComponent::InitEntity(entity::EntityRef& entity) {
+void AudioListenerComponent::InitEntity(corgi::EntityRef& entity) {
   AudioListenerData* listener_data = Data<AudioListenerData>(entity);
   listener_data->listener = audio_engine_->AddListener();
 }
 
-void AudioListenerComponent::CleanupEntity(entity::EntityRef& entity) {
+void AudioListenerComponent::CleanupEntity(corgi::EntityRef& entity) {
   AudioListenerData* listener_data = Data<AudioListenerData>(entity);
   audio_engine_->RemoveListener(&listener_data->listener);
 }
 
-void AudioListenerComponent::AddFromRawData(entity::EntityRef& entity,
+void AudioListenerComponent::AddFromRawData(corgi::EntityRef& entity,
                                             const void* /*raw_data*/) {
   AddEntity(entity);
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 }
 
-entity::ComponentInterface::RawDataUniquePtr
-AudioListenerComponent::ExportRawData(const entity::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr
+AudioListenerComponent::ExportRawData(const corgi::EntityRef& entity) const {
   if (GetComponentData(entity) == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
