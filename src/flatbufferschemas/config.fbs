@@ -70,8 +70,10 @@ table RiverZone {
 }
 
 table RiverConfig {
-  // How fast the river flows.
-  speed:float;
+  // How much faster the river flows than the raft.  At 0.0, river and raft
+  // move at exactly the same speed.  Should be nonzero though, or it looks
+  // weird at the start of the game when the raft is stopped.
+  speed_boost:float;
   texture_repeats:float;
   rail_filename:string;
   spline_stepsize: float;

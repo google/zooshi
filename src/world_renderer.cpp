@@ -169,13 +169,10 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   textured_skinned_lit_shader_->SetUniform("ambient_material", ambient);
   textured_skinned_lit_shader_->SetUniform("diffuse_material", diffuse);
 
-  float river_speed = world->config->river_config()->speed();
   float texture_repeats = world->config->river_config()->texture_repeats();
-  float river_time = static_cast<float>(renderer.time());
+  float river_offset = world->river_component.river_offset();
 
-  river_time -= floor(river_time * river_speed) / river_speed;
-  river_shader_->SetUniform("river_time", river_time);
-  river_shader_->SetUniform("river_speed", river_speed);
+  river_shader_->SetUniform("river_offset",   river_offset);
   river_shader_->SetUniform("texture_repeats", texture_repeats);
 
   SetFogUniforms(textured_shadowed_shader_, world);
