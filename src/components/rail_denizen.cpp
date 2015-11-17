@@ -26,6 +26,7 @@
 #include "components/services.h"
 #include "components_generated.h"
 #include "entity/component.h"
+#include "entity/entity_common.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "fplbase/flatbuffer_utils.h"
@@ -59,7 +60,7 @@ void Rail::Positions(float delta_time,
   positions->resize(num_positions);
 
   motive::CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,
-                           &(*positions)[0]);
+                                   &(*positions)[0]);
 }
 
 vec3 Rail::PositionCalculatedSlowly(float time) const {
@@ -72,9 +73,21 @@ vec3 Rail::PositionCalculatedSlowly(float time) const {
 
 void RailDenizenData::Initialize(const Rail& rail,
                                  motive::MotiveEngine& engine) {
-  const motive::SplinePlayback playback(start_time, true, initial_playback_rate);
+  const motive::SplinePlayback playback(start_time, true,
+                                        initial_playback_rate);
   motivator.Initialize(motive::SmoothInit(), &engine);
   motivator.SetSplines(rail.splines(), playback);
+  // The interpolated orientation converges towards the target orientation
+  // at a non-linear rate that is affected by delta-time and
+  // orientation_convergence_rate, this hack estimates the look-ahead for the
+  // convergence time given roughly a 60Hz update rate.
+  orientation_motivator.Initialize(motive::SmoothInit(), &engine);
+  orientation_motivator.SetSplines(rail.splines(), playback);
+  if (orientation_convergence_rate != 0.0f) {
+    orientation_motivator.SetSplineTime(
+        1.0f / logf(0.5f + orientation_convergence_rate) *
+        corgi::kMillisecondsPerSecond);
+  }
   playback_rate.InitializeWithTarget(motive::SmoothInit(), &engine,
                                      motive::Current1f(initial_playback_rate));
 }
@@ -91,14 +104,14 @@ void RailDenizenComponent::Init() {
   // Only set up callbacks if we actually have a Scene Lab.
   SceneLab* scene_lab = services->scene_lab();
   if (scene_lab) {
-    scene_lab->AddOnUpdateEntityCallback([this](
-        const corgi::EntityRef& entity) { UpdateRailNodeData(entity); });
+    scene_lab->AddOnUpdateEntityCallback(
+        [this](const corgi::EntityRef& entity) { UpdateRailNodeData(entity); });
     scene_lab->AddOnEnterEditorCallback([this]() { OnEnterEditor(); });
     scene_lab->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }
 }
 
-void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
+void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
@@ -107,6 +120,11 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
     }
     rail_denizen_data->motivator.SetSplinePlaybackRate(
         rail_denizen_data->PlaybackRate());
+    float convergence_rate = rail_denizen_data->orientation_convergence_rate;
+    if (convergence_rate != 0.0f) {
+      rail_denizen_data->orientation_motivator.SetSplinePlaybackRate(
+          rail_denizen_data->PlaybackRate());
+    }
     TransformData* transform_data = Data<TransformData>(iter->entity);
     vec3 position = rail_denizen_data->rail_orientation.Inverse() *
                     rail_denizen_data->Position();
@@ -114,10 +132,23 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
     position += rail_denizen_data->rail_offset;
     transform_data->position = position;
     if (rail_denizen_data->update_orientation) {
-      transform_data->orientation =
+      const motive::Motivator3f& motivator =
+          convergence_rate == 0.0f ? rail_denizen_data->motivator
+                                   : rail_denizen_data->orientation_motivator;
+      mathfu::quat target_orientation =
           rail_denizen_data->rail_orientation *
-          mathfu::quat::RotateFromTo(rail_denizen_data->Direction(),
-                                     mathfu::kAxisY3f);
+          mathfu::quat::RotateFromTo(motivator.Direction(), mathfu::kAxisY3f);
+      if (convergence_rate != 0.0f) {
+        rail_denizen_data->interpolated_orientation = mathfu::quat::Slerp(
+            rail_denizen_data->interpolated_orientation, target_orientation,
+            std::min(convergence_rate * static_cast<float>(delta_time) /
+                         static_cast<float>(corgi::kMillisecondsPerSecond),
+                     1.0f));
+        transform_data->orientation =
+            rail_denizen_data->interpolated_orientation;
+      } else {
+        transform_data->orientation = target_orientation;
+      }
     }
 
     float previous_progress = rail_denizen_data->lap_progress;
@@ -175,6 +206,8 @@ void RailDenizenComponent::AddFromRawData(corgi::EntityRef& entity,
     data->rail_scale = mathfu::kOnes3f;
   }
   data->internal_rail_scale = data->rail_scale;
+  data->orientation_convergence_rate =
+      rail_denizen_def->orientation_convergence_rate();
   data->update_orientation =
       rail_denizen_def->update_orientation() ? true : false;
   data->inherit_transform_data =
@@ -184,6 +217,11 @@ void RailDenizenComponent::AddFromRawData(corgi::EntityRef& entity,
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 
   InitializeRail(entity);
+
+  data->interpolated_orientation =
+      data->rail_orientation *
+      mathfu::quat::RotateFromTo(data->orientation_motivator.Direction(),
+                                 mathfu::kAxisY3f);
 }
 
 void RailDenizenComponent::InitializeRail(corgi::EntityRef& entity) {
@@ -201,8 +239,8 @@ void RailDenizenComponent::InitializeRail(corgi::EntityRef& entity) {
   }
 }
 
-corgi::ComponentInterface::RawDataUniquePtr
-RailDenizenComponent::ExportRawData(const corgi::EntityRef& entity) const {
+corgi::ComponentInterface::RawDataUniquePtr RailDenizenComponent::ExportRawData(
+    const corgi::EntityRef& entity) const {
   const RailDenizenData* data = GetComponentData(entity);
   if (data == nullptr) return nullptr;
 

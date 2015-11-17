@@ -39,13 +39,16 @@ struct RailDenizenData {
         initial_playback_rate(0.0f),
         start_time(0.0f),
         motivator(),
+        orientation_motivator(),
         playback_rate(),
         rail_offset(mathfu::kZeros3f),
-        rail_orientation(mathfu::quat::identity),
+        rail_orientation(mathfu::kQuatIdentityf),
         rail_scale(mathfu::kOnes3f),
+        interpolated_orientation(mathfu::kQuatIdentityf),
         internal_rail_offset(mathfu::kZeros3f),
         internal_rail_orientation(mathfu::kQuatIdentityf),
         internal_rail_scale(mathfu::kZeros3f),
+        orientation_convergence_rate(0.0f),
         update_orientation(false),
         inherit_transform_data(false),
         enabled(true) {}
@@ -75,18 +78,24 @@ struct RailDenizenData {
   float initial_playback_rate;
   float start_time;
   motive::Motivator3f motivator;
+  // Look ahead used to calculate the interpolated orientation of the denizen.
+  motive::Motivator3f orientation_motivator;
   motive::Motivator1f playback_rate;
   std::string rail_name;
   // Additional transform to apply from the rail to the entity being driven.
   mathfu::vec3 rail_offset;
   mathfu::quat rail_orientation;
   mathfu::vec3 rail_scale;
+  // Interpolated orientation.
+  mathfu::quat interpolated_orientation;
+
   // Additional transform that does not take into account any inherited
   // transform data. Should be used by editor and parsing data, while the above
   // ones should be used when driving motion.
   mathfu::vec3 internal_rail_offset;
   mathfu::quat internal_rail_orientation;
   mathfu::vec3 internal_rail_scale;
+  float orientation_convergence_rate;
   bool update_orientation;
   bool inherit_transform_data;
   bool enabled;

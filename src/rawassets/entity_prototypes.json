@@ -105,7 +105,8 @@
           "data_type": "RailDenizenDef",
           "data" : {
             "start_time": 0,
-            "rail_name" : "player_path"
+            "rail_name" : "player_path",
+            "orientation_convergence_rate": 3
           }
         }
       ]

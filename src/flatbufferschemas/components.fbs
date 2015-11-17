@@ -31,6 +31,10 @@ table RailDenizenDef {
   rail_offset:fplbase.Vec3; // Additional offset from the rail position
   rail_orientation:fplbase.Vec3; // Rotation to apply to the rail
   rail_scale:fplbase.Vec3; // Scale to apply to the rail
+  // Rate of convergence towards the target orientation.
+  // 0 = no convergence otherwise the time to converge in seconds is roughly
+  // 1 / log(0.5 + convergence_rate) (i.e 1 = 4s, 2 = 2s, 3 = 1.2s, ...)
+  orientation_convergence_rate:float = 0;
   update_orientation:bool = true;
   inherit_transform_data:bool = false;
   enabled:bool = true;
