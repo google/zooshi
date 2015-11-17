@@ -248,9 +248,25 @@ void GPGManager::SubmitScore(std::string leaderboard_id, int64_t score) {
   (void)score;
 #else
   if (!LoggedIn()) return;
-  game_services_->Leaderboards().SubmitScore(leaderboard_id.c_str(), score);
-  LogInfo("GPG: submitted score %llu for id %s", score,
+  game_services_->Leaderboards().SubmitScore(leaderboard_id, score);
+  LogInfo("GPG: submitted score %llu for id %s", score, leaderboard_id.c_str());
+#endif
+}
+
+// Submit score to specified leaderboard.
+int64_t GPGManager::CurrentPlayerScore(std::string leaderboard_id) {
+#ifndef USING_GOOGLE_PLAY_GAMES
+  (void)leaderboard_id;
+  return 0;
+#else
+  if (!LoggedIn()) return 0;
+  auto response = game_services_->Leaderboards().FetchScoreSummaryBlocking(
+      leaderboard_id, gpg::LeaderboardTimeSpan::ALL_TIME,
+      gpg::LeaderboardCollection::PUBLIC);
+  auto score = response.data.CurrentPlayerScore().Value();
+  LogInfo("GPG: player score %llu for leaderboard id %s", score,
           leaderboard_id.c_str());
+  return score;
 #endif
 }
 
