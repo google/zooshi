@@ -50,7 +50,7 @@ class RiverComponent : public corgi::Component<RiverData> {
   virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 
   virtual void Init();
-  virtual void UpdateAllEntities(corgi::WorldTime /*delta_time*/) {}
+  virtual void UpdateAllEntities(corgi::WorldTime /*delta_time*/);
 
   void UpdateRiverMeshes(corgi::EntityRef entity);
 
@@ -60,9 +60,12 @@ class RiverComponent : public corgi::Component<RiverData> {
   // the main render thread.  Do not call from the update thread!
   void UpdateRiverMeshes();
 
+  float river_offset() const { return river_offset_; }
+
  private:
   void TriggerRiverUpdate();
   void CreateRiverMesh(corgi::EntityRef& entity);
+  float river_offset_;
 };
 
 }  // zooshi

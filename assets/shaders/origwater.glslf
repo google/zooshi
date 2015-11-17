@@ -15,8 +15,7 @@
 varying mediump vec2 vTexCoord;
 uniform sampler2D texture_unit_0;
 uniform lowp vec4 color;
-uniform highp float river_speed;
-uniform highp float river_time;
+uniform highp float river_offset;
 uniform highp float texture_repeats;
 void main() {
   highp float tex_v = vTexCoord.y;
@@ -26,7 +25,7 @@ void main() {
   // low floating point percision.
   tex_v = fract(fract(((tex_v / 16.0) * (texture_repeats / 16.0))) * 256.0);
 
-  highp vec2 tc = vec2(vTexCoord.x, tex_v + fract(-river_time * river_speed));
+  highp vec2 tc = vec2(vTexCoord.x, tex_v + fract(-river_offset));
 
   lowp vec4 texture_color = texture2D(texture_unit_0, tc);
 

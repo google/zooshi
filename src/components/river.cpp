@@ -66,6 +66,7 @@ void RiverComponent::Init() {
     scene_lab->AddOnUpdateEntityCallback(
         [this](const corgi::EntityRef& /*entity*/) { TriggerRiverUpdate(); });
   }
+  river_offset_ = 0;
 }
 
 void RiverComponent::AddFromRawData(corgi::EntityRef& entity,
@@ -77,6 +78,20 @@ void RiverComponent::AddFromRawData(corgi::EntityRef& entity,
 
   entity_manager_->AddEntityToComponent<RenderMeshComponent>(entity);
   TriggerRiverUpdate();
+}
+
+// The update function here really just handles keeping the river offset
+// up to date so the river scrolls correctly.
+void RiverComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
+  ServicesComponent* services =
+      entity_manager_->GetComponent<ServicesComponent>();
+  corgi::EntityRef raft_entity = services->raft_entity();
+  RailDenizenData* rd_raft_data = Data<RailDenizenData>(raft_entity);
+  float speed = rd_raft_data->PlaybackRate();
+  speed += services->config()->river_config()->speed_boost();
+  float texture_repeats = services->config()->river_config()->texture_repeats();
+  river_offset_ += speed / (texture_repeats * texture_repeats);
+  river_offset_ -= floor(river_offset_);
 }
 
 void RiverComponent::TriggerRiverUpdate() {
