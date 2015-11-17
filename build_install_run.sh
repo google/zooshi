@@ -57,6 +57,7 @@ main() {
   # Build and sign with the test key if it's found.
   local -r key_dir=$(cd ${this_dir}/../../libraries/certs/zooshi && pwd)
   if [[ "${key_dir}" != "" ]]; then
+    ndk-build zooshi_generated_headers  # HACK: Need to fix header dependencies
     ${FPLUTIL}/bin/build_all_android.py \
       --apk_keypk8 ${key_dir}/zooshi.pk8 \
       --apk_keypem ${key_dir}/zooshi.x509.pem \
@@ -64,6 +65,7 @@ main() {
       -S "$@" ${additional_args}
   else
     echo "${key_dir} not found, skipping signing step." >&2
+    ndk-build zooshi_generated_headers  # HACK: Need to fix header dependencies
     ${FPLUTIL}/bin/build_all_android.py \
       -E dependencies google-play-services_lib -S "$@" ${additional_args}
   fi
