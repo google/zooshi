@@ -37,6 +37,7 @@ struct TimeLimitData {
 class TimeLimitComponent : public corgi::Component<TimeLimitData> {
  public:
   TimeLimitComponent() {}
+  virtual ~TimeLimitComponent() {}
 
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);
   virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;

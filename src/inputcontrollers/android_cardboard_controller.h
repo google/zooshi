@@ -25,6 +25,8 @@ namespace zooshi {
 
 class AndroidCardboardController : public BasePlayerController {
  public:
+  virtual ~AndroidCardboardController() {}
+
   virtual void Update();
 
  private:

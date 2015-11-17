@@ -30,6 +30,7 @@ struct SoundData {
 
 class SoundComponent : public corgi::Component<SoundData> {
  public:
+  virtual ~SoundComponent() {}
 
   virtual void Init();
   virtual void InitEntity(corgi::EntityRef& /*entity*/) {}

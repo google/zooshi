@@ -76,6 +76,8 @@ const auto kSaveAppName = "zooshi";
 
 class GameMenuState : public StateNode {
  public:
+  virtual ~GameMenuState() {}
+
   void Initialize(fplbase::InputSystem* input_system, World* world,
                   const Config* config,
                   fplbase::AssetManager* asset_manager,

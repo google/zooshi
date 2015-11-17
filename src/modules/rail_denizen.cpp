@@ -37,6 +37,7 @@ class NewLapNode : public BaseNode {
  public:
   NewLapNode(GraphComponent* graph_component)
       : graph_component_(graph_component) {}
+  virtual ~NewLapNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<EntityRef>();
@@ -63,6 +64,7 @@ class GetLapNode : public BaseNode {
  public:
   GetLapNode(RailDenizenComponent* rail_denizen_component)
       : rail_denizen_component_(rail_denizen_component) {}
+  virtual ~GetLapNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
@@ -88,6 +90,7 @@ class GetRailSpeedNode : public BaseNode {
  public:
   GetRailSpeedNode(RailDenizenComponent* rail_denizen_component)
       : rail_denizen_component_(rail_denizen_component) {}
+  virtual ~GetRailSpeedNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
@@ -113,6 +116,7 @@ class SetRailSpeedNode : public BaseNode {
  public:
   SetRailSpeedNode(RailDenizenComponent* rail_denizen_component)
       : rail_denizen_component_(rail_denizen_component) {}
+  virtual ~SetRailSpeedNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();

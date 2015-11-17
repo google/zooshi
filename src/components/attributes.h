@@ -51,6 +51,8 @@ class AttributesData {
 
 class AttributesComponent : public corgi::Component<AttributesData> {
  public:
+  virtual ~AttributesComponent() {}
+
   virtual void Init();
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;

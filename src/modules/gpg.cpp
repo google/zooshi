@@ -33,6 +33,7 @@ class IncrementAchievementNode : public BaseNode {
  public:
   IncrementAchievementNode(const Config* config, GPGManager* gpg_manager)
       : config_(config), gpg_manager_(gpg_manager) {}
+  virtual ~IncrementAchievementNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();
@@ -56,6 +57,7 @@ class GrantAchievementNode : public BaseNode {
  public:
   GrantAchievementNode(const Config* config, GPGManager* gpg_manager)
       : config_(config), gpg_manager_(gpg_manager) {}
+  virtual ~GrantAchievementNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<int32_t>();
@@ -82,6 +84,7 @@ class SubmitScoreNode : public BaseNode {
  public:
   SubmitScoreNode(const Config* config, GPGManager* gpg_manager)
       : config_(config), gpg_manager_(gpg_manager) {}
+  virtual ~SubmitScoreNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();         // Pulse indicating a game clear status.

@@ -46,6 +46,8 @@ struct RiverData {
 
 class RiverComponent : public corgi::Component<RiverData> {
  public:
+  virtual ~RiverComponent() {}
+
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* raw_data);
   virtual RawDataUniquePtr ExportRawData(const corgi::EntityRef& entity) const;
 

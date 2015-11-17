@@ -30,6 +30,7 @@ namespace zooshi {
 class RequestStateNode : public BaseNode {
  public:
   RequestStateNode(int* state) : state_(state) {}
+  virtual ~RequestStateNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();

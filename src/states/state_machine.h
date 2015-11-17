@@ -24,6 +24,8 @@ namespace zooshi {
 
 class StateNode {
  public:
+  virtual ~StateNode() {}
+
   virtual void AdvanceFrame(int delta_time, int* next_state) = 0;
   virtual void RenderPrep(fplbase::Renderer* /*render*/) {}
   virtual void Render(fplbase::Renderer* render) = 0;

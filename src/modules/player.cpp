@@ -39,6 +39,7 @@ class OnFireNode : public BaseNode {
  public:
   OnFireNode(GraphComponent* graph_component)
       : graph_component_(graph_component) {}
+  virtual ~OnFireNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<corgi::EntityRef>();
@@ -66,6 +67,7 @@ class FedPatronNode : public BaseNode {
  public:
   FedPatronNode(PlayerComponent* player_component)
       : player_component_(player_component) {}
+  virtual ~FedPatronNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<bool>();
@@ -100,6 +102,7 @@ class CheckAllPatronsFedNode : public BaseNode {
  public:
   CheckAllPatronsFedNode(PlayerComponent* player_component)
       : player_component_(player_component) {}
+  virtual ~CheckAllPatronsFedNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<corgi::EntityRef>();

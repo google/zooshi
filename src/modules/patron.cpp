@@ -41,6 +41,7 @@ class PatronUprightNode : public BaseNode {
  public:
   PatronUprightNode(PatronComponent* patron_component)
       : patron_component_(patron_component) {}
+  virtual ~PatronUprightNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<corgi::EntityRef>();
@@ -68,6 +69,7 @@ class CheckDeliciousCycleNode : public BaseNode {
  public:
   CheckDeliciousCycleNode(PatronComponent* patron_component)
       : patron_component_(patron_component) {}
+  virtual ~CheckDeliciousCycleNode() {}
 
   static void OnRegister(NodeSignature* node_sig) {
     node_sig->AddInput<void>();

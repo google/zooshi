@@ -104,6 +104,7 @@ struct RailDenizenData {
 class RailDenizenComponent : public corgi::Component<RailDenizenData> {
  public:
   RailDenizenComponent() {}
+  virtual ~RailDenizenComponent() {}
 
   virtual void Init();
   virtual void AddFromRawData(corgi::EntityRef& entity, const void* data);

@@ -43,6 +43,8 @@ class SceneLabState : public StateNode {
         input_system_(nullptr),
         camera_(nullptr),
         scene_lab_(nullptr) {}
+  virtual ~SceneLabState() {}
+
   void Initialize(fplbase::Renderer* renderer,
                   fplbase::InputSystem* input_system,
                   scene_lab::SceneLab* scene_lab, World* world);
