@@ -194,6 +194,8 @@ LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -lz -lEGL -landroid
 
 include $(BUILD_SHARED_LIBRARY)
 
+PINDROP_ASYNC_LOADING := 1
+
 $(call import-add-path,$(DEPENDENCIES_BREADBOARD_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FLATBUFFERS_DIR)/..)
 $(call import-add-path,$(DEPENDENCIES_FPLBASE_DIR)/..)
