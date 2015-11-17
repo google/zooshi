@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "shaders/include/skinning.glslv_h"
+#include "shaders/fplbase/skinning.glslv_h"
 
 attribute vec4 aPosition;
 attribute vec2 aTexCoord;

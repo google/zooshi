@@ -27,8 +27,8 @@ ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 # Create a binary schema file for the components.fbs schema.
 build_assets: $(flatc_target)
 	cp -f -r $(ZOOSHI_DIR)/src/rawassets/fonts $(ZOOSHI_DIR)/assets/fonts
-	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets/shaders \
-$(ZOOSHI_DIR)/assets
+	cp -f -r $(DEPENDENCIES_FLATUI_DIR)/assets/shaders $(ZOOSHI_DIR)/assets
+	cp -f -r $(DEPENDENCIES_FPLBASE_DIR)/shaders $(ZOOSHI_DIR)/assets
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py
 	-mkdir -p $(ZOOSHI_DIR)/assets/flatbufferschemas
 	$(FLATBUFFERS_FLATC) -b --schema \

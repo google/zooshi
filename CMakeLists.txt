@@ -188,10 +188,14 @@ if(NOT zooshi_only_flatc)
     --output ${CMAKE_BINARY_DIR}/assets
     DEPENDS flatc ${cwebp_depends})
 
-  # Copy FlatUI shaders
+  # Copy FlatUI and fplbase shaders
   add_custom_command(TARGET assets POST_BUILD
                      COMMAND ${CMAKE_COMMAND} -E copy_directory
                          ${dependencies_flatui_dir}/assets/shaders
+                         ${CMAKE_BINARY_DIR}/assets/shaders)
+  add_custom_command(TARGET assets POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_directory
+                         ${dependencies_fplbase_dir}/shaders
                          ${CMAKE_BINARY_DIR}/assets/shaders)
 
   # Copy Font resource files
