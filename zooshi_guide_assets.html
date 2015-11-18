@@ -107,31 +107,133 @@ $(document).ready(function(){initNavTree('zooshi_guide_assets.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h3>Overview</h3>
-<p>TODO</p>
+<p>The game has many data driven components allowing designers the tweak the game mechanics and content creators to add assets.</p>
+<p>Game data is specified by <a href="http://json.org/">JSON</a> files in <code>zooshi/src/rawassets</code> which are converted to binary and read in-game using <a href="http://google.github.io/flatbuffers/">FlatBuffers</a>. Each <a href="http://json.org/">JSON</a> file in <code>zooshi/src/rawassets</code> is described by a <a href="http://google.github.io/flatbuffers/md__schemas.html">FlatBuffers schema</a>, as shown in the table below. Each <a href="http://google.github.io/flatbuffers/md__schemas.html">FlatBuffers schema</a> file contains descriptions of each field (prefixed by <code>//</code>) in the associated <a href="http://json.org/">JSON</a> files.</p>
+<p>The following table maps each set of <a href="http://json.org/">JSON</a> files in <code>src/rawassets</code> to its corresponding <a href="http://google.github.io/flatbuffers/">Flatbuffers</a> schemas in:</p>
+<table class="doxtable">
+<tr>
+<th>JSON File(s) </th><th>Flatbuffers Schema  </th></tr>
+<tr>
+<td><code>assets.json</code> </td><td><code>src/flatbufferschemas/assets.fbs</code> </td></tr>
+<tr>
+<td><code>audio_config.json</code> </td><td><code>dependencies/pindrop/schemas/audio_config.fbs</code> </td></tr>
+<tr>
+<td><code>buses.json</code> </td><td><code>dependencies/pindrop/schemas/buses.fbs</code> </td></tr>
+<tr>
+<td><code>config.json</code> </td><td><code>src/flatbufferschemas/config.fbs</code> </td></tr>
+<tr>
+<td><code>entity_*.json</code> </td><td><code>src/flatbufferschemas/components.fbs</code> </td></tr>
+<tr>
+<td><code>graphs.json</code> </td><td><code>src/flatbufferschemas/graphs.fbs</code> </td></tr>
+<tr>
+<td><code>input_config.json</code> </td><td><code>src/flatbufferschemas/input_config.fbs</code> </td></tr>
+<tr>
+<td><code>materials/*</code> </td><td><code>dependencies/fplbase/schemas/materials.fbs</code> </td></tr>
+<tr>
+<td><code>meshes/*</code> </td><td><code>dependencies/fplbase/schemas/mesh.fbs</code> </td></tr>
+<tr>
+<td><code>rails/*</code> </td><td><code>src/flatbufferschemas/rail_def.fbs</code> </td></tr>
+<tr>
+<td><code>sound_banks/*</code> </td><td><code>dependencies/pindrop/schemas/sound_bank_def.fbs</code> </td></tr>
+<tr>
+<td><code>sounds/*</code> </td><td><code>dependencies/pindrop/schemas/sound_collection_def.fbs</code> </td></tr>
+</table>
+<p><em>Note: One additional file, <code>src/rawassets/assets_meta.json</code> does not correspond to a <a href="http://google.github.io/flatbuffers/md__schemas.html">FlatBuffers schema</a>. It is parsed directly by <code>scripts/build_assets.py</code></em></p>
+<p>Some additional assets in <code>zooshi/src/rawassets</code> that are used by the game described in the following table.</p>
+<table class="doxtable">
+<tr>
+<th>Asset </th><th>Description  </th></tr>
+<tr>
+<td><code>anims/*.fbx</code> </td><td><a href="https://en.wikipedia.org/wiki/FBX">FBX</a> files used by <a href="http://google.github.io/motive/">Motive</a>'s animation pipeline. </td></tr>
+<tr>
+<td><code>fonts/*.ttf</code> </td><td><a href="https://en.wikipedia.org/wiki/TrueType">TTF</a> files for the text fonts used in the game. </td></tr>
+<tr>
+<td><code>textures/*.png</code> </td><td><a href="https://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG</a> image files to be used as the game textures. </td></tr>
+</table>
 <h3>Building</h3>
-<p>TODO</p>
-<h3>Game Configuration</h3>
-<p>TODO</p>
-<h4>Characters</h4>
-<p>TODO</p>
-<h4>Game Mechanics</h4>
-<p>TODO</p>
-<h4>Camera</h4>
-<p>TODO</p>
-<h4>Lighting</h4>
-<p>TODO</p>
-<h4>Visuals</h4>
-<p>TODO</p>
-<h3>Audio</h3>
-<p>TODO</p>
-<h3>Character State Machine</h3>
-<p>TODO</p>
-<h4>Transactions</h4>
-<p>TODO</p>
-<h4>Events</h4>
-<p>TODO</p>
-<h4>Animation / Timeline</h4>
-<p>TODO</p>
+<p>The game loads assets from the <code>assets</code> directory. In order to convert data into a format suitable for the game runtime, assets are built from a python script which requires:</p>
+<ul>
+<li><a href="http://python.org/">Python</a> to run the asset build script. <a href="http://windows.microsoft.com/">Windows</a> users may need to install <a href="http://python.org/">Python</a> and add the location of the python executable to the PATH variable. For example in Windows 7:<ul>
+<li>Right click on <code>My Computer</code>, select <code>Properties</code>.</li>
+<li>Select <code>Advanced system settings</code>.</li>
+<li>Click <code>Environment Variables</code>.</li>
+<li>Find and select <code>PATH</code>, click <code>Edit...</code>.</li>
+<li>Add <code>;PATH_TO_PYTHONEXE%</code> where <code>PATH_TO_PYTHONEXE%</code> is the location of the python executable.</li>
+</ul>
+</li>
+<li><code>flatc</code> (<a href="http://google.github.io/flatbuffers/md__compiler.html">FlatBuffers compiler</a>) to convert <a href="http://json.org/">JSON</a> text files to binary files in the <code>zooshi/assets</code> directory.</li>
+<li><a href="https://developers.google.com/speed/webp/docs/cwebp">cwebp</a> is required to convert <code>png</code> images to the <a href="https://developers.google.com/speed/webp/">webp</a> format.<ul>
+<li>Install <a href="https://developers.google.com/speed/webp/docs/cwebp">cwebp</a> by downloading the libwebp archive for your operating system (see <a href="https://developers.google.com/speed/webp/docs/precompiled">WebP Precompiled Utilities</a>)</li>
+<li>Unpack somewhere on your system and add the directory containing the <a href="https://developers.google.com/speed/webp/docs/cwebp">cwebp</a> binary to the <code>PATH</code> variable. See prerequisites for the your operating system configuration instructions:<ul>
+<li><a class="el" href="zooshi_guide_building_linux.html#building_linux_prerequisites">Linux prerequisites</a></li>
+<li><a class="el" href="zooshi_guide_building_osx.html#building_osx_prerequisites">OS X prerequisites</a></li>
+<li><a class="el" href="zooshi_guide_building_windows.html#building_windows_prerequisites">Windows prerequisites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>After modifying the data in the <code>zooshi/src/rawassets</code> directory, the assets need to be rebuilt by running the following commands:</p>
+<ul>
+<li>On Linux:</li>
+</ul>
+<div class="fragment"><div class="line">cd zooshi</div>
+<div class="line">cmake -G<span class="stringliteral">&#39;Unix Makefiles&#39;</span></div>
+<div class="line">make assets</div>
+</div><!-- fragment --><ul>
+<li>On Mac, with <a href="http://developer.apple.com/xcode/">Xcode</a>:</li>
+</ul>
+<div class="fragment"><div class="line">cd zooshi</div>
+<div class="line">cmake -G<span class="stringliteral">&#39;Xcode&#39;</span></div>
+<div class="line">xcodebuild -target assets</div>
+</div><!-- fragment --><ul>
+<li>On Windows, with <a href="http://www.visualstudio.com/">Visual Studio</a>:</li>
+</ul>
+<p><em>Note: Use <code>Visual Studio 10</code> with <code>cmake</code> to build for <a href="http://www.visualstudio.com/">Visual Studio</a> 2010. Use <code>Visual Studio 11</code> for <a href="http://www.visualstudio.com/">Visual Studio</a> 2012.</em></p>
+<div class="fragment"><div class="line">cd zooshi</div>
+<div class="line">cmake -G<span class="stringliteral">&quot;Visual Studio 10&quot;</span></div>
+<div class="line">msbuild /t:assets zooshi.sln</div>
+</div><!-- fragment --><p><br/>
+</p>
+<p>Each file under <code>src/rawassets</code> will produce a corresponding output file in the <code>assets</code> directory. For example, after running the asset build, <code>assets/config.zooconfig</code> will be generated from <code>src/rawassets/config.json</code>.</p>
+<h3>Configuring Entity Prototypes</h3>
+<p>All of the Zooshi game entities are built from prototypes that are specified in the <code>src/rawassets/entity_prototypes.json</code> file and are described by the <code>src/flatbufferschemas/components.fbs</code> file.</p>
+<p>The <a href="http://google.github.io/corgi/">CORGI</a> <a href="https://en.wikipedia.org/wiki/Entity_component_system">entity-component system</a> library handles the creation and management of all of the game entities. Specifically, the <code>EntityFactory</code> class, in the CORGI <a href="http://google.github.io/corgi/component_library.htlm">component library</a>, creates entities from these prototypes.</p>
+<p>For instance, lets say you wanted to add a new patron to the game. For this example, lets pretend it is a panda.</p>
+<p>There is a <code>PatronDef</code> table in <code>components.fbs</code> that you can use as the base for your new panda patron's prototype.</p>
+<p>Here is a snippet taken from the <code>PatronDef</code> in <code>components.fbs</code>:</p>
+<div class="fragment"><div class="line"> table PatronDef {</div>
+<div class="line">   <span class="comment">// The maximum distance the patron will move when trying to catch sushi.</span></div>
+<div class="line">   max_catch_distance:<span class="keywordtype">float</span> = 5.0;</div>
+<div class="line"></div>
+<div class="line">   <span class="comment">// The time to take turning to face the raft, in seconds.</span></div>
+<div class="line">   time_to_face_raft:<span class="keywordtype">float</span> = 0.2;</div>
+<div class="line"></div>
+<div class="line">   <span class="comment">// If true: when fed play eat, satisfied, disappear animations.</span></div>
+<div class="line">   <span class="comment">// If false: when fed play satisfied, disappear animations.</span></div>
+<div class="line">   play_eating_animation:bool;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>You could then define your own patron in <code>entity_prototypes.json</code>:</p>
+<div class="fragment"><div class="line"><span class="comment">// Panda Patron</span></div>
+<div class="line">{</div>
+<div class="line">  <span class="stringliteral">&quot;component_list&quot;</span>: [</div>
+<div class="line">    {</div>
+<div class="line">      <span class="stringliteral">&quot;data_type: &quot;</span>MetaDef<span class="stringliteral">&quot;,</span></div>
+<div class="line"><span class="stringliteral">      &quot;</span>data<span class="stringliteral">&quot; : {</span></div>
+<div class="line"><span class="stringliteral">        &quot;</span>entity_id<span class="stringliteral">&quot;: &quot;</span>PatronPanda<span class="stringliteral">&quot;</span></div>
+<div class="line"><span class="stringliteral">      }</span></div>
+<div class="line"><span class="stringliteral">    },</span></div>
+<div class="line"><span class="stringliteral">    {</span></div>
+<div class="line"><span class="stringliteral">      &quot;</span>data_type<span class="stringliteral">&quot;: &quot;</span>PatronDef<span class="stringliteral">&quot;,</span></div>
+<div class="line"><span class="stringliteral">      &quot;</span>data<span class="stringliteral">&quot;: {</span></div>
+<div class="line"><span class="stringliteral">        &quot;</span>max_catch_distance<span class="stringliteral">&quot;: 10.0,</span></div>
+<div class="line"><span class="stringliteral">        &quot;</span>time_to_face_raft<span class="stringliteral">&quot;: 0.2,</span></div>
+<div class="line"><span class="stringliteral">        &quot;</span>play_eating_animation<span class="stringliteral">&quot;: true</span></div>
+<div class="line"><span class="stringliteral">      }</span></div>
+<div class="line"><span class="stringliteral">    }</span></div>
+<div class="line"><span class="stringliteral">  ]</span></div>
+<div class="line"><span class="stringliteral">}</span></div>
+</div><!-- fragment --><p>You'll notice that there are two component definitions for the entity in this example: <code>MetaDef</code> and <code>PatronDef</code>. You can include any number of components in your prototype in the <code>component_list</code> field.</p>
 <p><br/>
  </p>
 </div></div><!-- contents -->

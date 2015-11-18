@@ -14,7 +14,8 @@ var NAVTREE =
       ] ],
       [ "Modifying Assets", "zooshi_guide_assets.html", null ],
       [ "Set Up Google Play Games Services", "zooshi_guide_play_games_services.html", null ],
-      [ "Components", "zooshi_guide_components.html", [
+      [ "Components", "usergroup0.html", [
+        [ "Game States", "zooshi_guide_gamestates.html", null ],
         [ "Controllers", "zooshi_guide_controllers.html", null ],
         [ "Cardboard", "zooshi_guide_cardboard.html", null ]
       ] ]
