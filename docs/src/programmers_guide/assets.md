@@ -168,7 +168,7 @@ in your prototype in the `component_list` field.
 
 <br>
 
-  [component library]: http://google.github.io/corgi/component_library.htlm
+  [component library]: http://google.github.io/corgi/component_library.html
   [CORGI]: http://google.github.io/corgi/
   [cwebp]: https://developers.google.com/speed/webp/docs/cwebp
   [entity-component system]: https://en.wikipedia.org/wiki/Entity_component_system
