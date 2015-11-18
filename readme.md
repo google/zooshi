@@ -65,7 +65,7 @@ you would leave it in.
   [Mathfu]: https://google.github.io/mathfu/
   [Motive]: https://google.github.io/motive/
   [Pie Noon]: https://google.github.io/pienoon/index.html
-  [Pindrop]: http://github.com/google/pindrop
+  [Pindrop]: https://google.github.io/pindrop/
   [Programmer's Guide]: https://google.github.io/zooshi/zooshi_guide_overview.html
   [Scene Lab]: https://google.github.io/scene_lab/
   [WebP]: https://developers.google.com/speed/webp/?hl=en

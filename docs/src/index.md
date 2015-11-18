@@ -174,7 +174,7 @@ depends upon, so download the source from [GitHub][] using:
   [Motive]: https://google.github.io/motive/
   [Nexus Player]: http://www.google.com/nexus/player/
   [OS X]: http://www.apple.com/osx/
-  [Pindrop]: http://github.com/google/pindrop
+  [Pindrop]: http://google.github.io/pindrop/
   [Scene Lab]: https://google.github.io/scene_lab/
   [SDL]: https://www.libsdl.org/
   [stackoverflow.com]: http://www.stackoverflow.com
