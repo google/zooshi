@@ -149,7 +149,7 @@ bool Game::InitializeRenderer() {
 #else
   vec2i window_size(1200, 800);
 #endif
-  if (!renderer_.Initialize(window_size, "Window Title!")) {
+  if (!renderer_.Initialize(window_size, GetConfig().window_title()->c_str())) {
     LogError("Renderer initialization error: %s\n",
              renderer_.last_error().c_str());
     return false;
