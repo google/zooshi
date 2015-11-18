@@ -71,12 +71,12 @@ the changes that where made to the game.
 <br>
 
   [Zooshi]: @ref zooshi_index
-  [fplbase]: http://github.com/google/fplbase
-  [FlatUI]: http://github.com/google/flatui
+  [fplbase]: http://google.github.io/fplbase
+  [FlatUI]: http://google.github.io/flatui
   [Google Play Game Services]: http://developer.android.com/google/play-services/games.html
   [Cardboard gameplay]: @ref zooshi_guide_gameplay_cardboard
   [Cardboard SDK]: https://developers.google.com/cardboard/android/
   [gameplay]: @ref zooshi_guide_gameplay
   [input controllers]: @ref zooshi_guide_controllers
-  [Scene Lab]: http://github.com/google/scene_lab
+  [Scene Lab]: http://google.github.io/scene_lab
 
