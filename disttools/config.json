@@ -70,8 +70,8 @@
       "fetch_dependencies": 1
     },
     {
-      "name": "entity",
-      "url": "http://github.com/google/entity.git",
+      "name": "corgi",
+      "url": "http://github.com/google/corgi.git",
       "branch": "develop",
       "is_library": 1,
       "third_party": 0,
