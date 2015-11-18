@@ -169,6 +169,9 @@ table WorldDef {
 }
 
 table Config {
+  // The name of the game, as displayed on the window title:
+  window_title:string;
+
   // Audio engine configuration file.
   audio_config:string;
 

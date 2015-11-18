@@ -1,4 +1,6 @@
 {
+  "window_title": "Zooshi!",
+
   "audio_config": "audio_config.pinconfig",
 
   "input_config": "input_config.zooinconfig",
