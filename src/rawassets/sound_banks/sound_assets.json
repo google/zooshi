@@ -12,6 +12,8 @@
     "sounds/fed_giraffe.pinsound",
     "sounds/fed_hippo.pinsound",
     "sounds/fed_lady_mandrill.pinsound",
+    "sounds/game_over.pinsound",
+    "sounds/high_score.pinsound",
     "sounds/hit_char.pinsound",
     "sounds/hit_ground.pinsound",
     "sounds/hit_water.pinsound",

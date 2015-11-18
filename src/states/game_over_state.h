@@ -73,6 +73,10 @@ class GameOverState : public StateNode {
 
   // Cache the common sounds that are going to be played.
   pindrop::SoundHandle sound_click_;
+  pindrop::SoundHandle sound_game_over_;
+  pindrop::SoundHandle sound_high_score_;
+
+  pindrop::Channel game_over_channel_;
 
   // Textures used in menu UI.
   fplbase::Texture* background_game_over_;

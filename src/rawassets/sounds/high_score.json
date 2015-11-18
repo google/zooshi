@@ -1,0 +1,17 @@
+{
+  "name": "high_score",
+  "bus": "gameplay_music",
+  "stream": false,
+  "loop": false,
+  "gain": 1,
+
+  "audio_sample_set": [
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/Zooshi_New_Hi_Score.ogg"
+      }
+    }
+  ]
+}
+

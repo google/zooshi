@@ -69,9 +69,9 @@ class GPGManager {
   // Submit score to specified leaderboard.
   void SubmitScore(std::string leaderboard_id, int64_t score);
 
-  // Retrieve current player's score.
+  // Retrieve current player's high score.
   // Returns 0 if no player has been signed in.
-  int64_t CurrentPlayerScore(std::string leaderboard_id);
+  int64_t CurrentPlayerHighScore(std::string leaderboard_id);
 
   // Asynchronously fetches the stats associated with the current player
   // from the server.  (Does nothing if not logged in.)

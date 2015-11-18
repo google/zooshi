@@ -254,7 +254,7 @@ void GPGManager::SubmitScore(std::string leaderboard_id, int64_t score) {
 }
 
 // Submit score to specified leaderboard.
-int64_t GPGManager::CurrentPlayerScore(std::string leaderboard_id) {
+int64_t GPGManager::CurrentPlayerHighScore(std::string leaderboard_id) {
 #ifndef USING_GOOGLE_PLAY_GAMES
   (void)leaderboard_id;
   return 0;

@@ -1,0 +1,17 @@
+{
+  "name": "game_over",
+  "bus": "gameplay_music",
+  "stream": false,
+  "loop": false,
+  "gain": 1,
+
+  "audio_sample_set": [
+    {
+      "playback_probability": 1.0,
+      "audio_sample": {
+        "filename": "sounds/Zooshi_Game_Over.ogg"
+      }
+    }
+  ]
+}
+

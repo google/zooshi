@@ -51,6 +51,8 @@ void GameOverState::Initialize(fplbase::InputSystem* input_system, World* world,
   audio_engine_ = audio_engine;
 
   sound_click_ = audio_engine->GetSoundHandle("click");
+  sound_game_over_ = audio_engine->GetSoundHandle("game_over");
+  sound_high_score_ = audio_engine->GetSoundHandle("high_score");
 
   // Retrieve references to textures. (Loading process is done already.)
   background_game_over_ =
@@ -118,6 +120,8 @@ void GameOverState::OnEnter(int /*previous_state*/) {
   static const corgi::WorldTime kEndGameEventTime = 0;
   world_->patron_component.StartEvent(kEndGameEventTime);
 
+  bool high_score = false;
+
 #ifdef USING_GOOGLE_PLAY_GAMES
   if (gpg_manager_->LoggedIn()) {
     // Finished a game, post a score.
@@ -126,15 +130,30 @@ void GameOverState::OnEnter(int /*previous_state*/) {
         world_->entity_manager.GetComponentData<AttributesData>(player);
     auto score = attribute_data->attributes[AttributeDef_PatronsFed];
     auto leaderboard_config = config_->gpg_config()->leaderboards();
-    gpg_manager_->SubmitScore(
-        leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str(),
-        score);
+    std::string leaderboard_id =
+        leaderboard_config->LookupByKey(kGPGDefaultLeaderboard)->id()->c_str();
+
+    // Check if we have a new high score.
+    high_score = score > gpg_manager_->CurrentPlayerHighScore(leaderboard_id);
+
+    // Submit score.
+    gpg_manager_->SubmitScore(leaderboard_id, score);
   }
 #endif
+
+  if (high_score) {
+    game_over_channel_ = audio_engine_->PlaySound(sound_high_score_);
+  } else {
+    game_over_channel_ = audio_engine_->PlaySound(sound_game_over_);
+  }
 }
 
 void GameOverState::OnExit(int next_state) {
   world_->patron_component.StopEvent();
+
+  if (game_over_channel_.Valid() && game_over_channel_.Playing()) {
+    game_over_channel_.Stop();
+  }
 
   if (next_state == kGameStateGameplay) {
     LoadWorldDef(world_, config_->world_def());
