@@ -755,6 +755,7 @@ INPUT                  = "index.md" \
                          "programmers_guide/components.md" \
                          "programmers_guide/controllers.md" \
                          "programmers_guide/gameplay.md" \
+                         "programmers_guide/game_states.md" \
                          "programmers_guide/overview.md" \
                          "programmers_guide/play_games_services.md" \
                          "../../readme.md" \
