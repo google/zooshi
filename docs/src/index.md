@@ -8,6 +8,13 @@ Zooshi    {#zooshi_index}
 and toss sushi into the mouths of well-dressed animal patrons. It is written
 in cross-platform C++.
 
+\htmlonly
+<iframe width="560" height="315"
+    src="https://www.youtube.com/embed/4uqMOQZBkE0"
+    frameborder="0" allowfullscreen>
+</iframe>
+\endhtmlonly
+
 ## Motivation
 
 [Zooshi][] demonstrates a quick and fun game that primarily targets
