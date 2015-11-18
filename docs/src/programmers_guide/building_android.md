@@ -18,6 +18,11 @@ Building for Android    {#zooshi_guide_building_android}
     -   [Windows prerequisites][]
 -   Install [fplutil prerequisites][].
 -   Install the `Google Play services` package from the [SDK Manager][].
+-   Download the [Google Play Games C++ SDK][] and unpack into Zooshi's
+    `dependencies/gpg-cpp-sdk` directory.
+    -   For example, if you've fetched Zooshi to `~/zooshi/`, unpack
+        the downloaded `gpg-cpp-sdk.v2.0.zip` to
+        `~/zooshi/dependencies/gpg-cpp-sdk`.
 
 # Building
 
@@ -63,4 +68,5 @@ If only one device is attached to a workstation, the `-d` argument
   [SDK Manager]: https://developer.android.com/sdk/installing/adding-packages.html
   [WebP Precompiled Utilities]: https://developers.google.com/speed/webp/docs/precompiled
   [Windows prerequisites]: @ref building_windows_prerequisites
+  [Google Play Games C++ SDK]: http://developers.google.com/games/services/downloads/
   [Zooshi]: @ref zooshi_guide_overview
