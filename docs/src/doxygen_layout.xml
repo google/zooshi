@@ -37,6 +37,8 @@
            title="Set Up Google Play Games Services"/>
       <tab type="usergroup" url="@ref zooshi_guide_components"
            title="Components">
+        <tab type="user" url="@ref zooshi_guide_controllers"
+             title="Controllers"/>
         <tab type="user" url="@ref zooshi_guide_cardboard" title="Cardboard"/>
       </tab>
     </tab>
