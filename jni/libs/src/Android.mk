@@ -21,13 +21,17 @@ FLATBUFFERS_FLATC_ARGS:=--gen-mutable
 include $(ZOOSHI_DIR)/jni/android_config.mk
 include $(DEPENDENCIES_FLATBUFFERS_DIR)/android/jni/include.mk
 
+# realpath-portable From flatbuffers/android/jni/include.mk
+LOCAL_PATH := $(call realpath-portable,$(LOCAL_PATH))
+ZOOSHI_DIR := $(LOCAL_PATH)
+
 # Build rule which builds assets for the game.
 ifeq (,$(PROJECT_GLOBAL_BUILD_RULES_DEFINED))
 .PHONY: build_assets
 # Create a binary schema file for the components.fbs schema.
 build_assets: $(flatc_target)
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py \
-      --copy-tree $(ZOOSHI_DIR)/src/rawassets/fonts \
+      --copy_tree $(ZOOSHI_DIR)/src/rawassets/fonts \
                   $(ZOOSHI_DIR)/assets/fonts \
                   $(DEPENDENCIES_FLATUI_DIR)/assets/shaders \
                   $(ZOOSHI_DIR)/assets/shaders \
