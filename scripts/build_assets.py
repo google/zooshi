@@ -221,123 +221,18 @@ def main():
   Returns:
     Returns 0 on success.
   """
-  # Add resolver for dependency paths.
-  builder.DependencyPath.add_resolver(
-      builder.ImageMagickPathResolver(PROJECT_ROOT))
-
-  parser = builder.argparse.ArgumentParser()
-  parser.add_argument('--flatc',
-                      default=builder.FLATC.resolve(raise_on_error=False),
-                      help='Location of the flatbuffers compiler.')
-  parser.add_argument('--cwebp', default=builder.CWEBP.resolve(),
-                      help='Location of the webp compressor.')
-  parser.add_argument('--anim-pipeline',
-                      default=builder.ANIM_PIPELINE.resolve(),
-                      help='Location of the anim_pipeline tool.')
-  parser.add_argument('--mesh-pipeline',
-                      default=builder.MESH_PIPELINE.resolve(),
-                      help='Location of the mesh_pipeline tool.')
-  parser.add_argument('--output', default=ASSETS_PATH,
-                      help='Assets output directory.')
-  parser.add_argument('--meta', default=ASSET_META,
-                      help='File holding metadata for assets.')
-  parser.add_argument('--max_texture_size', default=builder.MAX_TEXTURE_SIZE,
-                      help='Max texture size in pixels along the largest '
-                      'dimension')
-  parser.add_argument('-v', '--verbose', help='Display verbose output.',
-                      action='store_true')
-  parser.add_argument('args', nargs=builder.argparse.REMAINDER)
-  args = parser.parse_args()
-  target = args.args[0] if len(args.args) >= 1 else 'all'
-
-  if target not in ('all', 'png', 'mesh', 'anim', 'flatbuffers', 'webp',
-                    'clean'):
-    sys.stderr.write('No rule to build target %s.\n' % target)
-
-  builder.logging.basicConfig(format='%(message)s')
-  builder.logging.getLogger().setLevel(
-      builder.logging.DEBUG if args.verbose else builder.logging.INFO)
-
-  # Load the json file that holds asset metadata.
-  meta_file = open(args.meta, 'r')
-  meta = json.load(meta_file)
-
-  if target != 'clean':
-    distutils.dir_util.copy_tree(ASSETS_PATH, args.output)
-  # The mesh pipeline must run before the webp texture converter,
-  # since the mesh pipeline might create textures that need to be
-  # converted.
-  try:
-    if target in ('all', 'png'):
-      builder.generate_png_textures(
-          builder.input_files_add_overlays(tga_files_to_convert(), ASSET_ROOTS,
-                                           OVERLAY_DIRS,
-                                           overlay_globs=['*.tga']),
-          ASSET_ROOTS, INTERMEDIATE_TEXTURE_PATH, meta, args.max_texture_size)
-
-    if target in ('all', 'mesh'):
-      builder.generate_mesh_binaries(
-          args.mesh_pipeline,
-          builder.input_files_add_overlays(fbx_files_to_convert(), ASSET_ROOTS,
-                                           OVERLAY_DIRS,
-                                           overlay_globs=['*.fbx']),
-          ASSET_ROOTS, args.output, meta)
-
-    if target in ('all', 'anim'):
-      builder.generate_anim_binaries(
-          args.anim_pipeline,
-          builder.input_files_add_overlays(anim_files_to_convert(), ASSET_ROOTS,
-                                           OVERLAY_DIRS,
-                                           overlay_globs=['*.fbx']),
-          ASSET_ROOTS, args.output, meta)
-
-    if target in ('all', 'flatbuffers'):
-      builder.generate_flatbuffer_binaries(
-          args.flatc, builder.flatbuffers_conversion_data_add_overlays(
-              FLATBUFFERS_CONVERSION_DATA, ASSET_ROOTS, OVERLAY_DIRS),
-          ASSET_ROOTS, args.output, SCHEMA_OUTPUT_PATH)
-
-    if target in ('all', 'webp'):
-      builder.generate_webp_textures(
-          args.cwebp, builder.input_files_add_overlays(
-              png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
-              overlay_globs=['*.png']),
-          ASSET_ROOTS, args.output, meta, args.max_texture_size)
-
-    if target == 'clean':
-      try:
-        builder.clean(INTERMEDIATE_TEXTURE_PATH, ASSET_ROOTS, [],
-                      {'png': builder.input_files_add_overlays(
-                          tga_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
-                          overlay_globs=['*.tga'])})
-        builder.clean(
-            args.output, ASSET_ROOTS,
-            builder.flatbuffers_conversion_data_add_overlays(
-                FLATBUFFERS_CONVERSION_DATA, ASSET_ROOTS, OVERLAY_DIRS),
-            {'webp': builder.input_files_add_overlays(
-                png_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
-                overlay_globs=['*.png']),
-             'motiveanim': builder.input_files_add_overlays(
-                 anim_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
-                 overlay_globs=['*.fbx']),
-             'fplmesh': builder.input_files_add_overlays(
-                 fbx_files_to_convert(), ASSET_ROOTS, OVERLAY_DIRS,
-                 overlay_globs=['*.fbx'])})
-      except OSError as error:
-        sys.stderr.write('Error cleaning: %s' % str(error))
-        return 1
-
-  except builder.BuildError as error:
-    builder.logging.error('Error running command `%s`. Returned %s.\n%s\n',
-                          ' '.join(error.argv), str(error.error_code),
-                          str(error.message))
-    return 1
-  except builder.DependencyPathError as error:
-    builder.logging.error('%s not found in %s', error.filename,
-                          str(error.paths))
-    return 1
-
-  return 0
+  return builder.main(
+      project_root=PROJECT_ROOT,
+      assets_path=ASSETS_PATH,
+      asset_meta=ASSET_META,
+      asset_roots=ASSET_ROOTS,
+      intermediate_path=INTERMEDIATE_TEXTURE_PATH,
+      overlay_dirs=OVERLAY_DIRS,
+      tga_files_to_convert=tga_files_to_convert,
+      png_files_to_convert=png_files_to_convert,
+      anim_files_to_convert=anim_files_to_convert,
+      fbx_files_to_convert=fbx_files_to_convert,
+      flatbuffers_conversion_data=lambda: FLATBUFFERS_CONVERSION_DATA)
 
 
 if __name__ == '__main__':
