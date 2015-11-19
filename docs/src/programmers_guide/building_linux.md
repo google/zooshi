@@ -10,6 +10,7 @@ Building for Linux    {#zooshi_guide_building_linux}
 -   [cmake][]: 2.8.12
 -   [cwebp][]: 0.4.0 (available from the [WebP Precompiled Utilities][] page)
 -   [GLU][]: libglu1-mesa-dev 8.0.4
+-   [ImageMagick][]: 6.7.7-10
 -   [libtool][]: 2.4.2
 -   [OpenGL][]: libglapi-mesa 8.0.4
 -   [OSS Proxy Daemon][]: osspd 1.3.2
@@ -25,6 +26,7 @@ distribution's package manager:
 -    [cmake][] (You can also manually install from [cmake.org][].)
 -    [cwebp][]
 -    [GLU][] (`libglu1-mesa-dev`)
+-    [ImageMagick][]
 -    [OpenGL][] (`libglapi-mesa`)
 -    [OSS Proxy Daemon][] (`osspd`)
 -    [Python][]
@@ -32,7 +34,7 @@ distribution's package manager:
 
 For example, on Ubuntu:
 
-    sudo apt-get install autoconf automake cmake libglapi-mesa libglu1-mesa-dev libtool osspd python ragel webp
+    sudo apt-get install autoconf automake cmake imagemagick libglapi-mesa libglu1-mesa-dev libtool osspd python ragel webp
 
 # Building
 
@@ -81,6 +83,7 @@ For example:
   [cmake.org]: http://www.cmake.org/
   [cwebp]: https://developers.google.com/speed/webp/docs/cwebp
   [GLU]: http://www.mesa3d.org/
+  [ImageMagick]: http://imagemagick.org
   [libtool]: http://www.gnu.org/software/libtool/
   [Linux]: http://en.wikipedia.org/wiki/Linux
   [OpenGL]: http://www.mesa3d.org/
