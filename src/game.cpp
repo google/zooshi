@@ -569,9 +569,7 @@ static int UpdateThread(void* data) {
 
     rt_data->audio_engine->AdvanceFrame(delta_time / 1000.0f);
 
-    if (rt_data->state_machine->done()) {
-      *(rt_data->game_exiting) = true;
-    }
+    *(rt_data->game_exiting) |= rt_data->state_machine->done();
     SDL_UnlockMutex(sync.gameupdate_mutex_);
   }
 
@@ -667,7 +665,7 @@ void Game::Run() {
   // We basically own the lock all the time, except when we're waiting
   // for a vsync event.
   SDL_LockMutex(sync_.renderthread_mutex_);
-  while (!input_.exit_requested() && !game_exiting_) {
+  while (!game_exiting_) {
 #ifdef __ANDROID__
     int current_frame_id = fplbase::GetVsyncFrameId();
 #else
@@ -712,6 +710,7 @@ void Game::Run() {
     // this function in the thread that set the video mode."
     SystraceBegin("Input::AdvanceFrame()");
     input_.AdvanceFrame(&renderer_.window_size());
+    game_exiting_ |= input_.exit_requested();
     SystraceEnd();
 
     // Milliseconds elapsed since last update.
