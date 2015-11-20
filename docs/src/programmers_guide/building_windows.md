@@ -11,6 +11,7 @@ on [Windows][].
 -   [cmake][]: 2.8.12
 -   [cwebp][]: 0.4.0 (downloaded from the [WebP Precompiled Utilities][] page)
 -   [DirectX SDK][]: 9.29.1962
+-   [ImageMagick][]: 6.9.2-6
 -   [Python][]: 2.7.6
 -   [Visual Studio][]: 2010 or 2012
 -   [Windows][]: 7
@@ -65,6 +66,7 @@ assuming [Visual Studio][] is installed in
   [cwebp]: https://developers.google.com/speed/webp/docs/cwebp
   [cygwin]: https://www.cygwin.com/
   [DirectX SDK]: http://www.microsoft.com/en-us/download/details.aspx?id=6812
+  [ImageMagick]: http://www.imagemagick.org
   [Python]: http://www.python.org/download/releases/2.7/
   [Visual Studio]: http://www.visualstudio.com/
   [WebP Precompiled Utilities]: https://developers.google.com/speed/webp/docs/precompiled
