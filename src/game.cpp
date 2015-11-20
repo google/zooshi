@@ -133,11 +133,6 @@ Game::Game()
   fplbase::SetLoadFileFunction(Game::LoadFile);
 }
 
-Game::~Game() {
-  asset_manager_.ClearAllAssets();
-  renderer_.ShutDown();
-}
-
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
 bool Game::InitializeRenderer() {

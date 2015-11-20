@@ -84,9 +84,9 @@ void RailDenizenData::Initialize(const Rail& rail,
   orientation_motivator.Initialize(motive::SmoothInit(), &engine);
   orientation_motivator.SetSplines(rail.splines(), playback);
   if (orientation_convergence_rate != 0.0f) {
-    orientation_motivator.SetSplineTime(
+    orientation_motivator.SetSplineTime(static_cast<motive::MotiveTime>(
         1.0f / logf(0.5f + orientation_convergence_rate) *
-        corgi::kMillisecondsPerSecond);
+        corgi::kMillisecondsPerSecond));
   }
   playback_rate.InitializeWithTarget(motive::SmoothInit(), &engine,
                                      motive::Current1f(initial_playback_rate));
