@@ -37,7 +37,7 @@ build_assets: $(flatc_target)
                   $(ZOOSHI_DIR)/assets/shaders \
                   $(DEPENDENCIES_FPLBASE_DIR)/shaders \
                   $(ZOOSHI_DIR)/assets/shaders
-	-mkdir -p $(ZOOSHI_DIR)/assets/flatbufferschemas
+	$(call host-mkdir,$(ZOOSHI_DIR)/assets/flatbufferschemas)
 	$(FLATBUFFERS_FLATC) -b --schema \
 	  $(foreach include,$(ZOOSHI_FLATBUFFER_INCLUDE_DIRS),-I $(include)) \
 	  -o $(ZOOSHI_DIR)/assets/flatbufferschemas \
