@@ -11,6 +11,7 @@ You can use [cmake][] to generate an [Xcode][] project for [Zooshi][] on
 -   [cmake][]: 2.8.12
 -   [cwebp][]: 0.4.3 (download from the [WebP Precompiled Utilities][])
     -   For example: [cwebp 0.4.3 direct download][]
+-   [ImageMagick][]: 6.9.2-6
 -   [OS X][]: Yosemite (10.10.1)
 -   [Python][]: 2.7.10
 -   [Xcode][]: 6.4
@@ -31,6 +32,13 @@ You can use [cmake][] to generate an [Xcode][] project for [Zooshi][] on
     -   Unpack [cwebp][] to a directory on your system.
     -   Add the `bin` directory containing [cwebp][] to the `PATH` variable.
         (Similarly to [cmake][]).
+-   Install [ImageMagick][].
+    -   To install ImageMagick, you will need [MacPorts][] or [Homebrew][]. We
+        will use [Homebrew][], for example:
+        -   Open a `terminal` and run `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`.
+    -   Then use `brew` (or `port`) to install ImageMagick and its dependencies.
+        For [Homebrew][]:
+        -   Open a `terminal` and run `brew install imagemagick --with-librsvg`.
 
 # Creating the Xcode Project
 
@@ -91,6 +99,9 @@ For example:
   [cmake]: http://www.cmake.org
   [cwebp]: https://developers.google.com/speed/webp/docs/cwebp
   [cwebp 0.4.3 direct download]: http://downloads.webmproject.org/releases/webp/libwebp-0.4.3-mac-10.9.tar.gz
+  [Homebrew]: http://brew.sh/
+  [ImageMagick]: http://www.imagemagick.org
+  [MacPorts]: https://www.macports.org/
   [OS X]: http://www.apple.com/osx/
   [Python]: http://www.python.org/download/releases/2.7/
   [WebP Precompiled Utilities]: https://developers.google.com/speed/webp/docs/precompiled
