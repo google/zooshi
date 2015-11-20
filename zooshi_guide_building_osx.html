@@ -115,6 +115,7 @@ $(document).ready(function(){initNavTree('zooshi_guide_building_osx.html','');})
 <li>For example: <a href="http://downloads.webmproject.org/releases/webp/libwebp-0.4.3-mac-10.9.tar.gz">cwebp 0.4.3 direct download</a></li>
 </ul>
 </li>
+<li><a href="http://www.imagemagick.org">ImageMagick</a>: 6.9.2-6</li>
 <li><a href="http://www.apple.com/osx/">OS X</a>: Yosemite (10.10.1)</li>
 <li><a href="http://www.python.org/download/releases/2.7/">Python</a>: 2.7.10</li>
 <li><a href="http://developer.apple.com/xcode/">Xcode</a>: 6.4</li>
@@ -137,6 +138,17 @@ Before Building</h1>
 <li>Download the <code>libwebp</code> archive for <a href="http://www.apple.com/osx/">OS X</a> from <a href="https://developers.google.com/speed/webp/docs/precompiled">WebP Precompiled Utilities</a> (e.g. <a href="http://downloads.webmproject.org/releases/webp/libwebp-0.4.3-mac-10.9.tar.gz">cwebp 0.4.3 direct download</a>).<ul>
 <li>Unpack <a href="https://developers.google.com/speed/webp/docs/cwebp">cwebp</a> to a directory on your system.</li>
 <li>Add the <code>bin</code> directory containing <a href="https://developers.google.com/speed/webp/docs/cwebp">cwebp</a> to the <code>PATH</code> variable. (Similarly to <a href="http://www.cmake.org">cmake</a>).</li>
+</ul>
+</li>
+<li>Install <a href="http://www.imagemagick.org">ImageMagick</a>.<ul>
+<li>To install ImageMagick, you will need <a href="https://www.macports.org/">MacPorts</a> or <a href="http://brew.sh/">Homebrew</a>. We will use <a href="http://brew.sh/">Homebrew</a>, for example:<ul>
+<li>Open a <code>terminal</code> and run <code>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</code>.</li>
+</ul>
+</li>
+<li>Then use <code>brew</code> (or <code>port</code>) to install ImageMagick and its dependencies. For <a href="http://brew.sh/">Homebrew</a>:<ul>
+<li>Open a <code>terminal</code> and run <code>brew install imagemagick --with-librsvg</code>.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
