@@ -35,7 +35,11 @@ def main():
   sys.argv.extend(('--linklint-dir', THIS_DIR,
                    '--source-dir', os.path.join(THIS_DIR, 'src'),
                    '--project-dir', PROJECT_DIR))
-  return docs.generate_docs.main()
+  ret_value = docs.generate_docs.main()
+  docs.generate_docs.copy_overlay(
+      os.path.join(THIS_DIR, 'src/html_overlay/launch'),
+      os.path.join(THIS_DIR, 'html/launch/'))
+  return ret_value
 
 if __name__ == '__main__':
   sys.exit(main())
