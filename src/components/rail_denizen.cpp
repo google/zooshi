@@ -118,13 +118,7 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
     if (!rail_denizen_data->enabled) {
       continue;
     }
-    rail_denizen_data->motivator.SetSplinePlaybackRate(
-        rail_denizen_data->PlaybackRate());
-    float convergence_rate = rail_denizen_data->orientation_convergence_rate;
-    if (convergence_rate != 0.0f) {
-      rail_denizen_data->orientation_motivator.SetSplinePlaybackRate(
-          rail_denizen_data->PlaybackRate());
-    }
+    rail_denizen_data->SetSplinePlaybackRate(rail_denizen_data->PlaybackRate());
     TransformData* transform_data = Data<TransformData>(iter->entity);
     vec3 position = rail_denizen_data->rail_orientation.Inverse() *
                     rail_denizen_data->Position();
@@ -132,13 +126,18 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
     position += rail_denizen_data->rail_offset;
     transform_data->position = position;
     if (rail_denizen_data->update_orientation) {
+      float convergence_rate = rail_denizen_data->orientation_convergence_rate;
       const motive::Motivator3f& motivator =
           convergence_rate == 0.0f ? rail_denizen_data->motivator
                                    : rail_denizen_data->orientation_motivator;
       mathfu::quat target_orientation =
           rail_denizen_data->rail_orientation *
           mathfu::quat::RotateFromTo(motivator.Direction(), mathfu::kAxisY3f);
-      if (convergence_rate != 0.0f) {
+      // Convergence is disabled when the playback rate is zero as
+      // it's possible for the slerp to yield an invalid quaternion
+      // with angles approaching zero.
+      if (convergence_rate != 0.0f &&
+          rail_denizen_data->PlaybackRate() > 0.0f) {
         rail_denizen_data->interpolated_orientation = mathfu::quat::Slerp(
             rail_denizen_data->interpolated_orientation, target_orientation,
             std::min(convergence_rate * static_cast<float>(delta_time) /

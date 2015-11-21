@@ -279,7 +279,7 @@ void PatronComponent::PostLoadFixup() {
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
-      rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+      rail_denizen_data->SetSplinePlaybackRate(0.0f);
     }
   }
 }
@@ -523,7 +523,7 @@ void PatronComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
       auto rail_denizen_data = Data<RailDenizenData>(patron);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
-        rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+        rail_denizen_data->SetSplinePlaybackRate(0.0f);
       }
     }
 
@@ -654,7 +654,7 @@ void PatronComponent::HandleCollision(const corgi::EntityRef& patron_entity,
       auto rail_denizen_data = Data<RailDenizenData>(patron_entity);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
-        rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+        rail_denizen_data->SetSplinePlaybackRate(0.0f);
       }
       SpawnPointDisplay(patron_entity);
       // Delete the projectile, as it has been consumed.
@@ -893,7 +893,7 @@ void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
-      rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+      rail_denizen_data->SetSplinePlaybackRate(0.0f);
     }
   }
 }
