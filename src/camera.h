@@ -18,6 +18,7 @@
 #include "corgi_component_library/camera_interface.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
+#include "mathfu/utilities.h"
 
 namespace fpl {
 namespace zooshi {
@@ -114,6 +115,8 @@ class Camera : public corgi::CameraInterface {
     viewport_near_plane_ = viewport_near_plane;
     viewport_far_plane_ = viewport_far_plane;
   }
+
+  MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
  private:
   mathfu::vec3 position_[2];

@@ -517,9 +517,7 @@ void PatronComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
       SetState(kPatronStateFalling, patron_data);
       Animate(patron_data, PatronAction_Fall);
 
-      auto physics_component =
-          entity_manager_->GetComponent<PhysicsComponent>();
-      physics_component->DisablePhysics(patron);
+      entity_manager_->GetComponent<PhysicsComponent>()->DisablePhysics(patron);
       auto rail_denizen_data = Data<RailDenizenData>(patron);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
