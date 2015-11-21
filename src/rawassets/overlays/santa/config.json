@@ -1,0 +1,229 @@
+{
+  "window_title": "Zooshi for Santa!!!",
+
+  "audio_config": "audio_config.pinconfig",
+
+  "input_config": "input_config.zooinconfig",
+
+  "assets_filename": "assets.zooassets",
+
+  "projectile_speed": 40.0,
+  "projectile_upkick": 7.5,
+  "projectile_height_offset": -0.5,
+  "projectile_forward_offset": 1.6,
+  "projectile_min_angular_velocity": { "x": 1, "y": 1, "z": 3 },
+  "projectile_max_angular_velocity": { "x": 2, "y": 2, "z": 6 },
+  "gravity": -30.0,
+  "bullet_max_steps": 5,
+
+  "cardboard_viewport_angle": 1.570796, // 90 degrees
+
+  "river_config" : {
+    "speed_boost" : 0.5,
+    "texture_repeats" : 16,
+    "rail_filename": "rails/player_path.rail",
+    "spline_stepsize": 700.0,
+    "track_height": -1.89,
+    "texture_tile_size": 25.0,
+    "material": "materials/lake_daytime.fplmat",
+    "shader": "shaders/origwater",
+    "default_banks": [
+      { "x_min": -8.5, "x_max": -13.5, "z_min": 3.5, "z_max": 6.2 },
+      { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+      { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+      { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+      { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+      { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+      { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
+      { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
+    ],
+    "zones": [
+      {
+        "zone_start": 0.0,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+      },
+      {
+        "zone_start": 0.1,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 6
+      },
+      {
+        "zone_start": 0.2,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 7
+      },
+      {
+        "zone_start": 0.3,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 9
+      },
+      {
+        "zone_start": 0.35,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 10,
+      },
+      {
+        "zone_start": 0.45,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 10,
+        "banks": [
+          { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
+          { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+          { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+          { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+          { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+          { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+          { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
+          { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
+        ]
+      },
+      {
+        "zone_start": 0.55,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 10,
+        "banks": [
+          { "x_min": -12.5, "x_max": -18.5, "z_min": 1.5, "z_max": 2.0 },
+          { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+          { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+          { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+          { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+          { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+          { "x_min": 7.5,   "x_max": 9.0,   "z_min": 0.6, "z_max": 0.9 },
+          { "x_min": 12.5,   "x_max": 18.5,  "z_min": 2.5, "z_max": 4.2 }
+        ]
+      },
+      {
+        "zone_start": 0.6,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 10,
+        "banks": [
+          { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
+          { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+          { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+          { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+          { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+          { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+          { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
+          { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
+        ]
+      },
+      {
+        "zone_start": 0.7,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 10
+      },
+      {
+        "zone_start": 0.75,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 9
+      },
+      {
+        "zone_start": 0.85,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 8
+      },
+      {
+        "zone_start": 0.95,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+        "width": 6
+      },
+      {
+        "zone_start": 0.99,
+        "material": "materials/riverbank_grass_daytime.fplmat",
+      },
+    ],
+    "river_index": 3,
+    "default_width": 5.0,
+    "collision_type": "Ground",
+    "collides_with": [
+      "Projectile"
+    ],
+    "mass": 1000.0,
+    "restitution": 0.5,
+    "user_tag": "Ground"
+  },
+
+  "rendering_config" : {
+    "shadow_map_resolution": 512,
+    "shadow_map_zoom": 2.0,
+    "shadow_map_offset": 6.0,
+    "light_position": { "x": 0.0, "y": 0.0, "z": 60 },
+    "shadow_intensity": 0.33,
+    "fog_roll_in_dist":1500,
+    "fog_max_dist": 3000,
+    "fog_color": {"r":0.95, "g":0.9, "b":0.7, "a":1.0},
+    "fog_max_saturation": 0.25,
+    "cull_distance": 50,
+    "pop_out_distance": 45,
+    "pop_in_distance": 40,
+    "create_shadow_map":false
+   },
+
+  "scene_lab_config" : {
+    "schema_file_text" : "flatbufferschemas/components.fbs",
+    "schema_file_binary" : "flatbufferschemas/components.bfbs",
+    "schema_include_paths" : ["flatbufferschemas"],
+    "viewport_angle_degrees":90,
+    "camera_movement_speed":0.08,
+    "object_movement_speed":0.25,
+    "object_angular_speed":3,
+    "object_scale_speed":1.05,
+    "precise_movement_scale":0.1,
+    "mouse_sensitivity": 0.001,
+    "interact_button": 0,
+    "toggle_mode_button": 2,
+
+    "gui_allow_editing": true,
+    "gui_button_size": 22,
+    "gui_toolbar_size": 25,
+    "gui_bg_toolbar_color": {"r":0, "g":0, "b":0, "a":1},
+    "gui_bg_edit_ui_color": {"r":0, "g":0, "b":0, "a":0.5},
+    "gui_font": "fonts/NotoSans-Bold.ttf",
+    "json_output_directory" : "../src/rawassets",
+    "flatbuffer_editor_config": {
+      "read_only": false,
+      "auto_commit_edits": true,
+      "allow_resizing_flatbuffer": true,
+      "ui_size": 16,
+      "ui_spacing": 3,
+      "blank_field_width": 8,
+      "bg_button_color": {"r":0.2, "g":0.2, "b":0.2, "a":1},
+      "bg_button_hover_color": {"r":0.5, "g":0.5, "b":0.5, "a":1},
+      "bg_button_click_color": {"r":0.4, "g":0.4, "b":0.4, "a":1},
+
+      "text_button_color": {"r":1, "g":1, "b":1, "a":1}, // white
+
+      "text_normal_color": {"r":0.95, "g":0.95, "b":0.95, "a":1}, // near-white
+      "text_comment_color": {"r":0.85, "g":0.85, "b":0.85, "a":1}, // light gray
+      "text_disabled_color": {"r":0.75, "g":0.75, "b":0.75, "a":1}, // gray
+      "text_editable_color": {"r":0, "g":0.85, "b":0, "a":1}, // green
+      "text_editing_color": {"r":0.85, "g":0.85, "b":0, "a":1}, // yellow
+      "text_modified_color": {"r":1, "g":1, "b":0, "a":1}, // bright yellow
+      "text_committed_color": {"r":0.8, "g":1, "b":0, "a":1}, // greenish yellow
+      "text_error_color": {"r":1, "g":0, "b":0, "a":1} // red
+    },
+    "binary_entity_file_ext": "zooentity"
+  },
+
+  "world_def": {
+    "entity_files": [
+      "entity_rails.zooentity",
+      "entity_list.zooentity",
+      "entity_level_0.zooentity",
+      "entity_decorations.zooentity",
+      "entity_ring.zooentity"
+    ]
+  },
+  "gpg_config": {
+    "leaderboards": [
+      {"name": "LeaderboardMain", "id": "CgkI7IvL5LUCEAIQCQ"},
+    ],
+    "achievements": [
+      {"name": "ADeliciousCycle", "id": "CgkI7IvL5LUCEAIQBQ"},
+      {"name": "AllYouCanEat", "id": "CgkI7IvL5LUCEAIQBg"},
+      {"name": "SushiChef", "id": "CgkI7IvL5LUCEAIQAw"},
+      {"name": "SushiNinja", "id": "CgkI7IvL5LUCEAIQDQ"},
+      {"name": "SushiSamurai", "id": "CgkI7IvL5LUCEAIQBA"},
+    ]
+  }
+}
