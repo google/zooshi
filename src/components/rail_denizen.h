@@ -67,6 +67,11 @@ struct RailDenizenData {
   mathfu::vec3 Direction() const { return motivator.Direction(); }
   float PlaybackRate() const { return playback_rate.Value(); }
 
+  void SetSplinePlaybackRate(float rate) {
+    motivator.SetSplinePlaybackRate(rate);
+    orientation_motivator.SetSplinePlaybackRate(rate);
+  }
+
   // The total number of laps completed so far.
   int lap_number;
   // The current progress in the current lap in the range of [0,1].
