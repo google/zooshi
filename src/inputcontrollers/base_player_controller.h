@@ -97,6 +97,8 @@ class BasePlayerController {
   void set_enabled(bool enabled) { enabled_ = enabled; }
   bool enabled() const { return enabled_; }
 
+  MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
+
  protected:
   LogicalButton buttons_[kLogicalButtonCount];
   LogicalVector facing_;
