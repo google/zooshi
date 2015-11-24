@@ -50,6 +50,7 @@ tests/cmake_install.cmake
 Debug/
 Win32/
 build/
+ipch
 pingme.txt
 
 # qt creator

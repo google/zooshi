@@ -348,7 +348,7 @@ include_directories(${dependencies_scene_lab_dir}/include)
 include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
 
 # Detect clang
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
   set(CMAKE_COMPILER_IS_CLANGXX 1)
 endif()
 
@@ -400,7 +400,7 @@ target_link_libraries(zooshi
   breadboard
   corgi
   corgi_component_library
-  module_library
+  breadboard_module_library
   scene_lab
   pindrop)
 
