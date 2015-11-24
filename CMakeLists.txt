@@ -81,14 +81,11 @@ set(dependencies_corgi_component_library_dir
 # Option to enable / disable the build of cwebp from source.
 option(zooshi_build_cwebp "Build cwebp from source." OFF)
 
-# Option to only build flatc
-option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
-
 # Option to output profiling numbers on motive.
 option(zooshi_profile_motive "Output motive profiling stats." OFF)
 
 # Include pindrop.
-if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
+if(NOT TARGET pindrop)
   set(pindrop_build_demo OFF CACHE BOOL "")
   set(pindrop_build_tests OFF CACHE BOOL "")
   set(pindrop_async_loading ON CACHE BOOL "")
@@ -96,12 +93,12 @@ if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
 endif()
 
 # Include breadboard.
-if(NOT zooshi_only_flatc AND NOT TARGET breadboard)
+if(NOT TARGET breadboard)
   add_subdirectory("${dependencies_breadboard_dir}" ${tmp_dir}/breadboard)
 endif()
 
 # Include motive.
-if(NOT zooshi_only_flatc AND NOT TARGET motive)
+if(NOT TARGET motive)
   set(motive_build_samples OFF CACHE BOOL "")
   set(motive_build_tests OFF CACHE BOOL "")
   if(zooshi_profile_motive)
@@ -112,7 +109,7 @@ if(NOT zooshi_only_flatc AND NOT TARGET motive)
 endif()
 
 # Include fplbase.
-if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
+if(NOT TARGET fplbase)
   # By default, don't build the mesh_pipeline. Use the one that's prebuilt.
   # We do this to avoid having to install the FBX SDK.
   set(fplbase_build_mesh_pipeline OFF CACHE BOOL "")
@@ -124,17 +121,17 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
 endif()
 
 # Include entities.
-if(NOT zooshi_only_flatc AND NOT TARGET corgi)
+if(NOT TARGET corgi)
   add_subdirectory("${dependencies_corgi_dir}" ${tmp_dir}/corgi)
 endif()
 
 # Include FlatUI.
-if(NOT zooshi_only_flatc AND NOT TARGET flatui)
+if(NOT TARGET flatui)
   add_subdirectory("${dependencies_flatui_dir}" ${tmp_dir}/flatui)
 endif()
 
 # Include Scene Lab.
-if(NOT zooshi_only_flatc AND NOT TARGET scene_lab)
+if(NOT TARGET scene_lab)
   add_subdirectory("${dependencies_scene_lab_dir}" ${tmp_dir}/scene_lab)
 endif()
 
@@ -173,37 +170,23 @@ build_flatbuffers("${FLATBUFFERS_SCHEMAS}"
                   "${CMAKE_BINARY_DIR}/assets/flatbufferschemas/"
                   "${CMAKE_BINARY_DIR}/assets/flatbufferschemas/")
 
-if(NOT zooshi_only_flatc)
-  # If building cwebp then pass in the location.
-  if(zooshi_build_cwebp)
-    get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
-    set(cwebp_option --cwebp ${cwebp_location})
-    set(cwebp_depends cwebp)
-  endif()
-
-  add_custom_target(assets
-    COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
-    --flatc $<TARGET_FILE:flatc>
-    ${cwebp_option}
-    --output ${CMAKE_BINARY_DIR}/assets
-    DEPENDS flatc ${cwebp_depends})
-
-  # Copy FlatUI and fplbase shaders
-  add_custom_command(TARGET assets POST_BUILD
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                         ${dependencies_flatui_dir}/assets/shaders
-                         ${CMAKE_BINARY_DIR}/assets/shaders)
-  add_custom_command(TARGET assets POST_BUILD
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                         ${dependencies_fplbase_dir}/shaders
-                         ${CMAKE_BINARY_DIR}/assets/shaders)
-
-  # Copy Font resource files
-  add_custom_command(TARGET assets POST_BUILD
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                         ${CMAKE_SOURCE_DIR}/src/rawassets/fonts
-                         ${CMAKE_BINARY_DIR}/assets/fonts)
+# If building cwebp then pass in the location.
+if(zooshi_build_cwebp)
+  get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
+  set(cwebp_option --cwebp ${cwebp_location})
+  set(cwebp_depends cwebp)
 endif()
+
+add_custom_target(assets
+  COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
+  --copy_tree
+  src/rawassets/fonts assets/fonts
+  ${dependencies_flatui_dir}/assets/shaders assets/shaders
+  ${dependencies_fplbase_dir}/shaders assets/shaders
+  --flatc $<TARGET_FILE:flatc>
+  ${cwebp_option}
+  --output ${CMAKE_BINARY_DIR}/assets
+  DEPENDS flatc ${cwebp_depends})
 
 # zooshi source files.
 set(zooshi_SRCS
@@ -384,11 +367,9 @@ endif()
 # Executable target.
 add_executable(zooshi ${zooshi_SRCS})
 
-if(NOT zooshi_only_flatc)
-  # Additional flags for the target.
-  mathfu_configure_flags(zooshi)
-  breadboard_module_library_configure_flags(zooshi)
-endif()
+# Additional flags for the target.
+mathfu_configure_flags(zooshi)
+breadboard_module_library_configure_flags(zooshi)
 
 # Dependencies for the executable target.
 add_dependencies(zooshi zooshi_generated_includes assets)
