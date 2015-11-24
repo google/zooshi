@@ -759,6 +759,7 @@ INPUT                  = "index.md" \
                          "programmers_guide/play_games_services.md" \
                          "../../readme.md" \
                          "contributing.md" \
+                         "launch/default/santa/santa.md"
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -1148,7 +1149,9 @@ HTML_EXTRA_FILES       = "programmers_guide/configure_cardboard.png" \
                          "programmers_guide/info_panel_mathfu_motive.png" \
                          "programmers_guide/info_panel_pindrop.png" \
                          "programmers_guide/info_panel_scene_lab.png" \
-                         "programmers_guide/info_panel_webp.png"
+                         "programmers_guide/info_panel_webp.png" \
+                         "launch/default/santa/install_button.png" \
+                         "launch/default/santa/zooshi_santa_button.png"
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to
