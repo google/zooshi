@@ -92,10 +92,16 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   // The state machine for the world may request a state change.
   *next_state = requested_state_;
 
-  // Switch States if necessary.
-  if (scene_lab_ && input_system_->GetButton(fplbase::FPLK_F10).went_down()) {
-    scene_lab_->SetInitialCamera(main_camera_);
+  // Switch into scene lab if the keyboard requests.
+  // Switch back to scene lab if we're single stepping.
+  if (scene_lab_ && (input_system_->GetButton(fplbase::FPLK_F10).went_down() ||
+                     input_system_->GetButton(fplbase::FPLK_1).went_down() ||
+                     world_->is_single_stepping)) {
+    if (!world_->is_single_stepping) {
+      scene_lab_->SetInitialCamera(main_camera_);
+    }
     *next_state = kGameStateSceneLab;
+    world_->is_single_stepping = false;
   }
 
   // Pause the game.
