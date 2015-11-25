@@ -18,7 +18,8 @@ project(zooshi)
 # Compile the game with the debug flag
 set(ZOOSHI_DEBUG ON)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -28,20 +29,20 @@ set(tmp_dir ${CMAKE_BINARY_DIR}/obj)
 # Directory which contains the source for 3rd party libraries.
 if(NOT DEFINED third_party_root)
   get_filename_component(
-    third_party_root "${CMAKE_CURRENT_SOURCE_DIR}/../../../../external"
+    third_party_root "${CMAKE_CURRENT_LIST_DIR}/../../../../external"
     REALPATH)
 endif()
 
 # Directory which contains source for FPL libraries.
 if(NOT DEFINED fpl_root)
   get_filename_component(
-      fpl_root "${CMAKE_CURRENT_SOURCE_DIR}/../../libs" REALPATH)
+      fpl_root "${CMAKE_CURRENT_LIST_DIR}/../../libs" REALPATH)
 endif()
 
 # If the dependencies directory exists, assume this is the root directory for
 # all libraries required by this project.
 if(NOT DEFINED dependencies_root)
-  set(dependencies_root "${CMAKE_CURRENT_SOURCE_DIR}/dependencies")
+  set(dependencies_root "${CMAKE_CURRENT_LIST_DIR}/dependencies")
   if(EXISTS "${dependencies_root}")
     set(third_party_root "${dependencies_root}")
     set(fpl_root "${dependencies_root}")
@@ -145,7 +146,7 @@ endif()
 # directory.
 set(FLATBUFFERS_GENERATED_INCLUDES_DIR
     ${CMAKE_SOURCE_DIR}${CMAKE_FILES_DIRECTORY}/include)
-file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
+file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_CURRENT_LIST_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
     ${dependencies_corgi_component_library_dir}/schemas
@@ -178,7 +179,7 @@ if(zooshi_build_cwebp)
 endif()
 
 add_custom_target(assets
-  COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
+  COMMAND python ${CMAKE_CURRENT_LIST_DIR}/scripts/build_assets.py
   --copy_tree
   src/rawassets/fonts assets/fonts
   ${dependencies_flatui_dir}/assets/shaders assets/shaders
@@ -387,6 +388,6 @@ target_link_libraries(zooshi
 
 # Create a zipped tar of all the necessary files to run the game.
 add_custom_target(export
-  COMMAND python ${CMAKE_SOURCE_DIR}/scripts/export.py
+  COMMAND python ${CMAKE_CURRENT_LIST_DIR}/scripts/export.py
   DEPENDS zooshi)
 
