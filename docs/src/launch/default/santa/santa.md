@@ -25,7 +25,7 @@ Zooshi Santa Mode    {#zooshi_launch_santa}
 
 ## Install Zooshi
 
-Before you can play Zooshi in Santa Tracker mode, you have to install the game.
+Before you can play Zooshi in Santa mode, you have to install the game.
 If you have not done so already, please click on the button below to install
 Zooshi.
 
@@ -40,17 +40,17 @@ Zooshi.
 </a>
 \endhtmlonly
 
-## Play Zooshi in Santa Tracker mode
+## Play Zooshi in Santa mode
 
 <div class="browser-android">
   If you have already installed Zooshi, just click the button below to launch
-  Zooshi in Santa Tracker mode!
+  Zooshi in Santa mode!
 
   \htmlonly
   <br>
   <a href="intent://google.github.io/zooshi/launch/default/santa#Intent;scheme=http;package=com.google.fpl.zooshi;end">
     <img src="zooshi_santa_button.png"
-        alt ="Click here to launch in Santa Tracker mode."
+        alt ="Click here to launch in Santa mode."
             style="height: 15em"/>
   </a>
   <br><br>
@@ -62,5 +62,5 @@ Zooshi.
 </div>
 <div class="browser-desktop">
   You must view this page on your Android device to launch Zooshi in Santa
-  Tracker mode! To play, please open this page on your Android device.
+  mode! To play, please open this page on your Android device.
 </div>
