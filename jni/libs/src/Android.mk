@@ -179,7 +179,7 @@ clean: clean_assets clean_generated_includes
 
 LOCAL_STATIC_LIBRARIES := \
   libbreadboard \
-  libmodule_library \
+  libbreadboard_module_library \
   libgpg \
   libmathfu \
   libwebp \
