@@ -181,9 +181,9 @@ endif()
 add_custom_target(assets
   COMMAND python ${CMAKE_CURRENT_LIST_DIR}/scripts/build_assets.py
   --copy_tree
-  src/rawassets/fonts assets/fonts
-  ${dependencies_flatui_dir}/assets/shaders assets/shaders
-  ${dependencies_fplbase_dir}/shaders assets/shaders
+  ${CMAKE_CURRENT_LIST_DIR}/src/rawassets/fonts ${CMAKE_BINARY_DIR}/assets/fonts
+  ${dependencies_flatui_dir}/assets/shaders ${CMAKE_BINARY_DIR}/assets/shaders
+  ${dependencies_fplbase_dir}/shaders ${CMAKE_BINARY_DIR}/assets/shaders
   --flatc $<TARGET_FILE:flatc>
   ${cwebp_option}
   --output ${CMAKE_BINARY_DIR}/assets
