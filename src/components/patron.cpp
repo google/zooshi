@@ -609,15 +609,19 @@ void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {
       patron_data->render_child, action);
 }
 
+// Note:  This function is static (because it's a collision handler) so we
+// have to explicitly get a pointer to a component if want to use component
+// methods.
 void PatronComponent::CollisionHandler(CollisionData* collision_data,
                                        void* user_data) {
   PatronComponent* patron_component = static_cast<PatronComponent*>(user_data);
-  corgi::ComponentId id = GetComponentId();
-  if (collision_data->this_entity->IsRegisteredForComponent(id)) {
+  if (patron_component->IsRegisteredWithComponent<PatronComponent>(
+          collision_data->this_entity)) {
     patron_component->HandleCollision(collision_data->this_entity,
                                       collision_data->other_entity,
                                       collision_data->this_tag);
-  } else if (collision_data->other_entity->IsRegisteredForComponent(id)) {
+  } else if (patron_component->IsRegisteredWithComponent<PatronComponent>(
+                 collision_data->other_entity)) {
     patron_component->HandleCollision(collision_data->other_entity,
                                       collision_data->this_entity,
                                       collision_data->other_tag);
