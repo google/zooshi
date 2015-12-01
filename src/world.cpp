@@ -56,7 +56,7 @@ void World::Initialize(const Config& config_,
                        breadboard::GraphFactory* graph_factory,
                        fplbase::Renderer* renderer, SceneLab* scene_lab) {
   entity_factory.reset(new corgi::component_library::DefaultEntityFactory());
-  motive::SmoothInit::Register();
+  motive::SplineInit::Register();
   motive::MatrixInit::Register();
   motive::RigInit::Register();
 

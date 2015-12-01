@@ -925,13 +925,13 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
       &entity_manager_->GetComponent<AnimationComponent>()->engine();
 
   patron_data->delta_position.InitializeWithTarget(
-      motive::SmoothInit(), motive_engine,
+      motive::SplineInit(), motive_engine,
       motive::Tar3f::CurrentToTarget(kZeros3f, kZeros3f, delta_position,
                                      kZeros3f, target_time_ms));
 
   const motive::Range angle_range(-motive::kPi, motive::kPi);
   patron_data->delta_face_angle.InitializeWithTarget(
-      motive::SmoothInit(angle_range, true), motive_engine,
+      motive::SplineInit(angle_range, true), motive_engine,
       motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(), 0.0f,
                                 target_time_ms));
 }
