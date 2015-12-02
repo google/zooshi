@@ -931,7 +931,7 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
 
   const motive::Range angle_range(-motive::kPi, motive::kPi);
   patron_data->delta_face_angle.InitializeWithTarget(
-      motive::SplineInit(angle_range, true), motive_engine,
+      motive::SplineInit(angle_range), motive_engine,
       motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(), 0.0f,
                                 target_time_ms));
 }
