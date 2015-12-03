@@ -145,7 +145,7 @@ endif()
 # Generate source files for all FlatBuffers schema files under the src
 # directory.
 set(FLATBUFFERS_GENERATED_INCLUDES_DIR
-    ${CMAKE_SOURCE_DIR}${CMAKE_FILES_DIRECTORY}/include)
+    ${CMAKE_SOURCE_DIR}/${CMAKE_FILES_DIRECTORY}/include/zooshi)
 file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_CURRENT_LIST_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
