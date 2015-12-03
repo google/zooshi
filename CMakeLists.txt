@@ -123,6 +123,8 @@ endif()
 
 # Include entities.
 if(NOT TARGET corgi)
+  # Don't build the CORGI tests. Just build CORGI itself.
+  set(corgi_build_tests OFF CACHE BOOL "")
   add_subdirectory("${dependencies_corgi_dir}" ${tmp_dir}/corgi)
 endif()
 
