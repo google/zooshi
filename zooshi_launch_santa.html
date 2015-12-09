@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>Zooshi: Building</title>
+<title>Zooshi: Zooshi Santa Mode</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -167,7 +167,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('zooshi_guide_building.html','');});
+$(document).ready(function(){initNavTree('zooshi_launch_santa.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -186,19 +186,50 @@ $(document).ready(function(){initNavTree('zooshi_guide_building.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Building </div>  </div>
+<div class="title">Zooshi Santa Mode </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Develpers can build the game from source for <a href="http://www.android.com">Android</a>, <a href="http://en.m.wikipedia.org/wiki/Linux">Linux</a>, <a href="http://www.apple.com/osx/">OS X</a> and <a href="http://windows.microsoft.com/">Windows</a>:</p>
-<ul>
-<li><a class="el" href="zooshi_guide_building_android.html">Building for Android</a></li>
-<li><a class="el" href="zooshi_guide_building_linux.html">Building for Linux</a></li>
-<li><a class="el" href="zooshi_guide_building_osx.html">Building for OS X</a></li>
-<li><a class="el" href="zooshi_guide_building_windows.html">Building for Windows</a></li>
-</ul>
-<p><br/>
- </p>
-</div></div><!-- contents -->
+<div class="textblock"> 
+<script>
+  /**
+   * Hides the doxygen generated sidebar on Android devices.
+   */
+  function hideSidebar() {
+    if (isAndroidDevice() && document) {
+      var sidebar = document.getElementById("side-nav");
+      var content = document.getElementById("doc-content");
+      if (sidebar) {
+        sidebar.style.display = "none";
+      }
+      if (content) {
+        content.style.margin = "0px";
+      }
+    }
+  }
+
+  $( document ).ready(hideSidebar);
+</script>
+<h2>Install Zooshi</h2>
+<p>Before you can play Zooshi in Santa mode, you have to install the game. If you have not done so already, please click on the button below to install Zooshi.</p>
+ 
+<a class="browser-android" href="market://details?id=com.google.fpl.zooshi">
+  <img src="install_button.png" alt="Click here to install."
+      style="height: 15em"/>
+</a>
+<a class="browser-desktop" href="https://play.google.com/store/apps/details?id=com.google.fpl.zooshi">
+  <img src="install_button.png" alt="Click here to install."
+      style="height: 15em"/>
+</a>
+<h2>Play Zooshi in Santa mode</h2>
+<div class="browser-android"> If you have already installed Zooshi, just click the button below to launch Zooshi in Santa mode!</div><div class="browser-android"> 
+  <br>
+  <a href="intent://google.github.io/zooshi/launch/default/santa#Intent;scheme=http;package=com.google.fpl.zooshi;end">
+    <img src="zooshi_santa_button.png"
+        alt ="Click here to launch in Santa mode."
+            style="height: 15em"/>
+  </a>
+  <br><br>
+  </div><div class="browser-android"> <em>Note: If you did not already install Zooshi from the link above, the button will take you to the <code>Play Store</code> to install Zooshi first. After installing, come back to this page and press the button again to launch in Santa mode</em> </div> <div class="browser-desktop"> You must view this page on your Android device to launch Zooshi in Santa mode! To play, please open this page on your Android device. </div> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- Google Analytics -->
 <script>
