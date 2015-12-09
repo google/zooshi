@@ -56,11 +56,11 @@
 
 #ifdef __ANDROID__
 #include "fplbase/renderer_android.h"
-#endif
+#endif  // __ANDROID__
 
 #ifdef ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
-#endif
+#endif  // ANDROID_HMD
 
 #define ZOOSHI_OVERDRAW_DEBUG 0
 // ZOOSHI_FORCE_ONSCREEN_CONTROLLER is useful when testing the on-screen
@@ -93,7 +93,7 @@ static const int kAndroidMaxScreenHeight = 720;
 
 static const int kAndroidTvMaxScreenWidth = 1920;
 static const int kAndroidTvMaxScreenHeight = 1080;
-#endif
+#endif  // __ANDROID__
 
 static const int kMinUpdateTime = 1000 / 60;
 static const int kMaxUpdateTime = 1000 / 30;
@@ -133,17 +133,35 @@ Game::Game()
   fplbase::SetLoadFileFunction(Game::LoadFile);
 }
 
+#ifdef __ANDROID__
+static bool UseHardwareScaling() {
+  std::string model = fplbase::DeviceModel();
+  // Currently we only disable hardware scaling on the Pixel C. We might extend
+  // this to other devices later.
+  return model != "Pixel C";
+}
+
+static vec2i GetWindowSize() {
+  if (UseHardwareScaling()) {
+    return vec2i(kAndroidMaxScreenWidth, kAndroidMaxScreenHeight);
+  } else {
+    return vec2i(std::numeric_limits<int>::max(),
+                 std::numeric_limits<int>::max());
+  }
+}
+#endif  // __ANDROID__
+
 // Initialize the 'renderer_' member. No other members have been initialized at
 // this point.
 bool Game::InitializeRenderer() {
 #ifdef __ANDROID__
-  vec2i window_size(kAndroidMaxScreenWidth, kAndroidMaxScreenHeight);
+  vec2i window_size = GetWindowSize();
   if (fplbase::IsTvDevice()) {
     window_size = vec2i(kAndroidTvMaxScreenWidth, kAndroidTvMaxScreenHeight);
   }
 #else
   vec2i window_size(1200, 800);
-#endif
+#endif  // __ANDROID__
   if (!renderer_.Initialize(window_size, GetConfig().window_title()->c_str())) {
     LogError("Renderer initialization error: %s\n",
              renderer_.last_error().c_str());
@@ -169,7 +187,7 @@ bool Game::InitializeRenderer() {
     // HW scaler setting was success. Clear retry counter.
     fplbase::SavePreference("HWScalerRetry", 0);
   }
-#endif
+#endif  // __ANDROID__
 
   renderer_.set_color(mathfu::kOnes4f);
   // Initialize the first frame as black.
@@ -180,14 +198,14 @@ bool Game::InitializeRenderer() {
   const vec2i viewport_size =
       size.x() && size.y() ? size : renderer_.window_size();
   fplbase::InitializeUndistortFramebuffer(viewport_size.x(), viewport_size.y());
-#endif
+#endif  // ANDROID_HMD
 
 #if ZOOSHI_OVERDRAW_DEBUG
   renderer_.SetBlendMode(BlendMode::kBlendModeAdd);
   renderer_.force_blend_mode() = BlendMode::kBlendModeAdd;
   renderer_.override_pixel_shader() =
       "void main() { gl_FragColor = vec4(0.2, 0.2, 0.2, 1); }";
-#endif
+#endif  // ZOOSHI_OVERDRAW_DEBUG
 
   return true;
 }
@@ -420,7 +438,7 @@ bool Game::Initialize(const char* const binary_directory) {
     controller->set_input_system(&input_);
     world_.AddController(controller);
   }
-#endif
+#endif  // ANDROID_GAMEPAD
 
   world_renderer_.Initialize(&world_);
 
@@ -540,7 +558,7 @@ static int UpdateThread(void* data) {
   args.group =
       nullptr;  // you might want to assign the java thread to a ThreadGroup
   jvm->AttachCurrentThread(&update_env, &args);
-#endif  //__ANDROID__
+#endif  // __ANDROID__
 
   SDL_LockMutex(sync.updatethread_mutex_);
   while (!*(rt_data->game_exiting)) {
@@ -574,7 +592,7 @@ static int UpdateThread(void* data) {
 
 #ifdef __ANDROID__
   jvm->DetachCurrentThread();
-#endif  //__ANDROID__
+#endif  // __ANDROID__
   SDL_UnlockMutex(sync.updatethread_mutex_);
 
   return 0;
@@ -631,7 +649,7 @@ void Game::Run() {
     histogram[i] = 0;
   }
   last_printout = 0;
-#endif
+#endif  // DISPLAY_FRAMERATE_HISTOGRAM
 
   // variables used for regulating our framerate:
   // Total size of our history, in frames:
@@ -658,7 +676,7 @@ void Game::Run() {
     LogError("Error creating vsync simulator thread.");
     assert(false);
   }
-#endif
+#endif  // __ANDROID__
   int last_frame_id = 0;
 
   // We basically own the lock all the time, except when we're waiting
@@ -669,7 +687,7 @@ void Game::Run() {
     int current_frame_id = fplbase::GetVsyncFrameId();
 #else
     int current_frame_id = 0;
-#endif
+#endif  // __ANDROID__
     // Update our framerate history:
     // The oldest value falls off and is replaced with the most recent frame.
     // Also, we update our counts.
@@ -766,7 +784,7 @@ void Game::Run() {
     int frame_time = new_time - rt_data.frame_start;
 #if DISPLAY_FRAMERATE_HISTOGRAM
     UpdateProfiling(frame_time);
-#endif
+#endif  // DISPLAY_FRAMERATE_HISTOGRAM
 
     SystraceCounter("FrameTime", frame_time);
   }
@@ -774,7 +792,7 @@ void Game::Run() {
 // Clean up asynchronous callbacks to prevent crashing on garbage data.
 #ifdef __ANDROID__
   fplbase::RegisterVsyncCallback(nullptr);
-#endif
+#endif  // __ANDROID__
   input_.AddAppEventCallback(nullptr);
 }
 
@@ -835,7 +853,7 @@ void Game::UpdateProfiling(corgi::WorldTime frame_time) {
     LogInfo("---------------------------------");
   }
 }
-#endif
+#endif  // DISPLAY_FRAMERATE_HISTOGRAM
 
 bool Game::LoadFile(const char* filename, std::string* dest) {
   const char* read_filename = filename;
