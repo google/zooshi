@@ -279,9 +279,10 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     // side == distance along `track_normal`
     // up == distance along kAxisZ3f
     for (size_t j = 0; j < num_bank_contours; ++j) {
+      flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(j);
       const RiverBankContour* b = (current_zone->banks() != nullptr)
-                                      ? current_zone->banks()->Get(j)
-                                      : river->default_banks()->Get(j);
+                                      ? current_zone->banks()->Get(index)
+                                      : river->default_banks()->Get(index);
       offsets[j] =
           vec2(mathfu::Lerp(b->x_min(), b->x_max(), mathfu::Random<float>()),
                mathfu::Lerp(b->z_min(), b->z_max(), mathfu::Random<float>()));
@@ -370,7 +371,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     };
 
     // River only has one quad per segment.
-    make_quad(river_indices, 2 * i, 0, 2);
+    make_quad(river_indices, 2 * static_cast<int>(i), 0, 2);
 
     // Case when kNumBankCountours = 8, and river_idx = 3;
     //
@@ -382,9 +383,9 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
       // Do not create bank geo for the river.
       if (j == river_idx) continue;
       unsigned int zone = bank_zones[i];
-      int base_index = i * num_bank_contours;
-      int offset1 = j;
-      int offset2 = num_bank_contours + j;
+      int base_index = static_cast<int>(i * num_bank_contours);
+      int offset1 = static_cast<int>(j);
+      int offset2 = static_cast<int>(num_bank_contours + j);
       make_quad(bank_indices, base_index, offset1, offset2);
       make_quad(bank_indices_by_zone[zone], base_index, offset1, offset2);
 
@@ -408,17 +409,20 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   assert(bank_verts.size() == bank_vert_max);
 
   Mesh::ComputeNormalsTangents(bank_verts.data(), bank_indices.data(),
-                               bank_verts.size(), bank_indices.size());
+                               static_cast<int>(bank_verts.size()),
+                               static_cast<int>(bank_indices.size()));
 
   // Load the material from files.
   Material* river_material =
       asset_manager->LoadMaterial(river->material()->c_str());
   // Create the actual mesh objects, and stuff all the data we just
   // generated into it.
-  Mesh* river_mesh = new Mesh(river_verts.data(), river_verts.size(),
-                              sizeof(NormalMappedVertex), kMeshFormat);
+  Mesh* river_mesh =
+      new Mesh(river_verts.data(), static_cast<int>(river_verts.size()),
+               static_cast<int>(sizeof(NormalMappedVertex)), kMeshFormat);
 
-  river_mesh->AddIndices(river_indices.data(), river_indices.size(),
+  river_mesh->AddIndices(river_indices.data(),
+                         static_cast<int>(river_indices.size()),
                          river_material);
 
   // Add the river mesh to the river entity.
@@ -439,11 +443,12 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
         river->zones()->Get(zone)->material()->c_str());
 
     Mesh* bank_mesh =
-        new Mesh(bank_verts.data(), bank_verts.size(),
+        new Mesh(bank_verts.data(), static_cast<int>(bank_verts.size()),
                  sizeof(NormalMappedColorVertex), kBankMeshFormat);
 
     bank_mesh->AddIndices(bank_indices_by_zone[zone].data(),
-                          bank_indices_by_zone[zone].size(), bank_material);
+                          static_cast<int>(bank_indices_by_zone[zone].size()),
+                          bank_material);
     if (!river_data->banks[zone]) {
       // Now we make a new entity to hold the bank mesh.
       river_data->banks[zone] = entity_manager_->AllocateNewEntity();

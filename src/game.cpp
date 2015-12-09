@@ -220,14 +220,17 @@ bool Game::InitializeAssets() {
   asset_manager_.LoadMaterial(asset_manifest.loading_material()->c_str());
   asset_manager_.LoadMaterial(asset_manifest.fader_material()->c_str());
   for (size_t i = 0; i < asset_manifest.mesh_list()->size(); i++) {
-    asset_manager_.LoadMesh(asset_manifest.mesh_list()->Get(i)->c_str());
+    flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
+    asset_manager_.LoadMesh(asset_manifest.mesh_list()->Get(index)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.shader_list()->size(); i++) {
-    asset_manager_.LoadShader(asset_manifest.shader_list()->Get(i)->c_str());
+    flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
+    asset_manager_.LoadShader(asset_manifest.shader_list()->Get(index)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
+    flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
     asset_manager_.LoadMaterial(
-        asset_manifest.material_list()->Get(i)->c_str());
+        asset_manifest.material_list()->Get(index)->c_str());
   }
   asset_manager_.StartLoadingTextures();
 
@@ -358,7 +361,8 @@ bool Game::Initialize(const char* const binary_directory) {
   InitializeBreadboardModules();
 
   for (size_t i = 0; i < asset_manifest.font_list()->size(); i++) {
-    font_manager_.Open(asset_manifest.font_list()->Get(i)->c_str());
+    flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
+    font_manager_.Open(asset_manifest.font_list()->Get(index)->c_str());
   }
   font_manager_.SetRenderer(renderer_);
 

@@ -219,7 +219,8 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
   world->entity_manager.DeleteMarkedEntities();
   assert(world->entity_manager.begin() == world->entity_manager.end());
   for (size_t i = 0; i < world_def->entity_files()->size(); i++) {
-    const char* filename = world_def->entity_files()->Get(i)->c_str();
+    flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
+    const char* filename = world_def->entity_files()->Get(index)->c_str();
     world->entity_factory->LoadEntitiesFromFile(filename,
                                                 &world->entity_manager);
   }

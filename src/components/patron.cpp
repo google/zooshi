@@ -127,7 +127,8 @@ void PatronComponent::AddFromRawData(corgi::EntityRef& entity,
   if (patron_def->events()) {
     patron_data->events.resize(patron_def->events()->size());
     for (size_t i = 0; i < patron_def->events()->size(); ++i) {
-      auto event = patron_def->events()->Get(i);
+      flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
+      auto event = patron_def->events()->Get(index);
       patron_data->events[i] = PatronEvent(event->action(), event->time());
     }
   }
