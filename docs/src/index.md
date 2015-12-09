@@ -10,7 +10,7 @@ in cross-platform C++.
 
 \htmlonly
 <iframe width="560" height="315"
-    src="https://www.youtube.com/embed/4uqMOQZBkE0"
+    src="https://www.youtube.com/embed/3B5KCE3AC6Y"
     frameborder="0" allowfullscreen>
 </iframe>
 \endhtmlonly

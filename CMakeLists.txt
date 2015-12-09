@@ -18,7 +18,8 @@ project(zooshi)
 # Compile the game with the debug flag
 set(ZOOSHI_DEBUG ON)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -28,14 +29,14 @@ set(tmp_dir ${CMAKE_BINARY_DIR}/obj)
 # Directory which contains the source for 3rd party libraries.
 if(NOT DEFINED third_party_root)
   get_filename_component(
-    third_party_root "${CMAKE_CURRENT_SOURCE_DIR}/../../../../external"
+    third_party_root "${CMAKE_CURRENT_LIST_DIR}/../../../../external"
     REALPATH)
 endif()
 
 # Directory which contains source for FPL libraries.
 if(NOT DEFINED fpl_root)
   get_filename_component(
-      fpl_root "${CMAKE_CURRENT_SOURCE_DIR}/../../libs" REALPATH)
+      fpl_root "${CMAKE_CURRENT_LIST_DIR}/../../libs" REALPATH)
 endif()
 
 # If the dependencies directory exists, assume this is the root directory for
@@ -81,27 +82,24 @@ set(dependencies_corgi_component_library_dir
 # Option to enable / disable the build of cwebp from source.
 option(zooshi_build_cwebp "Build cwebp from source." OFF)
 
-# Option to only build flatc
-option(zooshi_only_flatc "Only build FlatBuffers compiler." OFF)
-
 # Option to output profiling numbers on motive.
 option(zooshi_profile_motive "Output motive profiling stats." OFF)
 
 # Include pindrop.
-if(NOT zooshi_only_flatc AND NOT TARGET pindrop)
-  set(pindrop_build_demo OFF CACHE BOOL "")
+if(NOT TARGET pindrop)
+  set(pindrop_build_sample OFF CACHE BOOL "")
   set(pindrop_build_tests OFF CACHE BOOL "")
   set(pindrop_async_loading ON CACHE BOOL "")
   add_subdirectory("${dependencies_pindrop_dir}" ${tmp_dir}/pindrop)
 endif()
 
 # Include breadboard.
-if(NOT zooshi_only_flatc AND NOT TARGET breadboard)
+if(NOT TARGET breadboard)
   add_subdirectory("${dependencies_breadboard_dir}" ${tmp_dir}/breadboard)
 endif()
 
 # Include motive.
-if(NOT zooshi_only_flatc AND NOT TARGET motive)
+if(NOT TARGET motive)
   set(motive_build_samples OFF CACHE BOOL "")
   set(motive_build_tests OFF CACHE BOOL "")
   if(zooshi_profile_motive)
@@ -112,7 +110,7 @@ if(NOT zooshi_only_flatc AND NOT TARGET motive)
 endif()
 
 # Include fplbase.
-if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
+if(NOT TARGET fplbase)
   # By default, don't build the mesh_pipeline. Use the one that's prebuilt.
   # We do this to avoid having to install the FBX SDK.
   set(fplbase_build_mesh_pipeline OFF CACHE BOOL "")
@@ -124,17 +122,19 @@ if(NOT zooshi_only_flatc AND NOT TARGET fplbase)
 endif()
 
 # Include entities.
-if(NOT zooshi_only_flatc AND NOT TARGET corgi)
+if(NOT TARGET corgi)
+  # Don't build the CORGI tests. Just build CORGI itself.
+  set(corgi_build_tests OFF CACHE BOOL "")
   add_subdirectory("${dependencies_corgi_dir}" ${tmp_dir}/corgi)
 endif()
 
 # Include FlatUI.
-if(NOT zooshi_only_flatc AND NOT TARGET flatui)
+if(NOT TARGET flatui)
   add_subdirectory("${dependencies_flatui_dir}" ${tmp_dir}/flatui)
 endif()
 
 # Include Scene Lab.
-if(NOT zooshi_only_flatc AND NOT TARGET scene_lab)
+if(NOT TARGET scene_lab)
   add_subdirectory("${dependencies_scene_lab_dir}" ${tmp_dir}/scene_lab)
 endif()
 
@@ -147,8 +147,8 @@ endif()
 # Generate source files for all FlatBuffers schema files under the src
 # directory.
 set(FLATBUFFERS_GENERATED_INCLUDES_DIR
-    ${CMAKE_SOURCE_DIR}${CMAKE_FILES_DIRECTORY}/include)
-file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_SOURCE_DIR}/src/*.fbs)
+    ${CMAKE_SOURCE_DIR}/${CMAKE_FILES_DIRECTORY}/include/zooshi)
+file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_CURRENT_LIST_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
     ${dependencies_corgi_component_library_dir}/schemas
@@ -173,37 +173,23 @@ build_flatbuffers("${FLATBUFFERS_SCHEMAS}"
                   "${CMAKE_BINARY_DIR}/assets/flatbufferschemas/"
                   "${CMAKE_BINARY_DIR}/assets/flatbufferschemas/")
 
-if(NOT zooshi_only_flatc)
-  # If building cwebp then pass in the location.
-  if(zooshi_build_cwebp)
-    get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
-    set(cwebp_option --cwebp ${cwebp_location})
-    set(cwebp_depends cwebp)
-  endif()
-
-  add_custom_target(assets
-    COMMAND python ${CMAKE_SOURCE_DIR}/scripts/build_assets.py
-    --flatc $<TARGET_FILE:flatc>
-    ${cwebp_option}
-    --output ${CMAKE_BINARY_DIR}/assets
-    DEPENDS flatc ${cwebp_depends})
-
-  # Copy FlatUI and fplbase shaders
-  add_custom_command(TARGET assets POST_BUILD
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                         ${dependencies_flatui_dir}/assets/shaders
-                         ${CMAKE_BINARY_DIR}/assets/shaders)
-  add_custom_command(TARGET assets POST_BUILD
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                         ${dependencies_fplbase_dir}/shaders
-                         ${CMAKE_BINARY_DIR}/assets/shaders)
-
-  # Copy Font resource files
-  add_custom_command(TARGET assets POST_BUILD
-                     COMMAND ${CMAKE_COMMAND} -E copy_directory
-                         ${CMAKE_SOURCE_DIR}/src/rawassets/fonts
-                         ${CMAKE_BINARY_DIR}/assets/fonts)
+# If building cwebp then pass in the location.
+if(zooshi_build_cwebp)
+  get_property(cwebp_location TARGET cwebp PROPERTY LOCATION)
+  set(cwebp_option --cwebp ${cwebp_location})
+  set(cwebp_depends cwebp)
 endif()
+
+add_custom_target(assets
+  COMMAND python ${CMAKE_CURRENT_LIST_DIR}/scripts/build_assets.py
+  --copy_tree
+  ${CMAKE_CURRENT_LIST_DIR}/src/rawassets/fonts ${CMAKE_BINARY_DIR}/assets/fonts
+  ${dependencies_flatui_dir}/assets/shaders ${CMAKE_BINARY_DIR}/assets/shaders
+  ${dependencies_fplbase_dir}/shaders ${CMAKE_BINARY_DIR}/assets/shaders
+  --flatc $<TARGET_FILE:flatc>
+  ${cwebp_option}
+  --output ${CMAKE_BINARY_DIR}/assets
+  DEPENDS flatc ${cwebp_depends})
 
 # zooshi source files.
 set(zooshi_SRCS
@@ -348,7 +334,7 @@ include_directories(${dependencies_scene_lab_dir}/include)
 include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
 
 # Detect clang
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
   set(CMAKE_COMPILER_IS_CLANGXX 1)
 endif()
 
@@ -384,11 +370,9 @@ endif()
 # Executable target.
 add_executable(zooshi ${zooshi_SRCS})
 
-if(NOT zooshi_only_flatc)
-  # Additional flags for the target.
-  mathfu_configure_flags(zooshi)
-  breadboard_module_library_configure_flags(zooshi)
-endif()
+# Additional flags for the target.
+mathfu_configure_flags(zooshi)
+breadboard_module_library_configure_flags(zooshi)
 
 # Dependencies for the executable target.
 add_dependencies(zooshi zooshi_generated_includes assets)
@@ -400,12 +384,12 @@ target_link_libraries(zooshi
   breadboard
   corgi
   corgi_component_library
-  module_library
+  breadboard_module_library
   scene_lab
   pindrop)
 
 # Create a zipped tar of all the necessary files to run the game.
 add_custom_target(export
-  COMMAND python ${CMAKE_SOURCE_DIR}/scripts/export.py
+  COMMAND python ${CMAKE_CURRENT_LIST_DIR}/scripts/export.py
   DEPENDS zooshi)
 

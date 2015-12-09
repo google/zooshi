@@ -127,7 +127,8 @@ void PatronComponent::AddFromRawData(corgi::EntityRef& entity,
   if (patron_def->events()) {
     patron_data->events.resize(patron_def->events()->size());
     for (size_t i = 0; i < patron_def->events()->size(); ++i) {
-      auto event = patron_def->events()->Get(i);
+      flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
+      auto event = patron_def->events()->Get(index);
       patron_data->events[i] = PatronEvent(event->action(), event->time());
     }
   }
@@ -279,7 +280,7 @@ void PatronComponent::PostLoadFixup() {
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
-      rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+      rail_denizen_data->SetSplinePlaybackRate(0.0f);
     }
   }
 }
@@ -517,13 +518,11 @@ void PatronComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
       SetState(kPatronStateFalling, patron_data);
       Animate(patron_data, PatronAction_Fall);
 
-      auto physics_component =
-          entity_manager_->GetComponent<PhysicsComponent>();
-      physics_component->DisablePhysics(patron);
+      entity_manager_->GetComponent<PhysicsComponent>()->DisablePhysics(patron);
       auto rail_denizen_data = Data<RailDenizenData>(patron);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
-        rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+        rail_denizen_data->SetSplinePlaybackRate(0.0f);
       }
     }
 
@@ -611,15 +610,19 @@ void PatronComponent::Animate(PatronData* patron_data, PatronAction action) {
       patron_data->render_child, action);
 }
 
+// Note:  This function is static (because it's a collision handler) so we
+// have to explicitly get a pointer to a component if want to use component
+// methods.
 void PatronComponent::CollisionHandler(CollisionData* collision_data,
                                        void* user_data) {
   PatronComponent* patron_component = static_cast<PatronComponent*>(user_data);
-  corgi::ComponentId id = GetComponentId();
-  if (collision_data->this_entity->IsRegisteredForComponent(id)) {
+  if (patron_component->IsRegisteredWithComponent<PatronComponent>(
+          collision_data->this_entity)) {
     patron_component->HandleCollision(collision_data->this_entity,
                                       collision_data->other_entity,
                                       collision_data->this_tag);
-  } else if (collision_data->other_entity->IsRegisteredForComponent(id)) {
+  } else if (patron_component->IsRegisteredWithComponent<PatronComponent>(
+                 collision_data->other_entity)) {
     patron_component->HandleCollision(collision_data->other_entity,
                                       collision_data->this_entity,
                                       collision_data->other_tag);
@@ -654,7 +657,7 @@ void PatronComponent::HandleCollision(const corgi::EntityRef& patron_entity,
       auto rail_denizen_data = Data<RailDenizenData>(patron_entity);
       if (rail_denizen_data != nullptr) {
         rail_denizen_data->enabled = false;
-        rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+        rail_denizen_data->SetSplinePlaybackRate(0.0f);
       }
       SpawnPointDisplay(patron_entity);
       // Delete the projectile, as it has been consumed.
@@ -893,7 +896,7 @@ void PatronComponent::FindProjectileAndCatch(const EntityRef& patron) {
     RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
     if (rail_denizen_data != nullptr) {
       rail_denizen_data->enabled = false;
-      rail_denizen_data->motivator.SetSplinePlaybackRate(0.0f);
+      rail_denizen_data->SetSplinePlaybackRate(0.0f);
     }
   }
 }
@@ -923,13 +926,13 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
       &entity_manager_->GetComponent<AnimationComponent>()->engine();
 
   patron_data->delta_position.InitializeWithTarget(
-      motive::SmoothInit(), motive_engine,
+      motive::SplineInit(), motive_engine,
       motive::Tar3f::CurrentToTarget(kZeros3f, kZeros3f, delta_position,
                                      kZeros3f, target_time_ms));
 
   const motive::Range angle_range(-motive::kPi, motive::kPi);
   patron_data->delta_face_angle.InitializeWithTarget(
-      motive::SmoothInit(angle_range, true), motive_engine,
+      motive::SplineInit(angle_range, true), motive_engine,
       motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(), 0.0f,
                                 target_time_ms));
 }

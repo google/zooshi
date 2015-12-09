@@ -15,8 +15,7 @@
 #ifndef ZOOSHI_MOUSECONTROLLER_H
 #define ZOOSHI_MOUSECONTROLLER_H
 
-#include "mathfu/glsl_mappings.h"
-#include "mathfu/constants.h"
+#include "mathfu/utilities.h"
 #include "inputcontrollers/base_player_controller.h"
 
 namespace fpl {
@@ -27,6 +26,7 @@ class MouseController : public BasePlayerController {
   virtual ~MouseController() {}
 
   virtual void Update();
+  MATHFU_DEFINE_CLASS_SIMD_AWARE_NEW_DELETE
 
  private:
   void UpdateFacing();

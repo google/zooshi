@@ -49,7 +49,7 @@ void Rail::Initialize(const RailDef *rail_def, float spline_granularity) {
 void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
                                    float spline_granularity,
                                    float reliable_distance, float total_time) {
-  const int num_positions = positions.size();
+  const size_t num_positions = positions.size();
   std::vector<float> times;
   std::vector<vec3_packed> derivatives;
   times.resize(num_positions);
@@ -57,8 +57,8 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
 
   // Calculate derivates and times from positions.
   motive::CalculateConstSpeedCurveFromPositions<3>(
-      &positions[0], num_positions, total_time, reliable_distance, &times[0],
-      &derivatives[0]);
+      &positions[0], static_cast<int>(num_positions), total_time,
+      reliable_distance, &times[0], &derivatives[0]);
 
   // Get position extremes.
   vec3 position_min(std::numeric_limits<float>::infinity());
@@ -81,7 +81,7 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
   // Initialize the splines. For now, the splines all have key points at the
   // same time values, but this is a limitation that we can (and should) lift
   // to maximize compression.
-  for (int k = 0; k < num_positions; ++k) {
+  for (size_t k = 0; k < num_positions; ++k) {
     const float t = times[k];
     const vec3 position(positions[k]);
     const vec3 derivative(derivatives[k]);

@@ -76,6 +76,7 @@ struct World {
   World()
       : draw_debug_physics(false),
         skip_rendermesh_rendering(false),
+        is_single_stepping(false),
         is_in_cardboard_(false) {
 #ifdef ANDROID_HMD
     hmd_controller = nullptr;
@@ -191,6 +192,8 @@ struct World {
     return false;
 #endif  // ANDROID_HMD
   }
+
+  bool is_single_stepping;
 
  private:
   // Determines if the game is in Cardboard mode (for special rendering).

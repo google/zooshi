@@ -232,7 +232,8 @@ def main():
       png_files_to_convert=png_files_to_convert,
       anim_files_to_convert=anim_files_to_convert,
       fbx_files_to_convert=fbx_files_to_convert,
-      flatbuffers_conversion_data=lambda: FLATBUFFERS_CONVERSION_DATA)
+      flatbuffers_conversion_data=lambda: FLATBUFFERS_CONVERSION_DATA,
+      schema_output_path='flatbufferschemas')
 
 
 if __name__ == '__main__':

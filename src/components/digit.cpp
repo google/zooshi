@@ -68,7 +68,8 @@ void DigitComponent::AddFromRawData(corgi::EntityRef& entity,
   }
   if (digit_def->render_pass() != nullptr) {
     for (size_t i = 0; i < digit_def->render_pass()->size(); i++) {
-      int render_pass = digit_def->render_pass()->Get(i);
+      flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
+      int render_pass = digit_def->render_pass()->Get(index);
       assert(render_pass < corgi::RenderPass_Count);
       render_mesh_data->pass_mask |= 1 << render_pass;
     }
