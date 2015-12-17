@@ -21,6 +21,7 @@
 #include "corgi_component_library/rendermesh.h"
 #include "corgi_component_library/transform.h"
 #include "mathfu/glsl_mappings.h"
+#include "motive/io/flatbuffers.h"
 #include "world.h"
 
 CORGI_DEFINE_COMPONENT(fpl::zooshi::SceneryComponent, fpl::zooshi::SceneryData)
@@ -35,6 +36,7 @@ using corgi::component_library::TransformComponent;
 using corgi::component_library::TransformData;
 using corgi::EntityRef;
 using scene_lab::SceneLab;
+using mathfu::quat;
 using mathfu::vec3;
 using mathfu::kZeros3f;
 
@@ -56,6 +58,10 @@ void SceneryComponent::AddFromRawData(corgi::EntityRef& scenery,
   auto scenery_def = static_cast<const SceneryDef*>(raw_data);
   SceneryData* scenery_data = AddEntity(scenery);
   scenery_data->anim_object = scenery_def->anim_object();
+  // Trees should rotate to face the player.
+  if (scenery_def->faces_raft()) {
+    scenery_data->move_state = kSceneryMoveFaceRaft;
+  }
 }
 
 corgi::ComponentInterface::RawDataUniquePtr SceneryComponent::ExportRawData(
@@ -288,12 +294,71 @@ void SceneryComponent::ApplyShowOverride(const corgi::EntityRef& scenery,
   }
 }
 
+void SceneryComponent::FaceRaft(const corgi::EntityRef& scenery) {
+  const EntityRef raft =
+      entity_manager_->GetComponent<ServicesComponent>()->raft_entity();
+  TransformData* raft_transform = Data<TransformData>(raft);
+  vec3 raft_position = raft_transform->position;
+
+  const TransformData* scenery_transform = Data<TransformData>(scenery);
+  SceneryData* scenery_data = Data<SceneryData>(scenery);
+
+  const motive::Angle face_angle(
+    scenery_transform->orientation.ToEulerAngles().z());
+  const motive::Angle to_raft(
+    motive::Angle::FromYXVector(raft_position - scenery_transform->position));
+
+  const motive::Angle delta_face_angle(to_raft - face_angle);
+  const motive::Angle max_angle =
+      motive::Angle::FromRadians(motive::kQuarterPi);
+
+  if (delta_face_angle.Abs() > max_angle) {
+    // Set delta movement Motivator.
+    scenery_data->prev_delta_face_angle = motive::Angle(0.0f);
+
+    motive::OvershootInit init;
+    auto scenery_face_angle_def = config_->scenery_face_angle_def();
+    motive::OvershootInitFromFlatBuffers(*scenery_face_angle_def, &init);
+
+    motive::MotiveEngine* motive_engine =
+        &entity_manager_->GetComponent<AnimationComponent>()->engine();
+
+    scenery_data->delta_face_angle.InitializeWithTarget(
+        init, motive_engine,
+        motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(),
+                                  0.0f, 50.0));
+  }
+}
+
+void SceneryComponent::UpdateMovement(const corgi::EntityRef& scenery) {
+  TransformData* transform_data = Data<TransformData>(scenery);
+  SceneryData* scenery_data = Data<SceneryData>(scenery);
+
+  // Add on delta to angle.
+  if (scenery_data->delta_face_angle.Valid()) {
+    const motive::Angle delta_face_angle(
+        scenery_data->delta_face_angle.Value());
+    const motive::Angle delta =
+        delta_face_angle - scenery_data->prev_delta_face_angle;
+    transform_data->orientation =
+        transform_data->orientation *
+        quat::FromAngleAxis(delta.ToRadians(), mathfu::kAxisZ3f);
+    scenery_data->prev_delta_face_angle = delta_face_angle;
+  }
+}
+
 void SceneryComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   const RailDenizenData& raft = Raft();
   for (auto iter = component_data_.begin(); iter != component_data_.end();
        ++iter) {
     corgi::EntityRef scenery = iter->entity;
     const SceneryData* scenery_data = Data<SceneryData>(scenery);
+
+    UpdateMovement(scenery);
+
+    if (scenery_data->move_state == kSceneryMoveFaceRaft) {
+      FaceRaft(scenery);
+    }
 
     // Execute state machine for each piece of scenery.
     const SceneryState next_state = NextState(scenery, raft);

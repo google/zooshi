@@ -58,6 +58,7 @@ void World::Initialize(const Config& config_,
   entity_factory.reset(new corgi::component_library::DefaultEntityFactory());
   motive::SplineInit::Register();
   motive::MatrixInit::Register();
+  motive::OvershootInit::Register();
   motive::RigInit::Register();
 
   asset_manager = asset_mgr;

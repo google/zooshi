@@ -2140,7 +2140,8 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]
@@ -3454,7 +3455,8 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]
@@ -3508,7 +3510,8 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]
@@ -3563,7 +3566,8 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]

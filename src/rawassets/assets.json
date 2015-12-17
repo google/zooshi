@@ -167,7 +167,7 @@
           "anims/scenery_disappear.motiveanim",   // kSceneryDisappear
           "anims/gate_open.motiveanim",           // extra animation
         ]
-      }
+      },
     ]
   },
   "font_list": [

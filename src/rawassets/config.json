@@ -205,6 +205,20 @@
     "binary_entity_file_ext": "zooentity"
   },
 
+  "scenery_face_angle_def": {
+    "base": {
+      "modular": true,
+      "min": -3.14159265359,
+      "max": 3.14159265359
+    },
+    "max_velocity": 0.0126,
+    "max_delta": 3.141,
+    "at_target": { "max_difference": 0.03, "max_velocity": 0.0001 },
+    "acceleration_per_difference": 0.000192,
+    "wrong_direction_acceleration_multiplier": 6.0,
+    "max_delta_time": 20
+  },
+
   "world_def": {
     "entity_files": [
       "entity_rails.zooentity",

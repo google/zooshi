@@ -229,6 +229,9 @@ table Config {
 
   // GPG configuration.
   gpg_config:GPGConfig;
+
+  // Overshoot parameters for rotating scenery.
+  scenery_face_angle_def:motive.OvershootParameters;
 }
 
 root_type Config;

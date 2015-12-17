@@ -17,6 +17,7 @@ include "bullet_def.fbs";
 include "common.fbs";
 include "library_components.fbs";
 include "editor_components.fbs";
+include "motive.fbs";
 
 namespace fpl;
 
@@ -38,6 +39,10 @@ table RailDenizenDef {
   update_orientation:bool = true;
   inherit_transform_data:bool = false;
   enabled:bool = true;
+}
+
+table MotivatorObjectDef {
+  data:motive.OvershootParameters;
 }
 
 table SoundDef {
@@ -242,6 +247,9 @@ table LapDependentDef {
 table SceneryDef {
   // The type of scenery being animated.
   anim_object:AnimObject;
+
+  // Whether scenery should rotate to face raft.
+  faces_raft:bool=false;
 }
 
 // No data, (never loaded from raw data) but we need it to be a thing so that it
