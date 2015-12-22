@@ -24,7 +24,7 @@ distribution's package manager:
 
 -    [autoconf][], [automake][], and [libtool][]
 -    [cmake][] (You can also manually install from [cmake.org][].)
--    [cwebp][]
+-    [cwebp][] (`webp`)
 -    [GLU][] (`libglu1-mesa-dev`)
 -    [ImageMagick][]
 -    [OpenGL][] (`libglapi-mesa`)
