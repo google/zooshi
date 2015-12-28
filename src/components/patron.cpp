@@ -341,11 +341,9 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
   }
 
   if (patron_data->move_state == kPatronMoveStateMoveToTarget) {
+    // Wait at target before returning to idle position.
     if (ShouldReturnToIdle(patron)) {
-      const vec3 raft_position = RaftPosition();
-      const motive::Angle return_angle = motive::Angle::FromYXVector(
-          raft_position - patron_data->return_position);
-      MoveToTarget(patron, patron_data->return_position, return_angle,
+      MoveToTarget(patron, patron_data->return_position, ReturnAngle(patron),
                    patron_data->return_time);
       SetMoveState(kPatronMoveStateReturn, patron_data);
     }
@@ -959,6 +957,23 @@ bool PatronComponent::ShouldReturnToIdle(const corgi::EntityRef& patron) const {
   }
   // If all the checks fail, assume something is wrong, and return to idle.
   return true;
+}
+
+motive::Angle PatronComponent::ReturnAngle(
+    const corgi::EntityRef& patron) const {
+  const PatronData* patron_data = Data<PatronData>(patron);
+  const RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
+
+  if (rail_denizen_data != nullptr) {
+    // Patron moves on rails, so rotate towards rail orientation.
+    return motive::Angle(
+        rail_denizen_data->rail_orientation.ToEulerAngles().z());
+  } else {
+    // Rotate towards previous idle position.
+    const vec3 raft_position = RaftPosition();
+    return motive::Angle::FromYXVector(
+        raft_position - patron_data->return_position);
+  }
 }
 
 }  // zooshi

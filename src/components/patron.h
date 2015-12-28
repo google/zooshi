@@ -333,6 +333,7 @@ class PatronComponent : public corgi::Component<PatronData> {
                     motive::Angle target_face_angle, float target_time);
   bool ShouldReturnToIdle(const corgi::EntityRef& patron) const;
   void FaceRaft(const corgi::EntityRef& patron);
+  motive::Angle ReturnAngle(const corgi::EntityRef& patron) const;
 
   const Config* config_;
 
