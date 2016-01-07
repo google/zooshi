@@ -168,8 +168,8 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
-void GameMenuState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void GameMenuState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void GameMenuState::Render(fplbase::Renderer* renderer) {

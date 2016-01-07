@@ -84,13 +84,12 @@ void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
     world->render_mesh_component.RenderPass(pass, light_camera_,
                                             renderer, depth_shader_);
   }
+
+  fplbase::RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
 }
 
 void WorldRenderer::RenderPrep(const corgi::CameraInterface& camera,
-                               fplbase::Renderer& renderer, World* world) {
-  if (world->config->rendering_config()->create_shadow_map()) {
-    CreateShadowMap(camera, renderer, world);
-  }
+                               World* world) {
   world->render_mesh_component.RenderPrep(camera);
 }
 
@@ -134,6 +133,10 @@ void WorldRenderer::SetFogUniforms(fplbase::Shader* shader, World* world) {
 
 void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
                                 fplbase::Renderer& renderer, World* world) {
+  if (world->config->rendering_config()->create_shadow_map()) {
+    CreateShadowMap(camera, renderer, world);
+  }
+
   mat4 camera_transform = camera.GetTransformMatrix();
   renderer.set_color(mathfu::kOnes4f);
   renderer.DepthTest(true);

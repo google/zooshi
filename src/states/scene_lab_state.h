@@ -50,7 +50,7 @@ class SceneLabState : public StateNode {
                   scene_lab::SceneLab* scene_lab, World* world);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);

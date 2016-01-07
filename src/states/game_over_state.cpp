@@ -94,8 +94,8 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
-void GameOverState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void GameOverState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void GameOverState::Render(fplbase::Renderer* renderer) {

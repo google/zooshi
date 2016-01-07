@@ -37,7 +37,7 @@ class GameOverState : public StateNode {
                   GPGManager* gpg_manager_, pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);

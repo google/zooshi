@@ -581,7 +581,7 @@ static int UpdateThread(void* data) {
     SystraceAsyncEnd("UpdateGameState", kUpdateGameStateCode);
 
     SystraceAsyncBegin("UpdateRenderPrep", kUpdateRenderPrepCode);
-    rt_data->state_machine->RenderPrep(rt_data->renderer);
+    rt_data->state_machine->RenderPrep();
     SystraceAsyncEnd("UpdateRenderPrep", kUpdateRenderPrepCode);
 
     rt_data->audio_engine->AdvanceFrame(delta_time / 1000.0f);

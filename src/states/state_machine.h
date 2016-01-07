@@ -27,7 +27,7 @@ class StateNode {
   virtual ~StateNode() {}
 
   virtual void AdvanceFrame(int delta_time, int* next_state) = 0;
-  virtual void RenderPrep(fplbase::Renderer* /*render*/) {}
+  virtual void RenderPrep() {}
   virtual void Render(fplbase::Renderer* render) = 0;
   virtual void HandleUI(fplbase::Renderer* /*renderer*/) {}
   virtual void OnEnter(int /*previous_state*/) {}
@@ -61,9 +61,9 @@ class StateMachine {
   }
 
   // Prepare to render the current game state.
-  void RenderPrep(fplbase::Renderer* renderer) {
+  void RenderPrep() {
     if (valid_id(current_state_id_)) {
-      states_[current_state_id_]->RenderPrep(renderer);
+      states_[current_state_id_]->RenderPrep();
     }
   }
   // Render the current game state.

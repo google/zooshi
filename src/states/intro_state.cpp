@@ -105,8 +105,8 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
-void IntroState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void IntroState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void IntroState::Render(fplbase::Renderer* renderer) {

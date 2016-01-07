@@ -69,9 +69,9 @@ void SceneLabState::AdvanceFrame(corgi::WorldTime delta_time, int* next_state){
   }
 }
 
-void SceneLabState::RenderPrep(fplbase::Renderer* renderer) {
+void SceneLabState::RenderPrep() {
   const corgi::CameraInterface* camera = scene_lab_->GetCamera();
-  world_->world_renderer->RenderPrep(*camera, *renderer, world_);
+  world_->world_renderer->RenderPrep(*camera, world_);
 }
 
 void SceneLabState::Render(fplbase::Renderer* renderer) {

@@ -119,8 +119,8 @@ GameState PauseState::PauseMenu(fplbase::AssetManager& assetman,
   return next_state;
 }
 
-void PauseState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void PauseState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void PauseState::Render(fplbase::Renderer* renderer) {

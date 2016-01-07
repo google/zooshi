@@ -113,8 +113,8 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   fader_->AdvanceFrame(delta_time);
 }
 
-void GameplayState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void GameplayState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void GameplayState::Render(fplbase::Renderer* renderer) {

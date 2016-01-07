@@ -31,7 +31,6 @@ class WorldRenderer {
   // Call this before you call RenderWorld - it takes care of clearing
   // the frame, setting up the shadowmap, etc.
   void RenderPrep(const corgi::CameraInterface& camera,
-                  fplbase::Renderer& renderer,
                   World* world);
 
   // Render the world, viewed from the current camera.
