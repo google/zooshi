@@ -59,14 +59,14 @@ void Rail::Positions(float delta_time,
       static_cast<size_t>(std::floor(EndTime() / delta_time)) + 1;
   positions->resize(num_positions);
 
-  motive::CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,
+  motive::CompactSpline::BulkYs<3>(Splines(), 0.0f, delta_time, num_positions,
                                    &(*positions)[0]);
 }
 
 vec3 Rail::PositionCalculatedSlowly(float time) const {
   vec3 position;
   for (int i = 0; i < kDimensions; ++i) {
-    position[i] = splines_[i].YCalculatedSlowly(time);
+    position[i] = Spline(i)->YCalculatedSlowly(time);
   }
   return position;
 }
@@ -76,13 +76,13 @@ void RailDenizenData::Initialize(const Rail& rail,
   const motive::SplinePlayback playback(start_time, true,
                                         initial_playback_rate);
   motivator.Initialize(motive::SplineInit(), &engine);
-  motivator.SetSplines(rail.splines(), playback);
+  motivator.SetSplines(rail.Splines(), playback);
   // The interpolated orientation converges towards the target orientation
   // at a non-linear rate that is affected by delta-time and
   // orientation_convergence_rate, this hack estimates the look-ahead for the
   // convergence time given roughly a 60Hz update rate.
   orientation_motivator.Initialize(motive::SplineInit(), &engine);
-  orientation_motivator.SetSplines(rail.splines(), playback);
+  orientation_motivator.SetSplines(rail.Splines(), playback);
   if (orientation_convergence_rate != 0.0f) {
     orientation_motivator.SetSplineTime(static_cast<motive::MotiveTime>(
         1.0f / logf(0.5f + orientation_convergence_rate) *

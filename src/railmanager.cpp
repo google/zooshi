@@ -69,13 +69,17 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
     position_max = vec3::Max(position_max, position);
   }
 
+  // Create array of splines. Destroyed in Rail's destructor.
+  splines_ = motive::CompactSpline::CreateArray(
+      2 * static_cast<motive::CompactSplineIndex>(num_positions), kDimensions);
+
   // Initialize the compact-splines to have the best precision possible,
   // given the range limits.
   const float kRangeSafeBoundsPercent = 1.1f;
   for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-    splines_[i].Init(motive::Range(position_min[i], position_max[i])
-                         .Lengthen(kRangeSafeBoundsPercent),
-                     spline_granularity);
+    Spline(i)->Init(motive::Range(position_min[i], position_max[i])
+                        .Lengthen(kRangeSafeBoundsPercent),
+                    spline_granularity);
   }
 
   // Initialize the splines. For now, the splines all have key points at the
@@ -86,7 +90,7 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
     const vec3 position(positions[k]);
     const vec3 derivative(derivatives[k]);
     for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-      splines_[i].AddNode(t, position[i], derivative[i]);
+      Spline(i)->AddNode(t, position[i], derivative[i]);
     }
   }
 }

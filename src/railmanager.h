@@ -30,6 +30,9 @@ typedef const char* RailId;
 
 class Rail {
  public:
+  Rail() : splines_(nullptr) {}
+  ~Rail() { motive::CompactSpline::DestroyArray(splines_, kDimensions); }
+
   void Initialize(const RailDef* rail_def, float spline_granularity);
 
   /// Return vector of `positions` that is the rail evaluated every `delta_time`
@@ -44,10 +47,10 @@ class Rail {
   mathfu::vec3 PositionCalculatedSlowly(float time) const;
 
   /// Length of the rail.
-  float EndTime() const { return splines_[0].EndX(); }
+  float EndTime() const { return splines_->EndX(); }
 
   /// Internal structure representing the rails.
-  const motive::CompactSpline* splines() const { return splines_; }
+  const motive::CompactSpline* Splines() const { return splines_; }
 
   void InitializeFromPositions(
       const std::vector<mathfu::vec3_packed>& positions,
@@ -56,7 +59,13 @@ class Rail {
  private:
   static const motive::MotiveDimension kDimensions = 3;
 
-  motive::CompactSpline splines_[kDimensions];
+  motive::CompactSpline* Spline(int idx) { return splines_->NextAtIdx(idx); }
+  const motive::CompactSpline* Spline(int idx) const {
+    return const_cast<Rail*>(this)->Spline(idx);
+  }
+
+  // Points to the first of kDimension splines in contiguous memory.
+  motive::CompactSpline* splines_;
 };
 
 // Class for handling loading and storing of rails.
