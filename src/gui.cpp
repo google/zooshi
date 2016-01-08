@@ -104,6 +104,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     flatui::EndGroup();
 
     flatui::SetTextColor(kColorBrown);
+    flatui::SetTextFont(config_->menu_font()->c_str());
 
     // Menu items. Note that we are layering 2 layouts here
     // (background + menu items).
@@ -181,6 +182,7 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
     flatui::EndGroup();
 
     flatui::SetTextColor(kColorBrown);
+    flatui::SetTextFont(config_->menu_font()->c_str());
 
     // Menu items.
     flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
@@ -311,7 +313,7 @@ void GameMenuState::OptionMenuAbout() {
   flatui::EndGroup();
 
   flatui::SetTextColor(kColorDarkGray);
-  flatui::SetTextFont("fonts/NotoSans-Bold.ttf");
+  flatui::SetTextFont(config_->license_font()->c_str());
 
   flatui::StartGroup(flatui::kLayoutHorizontalCenter);
   flatui::SetMargin(flatui::Margin(50, 0, 0, 0));
@@ -336,7 +338,7 @@ void GameMenuState::OptionMenuAbout() {
   }
 
   flatui::EndGroup();
-  flatui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
+  flatui::SetTextFont(config_->menu_font()->c_str());
 }
 
 void GameMenuState::OptionMenuLicenses() {
@@ -349,7 +351,7 @@ void GameMenuState::OptionMenuLicenses() {
   flatui::EndGroup();
 
   flatui::SetTextColor(kColorDarkGray);
-  flatui::SetTextFont("fonts/NotoSans-Bold.ttf");
+  flatui::SetTextFont(config_->license_font()->c_str());
 
   flatui::StartGroup(flatui::kLayoutHorizontalCenter);
   flatui::SetMargin(flatui::Margin(50, 0, 0, 0));
@@ -378,7 +380,7 @@ void GameMenuState::OptionMenuLicenses() {
   }
 
   flatui::EndGroup();
-  flatui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
+  flatui::SetTextFont(config_->menu_font()->c_str());
 }
 
 void GameMenuState::OptionMenuAudio() {

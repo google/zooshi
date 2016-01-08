@@ -1,6 +1,12 @@
 {
   "window_title": "Zooshi!",
 
+  "license_font":"fonts/NotoSans-Bold.ttf",
+
+  "menu_font":"fonts/RaviPrakash-Regular.ttf",
+
+  "score_font":"fonts/NotoSans-Bold.ttf",
+
   "audio_config": "audio_config.pinconfig",
 
   "input_config": "input_config.zooinconfig",

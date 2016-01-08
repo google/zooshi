@@ -70,6 +70,9 @@ class PauseState : public StateNode {
   // Texture used in paused UI .
   fplbase::Texture* background_paused_;
 
+  // Asset manifest used to retrieve configurations.
+  const Config* config_;
+
   // The next menu state.
   GameState next_state_;
 

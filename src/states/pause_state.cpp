@@ -45,10 +45,10 @@ void PauseState::Initialize(fplbase::InputSystem* input_system, World* world,
   background_paused_ =
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
 
+  config_ = config;
+
 #ifdef ANDROID_HMD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
-#else
-  (void)config;
 #endif
 }
 
@@ -100,6 +100,7 @@ GameState PauseState::PauseMenu(fplbase::AssetManager& assetman,
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                           mathfu::vec2(0, -50));
     flatui::SetTextColor(kColorBrown);
+    flatui::SetTextFont(config_->menu_font()->c_str());
 
     auto event =
         TextButton("Continue", kPauseStateButtonSize, flatui::Margin(2));
