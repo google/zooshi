@@ -71,6 +71,13 @@ enum PatronAction : byte {
   Fall,
 }
 
+enum ShaderIndex : ubyte {
+  Lit,
+  Shadowed,
+  Depth,
+  Count
+}
+
 table SimpleMovementDef {
   velocity:fplbase.Vec3;
 }

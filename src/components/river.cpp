@@ -427,7 +427,11 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
 
   // Add the river mesh to the river entity.
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
-  mesh_data->shader = asset_manager->LoadShader(river->shader()->c_str());
+  mesh_data->shaders.push_back(
+      asset_manager->LoadShader(river->shader()->c_str()));
+  // TODO: Potentially make a separate shadowed river shader.
+  mesh_data->shaders.push_back(
+      asset_manager->LoadShader(river->shader()->c_str()));
   if (mesh_data->mesh != nullptr) {
     // Mesh's destructor handles cleaning up its GL buffers
     delete mesh_data->mesh;
@@ -465,11 +469,19 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     RenderMeshData* child_render_data =
         Data<RenderMeshData>(river_data->banks[zone]);
     if (bank_material->textures().size() == 1) {
-      child_render_data->shader =
-          asset_manager->LoadShader("shaders/textured_lit");
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/textured_lit"));
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/textured_shadowed"));
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/render_depth"));
     } else {
-      child_render_data->shader =
-          asset_manager->LoadShader("shaders/textured_lit_bank");
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/textured_lit_bank"));
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/textured_shadowed_bank"));
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/render_depth"));
     }
     if (child_render_data->mesh != nullptr) {
       // Mesh's destructor handles cleaning up its GL buffers

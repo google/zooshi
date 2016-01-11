@@ -63,8 +63,8 @@ void DigitComponent::AddFromRawData(corgi::EntityRef& entity,
 
   RenderMeshData* render_mesh_data = Data<RenderMeshData>(entity);
   if (digit_def->shader()) {
-    render_mesh_data->shader =
-        asset_manager->LoadShader(digit_def->shader()->c_str());
+    render_mesh_data->shaders.push_back(
+        asset_manager->LoadShader(digit_def->shader()->c_str()));
   }
   if (digit_def->render_pass() != nullptr) {
     for (size_t i = 0; i < digit_def->render_pass()->size(); i++) {

@@ -151,7 +151,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file": "meshes/raft.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -171,7 +175,10 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file": "meshes/introbox.fplmesh",
-            "shader": "shaders/textured_opaque",
+            "shaders": [
+              "shaders/textured_opaque",
+              "shaders/textured_opaque"
+            ],
             "culling": ["Distance"],
             "visible": false
           }
@@ -200,7 +207,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_shrimp.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -228,7 +239,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -547,7 +562,10 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/raft_sign.fplmesh",
-            "shader": "shaders/textured_lit_cutout",
+            "shaders": [
+              "shaders/textured_lit_cutout",
+              "shaders/textured_lit_cutout"
+            ],
             "render_pass" : ["Alpha"]
           }
         }
@@ -579,7 +597,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"],
             "visible": false
           }
@@ -920,7 +942,11 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/lady_mandrill_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass" : ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1084,7 +1110,11 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/crocodile_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1270,7 +1300,11 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/hippo_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1558,7 +1592,11 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/bird_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1745,7 +1783,11 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/giraffe_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -2073,7 +2115,11 @@
           "data_type": "RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2100,7 +2146,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/ground.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": [],
             "visible": false
           }
@@ -2133,7 +2183,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_saturated.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         },
@@ -2183,7 +2237,10 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/skybox_daytime.fplmesh",
-            "shader": "shaders/textured_opaque",
+            "shaders": [
+              "shaders/textured_opaque",
+              "shaders/textured_opaque"
+            ],
             "culling": []
           }
         }
@@ -2207,7 +2264,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_dense.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2292,7 +2353,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smallest.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2378,7 +2443,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smaller.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2463,7 +2532,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_short.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2558,7 +2631,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_mid.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2643,7 +2720,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_tall.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2789,7 +2870,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/gate.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2817,7 +2902,10 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/slash.fplmesh",
-            "shader": "shaders/textured_lit_cutout",
+            "shaders": [
+              "shaders/textured_lit_cutout",
+              "shaders/textured_lit_cutout"
+            ],
             "culling": ["ViewAngle", "Distance"],
             "render_pass" : ["Alpha"]
           }
@@ -3065,7 +3153,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_short.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3120,7 +3212,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_mid.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"],
           }
         }
@@ -3204,7 +3300,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_tall.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"],
           }
         },
@@ -3317,7 +3417,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_small.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3371,7 +3475,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_wide.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3424,7 +3532,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/log.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3479,7 +3591,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/savanna_tree_01.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3535,7 +3651,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_03.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3591,7 +3711,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_04.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3644,7 +3768,11 @@
           "data_type": "RenderMeshDef",
           "data" : {
             "source_file":"meshes/heart.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/textured_skinned_lit",
+              "shaders/textured_skinned_shadowed",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"],
           }
         },

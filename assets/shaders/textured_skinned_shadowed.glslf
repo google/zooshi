@@ -1,4 +1,4 @@
-// Copyright 2015 Google Inc. All rights reserved.
+// Copyright 2016 Google Inc. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,33 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Textured Shadow Shader
-// Renders geometry, taking into account a shadow map.
-// Requires the model matrix, as well as the view/projection matrix for both
-// the light source, and the camera.  (Also assumes that a shadowmap has already
-// been generated and is being passed in part of texture_id_7.  7 was picked
-// arbitrarily, because it doesn't conflict with any other channels, so we can
-// just leave that texture binding for the whole rendering pass.)
-
-#include "shaders/include/shadow_map.glslf_h"
 #include "shaders/include/fog_effect.glslf_h"
+#include "shaders/include/shadow_map.glslf_h"
 
-// Variables used in general rendering:
 uniform lowp vec4 color;
-// The texture of the thing we're rendering:
-uniform sampler2D texture_unit_0;
-// The texture coordinates
 varying mediump vec2 vTexCoord;
+varying lowp vec4 vColor;
+uniform sampler2D texture_unit_0;
 
 // Variables used by shadow maps:
 uniform mediump mat4 shadow_mvp;
-// The position of the coordinate, in light-space
 varying vec4 vShadowPosition;
 
 void main()
 {
   mediump vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
-
   // Apply the shadow map:
   mediump vec2 shadowmap_coords = vShadowPosition.xy / vShadowPosition.w;
   shadowmap_coords = (shadowmap_coords + vec2(1.0, 1.0)) / 2.0;
@@ -46,16 +34,16 @@ void main()
   highp float light_dist = vShadowPosition.z / vShadowPosition.w;
   light_dist = (light_dist + 1.0) / 2.0;
 
-  // Apply shadows:
+  // Apply Shadows:
   texture_color = ApplyShadows(texture_color, shadowmap_coords, light_dist);
 
   // Apply the object tint:
-  texture_color = texture_color * color;
+  lowp vec4 final_color = vColor * texture_color;
 
   // Apply the fog:
-  texture_color = ApplyFog(texture_color, vDepth, fog_roll_in_dist,
+  final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist,
     fog_max_dist, fog_color,  fog_max_saturation);
 
   // Final result:
-  gl_FragColor = texture_color;
+  gl_FragColor = final_color;
 }

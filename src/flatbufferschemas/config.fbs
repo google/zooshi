@@ -112,6 +112,9 @@ table RiverConfig {
 }
 
 table RenderConfig {
+  // Should we render shadows?
+  render_shadows:bool;
+
   // Resolution (in pixels) of the shadowmap.
   // Needs to be a power of 2, or GLES breaks
   // Larger = shadows are visible further away, but takes more memory.

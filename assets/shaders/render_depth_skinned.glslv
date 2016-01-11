@@ -1,4 +1,4 @@
-// Copyright 2015 Google Inc. All rights reserved.
+// Copyright 2016 Google Inc. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,9 @@
 
 // This shader renders the geometry normally, except instead of coloring
 // according to the texture, it generates a depth map.
+// TODO(kelseymayfield): Edit above comment to be more specific
+
+#include "shaders/fplbase/skinning.glslv_h"
 
 attribute vec4 aPosition;
 varying mediump vec4 vPosition;
@@ -24,6 +27,6 @@ varying vec2 vTexCoord;
 void main()
 {
   vTexCoord = aTexCoord;
-  vPosition = model_view_projection * aPosition;
+  vPosition = model_view_projection * OneBoneSkinnedPosition(aPosition);
   gl_Position = vPosition;
 }

@@ -144,6 +144,7 @@
   },
 
   "rendering_config" : {
+    "render_shadows": false,
     "shadow_map_resolution": 512,
     "shadow_map_zoom": 2.0,
     "shadow_map_offset": 6.0,
