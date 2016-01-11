@@ -326,7 +326,7 @@ void SceneryComponent::FaceRaft(const corgi::EntityRef& scenery) {
     scenery_data->delta_face_angle.InitializeWithTarget(
         init, motive_engine,
         motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(),
-                                  0.0f, 50.0));
+                                  0.0f, 50));
   }
 }
 
