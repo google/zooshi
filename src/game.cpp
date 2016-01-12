@@ -25,6 +25,7 @@
 #include "breadboard/log.h"
 #include "breadboard/modules/common.h"
 #include "common.h"
+#include "components/render_3d_text.h"
 #include "corgi/entity.h"
 #include "fplbase/input.h"
 #include "fplbase/systrace.h"
@@ -46,6 +47,7 @@
 #include "modules/player.h"
 #include "modules/rail_denizen.h"
 #include "modules/state.h"
+#include "modules/ui_string.h"
 #include "modules/zooshi.h"
 #include "motive/init.h"
 #include "motive/io/flatbuffers.h"
@@ -310,6 +312,7 @@ void Game::InitializeBreadboardModules() {
   InitializeRailDenizenModule(&module_registry_, &world_.rail_denizen_component,
                               &world_.graph_component);
   InitializeStateModule(&module_registry_, gameplay_state_.requested_state());
+  InitializeUiStringModule(&module_registry_, &world_.render_3d_text_component);
   InitializeZooshiModule(&module_registry_, &world_.services_component,
                          &world_.graph_component, &world_.scenery_component);
 }
@@ -450,6 +453,7 @@ bool Game::Initialize(const char* const binary_directory) {
   scene_lab_->AddComponentToUpdate(ShadowControllerComponent::GetComponentId());
   scene_lab_->AddComponentToUpdate(
       corgi::component_library::RenderMeshComponent::GetComponentId());
+  scene_lab_->AddComponentToUpdate(Render3dTextComponent::GetComponentId());
 
   gpg_manager_.Initialize(false);
 

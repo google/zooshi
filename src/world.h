@@ -21,13 +21,13 @@
 
 #include "components/attributes.h"
 #include "components/audio_listener.h"
-#include "components/digit.h"
 #include "components/lap_dependent.h"
 #include "components/patron.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/rail_node.h"
+#include "components/render_3d_text.h"
 #include "components/river.h"
 #include "components/scenery.h"
 #include "components/services.h"
@@ -114,7 +114,6 @@ struct World {
   AudioListenerComponent audio_listener_component;
   SoundComponent sound_component;
   AttributesComponent attributes_component;
-  DigitComponent digit_component;
   RiverComponent river_component;
   RailNodeComponent rail_node_component;
   SceneryComponent scenery_component;
@@ -126,6 +125,7 @@ struct World {
   SimpleMovementComponent simple_movement_component;
   LapDependentComponent lap_dependent_component;
   corgi::component_library::GraphComponent graph_component;
+  Render3dTextComponent render_3d_text_component;
 
   // Each player has direct control over one entity.
   corgi::EntityRef active_player_entity;

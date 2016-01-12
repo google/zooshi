@@ -201,15 +201,6 @@ table PlayerDef {}
 
 table PlayerProjectileDef {}
 
-table DigitDef {
-  // Must list 10 meshes.
-  digit_mesh_list:[string];
-  divisor:int = -1;
-  attrib:fpl.zooshi.AttributeDef = Unspecified;
-  shader:string;
-  render_pass: [corgi.RenderPass];
-}
-
 // A spline node for a rail.
 table RailNodeDef {
   // The nodes are put in ascending order to define the rail spline.
@@ -263,9 +254,19 @@ table SceneryDef {
 // ends up in the enum.
 table ListenerDef {}
 table AttributesDef {}
-table ScoreDef {}
 table ServicesDef {}
 table ShadowControllerDef {}
+
+table Render3dTextDef {
+  animation_bone:int;
+  canvas_size:int;
+  font:string;
+  label_size:float;
+  translation:fplbase.Vec3;
+  rotation:fplbase.Vec3; // Degrees
+  scale:fplbase.Vec3;
+  text:string;
+}
 
 //-----------------------------------
 // Data for defining the entities themselves:
@@ -284,11 +285,10 @@ union ComponentDataUnion {
   PlayerProjectileDef,
   corgi.PhysicsDef,
   TimeLimitDef,
-  DigitDef,
   corgi.RenderMeshDef,
   ListenerDef,
+  Render3dTextDef,
   RiverDef,
-  ScoreDef,
   SoundDef,
   AttributesDef,
   RailNodeDef,

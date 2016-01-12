@@ -77,13 +77,13 @@ LOCAL_SRC_FILES := \
   src/camera.cpp \
   src/components/attributes.cpp \
   src/components/audio_listener.cpp \
-  src/components/digit.cpp \
   src/components/lap_dependent.cpp \
   src/components/patron.cpp \
   src/components/player.cpp \
   src/components/player_projectile.cpp \
   src/components/rail_denizen.cpp \
   src/components/rail_node.cpp \
+  src/components/render_3d_text.cpp \
   src/components/river.cpp \
   src/components/scenery.cpp \
   src/components/services.cpp \
@@ -107,6 +107,7 @@ LOCAL_SRC_FILES := \
   src/modules/player.cpp \
   src/modules/rail_denizen.cpp \
   src/modules/state.cpp \
+  src/modules/ui_string.cpp \
   src/modules/zooshi.cpp \
   src/railmanager.cpp \
   src/states/game_menu_state.cpp \

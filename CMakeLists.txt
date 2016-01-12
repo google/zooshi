@@ -200,8 +200,6 @@ set(zooshi_SRCS
     src/components/attributes.h
     src/components/audio_listener.cpp
     src/components/audio_listener.h
-    src/components/digit.cpp
-    src/components/digit.h
     src/components/lap_dependent.cpp
     src/components/lap_dependent.h
     src/components/patron.cpp
@@ -214,6 +212,8 @@ set(zooshi_SRCS
     src/components/rail_denizen.h
     src/components/rail_node.cpp
     src/components/rail_node.h
+    src/components/render_3d_text.cpp
+    src/components/render_3d_text.h
     src/components/river.cpp
     src/components/river.h
     src/components/scenery.cpp
@@ -256,6 +256,8 @@ set(zooshi_SRCS
     src/modules/rail_denizen.h
     src/modules/state.cpp
     src/modules/state.h
+    src/modules/ui_string.cpp
+    src/modules/ui_string.h
     src/modules/zooshi.cpp
     src/modules/zooshi.h
     src/railmanager.cpp

@@ -143,7 +143,7 @@
               "EndHungryHippo",
               "EndLadyMandrill",
               "EndMoustacheCroc",
-              "EndLovelyGiraffette",
+              "EndLovelyGiraffette"
             ]
           }
         },
@@ -250,277 +250,6 @@
       ]
     },
 
-
-    // Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "Digit"
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "render_pass" : ["Alpha"],
-            "shader": "shaders/textured_lit_cutout",
-            "digit_mesh_list": [
-              "meshes/digit_0.fplmesh",
-              "meshes/digit_1.fplmesh",
-              "meshes/digit_2.fplmesh",
-              "meshes/digit_3.fplmesh",
-              "meshes/digit_4.fplmesh",
-              "meshes/digit_5.fplmesh",
-              "meshes/digit_6.fplmesh",
-              "meshes/digit_7.fplmesh",
-              "meshes/digit_8.fplmesh",
-              "meshes/digit_9.fplmesh"
-            ]
-          }
-        }
-      ]
-    },
-
-    // Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "HundredsDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -0.07,
-              "y": -1.21,
-              "z": 0.55
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 100,
-            "attrib": "PatronsFed"
-          }
-        }
-      ]
-    },
-
-    // Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TensDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.02,
-              "y": -1.21,
-              "z": 0.55
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 10,
-            "attrib": "PatronsFed"
-          }
-        }
-      ]
-    },
-
-    // Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "OnesDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.11,
-              "y": -1.21,
-              "z": 0.55
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 1,
-            "attrib": "PatronsFed"
-          }
-        }
-      ]
-    },
-
-    // Target Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TargetScoreHundredsDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.26,
-              "y": -1.21,
-              "z": 0.54
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 100,
-            "attrib": "TargetScore"
-          }
-        }
-      ]
-    },
-    // Target Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TargetScoreTensDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.35,
-              "y": -1.21,
-              "z": 0.54
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 10,
-            "attrib": "TargetScore"
-          }
-        }
-      ]
-    },
-
-    // Target Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TargetScoreOnesDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.44,
-              "y": -1.21,
-              "z": 0.54
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 1,
-            "attrib": "TargetScore"
-          }
-        }
-      ]
-    },
-
     // Sign
     {
       "component_list": [
@@ -547,15 +276,7 @@
               "x": 0.0,
               "y": 5.0,
               "z": 45.0
-            },
-            "child_ids": [
-              "OnesDigit",
-              "TensDigit",
-              "HundredsDigit",
-              "TargetScoreOnesDigit",
-              "TargetScoreTensDigit",
-              "TargetScoreHundredsDigit"
-            ]
+            }
           }
         },
         {
@@ -567,6 +288,38 @@
               "shaders/textured_lit_cutout"
             ],
             "render_pass" : ["Alpha"]
+          }
+        },
+        {
+          "data_type": "GraphDef",
+          "data": {
+            "filename_list": [
+              "graphs/score.bbgraph"
+            ]
+          }
+        },
+        {
+          "data_type" : "Render3dTextDef",
+          "data" : {
+            "canvas_size": 5,
+            "font": "fonts/RaviPrakash-Regular.ttf",
+            "label_size": 100,
+            "translation": {
+              "x": 0.21,
+              "y": -0.05,
+              "z": 0.577
+            },
+            "rotation": { // Degrees
+              "x": -90,
+              "y": 2.5,
+              "z": 0
+            },
+            "scale": {
+              "x": 0.00195,
+              "y": 0.00195,
+              "z": 0
+            },
+            "text": ""
           }
         }
       ]
@@ -2744,14 +2497,7 @@
           "data_type": "TransformDef",
           "data": {
             "child_ids": [
-              "Gate_RenderMesh",
-              "GateScoreSlash",
-              "GateOnesDigit",
-              "GateTensDigit",
-              "GateHundredsDigit",
-              "GateTargetScoreOnesDigit",
-              "GateTargetScoreTensDigit",
-              "GateTargetScoreHundredsDigit"
+              "Gate_RenderMesh"
             ]
           }
         },
@@ -2877,230 +2623,38 @@
             ],
             "culling": ["ViewAngle", "Distance"]
           }
-        }
-      ]
-    },
-
-    // Gate Score Slash
-    {
-      "component_list": [
+        },
         {
-          "data_type": "MetaDef",
+          "data_type": "GraphDef",
           "data": {
-            "entity_id": "GateScoreSlash"
+            "filename_list": [
+              "graphs/score.bbgraph"
+            ]
           }
         },
         {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 0, "y": 1.55, "z": 6.8 },
-            "scale": { "x": 0.6, "y": 0.12, "z": 0.6 },
-            "orientation": { "x": 0, "y": 0, "z": 180 }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
+          "data_type" : "Render3dTextDef",
           "data" : {
-            "source_file":"meshes/slash.fplmesh",
-            "shaders": [
-              "shaders/textured_lit_cutout",
-              "shaders/textured_lit_cutout"
-            ],
-            "culling": ["ViewAngle", "Distance"],
-            "render_pass" : ["Alpha"]
-          }
-        }
-      ]
-    },
-
-    // Gate Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateHundredsDigit",
-            "prototype": "HundredsDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 1.2,
-              "y": 1.55,
-              "z": 6.8
+            "animation_bone": 4, // Gate Sign
+            "canvas_size": 5,
+            "font": "fonts/RaviPrakash-Regular.ttf",
+            "label_size": 100,
+            "translation": {
+              "x": 0,
+              "y": 0.1,
+              "z": 0.1
+            },
+            "rotation": { // Degrees
+              "x": 0,
+              "y": 180,
+              "z": 180
             },
             "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
+              "x": 0.0095,
+              "y": 0.0095,
+              "z": 0
             },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTensDigit",
-            "prototype": "TensDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.8,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateOnesDigit",
-            "prototype": "OnesDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.4,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Target Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTargetScoreHundredsDigit",
-            "prototype": "TargetScoreHundredsDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -0.4,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Target Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTargetScoreTensDigit",
-            "prototype": "TargetScoreTensDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -0.8,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Target Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTargetScoreOnesDigit",
-            "prototype": "TargetScoreOnesDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -1.2,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
+            "text": ""
           }
         }
       ]

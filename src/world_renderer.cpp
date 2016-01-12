@@ -237,6 +237,8 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   if (world->draw_debug_physics) {
     world->physics_component.DebugDrawWorld(&renderer, camera_transform);
   }
+
+  world->render_3d_text_component.RenderAllEntities(camera);
 }
 
 }  // zooshi

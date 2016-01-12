@@ -124,9 +124,6 @@ void World::Initialize(const Config& config_,
       entity_manager.RegisterComponent(&sound_component),
       ComponentDataUnion_SoundDef, "SoundDef");
   entity_factory->SetComponentType(
-      entity_manager.RegisterComponent(&digit_component),
-      ComponentDataUnion_DigitDef, "DigitDef");
-  entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&river_component),
       ComponentDataUnion_RiverDef, "RiverDef");
   entity_factory->SetComponentType(
@@ -147,6 +144,9 @@ void World::Initialize(const Config& config_,
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_node_component),
       ComponentDataUnion_RailNodeDef, "RailNodeDef");
+  entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&render_3d_text_component),
+      ComponentDataUnion_Render3dTextDef, "Render3dTextDef");
   // Make sure you register TransformComponent after any components that use it.
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&transform_component),

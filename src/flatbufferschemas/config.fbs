@@ -181,9 +181,6 @@ table Config {
   // The relative path to the font file used to display menu items.
   menu_font:string;
 
-  // The relative path to the font file used for the score on the in-game signs.
-  score_font:string;
-
   // Audio engine configuration file.
   audio_config:string;
 
