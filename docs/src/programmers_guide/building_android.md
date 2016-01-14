@@ -17,7 +17,8 @@ Building for Android    {#zooshi_guide_building_android}
     -   [OS X prerequisites][]
     -   [Windows prerequisites][]
 -   Install [fplutil prerequisites][].
--   Install the `Google Play services` package from the [SDK Manager][].
+-   Install the `Google Play services` and `Android Support Library` packages
+    from the [SDK Manager][].
 -   Download the [Google Play Games C++ SDK][] and unpack into Zooshi's
     `dependencies/gpg-cpp-sdk` directory.
     -   For example, if you've fetched Zooshi to `~/zooshi/`, unpack
