@@ -117,7 +117,8 @@ FLATBUFFERS_CONVERSION_DATA = [
                      os.path.join(RAW_ASSETS_PATH, 'entity_list.json'),
                      os.path.join(RAW_ASSETS_PATH, 'entity_ring.json'),
                      os.path.join(RAW_ASSETS_PATH, 'entity_decorations.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json')]),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_lights.json')]),
     builder.FlatbuffersConversionData(
         schema=PROJECT_SCHEMA_PATH.join('rail_def.fbs'),
         extension='rail',

@@ -20,6 +20,7 @@
 // arbitrarily, because it doesn't conflict with any other channels, so we can
 // just leave that texture binding for the whole rendering pass.)
 
+#include "shaders/fplbase/phong_shading.glslf_h"
 #include "shaders/include/shadow_map.glslf_h"
 #include "shaders/include/fog_effect.glslf_h"
 
@@ -35,16 +36,31 @@ uniform mediump mat4 shadow_mvp;
 // The position of the coordinate, in light-space
 varying vec4 vShadowPosition;
 
+// Variables used in lighting:
+varying vec3 vPosition;
+varying vec3 vNormal;
+uniform vec3 light_pos;     // in object space
+uniform vec3 camera_pos;    // in object space
+
 void main()
 {
   mediump vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
 
   // Apply the shadow map:
-  mediump vec2 shadowmap_coords = vShadowPosition.xy / vShadowPosition.w;
-  shadowmap_coords = (shadowmap_coords + vec2(1.0, 1.0)) / 2.0;
+  mediump vec2 shadowmap_coords = CalculateShadowMapCoords(vShadowPosition);
 
   highp float light_dist = vShadowPosition.z / vShadowPosition.w;
   light_dist = (light_dist + 1.0) / 2.0;
+
+  // Calculate Phong shading:
+  lowp vec4 shading_tint = CalculatePhong(vPosition, vNormal, light_pos);
+
+  // Calculate specular shading:
+  shading_tint += CalculateSpecular(vPosition, vNormal, light_pos,
+                                  camera_pos);
+
+  // Apply the shading tint:
+  texture_color *= shading_tint;
 
   // Apply shadows:
   texture_color = ApplyShadows(texture_color, shadowmap_coords, light_dist);

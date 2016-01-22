@@ -202,6 +202,8 @@ set(zooshi_SRCS
     src/components/audio_listener.h
     src/components/lap_dependent.cpp
     src/components/lap_dependent.h
+    src/components/light.cpp
+    src/components/light.h
     src/components/patron.cpp
     src/components/patron.h
     src/components/player.cpp

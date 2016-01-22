@@ -69,6 +69,8 @@ class WorldRenderer {
                        fplbase::Renderer& renderer, World* world);
 
   void SetFogUniforms(fplbase::Shader* shader, World* world);
+
+  void SetLightingUniforms(fplbase::Shader* shader, World* world);
 };
 
 }  // zooshi

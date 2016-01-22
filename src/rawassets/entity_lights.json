@@ -1,0 +1,59 @@
+{
+  "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "prototype": "Light"
+          }
+        },
+        {
+          "data_type": "LightDef",
+          "data": {
+            "shadow_intensity": 0.33,
+            "diffuse_color": {
+              "r": 0.33,
+              "g": 0.33,
+              "b": 0.33,
+              "a": 1.0
+            },
+            "ambient_color": {
+              "r": 0.67,
+              "g": 0.67,
+              "b": 0.67,
+              "a": 1.0
+            },
+            "specular_color": {
+              "r": 0.5,
+              "g": 0.5,
+              "b": 0.5,
+              "a": 1.0
+            },
+            "specular_exponent": 16.0
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 60
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

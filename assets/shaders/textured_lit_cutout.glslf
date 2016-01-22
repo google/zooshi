@@ -13,14 +13,19 @@
 // limitations under the License.
 
 varying mediump vec2 vTexCoord;
-varying lowp vec4 vColor;
 uniform sampler2D texture_unit_0;
+
+// Variables used in lighting:
+varying lowp vec4 vColor;
 
 void main()
 {
   lowp vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
   if (texture_color.a < 0.1) discard;
 
+  // Apply the object tint:
   lowp vec4 final_color = vColor * texture_color;
+
+  // Final result:
   gl_FragColor = final_color;
 }

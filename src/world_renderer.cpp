@@ -13,6 +13,10 @@
 // limitations under the License.
 
 #include "world_renderer.h"
+
+#include "components/light.h"
+#include "components/services.h"
+#include "corgi_component_library/transform.h"
 #include "fplbase/flatbuffer_utils.h"
 
 using mathfu::vec2i;
@@ -25,6 +29,9 @@ using mathfu::quat;
 
 namespace fpl {
 namespace zooshi {
+
+using corgi::component_library::TransformData;
+using corgi::EntityRef;
 
 static const int kShadowMapTextureID = 7;
 // 45 degrees in radians:
@@ -66,9 +73,15 @@ void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
   float shadow_map_offset =
       world->config->rendering_config()->shadow_map_offset();
-  vec3 light_position =
-      LoadVec3(world->config->rendering_config()->light_position());
+  LightComponent* light_component =
+      world->entity_manager.GetComponent<LightComponent>();
+
+  const EntityRef& main_light_entity = light_component->begin()->entity;
+  const TransformData* light_transform =
+      world->entity_manager.GetComponentData<TransformData>(main_light_entity);
+  vec3 light_position = light_transform->position;
   SetLightPosition(light_position);
+
   light_camera_.set_viewport_angle(kShadowMapViewportAngle / shadow_map_zoom);
   light_camera_.set_viewport_resolution(
       vec2(shadow_map_resolution, shadow_map_resolution));
@@ -140,6 +153,22 @@ void WorldRenderer::SetFogUniforms(fplbase::Shader* shader, World* world) {
                      world->config->rendering_config()->fog_max_saturation());
 }
 
+void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
+  LightComponent* light_component =
+      world->entity_manager.GetComponent<LightComponent>();
+  const EntityRef& main_light_entity = light_component->begin()->entity;
+  const LightData* light_data =
+      world->entity_manager.GetComponentData<LightData>(main_light_entity);
+
+  if (world->config->rendering_config()->render_shadows()) {
+    shader->SetUniform("shadow_intensity", light_data->shadow_intensity);
+  }
+  shader->SetUniform("ambient_material", light_data->ambient_color);
+  shader->SetUniform("diffuse_material", light_data->diffuse_color);
+  shader->SetUniform("specular_material", light_data->specular_color);
+  shader->SetUniform("shininess", light_data->specular_exponent);
+}
+
 void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
                                 fplbase::Renderer& renderer, World* world) {
   if (world->config->rendering_config()->create_shadow_map()) {
@@ -155,19 +184,6 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   textured_shadowed_shader_->SetUniform("view_projection", camera_transform);
   textured_shadowed_shader_->SetUniform("light_view_projection",
                                         light_camera_.GetTransformMatrix());
-  textured_shadowed_shader_->SetUniform(
-      "shadow_intensity",
-      world->config->rendering_config()->shadow_intensity());
-
-  float shadow_intensity =
-      world->config->rendering_config()->shadow_intensity();
-  float ambient_intensity = 1.0f - shadow_intensity;
-  vec4 ambient =
-      vec4(ambient_intensity, ambient_intensity, ambient_intensity, 1.0f);
-
-  float diffuse_intensity = shadow_intensity;
-  vec4 diffuse =
-      vec4(diffuse_intensity, diffuse_intensity, diffuse_intensity, 1.0f);
 
   assert(textured_shadowed_bank_shader_);
   textured_shadowed_bank_shader_->SetUniform("view_projection",
@@ -175,10 +191,6 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   textured_shadowed_bank_shader_->SetUniform(
       "light_view_projection",
       light_camera_.GetTransformMatrix());
-  textured_shadowed_bank_shader_->SetUniform("shadow_intensity",
-                                              shadow_intensity);
-  textured_shadowed_bank_shader_->SetUniform("ambient_material", ambient);
-  textured_shadowed_bank_shader_->SetUniform("diffuse_material", diffuse);
 
   assert(textured_skinned_shadowed_shader_);
   textured_skinned_shadowed_shader_->SetUniform("view_projection",
@@ -186,25 +198,6 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   textured_skinned_shadowed_shader_->SetUniform(
       "light_view_projection",
       light_camera_.GetTransformMatrix());
-  textured_skinned_shadowed_shader_->SetUniform("shadow_intensity",
-                                                 shadow_intensity);
-  textured_skinned_shadowed_shader_->SetUniform("ambient_material", ambient);
-  textured_skinned_shadowed_shader_->SetUniform("diffuse_material", diffuse);
-
-  textured_lit_cutout_shader_->SetUniform("ambient_material", ambient);
-  textured_lit_cutout_shader_->SetUniform("diffuse_material", diffuse);
-
-  textured_lit_shader_->SetUniform("ambient_material", ambient);
-  textured_lit_shader_->SetUniform("diffuse_material", diffuse);
-
-  textured_lit_bank_shader_->SetUniform("ambient_material", ambient);
-  textured_lit_bank_shader_->SetUniform("diffuse_material", diffuse);
-
-  textured_skinned_lit_shader_->SetUniform("ambient_material", ambient);
-  textured_skinned_lit_shader_->SetUniform("diffuse_material", diffuse);
-
-  textured_skinned_shadowed_shader_->SetUniform("ambient_material", ambient);
-  textured_skinned_shadowed_shader_->SetUniform("diffuse_material", diffuse);
 
   float texture_repeats = world->config->river_config()->texture_repeats();
   float river_offset = world->river_component.river_offset();
@@ -215,12 +208,25 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   depth_shader_->SetUniform("bias", kShadowMapBias);
   depth_skinned_shader_->SetUniform("bias", kShadowMapBias);
 
-  SetFogUniforms(textured_shadowed_shader_, world);
-  SetFogUniforms(textured_lit_shader_, world);
-  SetFogUniforms(textured_lit_bank_shader_, world);
-  SetFogUniforms(textured_shadowed_bank_shader_, world);
-  SetFogUniforms(textured_skinned_lit_shader_, world);
-  SetFogUniforms(textured_skinned_shadowed_shader_, world);
+  if (world->config->rendering_config()->render_shadows()) {
+    SetLightingUniforms(textured_shadowed_shader_, world);
+    SetLightingUniforms(textured_shadowed_bank_shader_, world);
+    SetLightingUniforms(textured_skinned_shadowed_shader_, world);
+    SetLightingUniforms(textured_lit_cutout_shader_, world);
+
+    SetFogUniforms(textured_shadowed_shader_, world);
+    SetFogUniforms(textured_shadowed_bank_shader_, world);
+    SetFogUniforms(textured_skinned_shadowed_shader_, world);
+  } else {
+    SetLightingUniforms(textured_lit_shader_, world);
+    SetLightingUniforms(textured_lit_bank_shader_, world);
+    SetLightingUniforms(textured_skinned_lit_shader_, world);
+    SetLightingUniforms(textured_lit_cutout_shader_, world);
+
+    SetFogUniforms(textured_lit_shader_, world);
+    SetFogUniforms(textured_lit_bank_shader_, world);
+    SetFogUniforms(textured_skinned_lit_shader_, world);
+  }
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);
 

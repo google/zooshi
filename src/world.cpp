@@ -147,6 +147,9 @@ void World::Initialize(const Config& config_,
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&render_3d_text_component),
       ComponentDataUnion_Render3dTextDef, "Render3dTextDef");
+  entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&light_component),
+      ComponentDataUnion_LightDef, "LightDef");
   // Make sure you register TransformComponent after any components that use it.
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&transform_component),

@@ -19,17 +19,14 @@ varying mediump vec4 vShadowPosition;
 attribute mediump vec2 aTexCoord;
 attribute vec3 aNormal;
 varying mediump vec2 vTexCoord;
-varying vec4 vColor;
 
 uniform mediump mat4 model;
 uniform mediump mat4 view_projection;
 uniform mediump mat4 light_view_projection;
-uniform mediump vec3 light_pos;    //in object space
 
 // Variables used in lighting:
-uniform vec4 ambient_material;
-uniform vec4 diffuse_material;
-uniform lowp vec4 color;
+varying vec3 vPosition;
+varying vec3 vNormal;
 
 // Variables used by fog:
 varying lowp float vDepth;
@@ -43,8 +40,6 @@ void main()
   vDepth = position.z * position.w;
   gl_Position = position;
 
-  //float diffuse = max(0.0, dot(normalize(aNormal), normalize(light_pos)));
-  vec3 light_vector = light_pos - aPosition.xyz;
-  float diffuse = max(0.0, dot(normalize(aNormal), normalize(light_vector)));
-  vColor = color * (diffuse_material * diffuse + ambient_material);
+  vPosition = position.xyz;
+  vNormal = aNormal;
 }

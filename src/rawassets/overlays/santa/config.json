@@ -148,8 +148,6 @@
     "shadow_map_resolution": 512,
     "shadow_map_zoom": 2.0,
     "shadow_map_offset": 6.0,
-    "light_position": { "x": 0.0, "y": 0.0, "z": 60 },
-    "shadow_intensity": 0.33,
     "fog_roll_in_dist":1500,
     "fog_max_dist": 3000,
     "fog_color": {"r":0.95, "g":0.9, "b":0.7, "a":1.0},

@@ -74,3 +74,15 @@ vec4 ApplyShadows(mediump vec4 texture_color, mediump vec2 shadowmap_coords,
 
   return final_color;
 }
+
+// Find the coordinates to read on the shadow map based on the shadow position.
+mediump vec2 CalculateShadowMapCoords(vec4 shadow_position) {
+  // Calculate Cartesian coordinates by dividing by w:
+  mediump vec2 shadowmap_coords = shadow_position.xy / shadow_position.w;
+
+  // Convert xy coordinates (x=[-1, 1], y=[-1,1]) to uv coordinates
+  // (u=[0, 1], v=[0, 1]) to be read by the shadow map.
+  shadowmap_coords = (shadowmap_coords + vec2(1.0, 1.0)) / 2.0;
+
+  return shadowmap_coords;
+}

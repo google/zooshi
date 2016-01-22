@@ -250,6 +250,17 @@ table SceneryDef {
   faces_raft:bool=false;
 }
 
+table LightDef {
+  // Intensity of shadows. 1.0 = solid black, 0.0 = invisible shadows.
+  shadow_intensity:float;
+
+  // Variables used in the Phong lighting model.
+  diffuse_color:fplbase.ColorRGBA;
+  ambient_color:fplbase.ColorRGBA;
+  specular_color:fplbase.ColorRGBA;
+  specular_exponent:float;
+}
+
 // No data, (never loaded from raw data) but we need it to be a thing so that it
 // ends up in the enum.
 table ListenerDef {}
@@ -293,6 +304,7 @@ union ComponentDataUnion {
   AttributesDef,
   RailNodeDef,
   SceneryDef,
+  LightDef,
   corgi.TransformDef,
   scene_lab.EditOptionsDef,
   corgi.AnimationDef,
