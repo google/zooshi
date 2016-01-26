@@ -41,7 +41,7 @@ static vec3 CorrectTransform(const mat4& mat) {
 
 static void RenderSettingsGear(fplbase::Renderer& renderer, World* world) {
   vec2i res = renderer.window_size();
-  renderer.set_model_view_projection(mathfu::OrthoHelper<float>(
+  renderer.set_model_view_projection(mathfu::mat4::Ortho(
       0.0f, static_cast<float>(res.x()), static_cast<float>(res.y()), 0.0f,
       -1.0f, 1.0f));
   renderer.set_color(mathfu::kOnes4f);
