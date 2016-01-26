@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_RIVER_H
-#define COMPONENTS_RIVER_H
+#ifndef FPL_ZOOSHI_COMPONENTS_RIVER_H
+#define FPL_ZOOSHI_COMPONENTS_RIVER_H
 
 #include <string>
 #include <vector>
@@ -75,4 +75,4 @@ class RiverComponent : public corgi::Component<RiverData> {
 
 CORGI_REGISTER_COMPONENT(fpl::zooshi::RiverComponent, fpl::zooshi::RiverData)
 
-#endif  // COMPONENTS_RIVER_H
+#endif  // FPL_ZOOSHI_COMPONENTS_RIVER_H

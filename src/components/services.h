@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_SERVICES_H_
-#define COMPONENTS_SERVICES_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_SERVICES_H_
+#define FPL_ZOOSHI_COMPONENTS_SERVICES_H_
 
 #include "camera.h"
 #include "components_generated.h"
@@ -130,4 +130,4 @@ class ServicesComponent : public corgi::Component<ServicesData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::ServicesComponent,
                          fpl::zooshi::ServicesData)
 
-#endif  // COMPONENTS_SERVICES_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_SERVICES_H_
