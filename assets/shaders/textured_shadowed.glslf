@@ -51,13 +51,14 @@ void main()
 
   highp float light_dist = vShadowPosition.z / vShadowPosition.w;
   light_dist = (light_dist + 1.0) / 2.0;
+  vec3 light_direction = CalculateLightDirection(vPosition, light_pos);
 
   // Calculate Phong shading:
-  lowp vec4 shading_tint = CalculatePhong(vPosition, vNormal, light_pos);
+  lowp vec4 shading_tint = CalculatePhong(vPosition, vNormal, light_direction);
 
   // Calculate specular shading:
-  shading_tint += CalculateSpecular(vPosition, vNormal, light_pos,
-                                  camera_pos);
+  shading_tint += CalculateSpecular(vPosition, vNormal, light_direction,
+                                    camera_pos);
 
   // Apply the shading tint:
   texture_color *= shading_tint;

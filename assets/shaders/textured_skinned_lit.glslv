@@ -39,7 +39,9 @@ void main()
   gl_Position = position;
 
   // Calculate Phong shading:
-  lowp vec4 shading_tint = CalculatePhong(position.xyz, aNormal, light_pos);
+  vec3 light_direction = CalculateLightDirection(position.xyz, light_pos);
+  lowp vec4 shading_tint = CalculatePhong(position.xyz, aNormal,
+                                          light_direction);
 
   // Apply shading tint:
   vColor = color * shading_tint;

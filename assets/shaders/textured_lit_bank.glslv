@@ -25,7 +25,7 @@ varying vec2 vTexCoord;
 uniform mat4 model_view_projection;
 
 // Variables used in lighting:
-varying vec4 lowp vColor;
+varying lowp vec4 vColor;
 uniform vec3 light_pos;    //in object space
 uniform lowp vec4 color;
 
@@ -38,7 +38,9 @@ void main()
   gl_Position = position;
 
   // Calculate Phong shading:
-  lowp vec4 shading_tint = CalculatePhong(position.xyz, aNormal, light_pos);
+  vec3 light_direction = CalculateLightDirection(position.xyz, light_pos);
+  lowp vec4 shading_tint = CalculatePhong(position.xyz, aNormal,
+                                          light_direction);
 
   // Apply shading tint:
   vColor = color * shading_tint;
