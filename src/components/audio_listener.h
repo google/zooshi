@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_LISTENER_H_
-#define COMPONENTS_LISTENER_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_LISTENER_H_
+#define FPL_ZOOSHI_COMPONENTS_LISTENER_H_
 
 #include "components_generated.h"
 #include "corgi/component.h"
@@ -50,4 +50,4 @@ class AudioListenerComponent : public corgi::Component<AudioListenerData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::AudioListenerComponent,
                          fpl::zooshi::AudioListenerData)
 
-#endif  // COMPONENTS_LISTENER_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_LISTENER_H_

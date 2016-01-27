@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_RAIL_DENIZEN_H_
-#define COMPONENTS_RAIL_DENIZEN_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_RAIL_DENIZEN_H_
+#define FPL_ZOOSHI_COMPONENTS_RAIL_DENIZEN_H_
 
 #include <string>
 #include <vector>
@@ -133,4 +133,4 @@ class RailDenizenComponent : public corgi::Component<RailDenizenData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::RailDenizenComponent,
                          fpl::zooshi::RailDenizenData)
 
-#endif  // COMPONENTS_RAIL_DENIZEN_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_RAIL_DENIZEN_H_

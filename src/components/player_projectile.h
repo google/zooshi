@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_PLAYER_PROJECTILE_H_
-#define COMPONENTS_PLAYER_PROJECTILE_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_PLAYER_PROJECTILE_H_
+#define FPL_ZOOSHI_COMPONENTS_PLAYER_PROJECTILE_H_
 
 #include <string>
 
@@ -55,4 +55,4 @@ class PlayerProjectileComponent
 CORGI_REGISTER_COMPONENT(fpl::zooshi::PlayerProjectileComponent,
                          fpl::zooshi::PlayerProjectileData)
 
-#endif  // COMPONENTS_PLAYER_PROJECTILE_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_PLAYER_PROJECTILE_H_

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_SCENERY_H_
-#define COMPONENTS_SCENERY_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_SCENERY_H_
+#define FPL_ZOOSHI_COMPONENTS_SCENERY_H_
 
 #include "components/rail_denizen.h"
 #include "config_generated.h"
@@ -123,4 +123,4 @@ class SceneryComponent : public corgi::Component<SceneryData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::SceneryComponent,
                          fpl::zooshi::SceneryData)
 
-#endif  // COMPONENTS_SCENERY_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_SCENERY_H_

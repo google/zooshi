@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_PATRON_H_
-#define COMPONENTS_PATRON_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_PATRON_H_
+#define FPL_ZOOSHI_COMPONENTS_PATRON_H_
 
 #include "breadboard/event.h"
 #include "breadboard/graph.h"
@@ -346,4 +346,4 @@ class PatronComponent : public corgi::Component<PatronData> {
 
 CORGI_REGISTER_COMPONENT(fpl::zooshi::PatronComponent, fpl::zooshi::PatronData)
 
-#endif  // COMPONENTS_PATRON_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_PATRON_H_
