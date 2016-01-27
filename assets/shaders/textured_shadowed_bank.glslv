@@ -18,34 +18,29 @@
 attribute vec4 aPosition;
 attribute vec2 aTexCoord;
 attribute vec3 aNormal;
-attribute vec4 aColor;
 varying vec2 vTexCoord;
-varying vec4 vColor;
 varying vec4 vShadowPosition;
+varying lowp vec4 vColor;
 
 uniform mat4 model_view_projection;
-uniform vec3 light_pos;    //in object space
 uniform mat4 light_view_projection;
 uniform mat4 model;
 uniform mat4 view_projection;
 
 // Variables used in lighting:
-uniform vec4 ambient_material;
-uniform vec4 diffuse_material;
+varying vec3 vPosition;
+varying vec3 vNormal;
+uniform vec4 color;
 
 void main()
 {
   vShadowPosition = light_view_projection * model * aPosition;
   vec4 position = model_view_projection * aPosition;
   vTexCoord = aTexCoord;
+  vNormal = aNormal;
 
   vDepth = position.z * position.w;
   gl_Position = position;
-
-  vec3 light_vector = light_pos - aPosition.xyz;
-  float diffuse = max(0.0, dot(normalize(aNormal), normalize(light_vector)));
-  // Store the light-calculated color, so we can use all of it except the alpha.
-  vec4 color = vec4(aColor.rgb, 1) * (diffuse_material * diffuse + ambient_material);
-  // Pass through the vertex color alpha.
-  vColor = vec4(color.rgb, aColor.a);
+  vPosition = position.xyz;
+  vColor = color;
 }

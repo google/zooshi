@@ -15,15 +15,22 @@
 #include "shaders/include/fog_effect.glslf_h"
 
 varying mediump vec2 vTexCoord;
-varying lowp vec4 vColor;
 uniform sampler2D texture_unit_0;
+
+// Variables used in lighting:
+varying lowp vec4 vColor;
 
 void main()
 {
   lowp vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
 
+  // Apply the object tint:
   lowp vec4 final_color = vColor * texture_color;
+
+  // Apply the fog:
   final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist,
     fog_max_dist, fog_color,  fog_max_saturation);
+
+  // Final result:
   gl_FragColor = final_color;
 }

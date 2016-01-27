@@ -12,24 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "shaders/fplbase/phong_shading.glslf_h"
 #include "shaders/include/fog_effect.glslf_h"
 #include "shaders/include/shadow_map.glslf_h"
 
-uniform lowp vec4 color;
 varying mediump vec2 vTexCoord;
-varying lowp vec4 vColor;
 uniform sampler2D texture_unit_0;
 
 // Variables used by shadow maps:
 uniform mediump mat4 shadow_mvp;
 varying vec4 vShadowPosition;
 
+// Variables used in lighting:
+varying vec3 vPosition;
+varying vec3 vNormal;
+uniform vec3 light_pos;     // in object space
+uniform vec3 camera_pos;    // in object space
+uniform lowp vec4 color;
+
 void main()
 {
   mediump vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
   // Apply the shadow map:
-  mediump vec2 shadowmap_coords = vShadowPosition.xy / vShadowPosition.w;
-  shadowmap_coords = (shadowmap_coords + vec2(1.0, 1.0)) / 2.0;
+  mediump vec2 shadowmap_coords = CalculateShadowMapCoords(vShadowPosition);
 
   highp float light_dist = vShadowPosition.z / vShadowPosition.w;
   light_dist = (light_dist + 1.0) / 2.0;
@@ -38,7 +43,17 @@ void main()
   texture_color = ApplyShadows(texture_color, shadowmap_coords, light_dist);
 
   // Apply the object tint:
-  lowp vec4 final_color = vColor * texture_color;
+  lowp vec4 final_color = color * texture_color;
+
+  // Calculate Phong shading:
+  lowp vec4 shading_tint = CalculatePhong(vPosition, vNormal, light_pos);
+
+  // Calculate specular shading:
+  shading_tint += CalculateSpecular(vPosition, vNormal, light_pos,
+                                  camera_pos);
+
+  // Apply the shading tint:
+  final_color *= shading_tint;
 
   // Apply the fog:
   final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist,

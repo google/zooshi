@@ -2000,6 +2000,73 @@
       ]
     },
 
+    // Light Main
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "Light"
+          }
+        },
+        {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "render_option": "OnlyInEditor"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {"x":20,"y":20,"z":20}
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/rock_smallest.fplmesh",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/textured_shadowed",
+              "shaders/render_depth"
+            ],
+            "culling": ["ViewAngle", "Distance"],
+            "visible": false
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0.016,
+                  "z": 0.0
+                },
+                "mass": 40.0,
+                "restitution": 1.0,
+                "collision_type": "Raycast",
+                "collides_with": [
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        }
+      ]
+    },
+
+    // Grass Dense
     {
       "component_list": [
         {
@@ -2267,6 +2334,53 @@
       ]
     },
 
+    // Light Main
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "LightPrototype"
+          }
+        },
+        {
+          "data_type": "TransformDef"
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 5.3,
+                    "y": 1.3,
+                    "z": 1.2
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 7.8
+                },
+                "mass": 40.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ],
+                "user_tag": "mid"
+              }
+            ],
+            "kinematic": true
+          }
+        }
+      ]
+    },
+
+    // Grass Dense
     {
       "component_list": [
         {

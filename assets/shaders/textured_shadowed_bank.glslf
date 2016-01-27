@@ -16,26 +16,33 @@
 // which blends between two textures using vertex color alpha as the blend
 // factor.
 
+#include "shaders/fplbase/phong_shading.glslf_h"
 #include "shaders/include/fog_effect.glslf_h"
 #include "shaders/include/shadow_map.glslf_h"
 
 varying mediump vec2 vTexCoord;
-varying lowp vec4 vColor;
 uniform sampler2D texture_unit_0;
 uniform sampler2D texture_unit_1;
+varying lowp vec4 vColor;
 
 uniform mediump mat4 shadow_mvp;
 varying vec4 vShadowPosition;
 
+// Variables used in lighting:
+varying vec3 vPosition;
+varying vec3 vNormal;
+uniform vec3 light_pos;     // in object space
+uniform vec3 camera_pos;    // in object space
+
 void main()
 {
+  // Blend between the bank's two textures based on the vertex color's alpha.
   mediump vec4 texture_color =
     texture2D(texture_unit_0, vTexCoord) * (1.0 - vColor.a) +
     texture2D(texture_unit_1, vTexCoord) * vColor.a;
 
   // Apply the shadow map:
-  mediump vec2 shadowmap_coords = vShadowPosition.xy / vShadowPosition.w;
-  shadowmap_coords = (shadowmap_coords + vec2(1.0, 1.0)) / 2.0;
+  mediump vec2 shadowmap_coords = CalculateShadowMapCoords(vShadowPosition);
 
   highp float light_dist = vShadowPosition.z / vShadowPosition.w;
   light_dist = (light_dist + 1.0) / 2.0;
@@ -45,6 +52,16 @@ void main()
 
   // Apply the object tint:
   lowp vec4 final_color = vec4(vColor.rgb, 1) * texture_color;
+
+  // Calculate Phong shading:
+  lowp vec4 shading_tint = CalculatePhong(vPosition, vNormal, light_pos);
+
+  // Calculate specular shading:
+  shading_tint += CalculateSpecular(vPosition, vNormal, light_pos,
+                                  camera_pos);
+
+  // Apply the shading tint:
+  final_color *= shading_tint;
 
   // Apply the fog:
   final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist,

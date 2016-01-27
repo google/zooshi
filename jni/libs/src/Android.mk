@@ -78,6 +78,7 @@ LOCAL_SRC_FILES := \
   src/components/attributes.cpp \
   src/components/audio_listener.cpp \
   src/components/lap_dependent.cpp \
+  src/components/light.cpp \
   src/components/patron.cpp \
   src/components/player.cpp \
   src/components/player_projectile.cpp \

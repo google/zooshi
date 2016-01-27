@@ -12,30 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "shaders/fplbase/phong_shading.glslf_h"
+
 attribute vec4 aPosition;
 attribute vec2 aTexCoord;
 attribute vec3 aNormal;
 varying vec2 vTexCoord;
-varying vec4 vColor;
 
 uniform mat4 model_view_projection;
-uniform vec3 light_pos;    //in object space
-
-// Variables used in lighting:
-uniform vec4 ambient_material;
-uniform vec4 diffuse_material;
-uniform lowp vec4 color;
 
 // Variables used by fog:
 varying lowp float vDepth;
-uniform float fog_roll_in_dist;
-uniform float fog_max_dist;
-uniform vec4 fog_color;
-// Saturation represents how much the object becomes saturated by the fog
-// color at fog_max_dist.  If saturation is 1.0, at max_fog_dist, the object
-// is entirely fog_color-colored.  At 0.0, even at max_fog_dist, the object's
-// color is unchanged.
-uniform float fog_max_saturation;
+
+// Variables used in lighting:
+varying lowp vec4 vColor;
+uniform vec3 light_pos;    //in object space
+uniform lowp vec4 color;
 
 void main()
 {
@@ -45,8 +37,9 @@ void main()
   vDepth = position.z * position.w;
   gl_Position = position;
 
-  //float diffuse = max(0.0, dot(normalize(aNormal), normalize(light_pos)));
-  vec3 light_vector = light_pos - aPosition.xyz;
-  float diffuse = max(0.0, dot(normalize(aNormal), normalize(light_vector)));
-  vColor = color * (diffuse_material * diffuse + ambient_material);
+  // Calculate Phong shading:
+  lowp vec4 shading_tint = CalculatePhong(position.xyz, aNormal, light_pos);
+
+  // Apply shading tint:
+  vColor = color * shading_tint;
 }

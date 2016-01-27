@@ -22,6 +22,7 @@
 #include "components/attributes.h"
 #include "components/audio_listener.h"
 #include "components/lap_dependent.h"
+#include "components/light.h"
 #include "components/patron.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
@@ -118,6 +119,7 @@ struct World {
   RailNodeComponent rail_node_component;
   SceneryComponent scenery_component;
   ServicesComponent services_component;
+  LightComponent light_component;
   corgi::component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
   corgi::component_library::MetaComponent meta_component;

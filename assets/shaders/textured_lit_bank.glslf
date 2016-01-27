@@ -16,20 +16,30 @@
 // which blends between two textures using vertex color alpha as the blend
 // factor.
 
+#include "shaders/fplbase/phong_shading.glslf_h"
 #include "shaders/include/fog_effect.glslf_h"
 
 varying mediump vec2 vTexCoord;
-varying lowp vec4 vColor;
 uniform sampler2D texture_unit_0;
 uniform sampler2D texture_unit_1;
 
+// Variables used in lighting:
+varying lowp vec4 vColor;
+
 void main()
 {
+  // Blend between the bank's two textures based on the vertex color's alpha.
   lowp vec4 texture_color =
     texture2D(texture_unit_0, vTexCoord) * (1.0 - vColor.a) +
     texture2D(texture_unit_1, vTexCoord) * vColor.a;
+
+  // Apply the object tint:
   lowp vec4 final_color = vec4(vColor.rgb, 1) * texture_color;
+
+  // Apply the fog:
   final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist,
     fog_max_dist, fog_color,  fog_max_saturation);
+
+  // Final result:
   gl_FragColor = final_color;
 }

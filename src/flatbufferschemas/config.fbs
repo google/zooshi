@@ -129,12 +129,6 @@ table RenderConfig {
   // the camera.  0 means the shadow map is perfectly centered on the camera.
   shadow_map_offset:float;
 
-  // Location (in world space) of the light source:
-  light_position:fplbase.Vec3;
-
-  // Intensity of shadows.  1.0 = solid black, 0.0 = invisible shadows.
-  shadow_intensity:float;
-
   // Minimum distance at which the fog does anything.
   fog_roll_in_dist:float;
 
