@@ -155,7 +155,9 @@
     "cull_distance": 50,
     "pop_out_distance": 45,
     "pop_in_distance": 40,
-    "create_shadow_map":false
+    "create_shadow_map":false,
+    "shadow_map_bias": 0.02,
+    "shadow_map_viewport_angle": 45.0
    },
 
   "scene_lab_config" : {

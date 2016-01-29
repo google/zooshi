@@ -158,6 +158,12 @@ table RenderConfig {
   // Create a shadow map each frame?  (Only necessary if one or more objects
   // are using the textured_shadowed shader.)
   create_shadow_map:bool;
+
+  // Depth bias for the shadow map.
+  shadow_map_bias:float;
+
+  // Viewport angle for the shadow map, in degrees.
+  shadow_map_viewport_angle:float;
 }
 
 table WorldDef {

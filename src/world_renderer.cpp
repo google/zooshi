@@ -18,6 +18,7 @@
 #include "components/services.h"
 #include "corgi_component_library/transform.h"
 #include "fplbase/flatbuffer_utils.h"
+#include "motive/math/angle.h"
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -26,6 +27,7 @@ using mathfu::vec4;
 using mathfu::mat3;
 using mathfu::mat4;
 using mathfu::quat;
+using motive::kDegreesToRadians;
 
 namespace fpl {
 namespace zooshi {
@@ -33,37 +35,49 @@ namespace zooshi {
 using corgi::component_library::TransformData;
 using corgi::EntityRef;
 
+// The texture ID that maps the one the shader is expecting. Any change to
+// this constant must be mirrored in shadow_map.glslf_h texture_unit_<id>.
 static const int kShadowMapTextureID = 7;
-// 45 degrees in radians:
-static const float kShadowMapViewportAngle = 0.7853975f;
+
+// RGB values should be near-max (1.0) to represent max depth, but the
+// DecodeFloatFromRGBA function in shadow_map.glslf_h requires that the values
+// are not at the max value.
 static const vec4 kShadowMapClearColor = vec4(0.99f, 0.99f, 0.99f, 1.0f);
-static const float kShadowMapBias = 0.007f;
 
 void WorldRenderer::Initialize(World* world) {
   int shadow_map_resolution =
       world->config->rendering_config()->shadow_map_resolution();
   shadow_map_.Initialize(
       mathfu::vec2i(shadow_map_resolution, shadow_map_resolution));
-  depth_shader_ = world->asset_manager->LoadShader("shaders/render_depth");
-  depth_skinned_shader_ =
-      world->asset_manager->LoadShader("shaders/render_depth_skinned");
+
+  if (world->config->rendering_config()->create_shadow_map()) {
+    depth_shader_ = world->asset_manager->LoadShader("shaders/render_depth");
+    depth_skinned_shader_ =
+        world->asset_manager->LoadShader("shaders/render_depth_skinned");
+  }
+
   textured_shader_ = world->asset_manager->LoadShader("shaders/textured");
-  textured_shadowed_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_shadowed");
-  textured_lit_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_lit");
-  textured_lit_bank_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_lit_bank");
-  textured_shadowed_bank_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_shadowed_bank");
-  textured_skinned_lit_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_skinned_lit");
-  textured_skinned_shadowed_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_skinned_shadowed");
+
   textured_lit_cutout_shader_ =
       world->asset_manager->LoadShader("shaders/textured_lit_cutout");
   river_shader_ =
       world->asset_manager->LoadShader("shaders/origwater");
+
+  if (world->config->rendering_config()->render_shadows()) {
+    textured_shadowed_shader_ =
+        world->asset_manager->LoadShader("shaders/textured_shadowed");
+    textured_shadowed_bank_shader_ =
+        world->asset_manager->LoadShader("shaders/textured_shadowed_bank");
+    textured_skinned_shadowed_shader_ =
+        world->asset_manager->LoadShader("shaders/textured_skinned_shadowed");
+  } else {
+    textured_lit_shader_ =
+        world->asset_manager->LoadShader("shaders/textured_lit");
+    textured_lit_bank_shader_ =
+        world->asset_manager->LoadShader("shaders/textured_lit_bank");
+    textured_skinned_lit_shader_ =
+        world->asset_manager->LoadShader("shaders/textured_skinned_lit");
+  }
 }
 
 void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
@@ -82,7 +96,10 @@ void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
   vec3 light_position = light_transform->position;
   SetLightPosition(light_position);
 
-  light_camera_.set_viewport_angle(kShadowMapViewportAngle / shadow_map_zoom);
+  float viewport_angle =
+      world->config->rendering_config()->shadow_map_viewport_angle() *
+      kDegreesToRadians;
+  light_camera_.set_viewport_angle(viewport_angle / shadow_map_zoom);
   light_camera_.set_viewport_resolution(
       vec2(shadow_map_resolution, shadow_map_resolution));
   vec3 light_camera_focus =
@@ -172,6 +189,11 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
 void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
                                 fplbase::Renderer& renderer, World* world) {
   if (world->config->rendering_config()->create_shadow_map()) {
+    float shadow_map_bias =
+        world->config->rendering_config()->shadow_map_bias();
+    depth_shader_->SetUniform("bias", shadow_map_bias);
+    depth_skinned_shader_->SetUniform("bias", shadow_map_bias);
+
     CreateShadowMap(camera, renderer, world);
   }
 
@@ -180,35 +202,30 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   renderer.DepthTest(true);
   renderer.set_model_view_projection(camera_transform);
 
-  assert(textured_shadowed_shader_);
-  textured_shadowed_shader_->SetUniform("view_projection", camera_transform);
-  textured_shadowed_shader_->SetUniform("light_view_projection",
-                                        light_camera_.GetTransformMatrix());
-
-  assert(textured_shadowed_bank_shader_);
-  textured_shadowed_bank_shader_->SetUniform("view_projection",
-                                             camera_transform);
-  textured_shadowed_bank_shader_->SetUniform(
-      "light_view_projection",
-      light_camera_.GetTransformMatrix());
-
-  assert(textured_skinned_shadowed_shader_);
-  textured_skinned_shadowed_shader_->SetUniform("view_projection",
-                                             camera_transform);
-  textured_skinned_shadowed_shader_->SetUniform(
-      "light_view_projection",
-      light_camera_.GetTransformMatrix());
-
   float texture_repeats = world->config->river_config()->texture_repeats();
   float river_offset = world->river_component.river_offset();
 
   river_shader_->SetUniform("river_offset",   river_offset);
   river_shader_->SetUniform("texture_repeats", texture_repeats);
 
-  depth_shader_->SetUniform("bias", kShadowMapBias);
-  depth_skinned_shader_->SetUniform("bias", kShadowMapBias);
-
   if (world->config->rendering_config()->render_shadows()) {
+    assert(textured_shadowed_shader_);
+    textured_shadowed_shader_->SetUniform("view_projection", camera_transform);
+    textured_shadowed_shader_->SetUniform("light_view_projection",
+                                          light_camera_.GetTransformMatrix());
+
+    assert(textured_shadowed_bank_shader_);
+    textured_shadowed_bank_shader_->SetUniform("view_projection",
+                                               camera_transform);
+    textured_shadowed_bank_shader_->SetUniform(
+        "light_view_projection", light_camera_.GetTransformMatrix());
+
+    assert(textured_skinned_shadowed_shader_);
+    textured_skinned_shadowed_shader_->SetUniform("view_projection",
+                                                  camera_transform);
+    textured_skinned_shadowed_shader_->SetUniform(
+        "light_view_projection", light_camera_.GetTransformMatrix());
+
     SetLightingUniforms(textured_shadowed_shader_, world);
     SetLightingUniforms(textured_shadowed_bank_shader_, world);
     SetLightingUniforms(textured_skinned_shadowed_shader_, world);
