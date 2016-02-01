@@ -1,4 +1,4 @@
-// Copyright 2015 Google Inc. All rights reserved.
+// Copyright 2016 Google Inc. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,9 +15,14 @@
 attribute vec4 aPosition;
 attribute vec2 aTexCoord;
 varying vec2 vTexCoord;
-uniform mat4 model_view_projection;
+
+uniform mediump mat4 model;
+uniform mediump mat4 view_projection;
+uniform mediump mat4 light_view_projection;
+varying vec4 vShadowPosition;
 void main()
 {
-  gl_Position = model_view_projection * aPosition;
+  vShadowPosition = light_view_projection * model * aPosition;
+  gl_Position = view_projection * model * aPosition;
   vTexCoord = aTexCoord;
 }

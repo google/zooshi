@@ -45,18 +45,19 @@
   "shader_list": [
     "shaders/color",
     "shaders/lit_textured_normal",
-    "shaders/origwater",
     "shaders/render_depth",
     "shaders/render_depth_skinned",
     "shaders/textured",
     "shaders/textured_lit",
     "shaders/textured_lit_bank",
-    "shaders/textured_shadowed_bank",
     "shaders/textured_lit_cutout",
+    "shaders/textured_shadowed",
+    "shaders/textured_shadowed_bank",
     "shaders/textured_skinned_lit",
     "shaders/textured_skinned_shadowed",
     "shaders/textured_opaque",
-    "shaders/textured_shadowed"
+    "shaders/water",
+    "shaders/water_shadowed"
   ],
   "anims": {
     "lists" : [

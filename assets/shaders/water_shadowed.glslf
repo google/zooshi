@@ -1,4 +1,4 @@
-// Copyright 2015 Google Inc. All rights reserved.
+// Copyright 2016 Google Inc. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "shaders/include/shadow_map.glslf_h"
+#include "shaders/include/water.glslf_h"
+
 varying mediump vec2 vTexCoord;
 uniform sampler2D texture_unit_0;
 uniform lowp vec4 color;
-uniform highp float river_offset;
-uniform highp float texture_repeats;
+
+varying vec4 vShadowPosition;
+
 void main() {
-  highp float tex_v = vTexCoord.y;
-
-  // This is basically equivalent to tex_v = fract(tex_v * texture_repeats),
-  // except that it makes us less likely to get math errors on devices with
-  // low floating point percision.
-  tex_v = fract(fract(((tex_v / 16.0) * (texture_repeats / 16.0))) * 256.0);
-
-  highp vec2 tc = vec2(vTexCoord.x, tex_v + fract(-river_offset));
+  highp vec2 tc = CalculateWaterTextureCoordinates(vTexCoord);
 
   lowp vec4 texture_color = texture2D(texture_unit_0, tc);
+
+  // Apply the shadow map:
+  mediump vec2 shadowmap_coords = CalculateShadowMapCoords(vShadowPosition);
+
+  highp float light_dist = vShadowPosition.z / vShadowPosition.w;
+  light_dist = (light_dist + 1.0) / 2.0;
+
+  // Apply shadows:
+  texture_color = ApplyShadows(texture_color, shadowmap_coords, light_dist);
 
   gl_FragColor = color * texture_color;
 }

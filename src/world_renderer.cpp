@@ -50,7 +50,7 @@ void WorldRenderer::Initialize(World* world) {
   shadow_map_.Initialize(
       mathfu::vec2i(shadow_map_resolution, shadow_map_resolution));
 
-  if (world->config->rendering_config()->create_shadow_map()) {
+  if (world->config->rendering_config()->render_shadows()) {
     depth_shader_ = world->asset_manager->LoadShader("shaders/render_depth");
     depth_skinned_shader_ =
         world->asset_manager->LoadShader("shaders/render_depth_skinned");
@@ -60,8 +60,6 @@ void WorldRenderer::Initialize(World* world) {
 
   textured_lit_cutout_shader_ =
       world->asset_manager->LoadShader("shaders/textured_lit_cutout");
-  river_shader_ =
-      world->asset_manager->LoadShader("shaders/origwater");
 
   if (world->config->rendering_config()->render_shadows()) {
     textured_shadowed_shader_ =
@@ -70,6 +68,8 @@ void WorldRenderer::Initialize(World* world) {
         world->asset_manager->LoadShader("shaders/textured_shadowed_bank");
     textured_skinned_shadowed_shader_ =
         world->asset_manager->LoadShader("shaders/textured_skinned_shadowed");
+    shadowed_river_shader_ =
+        world->asset_manager->LoadShader("shaders/water_shadowed");
   } else {
     textured_lit_shader_ =
         world->asset_manager->LoadShader("shaders/textured_lit");
@@ -77,6 +77,8 @@ void WorldRenderer::Initialize(World* world) {
         world->asset_manager->LoadShader("shaders/textured_lit_bank");
     textured_skinned_lit_shader_ =
         world->asset_manager->LoadShader("shaders/textured_skinned_lit");
+    river_shader_ =
+        world->asset_manager->LoadShader("shaders/water");
   }
 }
 
@@ -188,7 +190,7 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
 
 void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
                                 fplbase::Renderer& renderer, World* world) {
-  if (world->config->rendering_config()->create_shadow_map()) {
+  if (world->config->rendering_config()->render_shadows()) {
     float shadow_map_bias =
         world->config->rendering_config()->shadow_map_bias();
     depth_shader_->SetUniform("bias", shadow_map_bias);
@@ -204,9 +206,6 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
 
   float texture_repeats = world->config->river_config()->texture_repeats();
   float river_offset = world->river_component.river_offset();
-
-  river_shader_->SetUniform("river_offset",   river_offset);
-  river_shader_->SetUniform("texture_repeats", texture_repeats);
 
   if (world->config->rendering_config()->render_shadows()) {
     assert(textured_shadowed_shader_);
@@ -226,10 +225,19 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
     textured_skinned_shadowed_shader_->SetUniform(
         "light_view_projection", light_camera_.GetTransformMatrix());
 
+    assert(shadowed_river_shader_);
+    shadowed_river_shader_->SetUniform("view_projection",
+                                                  camera_transform);
+    shadowed_river_shader_->SetUniform(
+        "light_view_projection", light_camera_.GetTransformMatrix());
+    shadowed_river_shader_->SetUniform("river_offset", river_offset);
+    shadowed_river_shader_->SetUniform("texture_repeats", texture_repeats);
+
     SetLightingUniforms(textured_shadowed_shader_, world);
     SetLightingUniforms(textured_shadowed_bank_shader_, world);
     SetLightingUniforms(textured_skinned_shadowed_shader_, world);
     SetLightingUniforms(textured_lit_cutout_shader_, world);
+    SetLightingUniforms(shadowed_river_shader_, world);
 
     SetFogUniforms(textured_shadowed_shader_, world);
     SetFogUniforms(textured_shadowed_bank_shader_, world);
@@ -243,6 +251,9 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
     SetFogUniforms(textured_lit_shader_, world);
     SetFogUniforms(textured_lit_bank_shader_, world);
     SetFogUniforms(textured_skinned_lit_shader_, world);
+
+    river_shader_->SetUniform("river_offset",   river_offset);
+    river_shader_->SetUniform("texture_repeats", texture_repeats);
   }
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);

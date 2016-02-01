@@ -429,9 +429,10 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
   mesh_data->shaders.push_back(
       asset_manager->LoadShader(river->shader()->c_str()));
-  // TODO: Potentially make a separate shadowed river shader.
   mesh_data->shaders.push_back(
-      asset_manager->LoadShader(river->shader()->c_str()));
+      asset_manager->LoadShader(river->shader_shadowed()->c_str()));
+  mesh_data->shaders.push_back(
+      asset_manager->LoadShader("shaders/render_depth"));
   if (mesh_data->mesh != nullptr) {
     // Mesh's destructor handles cleaning up its GL buffers
     delete mesh_data->mesh;

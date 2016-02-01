@@ -60,6 +60,7 @@ class WorldRenderer {
   fplbase::Shader* textured_skinned_lit_shader_;
   fplbase::Shader* textured_skinned_shadowed_shader_;
   fplbase::Shader* river_shader_;
+  fplbase::Shader* shadowed_river_shader_;
   Camera light_camera_;
   fplbase::RenderTarget shadow_map_;
 
