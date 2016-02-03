@@ -76,7 +76,10 @@ main() {
   find ${ANDROID_SDK_HOME} -name android-support-v4.jar
 
   # Change to zooshi directory
-  cd "$(dirname "$(readlink -f $0)")/.."
+  readonly zooshi_dir="$(cd $(dirname $0) ; pwd)"
+  cd ${zooshi_dir}/..
+  echo working directory:
+  pwd
 
   # Clean git client
   git clean -dfx
@@ -97,6 +100,7 @@ main() {
   INSTALL=0 LAUNCH=0 ./build_install_run.sh --verbose -A ''
   if [[ -n "${dist_dir}" ]]; then
     # Archive unsigned release build.
+    mkdir -p ${dist_dir}
     cp ./bin/zooshi-release-unsigned.apk ${dist_dir}/Zooshi.apk
     # Archive release build signed with the test key.
     cp ./apks/zooshi.apk ${dist_dir}/Zooshi-Test.apk
@@ -107,6 +111,7 @@ main() {
   INSTALL=0 LAUNCH=0 ./build_install_run.sh -T debug -f 'NDK_DEBUG=1' \
     --verbose -A ''
   if [[ -n "${dist_dir}" ]]; then
+    mkdir -p ${dist_dir}
     cp ./bin/zooshi-debug.apk ${dist_dir}/Zooshi-Debug.apk
   fi
 }
