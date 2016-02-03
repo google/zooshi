@@ -30,7 +30,10 @@
               "b": 0.5,
               "a": 1.0
             },
-            "specular_exponent": 16.0
+            "specular_exponent": 16.0,
+            "diffuse_intensity": 1.0,
+            "ambient_intensity": 1.0,
+            "specular_intensity": 1.0
           }
         },
         {

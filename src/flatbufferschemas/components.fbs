@@ -259,6 +259,12 @@ table LightDef {
   ambient_color:fplbase.ColorRGBA;
   specular_color:fplbase.ColorRGBA;
   specular_exponent:float;
+
+  // Intensity for different lighting variables. Essentially a multiplier which
+  // will make the colors whiter.
+  diffuse_intensity:float;
+  ambient_intensity:float;
+  specular_intensity:float;
 }
 
 // No data, (never loaded from raw data) but we need it to be a thing so that it

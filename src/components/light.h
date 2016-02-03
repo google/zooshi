@@ -31,7 +31,10 @@ struct LightData {
         specular_exponent(0.0f),
         diffuse_color(mathfu::kZeros4f),
         ambient_color(mathfu::kZeros4f),
-        specular_color(mathfu::kZeros4f) {}
+        specular_color(mathfu::kZeros4f),
+        diffuse_intensity(0.0f),
+        ambient_intensity(0.0f),
+        specular_intensity(0.0f) {}
   /// @brief Intensity of shadows. 1.0 = solid black, 0.0 = clear shadows.
   float shadow_intensity;
 
@@ -46,6 +49,17 @@ struct LightData {
 
   /// @brief Color of specular light in RGB format.
   mathfu::vec4 specular_color;
+
+  /// @brief Intensity multiplier for diffuse component in lighting.
+  /// @note The multiplier works for RGBA colors such that 0.0 = black,
+  /// 1.0 = no change, and 2.0 = double brightness.
+  float diffuse_intensity;
+
+  /// @brief Intensity multiplier for ambient component in lighting.
+  float ambient_intensity;
+
+  /// @brief Intensity multiplier for specular component in lighting.
+  float specular_intensity;
 };
 
 /// @brief Component that controls the position of a light source and
