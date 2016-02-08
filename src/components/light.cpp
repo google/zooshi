@@ -38,6 +38,9 @@ void LightComponent::AddFromRawData(corgi::EntityRef& entity,
   data->ambient_color = LoadColorRGBA(light_def->ambient_color());
   data->specular_color = LoadColorRGBA(light_def->specular_color());
   data->specular_exponent = light_def->specular_exponent();
+  data->diffuse_intensity = light_def->diffuse_intensity();
+  data->ambient_intensity = light_def->ambient_intensity();
+  data->specular_intensity = light_def->specular_intensity();
 }
 
 corgi::ComponentInterface::RawDataUniquePtr LightComponent::ExportRawData(
@@ -56,6 +59,9 @@ corgi::ComponentInterface::RawDataUniquePtr LightComponent::ExportRawData(
   ColorRGBA specular = Vec4ToColorRGBA(data->specular_color);
   builder.add_specular_color(&specular);
   builder.add_specular_exponent(data->specular_exponent);
+  builder.add_diffuse_intensity(data->diffuse_intensity);
+  builder.add_ambient_intensity(data->ambient_intensity);
+  builder.add_specular_intensity(data->specular_intensity);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();

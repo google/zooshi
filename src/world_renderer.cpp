@@ -182,9 +182,12 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
   if (world->config->rendering_config()->render_shadows()) {
     shader->SetUniform("shadow_intensity", light_data->shadow_intensity);
   }
-  shader->SetUniform("ambient_material", light_data->ambient_color);
-  shader->SetUniform("diffuse_material", light_data->diffuse_color);
-  shader->SetUniform("specular_material", light_data->specular_color);
+  shader->SetUniform("ambient_material",
+                     light_data->ambient_color * light_data->ambient_intensity);
+  shader->SetUniform("diffuse_material",
+                     light_data->diffuse_color * light_data->diffuse_intensity);
+  shader->SetUniform("specular_material", light_data->specular_color *
+                                              light_data->specular_intensity);
   shader->SetUniform("shininess", light_data->specular_exponent);
 }
 
