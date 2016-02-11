@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+readonly cmake_path="../../../../prebuilts/cmake/darwin-x86_64/\
+cmake-2.8.12.1-Darwin64-universal/CMake\ 2.8-12.app/Contents/bin/cmake"
+
 # readlink works differently on osx than it does on linux. This function is a
 # workaround
 realpath() {
@@ -31,7 +34,7 @@ main() {
 
   # Generate makefile and build the game.
   cd "$(dirname "$(realpath $0)")/.."
-  cmake .
+  "${cmake_path}" .
   make
 
   # Put everything into an archive and put that in the supplied dist_dir.
