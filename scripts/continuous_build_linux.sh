@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-readonly cmake_path="../../../../prebuilts/cmake/linux-x86/current/bin/cmake"
+readonly cmake_path="../../../../prebuilts/cmake/linux-x86/current/bin/"
 
 main() {
   local dist_dir=
@@ -25,9 +25,12 @@ main() {
      esac
   done
 
+  # Add the cmake executable to the path so that other scripts can find it.
+  export PATH=${PATH}:${cmake_path}
+
   # Generate makefile and build the game.
   cd "$(dirname "$(readlink -f $0)")/.."
-  "${cmake_path}" .
+  cmake .
   make
 
   # Put everything into an archive and put that in the supplied dist_dir.

@@ -14,7 +14,7 @@
 # limitations under the License.
 
 readonly cmake_path="../../../../prebuilts/cmake/darwin-x86_64/\
-cmake-2.8.12.1-Darwin64-universal/CMake\ 2.8-12.app/Contents/bin/cmake"
+cmake-2.8.12.1-Darwin64-universal/CMake\ 2.8-12.app/Contents/bin/"
 
 # readlink works differently on osx than it does on linux. This function is a
 # workaround
@@ -32,9 +32,13 @@ main() {
      esac
   done
 
+  # Add the cmake executable to the path so that other scripts can find it.
+  export PATH=${PATH}:${cmake_path}
+
+
   # Generate makefile and build the game.
   cd "$(dirname "$(realpath $0)")/.."
-  "${cmake_path}" .
+  cmake .
   make
 
   # Put everything into an archive and put that in the supplied dist_dir.
