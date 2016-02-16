@@ -83,7 +83,8 @@ const mat4 Render3dTextComponent::CalculateModelViewProjection(
 
   const vec2i window_size =
       services_->asset_manager()->renderer().window_size();
-  const float aspect_ratio = window_size.x() / window_size.y();
+  const float aspect_ratio =
+      static_cast<float>(window_size.x()) / static_cast<float>(window_size.y());
 
   // Calculate the animation transform.
   const mat4 anim_transform =
@@ -132,20 +133,22 @@ void Render3dTextComponent::Render(const EntityRef& entity,
   SetModelViewProjectionMatrix(entity, camera);
 
   const RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
+  const Render3dTextData* render_3d_text_data = Data<Render3dTextData>(entity);
 
   if (rendermesh_data && rendermesh_data->visible) {
     // Create FlatUI in 3D space.
     flatui::Run(*services_->asset_manager(), *services_->font_manager(),
                 *services_->input_system(), [&]() {
-                  Render3dTextData* render_3d_text_data =
-                      Data<Render3dTextData>(entity);
                   const vec2i window_size =
                       services_->asset_manager()->renderer().window_size();
-                  const float aspect_ratio = window_size.x() / window_size.y();
+                  const float aspect_ratio =
+                      static_cast<float>(window_size.x()) /
+                      static_cast<float>(window_size.y());
 
                   flatui::SetDepthTest(true);
                   flatui::UseExistingProjection(
-                      vec2i(render_3d_text_data->canvas_size * aspect_ratio,
+                      vec2i(static_cast<int>(render_3d_text_data->canvas_size *
+                                             aspect_ratio),
                             render_3d_text_data->canvas_size));
                   flatui::StartGroup(flatui::kLayoutOverlay);
                   {
