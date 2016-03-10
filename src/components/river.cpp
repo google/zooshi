@@ -474,15 +474,11 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
           asset_manager->LoadShader("shaders/textured_lit"));
       child_render_data->shaders.push_back(
           asset_manager->LoadShader("shaders/textured_shadowed"));
-      child_render_data->shaders.push_back(
-          asset_manager->LoadShader("shaders/render_depth"));
     } else {
       child_render_data->shaders.push_back(
           asset_manager->LoadShader("shaders/textured_lit_bank"));
       child_render_data->shaders.push_back(
           asset_manager->LoadShader("shaders/textured_shadowed_bank"));
-      child_render_data->shaders.push_back(
-          asset_manager->LoadShader("shaders/render_depth"));
     }
     if (child_render_data->mesh != nullptr) {
       // Mesh's destructor handles cleaning up its GL buffers

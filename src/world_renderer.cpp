@@ -68,6 +68,8 @@ void WorldRenderer::Initialize(World* world) {
         world->asset_manager->LoadShader("shaders/textured_shadowed_bank");
     textured_skinned_shadowed_shader_ =
         world->asset_manager->LoadShader("shaders/textured_skinned_shadowed");
+    textured_skinned_lit_shader_ =
+        world->asset_manager->LoadShader("shaders/textured_skinned_lit");
     shadowed_river_shader_ =
         world->asset_manager->LoadShader("shaders/water_shadowed");
   } else {
@@ -248,16 +250,17 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   } else {
     SetLightingUniforms(textured_lit_shader_, world);
     SetLightingUniforms(textured_lit_bank_shader_, world);
-    SetLightingUniforms(textured_skinned_lit_shader_, world);
     SetLightingUniforms(textured_lit_cutout_shader_, world);
 
     SetFogUniforms(textured_lit_shader_, world);
     SetFogUniforms(textured_lit_bank_shader_, world);
-    SetFogUniforms(textured_skinned_lit_shader_, world);
 
     river_shader_->SetUniform("river_offset",   river_offset);
     river_shader_->SetUniform("texture_repeats", texture_repeats);
   }
+
+  SetLightingUniforms(textured_skinned_lit_shader_, world);
+  SetFogUniforms(textured_skinned_lit_shader_, world);
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);
 

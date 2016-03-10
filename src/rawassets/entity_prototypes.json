@@ -697,7 +697,7 @@
             "source_file": "meshes/lady_mandrill_rig.fplmesh",
             "shaders": [
               "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/textured_skinned_lit",
               "shaders/render_depth_skinned"
             ],
             "render_pass" : ["Opaque"],
@@ -865,7 +865,7 @@
             "source_file": "meshes/crocodile_rig.fplmesh",
             "shaders": [
               "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/textured_skinned_lit",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
@@ -1055,7 +1055,7 @@
             "source_file": "meshes/hippo_rig.fplmesh",
             "shaders": [
               "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/textured_skinned_lit",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
@@ -1347,7 +1347,7 @@
             "source_file": "meshes/bird_rig.fplmesh",
             "shaders": [
               "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/textured_skinned_lit",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
@@ -1538,7 +1538,7 @@
             "source_file": "meshes/giraffe_rig.fplmesh",
             "shaders": [
               "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/textured_skinned_lit",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
