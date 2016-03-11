@@ -67,9 +67,19 @@ vec4 ApplyShadows(mediump vec4 texture_color, mediump vec2 shadowmap_coords,
   if (shadowmap_coords.x > 0.0 && shadowmap_coords.x < 1.0 &&
       shadowmap_coords.y > 0.0 && shadowmap_coords.y < 1.0) {
     if (ReadShadowMap(texture_unit_7, shadowmap_coords.xy) < light_dist) {
-      shadow_dimness = 1.0 - shadow_intensity;
+      vec2 vec_from_center = abs(vec2(0.5, 0.5) - shadowmap_coords);
+      // dist_from_center is from 0 in the center to 0.5 at the edge.
+      float dist_from_center = max(vec_from_center.x, vec_from_center.y);
+      // edgeness increases to 1 quadratically to edge
+      float edgeness = 4 * dist_from_center * dist_from_center;
+      // middleness is a number from 0~1 that represents how close you are to
+      // the center of a shadow map. 1 is in the center. 0 is at the edge.
+      // Most of the points will be close to 1.
+      float middleness = 1.0 - edgeness;
+      // Fade shadows that are closer to the edge of the shadow map.
+      shadow_dimness = 1.0 - shadow_intensity * middleness;
+      final_color = vec4(final_color.xyz * shadow_dimness, final_color.a);
     }
-    final_color = vec4(final_color.xyz * shadow_dimness, final_color.a);
   }
 
   return final_color;
