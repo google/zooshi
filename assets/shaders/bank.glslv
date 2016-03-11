@@ -12,17 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-attribute vec4 aPosition;
-attribute vec2 aTexCoord;
-varying vec2 vTexCoord;
+#define TEXTURED
+#define BANK
+#define FOG_EFFECT
+#define PHONG_SHADING
 
-uniform mediump mat4 model;
-uniform mediump mat4 view_projection;
-uniform mediump mat4 light_view_projection;
-varying vec4 vShadowPosition;
-void main()
-{
-  vShadowPosition = light_view_projection * model * aPosition;
-  gl_Position = view_projection * model * aPosition;
-  vTexCoord = aTexCoord;
-}
+#include "shaders/include/uber_shader.glslv_h"

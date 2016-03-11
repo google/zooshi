@@ -27,7 +27,6 @@
     "texture_tile_size": 25.0,
     "material": "materials/lake_daytime.fplmat",
     "shader": "shaders/water",
-    "shader_shadowed": "shaders/water_shadowed",
     "default_banks": [
       { "x_min": -8.5, "x_max": -13.5, "z_min": 3.5, "z_max": 6.2 },
       { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
@@ -157,7 +156,10 @@
     "pop_out_distance": 45,
     "pop_in_distance": 40,
     "shadow_map_bias": 0.02,
-    "shadow_map_viewport_angle": 45.0
+    "shadow_map_viewport_angle": 45.0,
+    "apply_phong": true,
+    "apply_specular": false,
+    "apply_normals": false
    },
 
   "scene_lab_config" : {

@@ -73,7 +73,6 @@ enum PatronAction : byte {
 
 enum ShaderIndex : ubyte {
   Lit,
-  Shadowed,
   Depth,
   Count
 }

@@ -12,16 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "shaders/include/water.glslf_h"
+#define WATER
 
-varying mediump vec2 vTexCoord;
-uniform sampler2D texture_unit_0;
-uniform lowp vec4 color;
-
-void main() {
-  highp vec2 tc = CalculateWaterTextureCoordinates(vTexCoord);
-
-  lowp vec4 texture_color = texture2D(texture_unit_0, tc);
-
-  gl_FragColor = color * texture_color;
-}
+#include "shaders/include/uber_shader.glslf_h"

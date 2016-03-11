@@ -81,7 +81,6 @@ table RiverConfig {
   texture_tile_size:float;
   material:string;
   shader:string;
-  shader_shadowed:string;
 
   // Detail the cross section of the procedurally-generated banks.
   // See the diagram in RiverBankContour for more information.
@@ -161,6 +160,15 @@ table RenderConfig {
 
   // Viewport angle for the shadow map, in degrees.
   shadow_map_viewport_angle:float;
+
+  // Apply Phong shading?
+  apply_phong:bool;
+
+  // Apply specular effect?
+  apply_specular:bool;
+
+  // Use normal maps?
+  apply_normals:bool;
 }
 
 table WorldDef {
