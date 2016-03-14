@@ -49,18 +49,14 @@ class WorldRenderer {
   }
 
  private:
+  fplbase::Shader* bank_shader_;
   fplbase::Shader* depth_shader_;
   fplbase::Shader* depth_skinned_shader_;
   fplbase::Shader* textured_shader_;
-  fplbase::Shader* textured_shadowed_shader_;
   fplbase::Shader* textured_lit_shader_;
   fplbase::Shader* textured_lit_cutout_shader_;
-  fplbase::Shader* textured_lit_bank_shader_;
-  fplbase::Shader* textured_shadowed_bank_shader_;
-  fplbase::Shader* textured_skinned_lit_shader_;
-  fplbase::Shader* textured_skinned_shadowed_shader_;
   fplbase::Shader* river_shader_;
-  fplbase::Shader* shadowed_river_shader_;
+  fplbase::Shader* skinned_shader_;
   Camera light_camera_;
   fplbase::RenderTarget shadow_map_;
 

@@ -12,12 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-varying mediump vec2 vTexCoord;
-uniform sampler2D texture_unit_0;
-uniform lowp vec4 color;
-void main()
-{
-  lowp vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
+#define TEXTURED
 
-  gl_FragColor = color * texture_color;
-}
+#include "shaders/include/uber_shader.glslf_h"

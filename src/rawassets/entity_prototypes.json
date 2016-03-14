@@ -153,7 +153,6 @@
             "source_file": "meshes/raft.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -209,7 +208,6 @@
             "source_file":"meshes/sushi_shrimp.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -241,7 +239,6 @@
             "source_file":"meshes/sushi_salmon.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -284,8 +281,7 @@
           "data" : {
             "source_file":"meshes/raft_sign.fplmesh",
             "shaders": [
-              "shaders/textured_lit_cutout",
-              "shaders/textured_lit_cutout"
+              "shaders/textured_lit"
             ],
             "render_pass" : ["Alpha"]
           }
@@ -352,7 +348,6 @@
             "source_file":"meshes/sushi_salmon.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"],
@@ -696,8 +691,7 @@
           "data": {
             "source_file": "meshes/lady_mandrill_rig.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_lit",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "render_pass" : ["Opaque"],
@@ -864,8 +858,7 @@
           "data": {
             "source_file": "meshes/crocodile_rig.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_lit",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
@@ -1054,8 +1047,7 @@
           "data": {
             "source_file": "meshes/hippo_rig.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_lit",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
@@ -1346,8 +1338,7 @@
           "data": {
             "source_file": "meshes/bird_rig.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_lit",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
@@ -1537,8 +1528,7 @@
           "data": {
             "source_file": "meshes/giraffe_rig.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_lit",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "render_pass": ["Opaque"],
@@ -1870,7 +1860,6 @@
             "source_file": "meshes/sushi_salmon.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -1900,8 +1889,7 @@
           "data" : {
             "source_file":"meshes/ground.fplmesh",
             "shaders": [
-              "shaders/textured_lit",
-              "shaders/textured_shadowed",
+              "shaders/textured",
               "shaders/render_depth"
             ],
             "culling": [],
@@ -1938,7 +1926,6 @@
             "source_file":"meshes/tree_saturated.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -1991,7 +1978,6 @@
           "data" : {
             "source_file":"meshes/skybox_daytime.fplmesh",
             "shaders": [
-              "shaders/textured_opaque",
               "shaders/textured_opaque"
             ],
             "culling": []
@@ -2027,7 +2013,6 @@
             "source_file":"meshes/rock_smallest.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"],
@@ -2086,7 +2071,6 @@
             "source_file":"meshes/grass_dense.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2175,7 +2159,6 @@
             "source_file":"meshes/rock_smallest.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2265,7 +2248,6 @@
             "source_file":"meshes/rock_smaller.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2401,7 +2383,6 @@
             "source_file":"meshes/rock_short.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2500,7 +2481,6 @@
             "source_file":"meshes/rock_mid.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2589,7 +2569,6 @@
             "source_file":"meshes/rock_tall.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2731,8 +2710,7 @@
           "data" : {
             "source_file":"meshes/gate.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2822,8 +2800,7 @@
           "data" : {
             "source_file":"meshes/fern_short.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -2881,8 +2858,7 @@
           "data" : {
             "source_file":"meshes/fern_mid.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "culling": ["ViewAngle", "Distance"],
@@ -2969,8 +2945,7 @@
           "data" : {
             "source_file":"meshes/fern_tall.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "culling": ["ViewAngle", "Distance"],
@@ -3087,7 +3062,6 @@
             "source_file":"meshes/grass_small.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -3145,7 +3119,6 @@
             "source_file":"meshes/grass_wide.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -3202,7 +3175,6 @@
             "source_file":"meshes/log.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -3261,7 +3233,6 @@
             "source_file":"meshes/savanna_tree_01.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -3321,7 +3292,6 @@
             "source_file":"meshes/tree_03.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -3381,7 +3351,6 @@
             "source_file":"meshes/tree_04.fplmesh",
             "shaders": [
               "shaders/textured_lit",
-              "shaders/textured_shadowed",
               "shaders/render_depth"
             ],
             "culling": ["ViewAngle", "Distance"]
@@ -3437,8 +3406,7 @@
           "data" : {
             "source_file":"meshes/heart.fplmesh",
             "shaders": [
-              "shaders/textured_skinned_lit",
-              "shaders/textured_skinned_shadowed",
+              "shaders/skinned",
               "shaders/render_depth_skinned"
             ],
             "culling": ["ViewAngle", "Distance"],

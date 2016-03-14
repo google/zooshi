@@ -3,7 +3,6 @@
   "fader_material" : "materials/pixel_1x1.fplmat",
   "mesh_list" : [
     "meshes/sushi_salmon.fplmesh",
-    "meshes/candy_cane.fplmesh",
     "meshes/sushi_shrimp.fplmesh",
     "meshes/lady_mandrill_rig.fplmesh",
     "meshes/crocodile_rig.fplmesh",
@@ -43,21 +42,16 @@
     "materials/settings_gear.fplmat"
   ],
   "shader_list": [
+    "shaders/bank",
     "shaders/color",
-    "shaders/lit_textured_normal",
     "shaders/render_depth",
     "shaders/render_depth_skinned",
+    "shaders/skinned",
     "shaders/textured",
     "shaders/textured_lit",
-    "shaders/textured_lit_bank",
     "shaders/textured_lit_cutout",
-    "shaders/textured_shadowed",
-    "shaders/textured_shadowed_bank",
-    "shaders/textured_skinned_lit",
-    "shaders/textured_skinned_shadowed",
     "shaders/textured_opaque",
-    "shaders/water",
-    "shaders/water_shadowed"
+    "shaders/water"
   ],
   "anims": {
     "lists" : [

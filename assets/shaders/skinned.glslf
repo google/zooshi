@@ -1,4 +1,4 @@
-// Copyright 2015 Google Inc. All rights reserved.
+// Copyright 2016 Google Inc. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#define WATER
+#define TEXTURED
+#define SKINNED
+#define FOG_EFFECT
 
-#include "shaders/include/uber_shader.glslv_h"
+#include "shaders/include/uber_shader.glslf_h"

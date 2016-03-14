@@ -12,36 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "shaders/fplbase/phong_shading.glslf_h"
+#define TEXTURED
+#define PHONG_SHADING
+#define FOG_EFFECT
 
-attribute vec4 aPosition;
-attribute vec2 aTexCoord;
-attribute vec3 aNormal;
-varying vec2 vTexCoord;
-
-uniform mat4 model_view_projection;
-
-// Variables used by fog:
-varying lowp float vDepth;
-
-// Variables used in lighting:
-varying lowp vec4 vColor;
-uniform vec3 light_pos;    //in object space
-uniform lowp vec4 color;
-
-void main()
-{
-  vec4 position = model_view_projection * aPosition;
-  vTexCoord = aTexCoord;
-
-  vDepth = position.z * position.w;
-  gl_Position = position;
-
-  // Calculate Phong shading:
-  vec3 light_direction = CalculateLightDirection(position.xyz, light_pos);
-  lowp vec4 shading_tint = CalculatePhong(position.xyz, aNormal,
-                                          light_direction);
-
-  // Apply shading tint:
-  vColor = color * shading_tint;
-}
+#include "shaders/include/uber_shader.glslv_h"
