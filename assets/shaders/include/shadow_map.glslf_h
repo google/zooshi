@@ -71,7 +71,7 @@ vec4 ApplyShadows(mediump vec4 texture_color, mediump vec2 shadowmap_coords,
       // dist_from_center is from 0 in the center to 0.5 at the edge.
       float dist_from_center = max(vec_from_center.x, vec_from_center.y);
       // edgeness increases to 1 quadratically to edge
-      float edgeness = 4 * dist_from_center * dist_from_center;
+      float edgeness = 4.0 * dist_from_center * dist_from_center;
       // middleness is a number from 0~1 that represents how close you are to
       // the center of a shadow map. 1 is in the center. 0 is at the edge.
       // Most of the points will be close to 1.
