@@ -92,6 +92,11 @@ void GameMenuState::Initialize(
   scrollbar_foreground_ =
       asset_manager_->LoadTexture("textures/ui_scrollbar_foreground.webp");
 
+  button_checked_ =
+      asset_manager_->LoadTexture("textures/ui_button_checked.webp");
+  button_unchecked_ =
+      asset_manager_->LoadTexture("textures/ui_button_unchecked.webp");
+
   if (!fplbase::LoadFile(manifest->about_file()->c_str(), &about_text_)) {
     fplbase::LogError("About text not found.");
   }
@@ -227,6 +232,9 @@ void GameMenuState::LoadData() {
   // Set default values.
   slider_value_effect_ = kEffectVolumeDefault;
   slider_value_music_ = kMusicVolumeDefault;
+  render_shadows_ = world_->render_shadows();
+  apply_phong_ = world_->apply_phong();
+  apply_specular_ = world_->apply_specular();
 
   // Retrieve save file path.
   std::string storage_path;
@@ -237,6 +245,9 @@ void GameMenuState::LoadData() {
     auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
+    render_shadows_ = save_data->render_shadows();
+    apply_phong_ = save_data->apply_phong();
+    apply_specular_ = save_data->apply_specular();
 #ifdef ANDROID_HMD
     world_->SetHmdControllerEnabled(save_data->gyroscopic_controls_enabled() !=
                                     0);
@@ -250,6 +261,9 @@ void GameMenuState::SaveData() {
   SaveDataBuilder builder(fbb);
   builder.add_effect_volume(slider_value_effect_);
   builder.add_music_volume(slider_value_music_);
+  builder.add_render_shadows(render_shadows_);
+  builder.add_apply_phong(apply_phong_);
+  builder.add_apply_specular(apply_specular_);
 #ifdef ANDROID_HMD
   builder.add_gyroscopic_controls_enabled(
       world_->GetHmdControllerEnabled() ? 1 : 0);

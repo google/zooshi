@@ -17,6 +17,8 @@
 #include "states/game_menu_state.h"
 #include "states/states_common.h"
 
+#include <iostream>
+
 using mathfu::vec2;
 using mathfu::vec3;
 
@@ -202,6 +204,9 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
       case kOptionsMenuStateAudio:
         OptionMenuAudio();
         break;
+      case kOptionsMenuStateRendering:
+        OptionMenuRendering();
+        break;
       default:
         break;
     }
@@ -219,8 +224,9 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
                                       flatui::Margin(60, 35, 40, 50), "Back",
                                       sound_exit_);
     if (event & flatui::kEventWentUp) {
-      // Save data when you leave the audio page.
-      if (options_menu_state_ == kOptionsMenuStateAudio) {
+      // Save data when you leave the audio or rendering page.
+      if (options_menu_state_ == kOptionsMenuStateAudio ||
+          options_menu_state_ == kOptionsMenuStateRendering) {
         SaveData();
       }
       if (options_menu_state_ == kOptionsMenuStateMain) {
@@ -286,6 +292,11 @@ void GameMenuState::OptionMenuMain() {
   if (TextButton("Audio", kButtonSize, flatui::Margin(2)) &
       flatui::kEventWentUp) {
     options_menu_state_ = kOptionsMenuStateAudio;
+  }
+
+  if (TextButton("Rendering", kButtonSize, flatui::Margin(2)) &
+      flatui::kEventWentUp) {
+    options_menu_state_ = kOptionsMenuStateRendering;
   }
 
 #ifdef ANDROID_HMD
@@ -415,6 +426,36 @@ void GameMenuState::OptionMenuAudio() {
       original_effect_volume != slider_value_effect_) {
     UpdateVolumes();
   }
+}
+
+void GameMenuState::OptionMenuRendering() {
+  flatui::SetMargin(flatui::Margin(200, 200, 200, 100));
+
+  flatui::StartGroup(flatui::kLayoutVerticalLeft, 50, "menu");
+  flatui::SetMargin(flatui::Margin(0, 50, 0, 50));
+  flatui::SetTextColor(kColorBrown);
+  flatui::Label("Rendering", kButtonSize);
+  flatui::EndGroup();
+
+  bool render_shadows = world_->render_shadows();
+  bool apply_phong = world_->apply_phong();
+  bool apply_specular = world_->apply_specular();
+
+  flatui::StartGroup(flatui::kLayoutVerticalLeft, 20);
+  flatui::SetMargin(flatui::Margin(0, 50, 0, 50));
+  flatui::CheckBox(*button_checked_, *button_unchecked_, "Shadows", kButtonSize,
+                   flatui::Margin(6, 0), &render_shadows);
+  flatui::CheckBox(*button_checked_, *button_unchecked_, "Phong Shading",
+                   kButtonSize, flatui::Margin(6, 0), &apply_phong);
+  flatui::CheckBox(*button_checked_, *button_unchecked_, "Specular",
+                   kButtonSize, flatui::Margin(6, 0), &apply_specular);
+  flatui::EndGroup();
+
+  world_->SetRenderShadows(render_shadows);
+  world_->SetApplyPhong(apply_phong);
+  world_->SetApplySpecular(apply_specular);
+
+  SaveData();
 }
 
 }  // zooshi

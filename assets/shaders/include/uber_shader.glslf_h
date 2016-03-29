@@ -112,7 +112,9 @@ void main()
   vec3 light_direction = CalculateLightDirection(vPosition, light_pos);
 
   lowp vec4 shading_tint = CalculatePhong(vPosition, vNormal, light_direction);
+  #ifdef SPECULAR_EFFECT
   shading_tint += CalculateSpecular(vPosition, vNormal, light_direction, camera_pos);
+  #endif
   #endif
 
   final_color *= shading_tint;

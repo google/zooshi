@@ -171,6 +171,10 @@ void World::Initialize(const Config& config_,
 
   cardboard_settings_gear =
       asset_manager->FindMaterial("materials/settings_gear.fplmat");
+
+  render_shadows_ = config->rendering_config()->render_shadows_by_default();
+  apply_phong_ = config->rendering_config()->apply_phong_by_default();
+  apply_specular_ = config->rendering_config()->apply_specular_by_default();
 }
 
 void World::AddController(BasePlayerController* controller) {
@@ -213,6 +217,18 @@ void World::SetIsInCardboard(bool in_cardboard) {
     fplbase::SetCardboardButtonEnabled(in_cardboard);
 #endif  // ANDROID_HMD
   }
+}
+
+void World::SetRenderShadows(bool render_shadows) {
+  render_shadows_ = render_shadows;
+}
+
+void World::SetApplyPhong(bool apply_phong) {
+  apply_phong_ = apply_phong;
+}
+
+void World::SetApplySpecular(bool apply_specular) {
+  apply_specular_ = apply_specular;
 }
 
 void LoadWorldDef(World* world, const WorldDef* world_def) {

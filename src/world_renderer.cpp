@@ -20,6 +20,8 @@
 #include "fplbase/flatbuffer_utils.h"
 #include "motive/math/angle.h"
 
+#include <iostream>
+
 using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;
@@ -32,6 +34,7 @@ using motive::kDegreesToRadians;
 namespace fpl {
 namespace zooshi {
 
+using corgi::component_library::RenderMeshComponent;
 using corgi::component_library::TransformData;
 using corgi::EntityRef;
 
@@ -63,48 +66,57 @@ static const char* kDefinesText[] = {
 const char* kEmptyString = "";
 
 void WorldRenderer::Initialize(World* world) {
+  render_shadows_ = world->render_shadows();
+  apply_phong_ = world->apply_phong();
+  apply_specular_ = world->apply_specular();
+
   int shadow_map_resolution =
       world->config->rendering_config()->shadow_map_resolution();
   shadow_map_.Initialize(
       mathfu::vec2i(shadow_map_resolution, shadow_map_resolution));
 
+  LoadAllShaders(world);
+}
 
-  if (world->config->rendering_config()->render_shadows()) {
+void WorldRenderer::LoadAllShaders(World* world) {
+  if (world->render_shadows()) {
     depth_shader_ = world->asset_manager->LoadShader("shaders/render_depth");
     depth_skinned_shader_ =
         world->asset_manager->LoadShader("shaders/render_depth_skinned");
   }
 
   // Allocate an extra index for nullptr
-  const char* shader_defines[] = {
-    world->config->rendering_config()->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
-    world->config->rendering_config()->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
-    world->config->rendering_config()->render_shadows() ? kDefinesText[kShadowEffect] : kEmptyString,
-    world->config->rendering_config()->apply_normals() ? kDefinesText[kNormalMaps] : kEmptyString,
-    nullptr
-  };
+  const char *shader_defines[] = {
+      world->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
+      world->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
+      world->render_shadows() ? kDefinesText[kShadowEffect] : kEmptyString,
+      world->config->rendering_config()->apply_normal_maps_by_default()
+          ? kDefinesText[kNormalMaps]
+          : kEmptyString,
+      nullptr};
 
   textured_shader_ = world->asset_manager->LoadShader("shaders/textured");
 
   textured_lit_cutout_shader_ =
       world->asset_manager->LoadShader("shaders/textured_lit_cutout");
-  textured_lit_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_lit", shader_defines);
-  bank_shader_ = world->asset_manager->LoadShader("shaders/bank", shader_defines);
+  textured_lit_shader_ = world->asset_manager->ReloadShader(
+      "shaders/textured_lit", shader_defines);
+  bank_shader_ =
+      world->asset_manager->ReloadShader("shaders/bank", shader_defines);
   river_shader_ =
-      world->asset_manager->LoadShader("shaders/water", shader_defines);
+      world->asset_manager->ReloadShader("shaders/water", shader_defines);
 
   // Don't cast shadows on patrons.
-  const char* shader_defines_skinned[] = {
-    world->config->rendering_config()->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
-    world->config->rendering_config()->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
-    kEmptyString,
-    world->config->rendering_config()->apply_normals() ? kDefinesText[kNormalMaps] : kEmptyString,
-    nullptr
-  };
+  const char *shader_defines_skinned[] = {
+      world->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
+      world->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
+      kEmptyString, world->config->rendering_config()->apply_normal_maps_by_default()
+                        ? kDefinesText[kNormalMaps]
+                        : kEmptyString,
+      nullptr};
 
-  skinned_shader_ =
-      world->asset_manager->LoadShader("shaders/skinned", shader_defines_skinned);
+  skinned_shader_ = world->asset_manager->ReloadShader("shaders/skinned",
+                                                       shader_defines_skinned);
 }
 
 void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
@@ -204,7 +216,7 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
   const LightData* light_data =
       world->entity_manager.GetComponentData<LightData>(main_light_entity);
 
-  if (world->config->rendering_config()->render_shadows()) {
+  if (world->render_shadows()) {
     shader->SetUniform("shadow_intensity", light_data->shadow_intensity);
   }
   shader->SetUniform("ambient_material",
@@ -218,7 +230,27 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
 
 void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
                                 fplbase::Renderer& renderer, World* world) {
-  if (world->config->rendering_config()->render_shadows()) {
+  bool reload_shaders = false;
+  if (render_shadows_ != world->render_shadows()) {
+    render_shadows_ = world->render_shadows();
+    reload_shaders = true;
+  }
+
+  if (apply_phong_ != world->apply_phong()) {
+    apply_phong_ = world->apply_phong();
+    reload_shaders = true;
+  }
+
+  if (apply_specular_ != world->apply_specular()) {
+    apply_specular_ = world->apply_specular();
+    reload_shaders = true;
+  }
+
+  if (reload_shaders) {
+    LoadAllShaders(world);
+  }
+
+  if (world->render_shadows()) {
     float shadow_map_bias =
         world->config->rendering_config()->shadow_map_bias();
     depth_shader_->SetUniform("bias", shadow_map_bias);
@@ -235,27 +267,24 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   float texture_repeats = world->config->river_config()->texture_repeats();
   float river_offset = world->river_component.river_offset();
 
-  if (world->config->rendering_config()->render_shadows()) {
+  if (world->render_shadows()) {
     assert(textured_lit_shader_);
     textured_lit_shader_->SetUniform("view_projection", camera_transform);
     textured_lit_shader_->SetUniform("light_view_projection",
                                      light_camera_.GetTransformMatrix());
 
     assert(bank_shader_);
-    bank_shader_->SetUniform("view_projection",
-                                               camera_transform);
+    bank_shader_->SetUniform("view_projection", camera_transform);
     bank_shader_->SetUniform(
         "light_view_projection", light_camera_.GetTransformMatrix());
 
     assert(skinned_shader_);
-    skinned_shader_->SetUniform("view_projection",
-                                                  camera_transform);
+    skinned_shader_->SetUniform("view_projection", camera_transform);
     skinned_shader_->SetUniform(
         "light_view_projection", light_camera_.GetTransformMatrix());
 
     assert(river_shader_);
-    river_shader_->SetUniform("view_projection",
-                                                  camera_transform);
+    river_shader_->SetUniform("view_projection", camera_transform);
     river_shader_->SetUniform(
         "light_view_projection", light_camera_.GetTransformMatrix());
   }

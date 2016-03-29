@@ -172,6 +172,15 @@ struct World {
   bool is_in_cardboard() const { return is_in_cardboard_; }
   void SetIsInCardboard(bool in_cardboard);
 
+  bool render_shadows() const { return render_shadows_; }
+  void SetRenderShadows(bool render_shadows);
+
+  bool apply_phong() const { return apply_phong_; }
+  void SetApplyPhong(bool apply_phong);
+
+  bool apply_specular() const { return apply_specular_; }
+  void SetApplySpecular(bool apply_specular);
+
   void SetHmdControllerEnabled(bool enabled) {
 #ifdef ANDROID_HMD
     // hmd_controller can be NULL if the device does not support a head mounted
@@ -200,6 +209,15 @@ struct World {
  private:
   // Determines if the game is in Cardboard mode (for special rendering).
   bool is_in_cardboard_;
+
+  // Determine if shadows should be turned on.
+  bool render_shadows_;
+
+  // Determine if Phong shading should be turned on.
+  bool apply_phong_;
+
+  // Determine if specular effect should be turned on.
+  bool apply_specular_;
 };
 
 // Removes all entities from the world, then repopulates it based on the entity

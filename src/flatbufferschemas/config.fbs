@@ -113,7 +113,7 @@ table RiverConfig {
 
 table RenderConfig {
   // Should we render shadows?
-  render_shadows:bool;
+  render_shadows_by_default:bool;
 
   // Resolution (in pixels) of the shadowmap.
   // Needs to be a power of 2, or GLES breaks
@@ -162,13 +162,13 @@ table RenderConfig {
   shadow_map_viewport_angle:float;
 
   // Apply Phong shading?
-  apply_phong:bool;
+  apply_phong_by_default:bool;
 
   // Apply specular effect?
-  apply_specular:bool;
+  apply_specular_by_default:bool;
 
   // Use normal maps?
-  apply_normals:bool;
+  apply_normal_maps_by_default:bool;
 }
 
 table WorldDef {

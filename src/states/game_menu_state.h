@@ -50,6 +50,7 @@ enum OptionsMenuState {
   kOptionsMenuStateAbout,
   kOptionsMenuStateLicenses,
   kOptionsMenuStateAudio,
+  kOptionsMenuStateRendering,
 };
 
 // Constant defintions for UI elements. Colors, button sizes etc.
@@ -103,6 +104,7 @@ class GameMenuState : public StateNode {
   void OptionMenuLicenses();
   void OptionMenuAbout();
   void OptionMenuAudio();
+  void OptionMenuRendering();
 
   // Instance a text button that plays a sound when selected.
   flatui::Event TextButton(const char* text, float size,
@@ -195,6 +197,8 @@ class GameMenuState : public StateNode {
   fplbase::Texture* slider_knob_;
   fplbase::Texture* scrollbar_back_;
   fplbase::Texture* scrollbar_foreground_;
+  fplbase::Texture* button_checked_;
+  fplbase::Texture* button_unchecked_;
 #ifdef USING_GOOGLE_PLAY_GAMES
   fplbase::Texture* image_gpg_;
   fplbase::Texture* image_leaderboard_;
@@ -211,6 +215,10 @@ class GameMenuState : public StateNode {
 
   float slider_value_effect_;
   float slider_value_music_;
+
+  bool render_shadows_;
+  bool apply_phong_;
+  bool apply_specular_;
 
   // Buses to control sound volumes.
   pindrop::Bus sound_effects_bus_;
