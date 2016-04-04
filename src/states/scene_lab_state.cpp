@@ -85,6 +85,10 @@ void SceneLabState::Render(fplbase::Renderer* renderer) {
   renderer->set_model_view_projection(camera_transform);
 
   world_->river_component.UpdateRiverMeshes();
+
+  if (world_->render_shadows()) {
+    world_->world_renderer->RenderShadowMap(*camera, *renderer, world_);
+  }
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);
 }
 

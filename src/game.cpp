@@ -768,7 +768,7 @@ void Game::Run() {
     // Start openGL actually rendering.  AdvanceFrame will (among other things)
     // trigger a gl_flush.  This thread will block until it is completed,
     // but that's ok because the update thread is humming in the background
-    // preparing the worlds tate for next frame.
+    // preparing the world state for next frame.
     // -------------------------------------------
     SystraceBegin("AdvanceFrame");
     renderer_.AdvanceFrame(input_.minimized(), input_.Time());

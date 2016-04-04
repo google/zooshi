@@ -20,8 +20,6 @@
 #include "fplbase/flatbuffer_utils.h"
 #include "motive/math/angle.h"
 
-#include <iostream>
-
 using mathfu::vec2i;
 using mathfu::vec2;
 using mathfu::vec3;
@@ -86,7 +84,7 @@ void WorldRenderer::LoadAllShaders(World* world) {
   }
 
   // Allocate an extra index for nullptr
-  const char *shader_defines[] = {
+  const char* shader_defines[] = {
       world->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
       world->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
       world->render_shadows() ? kDefinesText[kShadowEffect] : kEmptyString,
@@ -107,7 +105,7 @@ void WorldRenderer::LoadAllShaders(World* world) {
       world->asset_manager->ReloadShader("shaders/water", shader_defines);
 
   // Don't cast shadows on patrons.
-  const char *shader_defines_skinned[] = {
+  const char* shader_defines_skinned[] = {
       world->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
       world->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
       kEmptyString, world->config->rendering_config()->apply_normal_maps_by_default()
@@ -228,8 +226,7 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
   shader->SetUniform("shininess", light_data->specular_exponent);
 }
 
-void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
-                                fplbase::Renderer& renderer, World* world) {
+bool WorldRenderer::ShouldReloadShaders(World* world) {
   bool reload_shaders = false;
   if (render_shadows_ != world->render_shadows()) {
     render_shadows_ = world->render_shadows();
@@ -246,17 +243,26 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
     reload_shaders = true;
   }
 
-  if (reload_shaders) {
+  return reload_shaders;
+}
+
+void WorldRenderer::RenderShadowMap(const corgi::CameraInterface& camera,
+                                    fplbase::Renderer& renderer, World* world) {
+  if (ShouldReloadShaders(world)) {
     LoadAllShaders(world);
   }
 
-  if (world->render_shadows()) {
-    float shadow_map_bias =
-        world->config->rendering_config()->shadow_map_bias();
-    depth_shader_->SetUniform("bias", shadow_map_bias);
-    depth_skinned_shader_->SetUniform("bias", shadow_map_bias);
+  float shadow_map_bias = world->config->rendering_config()->shadow_map_bias();
+  depth_shader_->SetUniform("bias", shadow_map_bias);
+  depth_skinned_shader_->SetUniform("bias", shadow_map_bias);
 
-    CreateShadowMap(camera, renderer, world);
+  CreateShadowMap(camera, renderer, world);
+}
+
+void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
+                                fplbase::Renderer& renderer, World* world) {
+  if (ShouldReloadShaders(world)) {
+    LoadAllShaders(world);
   }
 
   mat4 camera_transform = camera.GetTransformMatrix();
@@ -275,8 +281,8 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
 
     assert(bank_shader_);
     bank_shader_->SetUniform("view_projection", camera_transform);
-    bank_shader_->SetUniform(
-        "light_view_projection", light_camera_.GetTransformMatrix());
+    bank_shader_->SetUniform("light_view_projection",
+                             light_camera_.GetTransformMatrix());
 
     assert(skinned_shader_);
     skinned_shader_->SetUniform("view_projection", camera_transform);

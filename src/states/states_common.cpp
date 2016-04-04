@@ -59,6 +59,10 @@ static void RenderStereoscopic(fplbase::Renderer& renderer, World* world,
                                Camera& camera, Camera* cardboard_camera,
                                fplbase::InputSystem* input_system) {
 #ifdef ANDROID_HMD
+  // Render shadow map before undistortion occurs.
+  if (world->render_shadows()) {
+    world->world_renderer->RenderShadowMap(camera, renderer, world);
+  }
   fplbase::HeadMountedDisplayViewSettings view_settings;
   HeadMountedDisplayRenderStart(input_system->head_mounted_display_input(),
                                 &renderer, mathfu::kZeros4f, true,
@@ -113,6 +117,9 @@ void RenderWorld(fplbase::Renderer& renderer, World* world, Camera& camera,
     // http://www.seas.upenn.edu/~pcozzi/OpenGLInsights/OpenGLInsights-TileBasedArchitectures.pdf
     renderer.ClearFrameBuffer(mathfu::kZeros4f);
 
+    if (world->render_shadows()) {
+      world->world_renderer->RenderShadowMap(camera, renderer, world);
+    }
     world->world_renderer->RenderWorld(camera, renderer, world);
   }
 }

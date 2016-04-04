@@ -36,6 +36,10 @@ class WorldRenderer {
   void RenderPrep(const corgi::CameraInterface& camera,
                   World* world);
 
+  // Render the shadowmap from the current camera.
+  void RenderShadowMap(const corgi::CameraInterface& camera,
+                       fplbase::Renderer& renderer, World* world);
+
   // Render the world, viewed from the current camera.
   void RenderWorld(const corgi::CameraInterface& camera,
                    fplbase::Renderer& renderer,
@@ -74,6 +78,8 @@ class WorldRenderer {
   void SetFogUniforms(fplbase::Shader* shader, World* world);
 
   void SetLightingUniforms(fplbase::Shader* shader, World* world);
+
+  bool ShouldReloadShaders(World* world);
 };
 
 }  // zooshi
