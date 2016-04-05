@@ -13,7 +13,10 @@
     { "name": "gate", "hierarchy": 1 },
     { "name": "sushi", "unit": "m" },
     { "name": "introbox", "unit": "m" },
-    { "name": "tree_saturated", "unit": "m" }
+    { "name": "tree_saturated", "unit": "m" },
+    { "name": "point_light", "unit": "m" },
+    { "name": "sun_light", "unit": "m" },
+    { "name": "spot_light", "unit": "m" }
   ],
 
   "anim_meta": [
