@@ -437,9 +437,9 @@ void GameMenuState::OptionMenuRendering() {
   flatui::Label("Rendering", kButtonSize);
   flatui::EndGroup();
 
-  bool render_shadows = world_->render_shadows();
-  bool apply_phong = world_->apply_phong();
-  bool apply_specular = world_->apply_specular();
+  bool render_shadows = world_->RenderingOptionEnabled(kShadowEffect);
+  bool apply_phong = world_->RenderingOptionEnabled(kPhongShading);
+  bool apply_specular = world_->RenderingOptionEnabled(kSpecularEffect);
 
   flatui::StartGroup(flatui::kLayoutVerticalLeft, 20);
   flatui::SetMargin(flatui::Margin(0, 50, 0, 50));
@@ -451,9 +451,9 @@ void GameMenuState::OptionMenuRendering() {
                    kButtonSize, flatui::Margin(6, 0), &apply_specular);
   flatui::EndGroup();
 
-  world_->SetRenderShadows(render_shadows);
-  world_->SetApplyPhong(apply_phong);
-  world_->SetApplySpecular(apply_specular);
+  world_->SetRenderingOption(kShadowEffect, render_shadows);
+  world_->SetRenderingOption(kPhongShading, apply_phong);
+  world_->SetRenderingOption(kSpecularEffect, apply_specular);
 
   SaveData();
 }

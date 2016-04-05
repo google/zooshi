@@ -219,17 +219,39 @@ void World::SetIsInCardboard(bool in_cardboard) {
   }
 }
 
-void World::SetRenderShadows(bool render_shadows) {
-  render_shadows_ = render_shadows;
+void World::SetRenderingOption(ShaderDefines s, bool enable_option) {
+  switch (s) {
+  case kPhongShading:
+    apply_phong_ = enable_option;
+    break;
+  case kSpecularEffect:
+    apply_specular_ = enable_option;
+    break;
+  case kShadowEffect:
+    render_shadows_ = enable_option;
+    break;
+  default:
+    return;
+  }
+  rendering_dirty_ = true;
 }
 
-void World::SetApplyPhong(bool apply_phong) {
-  apply_phong_ = apply_phong;
+bool World::RenderingOptionEnabled(ShaderDefines s) {
+  switch (s) {
+  case kPhongShading:
+    return apply_phong_;
+  case kSpecularEffect:
+    return apply_specular_;
+  case kShadowEffect:
+    return render_shadows_;
+  default:
+    return false;
+  }
 }
 
-void World::SetApplySpecular(bool apply_specular) {
-  apply_specular_ = apply_specular;
-}
+bool World::RenderingOptionsDirty() { return rendering_dirty_; }
+
+void World::ResetRenderingDirty() { rendering_dirty_ = false; }
 
 void LoadWorldDef(World* world, const WorldDef* world_def) {
   for (auto iter = world->entity_manager.begin();
