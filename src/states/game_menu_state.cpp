@@ -232,9 +232,9 @@ void GameMenuState::LoadData() {
   // Set default values.
   slider_value_effect_ = kEffectVolumeDefault;
   slider_value_music_ = kMusicVolumeDefault;
-  render_shadows_ = world_->render_shadows();
-  apply_phong_ = world_->apply_phong();
-  apply_specular_ = world_->apply_specular();
+  render_shadows_ = world_->RenderingOptionEnabled(kShadowEffect);
+  apply_phong_ = world_->RenderingOptionEnabled(kPhongShading);
+  apply_specular_ = world_->RenderingOptionEnabled(kSpecularEffect);
 
   // Retrieve save file path.
   std::string storage_path;

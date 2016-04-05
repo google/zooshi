@@ -45,15 +45,6 @@ static const int kShadowMapTextureID = 7;
 // are not at the max value.
 static const vec4 kShadowMapClearColor = vec4(0.99f, 0.99f, 0.99f, 1.0f);
 
-// The #defines that can be applied to a shader.
-enum ShaderDefines {
-  kPhongShading,
-  kSpecularEffect,
-  kShadowEffect,
-  kNormalMaps,
-  kNumShaderDefines
-};
-
 static const char* kDefinesText[] = {
   "PHONG_SHADING",
   "SPECULAR_EFFECT",
@@ -64,10 +55,6 @@ static const char* kDefinesText[] = {
 const char* kEmptyString = "";
 
 void WorldRenderer::Initialize(World* world) {
-  render_shadows_ = world->render_shadows();
-  apply_phong_ = world->apply_phong();
-  apply_specular_ = world->apply_specular();
-
   int shadow_map_resolution =
       world->config->rendering_config()->shadow_map_resolution();
   shadow_map_.Initialize(
@@ -77,21 +64,21 @@ void WorldRenderer::Initialize(World* world) {
 }
 
 void WorldRenderer::LoadAllShaders(World* world) {
-  if (world->render_shadows()) {
+  if (world->RenderingOptionEnabled(kShadowEffect)) {
     depth_shader_ = world->asset_manager->LoadShader("shaders/render_depth");
     depth_skinned_shader_ =
         world->asset_manager->LoadShader("shaders/render_depth_skinned");
   }
 
   // Allocate an extra index for nullptr
-  const char* shader_defines[] = {
-      world->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
-      world->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
-      world->render_shadows() ? kDefinesText[kShadowEffect] : kEmptyString,
-      world->config->rendering_config()->apply_normal_maps_by_default()
-          ? kDefinesText[kNormalMaps]
-          : kEmptyString,
-      nullptr};
+  const char* shader_defines[kNumShaderDefines + 1];
+  for (int s = kPhongShading; s < kNumShaderDefines; ++s) {
+    ShaderDefines shader_define = static_cast<ShaderDefines>(s);
+    shader_defines[shader_define] = world->RenderingOptionEnabled(shader_define)
+                                        ? kDefinesText[shader_define]
+                                        : kEmptyString;
+  }
+  shader_defines[kNumShaderDefines] = nullptr;
 
   textured_shader_ = world->asset_manager->LoadShader("shaders/textured");
 
@@ -105,16 +92,11 @@ void WorldRenderer::LoadAllShaders(World* world) {
       world->asset_manager->ReloadShader("shaders/water", shader_defines);
 
   // Don't cast shadows on patrons.
-  const char* shader_defines_skinned[] = {
-      world->apply_phong() ? kDefinesText[kPhongShading] : kEmptyString,
-      world->apply_specular() ? kDefinesText[kSpecularEffect] : kEmptyString,
-      kEmptyString, world->config->rendering_config()->apply_normal_maps_by_default()
-                        ? kDefinesText[kNormalMaps]
-                        : kEmptyString,
-      nullptr};
+  shader_defines[kShadowEffect] = kEmptyString;
+  skinned_shader_ =
+      world->asset_manager->ReloadShader("shaders/skinned", shader_defines);
 
-  skinned_shader_ = world->asset_manager->ReloadShader("shaders/skinned",
-                                                       shader_defines_skinned);
+  world->ResetRenderingDirty();
 }
 
 void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
@@ -214,7 +196,7 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
   const LightData* light_data =
       world->entity_manager.GetComponentData<LightData>(main_light_entity);
 
-  if (world->render_shadows()) {
+  if (world->RenderingOptionEnabled(kShadowEffect)) {
     shader->SetUniform("shadow_intensity", light_data->shadow_intensity);
   }
   shader->SetUniform("ambient_material",
@@ -226,29 +208,9 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
   shader->SetUniform("shininess", light_data->specular_exponent);
 }
 
-bool WorldRenderer::ShouldReloadShaders(World* world) {
-  bool reload_shaders = false;
-  if (render_shadows_ != world->render_shadows()) {
-    render_shadows_ = world->render_shadows();
-    reload_shaders = true;
-  }
-
-  if (apply_phong_ != world->apply_phong()) {
-    apply_phong_ = world->apply_phong();
-    reload_shaders = true;
-  }
-
-  if (apply_specular_ != world->apply_specular()) {
-    apply_specular_ = world->apply_specular();
-    reload_shaders = true;
-  }
-
-  return reload_shaders;
-}
-
 void WorldRenderer::RenderShadowMap(const corgi::CameraInterface& camera,
                                     fplbase::Renderer& renderer, World* world) {
-  if (ShouldReloadShaders(world)) {
+  if (world->RenderingOptionsDirty()) {
     LoadAllShaders(world);
   }
 
@@ -261,7 +223,7 @@ void WorldRenderer::RenderShadowMap(const corgi::CameraInterface& camera,
 
 void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
                                 fplbase::Renderer& renderer, World* world) {
-  if (ShouldReloadShaders(world)) {
+  if (world->RenderingOptionsDirty()) {
     LoadAllShaders(world);
   }
 
@@ -273,7 +235,7 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
   float texture_repeats = world->config->river_config()->texture_repeats();
   float river_offset = world->river_component.river_offset();
 
-  if (world->render_shadows()) {
+  if (world->RenderingOptionEnabled(kShadowEffect)) {
     assert(textured_lit_shader_);
     textured_lit_shader_->SetUniform("view_projection", camera_transform);
     textured_lit_shader_->SetUniform("light_view_projection",

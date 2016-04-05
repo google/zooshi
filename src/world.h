@@ -72,6 +72,15 @@ namespace zooshi {
 class WorldRenderer;
 struct Config;
 
+// The #defines that can be applied to a shader.
+enum ShaderDefines {
+  kPhongShading,
+  kSpecularEffect,
+  kShadowEffect,
+  kNormalMaps,
+  kNumShaderDefines
+};
+
 struct World {
  public:
   World()
@@ -172,14 +181,11 @@ struct World {
   bool is_in_cardboard() const { return is_in_cardboard_; }
   void SetIsInCardboard(bool in_cardboard);
 
-  bool render_shadows() const { return render_shadows_; }
-  void SetRenderShadows(bool render_shadows);
+  void SetRenderingOption(ShaderDefines s, bool enable_option);
+  bool RenderingOptionEnabled(ShaderDefines s);
+  bool RenderingOptionsDirty();
 
-  bool apply_phong() const { return apply_phong_; }
-  void SetApplyPhong(bool apply_phong);
-
-  bool apply_specular() const { return apply_specular_; }
-  void SetApplySpecular(bool apply_specular);
+  void ResetRenderingDirty();
 
   void SetHmdControllerEnabled(bool enabled) {
 #ifdef ANDROID_HMD
@@ -218,6 +224,9 @@ struct World {
 
   // Determine if specular effect should be turned on.
   bool apply_specular_;
+
+  // Whether any rendering option has been modified since last draw call.
+  bool rendering_dirty_;
 };
 
 // Removes all entities from the world, then repopulates it based on the entity

@@ -86,7 +86,7 @@ void SceneLabState::Render(fplbase::Renderer* renderer) {
 
   world_->river_component.UpdateRiverMeshes();
 
-  if (world_->render_shadows()) {
+  if (world_->RenderingOptionEnabled(kShadowEffect)) {
     world_->world_renderer->RenderShadowMap(*camera, *renderer, world_);
   }
   world_->world_renderer->RenderWorld(*camera, *renderer, world_);

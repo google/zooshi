@@ -66,9 +66,6 @@ class WorldRenderer {
   fplbase::Shader* skinned_shader_;
   Camera light_camera_;
   fplbase::RenderTarget shadow_map_;
-  bool render_shadows_;
-  bool apply_phong_;
-  bool apply_specular_;
 
   // Create the shadowmap for the current worldstate.  Needs to be called
   // before RenderWorld.
@@ -78,8 +75,6 @@ class WorldRenderer {
   void SetFogUniforms(fplbase::Shader* shader, World* world);
 
   void SetLightingUniforms(fplbase::Shader* shader, World* world);
-
-  bool ShouldReloadShaders(World* world);
 };
 
 }  // zooshi
