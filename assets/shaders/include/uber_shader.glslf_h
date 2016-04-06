@@ -14,16 +14,16 @@
 
 #ifdef PHONG_SHADING
 #include "shaders/fplbase/phong_shading.glslf_h"
-#endif
+#endif  // PHONG_SHADING
 #ifdef FOG_EFFECT
 #include "shaders/include/fog_effect.glslf_h"
-#endif
+#endif  // FOG_EFFECT
 #ifdef SHADOW_EFFECT
 #include "shaders/include/shadow_map.glslf_h"
-#endif
+#endif  // SHADOW_EFFECT
 #ifdef WATER
 #include "shaders/include/water.glslf_h"
-#endif
+#endif  // WATER
 
 varying mediump vec2 vTexCoord;
 uniform sampler2D texture_unit_0;
@@ -38,9 +38,9 @@ varying vec3 vNormal;
 #ifndef SHADOW_EFFECT
 uniform vec3 light_pos;
 uniform vec3 camera_pos;
-#endif
-#endif
-#endif
+#endif  // SHADOW_EFFECT
+#endif  // NORMALS
+#endif  // PHONG_SHADING
 
 #ifdef SHADOW_EFFECT
 // Variables used by shadow maps:
@@ -50,14 +50,14 @@ varying vec4 vShadowPosition;
 
 uniform vec3 light_pos;     // in object space
 uniform vec3 camera_pos;    // in object space
-#endif
+#endif  // SHADOW_EFFECT
 
 #ifdef BANK
 uniform sampler2D texture_unit_1;
 #ifndef PHONG_SHADING
 varying lowp vec4 vColor;
-#endif
-#endif
+#endif  // PHONG_SHADING
+#endif  // BANK
 
 #ifdef NORMALS
 varying mediump vec3 vObjectSpacePosition;
@@ -68,8 +68,8 @@ varying lowp vec3 vTangentSpaceCameraVector;
 uniform sampler2D texture_unit_1;
 #else
 uniform sampler2D texture_unit_2;
-#endif
-#endif
+#endif  // BANK
+#endif  // NORMALS
 
 void main()
 {
@@ -84,8 +84,8 @@ void main()
   lowp vec4 texture_color = texture2D(texture_unit_0, texture_coords);
   #else
   lowp vec4 texture_color = texture2D(texture_unit_0, vTexCoord);
-  #endif
-  #endif
+  #endif  // WATER
+  #endif  // BANK
 
   // Apply the object tint:
   lowp vec4 final_color = color * texture_color;
@@ -98,7 +98,7 @@ void main()
   #else
   lowp vec3 tangent_space_normal =
       texture2D(texture_unit_2, vTexCoord).yxz * 2.0 - 1.0;
-  #endif
+  #endif  // BANK
 
   vec3 normal = normalize(tangent_space_normal);
   vec3 light_direction = normalize(vTangentSpaceLightVector);
@@ -107,24 +107,24 @@ void main()
 
   #ifdef SPECULAR_EFFECT
   shading_tint += CalculateSpecular(vPosition, normal, light_direction, vTangentSpaceCameraVector);
-  #endif
+  #endif  // SPECULAR_EFFECT
   #else
   vec3 light_direction = CalculateLightDirection(vPosition, light_pos);
 
   lowp vec4 shading_tint = CalculatePhong(vPosition, vNormal, light_direction);
   #ifdef SPECULAR_EFFECT
   shading_tint += CalculateSpecular(vPosition, vNormal, light_direction, camera_pos);
-  #endif
-  #endif
+  #endif  // SPECULAR_EFFECT
+  #endif  // NORMALS
 
   final_color *= shading_tint;
-  #endif
+  #endif  // PHONG_SHADING
 
   #ifdef FOG_EFFECT
   // Apply the fog:
   final_color = ApplyFog(final_color, vDepth, fog_roll_in_dist, fog_max_dist,
       fog_color, fog_max_saturation);
-  #endif
+  #endif  // FOG_EFFECT
 
   #ifdef SHADOW_EFFECT
   // Apply the shadow map:
@@ -135,7 +135,7 @@ void main()
 
   // Apply shadows:
   final_color = ApplyShadows(final_color, shadowmap_coords, light_dist);
-  #endif
+  #endif  // SHADOW_EFFECT
 
   gl_FragColor = final_color;
 }
