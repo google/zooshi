@@ -123,6 +123,12 @@
           }
         },
         {
+          "data_type": "EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
           "data_type": "TransformDef",
           "data": {
             "position": {
@@ -145,6 +151,36 @@
               "EndMoustacheCroc",
               "EndLovelyGiraffette"
             ]
+          }
+        },
+        {
+          "data_type": "PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 4,
+                    "y": 5,
+                    "z": 0.2
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0.3
+                },
+                "mass": 100.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
           }
         },
         {
