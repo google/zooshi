@@ -96,6 +96,7 @@ void GameMenuState::Initialize(
       asset_manager_->LoadTexture("textures/ui_button_checked.webp");
   button_unchecked_ =
       asset_manager_->LoadTexture("textures/ui_button_unchecked.webp");
+  cardboard_logo_ = asset_manager_->LoadTexture("textures/cardboard_logo.webp");
 
   if (!fplbase::LoadFile(manifest->about_file()->c_str(), &about_text_)) {
     fplbase::LogError("About text not found.");
@@ -232,9 +233,6 @@ void GameMenuState::LoadData() {
   // Set default values.
   slider_value_effect_ = kEffectVolumeDefault;
   slider_value_music_ = kMusicVolumeDefault;
-  render_shadows_ = world_->RenderingOptionEnabled(kShadowEffect);
-  apply_phong_ = world_->RenderingOptionEnabled(kPhongShading);
-  apply_specular_ = world_->RenderingOptionEnabled(kSpecularEffect);
 
   // Retrieve save file path.
   std::string storage_path;
@@ -245,9 +243,16 @@ void GameMenuState::LoadData() {
     auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
-    render_shadows_ = save_data->render_shadows();
-    apply_phong_ = save_data->apply_phong();
-    apply_specular_ = save_data->apply_specular();
+
+    world_->SetRenderingOption(kShadowEffect, save_data->render_shadows());
+    world_->SetRenderingOption(kPhongShading, save_data->apply_phong());
+    world_->SetRenderingOption(kSpecularEffect, save_data->apply_specular());
+    world_->SetRenderingOptionCardboard(kShadowEffect,
+                                        save_data->render_shadows_cardboard());
+    world_->SetRenderingOptionCardboard(kPhongShading,
+                                        save_data->apply_phong_cardboard());
+    world_->SetRenderingOptionCardboard(kSpecularEffect,
+                                        save_data->apply_specular_cardboard());
 #ifdef ANDROID_HMD
     world_->SetHmdControllerEnabled(save_data->gyroscopic_controls_enabled() !=
                                     0);
@@ -261,9 +266,15 @@ void GameMenuState::SaveData() {
   SaveDataBuilder builder(fbb);
   builder.add_effect_volume(slider_value_effect_);
   builder.add_music_volume(slider_value_music_);
-  builder.add_render_shadows(render_shadows_);
-  builder.add_apply_phong(apply_phong_);
-  builder.add_apply_specular(apply_specular_);
+  builder.add_render_shadows(world_->RenderingOptionEnabled(kShadowEffect));
+  builder.add_apply_phong(world_->RenderingOptionEnabled(kPhongShading));
+  builder.add_apply_specular(world_->RenderingOptionEnabled(kSpecularEffect));
+  builder.add_render_shadows_cardboard(
+      world_->RenderingOptionEnabledCardboard(kShadowEffect));
+  builder.add_apply_phong_cardboard(
+      world_->RenderingOptionEnabledCardboard(kPhongShading));
+  builder.add_apply_specular_cardboard(
+      world_->RenderingOptionEnabledCardboard(kSpecularEffect));
 #ifdef ANDROID_HMD
   builder.add_gyroscopic_controls_enabled(
       world_->GetHmdControllerEnabled() ? 1 : 0);

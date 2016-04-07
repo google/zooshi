@@ -69,9 +69,6 @@ class AssetManager;
 
 namespace zooshi {
 
-class WorldRenderer;
-struct Config;
-
 // The #defines that can be applied to a shader.
 enum ShaderDefines {
   kPhongShading,
@@ -80,6 +77,9 @@ enum ShaderDefines {
   kNormalMaps,
   kNumShaderDefines
 };
+
+class WorldRenderer;
+struct Config;
 
 struct World {
  public:
@@ -182,7 +182,9 @@ struct World {
   void SetIsInCardboard(bool in_cardboard);
 
   void SetRenderingOption(ShaderDefines s, bool enable_option);
+  void SetRenderingOptionCardboard(ShaderDefines s, bool enable_option);
   bool RenderingOptionEnabled(ShaderDefines s);
+  bool RenderingOptionEnabledCardboard(ShaderDefines s);
   bool RenderingOptionsDirty();
 
   void ResetRenderingDirty();
@@ -224,6 +226,15 @@ struct World {
 
   // Determine if specular effect should be turned on.
   bool apply_specular_;
+
+  // Determine if shadows should be turned on in Cardboard mode.
+  bool render_shadows_cardboard_;
+
+  // Determine if Phong shading should be turned on in Cardboard mode.
+  bool apply_phong_cardboard_;
+
+  // Determine if specular effect should be turned on in Cardboard mode.
+  bool apply_specular_cardboard_;
 
   // Whether any rendering option has been modified since last draw call.
   bool rendering_dirty_;

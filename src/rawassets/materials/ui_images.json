@@ -13,6 +13,7 @@
     "textures/games_achievements_green.webp",
     "textures/games_controller.webp",
     "textures/games_leaderboards_green.webp",
+    "textures/cardboard_logo.webp",
   ],
   "blendmode": "ALPHA",
   "desired_format" : [

@@ -199,6 +199,7 @@ class GameMenuState : public StateNode {
   fplbase::Texture* scrollbar_foreground_;
   fplbase::Texture* button_checked_;
   fplbase::Texture* button_unchecked_;
+  fplbase::Texture* cardboard_logo_;
 #ifdef USING_GOOGLE_PLAY_GAMES
   fplbase::Texture* image_gpg_;
   fplbase::Texture* image_leaderboard_;
@@ -215,10 +216,6 @@ class GameMenuState : public StateNode {
 
   float slider_value_effect_;
   float slider_value_music_;
-
-  bool render_shadows_;
-  bool apply_phong_;
-  bool apply_specular_;
 
   // Buses to control sound volumes.
   pindrop::Bus sound_effects_bus_;

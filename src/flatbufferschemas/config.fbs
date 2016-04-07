@@ -169,6 +169,18 @@ table RenderConfig {
 
   // Use normal maps?
   apply_normal_maps_by_default:bool;
+
+  // Render shadows for Cardboard?
+  render_shadows_by_default_cardboard:bool;
+
+  // Apply Phong shading for Cardboard?
+  apply_phong_by_default_cardboard:bool;
+
+  // Apply specular effect for Cardboard?
+  apply_specular_by_default_cardboard:bool;
+
+  // Use normal maps for Cardboard?
+  apply_normal_maps_by_default_cardboard:bool;
 }
 
 table WorldDef {
