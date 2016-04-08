@@ -26,7 +26,7 @@ main() {
   done
 
   # Add the cmake executable to the path so that other scripts can find it.
-  export PATH=${PATH}:${cmake_path}
+  export PATH=${cmake_path}:${PATH}
 
   # Generate makefile and build the game.
   cd "$(dirname "$(readlink -f $0)")/.."
