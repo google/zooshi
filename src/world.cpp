@@ -175,6 +175,13 @@ void World::Initialize(const Config& config_,
   render_shadows_ = config->rendering_config()->render_shadows_by_default();
   apply_phong_ = config->rendering_config()->apply_phong_by_default();
   apply_specular_ = config->rendering_config()->apply_specular_by_default();
+
+  render_shadows_cardboard_ =
+      config->rendering_config()->render_shadows_by_default_cardboard();
+  apply_phong_cardboard_ =
+      config->rendering_config()->apply_phong_by_default_cardboard();
+  apply_specular_cardboard_ =
+      config->rendering_config()->apply_specular_by_default_cardboard();
 }
 
 void World::AddController(BasePlayerController* controller) {
@@ -212,6 +219,7 @@ void World::ResetControllerFacing() {
 void World::SetIsInCardboard(bool in_cardboard) {
   if (is_in_cardboard_ != in_cardboard) {
     is_in_cardboard_ = in_cardboard;
+    rendering_dirty_ = true;
 // Turn on the Cardboard setting button when in Cardboard mode.
 #ifdef ANDROID_HMD
     fplbase::SetCardboardButtonEnabled(in_cardboard);
@@ -236,16 +244,58 @@ void World::SetRenderingOption(ShaderDefines s, bool enable_option) {
   rendering_dirty_ = true;
 }
 
+void World::SetRenderingOptionCardboard(ShaderDefines s, bool enable_option) {
+  switch (s) {
+  case kPhongShading:
+    apply_phong_cardboard_ = enable_option;
+    break;
+  case kSpecularEffect:
+    apply_specular_cardboard_ = enable_option;
+    break;
+  case kShadowEffect:
+    render_shadows_cardboard_ = enable_option;
+    break;
+  default:
+    return;
+  }
+  rendering_dirty_ = true;
+}
+
 bool World::RenderingOptionEnabled(ShaderDefines s) {
   switch (s) {
   case kPhongShading:
-    return apply_phong_;
+    if (is_in_cardboard_) {
+      return apply_phong_cardboard_;
+    } else {
+      return apply_phong_;
+    }
   case kSpecularEffect:
-    return apply_specular_;
+    if (is_in_cardboard_) {
+      return apply_specular_cardboard_;
+    } else {
+      return apply_specular_;
+    }
   case kShadowEffect:
-    return render_shadows_;
+    if (is_in_cardboard_) {
+      return render_shadows_cardboard_;
+    } else {
+      return render_shadows_;
+    }
   default:
     return false;
+  }
+}
+
+bool World::RenderingOptionEnabledCardboard(ShaderDefines s) {
+  switch (s) {
+    case kPhongShading:
+      return apply_phong_cardboard_;
+    case kSpecularEffect:
+      return apply_specular_cardboard_;
+    case kShadowEffect:
+      return render_shadows_cardboard_;
+    default:
+      return false;
   }
 }
 

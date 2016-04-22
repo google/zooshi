@@ -159,7 +159,11 @@
     "shadow_map_viewport_angle": 45.0,
     "apply_phong_by_default": true,
     "apply_specular_by_default": false,
-    "apply_normal_maps_by_default": false
+    "apply_normal_maps_by_default": false,
+    "render_shadows_by_default_cardboard": false,
+    "apply_phong_by_default_cardboard": true,
+    "apply_specular_by_default_cardboard": false,
+    "apply_normal_maps_by_default_cardboard": false
    },
 
   "scene_lab_config" : {
