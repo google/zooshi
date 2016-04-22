@@ -39,6 +39,7 @@
 #include "module_library/default_graph_factory.h"
 #include "module_library/entity.h"
 #include "module_library/physics.h"
+#include "module_library/rendermesh.h"
 #include "module_library/transform.h"
 #include "module_library/vec3.h"
 #include "modules/attributes.h"
@@ -299,6 +300,8 @@ void Game::InitializeBreadboardModules() {
       &world_.graph_component);
   breadboard::module_library::InitializePhysicsModule(
       &module_registry_, &world_.physics_component, &world_.graph_component);
+  breadboard::module_library::InitializeRenderMeshModule(
+      &module_registry_, &world_.render_mesh_component);
   breadboard::module_library::InitializeTransformModule(
       &module_registry_, &world_.transform_component);
   breadboard::module_library::InitializeVec3Module(&module_registry_);

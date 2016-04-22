@@ -309,7 +309,10 @@
               "x": 0.0,
               "y": 5.0,
               "z": 45.0
-            }
+            },
+            "child_ids": [
+              "ScoreBoard"
+            ]
           }
         },
         {
@@ -321,37 +324,207 @@
             ],
             "render_pass" : ["Alpha"]
           }
+        }
+      ]
+    },
+
+    // Score Board
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "ScoreBoard"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -0.42,
+              "y": 0,
+              "z": 0.515
+            },
+            "scale": {
+              "x": 0.115,
+              "y": 0.1,
+              "z": 0.3
+            },
+            "orientation": {
+              "x": 0,
+              "y": 2,
+              "z": -180
+            },
+            "child_ids": [
+              "HeartMeterLine",
+              "GateClosedIcon",
+              "GateOpenIcon",
+            ]
+          }
         },
         {
           "data_type": "GraphDef",
           "data": {
             "filename_list": [
-              "graphs/score.bbgraph"
+              "graphs/score_board.bbgraph"
+            ]
+          }
+        }
+      ]
+    },
+
+    // Heart Meter Line
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "HeartMeterLine"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "scale": {
+              "x": 1,
+              "y": 0.5,
+              "z": 1
+            },
+            "child_ids": [
+              "HeartIcon"
             ]
           }
         },
         {
-          "data_type" : "Render3dTextDef",
+          "data_type": "RenderMeshDef",
           "data" : {
-            "canvas_size": 5,
-            "font": "fonts/RaviPrakash-Regular.ttf",
-            "label_size": 100,
-            "translation": {
-              "x": 0.21,
-              "y": -0.05,
-              "z": 0.577
-            },
-            "rotation": { // Degrees
-              "x": -90,
-              "y": 2.5,
+            "source_file":"meshes/heart_meter_line.fplmesh",
+            "shaders": [
+              "shaders/textured"
+            ],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Heart Icon
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "HeartIcon"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -5.5,
+              "y": 0,
               "z": 0
             },
             "scale": {
-              "x": 0.00195,
-              "y": 0.00195,
-              "z": 0
+              "x": 1,
+              "y": 2,
+              "z": 0.3
             },
-            "text": ""
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/heart.fplmesh",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Gate Closed Icon
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateClosedIcon"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -6.9,
+              "y": 0.1,
+              "z": -0.29
+            },
+            "scale": {
+              "x": 1.5,
+              "y": 1,
+              "z": 0.575
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/gate_closed_icon.fplmesh",
+            "shaders": [
+              "shaders/textured"
+            ],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Gate Open Icon
+    {
+      "component_list": [
+        {
+          "data_type": "MetaDef",
+          "data": {
+            "entity_id": "GateOpenIcon"
+          }
+        },
+        {
+          "data_type": "TransformDef",
+          "data": {
+            "position": {
+              "x": -6.9,
+              "y": 0.1,
+              "z": -0.29
+            },
+            "scale": {
+              "x": 1.5,
+              "y": 1,
+              "z": 0.575
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            }
+          }
+        },
+        {
+          "data_type": "RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/gate_open_icon.fplmesh",
+            "shaders": [
+              "shaders/textured"
+            ],
+            "render_pass" : ["Alpha"]
           }
         }
       ]

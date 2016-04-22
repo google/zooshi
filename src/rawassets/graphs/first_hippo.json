@@ -70,7 +70,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 14,
+            "node_index": 12,
             "edge_index": 0
           }
         }
@@ -191,44 +191,6 @@
     },
     {
       // Node 11
-      "module": "zooshi",
-      "name": "player_entity"
-    },
-    {
-      // Node 12
-      "module": "attributes",
-      "name": "set_attribute",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 13,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 11,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "Int",
-          "edge": {
-            "value": "fpl.zooshi.AttributeDef.TargetScore"
-          }
-        },
-        {
-          "edge_type": "Float",
-          "edge": {
-            "value": 24.0
-          }
-        }
-      ]
-    },
-    {
-      // Node 13
       "module": "logic",
       "name": "if",
       "input_edge_list": [
@@ -242,14 +204,14 @@
       ]
     },
     {
-      // Node 14
+      // Node 12
       "module": "logic",
       "name": "stay_latch",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 13,
+            "node_index": 11,
             "edge_index": 0
           }
         },

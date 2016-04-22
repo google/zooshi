@@ -179,7 +179,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 19,
+            "node_index": 17,
             "edge_index": 0
           }
         }
@@ -187,61 +187,6 @@
     },
     {
       // Node 10
-      "module": "float_math",
-      "name": "add",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 3,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 22,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 11
-      "module": "attributes",
-      "name": "set_attribute",
-      "input_edge_list": [
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 6,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 2,
-            "edge_index": 0
-          }
-        },
-        {
-          "edge_type": "Int",
-          "edge": {
-            "value": "fpl.zooshi.AttributeDef.TargetScore"
-          }
-        },
-        {
-          "edge_type": "OutputEdgeTarget",
-          "edge": {
-            "node_index": 10,
-            "edge_index": 0
-          }
-        }
-      ]
-    },
-    {
-      // Node 12
       "module": "game_state",
       "name": "request_state",
       "input_edge_list": [
@@ -261,7 +206,7 @@
       ]
     },
     {
-      // Node 13: Check condition.
+      // Node 11: Check condition.
       "module": "patron",
       "name": "check_delicious_cycle",
       "input_edge_list": [
@@ -282,14 +227,14 @@
       ]
     },
     {
-      // Node 14: Grant achievement if the condition met.
+      // Node 12: Grant achievement if the condition met.
       "module": "gpg",
       "name": "grant_achievement",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 13,
+            "node_index": 11,
             "edge_index": 0
           }
         },
@@ -302,7 +247,7 @@
       ]
     },
     {
-      // Node 15
+      // Node 13
       "module": "audio",
       "name": "play_sound",
       "input_edge_list": [
@@ -338,7 +283,7 @@
       ]
     },
     {
-      // Node 16
+      // Node 14
       "module": "audio",
       "name": "play_sound",
       "input_edge_list": [
@@ -374,7 +319,7 @@
       ]
     },
     {
-      // Node 17
+      // Node 15
       "module": "float_math",
       "name": "divide",
       "input_edge_list": [
@@ -394,7 +339,7 @@
       ]
     },
     {
-      // Node 18
+      // Node 16
       "module": "float_math",
       "name": "add",
       "input_edge_list": [
@@ -414,28 +359,28 @@
       ]
     },
     {
-      // Node 19
+      // Node 17
       "module": "float_math",
       "name": "min",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 17,
+            "node_index": 15,
             "edge_index": 0
           }
         },
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 18,
+            "node_index": 16,
             "edge_index": 0
           }
         }
       ]
     },
     {
-      // Node 20
+      // Node 18
       "module": "attributes",
       "name": "get_attribute",
       "input_edge_list": [
@@ -462,14 +407,14 @@
       ]
     },
     {
-      // Node 21
+      // Node 19
       "module": "float_math",
       "name": "add",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 20,
+            "node_index": 18,
             "edge_index": 0
           }
         },
@@ -482,14 +427,14 @@
       ]
     },
     {
-      // Node 22
+      // Node 20
       "module": "float_math",
       "name": "min",
       "input_edge_list": [
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 21,
+            "node_index": 19,
             "edge_index": 0
           }
         },
@@ -502,7 +447,7 @@
       ]
     },
     {
-      // Node 23
+      // Node 21
       "module": "attributes",
       "name": "set_attribute",
       "input_edge_list": [
@@ -529,7 +474,7 @@
         {
           "edge_type": "OutputEdgeTarget",
           "edge": {
-            "node_index": 22,
+            "node_index": 20,
             "edge_index": 0
           }
         }

@@ -1,0 +1,838 @@
+// A scoreboard to show process of player in the current lap.
+// If the PatronsFed meet the TargetScore, the gate icon will become green.
+{
+  "node_list": [
+    {
+      // Node 0 - Used to trigger the graph on every frame.
+      "module": "zooshi",
+      "name": "advance_frame"
+    },
+    {
+      // Node 1 - Get the `Player` entity to get the score value attributes.
+      "module": "zooshi",
+      "name": "player_entity"
+    },
+    {
+      // Node 2 - Get the numerator of the score (PatronsFed).
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // `advance_frame`
+            "edge_index": 0  // Trigger called on every frame.
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`.
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.PatronsFed"
+          }
+        }
+      ]
+    },
+    {
+      // Node 3 - Get the denominator of the score (TargetScore).
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // `advance_frame`
+            "edge_index": 0  // Trigger called on every frame.
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScore"
+          }
+        }
+      ]
+    },
+    {
+      // Node 4 - Get the score of the last lap (LastLapScore).
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // `advance_frame`
+            "edge_index": 0  // Trigger called on every frame.
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.LastLapScore"
+          }
+        }
+      ]
+    },
+    {
+      // Node 5 - Get CurrentLapScore by (PatronsFed - LastLapScore).
+      "module": "float_math",
+      "name": "subtract",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2, // `get_attribute`
+            "edge_index": 0  // PatronsFed
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4, // `get_attribute`
+            "edge_index": 0  // LastLapScore
+          }
+        }
+      ]
+    },
+    {
+      // Node 6 - Get CurrentLapTarget by (TargetScore - LastLapScore).
+      "module": "float_math",
+      "name": "subtract",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 3, // `get_attribute`
+            "edge_index": 0  // TargetScore
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 4, // `get_attribute`
+            "edge_index": 0  // LastLapScore
+          }
+        }
+      ]
+    },
+    {
+      // Node 7 - Divide the CurrentLapScore with CurrentLapTarget to calculate
+      // the ratio (FedRatio).
+      "module": "float_math",
+      "name": "divide",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 5, // `get_attribute`
+            "edge_index": 0  // `CurrentLapScore`
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 6, // `get_attribute`
+            "edge_index": 0  // `CurrentLapTarget`
+          }
+        }
+      ]
+    },
+    {
+      // Node 8 - Rescale FedRatio from [0, 1] to [0.08, 1], in order to add a
+      // small offset to FedRatio so that it will show some of the meter line
+      // after the first feed.
+      "module": "float_math",
+      "name": "lerp",
+      "input_edge_list": [
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 0.08  // Small offset
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 1.0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 7, // 'divide'
+            "edge_index": 0  // 'FedRatio'
+          }
+        }
+      ]
+    },
+    {
+      // Node 9 - Clamp the ratio into proper range.
+      "module": "float_math",
+      "name": "clamp",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 8, // 'divide'
+            "edge_index": 0  // 'FedRatio + Offset'
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 0.01  // Min value to avoid divided by zero
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 1  // Max value to avoid exceeding one
+          }
+        }
+      ]
+    },
+    {
+      // Node 10 - Get the 'ScoreBoard' destination entity.
+      "module": "entity",
+      "name": "graph_entity"
+    },
+    {
+      // Node 11 - Get the 'HeartLineMeter' entity.
+      "module": "transform",
+      "name": "child",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 10, // `graph_entity`
+            "edge_index": 0  // `EntityRef` of the 'ScoreBoard'.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 12 - Create the scale vector node for entity 'HeartMeterLine'
+      "module": "vec3",
+      "name": "vec3",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 9, // clamp
+            "edge_index": 0  // clamped FedRatio
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 1
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      // Node 13 - Set the scale of entity 'HeartLineMeter'.
+      "module": "transform",
+      "name": "set_scale",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 11, // 'child'
+            "edge_index": 0   // 'EntityRef' of 'HeartLineMeter'
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 12, // 'vec3'
+            "edge_index": 0   // VecNode of 'HeartLineMeter'
+          }
+        }
+      ]
+    },
+    {
+      // Node 14 - Get the 'HeartIcon' entity
+      "module": "transform",
+      "name": "child",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 11, // `child`
+            "edge_index": 0   // `EntityRef` of entity 'HeartLineMeter'.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 15 - Calculate the scale of 'HeartIcon',
+      // to counteract the scale of parent entity 'HeartLineMeter'.
+      "module": "float_math",
+      "name": "divide",
+      "input_edge_list": [
+        {
+          "edge_type": "Float",
+          "edge": {
+            // We want the product of 'HeartLine' scale and 'ScoreBoard' scale
+            // always equals to 0.8.
+            "value": 0.8
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 9, // `clamp`
+            "edge_index": 0  // `FedRatio`
+          }
+        }
+      ]
+    },
+    {
+      // Node 16 - Create the scale node for 'HeartIcon'
+      "module": "vec3",
+      "name": "vec3",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 15, // `divide`
+            "edge_index": 0   // scale x of 'HeartIcon'
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 2
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 0.3
+          }
+        }
+      ]
+    },
+    {
+      // Node 17 - Set the scale of entity 'HeartIcon'
+      "module": "transform",
+      "name": "set_scale",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 14, // 'child'
+            "edge_index": 0   // 'EntityRef' of entity 'HeartIcon'
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 16, // 'vec3'
+            "edge_index": 0   // VecNode of entity 'HeartIcon'
+          }
+        }
+      ]
+    },
+    {
+      // Node 18 - Get the gate closed icon entity.
+      "module": "transform",
+      "name": "child",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 10, // `graph_entity`
+            "edge_index": 0  // `EntityRef` of the entity to scale.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 1
+          }
+        }
+      ]
+    },
+    {
+      // Node 19 - Get the gate open icon entity.
+      "module": "transform",
+      "name": "child",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 10, // `graph_entity`
+            "edge_index": 0  // `EntityRef` of the entity to scale.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": 2
+          }
+        }
+      ]
+    },
+    {
+      // Node 20 - Check whether the PatronsFed >= TargetScore.
+      "module": "float_math",
+      "name": "greater_than_or_equals",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 2, // `get_attribute`
+            "edge_index": 0  // `PatronsFed`
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 3, // `get_attribute`
+            "edge_index": 0  // `TargetScore`
+          }
+        }
+      ]
+    },
+    {
+      // Node 21 - Set the visibility of Gate Open Icon.
+      "module": "rendermesh",
+      "name": "set_visible",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 19, // `child`
+            "edge_index": 0  // `GateOpenIcon`
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 20, // `greater_than_or_equals`
+            "edge_index": 0  // `PatronsFed >= TargetScore`
+          }
+        }
+      ]
+    },
+    {
+      // Node 22 - Whether PatronsFed < TargetScore.
+      "module": "logic",
+      "name": "not",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 20, // `greater_than_or_equals`
+            "edge_index": 0   // `PatronsFed >= TargetScore`
+          }
+        }
+      ]
+    },
+    {
+      // Node 23 - Set the visibility of Gate Open Icon.
+      "module": "rendermesh",
+      "name": "set_visible",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 18, // `child`
+            "edge_index": 0   // `GateClosedIcon`
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 22, // `not`
+            "edge_index": 0   // `PatronsFed < TargetScore`
+          }
+        }
+      ]
+    },
+    {
+      // Node 24 - Update the LastLapNumber
+      "module": "attributes",
+      "name": "set_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 38, // 'if'
+            "edge_index": 0   // on passing gate
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // 'player_entity'
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.LastLapNumber"
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 33, // 'int_to_float'
+            "edge_index": 0   // 'current lap number'
+          }
+        }
+      ]
+    },
+    {
+      // Node 25 - Get the PatronsFed.
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 38, // `if`
+            "edge_index": 0   // Trigger called when passing gate.
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.PatronsFed"
+          }
+        }
+      ]
+    },
+    {
+      // Node 26 - Get the TargetScoreIncrease.
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 38, // `if`
+            "edge_index": 0   // Trigger called when passing gate.
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScoreIncrease"
+          }
+        }
+      ]
+    },
+    {
+      // Node 27 - Add the PatronsFed with TargetScoreIncrease
+      "module": "float_math",
+      "name": "add",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 25, // 'get_attribute'
+            "edge_index": 0   // 'PatronsFed'
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 26, // 'get_attribute'
+            "edge_index": 0   // 'TargetScoreIncrease'
+          }
+        }
+      ]
+    },
+    {
+      // Node 28 - Update the new TargetScore to
+      // (PatronsFed + TargetScoreIncrease).
+      "module": "attributes",
+      "name": "set_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 38, // 'if'
+            "edge_index": 0   // on passing gate
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // 'player_entity'
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScore"
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 27, // 'add'
+            "edge_index": 0   // 'PatronsFed' + 'TargetScoreIncrease'
+          }
+        }
+      ]
+    },
+    {
+      // Node 29 - Update the LastLapScore to current PatronsFed.
+      "module": "attributes",
+      "name": "set_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 38, // 'if'
+            "edge_index": 0   // on passing gate
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // 'player_entity'
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.LastLapScore"
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 25, // 'get_attribute'
+            "edge_index": 0  // 'PatronsFed'
+          }
+        }
+      ]
+    },
+    // Start the region for check whether the player is passing the gate.
+    {
+      // Node 30
+      "module": "zooshi",
+      "name": "raft_entity"
+    },
+    {
+      // Node 31 - Get current lap number.
+      "module": "rail_denizen",
+      "name": "get_lap_number",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // 'advance_frame'
+            "edge_index": 0
+          },
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 30, // 'raft_entity'
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 32 - Get last lap number.
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // 'advance_frame'
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // 'player_entity'
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.LastLapNumber"
+          }
+        }
+      ]
+    },
+    {
+      // Node 33 - Convert the LapNumber from int to float
+      "module": "integer_math",
+      "name": "int_to_float",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 31, // 'get_lap_number'
+            "edge_index": 0
+          },
+        }
+      ]
+    },
+    {
+      // Node 34 - Compare whether it's a new lap
+      // (current LapNumber > LastLapNumber).
+      "module": "float_math",
+      "name": "greater_than",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 33, // 'int_to_float'
+            "edge_index": 0   // 'CurrentLapNumber'
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 32, // 'get_attribute'
+            "edge_index": 0   // 'LastLapNumber'
+          }
+        }
+      ]
+    },
+    {
+      // Node 35 - Get current lap progress
+      "module": "rail_denizen",
+      "name": "get_lap_progress",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // 'advance_frame'
+            "edge_index": 0
+          },
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 30, // 'raft_entity'
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 36 - Compare current lap process >= 0.025, means passing the gate.
+      "module": "float_math",
+      "name": "greater_than_or_equals",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 35, // 'get_lap_progress'
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "Float",
+          "edge": {
+            "value": 0.025
+          }
+        }
+      ]
+    },
+    {
+      // Node 37
+      "module": "logic",
+      "name": "and",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 34, // 'greater_than'
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 36, // 'greater_than_or_equals'
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 38 - If it's a new lap and it's passing the gate.
+      "module": "logic",
+      "name": "if",
+      "input_edge_list": [
+        {
+          "edge_type": "OutputEdgeTarget",
+          "edge": {
+            "node_index": 37, // 'and'
+            "edge_index": 0
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -23,6 +23,8 @@
     "meshes/rock_mid.fplmesh",
     "meshes/rock_tall.fplmesh",
     "meshes/gate.fplmesh",
+    "meshes/gate_closed_icon.fplmesh",
+    "meshes/gate_open_icon.fplmesh",
     "meshes/grass_dense.fplmesh",
     "meshes/grass_small.fplmesh",
     "meshes/grass_wide.fplmesh",
@@ -32,11 +34,14 @@
     "meshes/log.fplmesh",
     "meshes/savanna_tree_01.fplmesh",
     "meshes/heart.fplmesh",
+    "meshes/heart_meter_line.fplmesh",
     "meshes/point_light.fplmesh",
     "meshes/sun_light.fplmesh",
     "meshes/spot_light.fplmesh"
   ],
   "material_list": [
+    "materials/gate_closed_icon.fplmat",
+    "materials/gate_open_icon.fplmat",
     "materials/lake_daytime.fplmat",
     "materials/riverbank_savanna_daytime_grass_daytime.fplmat",
     "materials/riverbank_grass_daytime_savanna_daytime.fplmat",

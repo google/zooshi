@@ -85,6 +85,58 @@ class GetLapNode : public BaseNode {
   RailDenizenComponent* rail_denizen_component_;
 };
 
+// Returns the lap number from the given rail denizen data.
+class GetLapNumberNode : public BaseNode {
+ public:
+  GetLapNumberNode(RailDenizenComponent* rail_denizen_component)
+      : rail_denizen_component_(rail_denizen_component) {}
+  virtual ~GetLapNumberNode() {}
+
+  static void OnRegister(NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
+    node_sig->AddInput<EntityRef>();
+    node_sig->AddOutput<int>();
+  }
+
+  virtual void Execute(NodeArguments* args) {
+    if (args->IsInputDirty(0)) {
+      auto entity = args->GetInput<EntityRef>(1);
+      auto rail_denizen_data =
+          rail_denizen_component_->GetComponentData(*entity);
+      args->SetOutput(0, rail_denizen_data->lap_number);
+    }
+  }
+
+ private:
+  RailDenizenComponent* rail_denizen_component_;
+};
+
+// Returns the current lap progress from the given rail denizen data.
+class GetLapProgressNode : public BaseNode {
+ public:
+  GetLapProgressNode(RailDenizenComponent* rail_denizen_component)
+      : rail_denizen_component_(rail_denizen_component) {}
+  virtual ~GetLapProgressNode() {}
+
+  static void OnRegister(NodeSignature* node_sig) {
+    node_sig->AddInput<void>();
+    node_sig->AddInput<EntityRef>();
+    node_sig->AddOutput<float>();
+  }
+
+  virtual void Execute(NodeArguments* args) {
+    if (args->IsInputDirty(0)) {
+      auto entity = args->GetInput<EntityRef>(1);
+      auto rail_denizen_data =
+          rail_denizen_component_->GetComponentData(*entity);
+      args->SetOutput(0, rail_denizen_data->lap_progress);
+    }
+  }
+
+ private:
+  RailDenizenComponent* rail_denizen_component_;
+};
+
 // Sets the rail denizen's speed.
 class GetRailSpeedNode : public BaseNode {
  public:
@@ -149,6 +201,12 @@ void InitializeRailDenizenModule(ModuleRegistry* module_registry,
   auto get_lap_ctor = [rail_denizen_component]() {
     return new GetLapNode(rail_denizen_component);
   };
+  auto get_lap_number_ctor = [rail_denizen_component]() {
+    return new GetLapNumberNode(rail_denizen_component);
+  };
+  auto get_lap_progress_ctor = [rail_denizen_component]() {
+    return new GetLapProgressNode(rail_denizen_component);
+  };
   auto set_rail_speed_ctor = [rail_denizen_component]() {
     return new SetRailSpeedNode(rail_denizen_component);
   };
@@ -158,6 +216,9 @@ void InitializeRailDenizenModule(ModuleRegistry* module_registry,
   Module* module = module_registry->RegisterModule("rail_denizen");
   module->RegisterNode<NewLapNode>("new_lap", new_lap_ctor);
   module->RegisterNode<GetLapNode>("get_lap", get_lap_ctor);
+  module->RegisterNode<GetLapNumberNode>("get_lap_number", get_lap_number_ctor);
+  module->RegisterNode<GetLapProgressNode>("get_lap_progress",
+                                           get_lap_progress_ctor);
   module->RegisterNode<SetRailSpeedNode>("set_rail_speed", set_rail_speed_ctor);
   module->RegisterNode<GetRailSpeedNode>("get_rail_speed", get_rail_speed_ctor);
 }
