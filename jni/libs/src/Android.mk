@@ -120,10 +120,7 @@ LOCAL_SRC_FILES := \
   src/states/states_common.cpp \
   src/states/scene_lab_state.cpp \
   src/world.cpp \
-  src/world_renderer.cpp \
-  $(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_parser.cpp \
-  $(DEPENDENCIES_FLATBUFFERS_DIR)/src/idl_gen_text.cpp \
-  $(DEPENDENCIES_FLATBUFFERS_DIR)/src/reflection.cpp
+  src/world_renderer.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 
@@ -195,6 +192,7 @@ LOCAL_STATIC_LIBRARIES := \
   libfreetype \
   libharfbuzz \
   libflatbuffers \
+  libflatbuffers_extra \
   libbullet
 
 LOCAL_SHARED_LIBRARIES :=

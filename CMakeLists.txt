@@ -248,9 +248,6 @@ set(zooshi_SRCS
     src/world.h
     src/world_renderer.cpp
     src/world_renderer.h
-    # For outputting flatbuffer files as json.
-    ${dependencies_flatbuffers_dir}/src/idl_parser.cpp
-    ${dependencies_flatbuffers_dir}/src/idl_gen_text.cpp
 )
 
 # Includes for this project.
@@ -325,12 +322,12 @@ target_link_libraries(zooshi
   motive
   fplbase
   flatui
-  flatbuffers
   breadboard
   corgi
   corgi_component_library
   breadboard_module_library
   scene_lab
+  flatbuffers
   pindrop)
 
 # Create a zipped tar of all the necessary files to run the game.
