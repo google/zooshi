@@ -57,7 +57,7 @@ void SceneLabState::AdvanceFrame(corgi::WorldTime delta_time, int* next_state){
   if (scene_lab_->IsReadyToExit()) {
     *next_state = kGameStateGameplay;
   }
-  if (input_system_->GetButton(fplbase::FPLK_1).went_down()) {
+  if (input_system_->GetButton(fplbase::FPLK_F7).went_down()) {
     *next_state = kGameStateGameplay;
     world_->is_single_stepping = true;
   }
