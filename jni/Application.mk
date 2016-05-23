@@ -5,8 +5,7 @@
 APP_STL := gnustl_static
 
 APP_ABI := armeabi-v7a-hard x86 armeabi
-# 4.8 is required for FlatBuffers
-NDK_TOOLCHAIN_VERSION := 4.8
+
 APP_CPPFLAGS += -std=c++11 -Wno-literal-suffix -Wno-unused-function
 
 APP_PLATFORM := android-15
