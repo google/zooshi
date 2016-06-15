@@ -833,6 +833,152 @@
           }
         }
       ]
+    },
+    {
+      // Node 39 - If PatronsFed >= TargetScore.
+      "module": "logic",
+      "name": "if",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 20, // `greater_than_or_equals`
+            "edge_index": 0   // `PatronsFed >= TargetScore`
+          }
+        }
+      ]
+    },
+    {
+      // Node 40 - Set tint color of HeartIcon to green
+      // if PartionsFed >= TargetScore
+      "module": "rendermesh",
+      "name": "set_tint",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 39, // `if`
+            "edge_index": 0   // `PatronsFed >= TargetScore`
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 14, // 'child'
+            "edge_index": 0   // 'EntityRef' of entity 'HeartIcon'
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Vec4", // green color
+          "edge": {
+            "value": {
+              "x": 0.11,
+              "y": 0.69,
+              "z": 0.11,
+              "w": 1.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      // Node 41 - Set tint color of HeartIcon to red
+      // if PartionsFed < TargetScore
+      "module": "rendermesh",
+      "name": "set_tint",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 39, // `if`
+            "edge_index": 1   // `PatronsFed < TargetScore`
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 14, // 'child'
+            "edge_index": 0   // 'EntityRef' of entity 'HeartIcon'
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Vec4", // red color
+          "edge": {
+            "value": {
+              "x": 0.86,
+              "y": 0.14,
+              "z": 0.14,
+              "w": 1.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      // Node 42 - Set tint color of LineMeter to green
+      // if PartionsFed >= TargetScore
+      "module": "rendermesh",
+      "name": "set_tint",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 39, // `if`
+            "edge_index": 0   // `PatronsFed >= TargetScore`
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 11, // 'child'
+            "edge_index": 0   // 'EntityRef' of entity 'HeartLineMeter'
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Vec4", // green color
+          "edge": {
+            "value": {
+              "x": 0.11,
+              "y": 0.69,
+              "z": 0.11,
+              "w": 1.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      // Node 43 - Set tint color of HeartIcon to red
+      // if PartionsFed < TargetScore
+      "module": "rendermesh",
+      "name": "set_tint",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 39, // `if`
+            "edge_index": 1   // `PatronsFed < TargetScore`
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 11, // 'child'
+            "edge_index": 0   // 'EntityRef' of entity 'HeartLineMeter'
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Vec4", // red color
+          "edge": {
+            "value": {
+              "x": 0.86,
+              "y": 0.14,
+              "z": 0.14,
+              "w": 1.0
+            }
+          }
+        }
+      ]
     }
   ]
 }

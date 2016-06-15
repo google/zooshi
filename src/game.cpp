@@ -41,7 +41,7 @@
 #include "module_library/physics.h"
 #include "module_library/rendermesh.h"
 #include "module_library/transform.h"
-#include "module_library/vec3.h"
+#include "module_library/vec.h"
 #include "modules/attributes.h"
 #include "modules/gpg.h"
 #include "modules/patron.h"
@@ -304,7 +304,7 @@ void Game::InitializeBreadboardModules() {
       &module_registry_, &world_.render_mesh_component);
   breadboard::module_library::InitializeTransformModule(
       &module_registry_, &world_.transform_component);
-  breadboard::module_library::InitializeVec3Module(&module_registry_);
+  breadboard::module_library::InitializeVecModule(&module_registry_);
 
   // Zooshi module initialization.
   InitializeAttributesModule(&module_registry_, &world_.attributes_component);

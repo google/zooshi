@@ -3624,6 +3624,12 @@
               "shaders/render_depth_skinned"
             ],
             "culling": ["ViewAngle", "Distance"],
+            "tint": {     // red tint
+              "r": 0.86,
+              "g": 0.14,
+              "b": 0.14,
+              "a": 1.0
+            }
           }
         },
         {

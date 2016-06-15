@@ -29,6 +29,7 @@ union InputType {
   breadboard.module_library.String,
   breadboard.module_library.Entity,
   breadboard.module_library.Vec3,
+  breadboard.module_library.Vec4,
   breadboard.module_library.SoundHandle,
   breadboard.module_library.AudioChannel,
 }
