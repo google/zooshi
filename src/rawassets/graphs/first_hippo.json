@@ -13,7 +13,7 @@
       "name": "on_collision",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0,
             "edge_index": 0
@@ -27,7 +27,7 @@
       "name": "collision_data",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
@@ -41,14 +41,14 @@
       "name": "equals",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 2,
             "edge_index": 2
           }
         },
         {
-          "edge_type": "String",
+          "edge_type": "breadboard_module_library_String",
           "edge": {
             "value": "Mouth"
           }
@@ -61,14 +61,14 @@
       "name": "if_gate",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 7,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 12,
             "edge_index": 0
@@ -87,14 +87,14 @@
       "name": "child",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": 0
           }
@@ -107,7 +107,7 @@
       "name": "animation_complete",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 0
@@ -121,21 +121,21 @@
       "name": "set_rail_speed",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 4,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 5,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 0.5
           }
@@ -148,14 +148,14 @@
       "name": "entity",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 4,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "String",
+          "edge_type": "breadboard_module_library_String",
           "edge": {
             "value": "Gate"
           }
@@ -168,21 +168,21 @@
       "name": "set_show_override",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 4,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 9,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": 4
           }
@@ -195,7 +195,7 @@
       "name": "if",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 3,
             "edge_index": 0
@@ -209,14 +209,14 @@
       "name": "stay_latch",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 11,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Pulse"
+          "edge_type": "breadboard_module_library_Pulse"
         }
       ]
     }

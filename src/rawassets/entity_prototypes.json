@@ -4,7 +4,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceForest"
           }
@@ -20,7 +20,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceRainforest"
           }
@@ -36,7 +36,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceRiver"
           }
@@ -52,7 +52,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceWind"
           }
@@ -71,13 +71,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "CycleOnly"
           }
@@ -90,13 +90,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RiverRail"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": ["Raft"]
           }
@@ -117,19 +117,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Raft"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0.0,
@@ -154,7 +154,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -184,7 +184,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file": "meshes/raft.fplmesh",
             "shaders": [
@@ -201,13 +201,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "IntroBox"
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file": "meshes/introbox.fplmesh",
             "shaders": [
@@ -225,13 +225,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RaftShrimp"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -1.7, "y": 1.7, "z": 0.5 },
             "scale": { "x": 200, "y": 200, "z": 200 },
@@ -239,7 +239,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_shrimp.fplmesh",
             "shaders": [
@@ -256,13 +256,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RaftSalmon"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -1.4, "y": 2.8, "z": 0.5 },
             "scale": { "x": 200, "y": 200, "z": 200 },
@@ -270,7 +270,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
             "shaders": [
@@ -287,13 +287,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Sign"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 2.5,
@@ -316,7 +316,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/raft_sign.fplmesh",
             "shaders": [
@@ -332,13 +332,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "ScoreBoard"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -0.42,
@@ -363,7 +363,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data": {
             "filename_list": [
               "graphs/score_board.bbgraph"
@@ -377,13 +377,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "HeartMeterLine"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 1,
@@ -396,7 +396,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/heart_meter_line.fplmesh",
             "shaders": [
@@ -412,13 +412,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "HeartIcon"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -5.5,
@@ -433,7 +433,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/heart.fplmesh",
             "shaders": [
@@ -450,13 +450,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GateClosedIcon"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -6.9,
@@ -476,7 +476,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/gate_closed_icon.fplmesh",
             "shaders": [
@@ -492,13 +492,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GateOpenIcon"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -6.9,
@@ -518,7 +518,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/gate_open_icon.fplmesh",
             "shaders": [
@@ -534,25 +534,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RailNode"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "render_option": "OnlyInEditor"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {"x":20,"y":20,"z":20}
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
             "shaders": [
@@ -564,7 +564,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -599,19 +599,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GroundPhysics"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "CycleOnly"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0.0,
@@ -621,7 +621,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -653,7 +653,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PlayerPrototype"
           }
@@ -663,7 +663,7 @@
           "data": {}
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0.0,
@@ -679,7 +679,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/new_lap.bbgraph",
@@ -700,14 +700,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PlayerPrototype_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 5.0,
@@ -723,13 +723,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -740,7 +740,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -817,7 +817,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/mandrill.bbgraph"
@@ -858,7 +858,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -869,14 +869,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronLadyMandrill_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 3.0,
@@ -896,7 +896,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/lady_mandrill_rig.fplmesh",
             "shaders": [
@@ -914,13 +914,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -931,7 +931,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -985,7 +985,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/croc.bbgraph"
@@ -1026,7 +1026,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1036,14 +1036,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronMoustacheCroc_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 0.01,
@@ -1063,7 +1063,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/crocodile_rig.fplmesh",
             "shaders": [
@@ -1081,13 +1081,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1098,7 +1098,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1174,7 +1174,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/hippo.bbgraph"
@@ -1215,7 +1215,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1225,14 +1225,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronHungryHippo_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 1,
@@ -1252,7 +1252,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/hippo_rig.fplmesh",
             "shaders": [
@@ -1268,14 +1268,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronHungryHippo_First",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1351,7 +1351,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/first_hippo.bbgraph",
@@ -1396,13 +1396,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronBankerBirdNoRail"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1413,7 +1413,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1444,7 +1444,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/bird.bbgraph"
@@ -1484,7 +1484,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1494,7 +1494,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronBankerBird",
             "prototype": "PatronBankerBirdNoRail"
@@ -1516,14 +1516,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronBankerBird_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 0.5,
@@ -1543,7 +1543,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/bird_rig.fplmesh",
             "shaders": [
@@ -1561,13 +1561,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1578,7 +1578,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1655,7 +1655,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/giraffe.bbgraph"
@@ -1696,7 +1696,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1706,14 +1706,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronGiraffette_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 0.014,
@@ -1733,7 +1733,7 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/giraffe_rig.fplmesh",
             "shaders": [
@@ -1751,14 +1751,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndMoustacheCroc",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 8,
@@ -1797,14 +1797,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndBankerBird",
             "prototype": "PatronBankerBirdNoRail"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 4,
@@ -1843,14 +1843,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndHungryHippo",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1889,14 +1889,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndLovelyGiraffette",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 7,
@@ -1935,14 +1935,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndLadyMandrill",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -6,
@@ -1983,19 +1983,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Projectile"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "Projectile_RenderMesh" ]
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2023,7 +2023,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/sushi.bbgraph"
@@ -2051,20 +2051,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Projectile_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": { "x": 200.0, "y": 200.0, "z": 200.0 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_salmon.fplmesh",
             "shaders": [
@@ -2081,20 +2081,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Ground"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
             "scale": { "x": 50.0, "y": 50.0, "z": 50.0 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/ground.fplmesh",
             "shaders": [
@@ -2106,7 +2106,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "render_option": "OnlyInEditor"
           }
@@ -2118,19 +2118,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "MidGroundTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": 0.0, "y": 0.0, "z": 0.0 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_saturated.fplmesh",
             "shaders": [
@@ -2154,13 +2154,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SkyBox"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": ["SkyBox_RenderMesh"]
           }
@@ -2171,19 +2171,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SkyBox_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/skybox_daytime.fplmesh",
             "shaders": [
@@ -2199,24 +2199,24 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Light"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "render_option": "OnlyInEditor"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/sun_light.fplmesh",
             "shaders": [
@@ -2234,7 +2234,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2269,18 +2269,18 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassDense_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_dense.fplmesh",
             "shaders": [
@@ -2297,7 +2297,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmallest"
           }
@@ -2309,19 +2309,19 @@
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockSmallest_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2356,19 +2356,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmallest_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.012, "y": 0.074, "z": 0.069 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smallest.fplmesh",
             "shaders": [
@@ -2385,13 +2385,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockSmaller_RenderMesh" ]
           }
@@ -2403,13 +2403,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2444,20 +2444,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmaller_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.059, "y": -0.024, "z": -0.017 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smaller.fplmesh",
             "shaders": [
@@ -2474,13 +2474,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockShort_RenderMesh" ]
           }
@@ -2492,13 +2492,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2534,16 +2534,16 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "LightPrototype"
           }
         },
         {
-          "data_type": "TransformDef"
+          "data_type": "corgi_TransformDef"
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2580,19 +2580,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockShort_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": 0.078, "y": -0.094, "z": -0.339 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_short.fplmesh",
             "shaders": [
@@ -2609,25 +2609,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockMid_Base"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockMid_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2661,7 +2661,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockMid",
             "prototype": "RockMid_Base"
@@ -2678,19 +2678,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockMid_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.146, "y": 0.291, "z": -1.627 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_mid.fplmesh",
             "shaders": [
@@ -2707,13 +2707,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockTall_RenderMesh" ]
           }
@@ -2725,13 +2725,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2766,19 +2766,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockTall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.059, "y": 0.192, "z": -2.739 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_tall.fplmesh",
             "shaders": [
@@ -2795,13 +2795,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GatePrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [
               "Gate_RenderMesh"
@@ -2815,13 +2815,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data": {
             "filename_list": [
               "graphs/gate.bbgraph"
@@ -2829,7 +2829,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2910,17 +2910,17 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Gate_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef"
+          "data_type": "corgi_TransformDef"
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/gate.fplmesh",
             "shaders": [
@@ -2931,7 +2931,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data": {
             "filename_list": [
               "graphs/score.bbgraph"
@@ -2970,13 +2970,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "FernShort_RenderMesh" ]
           }
@@ -2988,7 +2988,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -2999,18 +2999,18 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernShort_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_short.fplmesh",
             "shaders": [
@@ -3027,13 +3027,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "FernMid_RenderMesh" ]
           }
@@ -3045,7 +3045,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3056,19 +3056,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernMid_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_mid.fplmesh",
             "shaders": [
@@ -3085,13 +3085,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "FernTall_RenderMesh" ]
           }
@@ -3103,13 +3103,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -3143,19 +3143,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernTall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_tall.fplmesh",
             "shaders": [
@@ -3166,7 +3166,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -3201,13 +3201,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "GrassDense_RenderMesh" ]
           }
@@ -3219,7 +3219,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3231,13 +3231,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassSmall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "GrassSmall_RenderMesh" ]
           }
@@ -3249,7 +3249,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3260,18 +3260,18 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassSmall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_small.fplmesh",
             "shaders": [
@@ -3288,13 +3288,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "GrassWide_RenderMesh" ]
           }
@@ -3306,7 +3306,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3317,18 +3317,18 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassWide_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_wide.fplmesh",
             "shaders": [
@@ -3345,13 +3345,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "LogProp"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "LogProp_RenderMesh" ]
           }
@@ -3363,7 +3363,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "PointerOnly"
           }
@@ -3373,18 +3373,18 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "LogProp_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/log.fplmesh",
             "shaders": [
@@ -3401,19 +3401,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SavannaTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "SavannaTree_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "PointerOnly"
           }
@@ -3430,19 +3430,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SavannaTree_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/savanna_tree_01.fplmesh",
             "shaders": [
@@ -3459,19 +3459,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "BaobabTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "BaobabTree_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3488,20 +3488,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "BaobabTree_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": { "x": 0.01, "y": 0.01, "z": 0.01 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_03.fplmesh",
             "shaders": [
@@ -3518,19 +3518,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SwampTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "SwampTree_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3547,20 +3547,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SwampTree_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": { "x": 0.01, "y": 0.01, "z": 0.01 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_04.fplmesh",
             "shaders": [
@@ -3576,13 +3576,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FloatingPointDisplay"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -3603,20 +3603,20 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": "fpl.AnimObject.Heart",
             "anim_table_start_idx": 0
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/heart.fplmesh",
             "shaders": [

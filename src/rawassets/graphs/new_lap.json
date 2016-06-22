@@ -14,7 +14,7 @@
       "name": "new_lap",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0,
             "edge_index": 0
@@ -33,21 +33,21 @@
       "name": "get_attribute",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 2,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": "fpl.zooshi.AttributeDef.PatronsFed"
           }
@@ -60,21 +60,21 @@
       "name": "get_attribute",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 2,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": "fpl.zooshi.AttributeDef.TargetScore"
           }
@@ -87,14 +87,14 @@
       "name": "greater_than_or_equals",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 3,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 4,
             "edge_index": 0
@@ -108,7 +108,7 @@
       "name": "if",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 5,
             "edge_index": 0
@@ -122,14 +122,14 @@
       "name": "get_rail_speed",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0,
             "edge_index": 0
@@ -143,14 +143,14 @@
       "name": "add",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 7,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 0.9
           }
@@ -163,21 +163,21 @@
       "name": "set_rail_speed",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 17,
             "edge_index": 0
@@ -191,14 +191,14 @@
       "name": "request_state",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 1
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": 6 // Game over screen(kGameStateGameOver).
           }
@@ -211,14 +211,14 @@
       "name": "check_delicious_cycle",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1, // void input.
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0, // Raft ref.
             "edge_index": 0
@@ -232,14 +232,14 @@
       "name": "grant_achievement",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 11,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "String",
+          "edge_type": "breadboard_module_library_String",
           "edge": {
             "value": "ADeliciousCycle"
           }
@@ -252,20 +252,20 @@
       "name": "play_sound",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "SoundHandle",
+          "edge_type": "breadboard_module_library_SoundHandle",
           "edge": {
             "value": "successful_lap"
           }
         },
         {
-          "edge_type": "Vec3",
+          "edge_type": "breadboard_module_library_Vec3",
           "edge": {
             "value": {
               "x": 0.0,
@@ -275,7 +275,7 @@
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 1.0
           }
@@ -288,20 +288,20 @@
       "name": "play_sound",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 1
           }
         },
         {
-          "edge_type": "SoundHandle",
+          "edge_type": "breadboard_module_library_SoundHandle",
           "edge": {
             "value": "unsuccessful_lap"
           }
         },
         {
-          "edge_type": "Vec3",
+          "edge_type": "breadboard_module_library_Vec3",
           "edge": {
             "value": {
               "x": 0.0,
@@ -311,7 +311,7 @@
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 1.0
           }
@@ -324,14 +324,14 @@
       "name": "divide",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 8,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 0.9
           }
@@ -344,14 +344,14 @@
       "name": "add",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 7,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 0.05
           }
@@ -364,14 +364,14 @@
       "name": "min",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 15,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 16,
             "edge_index": 0
@@ -385,21 +385,21 @@
       "name": "get_attribute",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 2,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": "fpl.zooshi.AttributeDef.TargetScoreIncrease"
           }
@@ -412,14 +412,14 @@
       "name": "add",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 18,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 3
           }
@@ -432,14 +432,14 @@
       "name": "min",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 19,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 40
           }
@@ -452,27 +452,27 @@
       "name": "set_attribute",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 6,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 2,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": "fpl.zooshi.AttributeDef.TargetScoreIncrease"
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 20,
             "edge_index": 0

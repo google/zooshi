@@ -86,7 +86,7 @@ void World::Initialize(const Config& config_,
       ComponentDataUnion_ServicesDef, "ServicesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&graph_component),
-      ComponentDataUnion_GraphDef, "GraphDef");
+      ComponentDataUnion_corgi_GraphDef, "GraphDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&attributes_component),
       ComponentDataUnion_AttributesDef, "AttributesDef");
@@ -107,10 +107,10 @@ void World::Initialize(const Config& config_,
       ComponentDataUnion_PlayerProjectileDef, "PlayerProjectileDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&render_mesh_component),
-      ComponentDataUnion_RenderMeshDef, "RenderMeshDef");
+      ComponentDataUnion_corgi_RenderMeshDef, "RenderMeshDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&physics_component),
-      ComponentDataUnion_PhysicsDef, "PhysicsDef");
+      ComponentDataUnion_corgi_PhysicsDef, "PhysicsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&patron_component),
       ComponentDataUnion_PatronDef, "PatronDef");
@@ -131,16 +131,16 @@ void World::Initialize(const Config& config_,
       ComponentDataUnion_ShadowControllerDef, "ShadowControllerDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&meta_component),
-      ComponentDataUnion_MetaDef, "MetaDef");
+      ComponentDataUnion_corgi_MetaDef, "MetaDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&edit_options_component),
-      ComponentDataUnion_EditOptionsDef, "EditOptionsDef");
+      ComponentDataUnion_scene_lab_EditOptionsDef, "EditOptionsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&scenery_component),
       ComponentDataUnion_SceneryDef, "SceneryDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&animation_component),
-      ComponentDataUnion_AnimationDef, "AnimationDef");
+      ComponentDataUnion_corgi_AnimationDef, "AnimationDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_node_component),
       ComponentDataUnion_RailNodeDef, "RailNodeDef");
@@ -153,7 +153,7 @@ void World::Initialize(const Config& config_,
   // Make sure you register TransformComponent after any components that use it.
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&transform_component),
-      ComponentDataUnion_TransformDef, "TransformDef");
+      ComponentDataUnion_corgi_TransformDef, "TransformDef");
 
   physics_component.set_collision_callback(&PatronComponent::CollisionHandler,
                                            &patron_component);

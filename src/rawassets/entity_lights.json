@@ -3,7 +3,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "prototype": "Light"
           }
@@ -37,7 +37,7 @@
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,

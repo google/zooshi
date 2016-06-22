@@ -10,7 +10,7 @@
       "name": "on_fire",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0,
             "edge_index": 0
@@ -23,14 +23,14 @@
       "name": "increment_achievement",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "String",
+          "edge_type": "breadboard_module_library_String",
           "edge": {
             "value": "SushiChef"
           }
@@ -42,14 +42,14 @@
       "name": "increment_achievement",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "String",
+          "edge_type": "breadboard_module_library_String",
           "edge": {
             "value": "SushiNinja"
           }
@@ -61,14 +61,14 @@
       "name": "increment_achievement",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "String",
+          "edge_type": "breadboard_module_library_String",
           "edge": {
             "value": "SushiSamurai"
           }
@@ -80,14 +80,14 @@
       "name": "world_position",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 0,
             "edge_index": 0
@@ -100,27 +100,27 @@
       "name": "play_sound",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "SoundHandle",
+          "edge_type": "breadboard_module_library_SoundHandle",
           "edge": {
             "value": "throw"
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 5,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Float",
+          "edge_type": "breadboard_module_library_Float",
           "edge": {
             "value": 1.0
           }
