@@ -3,7 +3,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8538-ad4a-98be-2dda",
             "prototype": "PatronHungryHippo_First",
@@ -11,7 +11,7 @@
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 13.49926,
@@ -38,14 +38,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$a254-66d6-b584-65d4",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -49.358749,
@@ -72,14 +72,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$d68e-40bc-9205-7582",
             "prototype": "PatronBankerBird"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 31.586489,
@@ -106,14 +106,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8a37-1b2c-c1e5-e63b",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 49.453255,
@@ -140,14 +140,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$eac9-8253-a12d-0193",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 54.196468,
@@ -174,14 +174,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$95d2-3605-a445-db9d",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 24.318731,
@@ -208,14 +208,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7681-8d44-e720-9b34",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 56.214195,
@@ -242,14 +242,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$470d-eb1a-cb5a-eee9",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -25.7847,
@@ -276,14 +276,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8547-263e-2892-79c8",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -69.816635,
@@ -310,14 +310,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$e461-a91c-3a0b-5c55",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -37.807129,
@@ -344,14 +344,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1b76-9485-9ae2-73d8",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 39.923687,
@@ -378,14 +378,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$687a-2aa0-3626-b68d",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 31.002163,
@@ -412,14 +412,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$0c50-0eb5-1025-a9b2",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -73.600136,
@@ -446,14 +446,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$06d3-7d8a-ed53-a085",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -49.491161,
@@ -480,14 +480,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4d13-0545-2293-0755",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -27.612263,
@@ -514,14 +514,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3a2c-9976-75e6-cc62",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -50.317638,
@@ -548,14 +548,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1d9c-e3e5-c710-eed2",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 55.379471,
@@ -582,14 +582,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$d0a2-060a-9101-794e",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 40.143211,
@@ -616,14 +616,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$6646-3118-bea1-787c",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 51.644619,
@@ -650,14 +650,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8268-7a27-dd27-631a",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 25.823553,
@@ -684,14 +684,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3450-3013-d68e-40bc",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -4.160588,
@@ -718,14 +718,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$2c07-beb2-ea04-9aeb",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -47.78912,
@@ -752,14 +752,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$450e-d4da-9181-84e9",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -27.053276,
@@ -786,14 +786,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$538a-d4a9-8be2-dda2",
             "prototype": "PatronBankerBird"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -23.863533,
@@ -820,14 +820,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$153e-a8e2-beb7-2094",
             "prototype": "PatronBankerBird"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 34.391792,
@@ -854,14 +854,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b6b3-d166-7067-eae1",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -41.952106,
@@ -888,14 +888,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$e1c5-4a5b-6578-538a",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -72.945862,
@@ -922,14 +922,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$32e9-0519-874b-433d",
             "prototype": "PatronBankerBird"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -21.050825,
@@ -956,14 +956,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$635e-0e8a-b775-4bce",
             "prototype": "PatronBankerBird"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -80.657372,
@@ -990,14 +990,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 18.691732,
@@ -1024,14 +1024,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -1.753578,
@@ -1058,14 +1058,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 37.055145,
@@ -1092,14 +1092,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -65.67321,
@@ -1126,14 +1126,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -76.531998,
@@ -1160,14 +1160,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronBankerBird"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -86.350014,
@@ -1194,14 +1194,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronBankerBird"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -11.287754,
@@ -1228,14 +1228,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -49.166569,
@@ -1262,14 +1262,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 1.268259,
@@ -1296,14 +1296,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -18.374464,
@@ -1330,14 +1330,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -4.977655,

@@ -3,14 +3,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3cb7-6129-771d-57ab",
             "prototype": "LogProp"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 47.774879,
@@ -37,14 +37,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$bb6a-602d-cd33-6b09",
             "prototype": "BaobabTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 57.105431,
@@ -71,14 +71,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$e97e-868a-8604-8ba5",
             "prototype": "SwampTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -6.998899,
@@ -105,14 +105,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$5337-a792-975c-390e",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 11.9216,
@@ -139,14 +139,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b4d2-2891-c259-51db",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 12.5871,
@@ -173,14 +173,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4140-8d23-5809-3080",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 21.577345,
@@ -207,14 +207,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3317-d97c-eb55-0007",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 54.918972,
@@ -241,14 +241,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4727-0c9d-e075-1516",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 34.610401,
@@ -275,14 +275,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3317-d97c-eb55-0007",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 27.176666,
@@ -309,14 +309,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3317-d97c-eb55-0007",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 45.240753,
@@ -343,14 +343,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3317-d97c-eb55-0007",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 33.765713,
@@ -377,14 +377,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$5337-a792-975c-390e",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 15.5765,
@@ -411,14 +411,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b4d2-2891-c259-51db",
             "prototype": "GrassSmall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 22.936026,
@@ -445,14 +445,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4140-8d23-5809-3080",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 28.88204,
@@ -479,14 +479,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1b40-2826-35a4-1266",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 40.603432,
@@ -513,14 +513,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$a55a-52c7-000a-0826",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 41.151897,
@@ -547,14 +547,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$16b3-5554-0334-382a",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 50.242397,
@@ -581,14 +581,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b4d2-2891-c259-51db",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 3.104374,
@@ -615,14 +615,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1e18-1328-a371-b2cc",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 60.050327,
@@ -649,14 +649,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1e18-1328-a371-b2cc",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 51.878487,
@@ -683,14 +683,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b47d-e8ac-297c-5e91",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 19.306696,
@@ -717,14 +717,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$87a2-7dd2-7631-a685",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 43.430439,
@@ -751,14 +751,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$16b3-5554-0334-382a",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 58.930786,
@@ -785,14 +785,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$684c-ea10-d441-d6b8",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 2.056618,
@@ -819,14 +819,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$2057-5826-4061-a74e",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 33.193199,
@@ -853,14 +853,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$62c0-7beb-2ea0-49ae",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 34.44537,
@@ -887,14 +887,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4a5b-6578-538a-d4a9",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 59.055321,
@@ -921,14 +921,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$12d0-1939-5d23-605a",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 43.190331,
@@ -955,14 +955,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$beb7-2094-70de-b1ac",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 49.577671,
@@ -989,14 +989,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$a0b5-c558-d6b6-b3d1",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 57.100704,
@@ -1023,14 +1023,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$9630-d3bc-4367-745c",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 46.409954,
@@ -1057,14 +1057,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$46b3-981d-b864-cb2b",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 25.318352,
@@ -1091,14 +1091,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8b12-4311-b769-4859",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 32.215519,
@@ -1125,14 +1125,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$626b-68d2-05c5-e309",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 27.0303,
@@ -1159,14 +1159,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1877-16a2-b77b-b75e",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 59.029572,
@@ -1193,14 +1193,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$6972-03be-a866-3449",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 46.03207,
@@ -1227,14 +1227,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$9ac8-9b85-1370-b95e",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 24.528406,
@@ -1261,14 +1261,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8122-db8e-e00b-96bd",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -41.303822,
@@ -1295,14 +1295,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7561-494a-2546-6d6b",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 39.091537,
@@ -1329,14 +1329,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1e27-d6cb-48c7-6339",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 42.973095,
@@ -1363,14 +1363,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b47d-e8ac-297c-5e91",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 46.656685,
@@ -1397,14 +1397,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b4d2-2891-c259-51db",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 24.933392,
@@ -1431,14 +1431,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$025a-9b29-a652-0053",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 32.102791,
@@ -1465,14 +1465,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$d53a-0851-d01e-1305",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 50.401215,
@@ -1499,14 +1499,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$dd7d-6de4-d130-5452",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 25.216663,
@@ -1533,14 +1533,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$5e6c-c62b-86bd-a21d",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -17.626608,
@@ -1567,14 +1567,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7115-7310-9de5-003c",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -82.430511,
@@ -1601,14 +1601,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$cee5-8668-e850-5694",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -35.006763,
@@ -1635,14 +1635,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7561-494a-2546-6d6b",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -24.08024,
@@ -1669,14 +1669,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1e27-d6cb-48c7-6339",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -68.774727,
@@ -1703,14 +1703,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$6d68-191c-d8d9-ab7c",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -72.385674,
@@ -1737,14 +1737,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b47d-e8ac-297c-5e91",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -61.181858,
@@ -1771,14 +1771,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$5044-802a-a980-9326",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -40.535339,
@@ -1805,14 +1805,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$be02-1d91-d9ce-3e5c",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -17.230078,
@@ -1839,14 +1839,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$16b3-5554-0334-382a",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -86.224571,
@@ -1873,14 +1873,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$962a-4439-1bce-ba03",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -32.667439,
@@ -1907,14 +1907,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$2057-5826-4061-a74e",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -51.781765,
@@ -1941,14 +1941,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b4d2-2891-c259-51db",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -28.982573,
@@ -1975,14 +1975,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7561-494a-2546-6d6b",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -5.17912,
@@ -2009,14 +2009,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1e27-d6cb-48c7-6339",
             "prototype": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -32.454063,
@@ -2043,14 +2043,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$6d68-191c-d8d9-ab7c",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -12.33418,
@@ -2077,14 +2077,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$5044-802a-a980-9326",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -45.189823,
@@ -2111,14 +2111,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$87a2-7dd2-7631-a685",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -39.892273,
@@ -2145,14 +2145,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$710e-ed27-5691-d269",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -78.140121,
@@ -2179,14 +2179,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$a2a9-1d17-4b82-dec0",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -24.135506,
@@ -2213,14 +2213,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$962a-4439-1bce-ba03",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -61.862427,
@@ -2247,14 +2247,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$2057-5826-4061-a74e",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -53.594505,
@@ -2281,14 +2281,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1017-94ee-450e-d4da",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -31.017992,
@@ -2315,14 +2315,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$62c0-7beb-2ea0-49ae",
             "prototype": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -59.937195,
@@ -2349,14 +2349,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4a5b-6578-538a-d4a9",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -56.969589,
@@ -2383,14 +2383,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$33da-963e-ac98-253a",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -11.872754,
@@ -2417,14 +2417,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7209-b342-1658-6b3b",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 28.280083,
@@ -2451,14 +2451,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b5ae-ee90-5d01-7e33",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 30.172541,
@@ -2485,14 +2485,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$5286-8eee-461a-91c3",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 50.430847,
@@ -2519,14 +2519,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4932-e8ac-074b-b2d3",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 43.097992,
@@ -2553,14 +2553,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$d8ec-2aa2-3eee-1d2a",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 7.640468,
@@ -2587,14 +2587,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8b12-4311-b769-4859",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 35.044201,
@@ -2621,14 +2621,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$626b-68d2-05c5-e309",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 30.523899,
@@ -2655,14 +2655,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1877-16a2-b77b-b75e",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 21.115864,
@@ -2689,14 +2689,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$23b3-a767-ed3a-6992",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 10.560219,
@@ -2723,14 +2723,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$025a-9b29-a652-0053",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -28.382183,
@@ -2757,14 +2757,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$37cd-4080-6d37-d8ae",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -15.821273,
@@ -2791,14 +2791,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$bc41-dc14-a5b9-d79c",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -76.099976,
@@ -2825,14 +2825,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$2930-7553-a2c9-9767",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -24.901041,
@@ -2859,14 +2859,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$c4e4-a476-7502-c793",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -59.252441,
@@ -2893,14 +2893,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$5320-8970-e82c-1c08",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 32.979805,
@@ -2927,14 +2927,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$cee5-8668-e850-5694",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 27.755051,
@@ -2961,14 +2961,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$410d-8667-0c86-33ac",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 6.07971,
@@ -2995,14 +2995,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$0608-c71d-5a49-d069",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -33.007629,
@@ -3029,14 +3029,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$07dd-e0b4-a1d8-1529",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -48.844402,
@@ -3063,14 +3063,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$c89b-8513-70b9-5e3d",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -64.779434,
@@ -3097,14 +3097,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$22db-8ee0-0b96-bd4e",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -53.741058,
@@ -3131,14 +3131,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$28ca-374a-c4d0-9136",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -75.445694,
@@ -3165,14 +3165,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$a1ee-93a6-8973-aba4",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -21.723499,
@@ -3199,14 +3199,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$360d-aa53-5c70-8244",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -58.295403,
@@ -3233,14 +3233,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$aca6-809d-d1d6-33bc",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -69.136192,
@@ -3267,14 +3267,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b6d5-7835-a2ce-69bb",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -38.506077,
@@ -3301,14 +3301,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$9051-9874-b433-d0e6",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -81.216248,
@@ -3335,14 +3335,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$bb55-5ca2-2e51-e583",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -58.722,
@@ -3369,14 +3369,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1b40-2826-35a4-1266",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -11.584045,
@@ -3403,14 +3403,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b3ca-2d8e-7bac-758d",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -49.199776,
@@ -3437,14 +3437,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8a3a-8ca1-95d1-b60c",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -26.420925,
@@ -3471,14 +3471,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b8c5-5760-d519-c172",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -10.694627,
@@ -3505,14 +3505,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$0596-d17c-6873-ae67",
             "prototype": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 12.36575,
@@ -3539,14 +3539,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$6ba5-c223-aa76-9dde",
             "prototype": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -20.962332,
@@ -3573,14 +3573,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1ae5-14e9-8646-bc42",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 54.955124,
@@ -3607,14 +3607,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b09e-97e8-68a8-6048",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 26.034538,
@@ -3641,14 +3641,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b511-12c4-61c0-e5db",
             "prototype": "BaobabTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 62.647839,
@@ -3675,14 +3675,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4ad9-c756-2747-343d",
             "prototype": "BaobabTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 20.37911,
@@ -3709,14 +3709,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7b26-2dc9-1d8a-94d4",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -70.422653,
@@ -3743,14 +3743,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -59.507812,
@@ -3777,14 +3777,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -36.443573,
@@ -3811,14 +3811,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -6.080835,
@@ -3845,14 +3845,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -43.386055,
@@ -3879,14 +3879,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "LogProp"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 10.241243,
@@ -3913,14 +3913,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "BaobabTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -81.858833,
@@ -3947,14 +3947,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "BaobabTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -62.791515,
@@ -3981,14 +3981,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -59.484688,
@@ -4015,14 +4015,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 6.460705,
@@ -4049,14 +4049,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "RockMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 11.004801,
@@ -4083,14 +4083,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "RockSmallest"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -55.072857,

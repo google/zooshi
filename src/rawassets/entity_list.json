@@ -3,14 +3,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "introbox-1",
             "prototype": "IntroBox"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -34,21 +34,21 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$cc7c-d763-692e-7717",
             "prototype": "Ground"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "CycleOnly",
             "render_option": "OnlyInEditor"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -72,19 +72,19 @@
     {
       "component_list": [
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data": {
           }
         },
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$6288-e1c3-3742-4a1a",
             "prototype": "RiverRail"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -0.001575,
@@ -112,7 +112,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "ActivePlayer",
             "prototype": "PlayerPrototype"
@@ -134,14 +134,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$e514-e986-46bc-4253",
             "prototype": "SkyBox"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -168,7 +168,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$559e-aa73-14c2-022a",
             "prototype": "GroundPhysics"
@@ -179,20 +179,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Gate",
             "prototype": "GatePrototype"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 18.766514,

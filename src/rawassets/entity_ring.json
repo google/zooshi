@@ -3,20 +3,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$04d1-d0d1-0b58-a721",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 57.732204,
@@ -43,26 +43,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$92c7-e315-61b8-82a8",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 59.193474,
@@ -86,26 +86,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1e02-904b-d812-b2e4",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -34.939602,
@@ -129,26 +129,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$85d3-d4ba-957e-b43e",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 28.652237,
@@ -172,26 +172,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3ba0-0ae1-1d44-431c",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 51.459877,
@@ -215,26 +215,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$824a-b412-a786-3739",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 13.785067,
@@ -258,26 +258,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$666d-7ec5-9260-01e1",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 7.593459,
@@ -301,26 +301,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$73b5-0a4c-4c6e-e557",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 5.95621,
@@ -344,26 +344,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$7a40-9c8d-5b26-3a88",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 20.712505,
@@ -387,26 +387,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1c37-d13b-1d98-b185",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -3.219982,
@@ -430,26 +430,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$76d5-e088-8a28-74b1",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 57.324112,
@@ -473,26 +473,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8600-15bd-47cc-b2d1",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 342.217255,
@@ -516,26 +516,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$9a1b-a956-418e-2884",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -103.693649,
@@ -559,26 +559,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$206a-c778-cb10-9c2b",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -100.94706,
@@ -602,26 +602,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$1c75-1088-a9b2-a1e8",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -93.605698,
@@ -645,26 +645,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$d326-3372-7a12-604c",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -23.241791,
@@ -688,26 +688,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$4080-7e11-e32d-abe1",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 71.308998,
@@ -731,20 +731,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$2de7-2e94-ad9c-7562",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 50.582909,
@@ -771,20 +771,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$d1d8-5646-381c-8305",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 61.713291,
@@ -811,20 +811,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$b102-aba3-20e0-a5ee",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 2.465774,
@@ -851,20 +851,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$158b-71d7-6808-c846",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -2.643039,
@@ -891,20 +891,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$8463-9b79-15e9-a470",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -72.364761,
@@ -931,20 +931,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$6403-690d-ba41-9636",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -56.564957,
@@ -971,20 +971,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3b50-3014-5386-4ad4",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -84.382477,
@@ -1011,20 +1011,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -64.931549,
@@ -1051,26 +1051,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -84.582649,
@@ -1094,26 +1094,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -64.45195,
@@ -1137,20 +1137,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -77.531433,
@@ -1177,26 +1177,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -67.306343,
@@ -1220,20 +1220,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 34.134819,
@@ -1260,20 +1260,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -31.222343,
@@ -1300,26 +1300,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 65.824844,
@@ -1343,20 +1343,20 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "SavannaTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -34.832096,
@@ -1383,26 +1383,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 55.00201,
@@ -1426,26 +1426,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$3769-e4be-204d-1d0d",
             "prototype": "MidGroundTree"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": 9
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 69.80513,
