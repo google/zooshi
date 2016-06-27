@@ -46,10 +46,10 @@ namespace fpl {
 namespace zooshi {
 
 void GameMenuState::Initialize(
-    fplbase::InputSystem* input_system, World* world, const Config* config,
-    fplbase::AssetManager* asset_manager, flatui::FontManager* font_manager,
-    const AssetManifest* manifest, GPGManager* gpg_manager,
-    pindrop::AudioEngine* audio_engine, FullScreenFader* fader) {
+    fplbase::InputSystem *input_system, World *world, const Config *config,
+    fplbase::AssetManager *asset_manager, flatui::FontManager *font_manager,
+    const AssetManifest *manifest, GPGManager *gpg_manager,
+    pindrop::AudioEngine *audio_engine, FullScreenFader *fader) {
   world_ = world;
 
   // Set references used in GUI.
@@ -125,7 +125,7 @@ void GameMenuState::Initialize(
   UpdateVolumes();
 }
 
-void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
+void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
 
@@ -178,17 +178,17 @@ void GameMenuState::RenderPrep() {
   world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
-void GameMenuState::Render(fplbase::Renderer* renderer) {
-  Camera* cardboard_camera = nullptr;
+void GameMenuState::Render(fplbase::Renderer *renderer) {
+  Camera *cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void GameMenuState::HandleUI(fplbase::Renderer* renderer) {
+void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
   // No culling when drawing the menu.
-  renderer->SetCulling(fplbase::Renderer::kNoCulling);
+  renderer->SetCulling(fplbase::kCullingModeNone);
 
   switch (menu_state_) {
     case kMenuStateStart:
@@ -200,10 +200,11 @@ void GameMenuState::HandleUI(fplbase::Renderer* renderer) {
 
     case kMenuStateQuit: {
       flatui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
-        flatui::CustomElement(flatui::GetVirtualResolution(), "fader",
-                           [&](const vec2i& /*pos*/, const vec2i& /*size*/) {
-                             fader_->Render(renderer);
-                           });
+        flatui::CustomElement(
+            flatui::GetVirtualResolution(), "fader",
+            [&](const vec2i & /*pos*/, const vec2i & /*size*/) {
+              fader_->Render(renderer);
+            });
       });
       break;
     }
@@ -238,9 +239,9 @@ void GameMenuState::LoadData() {
   std::string storage_path;
   std::string data;
   auto ret = fplbase::GetStoragePath(kSaveAppName, &storage_path);
-  if (ret && fplbase::LoadPreferences((storage_path + kSaveFileName).c_str(),
-                                      &data)) {
-    auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
+  if (ret &&
+      fplbase::LoadPreferences((storage_path + kSaveFileName).c_str(), &data)) {
+    auto save_data = GetSaveData(static_cast<const void *>(data.c_str()));
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
 
@@ -287,7 +288,7 @@ void GameMenuState::SaveData() {
   auto ret = fplbase::GetStoragePath(kSaveAppName, &storage_path);
   if (ret) {
     fplbase::SavePreferences((storage_path + kSaveFileName).c_str(),
-                    fbb.GetBufferPointer(), fbb.GetSize());
+                             fbb.GetBufferPointer(), fbb.GetSize());
   }
 }
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "game.h"
 #include "states/pause_state.h"
+#include "game.h"
 
 #include "flatui/flatui.h"
 #include "flatui/flatui_common.h"
@@ -28,11 +28,11 @@ using flatui::TextButton;
 
 static const auto kPauseStateButtonSize = 100.0f;
 
-void PauseState::Initialize(fplbase::InputSystem* input_system, World* world,
-                            const Config* config,
-                            fplbase::AssetManager* asset_manager,
-                            flatui::FontManager* font_manager,
-                            pindrop::AudioEngine* audio_engine) {
+void PauseState::Initialize(fplbase::InputSystem *input_system, World *world,
+                            const Config *config,
+                            fplbase::AssetManager *asset_manager,
+                            flatui::FontManager *font_manager,
+                            pindrop::AudioEngine *audio_engine) {
   asset_manager_ = asset_manager;
   font_manager_ = font_manager;
   input_system_ = input_system;
@@ -52,7 +52,7 @@ void PauseState::Initialize(fplbase::InputSystem* input_system, World* world,
 #endif
 }
 
-void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
+void PauseState::AdvanceFrame(int /*delta_time*/, int *next_state) {
   UpdateMainCamera(&main_camera_, world_);
 
   *next_state = next_state_;
@@ -78,9 +78,9 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
   next_state_ = kGameStatePause;
 }
 
-GameState PauseState::PauseMenu(fplbase::AssetManager& assetman,
-                                flatui::FontManager& fontman,
-                                fplbase::InputSystem& input) {
+GameState PauseState::PauseMenu(fplbase::AssetManager &assetman,
+                                flatui::FontManager &fontman,
+                                fplbase::InputSystem &input) {
   GameState next_state = kGameStatePause;
 
   flatui::Run(assetman, fontman, input, [&]() {
@@ -124,17 +124,17 @@ void PauseState::RenderPrep() {
   world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
-void PauseState::Render(fplbase::Renderer* renderer) {
-  Camera* cardboard_camera = nullptr;
+void PauseState::Render(fplbase::Renderer *renderer) {
+  Camera *cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void PauseState::HandleUI(fplbase::Renderer* renderer) {
+void PauseState::HandleUI(fplbase::Renderer *renderer) {
   // No culling when drawing the menu.
-  renderer->SetCulling(fplbase::Renderer::kNoCulling);
+  renderer->SetCulling(fplbase::kCullingModeNone);
   next_state_ = PauseMenu(*asset_manager_, *font_manager_, *input_system_);
 }
 

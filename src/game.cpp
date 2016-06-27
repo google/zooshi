@@ -215,8 +215,8 @@ bool Game::InitializeRenderer() {
 
 // In our game, `anim_name` is the same as the animation file. Use it directly
 // to load the file into scratch_buf, and return the pointer to it.
-const motive::RigAnimFb* LoadRigAnim(const char* anim_name,
-                                     std::string* scratch_buf) {
+const motive::RigAnimFb *LoadRigAnim(const char *anim_name,
+                                     std::string *scratch_buf) {
   const bool load_ok = LoadFile(anim_name, scratch_buf);
   if (!load_ok) {
     LogError("Failed to load animation file %s.\n", anim_name);
@@ -231,7 +231,7 @@ bool Game::InitializeAssets() {
   // Load up all of our assets, as defined in the manifest.
   // Load the loading-material first, since we display that while the others
   // load.
-  const AssetManifest& asset_manifest = GetAssetManifest();
+  const AssetManifest &asset_manifest = GetAssetManifest();
 
   if (fplbase::GetSystemRamSize() <= kLowRamProfileThreshold) {
     // Reduce material size.
@@ -246,7 +246,8 @@ bool Game::InitializeAssets() {
   }
   for (size_t i = 0; i < asset_manifest.shader_list()->size(); i++) {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
-    asset_manager_.LoadShader(asset_manifest.shader_list()->Get(index)->c_str());
+    asset_manager_.LoadShader(
+        asset_manifest.shader_list()->Get(index)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
@@ -260,7 +261,7 @@ bool Game::InitializeAssets() {
   shader_textured_ = asset_manager_.LoadShader("shaders/textured");
 
   // Load the animation table and all animations it references.
-  motive::AnimTable& anim_table = world_.animation_component.anim_table();
+  motive::AnimTable &anim_table = world_.animation_component.anim_table();
   const bool anim_ok =
       anim_table.InitFromFlatBuffers(*asset_manifest.anims(), LoadRigAnim);
   if (!anim_ok) return false;
@@ -268,19 +269,19 @@ bool Game::InitializeAssets() {
   return true;
 }
 
-const Config& Game::GetConfig() const {
+const Config &Game::GetConfig() const {
   return *fpl::zooshi::GetConfig(config_source_.c_str());
 }
 
-const InputConfig& Game::GetInputConfig() const {
+const InputConfig &Game::GetInputConfig() const {
   return *fpl::zooshi::GetInputConfig(input_config_source_.c_str());
 }
 
-const AssetManifest& Game::GetAssetManifest() const {
+const AssetManifest &Game::GetAssetManifest() const {
   return *fpl::zooshi::GetAssetManifest(asset_manifest_source_.c_str());
 }
 
-void BreadboardLogFunc(const char* fmt, va_list args) { LogError(fmt, args); }
+void BreadboardLogFunc(const char *fmt, va_list args) { LogError(fmt, args); }
 
 void Game::InitializeBreadboardModules() {
   breadboard::RegisterLogFunc(BreadboardLogFunc);
@@ -323,9 +324,9 @@ void Game::InitializeBreadboardModules() {
 // Pause the audio when the game loses focus.
 class AudioEngineVolumeControl {
  public:
-  AudioEngineVolumeControl(pindrop::AudioEngine* audio) : audio_(audio) {}
-  void operator()(void* userdata) {
-    SDL_Event* event = static_cast<SDL_Event*>(userdata);
+  AudioEngineVolumeControl(pindrop::AudioEngine *audio) : audio_(audio) {}
+  void operator()(void *userdata) {
+    SDL_Event *event = static_cast<SDL_Event *>(userdata);
     switch (event->type) {
       case SDL_APP_WILLENTERBACKGROUND:
         audio_->Pause(true);
@@ -339,13 +340,13 @@ class AudioEngineVolumeControl {
   }
 
  private:
-  pindrop::AudioEngine* audio_;
+  pindrop::AudioEngine *audio_;
 };
 
 // Initialize each member in turn. This is logically just one function, since
 // the order of initialization cannot be changed. However, it's nice for
 // debugging and readability to have each section lexographically separate.
-bool Game::Initialize(const char* const binary_directory) {
+bool Game::Initialize(const char *const binary_directory) {
   LogInfo("Zooshi Initializing...");
 #if defined(BENCHMARK_MOTIVE)
   InitBenchmarks(10);
@@ -372,7 +373,7 @@ bool Game::Initialize(const char* const binary_directory) {
                 &asset_manifest_source_)) {
     return false;
   }
-  const auto& asset_manifest = GetAssetManifest();
+  const auto &asset_manifest = GetAssetManifest();
 
   if (!InitializeAssets()) return false;
 
@@ -400,7 +401,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
 #ifdef __ANDROID__
   if (fplbase::SupportsHeadMountedDisplay()) {
-    BasePlayerController* controller = new AndroidCardboardController();
+    BasePlayerController *controller = new AndroidCardboardController();
     controller->set_input_config(&GetInputConfig());
     controller->set_input_system(&input_);
     controller->set_enabled(ZOOSHI_FORCE_ONSCREEN_CONTROLLER == 0);
@@ -413,7 +414,7 @@ bool Game::Initialize(const char* const binary_directory) {
 // instance the onscreen controller.
 #if defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
   {
-    OnscreenController* onscreen_controller = new OnscreenController();
+    OnscreenController *onscreen_controller = new OnscreenController();
     onscreen_controller->set_input_config(&GetInputConfig());
     onscreen_controller->set_input_system(&input_);
     onscreen_controller->set_enabled(!fplbase::SupportsHeadMountedDisplay() ||
@@ -430,7 +431,7 @@ bool Game::Initialize(const char* const binary_directory) {
 // instance the mouse controller.
 #if !defined(PLATFORM_MOBILE) && !ZOOSHI_FORCE_ONSCREEN_CONTROLLER
   {
-    BasePlayerController* controller = new MouseController();
+    BasePlayerController *controller = new MouseController();
     controller->set_input_config(&GetInputConfig());
     controller->set_input_system(&input_);
     world_.AddController(controller);
@@ -439,7 +440,7 @@ bool Game::Initialize(const char* const binary_directory) {
 
 #ifdef ANDROID_GAMEPAD
   {
-    GamepadController* controller = new GamepadController();
+    GamepadController *controller = new GamepadController();
     controller->set_input_config(&GetInputConfig());
     controller->set_input_system(&input_);
     world_.AddController(controller);
@@ -465,7 +466,7 @@ bool Game::Initialize(const char* const binary_directory) {
   assert(fader_material);
   fader_.Init(fader_material, shader_textured_);
 
-  const Config* config = &GetConfig();
+  const Config *config = &GetConfig();
   loading_state_.Initialize(&input_, &world_, asset_manifest, &asset_manager_,
                             &audio_engine_, shader_textured_, &fader_);
   pause_state_.Initialize(&input_, &world_, config, &asset_manager_,
@@ -512,23 +513,23 @@ void Game::ToggleRelativeMouseMode() {
 }
 
 static inline corgi::WorldTime CurrentWorldTime(
-    const fplbase::InputSystem& input) {
+    const fplbase::InputSystem &input) {
   return static_cast<corgi::WorldTime>(input.Time() * 1000);
 }
 
 static inline corgi::WorldTime CurrentWorldTimeSubFrame(
-    const fplbase::InputSystem& input) {
+    const fplbase::InputSystem &input) {
   return static_cast<corgi::WorldTime>(input.RealTime() * 1000);
 }
 
 // Stuff the update thread needs to know about:
 struct UpdateThreadData {
-  UpdateThreadData(bool* exiting, World* world_ptr,
-                   StateMachine<kGameStateCount>* statemachine_ptr,
-                   fplbase::Renderer* renderer_ptr,
-                   fplbase::InputSystem* input_ptr,
-                   pindrop::AudioEngine* audio_engine_ptr,
-                   GameSynchronization* sync_ptr)
+  UpdateThreadData(bool *exiting, World *world_ptr,
+                   StateMachine<kGameStateCount> *statemachine_ptr,
+                   fplbase::Renderer *renderer_ptr,
+                   fplbase::InputSystem *input_ptr,
+                   pindrop::AudioEngine *audio_engine_ptr,
+                   GameSynchronization *sync_ptr)
       : game_exiting(exiting),
         world(world_ptr),
         state_machine(statemachine_ptr),
@@ -536,28 +537,28 @@ struct UpdateThreadData {
         input(input_ptr),
         audio_engine(audio_engine_ptr),
         sync(sync_ptr) {}
-  bool* game_exiting;
-  World* world;
-  StateMachine<kGameStateCount>* state_machine;
-  fplbase::Renderer* renderer;
-  fplbase::InputSystem* input;
-  pindrop::AudioEngine* audio_engine;
-  GameSynchronization* sync;
+  bool *game_exiting;
+  World *world;
+  StateMachine<kGameStateCount> *state_machine;
+  fplbase::Renderer *renderer;
+  fplbase::InputSystem *input;
+  pindrop::AudioEngine *audio_engine;
+  GameSynchronization *sync;
   corgi::WorldTime frame_start;
 };
 
 // This is the thread that handles all of our actual game logic updates:
-static int UpdateThread(void* data) {
-  UpdateThreadData* rt_data = static_cast<UpdateThreadData*>(data);
-  GameSynchronization& sync = *rt_data->sync;
+static int UpdateThread(void *data) {
+  UpdateThreadData *rt_data = static_cast<UpdateThreadData *>(data);
+  GameSynchronization &sync = *rt_data->sync;
   int prev_update_time;
   prev_update_time = CurrentWorldTime(*rt_data->input) - kMinUpdateTime;
 #ifdef __ANDROID__
-  JavaVM* jvm;
-  JNIEnv* env = fplbase::AndroidGetJNIEnv();
+  JavaVM *jvm;
+  JNIEnv *env = fplbase::AndroidGetJNIEnv();
   env->GetJavaVM(&jvm);
 
-  JNIEnv* update_env;
+  JNIEnv *update_env;
 
   JavaVMAttachArgs args;
   args.version = JNI_VERSION_1_6;  // choose your JNI version
@@ -606,13 +607,13 @@ static int UpdateThread(void* data) {
 }
 
 // TODO: Modify vsync callback API to take a context parameter.
-static GameSynchronization* global_vsync_context = nullptr;
+static GameSynchronization *global_vsync_context = nullptr;
 void HandleVsync() {
   SDL_CondBroadcast(global_vsync_context->start_render_cv_);
 }
 
 // Hack, to simulate vsync events on non-android devices.
-static int VsyncSimulatorThread(void* /*data*/) {
+static int VsyncSimulatorThread(void * /*data*/) {
   while (true) {
     HandleVsync();
     SDL_Delay(2);
@@ -644,7 +645,7 @@ void Game::Run() {
   input_.AdvanceFrame(&renderer_.window_size());
   state_machine_.AdvanceFrame(16);
 
-  SDL_Thread* update_thread =
+  SDL_Thread *update_thread =
       SDL_CreateThread(UpdateThread, "Zooshi Update Thread", &rt_data);
   if (!update_thread) {
     LogError("Error creating update thread.");
@@ -677,7 +678,7 @@ void Game::Run() {
   fplbase::RegisterVsyncCallback(HandleVsync);
 #else
   // We don't need this on android because we'll just get vsync events directly.
-  SDL_Thread* vsync_simulator_thread = SDL_CreateThread(
+  SDL_Thread *vsync_simulator_thread = SDL_CreateThread(
       VsyncSimulatorThread, "Zooshi Simulated Vsync Thread", nullptr);
   if (!vsync_simulator_thread) {
     LogError("Error creating vsync simulator thread.");
@@ -748,7 +749,7 @@ void Game::Run() {
 
     fplbase::RenderTarget::ScreenRenderTarget(renderer_).SetAsRenderTarget();
     renderer_.ClearDepthBuffer();
-    renderer_.SetCulling(fplbase::Renderer::kCullBack);
+    renderer_.SetCulling(fplbase::kCullingModeBack);
 
     state_machine_.Render(&renderer_);
     SystraceEnd();
@@ -862,12 +863,12 @@ void Game::UpdateProfiling(corgi::WorldTime frame_time) {
 }
 #endif  // DISPLAY_FRAMERATE_HISTOGRAM
 
-bool Game::LoadFile(const char* filename, std::string* dest) {
-  const char* read_filename = filename;
+bool Game::LoadFile(const char *filename, std::string *dest) {
+  const char *read_filename = filename;
   std::string overlay;
   if (!overlay_name_.empty()) {
     overlay = "overlays/" + overlay_name_ + "/" + std::string(filename);
-    const char* overlay_filename = overlay.c_str();
+    const char *overlay_filename = overlay.c_str();
     auto handle = SDL_RWFromFile(overlay_filename, "rb");
     if (handle) {
       SDL_RWclose(handle);
@@ -878,8 +879,8 @@ bool Game::LoadFile(const char* filename, std::string* dest) {
 }
 
 #if defined(__ANDROID__)
-void Game::ParseViewIntentData(const std::string& intent_data,
-                               std::string* launch_mode, std::string* overlay) {
+void Game::ParseViewIntentData(const std::string &intent_data,
+                               std::string *launch_mode, std::string *overlay) {
   static const char kDefaultLaunchMode[] = "default";
   static const char kPathPrefix[] = "http://google.github.io/zooshi/launch/";
   assert(launch_mode);
