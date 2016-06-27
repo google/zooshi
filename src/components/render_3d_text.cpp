@@ -64,16 +64,6 @@ const mat4 Render3dTextComponent::CalculateAnimationTransform(
     return mat4::FromAffineTransform(
         anim_data->motivator.GlobalTransforms()[animation_bone]);
   }
-
-  const RenderMeshData* rendermesh_data = Data<RenderMeshData>(entity);
-  const int num_mesh_bones =
-      static_cast<int>(rendermesh_data->mesh->num_bones());
-
-  if (num_mesh_bones > 1 && num_mesh_bones > animation_bone) {
-    return mat4::FromAffineTransform(
-        rendermesh_data->mesh->bone_global_transforms()[animation_bone]);
-  }
-
   return mat4::Identity();
 }
 

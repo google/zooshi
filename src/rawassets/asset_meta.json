@@ -25,6 +25,11 @@
     { "name": "eat", "repeat": 0 },
     { "name": "happy", "repeat": 0 },
     { "name": "disappear", "repeat": 0 },
-    { "name": "fern", "repeat": 1 }
+    { "name": "fern", "repeat": 1 },
+    { "name": "lady_mandrill", "unit": "m" },
+    { "name": "hippo", "unit": "m" },
+    { "name": "bird", "unit": "m" },
+    { "name": "heart", "unit": "m" },
+    { "name": "scenery", "rootbone": 1 }
   ]
 }

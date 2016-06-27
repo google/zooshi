@@ -3359,7 +3359,7 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
           }
         },
         {
@@ -3590,9 +3590,9 @@
               "z": 0
             },
             "scale": {
-              "x": 50,
-              "y": 50,
-              "z": 50
+              "x": 0.2,
+              "y": 0.2,
+              "z": 0.2
             },
           }
         },
