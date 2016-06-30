@@ -246,7 +246,8 @@ bool Game::InitializeAssets() {
   }
   for (size_t i = 0; i < asset_manifest.shader_list()->size(); i++) {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
-    asset_manager_.LoadShader(asset_manifest.shader_list()->Get(index)->c_str());
+    asset_manager_.LoadShader(
+        asset_manifest.shader_list()->Get(index)->c_str());
   }
   for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
@@ -448,15 +449,20 @@ bool Game::Initialize(const char* const binary_directory) {
 
   world_renderer_.Initialize(&world_);
 
-  scene_lab_->Initialize(GetConfig().scene_lab_config(), &world_.entity_manager,
-                         &font_manager_);
-
-  scene_lab_->AddComponentToUpdate(
+  scene_lab_->Initialize(GetConfig().scene_lab_config(), &asset_manager_,
+                         &input_, &renderer_, &font_manager_);
+  std::unique_ptr<scene_lab_corgi::CorgiAdapter> adapter(
+      new scene_lab_corgi::CorgiAdapter(scene_lab_.get(),
+                                        &world_.entity_manager));
+  adapter->AddComponentToUpdate(
       corgi::component_library::TransformComponent::GetComponentId());
-  scene_lab_->AddComponentToUpdate(ShadowControllerComponent::GetComponentId());
-  scene_lab_->AddComponentToUpdate(
+  adapter->AddComponentToUpdate(ShadowControllerComponent::GetComponentId());
+  adapter->AddComponentToUpdate(
       corgi::component_library::RenderMeshComponent::GetComponentId());
-  scene_lab_->AddComponentToUpdate(Render3dTextComponent::GetComponentId());
+  adapter->AddComponentToUpdate(Render3dTextComponent::GetComponentId());
+
+  scene_lab_state_.Initialize(&renderer_, &input_, adapter.get(), &world_);
+  scene_lab_->SetEntitySystemAdapter(std::move(adapter));
 
   gpg_manager_.Initialize(false);
 
@@ -479,7 +485,6 @@ bool Game::Initialize(const char* const binary_directory) {
   game_over_state_.Initialize(&input_, &world_, config, &asset_manager_,
                               &font_manager_, &gpg_manager_, &audio_engine_);
   intro_state_.Initialize(&input_, &world_, config, &fader_, &audio_engine_);
-  scene_lab_state_.Initialize(&renderer_, &input_, scene_lab_.get(), &world_);
 
   state_machine_.AssignState(kGameStateLoading, &loading_state_);
   state_machine_.AssignState(kGameStateGameplay, &gameplay_state_);

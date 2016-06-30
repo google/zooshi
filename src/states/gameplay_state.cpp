@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "game.h"
 #include "states/gameplay_state.h"
+#include "game.h"
 
-#include "fplbase/input.h"
 #include "fplbase/asset_manager.h"
+#include "fplbase/input.h"
 #include "full_screen_fader.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
@@ -32,8 +32,8 @@ namespace zooshi {
 
 // Update music gain based on lap number. This logic will eventually live in
 // an event graph.
-static void UpdateMusic(corgi::EntityManager* entity_manager,
-                        int* previous_lap, float* percent, int delta_time,
+static void UpdateMusic(corgi::EntityManager* entity_manager, int* previous_lap,
+                        float* percent, int delta_time,
                         pindrop::Channel* music_channel_1,
                         pindrop::Channel* music_channel_2,
                         pindrop::Channel* music_channel_3) {
@@ -98,7 +98,11 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
                      input_system_->GetButton(fplbase::FPLK_1).went_down() ||
                      world_->is_single_stepping)) {
     if (!world_->is_single_stepping) {
-      scene_lab_->SetInitialCamera(main_camera_);
+      scene_lab::GenericCamera camera;
+      camera.position = main_camera_.position();
+      camera.facing = main_camera_.facing();
+      camera.up = main_camera_.up();
+      scene_lab_->SetInitialCamera(camera);
     }
     *next_state = kGameStateSceneLab;
     world_->is_single_stepping = false;

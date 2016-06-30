@@ -64,7 +64,9 @@ void RiverComponent::Init() {
   SceneLab* scene_lab = services->scene_lab();
   if (scene_lab) {
     scene_lab->AddOnUpdateEntityCallback(
-        [this](const corgi::EntityRef& /*entity*/) { TriggerRiverUpdate(); });
+        [this](const scene_lab::GenericEntityId& /*entity*/) {
+          TriggerRiverUpdate();
+        });
   }
   river_offset_ = 0;
 }

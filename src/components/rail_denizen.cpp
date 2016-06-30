@@ -101,11 +101,20 @@ void RailDenizenComponent::Init() {
   ServicesComponent* services =
       entity_manager_->GetComponent<ServicesComponent>();
   // Scene Lab is not guaranteed to be present in all versions of the game.
-  // Only set up callbacks if we actually have a Scene Lab.
   SceneLab* scene_lab = services->scene_lab();
+  // Only set up callbacks if we actually have a Scene Lab.
   if (scene_lab) {
     scene_lab->AddOnUpdateEntityCallback(
-        [this](const corgi::EntityRef& entity) { UpdateRailNodeData(entity); });
+        [this](const scene_lab::GenericEntityId& id) {
+          // Use CorgiAdapter to convert GenericEntityId to corgi::EntityRef.
+          corgi::EntityRef entity =
+              static_cast<scene_lab_corgi::CorgiAdapter*>(
+                  entity_manager_->GetComponent<ServicesComponent>()
+                      ->scene_lab()
+                      ->entity_system_adapter())
+                  ->GetEntityRef(id);
+          UpdateRailNodeData(entity);
+        });
     scene_lab->AddOnEnterEditorCallback([this]() { OnEnterEditor(); });
     scene_lab->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }

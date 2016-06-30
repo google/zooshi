@@ -34,17 +34,20 @@ static const float kEditorViewportAngle =
     static_cast<float>(M_PI) / 3.0f;  // 60 degrees
 void SceneLabState::Initialize(fplbase::Renderer* renderer,
                                fplbase::InputSystem* input_system,
-                               scene_lab::SceneLab* scene_lab, World* world) {
+                               scene_lab_corgi::CorgiAdapter* corgi_adapter,
+                               World* world) {
   renderer_ = renderer;
   input_system_ = input_system;
-  scene_lab_ = scene_lab;
   world_ = world;
   camera_ = new Camera();
   camera_->set_viewport_angle(kEditorViewportAngle);
-  scene_lab->SetCamera(std::unique_ptr<corgi::CameraInterface>(camera_));
+  corgi_adapter_ = corgi_adapter;
+  scene_lab_ = corgi_adapter_->scene_lab();
+  corgi_adapter_->SetCorgiCamera(
+      std::unique_ptr<corgi::CameraInterface>(camera_));
 }
 
-void SceneLabState::AdvanceFrame(corgi::WorldTime delta_time, int* next_state){
+void SceneLabState::AdvanceFrame(corgi::WorldTime delta_time, int* next_state) {
   scene_lab_->AdvanceFrame(delta_time);
   if (input_system_->GetButton(fplbase::FPLK_F11).went_down()) {
     scene_lab_->SaveScene();
@@ -70,14 +73,14 @@ void SceneLabState::AdvanceFrame(corgi::WorldTime delta_time, int* next_state){
 }
 
 void SceneLabState::RenderPrep() {
-  const corgi::CameraInterface* camera = scene_lab_->GetCamera();
+  const corgi::CameraInterface* camera = corgi_adapter_->GetCorgiCamera();
   world_->world_renderer->RenderPrep(*camera, world_);
 }
 
 void SceneLabState::Render(fplbase::Renderer* renderer) {
   camera_->set_viewport_resolution(vec2(renderer->window_size()));
 
-  const auto camera = scene_lab_->GetCamera();
+  const auto camera = corgi_adapter_->GetCorgiCamera();
 
   mat4 camera_transform = camera->GetTransformMatrix();
   renderer->set_color(mathfu::kOnes4f);
@@ -96,9 +99,7 @@ void SceneLabState::HandleUI(fplbase::Renderer* renderer) {
   scene_lab_->Render(renderer);
 }
 
-void SceneLabState::OnEnter(int /*previous_state*/) {
-  scene_lab_->Activate();
-}
+void SceneLabState::OnEnter(int /*previous_state*/) { scene_lab_->Activate(); }
 
 void SceneLabState::OnExit(int /*next_state*/) { scene_lab_->Deactivate(); }
 

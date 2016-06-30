@@ -52,7 +52,8 @@
 #include "inputcontrollers/gamepad_controller.h"
 #include "inputcontrollers/onscreen_controller.h"
 #include "railmanager.h"
-#include "scene_lab/edit_options.h"
+#include "scene_lab/corgi/corgi_adapter.h"
+#include "scene_lab/corgi/edit_options.h"
 #include "scene_lab/scene_lab.h"
 #include "world_renderer.h"
 
@@ -132,7 +133,7 @@ struct World {
   corgi::component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
   corgi::component_library::MetaComponent meta_component;
-  scene_lab::EditOptionsComponent edit_options_component;
+  scene_lab_corgi::EditOptionsComponent edit_options_component;
   SimpleMovementComponent simple_movement_component;
   LapDependentComponent lap_dependent_component;
   corgi::component_library::GraphComponent graph_component;
