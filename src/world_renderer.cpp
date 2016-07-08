@@ -45,16 +45,12 @@ static const int kShadowMapTextureID = 7;
 // are not at the max value.
 static const vec4 kShadowMapClearColor = vec4(0.99f, 0.99f, 0.99f, 1.0f);
 
-static const char* kDefinesText[] = {
-  "PHONG_SHADING",
-  "SPECULAR_EFFECT",
-  "SHADOW_EFFECT",
-  "NORMALS"
-};
+static const char *kDefinesText[] = {"PHONG_SHADING", "SPECULAR_EFFECT",
+                                     "SHADOW_EFFECT", "NORMALS"};
 
-const char* kEmptyString = "";
+const char *kEmptyString = "";
 
-void WorldRenderer::Initialize(World* world) {
+void WorldRenderer::Initialize(World *world) {
   int shadow_map_resolution =
       world->config->rendering_config()->shadow_map_resolution();
   shadow_map_.Initialize(
@@ -63,7 +59,7 @@ void WorldRenderer::Initialize(World* world) {
   LoadAllShaders(world);
 }
 
-void WorldRenderer::LoadAllShaders(World* world) {
+void WorldRenderer::LoadAllShaders(World *world) {
   if (world->RenderingOptionEnabled(kShadowEffect)) {
     depth_shader_ = world->asset_manager->LoadShader("shaders/render_depth");
     depth_skinned_shader_ =
@@ -71,7 +67,7 @@ void WorldRenderer::LoadAllShaders(World* world) {
   }
 
   // Allocate an extra index for nullptr
-  const char* shader_defines[kNumShaderDefines + 1];
+  const char *shader_defines[kNumShaderDefines + 1];
   for (int s = kPhongShading; s < kNumShaderDefines; ++s) {
     ShaderDefines shader_define = static_cast<ShaderDefines>(s);
     shader_defines[shader_define] = world->RenderingOptionEnabled(shader_define)
@@ -99,18 +95,18 @@ void WorldRenderer::LoadAllShaders(World* world) {
   world->ResetRenderingDirty();
 }
 
-void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
-                                    fplbase::Renderer& renderer, World* world) {
+void WorldRenderer::CreateShadowMap(const corgi::CameraInterface &camera,
+                                    fplbase::Renderer &renderer, World *world) {
   float shadow_map_resolution = static_cast<float>(
-        world->config->rendering_config()->shadow_map_resolution());
+      world->config->rendering_config()->shadow_map_resolution());
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
   float shadow_map_offset =
       world->config->rendering_config()->shadow_map_offset();
-  LightComponent* light_component =
+  LightComponent *light_component =
       world->entity_manager.GetComponent<LightComponent>();
 
-  const EntityRef& main_light_entity = light_component->begin()->entity;
-  const TransformData* light_transform =
+  const EntityRef &main_light_entity = light_component->begin()->entity;
+  const TransformData *light_transform =
       world->entity_manager.GetComponentData<TransformData>(main_light_entity);
   vec3 light_position = light_transform->position;
   SetLightPosition(light_position);
@@ -131,7 +127,7 @@ void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
   // the maximum (furthest) depth.
   shadow_map_.SetAsRenderTarget();
   renderer.ClearFrameBuffer(kShadowMapClearColor);
-  renderer.SetCulling(fplbase::Renderer::kCullBack);
+  renderer.SetCulling(fplbase::kCullingModeBack);
 
   depth_shader_->Set(renderer);
   depth_skinned_shader_->Set(renderer);
@@ -139,21 +135,21 @@ void WorldRenderer::CreateShadowMap(const corgi::CameraInterface& camera,
   // TODO - modify this so that shadowcast is its own render pass
 
   for (int pass = 0; pass < corgi::RenderPass_Count; pass++) {
-    world->render_mesh_component.RenderPass(pass, light_camera_,
-                                            renderer, ShaderIndex_Depth);
+    world->render_mesh_component.RenderPass(pass, light_camera_, renderer,
+                                            ShaderIndex_Depth);
   }
 
   fplbase::RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
 }
 
-void WorldRenderer::RenderPrep(const corgi::CameraInterface& camera,
-                               World* world) {
+void WorldRenderer::RenderPrep(const corgi::CameraInterface &camera,
+                               World *world) {
   world->render_mesh_component.RenderPrep(camera);
 }
 
 // Draw the shadow map in the world, so we can see it.
-void WorldRenderer::DebugShowShadowMap(const corgi::CameraInterface& camera,
-                                       fplbase::Renderer& renderer) {
+void WorldRenderer::DebugShowShadowMap(const corgi::CameraInterface &camera,
+                                       fplbase::Renderer &renderer) {
   fplbase::RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
 
   static const mat4 kDebugTextureWorldTransform =
@@ -173,11 +169,11 @@ void WorldRenderer::DebugShowShadowMap(const corgi::CameraInterface& camera,
 
   // Render a large quad in the world, with the shadowmap texture on it:
   fplbase::Mesh::RenderAAQuadAlongX(vec3(0.0f, 0.0f, 0.0f),
-                                    vec3(10.0f, 0.0f, 10.0f),
-                                    vec2(1.0f, 0.0f), vec2(0.0f, 1.0f));
+                                    vec3(10.0f, 0.0f, 10.0f), vec2(1.0f, 0.0f),
+                                    vec2(0.0f, 1.0f));
 }
 
-void WorldRenderer::SetFogUniforms(fplbase::Shader* shader, World* world) {
+void WorldRenderer::SetFogUniforms(fplbase::Shader *shader, World *world) {
   shader->SetUniform("fog_roll_in_dist",
                      world->config->rendering_config()->fog_roll_in_dist());
   shader->SetUniform("fog_max_dist",
@@ -189,11 +185,11 @@ void WorldRenderer::SetFogUniforms(fplbase::Shader* shader, World* world) {
                      world->config->rendering_config()->fog_max_saturation());
 }
 
-void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
-  LightComponent* light_component =
+void WorldRenderer::SetLightingUniforms(fplbase::Shader *shader, World *world) {
+  LightComponent *light_component =
       world->entity_manager.GetComponent<LightComponent>();
-  const EntityRef& main_light_entity = light_component->begin()->entity;
-  const LightData* light_data =
+  const EntityRef &main_light_entity = light_component->begin()->entity;
+  const LightData *light_data =
       world->entity_manager.GetComponentData<LightData>(main_light_entity);
 
   if (world->RenderingOptionEnabled(kShadowEffect)) {
@@ -208,8 +204,8 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader* shader, World* world) {
   shader->SetUniform("shininess", light_data->specular_exponent);
 }
 
-void WorldRenderer::RenderShadowMap(const corgi::CameraInterface& camera,
-                                    fplbase::Renderer& renderer, World* world) {
+void WorldRenderer::RenderShadowMap(const corgi::CameraInterface &camera,
+                                    fplbase::Renderer &renderer, World *world) {
   if (world->RenderingOptionsDirty()) {
     LoadAllShaders(world);
   }
@@ -221,8 +217,8 @@ void WorldRenderer::RenderShadowMap(const corgi::CameraInterface& camera,
   CreateShadowMap(camera, renderer, world);
 }
 
-void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
-                                fplbase::Renderer& renderer, World* world) {
+void WorldRenderer::RenderWorld(const corgi::CameraInterface &camera,
+                                fplbase::Renderer &renderer, World *world) {
   if (world->RenderingOptionsDirty()) {
     LoadAllShaders(world);
   }
@@ -248,13 +244,13 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface& camera,
 
     assert(skinned_shader_);
     skinned_shader_->SetUniform("view_projection", camera_transform);
-    skinned_shader_->SetUniform(
-        "light_view_projection", light_camera_.GetTransformMatrix());
+    skinned_shader_->SetUniform("light_view_projection",
+                                light_camera_.GetTransformMatrix());
 
     assert(river_shader_);
     river_shader_->SetUniform("view_projection", camera_transform);
-    river_shader_->SetUniform(
-        "light_view_projection", light_camera_.GetTransformMatrix());
+    river_shader_->SetUniform("light_view_projection",
+                              light_camera_.GetTransformMatrix());
   }
 
   river_shader_->SetUniform("river_offset", river_offset);
