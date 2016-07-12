@@ -24,6 +24,13 @@
 #include "states/states_common.h"
 #include "world.h"
 
+// In windows.h, PlaySound is #defined to be either PlaySoundW or PlaySoundA.
+// We need to undef this macro or AudioEngine::PlaySound() won't compile.
+// TODO(amablue): Change our PlaySound to have a different name (b/30090037).
+#if defined(PlaySound)
+#undef PlaySound
+#endif  // defined(PlaySound)
+
 using mathfu::vec2i;
 using mathfu::vec2;
 
