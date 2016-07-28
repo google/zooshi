@@ -46,7 +46,7 @@ build_assets: $(flatc_target)
 
 .PHONY: clean_assets
 clean_assets:
-	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py clean
+	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py --target clean
 endif
 PROJECT_GLOBAL_BUILD_RULES_DEFINED:=1
 
