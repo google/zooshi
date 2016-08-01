@@ -12,18 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifdef PHONG_SHADING
 #include "shaders/fplbase/phong_shading.glslf_h"
-#endif  // PHONG_SHADING
-#ifdef FOG_EFFECT
 #include "shaders/include/fog_effect.glslf_h"
-#endif  // FOG_EFFECT
-#ifdef SHADOW_EFFECT
 #include "shaders/include/shadow_map.glslf_h"
-#endif  // SHADOW_EFFECT
-#ifdef WATER
 #include "shaders/include/water.glslf_h"
-#endif  // WATER
 
 varying mediump vec2 vTexCoord;
 uniform sampler2D texture_unit_0;

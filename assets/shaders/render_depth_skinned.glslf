@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define SHADOW_EFFECT
+
 #include "shaders/include/shadow_map.glslf_h"
 
 varying vec2 vTexCoord;

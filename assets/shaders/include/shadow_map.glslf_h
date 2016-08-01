@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifdef SHADOW_EFFECT
+
 // TODO: move more of shadow map rendering in here as functions.
 
 // The shadow map texture:
@@ -96,3 +98,5 @@ mediump vec2 CalculateShadowMapCoords(vec4 shadow_position) {
 
   return shadowmap_coords;
 }
+
+#endif  // SHADOW_EFFECT

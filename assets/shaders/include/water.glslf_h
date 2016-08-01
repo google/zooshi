@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifdef WATER
+
 uniform highp float river_offset;
 uniform highp float texture_repeats;
 
@@ -30,3 +32,5 @@ highp vec2 CalculateWaterTextureCoordinates(mediump vec2 vertex_coords) {
 
   return vec2(vertex_coords.x, tex_v + fract(-river_offset));
 }
+
+#endif  // WATER
