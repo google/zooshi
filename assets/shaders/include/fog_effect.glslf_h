@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifdef FOG_EFFECT
+
 // Fog effect:
 // current_color - the starting color.
 // z_depth - the z-depth of the object
@@ -40,3 +42,4 @@ lowp vec4 ApplyFog(lowp vec4 current_color, mediump float z_depth,
   return final_color;
 }
 
+#endif  // FOG_EFFECT

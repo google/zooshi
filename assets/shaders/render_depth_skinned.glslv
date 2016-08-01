@@ -16,6 +16,8 @@
 // according to the texture, it generates a depth map.
 // TODO(kelseymayfield): Edit above comment to be more specific
 
+#define SKINNED
+
 #include "shaders/fplbase/skinning.glslv_h"
 
 attribute vec4 aPosition;

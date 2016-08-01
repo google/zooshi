@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define PHONG_SHADING
+
 #include "shaders/fplbase/phong_shading.glslf_h"
 
 attribute vec4 aPosition;
