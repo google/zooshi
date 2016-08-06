@@ -215,14 +215,13 @@ bool Game::InitializeRenderer() {
 
 // In our game, `anim_name` is the same as the animation file. Use it directly
 // to load the file into scratch_buf, and return the pointer to it.
-const motive::RigAnimFb *LoadRigAnim(const char *anim_name,
-                                     std::string *scratch_buf) {
+const char *LoadAnimFn(const char *anim_name, std::string *scratch_buf) {
   const bool load_ok = LoadFile(anim_name, scratch_buf);
   if (!load_ok) {
     LogError("Failed to load animation file %s.\n", anim_name);
     return nullptr;
   }
-  return motive::GetRigAnimFb(scratch_buf->c_str());
+  return scratch_buf->c_str();
 }
 
 // Load textures for cardboard into 'materials_'. The 'renderer_' and
@@ -263,7 +262,7 @@ bool Game::InitializeAssets() {
   // Load the animation table and all animations it references.
   motive::AnimTable &anim_table = world_.animation_component.anim_table();
   const bool anim_ok =
-      anim_table.InitFromFlatBuffers(*asset_manifest.anims(), LoadRigAnim);
+      anim_table.InitFromFlatBuffers(*asset_manifest.anims(), LoadAnimFn);
   if (!anim_ok) return false;
 
   return true;
