@@ -179,6 +179,10 @@ void GameMenuState::RenderPrep() {
 }
 
 void GameMenuState::Render(fplbase::Renderer *renderer) {
+  // Ensure assets are instantiated after they've been loaded.
+  // This must be called from the render thread.
+  loading_complete_ = asset_manager_->TryFinalize();
+
   Camera *cardboard_camera = nullptr;
 #ifdef ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
@@ -187,6 +191,11 @@ void GameMenuState::Render(fplbase::Renderer *renderer) {
 }
 
 void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
+  // Don't show game menu until everything has finished loading.
+  if (!loading_complete_) {
+    return;
+  }
+
   // No culling when drawing the menu.
   renderer->SetCulling(fplbase::kCullingModeNone);
 
@@ -215,6 +224,7 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
 }
 
 void GameMenuState::OnEnter(int /*previous_state*/) {
+  loading_complete_ = false;
   LoadWorldDef(world_, world_def_);
   UpdateMainCamera(&main_camera_, world_);
   music_channel_ = audio_engine_->PlaySound(music_menu_);

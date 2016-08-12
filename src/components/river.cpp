@@ -423,7 +423,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   // Create the actual mesh objects, and stuff all the data we just
   // generated into it.
   Mesh* river_mesh =
-      new Mesh(river_verts.data(), static_cast<int>(river_verts.size()),
+      new Mesh(river_verts.data(), river_verts.size(),
                static_cast<int>(sizeof(NormalMappedVertex)), kMeshFormat);
 
   river_mesh->AddIndices(river_indices.data(),

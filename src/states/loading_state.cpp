@@ -56,8 +56,7 @@ using mathfu::vec4;
 static const corgi::WorldTime kLoadingScreenFadeInTime = 400;
 static const corgi::WorldTime kLoadingScreenFadeOutTime = 200;
 
-void LoadingState::Initialize(fplbase::InputSystem *input_system,
-                              World *world,
+void LoadingState::Initialize(fplbase::InputSystem* input_system, World* world,
                               const AssetManifest& asset_manifest,
                               fplbase::AssetManager* asset_manager,
                               pindrop::AudioEngine* audio_engine,

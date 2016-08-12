@@ -141,6 +141,10 @@ class GameMenuState : public StateNode {
   // Set sound volumes based on volume settings.
   void UpdateVolumes();
 
+  // Set to true when the render thread detects that all assets have been
+  // loaded. The update thread then shows game menu.
+  bool loading_complete_;
+
   // The world to display in the background.
   World* world_;
 
