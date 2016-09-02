@@ -17,6 +17,7 @@
 #include "components/light.h"
 #include "components/services.h"
 #include "corgi_component_library/transform.h"
+#include "fplbase/debug_markers.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "motive/math/angle.h"
 
@@ -97,6 +98,9 @@ void WorldRenderer::LoadAllShaders(World *world) {
 
 void WorldRenderer::CreateShadowMap(const corgi::CameraInterface &camera,
                                     fplbase::Renderer &renderer, World *world) {
+  PushDebugMarker("CreateShadowMap");
+
+  PushDebugMarker("Setup");
   float shadow_map_resolution = static_cast<float>(
       world->config->rendering_config()->shadow_map_resolution());
   float shadow_map_zoom = world->config->rendering_config()->shadow_map_zoom();
@@ -133,13 +137,17 @@ void WorldRenderer::CreateShadowMap(const corgi::CameraInterface &camera,
   depth_skinned_shader_->Set(renderer);
   // Generate the shadow map:
   // TODO - modify this so that shadowcast is its own render pass
+  PopDebugMarker(); // Setup
 
   for (int pass = 0; pass < corgi::RenderPass_Count; pass++) {
+    PushDebugMarker("RenderPass");
     world->render_mesh_component.RenderPass(pass, light_camera_, renderer,
                                             ShaderIndex_Depth);
+    PopDebugMarker();
   }
 
   fplbase::RenderTarget::ScreenRenderTarget(renderer).SetAsRenderTarget();
+  PopDebugMarker(); // CreateShadowMap
 }
 
 void WorldRenderer::RenderPrep(const corgi::CameraInterface &camera,
@@ -206,6 +214,9 @@ void WorldRenderer::SetLightingUniforms(fplbase::Shader *shader, World *world) {
 
 void WorldRenderer::RenderShadowMap(const corgi::CameraInterface &camera,
                                     fplbase::Renderer &renderer, World *world) {
+  PushDebugMarker("Render ShadowMap");
+
+  PushDebugMarker("Scene Setup");
   if (world->RenderingOptionsDirty()) {
     LoadAllShaders(world);
   }
@@ -213,12 +224,18 @@ void WorldRenderer::RenderShadowMap(const corgi::CameraInterface &camera,
   float shadow_map_bias = world->config->rendering_config()->shadow_map_bias();
   depth_shader_->SetUniform("bias", shadow_map_bias);
   depth_skinned_shader_->SetUniform("bias", shadow_map_bias);
+  PopDebugMarker(); // Scene Setup
 
   CreateShadowMap(camera, renderer, world);
+
+  PopDebugMarker(); // Render ShadowMap
 }
 
 void WorldRenderer::RenderWorld(const corgi::CameraInterface &camera,
                                 fplbase::Renderer &renderer, World *world) {
+  PushDebugMarker("Render World");
+
+  PushDebugMarker("Scene Setup");
   if (world->RenderingOptionsDirty()) {
     LoadAllShaders(world);
   }
@@ -267,18 +284,27 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface &camera,
   SetFogUniforms(skinned_shader_, world);
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);
+  PopDebugMarker(); // Scene Setup
 
   if (!world->skip_rendermesh_rendering) {
     for (int pass = 0; pass < corgi::RenderPass_Count; pass++) {
+      PushDebugMarker("RenderPass");
       world->render_mesh_component.RenderPass(pass, camera, renderer);
+      PopDebugMarker();
     }
   }
 
   if (world->draw_debug_physics) {
+    PushDebugMarker("Debug Draw World");
     world->physics_component.DebugDrawWorld(&renderer, camera_transform);
+    PopDebugMarker();
   }
 
+  PushDebugMarker("Text");
   world->render_3d_text_component.RenderAllEntities(camera);
+  PopDebugMarker();
+
+  PopDebugMarker(); // Render World
 }
 
 }  // zooshi

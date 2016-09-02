@@ -27,6 +27,7 @@
 #include "common.h"
 #include "components/render_3d_text.h"
 #include "corgi/entity.h"
+#include "fplbase/debug_markers.h"
 #include "fplbase/input.h"
 #include "fplbase/systrace.h"
 #include "fplbase/utilities.h"
@@ -747,9 +748,11 @@ void Game::Run() {
     // -------------------------------------------
     SystraceBegin("StateMachine::Render()");
 
+    PushDebugMarker("Setup");
     fplbase::RenderTarget::ScreenRenderTarget(renderer_).SetAsRenderTarget();
     renderer_.ClearDepthBuffer();
     renderer_.SetCulling(fplbase::kCullingModeBack);
+    PopDebugMarker();
 
     state_machine_.Render(&renderer_);
     SystraceEnd();

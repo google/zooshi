@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "game.h"
+#include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "states/game_menu_state.h"
 #include "states/states_common.h"
@@ -90,6 +91,8 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
                                    fplbase::InputSystem& input) {
   MenuState next_state = kMenuStateStart;
 
+  PushDebugMarker("StartMenu");
+
   // Run() accepts a lambda function that is executed 2 times,
   // one for a layout pass and another one in a render pass.
   // In the lambda callback, the user can call Widget APIs to put widget in a
@@ -162,6 +165,8 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     flatui::EndGroup();
   });
 
+  PopDebugMarker(); // StartMenu
+
   return next_state;
 }
 
@@ -169,6 +174,8 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
                                     flatui::FontManager& fontman,
                                     fplbase::InputSystem& input) {
   MenuState next_state = kMenuStateOptions;
+
+  PushDebugMarker("OptionMenu");
 
   // FlatUI UI definitions.
   flatui::Run(assetman, fontman, input, [&]() {
@@ -240,6 +247,8 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
 
     flatui::EndGroup();  // Overlay group.
   });
+
+  PopDebugMarker(); // OptionMenu
 
   return next_state;
 }

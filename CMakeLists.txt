@@ -310,6 +310,10 @@ if(ZOOSHI_DEBUG)
   #add_definitions(-D_DEBUG)
 endif()
 
+if(fplbase_debug_markers)
+  add_definitions(-DFPLBASE_ENABLE_DEBUG_MARKERS)
+endif()
+
 # Executable target.
 add_executable(zooshi ${zooshi_SRCS})
 

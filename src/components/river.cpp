@@ -24,6 +24,7 @@
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
 #include "corgi_component_library/transform.h"
+#include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "scene_lab/scene_lab.h"
 
@@ -130,10 +131,12 @@ corgi::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
 // the render thread.  (Warning:  Crashes if you try to call it on the main
 // thread, because it doesn't have access to the opengl context!)
 void RiverComponent::UpdateRiverMeshes() {
+  PushDebugMarker("UpdateRiverMeshes");
   for (auto iter = begin(); iter != end(); ++iter) {
     RiverData* river_data = Data<RiverData>(iter->entity);
     if (river_data->render_mesh_needs_update_) CreateRiverMesh(iter->entity);
   }
+  PopDebugMarker();
 }
 
 // Generates the actual mesh for the river, and adds it to this entitiy's
@@ -441,6 +444,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   mesh_data->mesh = river_mesh;
   mesh_data->culling_mask = 0;  // Never cull the river.
   mesh_data->pass_mask = 1 << corgi::RenderPass_Opaque;
+  mesh_data->debug_name = "river";
 
   river_data->banks.resize(num_zones, corgi::EntityRef());
   for (unsigned int zone = 0; zone < num_zones; zone++) {
@@ -484,6 +488,9 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     child_render_data->mesh = bank_mesh;
     child_render_data->culling_mask = 0;  // Don't cull the banks for now.
     child_render_data->pass_mask = 1 << corgi::RenderPass_Opaque;
+    std::ostringstream debug_name;
+    debug_name << "river bank" << zone + 1;
+    child_render_data->debug_name = debug_name.str();
   }
 
   // Finalize the static physics mesh created on the river bank.
