@@ -126,7 +126,6 @@ GameSynchronization::GameSynchronization()
 Game::Game()
     : asset_manager_(renderer_),
       graph_factory_(&module_registry_, &LoadFile),
-      shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       game_exiting_(false),
       audio_config_(nullptr),
@@ -255,8 +254,6 @@ bool Game::InitializeAssets() {
   }
   asset_manager_.StartLoadingTextures();
 
-  shader_lit_textured_normal_ =
-      asset_manager_.LoadShader("shaders/lit_textured_normal");
   shader_textured_ = asset_manager_.LoadShader("shaders/textured");
 
   // Load the animation table and all animations it references.

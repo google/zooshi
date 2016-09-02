@@ -2,5 +2,6 @@
   "texture_filenames": [
     "textures/heart_raft_sign.webp"
   ],
-  "blendmode": "ALPHA"
+  "blendmode": "ALPHA",
+  "wrapmode": "CLAMP",
 }

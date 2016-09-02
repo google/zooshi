@@ -2947,8 +2947,8 @@
             "label_size": 100,
             "translation": {
               "x": 0,
-              "y": 0.1,
-              "z": 0.1
+              "y": 6.67,
+              "z": 0.3
             },
             "rotation": { // Degrees
               "x": 0,

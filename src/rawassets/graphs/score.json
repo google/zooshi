@@ -1,0 +1,224 @@
+{
+  "node_list": [
+    {
+      // Node 0 - Used to trigger the graph on every frame.
+      "module": "zooshi",
+      "name": "advance_frame"
+    },
+    {
+      // Node 1 - Get the `Player` entity to get the score value attributes.
+      "module": "zooshi",
+      "name": "player_entity"
+    },
+    {
+      // Node 2 - Get the TargetScore.
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 0, // `advance_frame`
+            "edge_index": 0  // Trigger called on every frame.
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScore"
+          }
+        }
+      ]
+    },
+    {
+      // Node 3 - Check whether TargetScore > 1.
+      "module": "float_math",
+      "name": "greater_than",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 2, // `get_attribute`
+            "edge_index": 0  // `TargetScore`
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Float",
+          "edge": {
+            "value": 1.0
+          }
+        }
+      ]
+    },
+    {
+      // Node 4 - If TargetScore > 1.
+      "module": "logic",
+      "name": "if",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 3,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 5 - Get the numerator of the score (PatronsFed).
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 4, // `if`
+            "edge_index": 0  // `TargetScore` > 1
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`.
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.PatronsFed"
+          }
+        }
+      ]
+    },
+    {
+      // Node 6 - Convert the PatronsFed (float) to string.
+      "module": "string",
+      "name": "float_to_string",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 5, // `get_attribute`
+            "edge_index": 0  // `PatronsFed`
+          }
+        }
+      ]
+    },
+    {
+      // Node 7 - Get the denominator of the score (TargetScore).
+      "module": "attributes",
+      "name": "get_attribute",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 4, // `if`
+            "edge_index": 0  // `TargetScore` > 1
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 1, // `player_entity`
+            "edge_index": 0  // The `EntityRef` for the player.
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Int",
+          "edge": {
+            "value": "fpl.zooshi.AttributeDef.TargetScore"
+          }
+        }
+      ]
+    },
+    {
+      // Node 8 - Convert the TargetScore (float) to string.
+      "module": "string",
+      "name": "float_to_string",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 7, // `get_attribute`
+            "edge_index": 0  // `TargetScore`
+          }
+        }
+      ]
+    },
+    {
+      // Node 9 - Concatenation
+      "module": "string",
+      "name": "concat",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 6, // `float_to_string`
+            "edge_index": 0  // `PatronsFed` string
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_String",
+          "edge": {
+            "value": "/"
+          }
+        }
+      ]
+    },
+    {
+      // Node 10 - Concatenation
+      "module": "string",
+      "name": "concat",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 9, // `concat`
+            "edge_index": 0  // PatronsFed string + "/"
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 8, // `int_to_string`
+            "edge_index": 0  // `TargetsScore` string
+          }
+        }
+      ]
+    },
+    {
+      // Node 11 - The score destination entity.
+      "module": "entity",
+      "name": "graph_entity"
+    },
+    {
+      // Node 12 - Update the `Render3dText` component's string for this entity.
+      "module": "ui_string",
+      "name": "set_3d_text_string",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 11, // `graph_entity`
+            "edge_index": 0  // `EntityRef` of the entity to set the 3D text for.
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 10, // `concat`
+            "edge_index": 0  // `PatronsFed + "/" + TargetScore` string
+          }
+        }
+      ]
+    }
+  ]
+}
