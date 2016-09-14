@@ -182,20 +182,22 @@ corgi::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   auto patience_fb = SaveInterpolants(fbb, data->patience);
   auto pop_in_radius_fb = SaveInterpolants(fbb, data->pop_in_radius);
 
+  // Output the PatronEvents first because we can't output them when building
+  // the PatronDef (can't be nested).
+  std::vector<flatbuffers::Offset<fpl::PatronEvent>> events(
+      data->events.size());
+  for (size_t i = 0; i < data->events.size(); ++i) {
+    const PatronEvent& event = data->events[i];
+    events[i] = CreatePatronEvent(fbb, event.action, event.time);
+  }
+  auto events_fb = fbb.CreateVector(events);
+
   // Get all the on_collision events
   PatronDefBuilder builder(fbb);
   builder.add_min_lap(data->min_lap);
   builder.add_max_lap(data->max_lap);
   builder.add_patience(patience_fb);
-  if (data->events.size() > 0) {
-    std::vector<flatbuffers::Offset<fpl::PatronEvent>> events_flat(
-        data->events.size());
-    for (size_t i = 0; i < data->events.size(); ++i) {
-      const PatronEvent& event = data->events[i];
-      events_flat[i] = CreatePatronEvent(fbb, event.action, event.time);
-    }
-    builder.add_events(fbb.CreateVector(events_flat));
-  }
+  builder.add_events(events_fb);
   builder.add_pop_in_radius(pop_in_radius_fb);
   builder.add_pop_out_radius(data->pop_out_radius);
   builder.add_target_tag(target_tag);
