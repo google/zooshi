@@ -27,6 +27,7 @@
 #include "common.h"
 #include "components/render_3d_text.h"
 #include "corgi/entity.h"
+#include "fplbase/debug_markers.h"
 #include "fplbase/input.h"
 #include "fplbase/systrace.h"
 #include "fplbase/utilities.h"
@@ -126,7 +127,6 @@ GameSynchronization::GameSynchronization()
 Game::Game()
     : asset_manager_(renderer_),
       graph_factory_(&module_registry_, &LoadFile),
-      shader_lit_textured_normal_(nullptr),
       shader_textured_(nullptr),
       game_exiting_(false),
       audio_config_(nullptr),
@@ -255,8 +255,6 @@ bool Game::InitializeAssets() {
   }
   asset_manager_.StartLoadingTextures();
 
-  shader_lit_textured_normal_ =
-      asset_manager_.LoadShader("shaders/lit_textured_normal");
   shader_textured_ = asset_manager_.LoadShader("shaders/textured");
 
   // Load the animation table and all animations it references.
@@ -750,9 +748,11 @@ void Game::Run() {
     // -------------------------------------------
     SystraceBegin("StateMachine::Render()");
 
+    PushDebugMarker("Setup");
     fplbase::RenderTarget::ScreenRenderTarget(renderer_).SetAsRenderTarget();
     renderer_.ClearDepthBuffer();
     renderer_.SetCulling(fplbase::kCullingModeBack);
+    PopDebugMarker();
 
     state_machine_.Render(&renderer_);
     SystraceEnd();

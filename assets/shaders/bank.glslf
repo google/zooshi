@@ -15,6 +15,8 @@
 #define TEXTURED
 #define BANK
 #define FOG_EFFECT
+#ifndef PHONG_SHADING
 #define PHONG_SHADING
+#endif
 
 #include "shaders/include/uber_shader.glslf_h"

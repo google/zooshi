@@ -13,7 +13,9 @@
 // limitations under the License.
 
 #define TEXTURED
-#define PHONG_SHADING
 #define FOG_EFFECT
+#ifndef PHONG_SHADING
+#define PHONG_SHADING
+#endif
 
 #include "shaders/include/uber_shader.glslf_h"

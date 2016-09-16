@@ -175,7 +175,6 @@ class Game {
   breadboard::module_library::DefaultGraphFactory graph_factory_;
 
   // Shaders we use.
-  fplbase::Shader* shader_lit_textured_normal_;
   fplbase::Shader* shader_textured_;
 
 #if DISPLAY_FRAMERATE_HISTOGRAM
