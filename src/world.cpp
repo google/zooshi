@@ -80,80 +80,80 @@ void World::Initialize(const Config& config_,
 
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&common_services_component),
-      ComponentDataUnion_ServicesDef, "CommonServicesDef");
+      ComponentDataUnion_ServicesDef, "corgi.CommonServicesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&services_component),
-      ComponentDataUnion_ServicesDef, "ServicesDef");
+      ComponentDataUnion_ServicesDef, "corgi.ServicesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&graph_component),
-      ComponentDataUnion_corgi_GraphDef, "GraphDef");
+      ComponentDataUnion_corgi_GraphDef, "corgi.GraphDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&attributes_component),
-      ComponentDataUnion_AttributesDef, "AttributesDef");
+      ComponentDataUnion_AttributesDef, "fpl.AttributesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_denizen_component),
-      ComponentDataUnion_RailDenizenDef, "RailDenizenDef");
+      ComponentDataUnion_RailDenizenDef, "fpl.RailDenizenDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&simple_movement_component),
-      ComponentDataUnion_SimpleMovementDef, "SimpleMovementDef");
+      ComponentDataUnion_SimpleMovementDef, "fpl.SimpleMovementDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&lap_dependent_component),
-      ComponentDataUnion_LapDependentDef, "LapDependentDef");
+      ComponentDataUnion_LapDependentDef, "fpl.LapDependentDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&player_component),
-      ComponentDataUnion_PlayerDef, "PlayerDef");
+      ComponentDataUnion_PlayerDef, "fpl.PlayerDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&player_projectile_component),
-      ComponentDataUnion_PlayerProjectileDef, "PlayerProjectileDef");
+      ComponentDataUnion_PlayerProjectileDef, "fpl.PlayerProjectileDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&render_mesh_component),
-      ComponentDataUnion_corgi_RenderMeshDef, "RenderMeshDef");
+      ComponentDataUnion_corgi_RenderMeshDef, "corgi.RenderMeshDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&physics_component),
-      ComponentDataUnion_corgi_PhysicsDef, "PhysicsDef");
+      ComponentDataUnion_corgi_PhysicsDef, "corgi.PhysicsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&patron_component),
-      ComponentDataUnion_PatronDef, "PatronDef");
+      ComponentDataUnion_PatronDef, "fpl.PatronDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&time_limit_component),
-      ComponentDataUnion_TimeLimitDef, "TimeLimitDef");
+      ComponentDataUnion_TimeLimitDef, "fpl.TimeLimitDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&audio_listener_component),
-      ComponentDataUnion_ListenerDef, "ListenerDef");
+      ComponentDataUnion_ListenerDef, "fpl.ListenerDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&sound_component),
-      ComponentDataUnion_SoundDef, "SoundDef");
+      ComponentDataUnion_SoundDef, "fpl.SoundDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&river_component),
-      ComponentDataUnion_RiverDef, "RiverDef");
+      ComponentDataUnion_RiverDef, "fpl.RiverDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&shadow_controller_component),
-      ComponentDataUnion_ShadowControllerDef, "ShadowControllerDef");
+      ComponentDataUnion_ShadowControllerDef, "fpl.ShadowControllerDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&meta_component),
-      ComponentDataUnion_corgi_MetaDef, "MetaDef");
+      ComponentDataUnion_corgi_MetaDef, "corgi.MetaDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&edit_options_component),
-      ComponentDataUnion_scene_lab_EditOptionsDef, "EditOptionsDef");
+      ComponentDataUnion_scene_lab_EditOptionsDef, "scene_lab.EditOptionsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&scenery_component),
-      ComponentDataUnion_SceneryDef, "SceneryDef");
+      ComponentDataUnion_SceneryDef, "fpl.SceneryDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&animation_component),
-      ComponentDataUnion_corgi_AnimationDef, "AnimationDef");
+      ComponentDataUnion_corgi_AnimationDef, "corgi.AnimationDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_node_component),
-      ComponentDataUnion_RailNodeDef, "RailNodeDef");
+      ComponentDataUnion_RailNodeDef, "fpl.RailNodeDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&render_3d_text_component),
-      ComponentDataUnion_Render3dTextDef, "Render3dTextDef");
+      ComponentDataUnion_Render3dTextDef, "fpl.Render3dTextDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&light_component),
-      ComponentDataUnion_LightDef, "LightDef");
+      ComponentDataUnion_LightDef, "fpl.LightDef");
   // Make sure you register TransformComponent after any components that use it.
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&transform_component),
-      ComponentDataUnion_corgi_TransformDef, "TransformDef");
+      ComponentDataUnion_corgi_TransformDef, "corgi.TransformDef");
 
   physics_component.set_collision_callback(&PatronComponent::CollisionHandler,
                                            &patron_component);
