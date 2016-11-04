@@ -243,10 +243,20 @@ bool Game::InitializeAssets() {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
     asset_manager_.LoadMesh(asset_manifest.mesh_list()->Get(index)->c_str());
   }
-  for (size_t i = 0; i < asset_manifest.shader_list()->size(); i++) {
-    flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
-    asset_manager_.LoadShader(
-        asset_manifest.shader_list()->Get(index)->c_str());
+  std::vector<std::string> defines;
+  for (flatbuffers::uoffset_t i = 0; i < asset_manifest.shader_list()->size();
+       i++) {
+    const ShaderDef *shader_def = asset_manifest.shader_list()->Get(i);
+    defines.clear();
+    if (shader_def->defines() != nullptr) {
+      for (size_t i = 0; i < shader_def->defines()->size(); i++) {
+        defines.push_back(shader_def->defines()->Get(i)->c_str());
+      }
+    }
+    const char *alias =
+        shader_def->alias() == nullptr ? nullptr : shader_def->alias()->c_str();
+    asset_manager_.LoadShader(shader_def->source()->c_str(), defines,
+                              false /* async */, alias);
   }
   for (size_t i = 0; i < asset_manifest.material_list()->size(); i++) {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);

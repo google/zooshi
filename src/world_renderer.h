@@ -28,8 +28,8 @@ class WorldRenderer {
   // Initialize the world renderer.  Must be called before any other functions.
   void Initialize(World* world);
 
-  // Load all of the shaders with current rendering options.
-  void LoadAllShaders(World* world);
+  // Refresh global shader defines with current rendering options.
+  void RefreshGlobalShaderDefines(World* world);
 
   // Call this before you call RenderWorld - it takes care of clearing
   // the frame, setting up the shadowmap, etc.
@@ -56,14 +56,9 @@ class WorldRenderer {
   }
 
  private:
-  fplbase::Shader* bank_shader_;
   fplbase::Shader* depth_shader_;
   fplbase::Shader* depth_skinned_shader_;
   fplbase::Shader* textured_shader_;
-  fplbase::Shader* textured_lit_shader_;
-  fplbase::Shader* textured_lit_cutout_shader_;
-  fplbase::Shader* river_shader_;
-  fplbase::Shader* skinned_shader_;
   Camera light_camera_;
   fplbase::RenderTarget shadow_map_;
 

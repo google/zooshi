@@ -57,41 +57,26 @@ void WorldRenderer::Initialize(World *world) {
   shadow_map_.Initialize(
       mathfu::vec2i(shadow_map_resolution, shadow_map_resolution));
 
-  LoadAllShaders(world);
+  RefreshGlobalShaderDefines(world);
 }
 
-void WorldRenderer::LoadAllShaders(World *world) {
-  if (world->RenderingOptionEnabled(kShadowEffect)) {
-    depth_shader_ = world->asset_manager->LoadShader("shaders/render_depth");
-    depth_skinned_shader_ =
-        world->asset_manager->LoadShader("shaders/render_depth_skinned");
-  }
-
-  // Allocate an extra index for nullptr
-  const char *shader_defines[kNumShaderDefines + 1];
+void WorldRenderer::RefreshGlobalShaderDefines(World *world) {
+  std::vector<std::string> defines_to_add;
+  std::vector<std::string> defines_to_omit;
   for (int s = kPhongShading; s < kNumShaderDefines; ++s) {
     ShaderDefines shader_define = static_cast<ShaderDefines>(s);
-    shader_defines[shader_define] = world->RenderingOptionEnabled(shader_define)
-                                        ? kDefinesText[shader_define]
-                                        : kEmptyString;
+    if (!world->RenderingOptionEnabled(shader_define)) {
+      defines_to_omit.push_back(kDefinesText[shader_define]);
+    }
   }
-  shader_defines[kNumShaderDefines] = nullptr;
 
-  textured_shader_ = world->asset_manager->LoadShader("shaders/textured");
+  world->asset_manager->ResetGlobalShaderDefines(defines_to_add,
+                                                 defines_to_omit);
 
-  textured_lit_cutout_shader_ =
-      world->asset_manager->LoadShader("shaders/textured_lit_cutout");
-  textured_lit_shader_ = world->asset_manager->ReloadShader(
-      "shaders/textured_lit", shader_defines);
-  bank_shader_ =
-      world->asset_manager->ReloadShader("shaders/bank", shader_defines);
-  river_shader_ =
-      world->asset_manager->ReloadShader("shaders/water", shader_defines);
-
-  // Don't cast shadows on patrons.
-  shader_defines[kShadowEffect] = kEmptyString;
-  skinned_shader_ =
-      world->asset_manager->ReloadShader("shaders/skinned", shader_defines);
+  depth_shader_ = world->asset_manager->FindShader("shaders/render_depth");
+  depth_skinned_shader_ =
+      world->asset_manager->FindShader("shaders/render_depth_skinned");
+  textured_shader_ = world->asset_manager->FindShader("shaders/textured");
 
   world->ResetRenderingDirty();
 }
@@ -218,7 +203,7 @@ void WorldRenderer::RenderShadowMap(const corgi::CameraInterface &camera,
 
   PushDebugMarker("Scene Setup");
   if (world->RenderingOptionsDirty()) {
-    LoadAllShaders(world);
+    RefreshGlobalShaderDefines(world);
   }
 
   float shadow_map_bias = world->config->rendering_config()->shadow_map_bias();
@@ -237,7 +222,7 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface &camera,
 
   PushDebugMarker("Scene Setup");
   if (world->RenderingOptionsDirty()) {
-    LoadAllShaders(world);
+    RefreshGlobalShaderDefines(world);
   }
 
   mat4 camera_transform = camera.GetTransformMatrix();
@@ -249,39 +234,27 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface &camera,
   float river_offset = world->river_component.river_offset();
 
   if (world->RenderingOptionEnabled(kShadowEffect)) {
-    assert(textured_lit_shader_);
-    textured_lit_shader_->SetUniform("view_projection", camera_transform);
-    textured_lit_shader_->SetUniform("light_view_projection",
-                                     light_camera_.GetTransformMatrix());
-
-    assert(bank_shader_);
-    bank_shader_->SetUniform("view_projection", camera_transform);
-    bank_shader_->SetUniform("light_view_projection",
+    world->asset_manager->ForEachShaderWithDefine(
+        kDefinesText[kShadowEffect], [&](fplbase::Shader *shader) {
+          shader->SetUniform("view_projection", camera_transform);
+          shader->SetUniform("light_view_projection",
                              light_camera_.GetTransformMatrix());
-
-    assert(skinned_shader_);
-    skinned_shader_->SetUniform("view_projection", camera_transform);
-    skinned_shader_->SetUniform("light_view_projection",
-                                light_camera_.GetTransformMatrix());
-
-    assert(river_shader_);
-    river_shader_->SetUniform("view_projection", camera_transform);
-    river_shader_->SetUniform("light_view_projection",
-                              light_camera_.GetTransformMatrix());
+        });
   }
 
-  river_shader_->SetUniform("river_offset", river_offset);
-  river_shader_->SetUniform("texture_repeats", texture_repeats);
+  world->asset_manager->ForEachShaderWithDefine(
+      "WATER", [&](fplbase::Shader *shader) {
+        shader->SetUniform("river_offset", river_offset);
+        shader->SetUniform("texture_repeats", texture_repeats);
+      });
 
-  SetLightingUniforms(textured_lit_shader_, world);
-  SetLightingUniforms(bank_shader_, world);
-  SetLightingUniforms(skinned_shader_, world);
-  SetLightingUniforms(textured_lit_cutout_shader_, world);
-  SetLightingUniforms(river_shader_, world);
+  world->asset_manager->ForEachShaderWithDefine(
+      kDefinesText[kPhongShading],
+      [&](fplbase::Shader *shader) { SetLightingUniforms(shader, world); });
 
-  SetFogUniforms(textured_lit_shader_, world);
-  SetFogUniforms(bank_shader_, world);
-  SetFogUniforms(skinned_shader_, world);
+  world->asset_manager->ForEachShaderWithDefine(
+      "FOG_EFFECT",
+      [&](fplbase::Shader *shader) { SetFogUniforms(shader, world); });
 
   shadow_map_.BindAsTexture(kShadowMapTextureID);
   PopDebugMarker(); // Scene Setup
