@@ -38,9 +38,9 @@
       ]
     },
     {
-      // Node 3 - Check whether TargetScore > 1.
+      // Node 3 - Check whether TargetScore >= 1.
       "module": "float_math",
-      "name": "greater_than",
+      "name": "greater_than_or_equals",
       "input_edge_list": [
         {
           "edge_type": "breadboard_module_library_OutputEdgeTarget",
@@ -58,7 +58,7 @@
       ]
     },
     {
-      // Node 4 - If TargetScore > 1.
+      // Node 4 - If TargetScore >= 1.
       "module": "logic",
       "name": "if",
       "input_edge_list": [
@@ -80,7 +80,7 @@
           "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 4, // `if`
-            "edge_index": 0  // `TargetScore` > 1
+            "edge_index": 0  // `TargetScore` >= 1
           }
         },
         {
@@ -121,7 +121,7 @@
           "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 4, // `if`
-            "edge_index": 0  // `TargetScore` > 1
+            "edge_index": 0  // `TargetScore` >= 1
           }
         },
         {
