@@ -270,6 +270,10 @@ void PatronComponent::PostLoadFixup() {
     // Initialize state machine.
     SetState(kPatronStateLayingDown, patron_data);
 
+    // Reset the last lap the patron stood up.
+    patron_data->last_lap_upright = -1.0f;
+    patron_data->last_lap_fed = -1.0f;
+
     // Cache the index into the physics target body.
     const PhysicsData* physics_data = Data<PhysicsData>(patron);
     const int target_index =
