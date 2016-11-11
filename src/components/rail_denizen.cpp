@@ -139,9 +139,24 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
       const motive::Motivator3f& motivator =
           convergence_rate == 0.0f ? rail_denizen_data->motivator
                                    : rail_denizen_data->orientation_motivator;
+
+      // Rotating towards the Z axis is a bit complicated, because we want that
+      // rotation to happen in local space (so the front of the raft goes up),
+      // but rotation on the XY plane should happen in world space. So we need
+      // to separate the two rotations from each other to accomplish this.
+      vec3 world_direction = motivator.Direction();
+      const float z_length = world_direction.z();
+      world_direction.z() = 0.0f;
+      const float xy_length = world_direction.Length();
+      float z_angle(atan2f(z_length, xy_length));
+      if (z_angle < -M_PI) {
+        z_angle = M_PI;
+      }
+
       mathfu::quat target_orientation =
           rail_denizen_data->rail_orientation *
-          mathfu::quat::RotateFromTo(motivator.Direction(), mathfu::kAxisY3f);
+          mathfu::quat::FromAngleAxis(z_angle, -mathfu::kAxisX3f) *
+          mathfu::quat::RotateFromTo(world_direction, mathfu::kAxisY3f);
       // Convergence is disabled when the playback rate is zero as
       // it's possible for the slerp to yield an invalid quaternion
       // with angles approaching zero.
