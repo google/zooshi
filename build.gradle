@@ -1,0 +1,88 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.2.1'
+    classpath 'com.google.gms:google-services:3.0.0'
+  }
+}
+
+allprojects {
+  repositories {
+    mavenLocal()
+    jcenter()
+  }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
+
+    sourceSets {
+      main {
+        jniLibs.srcDirs = ['libs']
+        manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src_java']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['assets']
+      }
+    }
+
+    defaultConfig {
+        applicationId 'com.google.fpl.zooshi'
+        minSdkVersion 17
+        targetSdkVersion 23
+        versionCode 1
+        versionName '1.0'
+        ndk {
+            // Because of a bug in the older Cardboard SDK Zooshi currently uses, only the
+            // armeabi-v7a ABI is supported. This has been resolved in newer versions,
+            // and this will be fixed when the SDK is updated.
+            abiFilters 'armeabi-v7a'
+        }
+    }
+    buildTypes {
+      release {
+            // Proguard temporarily disabled until we have a template for
+            // classes referenced from JNI that shouldn't be stripped.
+            //minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt')
+      }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path "jni/Android.mk"
+        }
+    }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile 'com.google.android.gms:play-services-base:9.8.0'
+  compile 'com.google.android.gms:play-services-games:9.8.0'
+  compile 'com.android.support:support-v4:23.0+'
+}
+
+apply plugin: 'com.google.gms.google-services'
+
+task copyCardboard(type: Copy) {
+  from '../../../../prebuilts/cardboard-java/CardboardSample/libs'
+  into 'libs'
+}
+
+task copyFplbase(type: Copy) {
+  from '../../libs/fplbase/src_java'
+  into 'src_java'
+}
+
+project.afterEvaluate {
+  preBuild.dependsOn(copyCardboard)
+  preBuild.dependsOn(copyFplbase)
+}

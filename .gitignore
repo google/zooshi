@@ -86,3 +86,10 @@ tags
 *.xcuserstate
 *.xcworkspacedata
 *.xccheckout
+
+# Gradle files
+.gradle/
+.idea/
+gradle/
+*.iml
+.externalNativeBuild/

@@ -87,7 +87,7 @@ limitations under the License.
   </application>
 
   <!-- Minimum for SDL -->
-  <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="21" />
+  <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="21" />
 
   <!-- OpenGL ES 2.0 -->
   <uses-feature android:glEsVersion="0x00020000" />

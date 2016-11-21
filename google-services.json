@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_id": "zooshi-9b1ae",
+    "project_number": "358673201274",
+    "name": "Zooshi",
+    "firebase_url": "https://zooshi-9b1ae.firebaseio.com",
+    "storage_bucket": "zooshi-9b1ae.storage.firebase.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358673201274:android:d5ad37b71583d0fc",
+        "client_id": "android:com.google.fpl.zooshi",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.google.fpl.zooshi",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "358673201274-8bhv2eetj13v89bjh2l61p5lbvldc3d0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.fpl.zooshi",
+            "certificate_hash": "FCFF0BE88DEF7137A97FF12C9C94DAF49F02B353"
+          }
+        },
+        {
+          "client_id": "358673201274-qpi8n9phv3jdrr49u88vjn16hr9l7nri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVLSqcjiLCL7tTzsYFAqt3nYVUb-FSsG8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 2,
+          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
+          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
