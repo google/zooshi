@@ -84,7 +84,7 @@ void SceneLabState::Render(fplbase::Renderer* renderer) {
 
   mat4 camera_transform = camera->GetTransformMatrix();
   renderer->set_color(mathfu::kOnes4f);
-  renderer->DepthTest(true);
+  renderer->SetDepthFunction(fplbase::kDepthFunctionLess);
   renderer->set_model_view_projection(camera_transform);
 
   world_->river_component.UpdateRiverMeshes();
