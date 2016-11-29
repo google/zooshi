@@ -227,7 +227,7 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface &camera,
 
   mat4 camera_transform = camera.GetTransformMatrix();
   renderer.set_color(mathfu::kOnes4f);
-  renderer.DepthTest(true);
+  renderer.SetDepthFunction(fplbase::kDepthFunctionLess);
   renderer.set_model_view_projection(camera_transform);
 
   float texture_repeats = world->config->river_config()->texture_repeats();
