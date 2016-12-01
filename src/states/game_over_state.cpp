@@ -29,6 +29,12 @@
 #include "states/states_common.h"
 #include "world.h"
 
+#ifdef __ANDROID__
+#include "firebase/analytics.h"
+#include "firebase/analytics/event_names.h"
+#include "firebase/analytics/parameter_names.h"
+#endif  // __ANDROID__
+
 // In windows.h, PlaySound is #defined to be either PlaySoundW or PlaySoundA.
 // We need to undef this macro or AudioEngine::PlaySound() won't compile.
 // TODO(amablue): Change our PlaySound to have a different name (b/30090037).
@@ -147,6 +153,16 @@ void GameOverState::OnEnter(int /*previous_state*/) {
     gpg_manager_->SubmitScore(leaderboard_id, score);
   }
 #endif
+
+#ifdef __ANDROID__
+  auto player = world_->player_component.begin()->entity;
+  auto attribute_data =
+      world_->entity_manager.GetComponentData<AttributesData>(player);
+  auto score = attribute_data->attributes[AttributeDef_PatronsFed];
+  firebase::analytics::LogEvent(firebase::analytics::kEventPostScore,
+                                firebase::analytics::kParameterScore,
+                                score);
+#endif  // __ANDROID__
 
   if (high_score) {
     game_over_channel_ = audio_engine_->PlaySound(sound_high_score_);

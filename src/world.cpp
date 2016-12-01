@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "world.h"
+
 #include "breadboard/graph_factory.h"
 #include "components_generated.h"
 #include "config_generated.h"
@@ -25,10 +27,13 @@
 #include "motive/init.h"
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
-#include "world.h"
 
 #ifdef ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
+#endif
+
+#if __ANDROID__
+#include "firebase/analytics.h"
 #endif
 
 using scene_lab::SceneLab;
@@ -182,6 +187,16 @@ void World::Initialize(const Config& config_,
       config->rendering_config()->apply_phong_by_default_cardboard();
   apply_specular_cardboard_ =
       config->rendering_config()->apply_specular_by_default_cardboard();
+
+#ifdef __ANDROID__
+  firebase::App* firebase_app;
+  firebase_app =
+      firebase::App::Create(firebase::AppOptions(), fplbase::AndroidGetJNIEnv(),
+                            fplbase::AndroidGetActivity());
+
+  // Initialize Analytics
+  firebase::analytics::Initialize(*firebase_app);
+#endif  // __ANDROID__
 }
 
 void World::AddController(BasePlayerController* controller) {

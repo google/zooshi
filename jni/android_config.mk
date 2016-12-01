@@ -64,6 +64,8 @@ DEPENDENCIES_WEBP_DIR?=$(THIRD_PARTY_ROOT)/webp
 DEPENDENCIES_BULLETPHYSICS_DIR?=$(THIRD_PARTY_ROOT)/bulletphysics
 # Location of the Cardboard library.
 DEPENDENCIES_CARDBOARD_DIR?=$(PREBUILTS_ROOT)/cardboard-java/CardboardSample
+# Location of the Firebase C++ library.
+DEPENDENCIES_FIREBASE_DIR?=$(PREBUILTS_ROOT)/cpp-firebase/firebase_cpp_sdk
 
 ifeq (,$(DETERMINED_DEPENDENCY_DIRS))
 DETERMINED_DEPENDENCY_DIRS:=1

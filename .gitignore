@@ -93,3 +93,5 @@ tags
 gradle/
 *.iml
 .externalNativeBuild/
+gradlew
+gradlew.bat

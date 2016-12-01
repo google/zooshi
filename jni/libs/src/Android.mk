@@ -50,6 +50,20 @@ clean_assets:
 endif
 PROJECT_GLOBAL_BUILD_RULES_DEFINED:=1
 
+STL:=$(firstword $(subst _, ,$(APP_STL)))
+FIREBASE_LIBRARY_PATH:=\
+$(DEPENDENCIES_FIREBASE_DIR)/libs/android/$(TARGET_ARCH_ABI)/$(STL)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libfirebase_app
+LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libapp.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libfirebase_analytics
+LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libanalytics.a
+include $(PREBUILT_STATIC_LIBRARY)
+
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
@@ -67,6 +81,7 @@ LOCAL_C_INCLUDES := \
   $(DEPENDENCIES_GPG_DIR)/include \
   $(DEPENDENCIES_WEBP_DIR)/src \
   $(DEPENDENCIES_BULLETPHYSICS_DIR)/src \
+  $(DEPENDENCIES_FIREBASE_DIR)/include \
   $(COMPONENTS_GENERATED_OUTPUT_DIR) \
   $(BREADBOARD_MODULE_LIBRARY_GENERATED_OUTPUT_DIR) \
   $(ZOOSHI_GENERATED_OUTPUT_DIR) \
@@ -193,7 +208,9 @@ LOCAL_STATIC_LIBRARIES := \
   libharfbuzz \
   libflatbuffers \
   libflatbuffers_extra \
-  libbullet
+  libbullet \
+  libfirebase_analytics \
+  libfirebase_app
 
 LOCAL_SHARED_LIBRARIES :=
 

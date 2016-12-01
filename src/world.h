@@ -57,6 +57,10 @@
 #include "scene_lab/scene_lab.h"
 #include "world_renderer.h"
 
+#ifdef __ANDROID__
+#include "firebase/app.h"
+#endif  // __ANDROID__
+
 namespace pindrop {
 
 class AudioEngine;
@@ -153,6 +157,10 @@ struct World {
   BasePlayerController* hmd_controller;
   BasePlayerController* onscreen_controller;
 #endif  // ANDROID_HMD
+
+#ifdef __ANDROID__
+  firebase::App* firebase_app;
+#endif  // __ANDROID__
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,
