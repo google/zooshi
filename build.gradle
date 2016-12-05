@@ -46,7 +46,7 @@ android {
         }
         externalNativeBuild {
           ndkBuild {
-            arguments "-j24"
+            arguments = ['-j24', 'NDK_LIBS_OUT=libs']
           }
         }
     }
