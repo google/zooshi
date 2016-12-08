@@ -89,6 +89,7 @@ LOCAL_C_INCLUDES := \
   $(LOCAL_PATH)/src
 
 LOCAL_SRC_FILES := \
+  src/analytics.cpp \
   src/camera.cpp \
   src/components/attributes.cpp \
   src/components/audio_listener.cpp \

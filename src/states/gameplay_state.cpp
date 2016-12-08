@@ -13,11 +13,13 @@
 // limitations under the License.
 
 #include "states/gameplay_state.h"
-#include "game.h"
 
+#include "analytics.h"
+#include "firebase/analytics.h"
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
 #include "full_screen_fader.h"
+#include "game.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "states/states.h"
@@ -213,6 +215,15 @@ void GameplayState::OnEnter(int previous_state) {
 #ifdef ANDROID_HMD
   input_system_->head_mounted_display_input().ResetHeadTracker();
 #endif  // ANDROID_HMD
+
+  // Perform Analytics
+  if (previous_state != kGameStatePause) {
+    // Set the start time, so elapsed time can be tracked.
+    world_->gameplay_start_time = input_system_->Time();
+    firebase::analytics::LogEvent(kEventGameplayStart,
+                                  kParameterControlScheme,
+                                  AnalyticsControlValue(world_));
+  }
 }
 
 void GameplayState::OnExit(int next_state) {

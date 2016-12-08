@@ -156,6 +156,8 @@ add_custom_target(assets
 
 # zooshi source files.
 set(zooshi_SRCS
+    src/analytics.cpp
+    src/analytics.h
     src/camera.cpp
     src/camera.h
     src/common.h

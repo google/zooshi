@@ -223,6 +223,9 @@ struct World {
 
   bool is_single_stepping;
 
+  // Records the start time of gameplay, used for analytics.
+  double gameplay_start_time;
+
  private:
   // Determines if the game is in Cardboard mode (for special rendering).
   bool is_in_cardboard_;

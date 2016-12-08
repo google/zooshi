@@ -15,14 +15,17 @@
 #include "components/patron.h"
 
 #include <vector>
+#include "analytics.h"
 #include "components/attributes.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/services.h"
 #include "corgi_component_library/animation.h"
 #include "corgi_component_library/graph.h"
+#include "corgi_component_library/meta.h"
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
+#include "firebase/analytics.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
@@ -38,6 +41,7 @@ namespace zooshi {
 using corgi::component_library::AnimationComponent;
 using corgi::component_library::AnimationData;
 using corgi::component_library::CollisionData;
+using corgi::component_library::MetaData;
 using corgi::component_library::PhysicsComponent;
 using corgi::component_library::PhysicsData;
 using corgi::component_library::RenderMeshComponent;
@@ -652,9 +656,9 @@ void PatronComponent::HandleCollision(const corgi::EntityRef& patron_entity,
       SetState(patron_data->play_eating_animation ? kPatronStateEating
                                                   : kPatronStateSatisfied,
                patron_data);
-      Animate(patron_data, patron_data->play_eating_animation
-                               ? PatronAction_Eat
-                               : PatronAction_Satisfied);
+      Animate(patron_data,
+              patron_data->play_eating_animation ? PatronAction_Eat
+                                                 : PatronAction_Satisfied);
       patron_data->last_lap_fed = raft_rail_denizen->total_lap_progress;
 
       // Disable rail movement after they have been fed
@@ -666,6 +670,17 @@ void PatronComponent::HandleCollision(const corgi::EntityRef& patron_entity,
       SpawnPointDisplay(patron_entity);
       // Delete the projectile, as it has been consumed.
       entity_manager_->DeleteEntity(proj_entity);
+
+      // Track in Analytics that the patron was fed.
+      MetaData* meta_data = Data<MetaData>(patron_entity);
+      firebase::analytics::Parameter parameters[] = {
+          firebase::analytics::Parameter(kParameterPatronType,
+                                         meta_data->prototype.c_str()),
+          AnalyticsControlParameter(
+              entity_manager_->GetComponent<ServicesComponent>()->world()),
+      };
+      firebase::analytics::LogEvent(kEventPatronFed, parameters,
+                                    sizeof(parameters) / sizeof(parameters[0]));
     }
   }
 }
@@ -977,8 +992,8 @@ motive::Angle PatronComponent::ReturnAngle(
   } else {
     // Rotate towards previous idle position.
     const vec3 raft_position = RaftPosition();
-    return motive::Angle::FromYXVector(
-        raft_position - patron_data->return_position);
+    return motive::Angle::FromYXVector(raft_position -
+                                       patron_data->return_position);
   }
 }
 
