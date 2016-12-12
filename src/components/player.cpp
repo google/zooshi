@@ -95,10 +95,15 @@ mathfu::vec3 PlayerComponent::RandomProjectileAngularVelocity() const {
 }
 
 corgi::EntityRef PlayerComponent::SpawnProjectile(corgi::EntityRef source) {
+  const SushiConfig* current_sushi =
+      entity_manager_->GetComponent<ServicesComponent>()
+          ->world()
+          ->SelectedSushi();
   corgi::EntityRef projectile =
       entity_manager_->GetComponent<ServicesComponent>()
           ->entity_factory()
-          ->CreateEntityFromPrototype("Projectile", entity_manager_);
+          ->CreateEntityFromPrototype(current_sushi->prototype()->c_str(),
+                                      entity_manager_);
   GraphComponent* graph_component =
       entity_manager_->GetComponent<GraphComponent>();
   graph_component->EntityPostLoadFixup(projectile);

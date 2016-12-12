@@ -251,5 +251,22 @@
       {"name": "SushiNinja", "id": "CgkI7IvL5LUCEAIQDQ"},
       {"name": "SushiSamurai", "id": "CgkI7IvL5LUCEAIQBA"},
     ]
-  }
+  },
+  "sushi_config": [
+    {
+      "name": "Nigiri",
+      "description": "Basic tasty sushi",
+      "prototype": "Projectile"
+    },
+    {
+      "name": "Lobster",
+      "description": "Heavy, but delicious",
+      "prototype": "Projectile_Lobster"
+    },
+    {
+      "name": "Flying Fish",
+      "description": "Travels far on its wings",
+      "prototype": "Projectile_FlyingFish"
+    }
+  ]
 }

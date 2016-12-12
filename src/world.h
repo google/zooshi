@@ -92,6 +92,7 @@ struct World {
       : draw_debug_physics(false),
         skip_rendermesh_rendering(false),
         is_single_stepping(false),
+        sushi_index(0),
         is_in_cardboard_(false) {
 #ifdef ANDROID_HMD
     hmd_controller = nullptr;
@@ -221,10 +222,22 @@ struct World {
 #endif  // ANDROID_HMD
   }
 
+  // Get the sushi config that should be used during gameplay.
+  const SushiConfig* SelectedSushi() const {
+    if (sushi_index >= config->sushi_config()->size()) {
+      return config->sushi_config()->Get(0);
+    } else {
+      return config->sushi_config()->Get(sushi_index);
+    }
+  }
+
   bool is_single_stepping;
 
   // Records the start time of gameplay, used for analytics.
   double gameplay_start_time;
+
+  // The index of the sushi to use out of the config.
+  size_t sushi_index;
 
  private:
   // Determines if the game is in Cardboard mode (for special rendering).
