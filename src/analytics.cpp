@@ -43,9 +43,11 @@ const char* AnalyticsControlValue(const World* world) {
           ->controller_type() == kControllerGamepad) {
     return "gamepad";
   }
+#ifdef __ANDROID__
   if (world->onscreen_controller->enabled()) {
     return "onscreen";
   }
+#endif  // __ANDROID__
   return "default";
 }
 

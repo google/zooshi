@@ -101,6 +101,18 @@ if(NOT TARGET scene_lab)
   add_subdirectory("${dependencies_scene_lab_dir}" ${tmp_dir}/scene_lab)
 endif()
 
+if(NOT DEFINED firebase_dir)
+  get_filename_component(firebase_dir
+      "${CMAKE_CURRENT_LIST_DIR}/../../../../prebuilts/cpp-firebase/firebase_cpp_sdk"
+      REALPATH)
+  if (NOT EXISTS "${firebase_dir}")
+    set(firebase_dir "${fpl_root}/cpp-firebase/firebase_cpp_sdk")
+  endif()
+endif()
+# Firebase currently has a couple warnings which need to be ignored.
+append_flags(CMAKE_CXX_FLAGS
+  "-Wno-error=ignored-qualifiers -Wno-error=pedantic")
+
 # Include FlatBuffers in this project.
 set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "")
 if(NOT TARGET flatc)
@@ -295,6 +307,7 @@ include_directories(${dependencies_flatui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_scene_lab_dir}/include)
+include_directories(${firebase_dir}/include)
 
 # SDL includes.
 include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
@@ -323,6 +336,21 @@ add_executable(zooshi ${zooshi_SRCS})
 mathfu_configure_flags(zooshi)
 breadboard_module_library_configure_flags(zooshi)
 
+# Link in the Firebase libraries.
+if (WIN32)
+  set(platform_type "windows")
+elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(platform_type "darwin")
+else()
+  set(platform_type "linux")
+endif()
+add_library(firebase_app STATIC IMPORTED)
+set_target_properties(firebase_app PROPERTIES
+    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libapp.a)
+add_library(firebase_analytics STATIC IMPORTED)
+set_target_properties(firebase_analytics PROPERTIES
+    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libanalytics.a)
+
 # Dependencies for the executable target.
 add_dependencies(zooshi zooshi_generated_includes assets)
 target_link_libraries(zooshi
@@ -335,7 +363,10 @@ target_link_libraries(zooshi
   breadboard_module_library
   scene_lab
   flatbuffers
-  pindrop)
+  pindrop
+  firebase_analytics
+  firebase_app
+)
 
 # Create a zipped tar of all the necessary files to run the game.
 add_custom_target(export
