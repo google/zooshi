@@ -51,6 +51,7 @@ enum OptionsMenuState {
   kOptionsMenuStateLicenses,
   kOptionsMenuStateAudio,
   kOptionsMenuStateRendering,
+  kOptionsMenuStateSushi,
 };
 
 // Constant defintions for UI elements. Colors, button sizes etc.
@@ -105,6 +106,7 @@ class GameMenuState : public StateNode {
   void OptionMenuAbout();
   void OptionMenuAudio();
   void OptionMenuRendering();
+  void OptionMenuSushi();
 
   // Instance a text button that plays a sound when selected.
   flatui::Event TextButton(const char* text, float size,

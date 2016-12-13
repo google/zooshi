@@ -188,6 +188,15 @@ table WorldDef {
   entity_files:[string];
 }
 
+table SushiConfig {
+  // The name of the sushi that appears in the menu.
+  name:string;
+  // The description of the sushi that appears in the menu.
+  description:string;
+  // The name of the prototype to use with the sushi.
+  prototype:string;
+}
+
 table Config {
   // The name of the game, as displayed on the window title.
   window_title:string;
@@ -258,6 +267,9 @@ table Config {
 
   // Overshoot parameters for rotating scenery.
   scenery_face_angle_def:motive.OvershootParameters;
+
+  // The different sushi types that will be used.
+  sushi_config:[SushiConfig];
 }
 
 root_type Config;

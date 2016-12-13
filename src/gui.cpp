@@ -148,6 +148,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     event = TextButton("Options", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
       next_state = kMenuStateOptions;
+      options_menu_state_ = kOptionsMenuStateMain;
     }
     event = TextButton("Quit", kMenuSize, flatui::Margin(0), sound_exit_);
     if (event & flatui::kEventWentUp) {
@@ -160,6 +161,21 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
           vec3(vec2(flatui::VirtualToPhysical(flatui::GetVirtualResolution())),
                0.0f));
       next_state = kMenuStateQuit;
+    }
+    flatui::EndGroup();
+
+    // Sushi selection is done offset to the right of the menu layout.
+    const SushiConfig* current_sushi = world_->SelectedSushi();
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(375, 100));
+    flatui::SetTextColor(kColorLightBrown);
+    event =
+        ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
+                             current_sushi->name()->c_str());
+    if (event & flatui::kEventWentUp) {
+      next_state = kMenuStateOptions;
+      options_menu_state_ = kOptionsMenuStateSushi;
     }
     flatui::EndGroup();
     flatui::EndGroup();
@@ -214,6 +230,9 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
       case kOptionsMenuStateRendering:
         OptionMenuRendering();
         break;
+      case kOptionsMenuStateSushi:
+        OptionMenuSushi();
+        break;
       default:
         break;
     }
@@ -236,7 +255,8 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
           options_menu_state_ == kOptionsMenuStateRendering) {
         SaveData();
       }
-      if (options_menu_state_ == kOptionsMenuStateMain) {
+      if (options_menu_state_ == kOptionsMenuStateMain ||
+          options_menu_state_ == kOptionsMenuStateSushi) {
         next_state = kMenuStateStart;
       } else {
         options_menu_state_ = kOptionsMenuStateMain;
@@ -495,6 +515,40 @@ void GameMenuState::OptionMenuRendering() {
   world_->SetRenderingOption(kSpecularEffect, apply_specular);
 
   SaveData();
+}
+
+void GameMenuState::OptionMenuSushi() {
+  flatui::SetMargin(flatui::Margin(200, 400, 200, 100));
+
+  // Render information about the currently selected sushi.
+  auto current_sushi = world_->SelectedSushi();
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 10, "menu");
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                        mathfu::vec2(30, -210));
+  flatui::SetTextColor(kColorBrown);
+  flatui::Label(current_sushi->name()->c_str(), kButtonSize);
+  flatui::SetTextColor(kColorDarkGray);
+  flatui::Label(current_sushi->description()->c_str(), kButtonSize - 5);
+  flatui::EndGroup();
+
+  // Render the different sushi types that can be selected.
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 20);
+  flatui::SetTextColor(kColorLightBrown);
+  const size_t kSushiPerLine = 3;
+  for (size_t i = 0; i < config_->sushi_config()->size(); i += kSushiPerLine) {
+    flatui::StartGroup(flatui::kLayoutHorizontalCenter, 20);
+    for (size_t j = 0;
+         j < kSushiPerLine && i + j < config_->sushi_config()->size(); ++j) {
+      auto event = ImageButtonWithLabel(
+          *button_back_, 60, flatui::Margin(60, 35, 40, 50),
+          config_->sushi_config()->Get(i + j)->name()->c_str());
+      if (event & flatui::kEventWentUp) {
+        world_->sushi_index = i + j;
+      }
+    }
+    flatui::EndGroup();
+  }
+  flatui::EndGroup();
 }
 
 }  // zooshi

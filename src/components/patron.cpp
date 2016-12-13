@@ -800,6 +800,7 @@ const EntityRef* PatronComponent::ClosestProjectile(
                       patron_data->max_catch_distance_for_search;
   float closest_dist_sq = max_dist_sq;
   vec3 closest_position_xy = mathfu::kZeros3f;
+  auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   for (auto it = projectile_component->begin();
        it != projectile_component->end(); ++it) {
     // Get movement state of projectile.
@@ -846,7 +847,7 @@ const EntityRef* PatronComponent::ClosestProjectile(
     const float closest_t = CalculateClosestTimeInHeightRange(
         closest_t_ignore_height, patron_data->catch_time_for_search,
         target_height_range, projectile_position.z(), projectile_velocity.z(),
-        config_->gravity());
+        physics_component->GravityForEntity(it->entity));
     if (!patron_data->catch_time_for_search.Contains(closest_t)) continue;
 
     // Calculate the projectile position at `closest_t`.
