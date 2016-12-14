@@ -42,6 +42,7 @@ enum MenuState {
   kMenuStateFinished,
   kMenuStateCardboard,
   kMenuStateGamepad,
+  kMenuStateScoreReview,
   kMenuStateQuit,
 };
 
@@ -54,7 +55,7 @@ enum OptionsMenuState {
   kOptionsMenuStateSushi,
 };
 
-// Constant defintions for UI elements. Colors, button sizes etc.
+// Constant definitions for UI elements. Colors, button sizes etc.
 const auto kColorBrown = mathfu::vec4(0.37f, 0.24f, 0.09f, 0.85f);
 const auto kColorLightBrown = mathfu::vec4(0.82f, 0.77f, 0.60f, 0.85f);
 const auto kColorLightGray = mathfu::vec4(0.4f, 0.4f, 0.4f, 0.85f);
@@ -70,6 +71,12 @@ const auto kButtonSize = 140.0f;
 #endif
 const auto kAudioOptionButtonSize = 100.0f;
 const auto kScrollAreaSize = mathfu::vec2(900, 500);
+const auto kScoreSmallSize = 50.0f;
+const auto kScoreTextSize = 75.0f;
+// Values used to determine the end score.
+const auto kScorePatronsFedFactor = 1.0f;
+const auto kScoreLapsFinishedFactor = 15.0f;
+const auto kScoreAccuracyFactor = 50.0f;
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;
@@ -107,6 +114,9 @@ class GameMenuState : public StateNode {
   void OptionMenuAudio();
   void OptionMenuRendering();
   void OptionMenuSushi();
+  MenuState ScoreReviewMenu(fplbase::AssetManager& assetman,
+                            flatui::FontManager& fontman,
+                            fplbase::InputSystem& input);
 
   // Instance a text button that plays a sound when selected.
   flatui::Event TextButton(const char* text, float size,
@@ -228,6 +238,16 @@ class GameMenuState : public StateNode {
   pindrop::Bus voices_bus_;
   pindrop::Bus music_bus_;
   pindrop::Bus master_bus_;
+
+  // Values used by the score review page.
+  // The number of patrons fed in the last game.
+  int patrons_fed_;
+  // The number of sushi thrown in the last game.
+  int sushi_thrown_;
+  // Number of laps finished.
+  int laps_finished_;
+  // The total score from the last game.
+  int total_score_;
 };
 
 }  // zooshi

@@ -122,6 +122,11 @@ void GameMenuState::Initialize(
   master_bus_ = audio_engine->FindBus("master");
   LoadData();
 
+  patrons_fed_ = 0;
+  sushi_thrown_ = 0;
+  laps_finished_ = 0;
+  total_score_ = 0;
+
   UpdateVolumes();
 }
 
@@ -206,7 +211,10 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
     case kMenuStateOptions:
       menu_state_ = OptionMenu(*asset_manager_, *font_manager_, *input_system_);
       break;
-
+    case kMenuStateScoreReview:
+      menu_state_ =
+          ScoreReviewMenu(*asset_manager_, *font_manager_, *input_system_);
+      break;
     case kMenuStateQuit: {
       flatui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
         flatui::CustomElement(
@@ -223,7 +231,35 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
   }
 }
 
-void GameMenuState::OnEnter(int /*previous_state*/) {
+void GameMenuState::OnEnter(int previous_state) {
+  // If coming from the gameover state, we want to display the score review,
+  // and preserve the values that we want to display, before resetting the
+  // world.
+  if (previous_state == kGameStateGameOver) {
+    menu_state_ = kMenuStateScoreReview;
+    auto attribute_data =
+        world_->entity_manager.GetComponentData<AttributesData>(
+            world_->active_player_entity);
+    patrons_fed_ = attribute_data->attributes[AttributeDef_PatronsFed];
+    sushi_thrown_ = attribute_data->attributes[AttributeDef_ProjectilesFired];
+    laps_finished_ = attribute_data->attributes[AttributeDef_LastLapNumber] + 1;
+
+    float accuracy = 0.0f;
+    if (sushi_thrown_) {
+      accuracy =
+          static_cast<float>(patrons_fed_) / static_cast<float>(sushi_thrown_);
+    }
+    total_score_ =
+        static_cast<int>(kScorePatronsFedFactor * patrons_fed_) +
+        static_cast<int>(kScoreLapsFinishedFactor * laps_finished_) +
+        static_cast<int>(kScoreAccuracyFactor * accuracy);
+  } else {
+    menu_state_ = kMenuStateStart;
+#ifdef ANDROID_HMD
+    if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
+#endif  // ANDROID_HMD
+  }
+
   loading_complete_ = false;
   LoadWorldDef(world_, world_def_);
   UpdateMainCamera(&main_camera_, world_);
@@ -231,10 +267,6 @@ void GameMenuState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_state(kPlayerState_Disabled);
   input_system_->SetRelativeMouseMode(false);
   world_->ResetControllerFacing();
-  menu_state_ = kMenuStateStart;
-#ifdef ANDROID_HMD
-  if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
-#endif  // ANDROID_HMD
   LoadData();
 }
 

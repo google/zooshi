@@ -14,6 +14,7 @@
 
 #include "components/player.h"
 #include "camera.h"
+#include "components/attributes.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/services.h"
@@ -138,6 +139,8 @@ corgi::EntityRef PlayerComponent::SpawnProjectile(corgi::EntityRef source) {
 
   // TODO: Preferably, this should be a step in the entity creation.
   transform_component->UpdateChildLinks(projectile);
+
+  Data<AttributesData>(source)->attributes[AttributeDef_ProjectilesFired]++;
 
   return corgi::EntityRef();
 }

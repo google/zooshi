@@ -551,5 +551,92 @@ void GameMenuState::OptionMenuSushi() {
   flatui::EndGroup();
 }
 
+MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
+                                         flatui::FontManager& fontman,
+                                         fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateScoreReview;
+
+  PushDebugMarker("ScoreReviewMenu");
+
+  flatui::Run(assetman, fontman, input, [&]() {
+    flatui::StartGroup(flatui::kLayoutOverlay, 0);
+    flatui::StartGroup(flatui::kLayoutHorizontalTop, 0);
+    // Background image.
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
+    // Positioning the UI slightly above of the center.
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(0, -150));
+    flatui::Image(*background_options_, 1400);
+    flatui::EndGroup();
+
+    // Display the game end values, along with the score.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalRight, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(-75, -200));
+    flatui::Label("Patrons Fed:", kScoreSmallSize);
+    flatui::Label("Sushi Thrown:", kScoreSmallSize);
+    flatui::Label("Laps Finished:", kScoreSmallSize);
+    flatui::Label("Final Score:", kScoreTextSize);
+    flatui::EndGroup();
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(175, -200));
+    const int kBufferSize = 64;
+    char buffer[kBufferSize];
+    snprintf(buffer, kBufferSize, "%d", patrons_fed_);
+    flatui::Label(buffer, kScoreSmallSize);
+    snprintf(buffer, kBufferSize, "%d", sushi_thrown_);
+    flatui::Label(buffer, kScoreSmallSize);
+    snprintf(buffer, kBufferSize, "%d", laps_finished_);
+    flatui::Label(buffer, kScoreSmallSize);
+    snprintf(buffer, kBufferSize, "%d", total_score_);
+    flatui::Label(buffer, kScoreTextSize);
+    flatui::EndGroup();
+
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(0, 100));
+    // TODO(amaurice) Actually track unlockables, instead of placeholder text.
+    snprintf(buffer, kBufferSize, "%d XP earned", total_score_);
+    flatui::Label(buffer, kScoreTextSize);
+    snprintf(buffer, kBufferSize, "Lobster unlocked!");
+    flatui::Label(buffer, kScoreTextSize);
+    snprintf(buffer, kBufferSize, "%d XP until next reward", 30);
+    flatui::Label(buffer, kScoreTextSize);
+    flatui::EndGroup();
+
+    flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
+                          mathfu::vec2(0, -125));
+    flatui::SetTextColor(kColorLightBrown);
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      flatui::Margin(60, 35, 40, 50), "Menu");
+    if (event & flatui::kEventWentUp) {
+      next_state = kMenuStateStart;
+    }
+    event = ImageButtonWithLabel(*button_back_, 60,
+                                 flatui::Margin(60, 35, 40, 50), "Retry");
+    if (event & flatui::kEventWentUp) {
+      next_state = kMenuStateFinished;
+    }
+    flatui::EndGroup();
+
+    flatui::EndGroup();
+    flatui::EndGroup();
+  });
+
+  PopDebugMarker();  // ScoreReviewMenu
+
+  if (next_state != kMenuStateScoreReview) {
+    patrons_fed_ = 0;
+    sushi_thrown_ = 0;
+    laps_finished_ = 0;
+    total_score_ = 0;
+  }
+
+  return next_state;
+}
+
 }  // zooshi
 }  // fpl
