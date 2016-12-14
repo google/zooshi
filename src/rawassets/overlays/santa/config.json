@@ -7,8 +7,6 @@
 
   "assets_filename": "assets.zooassets",
 
-  "projectile_speed": 40.0,
-  "projectile_upkick": 7.5,
   "projectile_height_offset": -0.5,
   "projectile_forward_offset": 1.6,
   "projectile_min_angular_velocity": { "x": 1, "y": 1, "z": 3 },

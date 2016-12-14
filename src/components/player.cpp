@@ -119,8 +119,8 @@ corgi::EntityRef PlayerComponent::SpawnProjectile(corgi::EntityRef source) {
       transform_component->WorldPosition(source) +
       mathfu::kAxisZ3f * config_->projectile_height_offset();
   auto forward = CalculateProjectileDirection(source);
-  auto velocity = config_->projectile_speed() * forward +
-                  config_->projectile_upkick() * mathfu::kAxisZ3f;
+  auto velocity = current_sushi->speed() * forward +
+                  current_sushi->upkick() * mathfu::kAxisZ3f;
   transform_data->position +=
       velocity.Normalized() * config_->projectile_forward_offset();
 

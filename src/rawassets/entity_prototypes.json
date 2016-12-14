@@ -2130,6 +2130,47 @@
         }
       ]
     },
+    // Projectile_Pufferfish
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Projectile_Pufferfish",
+            "prototype": "Projectile"
+          }
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.53,
+                    "y": 0.22,
+                    "z": 0.22
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0.05
+                },
+                "restitution": 1.0,
+                "collision_type": "Projectile",
+                "collides_with": [
+                  "Patron",
+                  "Ground"
+                ]
+              }
+            ],
+            "gravity_multiplier": -1.0
+          }
+        }
+      ]
+    },
     {
       "component_list": [
         {

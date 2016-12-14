@@ -191,10 +191,18 @@ table WorldDef {
 table SushiConfig {
   // The name of the sushi that appears in the menu.
   name:string;
+
   // The description of the sushi that appears in the menu.
   description:string;
+
   // The name of the prototype to use with the sushi.
   prototype:string;
+
+  // The initial speed of the projectiles on the forward vector.
+  speed:float = 40;
+
+  // The initial speed of the projectiles on the up vector.
+  upkick:float = 7.5;
 }
 
 table Config {
@@ -215,12 +223,6 @@ table Config {
 
   // The manifest of assets to load.
   assets_filename:string;
-
-  // The initial speed of the projectiles on the forward vector.
-  projectile_speed: float;
-
-  // The initial speed of the projectiles on the up vector.
-  projectile_upkick: float;
 
   // The initial offset from the player the projectile starts at, heightwise.
   projectile_height_offset: float;
