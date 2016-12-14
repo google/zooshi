@@ -46,6 +46,7 @@
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
 #include "corgi_component_library/transform.h"
+#include "firebase/app.h"
 #include "fplbase/render_target.h"
 #include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
@@ -55,11 +56,8 @@
 #include "scene_lab/corgi/corgi_adapter.h"
 #include "scene_lab/corgi/edit_options.h"
 #include "scene_lab/scene_lab.h"
+#include "unlockable_manager.h"
 #include "world_renderer.h"
-
-#ifdef __ANDROID__
-#include "firebase/app.h"
-#endif  // __ANDROID__
 
 namespace pindrop {
 
@@ -106,7 +104,8 @@ struct World {
                   flatui::FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine,
                   breadboard::GraphFactory* graph_factory,
-                  fplbase::Renderer* renderer, scene_lab::SceneLab* scene_lab);
+                  fplbase::Renderer* renderer, scene_lab::SceneLab* scene_lab,
+                  UnlockableManager* unlockable_mgr);
 
   // Entity manager
   corgi::EntityManager entity_manager;
@@ -152,6 +151,8 @@ struct World {
   fplbase::AssetManager* asset_manager;
   WorldRenderer* world_renderer;
 
+  UnlockableManager* unlockables;
+
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
   OnscreenControllerUI onscreen_controller_ui;
 #ifdef ANDROID_HMD
@@ -159,9 +160,7 @@ struct World {
   BasePlayerController* onscreen_controller;
 #endif  // ANDROID_HMD
 
-#ifdef __ANDROID__
   firebase::App* firebase_app;
-#endif  // __ANDROID__
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,
@@ -223,7 +222,7 @@ struct World {
   }
 
   // Get the sushi config that should be used during gameplay.
-  const SushiConfig* SelectedSushi() const {
+  const UnlockableConfig* SelectedSushi() const {
     if (sushi_index >= config->sushi_config()->size()) {
       return config->sushi_config()->Get(0);
     } else {

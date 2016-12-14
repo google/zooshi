@@ -18,6 +18,7 @@
 #include "components_generated.h"
 #include "config_generated.h"
 #include "corgi_component_library/default_entity_factory.h"
+#include "firebase/analytics.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/render_target.h"
@@ -30,10 +31,6 @@
 
 #ifdef ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
-#endif
-
-#if __ANDROID__
-#include "firebase/analytics.h"
 #endif
 
 using scene_lab::SceneLab;
@@ -52,14 +49,12 @@ static const char kEntityLibraryFile[] = "entity_prototypes.zooentity";
 static const char kComponentDefBinarySchema[] =
     "flatbufferschemas/components.bfbs";
 
-void World::Initialize(const Config& config_,
-                       fplbase::InputSystem* input_system,
-                       fplbase::AssetManager* asset_mgr,
-                       WorldRenderer* worldrenderer,
-                       flatui::FontManager* font_manager,
-                       pindrop::AudioEngine* audio_engine,
-                       breadboard::GraphFactory* graph_factory,
-                       fplbase::Renderer* renderer, SceneLab* scene_lab) {
+void World::Initialize(
+    const Config& config_, fplbase::InputSystem* input_system,
+    fplbase::AssetManager* asset_mgr, WorldRenderer* worldrenderer,
+    flatui::FontManager* font_manager, pindrop::AudioEngine* audio_engine,
+    breadboard::GraphFactory* graph_factory, fplbase::Renderer* renderer,
+    SceneLab* scene_lab, UnlockableManager* unlockable_mgr) {
   entity_factory.reset(new corgi::component_library::DefaultEntityFactory());
   motive::SplineInit::Register();
   motive::MatrixInit::Register();
@@ -68,6 +63,7 @@ void World::Initialize(const Config& config_,
 
   asset_manager = asset_mgr;
   world_renderer = worldrenderer;
+  unlockables = unlockable_mgr;
 
   config = &config_;
 
@@ -188,15 +184,16 @@ void World::Initialize(const Config& config_,
   apply_specular_cardboard_ =
       config->rendering_config()->apply_specular_by_default_cardboard();
 
-#ifdef __ANDROID__
+  // Initialize Firebase and the services.
   firebase::App* firebase_app;
+#ifdef __ANDROID__
   firebase_app =
       firebase::App::Create(firebase::AppOptions(), fplbase::AndroidGetJNIEnv(),
                             fplbase::AndroidGetActivity());
-
-  // Initialize Analytics
+#else
+  firebase_app = firebase::App::Create(firebase::AppOptions());
+#endif
   firebase::analytics::Initialize(*firebase_app);
-#endif  // __ANDROID__
 }
 
 void World::AddController(BasePlayerController* controller) {

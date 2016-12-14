@@ -208,6 +208,9 @@ class Game {
 
   // Name of the optional overlay to load assets from.
   static std::string overlay_name_;
+
+  // The progression system to track unlockables.
+  UnlockableManager unlockable_manager_;
 };
 
 }  // zooshi

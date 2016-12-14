@@ -259,6 +259,8 @@ set(zooshi_SRCS
     src/states/states_common.h
     src/states/scene_lab_state.cpp
     src/states/scene_lab_state.h
+    src/unlockable_manager.cpp
+    src/unlockable_manager.h
     src/world.cpp
     src/world.h
     src/world_renderer.cpp

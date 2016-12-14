@@ -253,24 +253,37 @@
   "sushi_config": [
     {
       "name": "Nigiri",
-      "description": "Basic tasty sushi",
-      "prototype": "Projectile"
+      "starts_unlocked": true,
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "Basic tasty sushi",
+        "prototype": "Projectile"
+      }
     },
     {
       "name": "Lobster",
-      "description": "Heavy, but delicious",
-      "prototype": "Projectile_Lobster"
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "Heavy, but delicious",
+        "prototype": "Projectile_Lobster"
+      }
     },
     {
       "name": "Flying Fish",
-      "description": "Travels far on its wings",
-      "prototype": "Projectile_FlyingFish"
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "Travels far on its wings",
+        "prototype": "Projectile_FlyingFish"
+      }
     },
     {
       "name": "Pufferfish",
-      "description": "So light it floats up",
-      "prototype": "Projectile_Pufferfish",
-      "upkick": -7.5
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "So light it floats up",
+        "prototype": "Projectile_Pufferfish",
+        "upkick": -7.5
+      }
     }
   ]
 }

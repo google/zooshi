@@ -18,6 +18,7 @@ include "common.fbs";
 include "components.fbs";
 include "scene_lab_config.fbs";
 include "gpg.fbs";
+include "unlockables.fbs";
 
 namespace fpl.zooshi;
 
@@ -188,23 +189,6 @@ table WorldDef {
   entity_files:[string];
 }
 
-table SushiConfig {
-  // The name of the sushi that appears in the menu.
-  name:string;
-
-  // The description of the sushi that appears in the menu.
-  description:string;
-
-  // The name of the prototype to use with the sushi.
-  prototype:string;
-
-  // The initial speed of the projectiles on the forward vector.
-  speed:float = 40;
-
-  // The initial speed of the projectiles on the up vector.
-  upkick:float = 7.5;
-}
-
 table Config {
   // The name of the game, as displayed on the window title.
   window_title:string;
@@ -271,7 +255,7 @@ table Config {
   scenery_face_angle_def:motive.OvershootParameters;
 
   // The different sushi types that will be used.
-  sushi_config:[SushiConfig];
+  sushi_config:[UnlockableConfig];
 }
 
 root_type Config;

@@ -132,7 +132,8 @@ Game::Game()
       audio_config_(nullptr),
       world_(),
       fader_(),
-      version_(kVersion) {
+      version_(kVersion),
+      unlockable_manager_() {
   fplbase::SetLoadFileFunction(Game::LoadFile);
 }
 
@@ -404,7 +405,7 @@ bool Game::Initialize(const char *const binary_directory) {
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &graph_factory_, &renderer_,
-                    scene_lab_.get());
+                    scene_lab_.get(), &unlockable_manager_);
 
 #ifdef __ANDROID__
   if (fplbase::SupportsHeadMountedDisplay()) {
@@ -501,6 +502,9 @@ bool Game::Initialize(const char *const binary_directory) {
   state_machine_.AssignState(kGameStateGameOver, &game_over_state_);
   state_machine_.AssignState(kGameStateSceneLab, &scene_lab_state_);
   state_machine_.SetCurrentStateId(kGameStateLoading);
+
+  unlockable_manager_.InitializeType(UnlockableType_Sushi,
+                                     config->sushi_config());
 
 #ifdef ANDROID_HMD
   if (fplbase::AndroidGetActivityName() ==

@@ -135,6 +135,7 @@ LOCAL_SRC_FILES := \
   src/states/pause_state.cpp \
   src/states/states_common.cpp \
   src/states/scene_lab_state.cpp \
+  src/unlockable_manager.cpp \
   src/world.cpp \
   src/world_renderer.cpp
 
@@ -149,7 +150,8 @@ ZOOSHI_SCHEMA_FILES := \
   $(ZOOSHI_SCHEMA_DIR)/gpg.fbs \
   $(ZOOSHI_SCHEMA_DIR)/input_config.fbs \
   $(ZOOSHI_SCHEMA_DIR)/rail_def.fbs \
-  $(ZOOSHI_SCHEMA_DIR)/save_data.fbs
+  $(ZOOSHI_SCHEMA_DIR)/save_data.fbs \
+  $(ZOOSHI_SCHEMA_DIR)/unlockables.fbs
 
 # Make each source file order-only dependent upon the assets (via the pipe |)
 # This guarantees build_assets will run first, but not force all src files to

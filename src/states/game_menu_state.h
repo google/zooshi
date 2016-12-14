@@ -153,6 +153,9 @@ class GameMenuState : public StateNode {
   // Set sound volumes based on volume settings.
   void UpdateVolumes();
 
+  // Reset the variables concerning score.
+  void ResetScore();
+
   // Set to true when the render thread detects that all assets have been
   // loaded. The update thread then shows game menu.
   bool loading_complete_;

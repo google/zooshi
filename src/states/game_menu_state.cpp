@@ -214,6 +214,10 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
     case kMenuStateScoreReview:
       menu_state_ =
           ScoreReviewMenu(*asset_manager_, *font_manager_, *input_system_);
+      // If leaving the score review page, clear the cached scores.
+      if (menu_state_ != kMenuStateScoreReview) {
+        ResetScore();
+      }
       break;
     case kMenuStateQuit: {
       flatui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
@@ -338,6 +342,13 @@ void GameMenuState::UpdateVolumes() {
   sound_effects_bus_.SetGain(slider_value_effect_);
   voices_bus_.SetGain(slider_value_effect_);
   music_bus_.SetGain(slider_value_music_);
+}
+
+void GameMenuState::ResetScore() {
+  patrons_fed_ = 0;
+  sushi_thrown_ = 0;
+  laps_finished_ = 0;
+  total_score_ = 0;
 }
 
 }  // zooshi

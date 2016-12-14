@@ -165,7 +165,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     flatui::EndGroup();
 
     // Sushi selection is done offset to the right of the menu layout.
-    const SushiConfig* current_sushi = world_->SelectedSushi();
+    const UnlockableConfig* current_sushi = world_->SelectedSushi();
     flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                           mathfu::vec2(375, 100));
@@ -521,14 +521,16 @@ void GameMenuState::OptionMenuSushi() {
   flatui::SetMargin(flatui::Margin(200, 400, 200, 100));
 
   // Render information about the currently selected sushi.
-  auto current_sushi = world_->SelectedSushi();
+  const UnlockableConfig* current_sushi = world_->SelectedSushi();
+  const SushiConfig* sushi_data =
+      static_cast<const SushiConfig*>(current_sushi->data());
   flatui::StartGroup(flatui::kLayoutVerticalCenter, 10, "menu");
   flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                         mathfu::vec2(30, -210));
   flatui::SetTextColor(kColorBrown);
   flatui::Label(current_sushi->name()->c_str(), kButtonSize);
   flatui::SetTextColor(kColorDarkGray);
-  flatui::Label(current_sushi->description()->c_str(), kButtonSize - 5);
+  flatui::Label(sushi_data->description()->c_str(), kButtonSize - 5);
   flatui::EndGroup();
 
   // Render the different sushi types that can be selected.
@@ -539,14 +541,42 @@ void GameMenuState::OptionMenuSushi() {
     flatui::StartGroup(flatui::kLayoutHorizontalCenter, 20);
     for (size_t j = 0;
          j < kSushiPerLine && i + j < config_->sushi_config()->size(); ++j) {
-      auto event = ImageButtonWithLabel(
-          *button_back_, 60, flatui::Margin(60, 35, 40, 50),
-          config_->sushi_config()->Get(i + j)->name()->c_str());
-      if (event & flatui::kEventWentUp) {
-        world_->sushi_index = i + j;
+      size_t index = i + j;
+      // TODO(amaurice) Replace with artwork for each sushi type.
+      if (world_->unlockables->is_unlocked(UnlockableType_Sushi, index)) {
+        auto event = ImageButtonWithLabel(
+            *button_back_, 60, flatui::Margin(60, 35, 40, 50),
+            config_->sushi_config()->Get(index)->name()->c_str());
+        if (event & flatui::kEventWentUp) {
+          world_->sushi_index = index;
+        }
+      } else {
+        ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
+                             "  ?????  ");
       }
     }
     flatui::EndGroup();
+  }
+  flatui::EndGroup();
+
+  // Temporary debug buttons to trigger unlocking a random sushi,
+  // and relocking all of them.
+  flatui::StartGroup(flatui::kLayoutHorizontalBottom);
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
+                        mathfu::vec2(0, -50));
+  {
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      flatui::Margin(60, 35, 40, 50), "Unlock");
+    if (event & flatui::kEventWentUp) {
+      world_->unlockables->UnlockRandom(nullptr);
+    }
+  }
+  {
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      flatui::Margin(60, 35, 40, 50), "Reset");
+    if (event & flatui::kEventWentUp) {
+      world_->unlockables->LockAll();
+    }
   }
   flatui::EndGroup();
 }
@@ -627,13 +657,6 @@ MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
   });
 
   PopDebugMarker();  // ScoreReviewMenu
-
-  if (next_state != kMenuStateScoreReview) {
-    patrons_fed_ = 0;
-    sushi_thrown_ = 0;
-    laps_finished_ = 0;
-    total_score_ = 0;
-  }
 
   return next_state;
 }
