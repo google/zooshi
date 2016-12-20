@@ -328,6 +328,12 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
     world->entity_factory->LoadEntitiesFromFile(filename,
                                                 &world->entity_manager);
   }
+  const LevelDef* level_def = world_def->levels()->Get(world->level_index);
+  for (size_t i = 0; i < level_def->entity_files()->size(); i++) {
+    const char* filename = level_def->entity_files()->Get(i)->c_str();
+    world->entity_factory->LoadEntitiesFromFile(filename,
+                                                &world->entity_manager);
+  }
 
   world->SetActiveController(kControllerDefault);
   world->active_player_entity = world->player_component.begin()->entity;

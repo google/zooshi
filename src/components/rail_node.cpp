@@ -33,6 +33,7 @@ void RailNodeComponent::AddFromRawData(corgi::EntityRef& entity,
     data->total_time = rail_node_def->total_time();
   if (rail_node_def->reliable_distance())
     data->reliable_distance = rail_node_def->reliable_distance();
+  data->wraps = rail_node_def->wraps();
 }
 
 corgi::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
@@ -53,6 +54,7 @@ corgi::ComponentInterface::RawDataUniquePtr RailNodeComponent::ExportRawData(
   if (data->reliable_distance != -1) {
     builder.add_reliable_distance(data->reliable_distance);
   }
+  builder.add_wraps(data->wraps);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();

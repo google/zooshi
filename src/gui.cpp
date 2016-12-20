@@ -166,7 +166,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
 
     // Sushi selection is done offset to the right of the menu layout.
     const UnlockableConfig* current_sushi = world_->SelectedSushi();
-    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 20);
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                           mathfu::vec2(375, 100));
     flatui::SetTextColor(kColorLightBrown);
@@ -176,6 +176,13 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     if (event & flatui::kEventWentUp) {
       next_state = kMenuStateOptions;
       options_menu_state_ = kOptionsMenuStateSushi;
+    }
+    event =
+        ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
+                             world_->CurrentLevel()->name()->c_str());
+    if (event & flatui::kEventWentUp) {
+      next_state = kMenuStateOptions;
+      options_menu_state_ = kOptionsMenuStateLevel;
     }
     flatui::EndGroup();
     flatui::EndGroup();
@@ -233,6 +240,9 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
       case kOptionsMenuStateSushi:
         OptionMenuSushi();
         break;
+      case kOptionsMenuStateLevel:
+        OptionMenuLevel();
+        break;
       default:
         break;
     }
@@ -256,7 +266,8 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
         SaveData();
       }
       if (options_menu_state_ == kOptionsMenuStateMain ||
-          options_menu_state_ == kOptionsMenuStateSushi) {
+          options_menu_state_ == kOptionsMenuStateSushi ||
+          options_menu_state_ == kOptionsMenuStateLevel) {
         next_state = kMenuStateStart;
       } else {
         options_menu_state_ = kOptionsMenuStateMain;
@@ -577,6 +588,40 @@ void GameMenuState::OptionMenuSushi() {
     if (event & flatui::kEventWentUp) {
       world_->unlockables->LockAll();
     }
+  }
+  flatui::EndGroup();
+}
+
+void GameMenuState::OptionMenuLevel() {
+  flatui::SetMargin(flatui::Margin(200, 400, 200, 100));
+
+  // Render information about the currently selected level.
+  const LevelDef* current_level = world_->CurrentLevel();
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 10, "menu");
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                        mathfu::vec2(30, -210));
+  flatui::SetTextColor(kColorBrown);
+  flatui::Label(current_level->name()->c_str(), kButtonSize);
+  flatui::EndGroup();
+
+  // Render the different levels that can be selected.
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 20);
+  flatui::SetTextColor(kColorLightBrown);
+  const size_t kLevelPerLine = 3;
+  const size_t level_count = config_->world_def()->levels()->size();
+  for (size_t i = 0; i < level_count; i += kLevelPerLine) {
+    flatui::StartGroup(flatui::kLayoutHorizontalCenter, 20);
+    for (size_t j = 0; j < kLevelPerLine && i + j < level_count; ++j) {
+      size_t index = i + j;
+      auto event = ImageButtonWithLabel(
+          *button_back_, 60, flatui::Margin(60, 35, 40, 50),
+          config_->world_def()->levels()->Get(index)->name()->c_str());
+      if (event & flatui::kEventWentUp && index != world_->level_index) {
+        world_->level_index = index;
+        LoadWorldDef(world_, world_def_);
+      }
+    }
+    flatui::EndGroup();
   }
   flatui::EndGroup();
 }

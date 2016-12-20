@@ -40,6 +40,8 @@ table RailDenizenDef {
   update_orientation:bool = true;
   inherit_transform_data:bool = false;
   enabled:bool = true;
+  // Percentage of when a lap ends. Values outside of (0,1] are treated as 1.
+  lap_end:float = 1.0;
 }
 
 table MotivatorObjectDef {
@@ -221,6 +223,9 @@ table RailNodeDef {
   // Reliable distance for this rail. Only the first rail spline node (lowest
   // ordering) for each rail should have this set.
   reliable_distance:float;
+
+  // Does the rail wrap and restart at the end, or does it stop.
+  wraps:bool = true;
 }
 
 table RiverDef {

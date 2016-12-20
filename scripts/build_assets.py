@@ -113,12 +113,11 @@ FLATBUFFERS_CONVERSION_DATA = [
         schema=PROJECT_SCHEMA_PATH.join('components.fbs'),
         extension='zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_prototypes.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_rails.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_lights.json'),
                      os.path.join(RAW_ASSETS_PATH, 'entity_list.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_ring.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_decorations.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_lights.json')]),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_rails.json'),
+                    ] +
+                    glob.glob(os.path.join(RAW_ASSETS_PATH, 'lvl_*.json'))),
     builder.FlatbuffersConversionData(
         schema=PROJECT_SCHEMA_PATH.join('rail_def.fbs'),
         extension='rail',

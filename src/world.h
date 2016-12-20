@@ -91,6 +91,7 @@ struct World {
         skip_rendermesh_rendering(false),
         is_single_stepping(false),
         sushi_index(0),
+        level_index(0),
         is_in_cardboard_(false) {
 #ifdef ANDROID_HMD
     hmd_controller = nullptr;
@@ -230,6 +231,15 @@ struct World {
     }
   }
 
+  // Get the currently selected level that should be used.
+  const LevelDef* CurrentLevel() const {
+    if (level_index >= config->world_def()->levels()->size()) {
+      return config->world_def()->levels()->Get(0);
+    } else {
+      return config->world_def()->levels()->Get(level_index);
+    }
+  }
+
   bool is_single_stepping;
 
   // Records the start time of gameplay, used for analytics.
@@ -237,6 +247,9 @@ struct World {
 
   // The index of the sushi to use out of the config.
   size_t sushi_index;
+
+  // The index of the level layout to use.
+  size_t level_index;
 
  private:
   // Determines if the game is in Cardboard mode (for special rendering).

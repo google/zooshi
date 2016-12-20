@@ -25,11 +25,13 @@ namespace zooshi {
 
 // Data for scene object components.
 struct RailNodeData {
-  RailNodeData() : ordering(0), total_time(-1), reliable_distance(-1) {}
+  RailNodeData()
+      : ordering(0), total_time(-1), reliable_distance(-1), wraps(true) {}
   float ordering;
   std::string rail_name;
   float total_time;
   float reliable_distance;
+  bool wraps;
 };
 
 class RailNodeComponent : public corgi::Component<RailNodeData> {

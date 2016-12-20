@@ -104,6 +104,9 @@ struct RailDenizenData {
   bool update_orientation;
   bool inherit_transform_data;
   bool enabled;
+  // Percentage of when a lap ends. Values outside of (0,1] are treated as 1,
+  // because the motivator wraps to 0 instead of increasing past 1.
+  float lap_end;
 };
 
 class RailDenizenComponent : public corgi::Component<RailDenizenData> {

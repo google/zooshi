@@ -180,11 +180,15 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
     rail_denizen_data->lap_progress =
         static_cast<float>(rail_denizen_data->motivator.SplineTime()) / total;
 
+    bool use_lap_end =
+        rail_denizen_data->lap_end > 0 && rail_denizen_data->lap_end < 1;
     // When the motivator has looped all the way back to the beginning of the
     // spline, the SplineTime returns back to 0. We can exploit this fact to
     // determine when a lap has been completed, by comparing against the
     // previous lap amount.
-    if (rail_denizen_data->lap_progress < previous_progress) {
+    if ((use_lap_end && previous_progress < rail_denizen_data->lap_end &&
+         rail_denizen_data->lap_progress >= rail_denizen_data->lap_end) ||
+        (!use_lap_end && rail_denizen_data->lap_progress < previous_progress)) {
       rail_denizen_data->lap_number++;
       GraphData* graph_data = Data<GraphData>(iter->entity);
       if (graph_data) {
@@ -236,6 +240,7 @@ void RailDenizenComponent::AddFromRawData(corgi::EntityRef& entity,
   data->inherit_transform_data =
       rail_denizen_def->inherit_transform_data() ? true : false;
   data->enabled = rail_denizen_def->enabled() ? true : false;
+  data->lap_end = rail_denizen_def->lap_end();
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 
@@ -293,6 +298,7 @@ corgi::ComponentInterface::RawDataUniquePtr RailDenizenComponent::ExportRawData(
   builder.add_update_orientation(data->update_orientation);
   builder.add_inherit_transform_data(data->inherit_transform_data);
   builder.add_enabled(data->enabled);
+  builder.add_lap_end(data->lap_end);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();

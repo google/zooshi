@@ -246,17 +246,21 @@ void GameMenuState::OnEnter(int previous_state) {
             world_->active_player_entity);
     patrons_fed_ = attribute_data->attributes[AttributeDef_PatronsFed];
     sushi_thrown_ = attribute_data->attributes[AttributeDef_ProjectilesFired];
-    laps_finished_ = attribute_data->attributes[AttributeDef_LastLapNumber] + 1;
+    corgi::EntityRef raft =
+        world_->entity_manager.GetComponent<ServicesComponent>()->raft_entity();
+    RailDenizenData *raft_rail_denizen =
+        world_->entity_manager.GetComponentData<RailDenizenData>(raft);
+    assert(raft_rail_denizen);
+    laps_finished_ = raft_rail_denizen->lap_number;
 
     float accuracy = 0.0f;
     if (sushi_thrown_) {
       accuracy =
           static_cast<float>(patrons_fed_) / static_cast<float>(sushi_thrown_);
     }
-    total_score_ =
-        static_cast<int>(kScorePatronsFedFactor * patrons_fed_) +
-        static_cast<int>(kScoreLapsFinishedFactor * laps_finished_) +
-        static_cast<int>(kScoreAccuracyFactor * accuracy);
+    total_score_ = static_cast<int>(kScorePatronsFedFactor * patrons_fed_) +
+                   static_cast<int>(kScoreLapsFinishedFactor * laps_finished_) +
+                   static_cast<int>(kScoreAccuracyFactor * accuracy);
   } else {
     menu_state_ = kMenuStateStart;
 #ifdef ANDROID_HMD

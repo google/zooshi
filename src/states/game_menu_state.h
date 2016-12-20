@@ -53,6 +53,7 @@ enum OptionsMenuState {
   kOptionsMenuStateAudio,
   kOptionsMenuStateRendering,
   kOptionsMenuStateSushi,
+  kOptionsMenuStateLevel,
 };
 
 // Constant definitions for UI elements. Colors, button sizes etc.
@@ -114,6 +115,7 @@ class GameMenuState : public StateNode {
   void OptionMenuAudio();
   void OptionMenuRendering();
   void OptionMenuSushi();
+  void OptionMenuLevel();
   MenuState ScoreReviewMenu(fplbase::AssetManager& assetman,
                             flatui::FontManager& fontman,
                             fplbase::InputSystem& input);

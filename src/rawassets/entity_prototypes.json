@@ -702,6 +702,26 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
+            "entity_id": "PlayerPrototype_Single",
+            "prototype": "PlayerPrototype"
+          }
+        },
+        {
+          "data_type": "corgi_GraphDef",
+          "data" : {
+            "filename_list": [
+              "graphs/single_lap.bbgraph",
+              "graphs/on_fire.bbgraph"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
             "entity_id": "PlayerPrototype_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }

@@ -184,9 +184,19 @@ table RenderConfig {
   apply_normal_maps_by_default_cardboard:bool;
 }
 
-table WorldDef {
-  // Entity files to load.
+// Table that describes elements specific to a single level.
+table LevelDef {
+  // The name of the level that will appear for UI.
+  name:string;
+  // Entity files that are loaded for this level.
   entity_files:[string];
+}
+
+table WorldDef {
+  // Entity files that are loaded for every level.
+  entity_files:[string];
+  // Different playable level definitions.
+  levels:[LevelDef];
 }
 
 table Config {

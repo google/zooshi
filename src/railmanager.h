@@ -30,7 +30,7 @@ typedef const char* RailId;
 
 class Rail {
  public:
-  Rail() : splines_(nullptr) {}
+  Rail() : splines_(nullptr), wraps_(true) {}
   ~Rail() { motive::CompactSpline::DestroyArray(splines_, kDimensions); }
 
   void Initialize(const RailDef* rail_def, float spline_granularity);
@@ -54,7 +54,11 @@ class Rail {
 
   void InitializeFromPositions(
       const std::vector<mathfu::vec3_packed>& positions,
-      float spline_granularity, float reliable_distance, float total_time);
+      float spline_granularity, float reliable_distance, float total_time,
+      bool wraps);
+
+  /// Does the rail wrap around to itself at the end.
+  bool wraps() const { return wraps_; }
 
  private:
   static const motive::MotiveDimension kDimensions = 3;
@@ -66,6 +70,9 @@ class Rail {
 
   // Points to the first of kDimension splines in contiguous memory.
   motive::CompactSpline* splines_;
+
+  // Does the rail wrap around to itself at the end.
+  bool wraps_;
 };
 
 // Class for handling loading and storing of rails.

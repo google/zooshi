@@ -72,68 +72,6 @@
     {
       "component_list": [
         {
-          "data_type": "corgi_GraphDef",
-          "data": {
-          }
-        },
-        {
-          "data_type": "corgi_MetaDef",
-          "data": {
-            "entity_id": "$6288-e1c3-3742-4a1a",
-            "prototype": "RiverRail"
-          }
-        },
-        {
-          "data_type": "corgi_TransformDef",
-          "data": {
-            "position": {
-              "x": -0.001575,
-              "y": 49.998959,
-              "z": 2
-            },
-            "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 90
-            },
-            "child_ids": [
-              "ActivePlayer",
-              "Raft"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "corgi_MetaDef",
-          "data": {
-            "entity_id": "ActivePlayer",
-            "prototype": "PlayerPrototype"
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "RiverDef",
-          "data": {
-            "rail_name": "player_path",
-            "random_seed": 123456789
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
           "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "$e514-e986-46bc-4253",
@@ -172,46 +110,6 @@
           "data": {
             "entity_id": "$559e-aa73-14c2-022a",
             "prototype": "GroundPhysics"
-          }
-        }
-      ]
-    },
-    {
-      "component_list": [
-        {
-          "data_type": "corgi_MetaDef",
-          "data": {
-            "entity_id": "Gate",
-            "prototype": "GatePrototype"
-          }
-        },
-        {
-          "data_type": "scene_lab_EditOptionsDef",
-          "data": {
-            "selection_option": "Any"
-          }
-        },
-        {
-          "data_type": "corgi_TransformDef",
-          "data": {
-            "position": {
-              "x": 18.766514,
-              "y": 52.926945,
-              "z": 0.0011
-            },
-            "scale": {
-              "x": 1.656012,
-              "y": 1.656012,
-              "z": 1.656012
-            },
-            "orientation": {
-              "x": 0,
-              "y": 0,
-              "z": -99.90007
-            },
-            "child_ids": [
-              "Gate_RenderMesh"
-            ]
           }
         }
       ]

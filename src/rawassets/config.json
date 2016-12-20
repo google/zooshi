@@ -231,11 +231,28 @@
   "world_def": {
     "entity_files": [
       "entity_rails.zooentity",
-      "entity_list.zooentity",
-      "entity_level_0.zooentity",
-      "entity_decorations.zooentity",
-      "entity_ring.zooentity",
-      "entity_lights.zooentity"
+      "entity_lights.zooentity",
+      "entity_list.zooentity"
+    ],
+    "levels": [
+      {
+        "name": "Endless",
+        "entity_files": [
+          "lvl_endless_rail.zooentity",
+          "lvl_endless_list.zooentity",
+          "lvl_endless_patrons.zooentity",
+          "lvl_endless_props.zooentity"
+        ]
+      },
+      {
+        "name": "Easy",
+        "entity_files": [
+          "lvl_easy_rail.zooentity",
+          "lvl_easy_list.zooentity",
+          "lvl_easy_patrons.zooentity",
+          "lvl_easy_props.zooentity"
+        ]
+      }
     ]
   },
   "gpg_config": {

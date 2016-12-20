@@ -27,6 +27,7 @@
 #include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "scene_lab/scene_lab.h"
+#include "world.h"
 
 using mathfu::vec2;
 using mathfu::vec2_packed;
@@ -233,11 +234,17 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   // Construct the actual mesh data for the river:
   std::vector<vec2> offsets(num_bank_contours);
   for (size_t i = 0; i < segment_count; i++) {
-    // River track is circular.
-    const size_t prev_i = i == 0 ? segment_count - 1 : i - 1;
-
     // Get the current position on the track, and the normal (to the side).
-    const vec3 track_delta = vec3(track[i]) - vec3(track[prev_i]);
+    vec3 track_delta;
+    if (i > 0) {
+      track_delta = vec3(track[i]) - vec3(track[i - 1]);
+    } else if (rail->wraps()) {
+      // River track is circular.
+      track_delta = vec3(track[i]) - vec3(track[segment_count - 1]);
+    } else {
+      // Not circular, so point towards the next point.
+      track_delta = vec3(track[1]) - vec3(track[0]);
+    }
     const vec3 track_normal =
         vec3::CrossProduct(track_delta, kAxisZ3f).Normalized();
     const vec3 track_position =
@@ -338,7 +345,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     }
 
     // Force the beginning and end to line up in their geometry:
-    if (i == segment_count - 1) {
+    if (i == segment_count - 1 && rail->wraps()) {
       for (size_t j = 0; j < num_bank_contours; j++)
         bank_verts[bank_verts.size() - (8 - j)].pos = bank_verts[j].pos;
     }

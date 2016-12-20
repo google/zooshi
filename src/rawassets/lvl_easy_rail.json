@@ -1,0 +1,80 @@
+{
+  "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "rail_name": "player_path",
+            "total_time": 5000,
+            "reliable_distance": 1,
+            "wraps": false
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 1,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 150,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

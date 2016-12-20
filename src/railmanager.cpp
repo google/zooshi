@@ -42,18 +42,20 @@ void Rail::Initialize(const RailDef *rail_def, float spline_granularity) {
     positions[i] = LoadVec3(rail_def->positions()->Get(i));
   }
   InitializeFromPositions(positions, spline_granularity,
-                          rail_def->reliable_distance(),
-                          rail_def->total_time());
+                          rail_def->reliable_distance(), rail_def->total_time(),
+                          rail_def->wraps());
 }
 
 void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
                                    float spline_granularity,
-                                   float reliable_distance, float total_time) {
+                                   float reliable_distance, float total_time,
+                                   bool wraps) {
   const size_t num_positions = positions.size();
   std::vector<float> times;
   std::vector<vec3_packed> derivatives;
   times.resize(num_positions);
   derivatives.resize(num_positions);
+  wraps_ = wraps;
 
   // Calculate derivates and times from positions.
   motive::CalculateConstSpeedCurveFromPositions<3>(
@@ -128,13 +130,14 @@ Rail *RailManager::GetRailFromComponents(const char *rail_name,
   }
 
   std::vector<vec3_packed> positions;
-  positions.resize(rail_entities.size() + 1);
   const RailNodeData *first_data =
       rail_component->GetComponentData(rail_entities.begin()->second);
   // Extract the total time and reliable distance from the first-listed
   // RailNode for this rail name.
   float total_time = first_data->total_time;
   float reliable_distance = first_data->reliable_distance;
+  bool wraps = first_data->wraps;
+  positions.resize(rail_entities.size() + (wraps ? 1 : 0));
 
   auto *transform_component =
       entity_manager
@@ -144,14 +147,16 @@ Rail *RailManager::GetRailFromComponents(const char *rail_name,
   for (auto iter = rail_entities.begin(); iter != rail_entities.end(); ++iter) {
     positions[i++] = transform_component->WorldPosition(iter->second);
   }
-  // Repeat the first node at the end so we loop.
-  positions[i] =
-      transform_component->WorldPosition(rail_entities.begin()->second);
+  if (wraps) {
+    // Repeat the first node at the end so we loop.
+    positions[i] =
+        transform_component->WorldPosition(rail_entities.begin()->second);
+  }
 
   // Cache this until we request the rail from these components again.
   rail_map[rail_name] = std::unique_ptr<Rail>(new Rail());
-  rail_map[rail_name]->InitializeFromPositions(positions, kSplineGranularity,
-                                               reliable_distance, total_time);
+  rail_map[rail_name]->InitializeFromPositions(
+      positions, kSplineGranularity, reliable_distance, total_time, wraps);
   return rail_map[rail_name].get();
 }
 

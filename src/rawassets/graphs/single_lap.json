@@ -1,0 +1,80 @@
+// On a single lap level, end the game when a lap finishes.
+{
+  "node_list": [
+    {
+      // Node 0
+      "module": "zooshi",
+      "name": "raft_entity"
+    },
+    {
+      // Node 1
+      "module": "rail_denizen",
+      "name": "new_lap",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 0,
+            "edge_index": 0
+          }
+        }
+      ]
+    },
+    {
+      // Node 2
+      "module": "game_state",
+      "name": "request_state",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Int",
+          "edge": {
+            "value": 6 // Game over screen(kGameStateGameOver).
+          }
+        }
+      ]
+    },
+    {
+      // Node 3
+      "module": "audio",
+      "name": "play_sound",
+      "input_edge_list": [
+        {
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
+          "edge": {
+            "node_index": 1,
+            "edge_index": 0
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_SoundHandle",
+          "edge": {
+            "value": "successful_lap"
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Vec3",
+          "edge": {
+            "value": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        },
+        {
+          "edge_type": "breadboard_module_library_Float",
+          "edge": {
+            "value": 1.0
+          }
+        }
+      ]
+    }
+  ]
+}
