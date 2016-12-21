@@ -82,6 +82,7 @@ bool UnlockableManager::UnlockRandom(Unlockable* unlockable) {
         if (unlockable != nullptr) {
           unlockable->type = static_cast<UnlockableType>(type);
           unlockable->index = i;
+          unlockable->config = configs_[type]->Get(i);
         }
         return true;
       } else {

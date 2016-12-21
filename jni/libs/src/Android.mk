@@ -137,7 +137,8 @@ LOCAL_SRC_FILES := \
   src/states/scene_lab_state.cpp \
   src/unlockable_manager.cpp \
   src/world.cpp \
-  src/world_renderer.cpp
+  src/world_renderer.cpp \
+  src/xp_system.cpp
 
 ZOOSHI_SCHEMA_DIR := $(ZOOSHI_DIR)/src/flatbufferschemas
 

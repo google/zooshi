@@ -265,6 +265,8 @@ set(zooshi_SRCS
     src/world.h
     src/world_renderer.cpp
     src/world_renderer.h
+    src/xp_system.cpp
+    src/xp_system.h
 )
 
 # Includes for this project.

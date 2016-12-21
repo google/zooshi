@@ -266,6 +266,9 @@ table Config {
 
   // The different sushi types that will be used.
   sushi_config:[UnlockableConfig];
+
+  // The amount of XP needed to get a reward.
+  xp_for_reward:int;
 }
 
 root_type Config;

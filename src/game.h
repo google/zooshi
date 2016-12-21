@@ -41,6 +41,7 @@
 #include "states/state_machine.h"
 #include "states/states.h"
 #include "world.h"
+#include "xp_system.h"
 
 #if defined(PLATFORM_MOBILE)
 #define USING_GOOGLE_PLAY_GAMES
@@ -211,6 +212,9 @@ class Game {
 
   // The progression system to track unlockables.
   UnlockableManager unlockable_manager_;
+
+  // The XP system, used to grant rewards after playing.
+  XpSystem xp_system_;
 };
 
 }  // zooshi
