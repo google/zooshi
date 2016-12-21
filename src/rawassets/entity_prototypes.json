@@ -96,12 +96,6 @@
           }
         },
         {
-          "data_type": "corgi_TransformDef",
-          "data": {
-            "child_ids": ["Raft"]
-          }
-        },
-        {
           "data_type": "RailDenizenDef",
           "data" : {
             "start_time": 0,
@@ -143,6 +137,89 @@
             },
             "child_ids": [
               "Sign",
+              "RaftShrimp",
+              "RaftSalmon",
+              "EndBankerBird",
+              "EndHungryHippo",
+              "EndLadyMandrill",
+              "EndMoustacheCroc",
+              "EndLovelyGiraffette"
+            ]
+          }
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 4,
+                    "y": 5,
+                    "z": 0.2
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0.3
+                },
+                "mass": 100.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
+          "data" : {
+            "source_file": "meshes/raft.fplmesh",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
+            "culling": ["ViewAngle", "Distance"]
+          }
+        }
+      ]
+    },
+
+    // Raft without Sign
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Raft_Signless"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 0.0,
+              "y": 2.0,
+              "z": -1.7
+            },
+            "scale": {
+              "x": 0.8,
+              "y": 0.8,
+              "z": 0.8
+            },
+            "child_ids": [
               "RaftShrimp",
               "RaftSalmon",
               "EndBankerBird",
@@ -3306,35 +3383,6 @@
               "shaders/render_depth_skinned"
             ],
             "culling": ["ViewAngle", "Distance"],
-          }
-        },
-        {
-          "data_type": "corgi_PhysicsDef",
-          "data": {
-            "shapes": [
-              {
-                "data_type": "BulletBoxDef",
-                "data": {
-                  "half_extents": {
-                    "x": 0.5,
-                    "y": 0.5,
-                    "z": 1,
-                  }
-                },
-                "offset": {
-                  "x": 0,
-                  "y": 0.1,
-                  "z": 0
-                },
-                "mass": 60.0,
-                "restitution": 0.3,
-                "collision_type": "Ground",
-                "collides_with": [
-                  "Raycast"
-                ]
-              }
-            ],
-            "kinematic": true
           }
         }
       ]

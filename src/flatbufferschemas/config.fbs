@@ -74,19 +74,18 @@ table RiverConfig {
   // How much faster the river flows than the raft.  At 0.0, river and raft
   // move at exactly the same speed.  Should be nonzero though, or it looks
   // weird at the start of the game when the raft is stopped.
-  speed_boost:float;
-  texture_repeats:float;
-  rail_filename:string;
-  spline_stepsize: float;
-  track_height:float;
-  texture_tile_size:float;
+  speed_boost:float = 0.5;
+  texture_repeats:float = 16;
+  spline_stepsize: float = 700.0;
+  track_height:float = -1.89;
+  texture_tile_size:float = 25.0;
   material:string;
   shader:string;
 
   // Detail the cross section of the procedurally-generated banks.
   // See the diagram in RiverBankContour for more information.
   default_banks:[RiverBankContour];
-  default_width: float;
+  default_width: float = 5.0;
 
   // Zones for the riverbank. Each zone specifies a material to use.
   zones:[RiverZone];
@@ -105,7 +104,7 @@ table RiverConfig {
   mass:float = 1000;
 
   // The restitution of the river banks.
-  restitution:float = 1;
+  restitution:float = 0.5;
 
   // An arbitrary tag that is passed to the functions that handle collisions
   // with the river.
@@ -190,6 +189,8 @@ table LevelDef {
   name:string;
   // Entity files that are loaded for this level.
   entity_files:[string];
+  // Various settings for rendering the river.
+  river_config:RiverConfig;
 }
 
 table WorldDef {
@@ -251,9 +252,6 @@ table Config {
 
   // Entity files to load.
   world_def:WorldDef;
-
-  // Various settings for rendering the river.
-  river_config:RiverConfig;
 
   // Various settings for rendering:
   rendering_config:RenderConfig;

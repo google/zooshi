@@ -230,7 +230,8 @@ void WorldRenderer::RenderWorld(const corgi::CameraInterface &camera,
   renderer.SetDepthFunction(fplbase::kDepthFunctionLess);
   renderer.set_model_view_projection(camera_transform);
 
-  float texture_repeats = world->config->river_config()->texture_repeats();
+  float texture_repeats =
+      world->CurrentLevel()->river_config()->texture_repeats();
   float river_offset = world->river_component.river_offset();
 
   if (world->RenderingOptionEnabled(kShadowEffect)) {
