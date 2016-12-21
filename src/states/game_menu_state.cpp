@@ -261,6 +261,14 @@ void GameMenuState::OnEnter(int previous_state) {
     total_score_ = static_cast<int>(kScorePatronsFedFactor * patrons_fed_) +
                    static_cast<int>(kScoreLapsFinishedFactor * laps_finished_) +
                    static_cast<int>(kScoreAccuracyFactor * accuracy);
+    // Calculate the earned xp based on the total score.
+    earned_xp_ = world_->xp_system->ApplyBonuses(total_score_, true);
+    if (world_->xp_system->GrantXP(earned_xp_)) {
+      did_earn_unlockable_ =
+          world_->unlockables->UnlockRandom(&earned_unlockable_);
+    } else {
+      did_earn_unlockable_ = false;
+    }
   } else {
     menu_state_ = kMenuStateStart;
 #ifdef ANDROID_HMD
@@ -353,6 +361,8 @@ void GameMenuState::ResetScore() {
   sushi_thrown_ = 0;
   laps_finished_ = 0;
   total_score_ = 0;
+  earned_xp_ = 0;
+  did_earn_unlockable_ = false;
 }
 
 }  // zooshi

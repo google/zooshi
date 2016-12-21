@@ -672,13 +672,21 @@ MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
     flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                           mathfu::vec2(0, 100));
-    // TODO(amaurice) Actually track unlockables, instead of placeholder text.
-    snprintf(buffer, kBufferSize, "%d XP earned", total_score_);
+
+    snprintf(buffer, kBufferSize, "%d XP earned", earned_xp_);
     flatui::Label(buffer, kScoreTextSize);
-    snprintf(buffer, kBufferSize, "Lobster unlocked!");
-    flatui::Label(buffer, kScoreTextSize);
-    snprintf(buffer, kBufferSize, "%d XP until next reward", 30);
-    flatui::Label(buffer, kScoreTextSize);
+    if (did_earn_unlockable_) {
+      snprintf(buffer, kBufferSize, "%s unlocked!",
+               earned_unlockable_.config->name()->c_str());
+      flatui::Label(buffer, kScoreTextSize);
+    }
+    if (world_->unlockables->remaining_locked_total() > 0) {
+      snprintf(buffer, kBufferSize, "%d XP until next reward",
+               world_->xp_system->xp_until_reward());
+      flatui::Label(buffer, kScoreTextSize);
+    } else {
+      flatui::Label("Everything has been unlocked!", kScoreTextSize);
+    }
     flatui::EndGroup();
 
     flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);

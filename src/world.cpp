@@ -54,7 +54,8 @@ void World::Initialize(
     fplbase::AssetManager* asset_mgr, WorldRenderer* worldrenderer,
     flatui::FontManager* font_manager, pindrop::AudioEngine* audio_engine,
     breadboard::GraphFactory* graph_factory, fplbase::Renderer* renderer,
-    SceneLab* scene_lab, UnlockableManager* unlockable_mgr) {
+    SceneLab* scene_lab, UnlockableManager* unlockable_mgr,
+    XpSystem* xpsystem) {
   entity_factory.reset(new corgi::component_library::DefaultEntityFactory());
   motive::SplineInit::Register();
   motive::MatrixInit::Register();
@@ -64,6 +65,7 @@ void World::Initialize(
   asset_manager = asset_mgr;
   world_renderer = worldrenderer;
   unlockables = unlockable_mgr;
+  xp_system = xpsystem;
 
   config = &config_;
 

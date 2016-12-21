@@ -253,6 +253,11 @@ class GameMenuState : public StateNode {
   int laps_finished_;
   // The total score from the last game.
   int total_score_;
+  // The amount of xp earned (this includes multipliers, etc).
+  int earned_xp_;
+  // The unlockable that was unlocked. A bool is used to track validity.
+  Unlockable earned_unlockable_;
+  bool did_earn_unlockable_;
 };
 
 }  // zooshi

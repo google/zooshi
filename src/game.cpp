@@ -404,7 +404,7 @@ bool Game::Initialize(const char *const binary_directory) {
 
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &graph_factory_, &renderer_,
-                    scene_lab_.get(), &unlockable_manager_);
+                    scene_lab_.get(), &unlockable_manager_, &xp_system_);
 
 #ifdef __ANDROID__
   if (fplbase::SupportsHeadMountedDisplay()) {
@@ -504,6 +504,8 @@ bool Game::Initialize(const char *const binary_directory) {
 
   unlockable_manager_.InitializeType(UnlockableType_Sushi,
                                      config->sushi_config());
+
+  xp_system_.Initialize(config);
 
 #ifdef ANDROID_HMD
   if (fplbase::AndroidGetActivityName() ==

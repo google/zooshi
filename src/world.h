@@ -58,6 +58,7 @@
 #include "scene_lab/scene_lab.h"
 #include "unlockable_manager.h"
 #include "world_renderer.h"
+#include "xp_system.h"
 
 namespace pindrop {
 
@@ -106,7 +107,7 @@ struct World {
                   pindrop::AudioEngine* audio_engine,
                   breadboard::GraphFactory* graph_factory,
                   fplbase::Renderer* renderer, scene_lab::SceneLab* scene_lab,
-                  UnlockableManager* unlockable_mgr);
+                  UnlockableManager* unlockable_mgr, XpSystem* xp_system);
 
   // Entity manager
   corgi::EntityManager entity_manager;
@@ -153,6 +154,7 @@ struct World {
   WorldRenderer* world_renderer;
 
   UnlockableManager* unlockables;
+  XpSystem* xp_system;
 
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
   OnscreenControllerUI onscreen_controller_ui;

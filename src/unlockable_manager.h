@@ -31,6 +31,8 @@ struct Unlockable {
   UnlockableType type;
   // The index of the unlockable.
   size_t index;
+  // The config data of the unlockable.
+  const UnlockableConfig* config;
 };
 
 // Tracks the unlockables of the game.
