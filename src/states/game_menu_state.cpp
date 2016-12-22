@@ -143,13 +143,17 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
       if (options_menu_state_ == kOptionsMenuStateAudio) {
         SaveData();
       }
-      if (options_menu_state_ == kOptionsMenuStateMain) {
+      if (options_menu_state_ == kOptionsMenuStateMain ||
+          options_menu_state_ == kOptionsMenuStateSushi ||
+          options_menu_state_ == kOptionsMenuStateLevel) {
         menu_state_ = kMenuStateStart;
       } else {
         options_menu_state_ = kOptionsMenuStateMain;
       }
     } else if (menu_state_ == kMenuStateStart) {
       menu_state_ = kMenuStateQuit;
+    } else if (menu_state_ == kMenuStateScoreReview) {
+      menu_state_ = kMenuStateStart;
     }
   }
 
@@ -175,6 +179,16 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
         cos(fader_->GetOffset() * 0.5f * static_cast<float>(M_PI)));
     if (fader_->Finished()) {
       *next_state = kGameStateExit;
+    }
+  }
+
+  // If we are not transitioning to another state, check for received invites.
+  if (menu_state_ == kMenuStateStart && *next_state == kGameStateGameMenu) {
+    if (world_->invites_listener.has_pending_invite()) {
+      world_->invites_listener.HandlePendingInvite();
+      did_earn_unlockable_ =
+          world_->unlockables->UnlockRandom(&earned_unlockable_);
+      menu_state_ = kMenuStateReceivedInvite;
     }
   }
 }
@@ -217,6 +231,13 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
       // If leaving the score review page, clear the cached scores.
       if (menu_state_ != kMenuStateScoreReview) {
         ResetScore();
+      }
+      break;
+    case kMenuStateReceivedInvite:
+      menu_state_ =
+          ReceivedInviteMenu(*asset_manager_, *font_manager_, *input_system_);
+      if (menu_state_ != kMenuStateReceivedInvite) {
+        did_earn_unlockable_ = false;
       }
       break;
     case kMenuStateQuit: {

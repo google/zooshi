@@ -15,6 +15,7 @@
 #include "game.h"
 #include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
+#include "invites.h"
 #include "states/game_menu_state.h"
 #include "states/states_common.h"
 
@@ -145,6 +146,10 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       gpg_manager_->ToggleSignIn();
     }
 #endif
+    event = TextButton("Send Invite", kMenuSize, flatui::Margin(0));
+    if (event & flatui::kEventWentUp) {
+      SendInvite();
+    }
     event = TextButton("Options", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
       next_state = kMenuStateOptions;
@@ -352,6 +357,12 @@ void GameMenuState::OptionMenuMain() {
     }
   }
 #endif  // ANDROID_HMD
+
+  if (TextButton("Clear Cache", kButtonSize, flatui::Margin(2)) &
+      flatui::kEventWentUp) {
+    world_->unlockables->LockAll();
+    world_->invites_listener.Reset();
+  }
 }
 
 void GameMenuState::OptionMenuAbout() {
@@ -710,6 +721,59 @@ MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
   });
 
   PopDebugMarker();  // ScoreReviewMenu
+
+  return next_state;
+}
+
+MenuState GameMenuState::ReceivedInviteMenu(fplbase::AssetManager& assetman,
+                                            flatui::FontManager& fontman,
+                                            fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateReceivedInvite;
+
+  PushDebugMarker("ReceivedInviteMenu");
+
+  flatui::Run(assetman, fontman, input, [&]() {
+    flatui::StartGroup(flatui::kLayoutOverlay, 0);
+    flatui::StartGroup(flatui::kLayoutHorizontalTop, 0);
+    // Background image.
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
+    // Positioning the UI slightly above of the center.
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(0, -150));
+    flatui::Image(*background_options_, 1400);
+    flatui::EndGroup();
+
+    // Display the game end values, along with the score.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+    flatui::Label("Thanks for trying Zooshi!", kButtonSize);
+    if (did_earn_unlockable_) {
+      const int kBufferSize = 64;
+      char buffer[kBufferSize];
+      snprintf(buffer, kBufferSize, "%s unlocked!",
+               earned_unlockable_.config->name()->c_str());
+      flatui::Label(buffer, kScoreTextSize);
+    }
+    flatui::EndGroup();
+
+    flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
+                          mathfu::vec2(0, -125));
+    flatui::SetTextColor(kColorLightBrown);
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      flatui::Margin(60, 35, 40, 50), "Back");
+    if (event & flatui::kEventWentUp) {
+      next_state = kMenuStateStart;
+    }
+    flatui::EndGroup();
+
+    flatui::EndGroup();
+    flatui::EndGroup();
+  });
+
+  PopDebugMarker();  // ReceivedInviteMenu
 
   return next_state;
 }
