@@ -108,7 +108,7 @@ void WorldRenderer::CreateShadowMap(const corgi::CameraInterface &camera,
       vec2(shadow_map_resolution, shadow_map_resolution));
   vec3 light_camera_focus =
       camera.position() + camera.facing() * shadow_map_offset;
-  light_camera_focus.z() = 0;
+  light_camera_focus.z = 0;
   vec3 light_facing = light_camera_focus - light_camera_.position();
   light_camera_.set_facing(light_facing.Normalized());
 

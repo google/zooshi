@@ -308,16 +308,16 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
       const vec2 off = offsets[j];
       const vec3 vertex =
           track_position +
-          (off.x() + river_width * (left_bank ? -1 : 1)) * track_normal +
-          off.y() * kAxisZ3f;
+          (off.x + river_width * (left_bank ? -1 : 1)) * track_normal +
+          off.y * kAxisZ3f;
       // The texture is stretched from the side of the river to the far end
       // of the bank. There are two banks, however, separated by the river.
       // We need to know the width of the bank to caluate the `texture_u`
       // coordinate.
       const size_t bank_start = left_bank ? 0 : num_bank_contours - 1;
       const size_t bank_end = left_bank ? river_idx : river_idx + 1;
-      const float bank_width = offsets[bank_start].x() - offsets[bank_end].x();
-      const float texture_u = (off.x() - offsets[bank_end].x()) / bank_width;
+      const float bank_width = offsets[bank_start].x - offsets[bank_end].x;
+      const float texture_u = (off.x - offsets[bank_end].x) / bank_width;
 
       bank_verts.push_back(NormalMappedColorVertex());
       bank_verts.back().pos = vec3_packed(vertex);

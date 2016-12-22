@@ -88,8 +88,8 @@ void LoadingState::AdvanceFrame(int delta_time, int* next_state) {
   const fplbase::HeadMountedDisplayInput& head_mounted_display_input =
     input_system_->head_mounted_display_input();
   const vec3 hmd_forward = head_mounted_display_input.forward();
-  const vec2 forward = vec2(hmd_forward.x(), -hmd_forward.z()).Normalized();
-  const float rotation = atan2(forward.x(), forward.y());
+  const vec2 forward = vec2(hmd_forward.x, -hmd_forward.z).Normalized();
+  const float rotation = atan2(forward.x, forward.y);
   // Rate of convergence (angle moved = 0.5 * convergence * time) to the
   // target rotation angle.
   static const float kConvergenceRate = 2.0f;
@@ -121,7 +121,7 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
   }
 
   const vec2 res(renderer->window_size());
-  const float aspect_ratio = res.x() / res.y();
+  const float aspect_ratio = res.x / res.y;
   if (world_->is_in_cardboard()) {
 #if ANDROID_HMD
     fplbase::Shader *shader_textured = shader_textured_;
@@ -143,14 +143,14 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
       loading_material->Set(*renderer);
       shader_textured->Set(*renderer);
       auto vp = view_settings.viewport_extents[i];
-      glViewport(vp.x(), vp.y(), vp.z(), vp.w());
+      glViewport(vp.x, vp.y, vp.z, vp.w);
 
       // Render the loading banner floating in front of the viewer.
       const vec2 size = vec2(texture->size()).Normalized() * 50.0f;
       // Place the banner just in front and behind the camera.
       static const float kDistance = -120.0f;
-      const vec3 bottom_left(-size.x(), size.y(), kDistance);
-      const vec3 top_right(size.x(), -size.y(), kDistance);
+      const vec3 bottom_left(-size.x, size.y, kDistance);
+      const vec3 top_right(size.x, -size.y, kDistance);
       fplbase::Mesh::RenderAAQuadAlongX(bottom_left, top_right);
     }
     HeadMountedDisplayRenderEnd(renderer, true);
@@ -176,15 +176,15 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
     // Only scale the image by 2, 1, or 0.5 so that it remains crisp.
     // We assume the loading texture is square and that the screen is wider
     // than it is high, so only check height.
-    const int window_y = renderer->window_size().y();
-    const int image_y = texture->original_size().y();
+    const int window_y = renderer->window_size().y;
+    const int image_y = texture->original_size().y;
     const float scale = image_y * 2 <= window_y ? 2.0f :
                         image_y > window_y ? 0.5f : 1.0f;
 
     // Render the overlay in front on the screen.
-    const vec2 size = scale * vec2(texture->size()) / res.y();
-    const vec3 bottom_left(-size.x(), size.y(), 0.0f);
-    const vec3 top_right(size.x(), -size.y(), 0.0f);
+    const vec2 size = scale * vec2(texture->size()) / res.y;
+    const vec3 bottom_left(-size.x, size.y, 0.0f);
+    const vec3 top_right(size.x, -size.y, 0.0f);
     fplbase::Mesh::RenderAAQuadAlongX(bottom_left, top_right);
   }
 

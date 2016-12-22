@@ -304,7 +304,7 @@ void SceneryComponent::FaceRaft(const corgi::EntityRef& scenery) {
   SceneryData* scenery_data = Data<SceneryData>(scenery);
 
   const motive::Angle face_angle(
-    scenery_transform->orientation.ToEulerAngles().z());
+    scenery_transform->orientation.ToEulerAngles().z);
   const motive::Angle to_raft(
     motive::Angle::FromYXVector(raft_position - scenery_transform->position));
 

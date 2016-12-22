@@ -128,10 +128,10 @@ void OnscreenControllerUI::Update(fplbase::AssetManager* asset_manager,
             } else {
               // Clamp the location of the pointer within the bounds of the
               // control.
-              pointer_position = vec2(mathfu::Clamp(pointer_position.x(),
-                                                    location->x(), extent.x()),
-                                      mathfu::Clamp(pointer_position.y(),
-                                                    location->y(), extent.y()));
+              pointer_position = vec2(mathfu::Clamp(pointer_position.x,
+                                                    location->x, extent.x),
+                                      mathfu::Clamp(pointer_position.y,
+                                                    location->y, extent.y));
 
               // Calculate position of the pointer relative to the middle of
               // the control (the direction vector scaled -1.0 .. 1.0 in
@@ -146,10 +146,10 @@ void OnscreenControllerUI::Update(fplbase::AssetManager* asset_manager,
             // controls are inverted, i.e
             // x positive = left, x negative = right,
             // y positive = up, y negative = down.
-            delta->x() = CalculateDelta(direction.x(), kDeadZoneTolerance.x(),
-                                        kSensitivity.x());
-            delta->y() = CalculateDelta(direction.y(), kDeadZoneTolerance.y(),
-                                        kSensitivity.y());
+            delta->x = CalculateDelta(direction.x, kDeadZoneTolerance.x,
+                                      kSensitivity.x);
+            delta->y = CalculateDelta(direction.y, kDeadZoneTolerance.y,
+                                      kSensitivity.y);
           } else if (event & flatui::kEventEndDrag) {
             *visible = false;
             *location = mathfu::kZeros2f;

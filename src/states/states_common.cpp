@@ -35,14 +35,14 @@ static const float kGearSize = 72.0f;
 static vec3 CorrectTransform(const mat4& mat) {
   vec3 hmd_translation = (mat * mathfu::kAxisW4f * mat).xyz();
   vec3 corrected_translation =
-      vec3(hmd_translation.x(), -hmd_translation.z(), hmd_translation.y());
+      vec3(hmd_translation.x, -hmd_translation.z, hmd_translation.y);
   return corrected_translation;
 }
 
 static void RenderSettingsGear(fplbase::Renderer& renderer, World* world) {
   vec2i res = renderer.window_size();
   renderer.set_model_view_projection(mathfu::mat4::Ortho(
-      0.0f, static_cast<float>(res.x()), static_cast<float>(res.y()), 0.0f,
+      0.0f, static_cast<float>(res.x), static_cast<float>(res.y), 0.0f,
       -1.0f, 1.0f));
   renderer.set_color(mathfu::kOnes4f);
   auto shader = world->asset_manager->LoadShader("shaders/textured");
@@ -50,8 +50,8 @@ static void RenderSettingsGear(fplbase::Renderer& renderer, World* world) {
   shader->Set(renderer);
 
   fplbase::Mesh::RenderAAQuadAlongX(
-      vec3((res.x() - kGearSize) / 2.0f, res.y() - kGearSize, 0.0f),
-      vec3((res.x() + kGearSize) / 2.0f, res.y(), 0.0f));
+      vec3((res.x - kGearSize) / 2.0f, res.y - kGearSize, 0.0f),
+      vec3((res.x + kGearSize) / 2.0f, res.y, 0.0f));
 }
 #endif  // ANDROID_HMD
 
@@ -104,7 +104,7 @@ void RenderWorld(fplbase::Renderer& renderer, World* world, Camera& camera,
   vec2 window_size = vec2(renderer.window_size());
   world->river_component.UpdateRiverMeshes();
   if (world->is_in_cardboard()) {
-    window_size.x() = window_size.x() / 2;
+    window_size.x = window_size.x / 2;
     cardboard_camera->set_viewport_resolution(window_size);
   }
   camera.set_viewport_resolution(window_size);

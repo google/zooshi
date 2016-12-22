@@ -63,7 +63,7 @@ static const float kHeightRangeBuffer = 0.05f;
 
 static inline vec3 ZeroHeight(const vec3& v) {
   vec3 v_copy = v;
-  v_copy.z() = 0.0f;
+  v_copy.z = 0.0f;
   return v_copy;
 }
 
@@ -376,7 +376,7 @@ void PatronComponent::FaceRaft(const corgi::EntityRef& patron) {
   const TransformData* transform_data = Data<TransformData>(patron);
   const motive::Angle to_raft(
       motive::Angle::FromYXVector(raft - transform_data->position));
-  const motive::Angle face(transform_data->orientation.ToEulerAngles().z());
+  const motive::Angle face(transform_data->orientation.ToEulerAngles().z);
   const motive::Angle error(to_raft - face);
   PatronData* patron_data = Data<PatronData>(patron);
   if (error.Abs() > patron_data->max_face_angle_away_from_raft) {
@@ -758,8 +758,8 @@ motive::Range PatronComponent::TargetHeightRange(
                         &target_max);
 
   // Return the heights.
-  return motive::Range(target_min.z() + kHeightRangeBuffer,
-                       target_max.z() - kHeightRangeBuffer);
+  return motive::Range(target_min.z + kHeightRangeBuffer,
+                       target_max.z - kHeightRangeBuffer);
 }
 
 bool PatronComponent::RaftExists() const {
@@ -846,7 +846,7 @@ const EntityRef* PatronComponent::ClosestProjectile(
     // Get the closest time at a catchable height.
     const float closest_t = CalculateClosestTimeInHeightRange(
         closest_t_ignore_height, patron_data->catch_time_for_search,
-        target_height_range, projectile_position.z(), projectile_velocity.z(),
+        target_height_range, projectile_position.z, projectile_velocity.z,
         physics_component->GravityForEntity(it->entity));
     if (!patron_data->catch_time_for_search.Contains(closest_t)) continue;
 
@@ -888,7 +888,7 @@ const EntityRef* PatronComponent::ClosestProjectile(
     const vec3 direction =
         (closest_position_xy - return_position_xy).Normalized();
     *closest_position = return_position_xy + clamped_dist * direction;
-    closest_position->z() = patron_transform->position.z();
+    closest_position->z = patron_transform->position.z;
   }
   return closest_ref;
 }
@@ -929,7 +929,7 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   PatronData* patron_data = Data<PatronData>(patron);
   const vec3 position = patron_transform->position;
   const motive::Angle face_angle(
-      patron_transform->orientation.ToEulerAngles().z());
+      patron_transform->orientation.ToEulerAngles().z);
 
   // At `target_time` we want to achieve these deltas so that our position and
   // face angle with equal `target_position` and `target_face_angle`.
@@ -989,7 +989,7 @@ motive::Angle PatronComponent::ReturnAngle(
   if (rail_denizen_data != nullptr) {
     // Patron moves on rails, so rotate towards rail orientation.
     return motive::Angle(
-        rail_denizen_data->rail_orientation.ToEulerAngles().z());
+        rail_denizen_data->rail_orientation.ToEulerAngles().z);
   } else {
     // Rotate towards previous idle position.
     const vec3 raft_position = RaftPosition();

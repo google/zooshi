@@ -145,8 +145,8 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
       // but rotation on the XY plane should happen in world space. So we need
       // to separate the two rotations from each other to accomplish this.
       vec3 world_direction = motivator.Direction();
-      const float z_length = world_direction.z();
-      world_direction.z() = 0.0f;
+      const float z_length = world_direction.z;
+      world_direction.z = 0.0f;
       const float xy_length = world_direction.Length();
       float z_angle(atan2f(z_length, xy_length));
       if (z_angle < -M_PI) {
@@ -273,14 +273,14 @@ corgi::ComponentInterface::RawDataUniquePtr RailDenizenComponent::ExportRawData(
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  fplbase::Vec3 rail_offset(data->internal_rail_offset.x(),
-                            data->internal_rail_offset.y(),
-                            data->internal_rail_offset.z());
+  fplbase::Vec3 rail_offset(data->internal_rail_offset.x,
+                            data->internal_rail_offset.y,
+                            data->internal_rail_offset.z);
   mathfu::vec3 euler = data->internal_rail_orientation.ToEulerAngles();
-  fplbase::Vec3 rail_orientation(euler.x(), euler.y(), euler.z());
-  fplbase::Vec3 rail_scale(data->internal_rail_scale.x(),
-                           data->internal_rail_scale.y(),
-                           data->internal_rail_scale.z());
+  fplbase::Vec3 rail_orientation(euler.x, euler.y, euler.z);
+  fplbase::Vec3 rail_scale(data->internal_rail_scale.x,
+                           data->internal_rail_scale.y,
+                           data->internal_rail_scale.z);
 
   auto rail_name =
       data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;

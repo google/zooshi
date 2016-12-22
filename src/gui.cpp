@@ -370,22 +370,22 @@ void GameMenuState::OptionMenuAbout() {
   flatui::SetMargin(flatui::Margin(50, 0, 0, 0));
   flatui::StartGroup(flatui::kLayoutVerticalCenter, 0, "scroll");
   flatui::StartScroll(kScrollAreaSize, &scroll_offset_);
-  flatui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x(), 0));
+  flatui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x, 0));
   vec2 scroll_size = flatui::GroupSize();
   flatui::EndScroll();
   flatui::EndGroup();
 
   // Normalize the scroll offset to use for the scroll bar value.
-  auto scroll_height = (scroll_size.y() - kScrollAreaSize.y());
+  auto scroll_height = (scroll_size.y - kScrollAreaSize.y);
   if (scroll_height > 0) {
-    auto scrollbar_value = scroll_offset_.y() / scroll_height;
+    auto scrollbar_value = scroll_offset_.y / scroll_height;
     flatui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
-                   vec2(35, kScrollAreaSize.y()),
-                   kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
+                   vec2(35, kScrollAreaSize.y),
+                   kScrollAreaSize.y / scroll_size.y, "LicenseScrollBar",
                    &scrollbar_value);
 
     // Convert back the scroll bar value to the scroll offset.
-    scroll_offset_.y() = scrollbar_value * scroll_height;
+    scroll_offset_.y = scrollbar_value * scroll_height;
   }
 
   flatui::EndGroup();
@@ -412,22 +412,22 @@ void GameMenuState::OptionMenuLicenses() {
   auto event = flatui::CheckEvent(true);
   if (!flatui::IsLastEventPointerType())
     flatui::EventBackground(event);
-  flatui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x(), 0));
+  flatui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x, 0));
   vec2 scroll_size = flatui::GroupSize();
   flatui::EndScroll();
   flatui::EndGroup();
 
   // Normalize the scroll offset to use for the scroll bar value.
-  auto scroll_height = (scroll_size.y() - kScrollAreaSize.y());
+  auto scroll_height = (scroll_size.y - kScrollAreaSize.y);
   if (scroll_height > 0) {
-    auto scrollbar_value = scroll_offset_.y() / scroll_height;
+    auto scrollbar_value = scroll_offset_.y / scroll_height;
     flatui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
-                   vec2(35, kScrollAreaSize.y()),
-                   kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
+                   vec2(35, kScrollAreaSize.y),
+                   kScrollAreaSize.y / scroll_size.y, "LicenseScrollBar",
                    &scrollbar_value);
 
     // Convert back the scroll bar value to the scroll offset.
-    scroll_offset_.y() = scrollbar_value * scroll_height;
+    scroll_offset_.y = scrollbar_value * scroll_height;
   }
 
   flatui::EndGroup();

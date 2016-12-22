@@ -158,7 +158,7 @@ mathfu::vec3 PlayerComponent::CalculateProjectileDirection(
   // Use the last position from the controller to determine the offset and
   // direction of the projectile. In Cardboard mode this should be ignored,
   // as we always want to fire down the center.
-  if (player_data->input_controller()->last_position().x() >= 0 &&
+  if (player_data->input_controller()->last_position().x >= 0 &&
       camera != nullptr &&
       !entity_manager_->GetComponent<ServicesComponent>()
            ->world()
@@ -171,13 +171,13 @@ mathfu::vec3 PlayerComponent::CalculateProjectileDirection(
     // We do this by projecting it onto a plane in front of the camera, based
     // on the viewport angle and resolution.
     float fov_y_tan = 2.0f * tan(camera->viewport_angle() * 0.5f);
-    float fov_x_tan = fov_y_tan * camera->viewport_resolution().x() /
-                      camera->viewport_resolution().y();
+    float fov_x_tan = fov_y_tan * camera->viewport_resolution().x /
+                      camera->viewport_resolution().y;
     const mathfu::vec2 fov_tan(fov_x_tan, -fov_y_tan);
     const mathfu::vec2 touch(player_data->input_controller()->last_position());
     const mathfu::vec2 offset = fov_tan * (touch / screen_size - 0.5f);
 
-    auto far_vec = camera->up() * offset.y() + camera->Right() * offset.x();
+    auto far_vec = camera->up() * offset.y + camera->Right() * offset.x;
     forward = (forward + far_vec).Normalized();
   }
 

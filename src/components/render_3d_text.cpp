@@ -75,7 +75,7 @@ const mat4 Render3dTextComponent::CalculateModelViewProjection(
   const vec2i window_size =
       services_->asset_manager()->renderer().window_size();
   const float aspect_ratio =
-      static_cast<float>(window_size.x()) / static_cast<float>(window_size.y());
+      static_cast<float>(window_size.x) / static_cast<float>(window_size.y);
 
   // Calculate the animation transform.
   const mat4 anim_transform =
@@ -133,8 +133,8 @@ void Render3dTextComponent::Render(const EntityRef& entity,
                   const vec2i window_size =
                       services_->asset_manager()->renderer().window_size();
                   const float aspect_ratio =
-                      static_cast<float>(window_size.x()) /
-                      static_cast<float>(window_size.y());
+                      static_cast<float>(window_size.x) /
+                      static_cast<float>(window_size.y);
 
                   flatui::SetDepthTest(true);
                   flatui::UseExistingProjection(

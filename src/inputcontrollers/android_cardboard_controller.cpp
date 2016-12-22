@@ -42,9 +42,9 @@ void AndroidCardboardController::UpdateOrientation() {
   const fplbase::HeadMountedDisplayInput& head_mounted_display_input =
     input_system_->head_mounted_display_input();
   const vec3 hmd_forward = head_mounted_display_input.forward();
-  const vec3 forward = vec3(hmd_forward.x(), -hmd_forward.z(), hmd_forward.y());
+  const vec3 forward = vec3(hmd_forward.x, -hmd_forward.z, hmd_forward.y);
   const vec3 hmd_up = head_mounted_display_input.up();
-  const vec3 up = vec3(hmd_up.x(), -hmd_up.z(), hmd_up.y());
+  const vec3 up = vec3(hmd_up.x, -hmd_up.z, hmd_up.y);
   facing_.SetValue(forward);
   up_.SetValue(up);
 #endif  // ANDROID_HMD

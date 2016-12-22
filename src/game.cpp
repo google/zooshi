@@ -177,8 +177,8 @@ bool Game::InitializeRenderer() {
   auto retry = fplbase::LoadPreference("HWScalerRetry", 0);
   const auto kMaxRetry = 3;
   auto current_window_size = fplbase::AndroidGetScalerResolution();
-  if (current_window_size.x() != window_size.x() ||
-      current_window_size.y() != window_size.y()) {
+  if (current_window_size.x != window_size.x ||
+      current_window_size.y != window_size.y) {
     if (retry < kMaxRetry) {
       LogError("Restarting application.");
       fplbase::SavePreference("HWScalerRetry", retry + 1);
@@ -200,8 +200,8 @@ bool Game::InitializeRenderer() {
 #ifdef ANDROID_HMD
   vec2i size = fplbase::AndroidGetScalerResolution();
   const vec2i viewport_size =
-      size.x() && size.y() ? size : renderer_.window_size();
-  fplbase::InitializeUndistortFramebuffer(viewport_size.x(), viewport_size.y());
+      size.x && size.y ? size : renderer_.window_size();
+  fplbase::InitializeUndistortFramebuffer(viewport_size.x, viewport_size.y);
 #endif  // ANDROID_HMD
 
 #if ZOOSHI_OVERDRAW_DEBUG

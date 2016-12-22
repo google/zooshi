@@ -45,7 +45,7 @@ Camera::Camera()
 mathfu::mat4 Camera::GetTransformMatrix(int32_t index) const {
   assert(index < (stereo_ ? 2 : 1));
   mat4 perspective_matrix_ = mat4::Perspective(
-      viewport_angle_, viewport_resolution_.x() / viewport_resolution_.y(),
+      viewport_angle_, viewport_resolution_.x / viewport_resolution_.y,
       viewport_near_plane_, viewport_far_plane_, 1.0f);
 
   // Subtract the facing vector because we need to be right handed.

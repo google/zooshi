@@ -61,8 +61,8 @@ void ShadowControllerComponent::UpdateAllEntities(
         Data<TransformData>(shadow_data->shadow_caster);
 
     transform_data->position =
-        mathfu::vec3(parent_transform_data->position.x(),
-                     parent_transform_data->position.y(), kShadowHeight);
+        mathfu::vec3(parent_transform_data->position.x,
+                     parent_transform_data->position.y, kShadowHeight);
   }
 }
 
