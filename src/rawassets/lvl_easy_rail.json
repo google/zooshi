@@ -5,6 +5,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
+            "entity_id": "$7b62-28d4-c84c-4414",
             "prototype": "RailNode"
           }
         },
@@ -12,7 +13,7 @@
           "data_type": "RailNodeDef",
           "data": {
             "rail_name": "player_path",
-            "total_time": 5000,
+            "total_time": 18750,
             "reliable_distance": 1,
             "wraps": false
           }
@@ -21,7 +22,7 @@
           "data_type": "corgi_TransformDef",
           "data": {
             "position": {
-              "x": 0,
+              "x": -80,
               "y": 50,
               "z": 2
             },
@@ -44,6 +45,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
+            "entity_id": "$b6be-707b-6b89-2cd9",
             "prototype": "RailNode"
           }
         },
@@ -58,8 +60,426 @@
           "data_type": "corgi_TransformDef",
           "data": {
             "position": {
-              "x": 150,
+              "x": -55,
               "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$95cb-da1b-4688-a9d6",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 2,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -35,
+              "y": 55,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$0968-ae51-adbc-aa75",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 3,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -25,
+              "y": 60,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$041e-03a5-93d5-dcce",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 4,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -15,
+              "y": 70,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$7382-3d3d-b0b7-b4db",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 5,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 80,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$80b9-37ed-bd39-a192",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 6,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 15,
+              "y": 85,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$4248-187d-9355-7321",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 7,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 25,
+              "y": 85,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$3eb7-6a52-99c4-a770",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 8,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 40,
+              "y": 80,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$ac8b-6090-406c-48e8",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 9,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 50,
+              "y": 70,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$7a0e-6620-004a-7bb2",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 10,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 60,
+              "y": 50,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$85e0-580a-968d-0768",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 11,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 60,
+              "y": 30,
+              "z": 2
+            },
+            "scale": {
+              "x": 20,
+              "y": 20,
+              "z": 20
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$2788-da8e-ad93-a664",
+            "prototype": "RailNode"
+          }
+        },
+        {
+          "data_type": "RailNodeDef",
+          "data": {
+            "ordering": 12,
+            "rail_name": "player_path"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 60,
+              "y": 10,
               "z": 2
             },
             "scale": {

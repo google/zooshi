@@ -3,8 +3,10 @@
     {
       "component_list": [
         {
-          "data_type": "corgi_GraphDef",
+          "data_type": "RailDenizenDef",
           "data": {
+            "rail_name": "player_path",
+            "lap_end": 0.9
           }
         },
         {
@@ -17,34 +19,10 @@
         {
           "data_type": "corgi_TransformDef",
           "data": {
-            "position": {
-              "x": -0.001575,
-              "y": 49.998959,
-              "z": 2
-            },
-            "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "orientation": {
-              "x": 0,
-              "y": -0,
-              "z": 90
-            },
             "child_ids": [
               "ActivePlayer",
-              "Raft"
+              "Raft_Signless"
             ]
-          }
-        },
-        {
-          "data_type": "RailDenizenDef",
-          "data" : {
-            "start_time": 0,
-            "rail_name" : "player_path",
-            "orientation_convergence_rate": 3,
-            "lap_end": 0.9
           }
         }
       ]
@@ -90,9 +68,9 @@
           "data_type": "corgi_TransformDef",
           "data": {
             "position": {
-              "x": 18.766514,
-              "y": 52.926945,
-              "z": 0.0011
+              "x": -61,
+              "y": 50,
+              "z": 0
             },
             "scale": {
               "x": 1.656012,
@@ -102,7 +80,7 @@
             "orientation": {
               "x": 0,
               "y": 0,
-              "z": -99.90007
+              "z": -90
             },
             "child_ids": [
               "Gate_RenderMesh"

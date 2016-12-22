@@ -92,8 +92,9 @@ void RiverComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   corgi::EntityRef raft_entity = services->raft_entity();
   RailDenizenData* rd_raft_data = Data<RailDenizenData>(raft_entity);
   float speed = rd_raft_data->PlaybackRate();
-  speed += services->config()->river_config()->speed_boost();
-  float texture_repeats = services->config()->river_config()->texture_repeats();
+  speed += services->world()->CurrentLevel()->river_config()->speed_boost();
+  float texture_repeats =
+      services->world()->CurrentLevel()->river_config()->texture_repeats();
   river_offset_ += speed / (texture_repeats * texture_repeats);
   river_offset_ -= floor(river_offset_);
 }
@@ -151,7 +152,8 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
       fplbase::kTangent4f,  fplbase::kColor4ub,   fplbase::kEND};
   std::vector<vec3_packed> track;
   const RiverConfig* river = entity_manager_->GetComponent<ServicesComponent>()
-                                 ->config()
+                                 ->world()
+                                 ->CurrentLevel()
                                  ->river_config();
 
   RiverData* river_data = Data<RiverData>(entity);
