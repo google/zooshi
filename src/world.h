@@ -52,6 +52,7 @@
 #include "inputcontrollers/base_player_controller.h"
 #include "inputcontrollers/gamepad_controller.h"
 #include "inputcontrollers/onscreen_controller.h"
+#include "invites.h"
 #include "railmanager.h"
 #include "scene_lab/corgi/corgi_adapter.h"
 #include "scene_lab/corgi/edit_options.h"
@@ -164,6 +165,7 @@ struct World {
 #endif  // ANDROID_HMD
 
   firebase::App* firebase_app;
+  InvitesListener invites_listener;
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,

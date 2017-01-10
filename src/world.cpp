@@ -19,6 +19,7 @@
 #include "config_generated.h"
 #include "corgi_component_library/default_entity_factory.h"
 #include "firebase/analytics.h"
+#include "firebase/invites.h"
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/render_target.h"
@@ -196,6 +197,8 @@ void World::Initialize(
   firebase_app = firebase::App::Create(firebase::AppOptions());
 #endif
   firebase::analytics::Initialize(*firebase_app);
+  firebase::invites::Initialize(*firebase_app);
+  firebase::invites::SetListener(&invites_listener);
 }
 
 void World::AddController(BasePlayerController* controller) {

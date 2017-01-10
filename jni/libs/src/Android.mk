@@ -65,6 +65,11 @@ LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libanalytics.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := libfirebase_invites
+LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libinvites.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
 LOCAL_ARM_MODE := arm
@@ -117,6 +122,7 @@ LOCAL_SRC_FILES := \
   src/inputcontrollers/android_cardboard_controller.cpp \
   src/inputcontrollers/gamepad_controller.cpp \
   src/inputcontrollers/onscreen_controller.cpp \
+  src/invites.cpp \
   src/main.cpp \
   src/modules/attributes.cpp \
   src/modules/gpg.cpp \
@@ -214,6 +220,7 @@ LOCAL_STATIC_LIBRARIES := \
   libflatbuffers_extra \
   libbullet \
   libfirebase_analytics \
+  libfirebase_invites \
   libfirebase_app
 
 LOCAL_SHARED_LIBRARIES :=

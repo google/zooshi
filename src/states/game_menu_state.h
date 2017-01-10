@@ -43,6 +43,7 @@ enum MenuState {
   kMenuStateCardboard,
   kMenuStateGamepad,
   kMenuStateScoreReview,
+  kMenuStateReceivedInvite,
   kMenuStateQuit,
 };
 
@@ -119,6 +120,9 @@ class GameMenuState : public StateNode {
   MenuState ScoreReviewMenu(fplbase::AssetManager& assetman,
                             flatui::FontManager& fontman,
                             fplbase::InputSystem& input);
+  MenuState ReceivedInviteMenu(fplbase::AssetManager& assetman,
+                               flatui::FontManager& fontman,
+                               fplbase::InputSystem& input);
 
   // Instance a text button that plays a sound when selected.
   flatui::Event TextButton(const char* text, float size,

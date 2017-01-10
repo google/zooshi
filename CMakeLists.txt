@@ -354,6 +354,9 @@ set_target_properties(firebase_app PROPERTIES
 add_library(firebase_analytics STATIC IMPORTED)
 set_target_properties(firebase_analytics PROPERTIES
     IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libanalytics.a)
+add_library(firebase_invites STATIC IMPORTED)
+set_target_properties(firebase_invites PROPERTIES
+    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libinvites.a)
 
 # Dependencies for the executable target.
 add_dependencies(zooshi zooshi_generated_includes assets)
@@ -369,6 +372,7 @@ target_link_libraries(zooshi
   flatbuffers
   pindrop
   firebase_analytics
+  firebase_invites
   firebase_app
 )
 
