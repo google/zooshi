@@ -73,6 +73,7 @@ dependencies {
   compile 'com.google.android.gms:play-services-base:10.0.1'
   compile 'com.google.android.gms:play-services-games:10.0.1'
   compile 'com.google.firebase:firebase-invites:10.0.1'
+  compile 'com.google.firebase:firebase-messaging:10.0.1'
   compile 'com.android.support:support-v4:23.0+'
 }
 
@@ -91,4 +92,9 @@ task copyFplbase(type: Copy) {
 project.afterEvaluate {
   preBuild.dependsOn(copyCardboard)
   preBuild.dependsOn(copyFplbase)
+}
+
+dependencies {
+  // TODO(amaurice) Make this inclusion more generic, as it currently assumes the internal layout.
+  compile files(new File('../../../../prebuilts/cpp-firebase/firebase_cpp_sdk/libs/android/libmessaging_java.jar'))
 }

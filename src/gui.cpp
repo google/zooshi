@@ -637,13 +637,9 @@ void GameMenuState::OptionMenuLevel() {
   flatui::EndGroup();
 }
 
-MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
-                                         flatui::FontManager& fontman,
-                                         fplbase::InputSystem& input) {
-  MenuState next_state = kMenuStateScoreReview;
-
-  PushDebugMarker("ScoreReviewMenu");
-
+void GameMenuState::EmptyMenuBackground(
+    fplbase::AssetManager& assetman, flatui::FontManager& fontman,
+    fplbase::InputSystem& input, const std::function<void()>& gui_definition) {
   flatui::Run(assetman, fontman, input, [&]() {
     flatui::StartGroup(flatui::kLayoutOverlay, 0);
     flatui::StartGroup(flatui::kLayoutHorizontalTop, 0);
@@ -655,6 +651,32 @@ MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
     flatui::Image(*background_options_, 1400);
     flatui::EndGroup();
 
+    gui_definition();
+
+    flatui::EndGroup();
+    flatui::EndGroup();
+  });
+}
+
+bool GameMenuState::DisplayMessageBackButton() {
+  flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
+                        mathfu::vec2(0, -125));
+  flatui::SetTextColor(kColorLightBrown);
+  auto event = ImageButtonWithLabel(*button_back_, 60,
+                                    flatui::Margin(60, 35, 40, 50), "Back");
+  flatui::EndGroup();
+  return event & flatui::kEventWentUp;
+}
+
+MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
+                                         flatui::FontManager& fontman,
+                                         fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateScoreReview;
+
+  PushDebugMarker("ScoreReviewMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
     // Display the game end values, along with the score.
     flatui::SetTextColor(kColorBrown);
     flatui::StartGroup(flatui::kLayoutVerticalRight, 10);
@@ -715,9 +737,6 @@ MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
       next_state = kMenuStateFinished;
     }
     flatui::EndGroup();
-
-    flatui::EndGroup();
-    flatui::EndGroup();
   });
 
   PopDebugMarker();  // ScoreReviewMenu
@@ -732,18 +751,8 @@ MenuState GameMenuState::ReceivedInviteMenu(fplbase::AssetManager& assetman,
 
   PushDebugMarker("ReceivedInviteMenu");
 
-  flatui::Run(assetman, fontman, input, [&]() {
-    flatui::StartGroup(flatui::kLayoutOverlay, 0);
-    flatui::StartGroup(flatui::kLayoutHorizontalTop, 0);
-    // Background image.
-    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
-    // Positioning the UI slightly above of the center.
-    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
-                          mathfu::vec2(0, -150));
-    flatui::Image(*background_options_, 1400);
-    flatui::EndGroup();
-
-    // Display the game end values, along with the score.
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    // Display a message indicating an invite was received.
     flatui::SetTextColor(kColorBrown);
     flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
@@ -758,22 +767,38 @@ MenuState GameMenuState::ReceivedInviteMenu(fplbase::AssetManager& assetman,
     }
     flatui::EndGroup();
 
-    flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);
-    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
-                          mathfu::vec2(0, -125));
-    flatui::SetTextColor(kColorLightBrown);
-    auto event = ImageButtonWithLabel(*button_back_, 60,
-                                      flatui::Margin(60, 35, 40, 50), "Back");
-    if (event & flatui::kEventWentUp) {
+    if (DisplayMessageBackButton()) {
       next_state = kMenuStateStart;
     }
-    flatui::EndGroup();
-
-    flatui::EndGroup();
-    flatui::EndGroup();
   });
 
   PopDebugMarker();  // ReceivedInviteMenu
+
+  return next_state;
+}
+
+MenuState GameMenuState::ReceivedMessageMenu(fplbase::AssetManager& assetman,
+                                             flatui::FontManager& fontman,
+                                             fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateReceivedMessage;
+
+  PushDebugMarker("ReceivedMessageMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    // Display the message that was received.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+    flatui::Label(received_message_.c_str(), kButtonSize);
+    flatui::EndGroup();
+
+    if (DisplayMessageBackButton()) {
+      next_state = kMenuStateStart;
+    }
+  });
+
+  PopDebugMarker();  // ReceivedMessageMenu
 
   return next_state;
 }

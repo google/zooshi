@@ -222,7 +222,11 @@ set(zooshi_SRCS
     src/inputcontrollers/onscreen_controller.h
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
+    src/invites.cpp
+    src/invites.h
     src/main.cpp
+    src/messaging.cpp
+    src/messaging.h
     src/modules/attributes.cpp
     src/modules/attributes.h
     src/modules/gpg.cpp
@@ -357,6 +361,9 @@ set_target_properties(firebase_analytics PROPERTIES
 add_library(firebase_invites STATIC IMPORTED)
 set_target_properties(firebase_invites PROPERTIES
     IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libinvites.a)
+add_library(firebase_messaging STATIC IMPORTED)
+set_target_properties(firebase_messaging PROPERTIES
+    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libmessaging.a)
 
 # Dependencies for the executable target.
 add_dependencies(zooshi zooshi_generated_includes assets)
@@ -373,6 +380,7 @@ target_link_libraries(zooshi
   pindrop
   firebase_analytics
   firebase_invites
+  firebase_messaging
   firebase_app
 )
 

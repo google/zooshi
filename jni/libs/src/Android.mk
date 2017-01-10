@@ -70,6 +70,11 @@ LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libinvites.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := libfirebase_messaging
+LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libmessaging.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
 LOCAL_ARM_MODE := arm
@@ -124,6 +129,7 @@ LOCAL_SRC_FILES := \
   src/inputcontrollers/onscreen_controller.cpp \
   src/invites.cpp \
   src/main.cpp \
+  src/messaging.cpp \
   src/modules/attributes.cpp \
   src/modules/gpg.cpp \
   src/modules/patron.cpp \
@@ -221,6 +227,7 @@ LOCAL_STATIC_LIBRARIES := \
   libbullet \
   libfirebase_analytics \
   libfirebase_invites \
+  libfirebase_messaging \
   libfirebase_app
 
 LOCAL_SHARED_LIBRARIES :=

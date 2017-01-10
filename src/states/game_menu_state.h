@@ -44,6 +44,7 @@ enum MenuState {
   kMenuStateGamepad,
   kMenuStateScoreReview,
   kMenuStateReceivedInvite,
+  kMenuStateReceivedMessage,
   kMenuStateQuit,
 };
 
@@ -123,6 +124,9 @@ class GameMenuState : public StateNode {
   MenuState ReceivedInviteMenu(fplbase::AssetManager& assetman,
                                flatui::FontManager& fontman,
                                fplbase::InputSystem& input);
+  MenuState ReceivedMessageMenu(fplbase::AssetManager& assetman,
+                                flatui::FontManager& fontman,
+                                fplbase::InputSystem& input);
 
   // Instance a text button that plays a sound when selected.
   flatui::Event TextButton(const char* text, float size,
@@ -151,6 +155,12 @@ class GameMenuState : public StateNode {
   // Play button sound effect when a selected event fires.
   flatui::Event PlayButtonSound(flatui::Event event,
                                 pindrop::SoundHandle& sound);
+
+  void EmptyMenuBackground(fplbase::AssetManager& assetman,
+                           flatui::FontManager& fontman,
+                           fplbase::InputSystem& input,
+                           const std::function<void()> &gui_definition);
+  bool DisplayMessageBackButton();
 
   // Save/Load data to strage using FlatBuffres binary data.
   void SaveData();
@@ -262,6 +272,8 @@ class GameMenuState : public StateNode {
   // The unlockable that was unlocked. A bool is used to track validity.
   Unlockable earned_unlockable_;
   bool did_earn_unlockable_;
+  // The message to display on the message received screen.
+  std::string received_message_;
 };
 
 }  // zooshi

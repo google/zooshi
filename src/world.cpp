@@ -199,6 +199,7 @@ void World::Initialize(
   firebase::analytics::Initialize(*firebase_app);
   firebase::invites::Initialize(*firebase_app);
   firebase::invites::SetListener(&invites_listener);
+  firebase::messaging::Initialize(*firebase_app, &message_listener);
 }
 
 void World::AddController(BasePlayerController* controller) {

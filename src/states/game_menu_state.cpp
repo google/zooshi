@@ -182,13 +182,17 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
     }
   }
 
-  // If we are not transitioning to another state, check for received invites.
+  // If we are not transitioning to another state, check for received invites
+  // and messages.
   if (menu_state_ == kMenuStateStart && *next_state == kGameStateGameMenu) {
     if (world_->invites_listener.has_pending_invite()) {
       world_->invites_listener.HandlePendingInvite();
       did_earn_unlockable_ =
           world_->unlockables->UnlockRandom(&earned_unlockable_);
       menu_state_ = kMenuStateReceivedInvite;
+    } else if (world_->message_listener.has_pending_message()) {
+      received_message_ = world_->message_listener.HandlePendingMessage(world_);
+      menu_state_ = kMenuStateReceivedMessage;
     }
   }
 }
@@ -238,6 +242,13 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
           ReceivedInviteMenu(*asset_manager_, *font_manager_, *input_system_);
       if (menu_state_ != kMenuStateReceivedInvite) {
         did_earn_unlockable_ = false;
+      }
+      break;
+    case kMenuStateReceivedMessage:
+      menu_state_ =
+          ReceivedMessageMenu(*asset_manager_, *font_manager_, *input_system_);
+      if (menu_state_ != kMenuStateReceivedMessage) {
+        received_message_ = "";
       }
       break;
     case kMenuStateQuit: {
@@ -305,9 +316,15 @@ void GameMenuState::OnEnter(int previous_state) {
   input_system_->SetRelativeMouseMode(false);
   world_->ResetControllerFacing();
   LoadData();
+
+  // We only want to receive messages when in the game menu state.
+  StartReceivingMessages(world_);
 }
 
-void GameMenuState::OnExit(int /*next_state*/) { music_channel_.Stop(); }
+void GameMenuState::OnExit(int /*next_state*/) {
+  music_channel_.Stop();
+  StopReceivingMessages();
+}
 
 void GameMenuState::LoadData() {
   // Set default values.
