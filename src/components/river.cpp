@@ -515,6 +515,10 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   physics_component->FinalizeStaticMesh(entity, collision_type, collides_with,
                                         river->mass(), river->restitution(),
                                         user_tag);
+
+  // We don't want to keep the random number generator set to the same
+  // value every time we generate the river, so reset the seed back to time.
+  srand(time(nullptr));
 }
 
 void RiverComponent::UpdateRiverMeshes(corgi::EntityRef entity) {
