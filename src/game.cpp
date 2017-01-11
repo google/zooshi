@@ -27,6 +27,7 @@
 #include "common.h"
 #include "components/render_3d_text.h"
 #include "corgi/entity.h"
+#include "firebase/analytics.h"
 #include "fplbase/debug_markers.h"
 #include "fplbase/input.h"
 #include "fplbase/systrace.h"
@@ -199,8 +200,7 @@ bool Game::InitializeRenderer() {
 
 #ifdef ANDROID_HMD
   vec2i size = fplbase::AndroidGetScalerResolution();
-  const vec2i viewport_size =
-      size.x && size.y ? size : renderer_.window_size();
+  const vec2i viewport_size = size.x && size.y ? size : renderer_.window_size();
   fplbase::InitializeUndistortFramebuffer(viewport_size.x, viewport_size.y);
 #endif  // ANDROID_HMD
 
@@ -402,9 +402,24 @@ bool Game::Initialize(const char *const binary_directory) {
 
   scene_lab_.reset(new scene_lab::SceneLab());
 
+// Initialize Firebase and the services.
+#ifdef __ANDROID__
+  firebase_app_ =
+      firebase::App::Create(firebase::AppOptions(), fplbase::AndroidGetJNIEnv(),
+                            fplbase::AndroidGetActivity());
+#else
+  firebase_app = firebase::App::Create(firebase::AppOptions());
+#endif
+  admob_helper_.Initialize(*firebase_app_);
+  firebase::analytics::Initialize(*firebase_app_);
+  firebase::invites::Initialize(*firebase_app_);
+  firebase::invites::SetListener(&invites_listener_);
+  firebase::messaging::Initialize(*firebase_app_, &message_listener_);
+
   world_.Initialize(GetConfig(), &input_, &asset_manager_, &world_renderer_,
                     &font_manager_, &audio_engine_, &graph_factory_, &renderer_,
-                    scene_lab_.get(), &unlockable_manager_, &xp_system_);
+                    scene_lab_.get(), &unlockable_manager_, &xp_system_,
+                    &invites_listener_, &message_listener_, &admob_helper_);
 
 #ifdef __ANDROID__
   if (fplbase::SupportsHeadMountedDisplay()) {

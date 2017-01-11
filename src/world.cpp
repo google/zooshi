@@ -55,8 +55,9 @@ void World::Initialize(
     fplbase::AssetManager* asset_mgr, WorldRenderer* worldrenderer,
     flatui::FontManager* font_manager, pindrop::AudioEngine* audio_engine,
     breadboard::GraphFactory* graph_factory, fplbase::Renderer* renderer,
-    SceneLab* scene_lab, UnlockableManager* unlockable_mgr,
-    XpSystem* xpsystem) {
+    SceneLab* scene_lab, UnlockableManager* unlockable_mgr, XpSystem* xpsystem,
+    InvitesListener* invites_lstr, MessageListener* message_lstr,
+    AdMobHelper* admob_hlpr) {
   entity_factory.reset(new corgi::component_library::DefaultEntityFactory());
   motive::SplineInit::Register();
   motive::MatrixInit::Register();
@@ -187,19 +188,9 @@ void World::Initialize(
   apply_specular_cardboard_ =
       config->rendering_config()->apply_specular_by_default_cardboard();
 
-  // Initialize Firebase and the services.
-  firebase::App* firebase_app;
-#ifdef __ANDROID__
-  firebase_app =
-      firebase::App::Create(firebase::AppOptions(), fplbase::AndroidGetJNIEnv(),
-                            fplbase::AndroidGetActivity());
-#else
-  firebase_app = firebase::App::Create(firebase::AppOptions());
-#endif
-  firebase::analytics::Initialize(*firebase_app);
-  firebase::invites::Initialize(*firebase_app);
-  firebase::invites::SetListener(&invites_listener);
-  firebase::messaging::Initialize(*firebase_app, &message_listener);
+  invites_listener = invites_lstr;
+  message_listener = message_lstr;
+  admob_helper = admob_hlpr;
 }
 
 void World::AddController(BasePlayerController* controller) {

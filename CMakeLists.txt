@@ -355,6 +355,9 @@ endif()
 add_library(firebase_app STATIC IMPORTED)
 set_target_properties(firebase_app PROPERTIES
     IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libapp.a)
+add_library(firebase_admob STATIC IMPORTED)
+set_target_properties(firebase_admob PROPERTIES
+    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libadmob.a)
 add_library(firebase_analytics STATIC IMPORTED)
 set_target_properties(firebase_analytics PROPERTIES
     IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libanalytics.a)
@@ -378,6 +381,7 @@ target_link_libraries(zooshi
   scene_lab
   flatbuffers
   pindrop
+  firebase_admob
   firebase_analytics
   firebase_invites
   firebase_messaging

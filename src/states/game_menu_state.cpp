@@ -17,6 +17,7 @@
 
 #include "components/sound.h"
 #include "config_generated.h"
+#include "firebase/admob.h"
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #include "input_config_generated.h"
@@ -128,6 +129,8 @@ void GameMenuState::Initialize(
   laps_finished_ = 0;
   total_score_ = 0;
 
+  rewarded_video_state_ = kRewardedVideoStateIdle;
+
   UpdateVolumes();
 }
 
@@ -135,10 +138,21 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
 
+  if (rewarded_video_state_ == kRewardedVideoStateDisplaying) {
+    HandleRewardedVideo();
+    return;
+  }
+
   bool back_button =
       input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down() ||
       input_system_->GetButton(fplbase::FPLK_AC_BACK).went_down();
   if (back_button) {
+    if (rewarded_video_state_ == kRewardedVideoStateFinished) {
+      // If on the finished screen for rewarded video, clear that state.
+      rewarded_video_state_ = kRewardedVideoStateIdle;
+      return;
+    }
+
     if (menu_state_ == kMenuStateOptions) {
       // Save data when you leave the audio page.
       if (options_menu_state_ == kOptionsMenuStateAudio) {
@@ -206,13 +220,14 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
   // If we are not transitioning to another state, check for received invites
   // and messages.
   if (menu_state_ == kMenuStateStart && *next_state == kGameStateGameMenu) {
-    if (world_->invites_listener.has_pending_invite()) {
-      world_->invites_listener.HandlePendingInvite();
+    if (world_->invites_listener->has_pending_invite()) {
+      world_->invites_listener->HandlePendingInvite();
       did_earn_unlockable_ =
           world_->unlockables->UnlockRandom(&earned_unlockable_);
       menu_state_ = kMenuStateReceivedInvite;
-    } else if (world_->message_listener.has_pending_message()) {
-      received_message_ = world_->message_listener.HandlePendingMessage(world_);
+    } else if (world_->message_listener->has_pending_message()) {
+      received_message_ =
+          world_->message_listener->HandlePendingMessage(world_);
       menu_state_ = kMenuStateReceivedMessage;
     }
   }
@@ -243,6 +258,12 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
   // No culling when drawing the menu.
   renderer->SetCulling(fplbase::kCullingModeNone);
 
+  if (rewarded_video_state_ != kRewardedVideoStateIdle) {
+    rewarded_video_state_ =
+        RewardedVideoMenu(*asset_manager_, *font_manager_, *input_system_);
+    return;
+  }
+
   switch (menu_state_) {
     case kMenuStateStart:
       menu_state_ = StartMenu(*asset_manager_, *font_manager_, *input_system_);
@@ -256,6 +277,7 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
       // If leaving the score review page, clear the cached scores.
       if (menu_state_ != kMenuStateScoreReview) {
         ResetScore();
+        world_->admob_helper->ResetRewardedVideo();
       }
       break;
     case kMenuStateReceivedInvite:
@@ -429,6 +451,20 @@ void GameMenuState::ResetScore() {
   total_score_ = 0;
   earned_xp_ = 0;
   did_earn_unlockable_ = false;
+}
+
+void GameMenuState::StartRewardedVideo() {
+  rewarded_video_state_ = kRewardedVideoStateDisplaying;
+  world_->admob_helper->ShowRewardedVideo();
+}
+
+void GameMenuState::HandleRewardedVideo() {
+  if (world_->admob_helper->CheckShowRewardedVideo()) {
+    world_->admob_helper->ApplyRewardedVideoBonus(world_->xp_system);
+    rewarded_video_state_ = kRewardedVideoStateFinished;
+    // Start loading the next rewarded video now.
+    world_->admob_helper->LoadNewRewardedVideo();
+  }
 }
 
 }  // zooshi

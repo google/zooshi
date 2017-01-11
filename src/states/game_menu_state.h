@@ -60,6 +60,12 @@ enum OptionsMenuState {
   kOptionsMenuStateLevel,
 };
 
+enum RewardedVideoState {
+  kRewardedVideoStateIdle,
+  kRewardedVideoStateDisplaying,
+  kRewardedVideoStateFinished,
+};
+
 // Constant definitions for UI elements. Colors, button sizes etc.
 const auto kColorBrown = mathfu::vec4(0.37f, 0.24f, 0.09f, 0.85f);
 const auto kColorLightBrown = mathfu::vec4(0.82f, 0.77f, 0.60f, 0.85f);
@@ -132,6 +138,12 @@ class GameMenuState : public StateNode {
   MenuState ReceivedMessageMenu(fplbase::AssetManager& assetman,
                                 flatui::FontManager& fontman,
                                 fplbase::InputSystem& input);
+  // The rewarded menu is a special case, as we don't want to change the actual
+  // menu state that is happening, as it could potentially be called from
+  // various states, and we want to go back to the same state.
+  RewardedVideoState RewardedVideoMenu(fplbase::AssetManager& assetman,
+                                       flatui::FontManager& fontman,
+                                       fplbase::InputSystem& input);
 
   // Instance a text button that plays a sound when selected.
   flatui::Event TextButton(const char* text, float size,
@@ -280,6 +292,13 @@ class GameMenuState : public StateNode {
   bool did_earn_unlockable_;
   // The message to display on the message received screen.
   std::string received_message_;
+
+  // Track the state of the UI managing rewarded video, which is done external
+  // to the MenuState to allow rewarded video offered at different states.
+  RewardedVideoState rewarded_video_state_;
+
+  void StartRewardedVideo();
+  void HandleRewardedVideo();
 };
 
 }  // zooshi

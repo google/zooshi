@@ -55,6 +55,11 @@ FIREBASE_LIBRARY_PATH:=\
 $(DEPENDENCIES_FIREBASE_DIR)/libs/android/$(TARGET_ARCH_ABI)/$(STL)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := libfirebase_admob
+LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libadmob.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE := libfirebase_app
 LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libapp.a
 include $(PREBUILT_STATIC_LIBRARY)
@@ -99,6 +104,7 @@ LOCAL_C_INCLUDES := \
   $(LOCAL_PATH)/src
 
 LOCAL_SRC_FILES := \
+  src/admob.cpp \
   src/analytics.cpp \
   src/camera.cpp \
   src/components/attributes.cpp \
@@ -225,6 +231,7 @@ LOCAL_STATIC_LIBRARIES := \
   libflatbuffers \
   libflatbuffers_extra \
   libbullet \
+  libfirebase_admob \
   libfirebase_analytics \
   libfirebase_invites \
   libfirebase_messaging \

@@ -19,6 +19,7 @@
 #include <memory>
 #include <string>
 
+#include "admob.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
 #include "components/lap_dependent.h"
@@ -109,7 +110,9 @@ struct World {
                   pindrop::AudioEngine* audio_engine,
                   breadboard::GraphFactory* graph_factory,
                   fplbase::Renderer* renderer, scene_lab::SceneLab* scene_lab,
-                  UnlockableManager* unlockable_mgr, XpSystem* xp_system);
+                  UnlockableManager* unlockable_mgr, XpSystem* xp_system,
+                  InvitesListener* invites_lstr, MessageListener* message_lstr,
+                  AdMobHelper* admob_hlpr);
 
   // Entity manager
   corgi::EntityManager entity_manager;
@@ -166,8 +169,9 @@ struct World {
 #endif  // ANDROID_HMD
 
   firebase::App* firebase_app;
-  InvitesListener invites_listener;
-  MessageListener message_listener;
+  InvitesListener* invites_listener;
+  MessageListener* message_listener;
+  AdMobHelper* admob_helper;
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,

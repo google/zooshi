@@ -59,7 +59,7 @@ class XpSystem {
   // The amount of xp needed for the player to reach the next reward.
   int xp_until_reward() const { return xp_for_reward_ - current_xp_; }
 
-  static const int kNonUniqueKey = 0;
+  static const int kNonUniqueKey = UniqueBonusId_NonUnique;
 
  private:
   struct BonusData {

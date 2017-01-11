@@ -112,7 +112,7 @@ std::string MessageListener::HandlePendingMessage(World* world) {
 }
 
 void StartReceivingMessages(World* world) {
-  firebase::messaging::SetListener(&world->message_listener);
+  firebase::messaging::SetListener(world->message_listener);
 }
 
 void StopReceivingMessages() {

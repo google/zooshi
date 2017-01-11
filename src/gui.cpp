@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "game.h"
+#include "firebase/admob.h"
 #include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "invites.h"
@@ -153,6 +154,13 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     if (event & flatui::kEventWentUp) {
       SendInvite();
       next_state = kMenuStateSendingInvite;
+    }
+    if (world_->admob_helper->rewarded_video_available() &&
+        !world_->admob_helper->rewarded_video_watched()) {
+      event = TextButton("Earn bonuses before playing", kMenuSize, flatui::Margin(0));
+      if (event & flatui::kEventWentUp) {
+        StartRewardedVideo();
+      }
     }
 #endif  // __ANDROID__
     event = TextButton("Options", kMenuSize, flatui::Margin(0));
@@ -366,7 +374,7 @@ void GameMenuState::OptionMenuMain() {
   if (TextButton("Clear Cache", kButtonSize, flatui::Margin(2)) &
       flatui::kEventWentUp) {
     world_->unlockables->LockAll();
-    world_->invites_listener.Reset();
+    world_->invites_listener->Reset();
   }
 }
 
@@ -835,6 +843,47 @@ MenuState GameMenuState::ReceivedMessageMenu(fplbase::AssetManager& assetman,
   });
 
   PopDebugMarker();  // ReceivedMessageMenu
+
+  return next_state;
+}
+
+RewardedVideoState GameMenuState::RewardedVideoMenu(
+    fplbase::AssetManager& assetman, flatui::FontManager& fontman,
+    fplbase::InputSystem& input) {
+  RewardedVideoState next_state = rewarded_video_state_;
+
+  PushDebugMarker("AdMobVideoMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+
+    // We want to show different things based on the AdMob state.
+    if (rewarded_video_state_ == kRewardedVideoStateDisplaying) {
+      if (world_->admob_helper->rewarded_video_status() == kAdMobStatusLoading) {
+        flatui::Label("Loading video, please wait...", kButtonSize);
+      } else {
+        flatui::Label("Video loaded, please enjoy!", kButtonSize);
+      }
+    } else {
+      if (world_->admob_helper->rewarded_video_watched()) {
+        flatui::Label("A bonus will be applied to your next game",
+                      kButtonSize);
+      } else {
+        flatui::Label("The full video needs to be watched for the bonus",
+                      kButtonSize);
+      }
+      if (DisplayMessageBackButton()) {
+        next_state = kRewardedVideoStateIdle;
+      }
+    }
+
+    flatui::EndGroup();
+  });
+
+  PopDebugMarker();  // AdMobVideoMenu
 
   return next_state;
 }

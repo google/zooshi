@@ -200,6 +200,11 @@ table WorldDef {
   levels:[LevelDef];
 }
 
+enum UniqueBonusId : byte {
+  NonUnique = 0,
+  AdMobRewardedVideo = 1,
+}
+
 table Config {
   // The name of the game, as displayed on the window title.
   window_title:string;
