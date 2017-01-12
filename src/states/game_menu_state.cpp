@@ -20,6 +20,7 @@
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #include "input_config_generated.h"
+#include "invites.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/init.h"
@@ -180,6 +181,22 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
     if (fader_->Finished()) {
       *next_state = kGameStateExit;
     }
+  } else if (menu_state_ == kMenuStateSendingInvite) {
+    bool did_send, first_sent;
+    if (UpdateSentInviteStatus(&did_send, &first_sent)) {
+      if (did_send) {
+        // Put up a message thanking them for inviting others.
+        // If it was the first time they've sent an invite, reward them.
+        menu_state_ = kMenuStateSentInvite;
+        if (first_sent) {
+          did_earn_unlockable_ =
+              world_->unlockables->UnlockRandom(&earned_unlockable_);
+        }
+      } else {
+        // No invites were sent, so return to normal.
+        menu_state_ = kMenuStateStart;
+      }
+    }
   }
 
   // If we are not transitioning to another state, check for received invites
@@ -241,6 +258,13 @@ void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
       menu_state_ =
           ReceivedInviteMenu(*asset_manager_, *font_manager_, *input_system_);
       if (menu_state_ != kMenuStateReceivedInvite) {
+        did_earn_unlockable_ = false;
+      }
+      break;
+    case kMenuStateSentInvite:
+      menu_state_ =
+          SentInviteMenu(*asset_manager_, *font_manager_, *input_system_);
+      if (menu_state_ != kMenuStateSentInvite) {
         did_earn_unlockable_ = false;
       }
       break;

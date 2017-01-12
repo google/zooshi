@@ -44,6 +44,8 @@ enum MenuState {
   kMenuStateGamepad,
   kMenuStateScoreReview,
   kMenuStateReceivedInvite,
+  kMenuStateSendingInvite,
+  kMenuStateSentInvite,
   kMenuStateReceivedMessage,
   kMenuStateQuit,
 };
@@ -124,6 +126,9 @@ class GameMenuState : public StateNode {
   MenuState ReceivedInviteMenu(fplbase::AssetManager& assetman,
                                flatui::FontManager& fontman,
                                fplbase::InputSystem& input);
+  MenuState SentInviteMenu(fplbase::AssetManager& assetman,
+                           flatui::FontManager& fontman,
+                           fplbase::InputSystem& input);
   MenuState ReceivedMessageMenu(fplbase::AssetManager& assetman,
                                 flatui::FontManager& fontman,
                                 fplbase::InputSystem& input);
@@ -159,8 +164,9 @@ class GameMenuState : public StateNode {
   void EmptyMenuBackground(fplbase::AssetManager& assetman,
                            flatui::FontManager& fontman,
                            fplbase::InputSystem& input,
-                           const std::function<void()> &gui_definition);
+                           const std::function<void()>& gui_definition);
   bool DisplayMessageBackButton();
+  void DisplayMessageUnlockable();
 
   // Save/Load data to strage using FlatBuffres binary data.
   void SaveData();

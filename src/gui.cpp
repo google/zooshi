@@ -149,6 +149,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     event = TextButton("Send Invite", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
       SendInvite();
+      next_state = kMenuStateSendingInvite;
     }
     event = TextButton("Options", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
@@ -669,6 +670,16 @@ bool GameMenuState::DisplayMessageBackButton() {
   return event & flatui::kEventWentUp;
 }
 
+void GameMenuState::DisplayMessageUnlockable() {
+  if (did_earn_unlockable_) {
+    const int kBufferSize = 64;
+    char buffer[kBufferSize];
+    snprintf(buffer, kBufferSize, "%s unlocked!",
+             earned_unlockable_.config->name()->c_str());
+    flatui::Label(buffer, kScoreTextSize);
+  }
+}
+
 MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
                                          flatui::FontManager& fontman,
                                          fplbase::InputSystem& input) {
@@ -758,13 +769,7 @@ MenuState GameMenuState::ReceivedInviteMenu(fplbase::AssetManager& assetman,
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                           mathfu::kZeros2f);
     flatui::Label("Thanks for trying Zooshi!", kButtonSize);
-    if (did_earn_unlockable_) {
-      const int kBufferSize = 64;
-      char buffer[kBufferSize];
-      snprintf(buffer, kBufferSize, "%s unlocked!",
-               earned_unlockable_.config->name()->c_str());
-      flatui::Label(buffer, kScoreTextSize);
-    }
+    DisplayMessageUnlockable();
     flatui::EndGroup();
 
     if (DisplayMessageBackButton()) {
@@ -773,6 +778,33 @@ MenuState GameMenuState::ReceivedInviteMenu(fplbase::AssetManager& assetman,
   });
 
   PopDebugMarker();  // ReceivedInviteMenu
+
+  return next_state;
+}
+
+MenuState GameMenuState::SentInviteMenu(fplbase::AssetManager& assetman,
+                                        flatui::FontManager& fontman,
+                                        fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateSentInvite;
+
+  PushDebugMarker("SentInviteMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    // Display a message indicating invitations were sent.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+    flatui::Label("Thanks for inviting others to Zooshi!", kButtonSize);
+    DisplayMessageUnlockable();
+    flatui::EndGroup();
+
+    if (DisplayMessageBackButton()) {
+      next_state = kMenuStateStart;
+    }
+  });
+
+  PopDebugMarker();  // SentInviteMenu
 
   return next_state;
 }

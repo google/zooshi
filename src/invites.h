@@ -26,6 +26,12 @@ namespace zooshi {
 
 // Helper function to construct and start sending an invite with Firebase.
 void SendInvite();
+// Handler to be called after starting to send an invite to check the status.
+// Returns true when finished (successfully or not).
+// Upon returning true, did_send is set to whether an invite was sent or not.
+// If did_send is true, first_sent is set to whether this was the first time
+// an invite was sent.
+bool UpdateSentInviteStatus(bool* did_send, bool* first_sent);
 
 class InvitesListener : public firebase::invites::Listener {
  public:
@@ -38,7 +44,8 @@ class InvitesListener : public firebase::invites::Listener {
   void OnInviteNotReceived() override;
   void OnErrorReceived(int error_code, const char* error_message) override;
 
-  // Mark the pending invite as handled, which is preserved across play sessions.
+  // Mark the pending invite as handled, which is preserved across play
+  // sessions.
   void HandlePendingInvite();
 
   // Resets the system, allowing for a new invite to be processed.

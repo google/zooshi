@@ -14,12 +14,14 @@
 
 #include "invites.h"
 
+#include "firebase/future.h"
 #include "fplbase/utilities.h"
 
 namespace fpl {
 namespace zooshi {
 
 const char* kInviteHandledKey = "zooshi:invite_handled";
+const char* kInviteSentKey = "zooshi:invite_sent";
 
 InvitesListener::InvitesListener()
     : received_invite_(false), invitation_id_(), deep_link_() {
@@ -32,6 +34,29 @@ void SendInvite() {
   invite.message_text = "Feed animals tasty sushi";
   invite.call_to_action_text = "Download it for FREE";
   firebase::invites::SendInvite(invite);
+}
+
+bool UpdateSentInviteStatus(bool* did_send, bool* first_sent) {
+  auto future = firebase::invites::SendInviteLastResult();
+  if (future.Status() == firebase::kFutureStatusComplete) {
+    bool were_sent =
+        future.Error() == 0 && future.Result()->invitation_ids.size() > 0;
+    if (did_send) {
+      *did_send = were_sent;
+    }
+    if (were_sent) {
+      int invite_sent_count = fplbase::LoadPreference(kInviteSentKey, 0);
+      if (first_sent) {
+        *first_sent = invite_sent_count == 0;
+      }
+      fplbase::SavePreference(
+          kInviteSentKey,
+          invite_sent_count + future.Result()->invitation_ids.size());
+    }
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void InvitesListener::OnInviteReceived(const char* invitation_id,
@@ -67,6 +92,7 @@ void InvitesListener::Reset() {
   invite_handled_ = false;
   received_invite_ = false;
   fplbase::SavePreference(kInviteHandledKey, 0);
+  fplbase::SavePreference(kInviteSentKey, 0);
 }
 
 }  // zooshi
