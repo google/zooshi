@@ -153,7 +153,11 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
       }
     } else if (menu_state_ == kMenuStateStart) {
       menu_state_ = kMenuStateQuit;
-    } else if (menu_state_ == kMenuStateScoreReview) {
+    } else if (menu_state_ == kMenuStateScoreReview ||
+               menu_state_ == kMenuStateReceivedInvite ||
+               menu_state_ == kMenuStateSendingInvite ||
+               menu_state_ == kMenuStateSentInvite ||
+               menu_state_ == kMenuStateReceivedMessage) {
       menu_state_ = kMenuStateStart;
     }
   }

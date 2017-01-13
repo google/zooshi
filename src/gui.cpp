@@ -146,11 +146,15 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       gpg_manager_->ToggleSignIn();
     }
 #endif
+    // Since sending invites is currently not supported on desktop, only offer
+    // the option on Android.
+#ifdef __ANDROID__
     event = TextButton("Send Invite", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
       SendInvite();
       next_state = kMenuStateSendingInvite;
     }
+#endif  // __ANDROID__
     event = TextButton("Options", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
       next_state = kMenuStateOptions;
