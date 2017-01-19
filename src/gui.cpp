@@ -834,7 +834,8 @@ MenuState GameMenuState::ReceivedMessageMenu(fplbase::AssetManager& assetman,
     flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                           mathfu::kZeros2f);
-    flatui::Label(received_message_.c_str(), kButtonSize);
+    flatui::Label(received_message_.c_str(), kButtonSize, kWrappedLabelSize,
+                  flatui::kTextAlignmentCenter);
     flatui::EndGroup();
 
     if (DisplayMessageBackButton()) {
@@ -870,10 +871,12 @@ RewardedVideoState GameMenuState::RewardedVideoMenu(
     } else {
       if (world_->admob_helper->rewarded_video_watched()) {
         flatui::Label("A bonus will be applied to your next game",
-                      kButtonSize);
+                      kButtonSize, kWrappedLabelSize,
+                      flatui::kTextAlignmentCenter);
       } else {
         flatui::Label("The full video needs to be watched for the bonus",
-                      kButtonSize);
+                      kButtonSize, kWrappedLabelSize,
+                      flatui::kTextAlignmentCenter);
       }
       if (DisplayMessageBackButton()) {
         next_state = kRewardedVideoStateIdle;

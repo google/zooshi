@@ -119,9 +119,10 @@ bool AdMobHelper::CheckShowRewardedVideo() {
 void AdMobHelper::ApplyRewardedVideoBonus(XpSystem* xp_system) {
   if (!listener_.earned_reward()) return;
 
+  // We add the bonus, but do not clear it out, so that we can track that we
+  // still have one.
   xp_system->AddBonus(BonusApplyType_Addition, listener_.reward_item().amount,
                       1, UniqueBonusId_AdMobRewardedVideo);
-  listener_.Reset();
 }
 
 RewardedVideoListener::RewardedVideoListener()

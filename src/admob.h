@@ -81,8 +81,7 @@ class AdMobHelper {
 
   AdMobStatus rewarded_video_status() const { return rewarded_video_status_; }
   bool rewarded_video_available() const {
-    return rewarded_video_status_ != kAdMobStatusInitializing &&
-           rewarded_video_status_ != kAdMobStatusError;
+    return rewarded_video_status_ == kAdMobStatusAvailable;
   }
 
   bool rewarded_video_watched() const { return listener_.earned_reward(); }

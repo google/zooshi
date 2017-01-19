@@ -84,6 +84,7 @@ const auto kAudioOptionButtonSize = 100.0f;
 const auto kScrollAreaSize = mathfu::vec2(900, 500);
 const auto kScoreSmallSize = 50.0f;
 const auto kScoreTextSize = 75.0f;
+const auto kWrappedLabelSize = mathfu::vec2(800, 600);
 // Values used to determine the end score.
 const auto kScorePatronsFedFactor = 1.0f;
 const auto kScoreLapsFinishedFactor = 15.0f;
@@ -189,6 +190,11 @@ class GameMenuState : public StateNode {
 
   // Reset the variables concerning score.
   void ResetScore();
+
+  // Start playing a rewarded video, which takes over the menu.
+  void StartRewardedVideo();
+  // Should be called every frame to manage the rewarded video.
+  void HandleRewardedVideo();
 
   // Set to true when the render thread detects that all assets have been
   // loaded. The update thread then shows game menu.
@@ -296,9 +302,6 @@ class GameMenuState : public StateNode {
   // Track the state of the UI managing rewarded video, which is done external
   // to the MenuState to allow rewarded video offered at different states.
   RewardedVideoState rewarded_video_state_;
-
-  void StartRewardedVideo();
-  void HandleRewardedVideo();
 };
 
 }  // zooshi
