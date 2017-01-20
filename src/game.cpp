@@ -397,6 +397,7 @@ bool Game::Initialize(const char *const binary_directory) {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
     font_manager_.Open(asset_manifest.font_list()->Get(index)->c_str());
   }
+  font_manager_.SetupHyphenationPatternPath("hyphen-data");
 
   SetPerformanceMode(fplbase::kHighPerformance);
 

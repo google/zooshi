@@ -33,6 +33,8 @@ build_assets: $(flatc_target)
 	$(hide) python $(ZOOSHI_DIR)/scripts/build_assets.py \
       --copy_tree $(ZOOSHI_DIR)/src/rawassets/fonts \
                   $(ZOOSHI_DIR)/assets/fonts \
+                  $(DEPENDENCIES_FLATUI_DIR)/assets/hyphen-data \
+                  $(ZOOSHI_DIR)/assets/hyphen-data \
                   $(DEPENDENCIES_FLATUI_DIR)/assets/shaders \
                   $(ZOOSHI_DIR)/assets/shaders \
                   $(DEPENDENCIES_FPLBASE_DIR)/shaders \

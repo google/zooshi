@@ -160,6 +160,7 @@ add_custom_target(assets
   --copy_tree
   ${CMAKE_CURRENT_LIST_DIR}/src/rawassets/fonts ${CMAKE_BINARY_DIR}/assets/fonts
   ${dependencies_flatui_dir}/assets/shaders ${CMAKE_BINARY_DIR}/assets/shaders
+  ${dependencies_flatui_dir}/assets/hyphen-data ${CMAKE_BINARY_DIR}/assets/hyphen-data
   ${dependencies_fplbase_dir}/shaders ${CMAKE_BINARY_DIR}/assets/shaders
   --flatc $<TARGET_FILE:flatc>
   ${cwebp_option}
