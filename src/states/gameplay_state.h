@@ -72,7 +72,7 @@ class GameplayState : public StateNode {
   corgi::EntityManager* entity_manager_;
 
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   Camera cardboard_camera_;
 #endif
 

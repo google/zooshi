@@ -63,7 +63,7 @@
 #include "fplbase/renderer_android.h"
 #endif  // __ANDROID__
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
 #endif  // ANDROID_HMD
 
@@ -198,7 +198,7 @@ bool Game::InitializeRenderer() {
   // Initialize the first frame as black.
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   vec2i size = fplbase::AndroidGetScalerResolution();
   const vec2i viewport_size = size.x && size.y ? size : renderer_.window_size();
   fplbase::InitializeUndistortFramebuffer(viewport_size.x, viewport_size.y);
@@ -362,7 +362,7 @@ bool Game::Initialize(const char *const binary_directory) {
 
   input_.Initialize();
   input_.AddAppEventCallback(AudioEngineVolumeControl(&audio_engine_));
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   input_.head_mounted_display_input().EnableDeviceOrientationCorrection();
 #endif  // ANDROID_HMD
 
@@ -421,7 +421,7 @@ bool Game::Initialize(const char *const binary_directory) {
                     scene_lab_.get(), &unlockable_manager_, &xp_system_,
                     &invites_listener_, &message_listener_, &admob_helper_);
 
-#ifdef __ANDROID__
+#if ANDROID_HMD
   if (fplbase::SupportsHeadMountedDisplay()) {
     BasePlayerController *controller = new AndroidCardboardController();
     controller->set_input_config(&GetInputConfig());
@@ -430,7 +430,7 @@ bool Game::Initialize(const char *const binary_directory) {
     world_.AddController(controller);
     world_.hmd_controller = controller;
   }
-#endif  // __ANDROID__
+#endif  // ANDROID_HMD
 
 // If this is a mobile platform or the onscreen controller is forced on
 // instance the onscreen controller.
@@ -443,9 +443,7 @@ bool Game::Initialize(const char *const binary_directory) {
                                      ZOOSHI_FORCE_ONSCREEN_CONTROLLER);
     world_.AddController(onscreen_controller);
     world_.onscreen_controller_ui.set_controller(onscreen_controller);
-#ifdef ANDROID_HMD
     world_.onscreen_controller = onscreen_controller;
-#endif  // ANDROID_HMD
   }
 #endif  // defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
 
@@ -522,7 +520,7 @@ bool Game::Initialize(const char *const binary_directory) {
 
   xp_system_.Initialize(config);
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   if (fplbase::AndroidGetActivityName() ==
       "com.google.fpl.zooshi.ZooshiHmdActivity") {
     world_.SetIsInCardboard(true);

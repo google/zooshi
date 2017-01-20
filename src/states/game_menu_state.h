@@ -205,7 +205,7 @@ class GameMenuState : public StateNode {
 
   // The camera(s) to use to render the background world.
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   Camera cardboard_camera_;
 #endif
 

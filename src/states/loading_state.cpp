@@ -83,7 +83,7 @@ void LoadingState::AdvanceFrame(int delta_time, int* next_state) {
     *next_state = kGameStateGameMenu;
   }
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   // Get the direction vector from the HMD input.
   const fplbase::HeadMountedDisplayInput& head_mounted_display_input =
     input_system_->head_mounted_display_input();
@@ -113,9 +113,9 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
 
   // Render black until the loading material itself has loaded.
   auto texture = loading_material->textures()[0];
-  if (!texture->id() ||
+  if (!fplbase::ValidTextureHandle(texture->id()) ||
       (world_->is_in_cardboard() &&
-       !world_->cardboard_settings_gear->textures()[0]->id())) {
+       !fplbase::ValidTextureHandle(world_->cardboard_settings_gear->textures()[0]->id()))) {
     renderer->ClearFrameBuffer(kZeros4f);
     return;
   }
@@ -207,7 +207,7 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
 }
 
 void LoadingState::OnEnter(int /*previous_state*/) {
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   input_system_->head_mounted_display_input().ResetHeadTracker();
 #endif  // ANDROID_HMD
 }

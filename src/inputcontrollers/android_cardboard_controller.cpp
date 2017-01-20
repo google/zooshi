@@ -35,7 +35,7 @@ void AndroidCardboardController::UpdateOrientation() {
   facing_.Update();
   up_.Update();
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   // Cardboard uses a different coordinate space than we use, so we have to
   // remap the axes and swap the handedness before we can use the
   // vectors as our facing/up vectors:
@@ -60,7 +60,7 @@ void AndroidCardboardController::UpdateButtons() {
   if (button->went_down()) {
     last_position_ = pointer->mousepos;
   }
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   buttons_[kFireProjectile].SetValue(
       input_system_->head_mounted_display_input().triggered());
 #endif  // ANDROID_HMD

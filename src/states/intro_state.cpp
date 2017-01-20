@@ -49,7 +49,7 @@ void IntroState::Initialize(fplbase::InputSystem* input_system, World* world,
   fader_ = fader;
   master_bus_ = audio_engine->FindBus(kMasterBus);
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #else
   (void)config;
@@ -111,7 +111,7 @@ void IntroState::RenderPrep() {
 
 void IntroState::Render(fplbase::Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif  // ANDROID_HMD
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -125,7 +125,7 @@ void IntroState::Render(fplbase::Renderer* renderer) {
 void IntroState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_state(kPlayerState_Active);
   UpdateMainCamera(&main_camera_, world_);
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   input_system_->head_mounted_display_input().ResetHeadTracker();
 #endif  // ANDROID_HMD
   // Move the player inside the intro box.

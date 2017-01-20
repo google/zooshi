@@ -30,7 +30,7 @@
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -230,7 +230,7 @@ void World::SetIsInCardboard(bool in_cardboard) {
     is_in_cardboard_ = in_cardboard;
     rendering_dirty_ = true;
 // Turn on the Cardboard setting button when in Cardboard mode.
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
     fplbase::SetCardboardButtonEnabled(in_cardboard);
 #endif  // ANDROID_HMD
   }

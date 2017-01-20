@@ -357,7 +357,7 @@ void GameMenuState::OptionMenuMain() {
     options_menu_state_ = kOptionsMenuStateRendering;
   }
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   // If the device supports a head mounted display allow the user to toggle
   // between gyroscopic and onscreen controls.
   if (fplbase::SupportsHeadMountedDisplay()) {

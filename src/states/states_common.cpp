@@ -15,7 +15,7 @@
 #include "fplbase/input.h"
 #include "states/states_common.h"
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -29,7 +29,7 @@ using mathfu::vec2;
 namespace fpl {
 namespace zooshi {
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
 static const float kGearSize = 72.0f;
 
 static vec3 CorrectTransform(const mat4& mat) {
@@ -58,7 +58,7 @@ static void RenderSettingsGear(fplbase::Renderer& renderer, World* world) {
 static void RenderStereoscopic(fplbase::Renderer& renderer, World* world,
                                Camera& camera, Camera* cardboard_camera,
                                fplbase::InputSystem* input_system) {
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   // Render shadow map before undistortion occurs.
   if (world->RenderingOptionEnabled(kShadowEffect)) {
     world->world_renderer->RenderShadowMap(camera, renderer, world);

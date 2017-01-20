@@ -47,7 +47,7 @@ void PauseState::Initialize(fplbase::InputSystem *input_system, World *world,
 
   config_ = config;
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
 }
@@ -126,7 +126,7 @@ void PauseState::RenderPrep() {
 
 void PauseState::Render(fplbase::Renderer *renderer) {
   Camera *cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);

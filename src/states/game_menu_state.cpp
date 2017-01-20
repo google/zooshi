@@ -32,7 +32,7 @@
 #include "states/states_common.h"
 #include "world.h"
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -83,7 +83,7 @@ void GameMenuState::Initialize(
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
   button_back_ = asset_manager_->LoadTexture("textures/ui_button_back.webp");
 
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
   slider_back_ =
@@ -243,7 +243,7 @@ void GameMenuState::Render(fplbase::Renderer *renderer) {
   loading_complete_ = asset_manager_->TryFinalize();
 
   Camera *cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -353,7 +353,7 @@ void GameMenuState::OnEnter(int previous_state) {
     }
   } else {
     menu_state_ = kMenuStateStart;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
     if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
 #endif  // ANDROID_HMD
   }
@@ -400,7 +400,7 @@ void GameMenuState::LoadData() {
                                         save_data->apply_phong_cardboard());
     world_->SetRenderingOptionCardboard(kSpecularEffect,
                                         save_data->apply_specular_cardboard());
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
     world_->SetHmdControllerEnabled(save_data->gyroscopic_controls_enabled() !=
                                     0);
 #endif  // ANDROID_HMD
@@ -422,7 +422,7 @@ void GameMenuState::SaveData() {
       world_->RenderingOptionEnabledCardboard(kPhongShading));
   builder.add_apply_specular_cardboard(
       world_->RenderingOptionEnabledCardboard(kSpecularEffect));
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   builder.add_gyroscopic_controls_enabled(
       world_->GetHmdControllerEnabled() ? 1 : 0);
 #endif  // ANDROID_HMD

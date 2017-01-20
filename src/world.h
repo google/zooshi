@@ -97,7 +97,7 @@ struct World {
         sushi_index(0),
         level_index(0),
         is_in_cardboard_(false) {
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
     hmd_controller = nullptr;
     onscreen_controller = nullptr;
 #endif  // ANDROID_HMD
@@ -163,10 +163,10 @@ struct World {
 
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
   OnscreenControllerUI onscreen_controller_ui;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   BasePlayerController* hmd_controller;
-  BasePlayerController* onscreen_controller;
 #endif  // ANDROID_HMD
+  BasePlayerController* onscreen_controller;
 
   firebase::App* firebase_app;
   InvitesListener* invites_listener;
@@ -210,7 +210,7 @@ struct World {
   void ResetRenderingDirty();
 
   void SetHmdControllerEnabled(bool enabled) {
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
     // hmd_controller can be NULL if the device does not support a head mounted
     // display like Cardboard (e.g lacks a gyro), onscreen_controller can be
     // NULL if support is compiled out.
@@ -225,7 +225,7 @@ struct World {
   }
 
   bool GetHmdControllerEnabled() const {
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
     return hmd_controller && hmd_controller->enabled();
 #else
     return false;

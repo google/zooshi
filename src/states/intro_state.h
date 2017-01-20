@@ -71,7 +71,7 @@ protected:
   pindrop::Bus master_bus_;
 
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if ANDROID_HMD
   Camera cardboard_camera_;
 #endif  // ANDROID_HMD
 };
