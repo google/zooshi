@@ -76,6 +76,7 @@ dependencies {
   compile 'com.google.firebase:firebase-core:10.0.1'
   compile 'com.google.firebase:firebase-invites:10.0.1'
   compile 'com.google.firebase:firebase-messaging:10.0.1'
+  compile 'com.google.firebase:firebase-config:10.0.1'
   compile 'com.android.support:support-v4:23.0+'
 }
 

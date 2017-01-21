@@ -245,6 +245,8 @@ set(zooshi_SRCS
     src/modules/zooshi.h
     src/railmanager.cpp
     src/railmanager.h
+    src/remote_config.cpp
+    src/remote_config.h
     src/states/game_over_state.cpp
     src/states/game_over_state.h
     src/states/game_menu_state.cpp
@@ -367,6 +369,9 @@ set_target_properties(firebase_invites PROPERTIES
 add_library(firebase_messaging STATIC IMPORTED)
 set_target_properties(firebase_messaging PROPERTIES
     IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libmessaging.a)
+add_library(firebase_config STATIC IMPORTED)
+set_target_properties(firebase_config PROPERTIES
+    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libremote_config.a)
 
 # Dependencies for the executable target.
 add_dependencies(zooshi zooshi_generated_includes assets)
@@ -385,6 +390,7 @@ target_link_libraries(zooshi
   firebase_analytics
   firebase_invites
   firebase_messaging
+  firebase_config
   firebase_app
 )
 

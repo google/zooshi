@@ -460,10 +460,33 @@ void GameMenuState::StartRewardedVideo() {
 
 void GameMenuState::HandleRewardedVideo() {
   if (world_->admob_helper->CheckShowRewardedVideo()) {
-    world_->admob_helper->ApplyRewardedVideoBonus(world_->xp_system);
     rewarded_video_state_ = kRewardedVideoStateFinished;
     // Start loading the next rewarded video now.
     world_->admob_helper->LoadNewRewardedVideo();
+
+    // If a reward was not earned, return now.
+    if (!world_->admob_helper->rewarded_video_watched())
+      return;
+
+    if (menu_state_ == kMenuStateScoreReview) {
+      // If already on the Score Review state, we want to apply the bonuses
+      // immediately, and give an unlockable if necessary.
+      int reward_value =
+          static_cast<int>(world_->admob_helper->reward_value());
+      earned_xp_ += reward_value;
+      bool earned_reward = world_->xp_system->GrantXP(reward_value);
+      // If an unlockable was not previously granted, grant one now.
+      if (earned_reward && !did_earn_unlockable_) {
+        did_earn_unlockable_ =
+            world_->unlockables->UnlockRandom(&earned_unlockable_);
+      }
+    } else {
+      // Otherwise, we want to use the XP system to handle applying the
+      // bonus.
+      world_->xp_system->AddBonus(BonusApplyType_Addition,
+                                  world_->admob_helper->reward_value(),
+                                  1, UniqueBonusId_AdMobRewardedVideo);
+    }
   }
 }
 

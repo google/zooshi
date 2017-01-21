@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #include "game.h"
-#include "firebase/admob.h"
+#include "firebase/remote_config.h"
 #include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "invites.h"
 #include "states/game_menu_state.h"
 #include "states/states_common.h"
+#include "remote_config.h"
 
 #include <iostream>
 
@@ -147,8 +148,8 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       gpg_manager_->ToggleSignIn();
     }
 #endif
-    // Since sending invites is currently not supported on desktop, only offer
-    // the option on Android.
+    // Since sending invites and admob video are currently not supported on
+    // desktop, and the UI space is limited, only offer the option on Android.
 #ifdef __ANDROID__
     event = TextButton("Send Invite", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
@@ -156,8 +157,11 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       next_state = kMenuStateSendingInvite;
     }
     if (world_->admob_helper->rewarded_video_available() &&
-        !world_->admob_helper->rewarded_video_watched()) {
-      event = TextButton("Earn bonuses before playing", kMenuSize, flatui::Margin(0));
+        !world_->admob_helper->rewarded_video_watched() &&
+        world_->admob_helper->GetRewardedVideoLocation() ==
+            kRewardedVideoLocationPregame) {
+      event = TextButton("Earn bonuses before playing", kMenuSize,
+                         flatui::Margin(0));
       if (event & flatui::kEventWentUp) {
         StartRewardedVideo();
       }
@@ -745,6 +749,22 @@ MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
     }
     flatui::EndGroup();
 
+    if (world_->admob_helper->rewarded_video_available() &&
+        !world_->admob_helper->rewarded_video_watched() &&
+        world_->admob_helper->GetRewardedVideoLocation() ==
+        kRewardedVideoLocationScoreScreen) {
+      flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+      flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                            mathfu::vec2(400, 10));
+      flatui::SetTextColor(kColorLightBrown);
+      auto event = ImageButtonWithLabel(
+          *button_back_, 60, flatui::Margin(60, 35, 40, 50), "Bonus XP");
+      if (event & flatui::kEventWentUp) {
+        StartRewardedVideo();
+      }
+      flatui::EndGroup();
+    }
+
     flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
                           mathfu::vec2(0, -125));
@@ -863,15 +883,18 @@ RewardedVideoState GameMenuState::RewardedVideoMenu(
 
     // We want to show different things based on the AdMob state.
     if (rewarded_video_state_ == kRewardedVideoStateDisplaying) {
-      if (world_->admob_helper->rewarded_video_status() == kAdMobStatusLoading) {
+      if (world_->admob_helper->rewarded_video_status() ==
+          kAdMobStatusLoading) {
         flatui::Label("Loading video, please wait...", kButtonSize);
       } else {
         flatui::Label("Video loaded, please enjoy!", kButtonSize);
       }
     } else {
       if (world_->admob_helper->rewarded_video_watched()) {
-        flatui::Label("A bonus will be applied to your next game",
-                      kButtonSize, kWrappedLabelSize,
+        const char* label = menu_state_ == kMenuStateScoreReview
+                                ? "A bonus has been granted!"
+                                : "A bonus will be applied to your next game";
+        flatui::Label(label, kButtonSize, kWrappedLabelSize,
                       flatui::kTextAlignmentCenter);
       } else {
         flatui::Label("The full video needs to be watched for the bonus",

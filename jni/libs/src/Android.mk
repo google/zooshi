@@ -80,6 +80,11 @@ LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libmessaging.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := libfirebase_config
+LOCAL_SRC_FILES := $(FIREBASE_LIBRARY_PATH)/libremote_config.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
 LOCAL_ARM_MODE := arm
@@ -145,6 +150,7 @@ LOCAL_SRC_FILES := \
   src/modules/ui_string.cpp \
   src/modules/zooshi.cpp \
   src/railmanager.cpp \
+  src/remote_config.cpp \
   src/states/game_menu_state.cpp \
   src/states/game_over_state.cpp \
   src/states/gameplay_state.cpp \
@@ -235,6 +241,7 @@ LOCAL_STATIC_LIBRARIES := \
   libfirebase_analytics \
   libfirebase_invites \
   libfirebase_messaging \
+  libfirebase_config \
   libfirebase_app
 
 LOCAL_SHARED_LIBRARIES :=
