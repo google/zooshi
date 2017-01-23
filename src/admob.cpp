@@ -82,8 +82,12 @@ void AdMobHelper::ShowRewardedVideo() {
 
   rewarded_video_status_ = kAdMobStatusShowing;
   listener_.set_expecting_state_change(true);
-  // TODO(amaurice) Fill in request with information.
-  rewarded_video::Show(fplbase::AndroidGetActivity())
+#ifdef __ANDROID__
+  firebase::admob::AdParent ad_parent = fplbase::AndroidGetActivity();
+#else
+  firebase::admob::AdParent ad_parent = nullptr;
+#endif  // __ANDROID__
+  rewarded_video::Show(ad_parent)
       .OnCompletion(
           [](const firebase::Future<void>& completed_future,
              void* void_helper) {

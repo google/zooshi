@@ -408,8 +408,8 @@ bool Game::Initialize(const char *const binary_directory) {
       firebase::App::Create(firebase::AppOptions(), fplbase::AndroidGetJNIEnv(),
                             fplbase::AndroidGetActivity());
 #else
-  firebase_app = firebase::App::Create(firebase::AppOptions());
-#endif
+  firebase_app_ = firebase::App::Create(firebase::AppOptions());
+#endif  // __ANDROID__
   admob_helper_.Initialize(*firebase_app_);
   firebase::analytics::Initialize(*firebase_app_);
   firebase::invites::Initialize(*firebase_app_);

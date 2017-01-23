@@ -168,6 +168,8 @@ add_custom_target(assets
 
 # zooshi source files.
 set(zooshi_SRCS
+    src/admob.cpp
+    src/admob.h
     src/analytics.cpp
     src/analytics.h
     src/camera.cpp
