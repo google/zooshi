@@ -18,7 +18,6 @@
 #include "firebase/admob.h"
 #include "firebase/admob/rewarded_video.h"
 #include "firebase/app.h"
-#include "xp_system.h"
 
 namespace fpl {
 namespace zooshi {
@@ -31,6 +30,12 @@ enum AdMobStatus {
   kAdMobStatusAvailable,     // The ad is ready to be shown.
   kAdMobStatusShowing,       // The ad is currently showing.
   kAdMobStatusError,         // An error occurred.
+};
+
+enum RewardedVideoLocation {
+  kRewardedVideoLocationPregame = 0,  // Offer the video before the game.
+  kRewardedVideoLocationScoreScreen,  // Offer the video on the score screen.
+  kRewardedVideoLocationCount,        // Total count, should be last.
 };
 
 class RewardedVideoListener : public firebase::admob::rewarded_video::Listener {
@@ -86,9 +91,11 @@ class AdMobHelper {
 
   bool rewarded_video_watched() const { return listener_.earned_reward(); }
 
-  void ApplyRewardedVideoBonus(XpSystem* xp_system);
-
   void ResetRewardedVideo() { listener_.Reset(); }
+
+  RewardedVideoLocation GetRewardedVideoLocation();
+
+  float reward_value() { return listener_.reward_item().amount; }
 
  private:
   RewardedVideoListener listener_;
