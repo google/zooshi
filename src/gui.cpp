@@ -398,7 +398,8 @@ void GameMenuState::OptionMenuAbout() {
   flatui::SetMargin(flatui::Margin(50, 0, 0, 0));
   flatui::StartGroup(flatui::kLayoutVerticalCenter, 0, "scroll");
   flatui::StartScroll(kScrollAreaSize, &scroll_offset_);
-  flatui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x, 0));
+  flatui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x, 0),
+                flatui::TextAlignment::kTextAlignmentLeftJustify);
   vec2 scroll_size = flatui::GroupSize();
   flatui::EndScroll();
   flatui::EndGroup();
@@ -440,7 +441,12 @@ void GameMenuState::OptionMenuLicenses() {
   auto event = flatui::CheckEvent(true);
   if (!flatui::IsLastEventPointerType())
     flatui::EventBackground(event);
-  flatui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x, 0));
+
+  flatui::EnableTextHyphenation(true);
+  flatui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x, 0),
+                flatui::TextAlignment::kTextAlignmentLeftJustify);
+  flatui::EnableTextHyphenation(false);
+
   vec2 scroll_size = flatui::GroupSize();
   flatui::EndScroll();
   flatui::EndGroup();
