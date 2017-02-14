@@ -17,7 +17,13 @@
 
 #include "components/sound.h"
 #include "config_generated.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/admob.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #include "input_config_generated.h"
@@ -32,7 +38,7 @@
 #include "states/states_common.h"
 #include "world.h"
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -83,7 +89,7 @@ void GameMenuState::Initialize(
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
   button_back_ = asset_manager_->LoadTexture("textures/ui_button_back.webp");
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
   slider_back_ =
@@ -243,7 +249,7 @@ void GameMenuState::Render(fplbase::Renderer *renderer) {
   loading_complete_ = asset_manager_->TryFinalize();
 
   Camera *cardboard_camera = nullptr;
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -353,9 +359,9 @@ void GameMenuState::OnEnter(int previous_state) {
     }
   } else {
     menu_state_ = kMenuStateStart;
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 
   loading_complete_ = false;
@@ -400,10 +406,10 @@ void GameMenuState::LoadData() {
                                         save_data->apply_phong_cardboard());
     world_->SetRenderingOptionCardboard(kSpecularEffect,
                                         save_data->apply_specular_cardboard());
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     world_->SetHmdControllerEnabled(save_data->gyroscopic_controls_enabled() !=
                                     0);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 }
 
@@ -422,10 +428,10 @@ void GameMenuState::SaveData() {
       world_->RenderingOptionEnabledCardboard(kPhongShading));
   builder.add_apply_specular_cardboard(
       world_->RenderingOptionEnabledCardboard(kSpecularEffect));
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   builder.add_gyroscopic_controls_enabled(
       world_->GetHmdControllerEnabled() ? 1 : 0);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   auto offset = builder.Finish();
   FinishSaveDataBuffer(fbb, offset);
 

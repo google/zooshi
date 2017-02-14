@@ -15,6 +15,7 @@
 #include "railmanager.h"
 
 #include <map>
+#include "components/rail_denizen.h"
 #include "components/rail_node.h"
 #include "corgi_component_library/transform.h"
 #include "fplbase/flatbuffer_utils.h"
@@ -101,7 +102,7 @@ Rail *RailManager::GetRail(RailId rail_file) {
   if (rail_map.find(rail_file) == rail_map.end()) {
     // New rail, so we load it up:
     std::string rail_def_source;
-    if (!fplbase::LoadFile(rail_file, &rail_def_source)) {
+    if (!fplbase::LoadFile(rail_file.c_str(), &rail_def_source)) {
       return nullptr;
     }
     const RailDef *rail_def = GetRailDef(rail_def_source.c_str());
@@ -153,11 +154,22 @@ Rail *RailManager::GetRailFromComponents(const char *rail_name,
         transform_component->WorldPosition(rail_entities.begin()->second);
   }
 
-  // Cache this until we request the rail from these components again.
-  rail_map[rail_name] = std::unique_ptr<Rail>(new Rail());
-  rail_map[rail_name]->InitializeFromPositions(
+  // Create a new rail with the requested positions.
+  Rail *new_rail = new Rail();
+  new_rail->InitializeFromPositions(
       positions, kSplineGranularity, reliable_distance, total_time, wraps);
-  return rail_map[rail_name].get();
+
+  // Update anything that may be using the old rail.
+  auto old_rail = rail_map.find(rail_name);
+  if (old_rail != rail_map.end()) {
+    auto *rail_denizen_component =
+        entity_manager->GetComponent<RailDenizenComponent>();
+    rail_denizen_component->ChangeRail(old_rail->second.get(), new_rail);
+  }
+
+  // Cache this until we request the rail from these components again.
+  rail_map[rail_name] = std::unique_ptr<Rail>(new_rail);
+  return new_rail;
 }
 
 void RailManager::Clear() { rail_map.clear(); }

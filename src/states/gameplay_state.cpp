@@ -15,7 +15,13 @@
 #include "states/gameplay_state.h"
 
 #include "analytics.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/analytics.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/asset_manager.h"
 #include "fplbase/input.h"
 #include "full_screen_fader.h"
@@ -133,7 +139,7 @@ void GameplayState::RenderPrep() {
 void GameplayState::Render(fplbase::Renderer* renderer) {
   if (!world_->asset_manager) return;
   Camera* cardboard_camera = nullptr;
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -171,7 +177,7 @@ void GameplayState::Initialize(
   music_gameplay_lap_2_ = audio_engine->GetSoundHandle("music_gameplay_lap_2");
   music_gameplay_lap_3_ = audio_engine->GetSoundHandle("music_gameplay_lap_3");
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #else
   (void)config;
@@ -206,15 +212,15 @@ void GameplayState::OnEnter(int previous_state) {
   }
 
   if (world_->is_in_cardboard()) {
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     world_->services_component.set_camera(&cardboard_camera_);
 #endif
   } else {
     world_->services_component.set_camera(&main_camera_);
   }
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   input_system_->head_mounted_display_input().ResetHeadTracker();
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
   // Perform Analytics
   if (previous_state != kGameStatePause) {

@@ -17,9 +17,13 @@
 
 #include <string>
 
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/app.h"
 #include "firebase/future.h"
 #include "firebase/invites.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
 
 namespace fpl {
 namespace zooshi {

@@ -14,8 +14,13 @@
 
 #include "remote_config.h"
 
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/future.h"
 #include "firebase/remote_config.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/utilities.h"
 
 namespace fpl {
@@ -39,7 +44,7 @@ void InitializeRemoteConfig(const firebase::App& app) {
   firebase::remote_config::SetDefaults(defaults, default_count);
 
   firebase::remote_config::Fetch(kRemoteConfigCacheTime).OnCompletion(
-      [](const firebase::Future<void>& completed_future, void* /*data*/) {
+      [](const firebase::Future<void>& /*completed_future*/, void* /*data*/) {
         firebase::remote_config::ActivateFetched();
       },
       nullptr);

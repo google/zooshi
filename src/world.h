@@ -47,7 +47,13 @@
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
 #include "corgi_component_library/transform.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/app.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/render_target.h"
 #include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
@@ -97,10 +103,10 @@ struct World {
         sushi_index(0),
         level_index(0),
         is_in_cardboard_(false) {
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     hmd_controller = nullptr;
     onscreen_controller = nullptr;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 
   void Initialize(const Config& config, fplbase::InputSystem* input_system,
@@ -163,9 +169,9 @@ struct World {
 
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
   OnscreenControllerUI onscreen_controller_ui;
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   BasePlayerController* hmd_controller;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   BasePlayerController* onscreen_controller;
 
   firebase::App* firebase_app;
@@ -210,7 +216,7 @@ struct World {
   void ResetRenderingDirty();
 
   void SetHmdControllerEnabled(bool enabled) {
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     // hmd_controller can be NULL if the device does not support a head mounted
     // display like Cardboard (e.g lacks a gyro), onscreen_controller can be
     // NULL if support is compiled out.
@@ -221,15 +227,15 @@ struct World {
     }
 #else
     (void)enabled;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 
   bool GetHmdControllerEnabled() const {
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     return hmd_controller && hmd_controller->enabled();
 #else
     return false;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 
   // Get the sushi config that should be used during gameplay.

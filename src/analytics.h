@@ -15,9 +15,14 @@
 #ifndef ZOOSHI_ANALYTICS_H_
 #define ZOOSHI_ANALYTICS_H_
 
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/analytics.h"
 #include "firebase/analytics/event_names.h"
 #include "firebase/analytics/parameter_names.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "world.h"
 
 namespace fpl {

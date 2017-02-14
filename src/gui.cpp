@@ -13,7 +13,13 @@
 // limitations under the License.
 
 #include "game.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/remote_config.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "invites.h"
@@ -361,7 +367,7 @@ void GameMenuState::OptionMenuMain() {
     options_menu_state_ = kOptionsMenuStateRendering;
   }
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   // If the device supports a head mounted display allow the user to toggle
   // between gyroscopic and onscreen controls.
   if (fplbase::SupportsHeadMountedDisplay()) {
@@ -373,7 +379,7 @@ void GameMenuState::OptionMenuMain() {
       SaveData();
     }
   }
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
   if (TextButton("Clear Cache", kButtonSize, flatui::Margin(2)) &
       flatui::kEventWentUp) {

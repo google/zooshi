@@ -17,7 +17,12 @@
 
 #include <string>
 
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/messaging.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "SDL_thread.h"
 #include "xp_system.h"
 

@@ -51,7 +51,9 @@ struct RailDenizenData {
         orientation_convergence_rate(0.0f),
         update_orientation(false),
         inherit_transform_data(false),
-        enabled(true) {}
+        enabled(true),
+        lap_end(0.0f),
+        rail(nullptr) {}
 
   void Initialize(const Rail& rail, motive::MotiveEngine& engine);
 
@@ -107,6 +109,7 @@ struct RailDenizenData {
   // Percentage of when a lap ends. Values outside of (0,1] are treated as 1,
   // because the motivator wraps to 0 instead of increasing past 1.
   float lap_end;
+  const Rail* rail;
 };
 
 class RailDenizenComponent : public corgi::Component<RailDenizenData> {
@@ -124,6 +127,9 @@ class RailDenizenComponent : public corgi::Component<RailDenizenData> {
 
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
+
+  // When a Rail is reloaded, we need to reinitialize any data that uses it.
+  void ChangeRail(const Rail* old_rail, const Rail* new_rail);
 
  private:
   void InitializeRail(corgi::EntityRef&);

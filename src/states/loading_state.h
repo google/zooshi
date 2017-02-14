@@ -17,7 +17,7 @@
 
 #include "config_generated.h"
 #include "fplbase/asset_manager.h"
-#include "fplbase/input.h"  // For ANDROID_HMD definition.
+#include "fplbase/input.h"  // For FPLBASE_ANDROID_VR definition.
 #include "states/state_machine.h"
 
 namespace pindrop {

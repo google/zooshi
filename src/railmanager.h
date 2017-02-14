@@ -26,7 +26,7 @@
 namespace fpl {
 namespace zooshi {
 
-typedef const char* RailId;
+typedef std::string RailId;
 
 class Rail {
  public:

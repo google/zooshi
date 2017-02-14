@@ -27,7 +27,13 @@
 #include "common.h"
 #include "components/render_3d_text.h"
 #include "corgi/entity.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/analytics.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/debug_markers.h"
 #include "fplbase/input.h"
 #include "fplbase/systrace.h"
@@ -64,9 +70,9 @@
 #include "fplbase/renderer_android.h"
 #endif  // __ANDROID__
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
 #define ZOOSHI_OVERDRAW_DEBUG 0
 // ZOOSHI_FORCE_ONSCREEN_CONTROLLER is useful when testing the on-screen
@@ -199,11 +205,11 @@ bool Game::InitializeRenderer() {
   // Initialize the first frame as black.
   renderer_.ClearFrameBuffer(mathfu::kZeros4f);
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   vec2i size = fplbase::AndroidGetScalerResolution();
   const vec2i viewport_size = size.x && size.y ? size : renderer_.window_size();
   fplbase::InitializeUndistortFramebuffer(viewport_size.x, viewport_size.y);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
 #if ZOOSHI_OVERDRAW_DEBUG
   renderer_.SetBlendMode(BlendMode::kBlendModeAdd);
@@ -363,9 +369,9 @@ bool Game::Initialize(const char *const binary_directory) {
 
   input_.Initialize();
   input_.AddAppEventCallback(AudioEngineVolumeControl(&audio_engine_));
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   input_.head_mounted_display_input().EnableDeviceOrientationCorrection();
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
   SystraceInit();
 
@@ -424,7 +430,7 @@ bool Game::Initialize(const char *const binary_directory) {
                     scene_lab_.get(), &unlockable_manager_, &xp_system_,
                     &invites_listener_, &message_listener_, &admob_helper_);
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   if (fplbase::SupportsHeadMountedDisplay()) {
     BasePlayerController *controller = new AndroidCardboardController();
     controller->set_input_config(&GetInputConfig());
@@ -433,7 +439,7 @@ bool Game::Initialize(const char *const binary_directory) {
     world_.AddController(controller);
     world_.hmd_controller = controller;
   }
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
 // If this is a mobile platform or the onscreen controller is forced on
 // instance the onscreen controller.
@@ -523,12 +529,12 @@ bool Game::Initialize(const char *const binary_directory) {
 
   xp_system_.Initialize(config);
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   if (fplbase::AndroidGetActivityName() ==
       "com.google.fpl.zooshi.ZooshiHmdActivity") {
     world_.SetIsInCardboard(true);
   }
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
   LogInfo("Initialization complete\n");
   return true;

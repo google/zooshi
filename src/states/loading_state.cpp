@@ -22,9 +22,9 @@
 #include "fplbase/glplatform.h"
 #include "fplbase/input.h"
 #include "fplbase/material.h"
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
-#endif // ANDROID_HMD
+#endif // FPLBASE_ANDROID_VR
 #include "fplbase/shader.h"
 #include "fplbase/utilities.h"
 #include "full_screen_fader.h"
@@ -32,7 +32,7 @@
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix.h"
 #include "mathfu/quaternion.h"
-#include "mathfu/vector_4.h"
+#include "mathfu/vector.h"
 #include "pindrop/pindrop.h"
 #include "states/states.h"
 #include "states/states_common.h"
@@ -83,7 +83,7 @@ void LoadingState::AdvanceFrame(int delta_time, int* next_state) {
     *next_state = kGameStateGameMenu;
   }
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   // Get the direction vector from the HMD input.
   const fplbase::HeadMountedDisplayInput& head_mounted_display_input =
     input_system_->head_mounted_display_input();
@@ -95,7 +95,7 @@ void LoadingState::AdvanceFrame(int delta_time, int* next_state) {
   static const float kConvergenceRate = 2.0f;
   banner_rotation_ += (((M_PI * 2) - rotation) - banner_rotation_) *
     kConvergenceRate * std::min(delta_time / 1000.0f, 1.0f);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
 }
 
@@ -123,7 +123,7 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
   const vec2 res(renderer->window_size());
   const float aspect_ratio = res.x / res.y;
   if (world_->is_in_cardboard()) {
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     fplbase::Shader *shader_textured = shader_textured_;
     fplbase::HeadMountedDisplayViewSettings view_settings;
     HeadMountedDisplayRenderStart(input_system_->head_mounted_display_input(),
@@ -154,7 +154,7 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
       fplbase::Mesh::RenderAAQuadAlongX(bottom_left, top_right);
     }
     HeadMountedDisplayRenderEnd(renderer, true);
-#endif // ANDROID_HMD
+#endif // FPLBASE_ANDROID_VR
   } else {
     // Always clear the background.
     renderer->ClearFrameBuffer(kOnes4f);
@@ -207,9 +207,9 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
 }
 
 void LoadingState::OnEnter(int /*previous_state*/) {
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   input_system_->head_mounted_display_input().ResetHeadTracker();
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 }
 
 

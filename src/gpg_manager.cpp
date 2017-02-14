@@ -438,7 +438,9 @@ void GPGManager::FetchPlayer() {
 extern "C" JNIEXPORT jint GPG_JNI_OnLoad(JavaVM *vm, void *reserved) {
   fplbase::LogInfo("main: JNI_OnLoad called");
 
+#ifdef USING_GOOGLE_PLAY_GAMES
   gpg::AndroidInitialization::JNI_OnLoad(vm);
+#endif
 
   return JNI_VERSION_1_4;
 }
@@ -447,8 +449,11 @@ extern "C" JNIEXPORT void JNICALL
 Java_com_google_fpl_fplbase_FPLActivity_nativeOnActivityResult(
     JNIEnv *env, jobject thiz, jobject activity, jint request_code,
     jint result_code, jobject data) {
+#ifdef USING_GOOGLE_PLAY_GAMES
   gpg::AndroidSupport::OnActivityResult(env, activity, request_code,
                                         result_code, data);
+#endif
+
   fplbase::LogInfo("GPG: nativeOnActivityResult");
 }
 #endif

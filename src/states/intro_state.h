@@ -71,9 +71,9 @@ protected:
   pindrop::Bus master_bus_;
 
   Camera main_camera_;
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 };
 
 }  // zooshi

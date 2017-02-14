@@ -77,7 +77,7 @@ class PauseState : public StateNode {
   GameState next_state_;
 
   Camera main_camera_;
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
 #endif
 };

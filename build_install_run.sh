@@ -17,8 +17,12 @@
 # NativeActivity.
 
 : ${FPLUTIL:=$([[ -e $(dirname $0)/dependencies/fplutil ]] && \
-               ( cd $(dirname $0)/dependencies/fplutil; pwd ) ||
-               ( cd $(dirname $0)/../../libs/fplutil; pwd ))}
+               ( cd $(dirname $0)/dependencies/fplutil; pwd ) || \
+               [[ -e $(dirname $0)/../../libs/fplutil ]] && \
+               ( cd $(dirname $0)/dependencies/fplutil; pwd ) || \
+               ( cd $(dirname $0)/../fplutil; pwd ))}
+echo yoyo ${FPLUTIL}
+
 # Enable / disable apk installation.
 : ${INSTALL=1}
 # Enable / disable apk launch.

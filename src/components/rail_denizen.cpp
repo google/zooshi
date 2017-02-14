@@ -35,6 +35,7 @@
 #include "motive/init.h"
 #include "rail_def_generated.h"
 #include "scene_lab/scene_lab.h"
+#include "scene_lab/corgi/corgi_adapter.h"
 
 using mathfu::vec3;
 using corgi::component_library::GraphData;
@@ -90,6 +91,7 @@ void RailDenizenData::Initialize(const Rail& rail,
   }
   playback_rate.InitializeWithTarget(motive::SplineInit(), &engine,
                                      motive::Current1f(initial_playback_rate));
+  this->rail = &rail;
 }
 
 void RailDenizenData::SetPlaybackRate(float rate, float transition_time) {
@@ -352,6 +354,22 @@ void RailDenizenComponent::OnEnterEditor() {
                         rail_data->internal_rail_orientation.Inverse();
       td->scale = rail_data->rail_scale / rail_data->internal_rail_scale;
     }
+  }
+}
+
+void RailDenizenComponent::ChangeRail(const Rail* old_rail,
+                                      const Rail* new_rail) {
+  motive::MotiveEngine& motive_engine =
+      entity_manager_->GetComponent<AnimationComponent>()->engine();
+
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
+    if (!rail_denizen_data->enabled || rail_denizen_data->rail != old_rail) {
+      continue;
+    }
+
+    rail_denizen_data->Initialize(*new_rail, motive_engine);
   }
 }
 

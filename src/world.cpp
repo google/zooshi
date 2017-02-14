@@ -18,8 +18,14 @@
 #include "components_generated.h"
 #include "config_generated.h"
 #include "corgi_component_library/default_entity_factory.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/analytics.h"
 #include "firebase/invites.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/render_target.h"
@@ -30,7 +36,7 @@
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -230,9 +236,9 @@ void World::SetIsInCardboard(bool in_cardboard) {
     is_in_cardboard_ = in_cardboard;
     rendering_dirty_ = true;
 // Turn on the Cardboard setting button when in Cardboard mode.
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     fplbase::SetCardboardButtonEnabled(in_cardboard);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 }
 

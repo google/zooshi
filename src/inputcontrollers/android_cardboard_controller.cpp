@@ -35,7 +35,7 @@ void AndroidCardboardController::UpdateOrientation() {
   facing_.Update();
   up_.Update();
 
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   // Cardboard uses a different coordinate space than we use, so we have to
   // remap the axes and swap the handedness before we can use the
   // vectors as our facing/up vectors:
@@ -47,7 +47,7 @@ void AndroidCardboardController::UpdateOrientation() {
   const vec3 up = vec3(hmd_up.x, -hmd_up.z, hmd_up.y);
   facing_.SetValue(forward);
   up_.SetValue(up);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 }
 
 void AndroidCardboardController::UpdateButtons() {
@@ -60,10 +60,10 @@ void AndroidCardboardController::UpdateButtons() {
   if (button->went_down()) {
     last_position_ = pointer->mousepos;
   }
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   buttons_[kFireProjectile].SetValue(
       input_system_->head_mounted_display_input().triggered());
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 }
 
 }  // fpl_base

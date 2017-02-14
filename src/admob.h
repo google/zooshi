@@ -15,9 +15,15 @@
 #ifndef ZOOSHI_ADMOB_H_
 #define ZOOSHI_ADMOB_H_
 
+#include <cstring>
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/admob.h"
 #include "firebase/admob/rewarded_video.h"
 #include "firebase/app.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
 
 namespace fpl {
 namespace zooshi {
@@ -62,7 +68,7 @@ class RewardedVideoListener : public firebase::admob::rewarded_video::Listener {
   void set_expecting_state_change(bool val) { expecting_state_change_ = val; }
 
   void Reset() {
-    reward_item_ = {};
+    std::memset(&reward_item_, 0, sizeof(reward_item_));
     earned_reward_ = false;
   }
 

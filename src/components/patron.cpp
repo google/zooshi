@@ -25,7 +25,13 @@
 #include "corgi_component_library/meta.h"
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/analytics.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
@@ -567,7 +573,7 @@ void PatronComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
                 corgi::kMillisecondsPerSecond *
                     patron_data->rail_accelerate_time);
           }
-        }  // fallthrough
+        } FPL_FALLTHROUGH_INTENDED
 
         case kPatronStateUpright:
           Animate(patron_data, PatronAction_Idle);

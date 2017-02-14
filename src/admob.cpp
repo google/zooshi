@@ -13,12 +13,29 @@
 // limitations under the License.
 
 #include "admob.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
 #include "firebase/app.h"
 #include "firebase/future.h"
 #include "firebase/remote_config.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/utilities.h"
 #include "remote_config.h"
 #include "world.h"
+
+#if defined(ZOOSHI_DEFINE_SIZED_OPERATOR_DELETE) && defined(__GNUC__)
+  // For linking against Firebase libraries.
+  // The Firebase libraries are built with Clang, which no longer emits a
+  // sized operator delete (it used to emit a weakly linked one).
+  // GCC does not emit one either, so we must define it here.
+  // See b/33306060.
+  void operator delete(void* ptr, unsigned long /*sz*/) {
+    ::operator delete(ptr);
+  }
+#endif  // defined(ZOOSHI_DEFINE_SIZED_OPERATOR_DELETE) && defined(__GNUC__)
 
 namespace fpl {
 namespace zooshi {
@@ -59,7 +76,8 @@ void AdMobHelper::Initialize(const firebase::App& app) {
 void AdMobHelper::LoadNewRewardedVideo() {
   rewarded_video_status_ = kAdMobStatusLoading;
   // TODO(amaurice) Fill in request with information.
-  firebase::admob::AdRequest request = {};
+  firebase::admob::AdRequest request;
+  std::memset(&request, 0, sizeof(request));
   rewarded_video::LoadAd(kRewardedVideoAdUnit, request)
       .OnCompletion(
           [](const firebase::Future<void>& completed_future,

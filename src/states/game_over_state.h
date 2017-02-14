@@ -51,7 +51,7 @@ class GameOverState : public StateNode {
 
   // The camera(s) to use to render the background world.
   Camera main_camera_;
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
 #endif
 

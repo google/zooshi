@@ -276,5 +276,5 @@ $(call import-module,mathfu/jni)
 $(call import-module,motive/jni)
 $(call import-module,corgi/component_library/jni)
 $(call import-module,scene_lab/jni)
-$(call import-module,webp)
+$(call import-module,$(notdir $(DEPENDENCIES_WEBP_DIR)))
 

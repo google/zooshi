@@ -15,6 +15,23 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(zooshi)
 
+# Call fplutil to get locations of dependencies and set common build settings.
+# Extra compile flags
+#   /wd4305: trunction from double to float in shadow_controller.cpp
+include("cmake/find_fplutil.cmake")
+include("${fplutil_dir}/buildutil/cmake_common.txt")
+set_common_build_variables("/wd4305")
+
+# Zooshi requires the Firebase SDK.
+if (NOT EXISTS "${firebase_sdk_dir}")
+  message(ERROR "Cannot find Firebase SDK. Please set FIREBASE_SDK environment variable and delete CMake cache.")
+endif()
+
+# In-tree build of the Zooshi directory.
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
+  set(zooshi_in_tree_build ON)
+endif()
+
 # Compile the game with the debug flag
 set(ZOOSHI_DEBUG ON)
 
@@ -25,21 +42,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Temporary files (like object files) created while compiling projects.
 set(tmp_dir ${CMAKE_BINARY_DIR}/obj)
-
-# Configure fpl_root to the right directory
-if(NOT DEFINED fpl_root)
-  get_filename_component(fpl_root "${CMAKE_CURRENT_LIST_DIR}/../../libs"
-       REALPATH)
-  if(NOT EXISTS "${fpl_root}")
-    set(fpl_root "${CMAKE_CURRENT_SOURCE_DIR}/dependencies")
-  endif ()
-endif()
-
-# Configurable locations of other dependencies of this project.
-# Extra compile flags
-#   /wd4305: trunction from double to float in shadow_controller.cpp
-include (${fpl_root}/fplutil/buildutil/cmake_common.txt)
-set_common_build_variables("/wd4305")
 
 # Option to enable / disable the build of cwebp from source.
 option(zooshi_build_cwebp "Build cwebp from source." OFF)
@@ -122,7 +124,7 @@ endif()
 # Generate source files for all FlatBuffers schema files under the src
 # directory.
 set(FLATBUFFERS_GENERATED_INCLUDES_DIR
-    ${CMAKE_SOURCE_DIR}/${CMAKE_FILES_DIRECTORY}/include/zooshi)
+    ${CMAKE_CURRENT_BINARY_DIR}/include/zooshi)
 file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_CURRENT_LIST_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
@@ -155,9 +157,17 @@ if(zooshi_build_cwebp)
   set(cwebp_depends cwebp)
 endif()
 
+# Run the asset pipeline.
+# If we're building out-of-tree, we have to copy the zooshi/assets directory
+# to its out-of-tree location.
+if (NOT DEFINED zooshi_in_tree_build)
+  set(zooshi_asset_copy_src "${CMAKE_CURRENT_LIST_DIR}/assets")
+  set(zooshi_asset_copy_dest "${CMAKE_BINARY_DIR}/assets")
+endif()
 add_custom_target(assets
   COMMAND python ${CMAKE_CURRENT_LIST_DIR}/scripts/build_assets.py
   --copy_tree
+  ${zooshi_asset_copy_src} ${zooshi_asset_copy_dest}
   ${CMAKE_CURRENT_LIST_DIR}/src/rawassets/fonts ${CMAKE_BINARY_DIR}/assets/fonts
   ${dependencies_flatui_dir}/assets/shaders ${CMAKE_BINARY_DIR}/assets/shaders
   ${dependencies_flatui_dir}/assets/hyphen-data ${CMAKE_BINARY_DIR}/assets/hyphen-data
@@ -320,7 +330,7 @@ include_directories(${dependencies_flatui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_scene_lab_dir}/include)
-include_directories(${firebase_dir}/include)
+include_directories(${firebase_sdk_dir}/include)
 
 # SDL includes.
 include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
@@ -342,39 +352,14 @@ if(fplbase_debug_markers)
   add_definitions(-DFPLBASE_ENABLE_DEBUG_MARKERS)
 endif()
 
+add_definitions(-DZOOSHI_DEFINE_SIZED_OPERATOR_DELETE)
+
 # Executable target.
 add_executable(zooshi ${zooshi_SRCS})
 
 # Additional flags for the target.
 mathfu_configure_flags(zooshi)
 breadboard_module_library_configure_flags(zooshi)
-
-# Link in the Firebase libraries.
-if (WIN32)
-  set(platform_type "windows")
-elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(platform_type "darwin")
-else()
-  set(platform_type "linux")
-endif()
-add_library(firebase_app STATIC IMPORTED)
-set_target_properties(firebase_app PROPERTIES
-    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libapp.a)
-add_library(firebase_admob STATIC IMPORTED)
-set_target_properties(firebase_admob PROPERTIES
-    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libadmob.a)
-add_library(firebase_analytics STATIC IMPORTED)
-set_target_properties(firebase_analytics PROPERTIES
-    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libanalytics.a)
-add_library(firebase_invites STATIC IMPORTED)
-set_target_properties(firebase_invites PROPERTIES
-    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libinvites.a)
-add_library(firebase_messaging STATIC IMPORTED)
-set_target_properties(firebase_messaging PROPERTIES
-    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libmessaging.a)
-add_library(firebase_config STATIC IMPORTED)
-set_target_properties(firebase_config PROPERTIES
-    IMPORTED_LOCATION ${firebase_dir}/libs/${platform_type}/libremote_config.a)
 
 # Dependencies for the executable target.
 add_dependencies(zooshi zooshi_generated_includes assets)
