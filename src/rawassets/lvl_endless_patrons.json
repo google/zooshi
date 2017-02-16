@@ -5,7 +5,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8538-ad4a-98be-2dda",
+            "entity_id": "patron_0",
             "prototype": "PatronHungryHippo_First",
             "comment": "Special Hippo that starts the rail moving."
           }
@@ -40,7 +40,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$a254-66d6-b584-65d4",
+            "entity_id": "patron_1",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -74,7 +74,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$d68e-40bc-9205-7582",
+            "entity_id": "patron_2",
             "prototype": "PatronBankerBird"
           }
         },
@@ -108,7 +108,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8a37-1b2c-c1e5-e63b",
+            "entity_id": "patron_3",
             "prototype": "PatronGiraffette"
           }
         },
@@ -142,7 +142,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$eac9-8253-a12d-0193",
+            "entity_id": "patron_4",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -176,7 +176,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$95d2-3605-a445-db9d",
+            "entity_id": "patron_5",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -210,7 +210,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7681-8d44-e720-9b34",
+            "entity_id": "patron_6",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -244,7 +244,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$470d-eb1a-cb5a-eee9",
+            "entity_id": "patron_7",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -278,7 +278,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8547-263e-2892-79c8",
+            "entity_id": "patron_8",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -312,7 +312,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$e461-a91c-3a0b-5c55",
+            "entity_id": "patron_9",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -346,7 +346,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1b76-9485-9ae2-73d8",
+            "entity_id": "patron_10",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -380,7 +380,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$687a-2aa0-3626-b68d",
+            "entity_id": "patron_11",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -414,7 +414,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$0c50-0eb5-1025-a9b2",
+            "entity_id": "patron_12",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -448,7 +448,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$06d3-7d8a-ed53-a085",
+            "entity_id": "patron_13",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -482,7 +482,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4d13-0545-2293-0755",
+            "entity_id": "patron_14",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -516,7 +516,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3a2c-9976-75e6-cc62",
+            "entity_id": "patron_15",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -550,7 +550,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1d9c-e3e5-c710-eed2",
+            "entity_id": "patron_16",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -584,7 +584,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$d0a2-060a-9101-794e",
+            "entity_id": "patron_17",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -618,7 +618,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$6646-3118-bea1-787c",
+            "entity_id": "patron_18",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -652,7 +652,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8268-7a27-dd27-631a",
+            "entity_id": "patron_19",
             "prototype": "PatronGiraffette"
           }
         },
@@ -686,7 +686,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3450-3013-d68e-40bc",
+            "entity_id": "patron_20",
             "prototype": "PatronGiraffette"
           }
         },
@@ -720,7 +720,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$2c07-beb2-ea04-9aeb",
+            "entity_id": "patron_21",
             "prototype": "PatronGiraffette"
           }
         },
@@ -754,7 +754,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$450e-d4da-9181-84e9",
+            "entity_id": "patron_22",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -788,7 +788,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$538a-d4a9-8be2-dda2",
+            "entity_id": "patron_23",
             "prototype": "PatronBankerBird"
           }
         },
@@ -822,7 +822,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$153e-a8e2-beb7-2094",
+            "entity_id": "patron_24",
             "prototype": "PatronBankerBird"
           }
         },
@@ -856,7 +856,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b6b3-d166-7067-eae1",
+            "entity_id": "patron_25",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -890,7 +890,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$e1c5-4a5b-6578-538a",
+            "entity_id": "patron_26",
             "prototype": "PatronGiraffette"
           }
         },
@@ -924,7 +924,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$32e9-0519-874b-433d",
+            "entity_id": "patron_27",
             "prototype": "PatronBankerBird"
           }
         },
@@ -958,7 +958,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$635e-0e8a-b775-4bce",
+            "entity_id": "patron_28",
             "prototype": "PatronBankerBird"
           }
         },
@@ -992,7 +992,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_29",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -1026,7 +1026,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_30",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -1060,7 +1060,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_31",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -1094,7 +1094,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_32",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -1128,7 +1128,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_33",
             "prototype": "PatronHungryHippo"
           }
         },
@@ -1162,7 +1162,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_34",
             "prototype": "PatronBankerBird"
           }
         },
@@ -1196,7 +1196,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_35",
             "prototype": "PatronBankerBird"
           }
         },
@@ -1230,7 +1230,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_36",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -1264,7 +1264,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_37",
             "prototype": "PatronMoustacheCroc"
           }
         },
@@ -1298,7 +1298,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_38",
             "prototype": "PatronLadyMandrill"
           }
         },
@@ -1332,7 +1332,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "patron_39",
             "prototype": "PatronGiraffette"
           }
         },

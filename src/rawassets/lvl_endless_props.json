@@ -5,7 +5,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3cb7-6129-771d-57ab",
+            "entity_id": "endless_props_0",
             "prototype": "LogProp"
           }
         },
@@ -39,7 +39,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$bb6a-602d-cd33-6b09",
+            "entity_id": "endless_props_1",
             "prototype": "BaobabTree"
           }
         },
@@ -73,7 +73,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$e97e-868a-8604-8ba5",
+            "entity_id": "endless_props_2",
             "prototype": "SwampTree"
           }
         },
@@ -107,7 +107,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$5337-a792-975c-390e",
+            "entity_id": "endless_props_3",
             "prototype": "FernTall"
           }
         },
@@ -141,7 +141,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b4d2-2891-c259-51db",
+            "entity_id": "endless_props_4",
             "prototype": "FernMid"
           }
         },
@@ -175,7 +175,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4140-8d23-5809-3080",
+            "entity_id": "endless_props_5",
             "prototype": "FernShort"
           }
         },
@@ -209,7 +209,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3317-d97c-eb55-0007",
+            "entity_id": "endless_props_6",
             "prototype": "RockTall"
           }
         },
@@ -243,7 +243,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4727-0c9d-e075-1516",
+            "entity_id": "endless_props_7",
             "prototype": "RockMid"
           }
         },
@@ -277,7 +277,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3317-d97c-eb55-0007",
+            "entity_id": "endless_props_8",
             "prototype": "RockShort"
           }
         },
@@ -311,7 +311,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3317-d97c-eb55-0007",
+            "entity_id": "endless_props_9",
             "prototype": "RockSmaller"
           }
         },
@@ -345,7 +345,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3317-d97c-eb55-0007",
+            "entity_id": "endless_props_10",
             "prototype": "RockSmallest"
           }
         },
@@ -379,7 +379,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$5337-a792-975c-390e",
+            "entity_id": "endless_props_11",
             "prototype": "GrassDense"
           }
         },
@@ -413,7 +413,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b4d2-2891-c259-51db",
+            "entity_id": "endless_props_12",
             "prototype": "GrassSmall"
           }
         },
@@ -447,7 +447,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4140-8d23-5809-3080",
+            "entity_id": "endless_props_13",
             "prototype": "GrassWide"
           }
         },
@@ -481,7 +481,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1b40-2826-35a4-1266",
+            "entity_id": "endless_props_14",
             "prototype": "RockShort"
           }
         },
@@ -515,7 +515,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$a55a-52c7-000a-0826",
+            "entity_id": "endless_props_15",
             "prototype": "RockShort"
           }
         },
@@ -549,7 +549,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$16b3-5554-0334-382a",
+            "entity_id": "endless_props_16",
             "prototype": "FernShort"
           }
         },
@@ -583,7 +583,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b4d2-2891-c259-51db",
+            "entity_id": "endless_props_17",
             "prototype": "RockMid"
           }
         },
@@ -617,7 +617,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1e18-1328-a371-b2cc",
+            "entity_id": "endless_props_18",
             "prototype": "RockMid"
           }
         },
@@ -651,7 +651,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1e18-1328-a371-b2cc",
+            "entity_id": "endless_props_19",
             "prototype": "RockShort"
           }
         },
@@ -685,7 +685,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b47d-e8ac-297c-5e91",
+            "entity_id": "endless_props_20",
             "prototype": "RockTall"
           }
         },
@@ -719,7 +719,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$87a2-7dd2-7631-a685",
+            "entity_id": "endless_props_21",
             "prototype": "RockMid"
           }
         },
@@ -753,7 +753,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$16b3-5554-0334-382a",
+            "entity_id": "endless_props_22",
             "prototype": "RockSmaller"
           }
         },
@@ -787,7 +787,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$684c-ea10-d441-d6b8",
+            "entity_id": "endless_props_23",
             "prototype": "RockSmaller"
           }
         },
@@ -821,7 +821,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$2057-5826-4061-a74e",
+            "entity_id": "endless_props_24",
             "prototype": "RockSmallest"
           }
         },
@@ -855,7 +855,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$62c0-7beb-2ea0-49ae",
+            "entity_id": "endless_props_25",
             "prototype": "GrassDense"
           }
         },
@@ -889,7 +889,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4a5b-6578-538a-d4a9",
+            "entity_id": "endless_props_26",
             "prototype": "GrassWide"
           }
         },
@@ -923,7 +923,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$12d0-1939-5d23-605a",
+            "entity_id": "endless_props_27",
             "prototype": "FernShort"
           }
         },
@@ -957,7 +957,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$beb7-2094-70de-b1ac",
+            "entity_id": "endless_props_28",
             "prototype": "FernTall"
           }
         },
@@ -991,7 +991,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$a0b5-c558-d6b6-b3d1",
+            "entity_id": "endless_props_29",
             "prototype": "FernMid"
           }
         },
@@ -1025,7 +1025,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$9630-d3bc-4367-745c",
+            "entity_id": "endless_props_30",
             "prototype": "RockShort"
           }
         },
@@ -1059,7 +1059,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$46b3-981d-b864-cb2b",
+            "entity_id": "endless_props_31",
             "prototype": "RockSmaller"
           }
         },
@@ -1093,7 +1093,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8b12-4311-b769-4859",
+            "entity_id": "endless_props_32",
             "prototype": "RockTall"
           }
         },
@@ -1127,7 +1127,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$626b-68d2-05c5-e309",
+            "entity_id": "endless_props_33",
             "prototype": "RockMid"
           }
         },
@@ -1161,7 +1161,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1877-16a2-b77b-b75e",
+            "entity_id": "endless_props_34",
             "prototype": "RockShort"
           }
         },
@@ -1195,7 +1195,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$6972-03be-a866-3449",
+            "entity_id": "endless_props_35",
             "prototype": "GrassWide"
           }
         },
@@ -1229,7 +1229,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$9ac8-9b85-1370-b95e",
+            "entity_id": "endless_props_36",
             "prototype": "RockShort"
           }
         },
@@ -1263,7 +1263,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8122-db8e-e00b-96bd",
+            "entity_id": "endless_props_37",
             "prototype": "RockTall"
           }
         },
@@ -1297,7 +1297,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7561-494a-2546-6d6b",
+            "entity_id": "endless_props_38",
             "prototype": "FernMid"
           }
         },
@@ -1331,7 +1331,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1e27-d6cb-48c7-6339",
+            "entity_id": "endless_props_39",
             "prototype": "FernTall"
           }
         },
@@ -1365,7 +1365,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b47d-e8ac-297c-5e91",
+            "entity_id": "endless_props_40",
             "prototype": "RockSmallest"
           }
         },
@@ -1399,7 +1399,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b4d2-2891-c259-51db",
+            "entity_id": "endless_props_41",
             "prototype": "RockMid"
           }
         },
@@ -1433,7 +1433,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$025a-9b29-a652-0053",
+            "entity_id": "endless_props_42",
             "prototype": "RockSmallest"
           }
         },
@@ -1467,7 +1467,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$d53a-0851-d01e-1305",
+            "entity_id": "endless_props_43",
             "prototype": "RockSmaller"
           }
         },
@@ -1501,7 +1501,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$dd7d-6de4-d130-5452",
+            "entity_id": "endless_props_44",
             "prototype": "RockSmaller"
           }
         },
@@ -1535,7 +1535,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$5e6c-c62b-86bd-a21d",
+            "entity_id": "endless_props_45",
             "prototype": "RockSmallest"
           }
         },
@@ -1569,7 +1569,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7115-7310-9de5-003c",
+            "entity_id": "endless_props_46",
             "prototype": "RockShort"
           }
         },
@@ -1603,7 +1603,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$cee5-8668-e850-5694",
+            "entity_id": "endless_props_47",
             "prototype": "RockTall"
           }
         },
@@ -1637,7 +1637,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7561-494a-2546-6d6b",
+            "entity_id": "endless_props_48",
             "prototype": "RockMid"
           }
         },
@@ -1671,7 +1671,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1e27-d6cb-48c7-6339",
+            "entity_id": "endless_props_49",
             "prototype": "RockShort"
           }
         },
@@ -1705,7 +1705,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$6d68-191c-d8d9-ab7c",
+            "entity_id": "endless_props_50",
             "prototype": "RockMid"
           }
         },
@@ -1739,7 +1739,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b47d-e8ac-297c-5e91",
+            "entity_id": "endless_props_51",
             "prototype": "RockTall"
           }
         },
@@ -1773,7 +1773,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$5044-802a-a980-9326",
+            "entity_id": "endless_props_52",
             "prototype": "RockTall"
           }
         },
@@ -1807,7 +1807,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$be02-1d91-d9ce-3e5c",
+            "entity_id": "endless_props_53",
             "prototype": "RockShort"
           }
         },
@@ -1841,7 +1841,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$16b3-5554-0334-382a",
+            "entity_id": "endless_props_54",
             "prototype": "RockMid"
           }
         },
@@ -1875,7 +1875,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$962a-4439-1bce-ba03",
+            "entity_id": "endless_props_55",
             "prototype": "RockMid"
           }
         },
@@ -1909,7 +1909,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$2057-5826-4061-a74e",
+            "entity_id": "endless_props_56",
             "prototype": "RockTall"
           }
         },
@@ -1943,7 +1943,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b4d2-2891-c259-51db",
+            "entity_id": "endless_props_57",
             "prototype": "RockShort"
           }
         },
@@ -1977,7 +1977,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7561-494a-2546-6d6b",
+            "entity_id": "endless_props_58",
             "prototype": "RockMid"
           }
         },
@@ -2011,7 +2011,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1e27-d6cb-48c7-6339",
+            "entity_id": "endless_props_59",
             "prototype": "RockTall"
           }
         },
@@ -2045,7 +2045,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$6d68-191c-d8d9-ab7c",
+            "entity_id": "endless_props_60",
             "prototype": "RockShort"
           }
         },
@@ -2079,7 +2079,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$5044-802a-a980-9326",
+            "entity_id": "endless_props_61",
             "prototype": "RockSmaller"
           }
         },
@@ -2113,7 +2113,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$87a2-7dd2-7631-a685",
+            "entity_id": "endless_props_62",
             "prototype": "RockSmallest"
           }
         },
@@ -2147,7 +2147,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$710e-ed27-5691-d269",
+            "entity_id": "endless_props_63",
             "prototype": "RockSmallest"
           }
         },
@@ -2181,7 +2181,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$a2a9-1d17-4b82-dec0",
+            "entity_id": "endless_props_64",
             "prototype": "RockSmallest"
           }
         },
@@ -2215,7 +2215,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$962a-4439-1bce-ba03",
+            "entity_id": "endless_props_65",
             "prototype": "RockSmaller"
           }
         },
@@ -2249,7 +2249,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$2057-5826-4061-a74e",
+            "entity_id": "endless_props_66",
             "prototype": "RockSmaller"
           }
         },
@@ -2283,7 +2283,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1017-94ee-450e-d4da",
+            "entity_id": "endless_props_67",
             "prototype": "RockSmallest"
           }
         },
@@ -2317,7 +2317,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$62c0-7beb-2ea0-49ae",
+            "entity_id": "endless_props_68",
             "prototype": "RockSmaller"
           }
         },
@@ -2351,7 +2351,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4a5b-6578-538a-d4a9",
+            "entity_id": "endless_props_69",
             "prototype": "RockSmallest"
           }
         },
@@ -2385,7 +2385,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$33da-963e-ac98-253a",
+            "entity_id": "endless_props_70",
             "prototype": "RockSmallest"
           }
         },
@@ -2419,7 +2419,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7209-b342-1658-6b3b",
+            "entity_id": "endless_props_71",
             "prototype": "GrassWide"
           }
         },
@@ -2453,7 +2453,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b5ae-ee90-5d01-7e33",
+            "entity_id": "endless_props_72",
             "prototype": "FernMid"
           }
         },
@@ -2487,7 +2487,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$5286-8eee-461a-91c3",
+            "entity_id": "endless_props_73",
             "prototype": "FernTall"
           }
         },
@@ -2521,7 +2521,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4932-e8ac-074b-b2d3",
+            "entity_id": "endless_props_74",
             "prototype": "GrassDense"
           }
         },
@@ -2555,7 +2555,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$d8ec-2aa2-3eee-1d2a",
+            "entity_id": "endless_props_75",
             "prototype": "GrassDense"
           }
         },
@@ -2589,7 +2589,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8b12-4311-b769-4859",
+            "entity_id": "endless_props_76",
             "prototype": "FernShort"
           }
         },
@@ -2623,7 +2623,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$626b-68d2-05c5-e309",
+            "entity_id": "endless_props_77",
             "prototype": "GrassWide"
           }
         },
@@ -2657,7 +2657,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1877-16a2-b77b-b75e",
+            "entity_id": "endless_props_78",
             "prototype": "GrassWide"
           }
         },
@@ -2691,7 +2691,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$23b3-a767-ed3a-6992",
+            "entity_id": "endless_props_79",
             "prototype": "GrassDense"
           }
         },
@@ -2725,7 +2725,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$025a-9b29-a652-0053",
+            "entity_id": "endless_props_80",
             "prototype": "GrassDense"
           }
         },
@@ -2759,7 +2759,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$37cd-4080-6d37-d8ae",
+            "entity_id": "endless_props_81",
             "prototype": "GrassWide"
           }
         },
@@ -2793,7 +2793,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$bc41-dc14-a5b9-d79c",
+            "entity_id": "endless_props_82",
             "prototype": "GrassDense"
           }
         },
@@ -2827,7 +2827,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$2930-7553-a2c9-9767",
+            "entity_id": "endless_props_83",
             "prototype": "GrassWide"
           }
         },
@@ -2861,7 +2861,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$c4e4-a476-7502-c793",
+            "entity_id": "endless_props_84",
             "prototype": "GrassDense"
           }
         },
@@ -2895,7 +2895,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$5320-8970-e82c-1c08",
+            "entity_id": "endless_props_85",
             "prototype": "FernTall"
           }
         },
@@ -2929,7 +2929,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$cee5-8668-e850-5694",
+            "entity_id": "endless_props_86",
             "prototype": "FernShort"
           }
         },
@@ -2963,7 +2963,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$410d-8667-0c86-33ac",
+            "entity_id": "endless_props_87",
             "prototype": "FernMid"
           }
         },
@@ -2997,7 +2997,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$0608-c71d-5a49-d069",
+            "entity_id": "endless_props_88",
             "prototype": "FernMid"
           }
         },
@@ -3031,7 +3031,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$07dd-e0b4-a1d8-1529",
+            "entity_id": "endless_props_89",
             "prototype": "FernTall"
           }
         },
@@ -3065,7 +3065,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$c89b-8513-70b9-5e3d",
+            "entity_id": "endless_props_90",
             "prototype": "FernMid"
           }
         },
@@ -3099,7 +3099,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$22db-8ee0-0b96-bd4e",
+            "entity_id": "endless_props_91",
             "prototype": "FernMid"
           }
         },
@@ -3133,7 +3133,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$28ca-374a-c4d0-9136",
+            "entity_id": "endless_props_92",
             "prototype": "FernShort"
           }
         },
@@ -3167,7 +3167,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$a1ee-93a6-8973-aba4",
+            "entity_id": "endless_props_93",
             "prototype": "FernShort"
           }
         },
@@ -3201,7 +3201,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$360d-aa53-5c70-8244",
+            "entity_id": "endless_props_94",
             "prototype": "FernShort"
           }
         },
@@ -3235,7 +3235,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$aca6-809d-d1d6-33bc",
+            "entity_id": "endless_props_95",
             "prototype": "FernMid"
           }
         },
@@ -3269,7 +3269,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b6d5-7835-a2ce-69bb",
+            "entity_id": "endless_props_96",
             "prototype": "GrassWide"
           }
         },
@@ -3303,7 +3303,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$9051-9874-b433-d0e6",
+            "entity_id": "endless_props_97",
             "prototype": "GrassDense"
           }
         },
@@ -3337,7 +3337,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$bb55-5ca2-2e51-e583",
+            "entity_id": "endless_props_98",
             "prototype": "FernMid"
           }
         },
@@ -3371,7 +3371,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1b40-2826-35a4-1266",
+            "entity_id": "endless_props_99",
             "prototype": "GrassDense"
           }
         },
@@ -3405,7 +3405,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b3ca-2d8e-7bac-758d",
+            "entity_id": "endless_props_100",
             "prototype": "FernTall"
           }
         },
@@ -3439,7 +3439,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8a3a-8ca1-95d1-b60c",
+            "entity_id": "endless_props_101",
             "prototype": "FernShort"
           }
         },
@@ -3473,7 +3473,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b8c5-5760-d519-c172",
+            "entity_id": "endless_props_102",
             "prototype": "GrassWide"
           }
         },
@@ -3507,7 +3507,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$0596-d17c-6873-ae67",
+            "entity_id": "endless_props_103",
             "prototype": "FernMid"
           }
         },
@@ -3541,7 +3541,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$6ba5-c223-aa76-9dde",
+            "entity_id": "endless_props_104",
             "prototype": "RockShort"
           }
         },
@@ -3575,7 +3575,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1ae5-14e9-8646-bc42",
+            "entity_id": "endless_props_105",
             "prototype": "GrassDense"
           }
         },
@@ -3609,7 +3609,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b09e-97e8-68a8-6048",
+            "entity_id": "endless_props_106",
             "prototype": "GrassDense"
           }
         },
@@ -3643,7 +3643,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b511-12c4-61c0-e5db",
+            "entity_id": "endless_props_107",
             "prototype": "BaobabTree"
           }
         },
@@ -3677,7 +3677,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4ad9-c756-2747-343d",
+            "entity_id": "endless_props_108",
             "prototype": "BaobabTree"
           }
         },
@@ -3711,7 +3711,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7b26-2dc9-1d8a-94d4",
+            "entity_id": "endless_props_109",
             "prototype": "RockMid"
           }
         },
@@ -3745,7 +3745,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_110",
             "prototype": "GrassDense"
           }
         },
@@ -3779,7 +3779,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_111",
             "prototype": "FernShort"
           }
         },
@@ -3813,7 +3813,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_112",
             "prototype": "FernShort"
           }
         },
@@ -3847,7 +3847,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_113",
             "prototype": "FernTall"
           }
         },
@@ -3881,7 +3881,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_114",
             "prototype": "LogProp"
           }
         },
@@ -3915,7 +3915,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_115",
             "prototype": "BaobabTree"
           }
         },
@@ -3949,7 +3949,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_116",
             "prototype": "BaobabTree"
           }
         },
@@ -3983,7 +3983,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_117",
             "prototype": "GrassWide"
           }
         },
@@ -4017,7 +4017,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_118",
             "prototype": "RockSmallest"
           }
         },
@@ -4051,7 +4051,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_119",
             "prototype": "RockMid"
           }
         },
@@ -4085,7 +4085,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_120",
             "prototype": "RockSmallest"
           }
         },
@@ -4119,7 +4119,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$04d1-d0d1-0b58-a721",
+            "entity_id": "endless_props_121",
             "prototype": "SavannaTree"
           }
         },
@@ -4159,7 +4159,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$92c7-e315-61b8-82a8",
+            "entity_id": "endless_props_122",
             "prototype": "MidGroundTree"
           }
         },
@@ -4202,7 +4202,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1e02-904b-d812-b2e4",
+            "entity_id": "endless_props_123",
             "prototype": "MidGroundTree"
           }
         },
@@ -4245,7 +4245,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$85d3-d4ba-957e-b43e",
+            "entity_id": "endless_props_124",
             "prototype": "MidGroundTree"
           }
         },
@@ -4288,7 +4288,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3ba0-0ae1-1d44-431c",
+            "entity_id": "endless_props_125",
             "prototype": "MidGroundTree"
           }
         },
@@ -4331,7 +4331,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$824a-b412-a786-3739",
+            "entity_id": "endless_props_126",
             "prototype": "MidGroundTree"
           }
         },
@@ -4374,7 +4374,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$666d-7ec5-9260-01e1",
+            "entity_id": "endless_props_127",
             "prototype": "MidGroundTree"
           }
         },
@@ -4417,7 +4417,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$73b5-0a4c-4c6e-e557",
+            "entity_id": "endless_props_128",
             "prototype": "MidGroundTree"
           }
         },
@@ -4460,7 +4460,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$7a40-9c8d-5b26-3a88",
+            "entity_id": "endless_props_129",
             "prototype": "MidGroundTree"
           }
         },
@@ -4503,7 +4503,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1c37-d13b-1d98-b185",
+            "entity_id": "endless_props_130",
             "prototype": "MidGroundTree"
           }
         },
@@ -4546,7 +4546,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$76d5-e088-8a28-74b1",
+            "entity_id": "endless_props_131",
             "prototype": "MidGroundTree"
           }
         },
@@ -4589,7 +4589,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8600-15bd-47cc-b2d1",
+            "entity_id": "endless_props_132",
             "prototype": "MidGroundTree"
           }
         },
@@ -4632,7 +4632,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$9a1b-a956-418e-2884",
+            "entity_id": "endless_props_133",
             "prototype": "MidGroundTree"
           }
         },
@@ -4675,7 +4675,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$206a-c778-cb10-9c2b",
+            "entity_id": "endless_props_134",
             "prototype": "MidGroundTree"
           }
         },
@@ -4718,7 +4718,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$1c75-1088-a9b2-a1e8",
+            "entity_id": "endless_props_135",
             "prototype": "MidGroundTree"
           }
         },
@@ -4761,7 +4761,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$d326-3372-7a12-604c",
+            "entity_id": "endless_props_136",
             "prototype": "MidGroundTree"
           }
         },
@@ -4804,7 +4804,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$4080-7e11-e32d-abe1",
+            "entity_id": "endless_props_137",
             "prototype": "MidGroundTree"
           }
         },
@@ -4847,7 +4847,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$2de7-2e94-ad9c-7562",
+            "entity_id": "endless_props_138",
             "prototype": "SavannaTree"
           }
         },
@@ -4887,7 +4887,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$d1d8-5646-381c-8305",
+            "entity_id": "endless_props_139",
             "prototype": "SavannaTree"
           }
         },
@@ -4927,7 +4927,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$b102-aba3-20e0-a5ee",
+            "entity_id": "endless_props_140",
             "prototype": "SavannaTree"
           }
         },
@@ -4967,7 +4967,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$158b-71d7-6808-c846",
+            "entity_id": "endless_props_141",
             "prototype": "SavannaTree"
           }
         },
@@ -5007,7 +5007,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$8463-9b79-15e9-a470",
+            "entity_id": "endless_props_142",
             "prototype": "SavannaTree"
           }
         },
@@ -5047,7 +5047,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$6403-690d-ba41-9636",
+            "entity_id": "endless_props_143",
             "prototype": "SavannaTree"
           }
         },
@@ -5087,7 +5087,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3b50-3014-5386-4ad4",
+            "entity_id": "endless_props_144",
             "prototype": "SavannaTree"
           }
         },
@@ -5127,7 +5127,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_145",
             "prototype": "SavannaTree"
           }
         },
@@ -5167,7 +5167,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_146",
             "prototype": "MidGroundTree"
           }
         },
@@ -5210,7 +5210,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_147",
             "prototype": "MidGroundTree"
           }
         },
@@ -5253,7 +5253,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_148",
             "prototype": "SavannaTree"
           }
         },
@@ -5293,7 +5293,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_149",
             "prototype": "MidGroundTree"
           }
         },
@@ -5336,7 +5336,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_150",
             "prototype": "SavannaTree"
           }
         },
@@ -5376,7 +5376,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_151",
             "prototype": "SavannaTree"
           }
         },
@@ -5416,7 +5416,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_152",
             "prototype": "MidGroundTree"
           }
         },
@@ -5459,7 +5459,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_153",
             "prototype": "SavannaTree"
           }
         },
@@ -5499,7 +5499,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_154",
             "prototype": "MidGroundTree"
           }
         },
@@ -5542,7 +5542,7 @@
         {
           "data_type": "corgi_MetaDef",
           "data": {
-            "entity_id": "$3769-e4be-204d-1d0d",
+            "entity_id": "endless_props_155",
             "prototype": "MidGroundTree"
           }
         },
