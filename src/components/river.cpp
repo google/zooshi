@@ -518,7 +518,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
 
   // We don't want to keep the random number generator set to the same
   // value every time we generate the river, so reset the seed back to time.
-  srand(time(nullptr));
+  srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 void RiverComponent::UpdateRiverMeshes(corgi::EntityRef entity) {

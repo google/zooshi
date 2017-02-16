@@ -104,6 +104,13 @@ class AdMobHelper {
   float reward_value() { return listener_.reward_item().amount; }
 
  private:
+  static void InitializeCompletion(
+    const firebase::Future<void>& completed_future, void* void_helper);
+  static void LoadNewRewardedVideoCompletion(
+    const firebase::Future<void>& completed_future, void* void_helper);
+  static void ShowRewardedVideoCompletion(
+    const firebase::Future<void>& completed_future, void* void_helper);
+
   RewardedVideoListener listener_;
   AdMobStatus rewarded_video_status_;
 };

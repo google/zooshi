@@ -257,8 +257,9 @@ bool Game::InitializeAssets() {
     const ShaderDef *shader_def = asset_manifest.shader_list()->Get(i);
     defines.clear();
     if (shader_def->defines() != nullptr) {
-      for (size_t i = 0; i < shader_def->defines()->size(); i++) {
-        defines.push_back(shader_def->defines()->Get(i)->c_str());
+      for (size_t j = 0; j < shader_def->defines()->size(); j++) {
+        defines.push_back(shader_def->defines()->Get(
+            static_cast<flatbuffers::uoffset_t>(j))->c_str());
       }
     }
     const char *alias =

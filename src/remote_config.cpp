@@ -32,6 +32,12 @@ const int kRemoteConfigCacheTime = 0;
 
 const char* kConfigRewardedVideoLocation = "rewarded_video_location";
 
+// Can't use this lambda on Visual Studio 2010, so make a function.
+void FetchCompletion(const firebase::Future<void>& /*completed_future*/,
+                     void* /*data*/) {
+  firebase::remote_config::ActivateFetched();
+}
+
 void InitializeRemoteConfig(const firebase::App& app) {
   firebase::remote_config::Initialize(app);
 
@@ -44,10 +50,7 @@ void InitializeRemoteConfig(const firebase::App& app) {
   firebase::remote_config::SetDefaults(defaults, default_count);
 
   firebase::remote_config::Fetch(kRemoteConfigCacheTime).OnCompletion(
-      [](const firebase::Future<void>& /*completed_future*/, void* /*data*/) {
-        firebase::remote_config::ActivateFetched();
-      },
-      nullptr);
+      FetchCompletion, nullptr);
 }
 
 }  // zooshi

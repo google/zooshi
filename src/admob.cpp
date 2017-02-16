@@ -55,22 +55,38 @@ AdMobHelper::~AdMobHelper() {
   }
 }
 
+// static
+void AdMobHelper::InitializeCompletion(
+    const firebase::Future<void>& completed_future, void* void_helper) {
+  AdMobHelper* helper = static_cast<AdMobHelper*>(void_helper);
+  if (completed_future.Error()) {
+    fplbase::LogError("Failed to initialize rewarded video: %s",
+                      completed_future.ErrorMessage());
+    helper->rewarded_video_status_ = kAdMobStatusError;
+  } else {
+    rewarded_video::SetListener(&helper->listener_);
+    helper->LoadNewRewardedVideo();
+  }
+}
+
 void AdMobHelper::Initialize(const firebase::App& app) {
   firebase::admob::Initialize(app, kAdMobAppID);
   rewarded_video_status_ = kAdMobStatusInitializing;
-  rewarded_video::Initialize().OnCompletion(
-      [](const firebase::Future<void>& completed_future, void* void_helper) {
-        AdMobHelper* helper = static_cast<AdMobHelper*>(void_helper);
-        if (completed_future.Error()) {
-          fplbase::LogError("Failed to initialize rewarded video: %s",
-                            completed_future.ErrorMessage());
-          helper->rewarded_video_status_ = kAdMobStatusError;
-        } else {
-          rewarded_video::SetListener(&helper->listener_);
-          helper->LoadNewRewardedVideo();
-        }
-      },
-      this);
+  rewarded_video::Initialize().OnCompletion(InitializeCompletion,
+                                            this);
+}
+
+// static
+void AdMobHelper::LoadNewRewardedVideoCompletion(
+    const firebase::Future<void>& completed_future, void* void_helper) {
+  AdMobHelper* helper = static_cast<AdMobHelper*>(void_helper);
+  if (completed_future.Error()) {
+    fplbase::LogError("Failed to load rewarded video: %s",
+                      completed_future.ErrorMessage());
+    helper->rewarded_video_status_ = kAdMobStatusError;
+  } else {
+    helper->rewarded_video_status_ = kAdMobStatusAvailable;
+  }
 }
 
 void AdMobHelper::LoadNewRewardedVideo() {
@@ -79,19 +95,20 @@ void AdMobHelper::LoadNewRewardedVideo() {
   firebase::admob::AdRequest request;
   std::memset(&request, 0, sizeof(request));
   rewarded_video::LoadAd(kRewardedVideoAdUnit, request)
-      .OnCompletion(
-          [](const firebase::Future<void>& completed_future,
-             void* void_helper) {
-            AdMobHelper* helper = static_cast<AdMobHelper*>(void_helper);
-            if (completed_future.Error()) {
-              fplbase::LogError("Failed to load rewarded video: %s",
-                                completed_future.ErrorMessage());
-              helper->rewarded_video_status_ = kAdMobStatusError;
-            } else {
-              helper->rewarded_video_status_ = kAdMobStatusAvailable;
-            }
-          },
-          this);
+      .OnCompletion(LoadNewRewardedVideoCompletion, this);
+}
+
+
+// static
+void AdMobHelper::ShowRewardedVideoCompletion(
+    const firebase::Future<void>& completed_future, void* void_helper) {
+  AdMobHelper* helper = static_cast<AdMobHelper*>(void_helper);
+  if (completed_future.Error()) {
+    fplbase::LogError("Failed to show rewarded video: %s",
+                      completed_future.ErrorMessage());
+    helper->rewarded_video_status_ = kAdMobStatusError;
+    helper->listener_.set_expecting_state_change(false);
+  }
 }
 
 void AdMobHelper::ShowRewardedVideo() {
@@ -108,18 +125,7 @@ void AdMobHelper::ShowRewardedVideo() {
   firebase::admob::AdParent ad_parent = nullptr;
 #endif  // __ANDROID__
   rewarded_video::Show(ad_parent)
-      .OnCompletion(
-          [](const firebase::Future<void>& completed_future,
-             void* void_helper) {
-            AdMobHelper* helper = static_cast<AdMobHelper*>(void_helper);
-            if (completed_future.Error()) {
-              fplbase::LogError("Failed to show rewarded video: %s",
-                                completed_future.ErrorMessage());
-              helper->rewarded_video_status_ = kAdMobStatusError;
-              helper->listener_.set_expecting_state_change(false);
-            }
-          },
-          this);
+      .OnCompletion(ShowRewardedVideoCompletion, this);
 }
 
 bool AdMobHelper::CheckShowRewardedVideo() {
@@ -141,10 +147,9 @@ bool AdMobHelper::CheckShowRewardedVideo() {
 }
 
 RewardedVideoLocation AdMobHelper::GetRewardedVideoLocation() {
-  long location =
+  auto location =
       firebase::remote_config::GetLong(kConfigRewardedVideoLocation);
-  if (location < 0 ||
-      location >= static_cast<long>(kRewardedVideoLocationCount)) {
+  if (location < 0 || location >= kRewardedVideoLocationCount) {
     location = 0;
   }
   return static_cast<RewardedVideoLocation>(location);

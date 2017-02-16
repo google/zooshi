@@ -33,10 +33,10 @@ int XpSystem::ApplyBonuses(int base_xp, bool consume_bonuses) {
     for (auto it = bonuses[i].begin(); it != bonuses[i].end();) {
       switch (i) {
         case BonusApplyType_Multiply:
-          base_xp *= it->value;
+          base_xp = static_cast<int>(static_cast<float>(base_xp) * it->value);
           break;
         case BonusApplyType_Addition:
-          base_xp += it->value;
+          base_xp += static_cast<int>(it->value);
           break;
         default:
           break;

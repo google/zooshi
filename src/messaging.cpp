@@ -61,7 +61,7 @@ float GetFloat(const firebase::messaging::Message& message,
                const char* key, float default_value) {
   auto it = message.data.find(key);
   if (it != message.data.end()) {
-    return atof(it->second.c_str());
+    return static_cast<float>(atof(it->second.c_str()));
   } else {
     return default_value;
   }

@@ -16,6 +16,11 @@
 
 #include "fplbase/utilities.h"
 
+#ifdef _WIN32
+#define snprintf(buffer, count, format, ...) \
+  _snprintf_s(buffer, count, count, format, __VA_ARGS__)
+#endif  // _WIN32
+
 namespace fpl {
 namespace zooshi {
 
@@ -32,7 +37,7 @@ void UnlockableManager::InitializeType(
     bool unlocked = true;
     if (!config->Get(i)->starts_unlocked()) {
       GetPreferenceString(buffer, kBufferSize, type, i);
-      unlocked = fplbase::LoadPreference(buffer, 0);
+      unlocked = fplbase::LoadPreference(buffer, 0) != 0;
     }
     unlockables_[type][i] = unlocked;
     if (!unlocked) {
@@ -116,7 +121,8 @@ void UnlockableManager::LockAll() {
 void UnlockableManager::GetPreferenceString(char* buffer, int buffer_len,
                                             UnlockableType type, size_t index) {
   snprintf(buffer, buffer_len, "unlockable.%s.%s", EnumNameUnlockableType(type),
-           configs_[type]->Get(index)->name()->c_str());
+           configs_[type]->Get(
+               static_cast<flatbuffers::uoffset_t>(index))->name()->c_str());
 }
 
 }  // zooshi

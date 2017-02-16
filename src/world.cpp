@@ -331,9 +331,11 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
     world->entity_factory->LoadEntitiesFromFile(filename,
                                                 &world->entity_manager);
   }
-  const LevelDef* level_def = world_def->levels()->Get(world->level_index);
+  const LevelDef* level_def = world_def->levels()->Get(
+    static_cast<flatbuffers::uoffset_t>(world->level_index));
   for (size_t i = 0; i < level_def->entity_files()->size(); i++) {
-    const char* filename = level_def->entity_files()->Get(i)->c_str();
+    const char* filename = level_def->entity_files()->Get(
+      static_cast<flatbuffers::uoffset_t>(i))->c_str();
     world->entity_factory->LoadEntitiesFromFile(filename,
                                                 &world->entity_manager);
   }

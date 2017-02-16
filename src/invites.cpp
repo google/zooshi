@@ -50,8 +50,8 @@ bool UpdateSentInviteStatus(bool* did_send, bool* first_sent) {
         *first_sent = invite_sent_count == 0;
       }
       fplbase::SavePreference(
-          kInviteSentKey,
-          invite_sent_count + future.Result()->invitation_ids.size());
+          kInviteSentKey, static_cast<int32_t>(
+              invite_sent_count + future.Result()->invitation_ids.size()));
     }
     return true;
   } else {

@@ -32,6 +32,11 @@
 using mathfu::vec2;
 using mathfu::vec3;
 
+#ifdef _WIN32
+#define snprintf(buffer, count, format, ...) \
+  _snprintf_s(buffer, count, count, format, __VA_ARGS__)
+#endif  // _WIN32
+
 namespace fpl {
 namespace zooshi {
 
@@ -405,7 +410,7 @@ void GameMenuState::OptionMenuAbout() {
   flatui::StartGroup(flatui::kLayoutVerticalCenter, 0, "scroll");
   flatui::StartScroll(kScrollAreaSize, &scroll_offset_);
   flatui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x, 0),
-                flatui::TextAlignment::kTextAlignmentLeftJustify);
+                flatui::kTextAlignmentLeftJustify);
   vec2 scroll_size = flatui::GroupSize();
   flatui::EndScroll();
   flatui::EndGroup();
@@ -450,7 +455,7 @@ void GameMenuState::OptionMenuLicenses() {
 
   flatui::EnableTextHyphenation(true);
   flatui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x, 0),
-                flatui::TextAlignment::kTextAlignmentLeftJustify);
+                flatui::kTextAlignmentLeftJustify);
   flatui::EnableTextHyphenation(false);
 
   vec2 scroll_size = flatui::GroupSize();
@@ -597,7 +602,8 @@ void GameMenuState::OptionMenuSushi() {
       if (world_->unlockables->is_unlocked(UnlockableType_Sushi, index)) {
         auto event = ImageButtonWithLabel(
             *button_back_, 60, flatui::Margin(60, 35, 40, 50),
-            config_->sushi_config()->Get(index)->name()->c_str());
+            config_->sushi_config()->Get(
+                static_cast<flatbuffers::uoffset_t>(index))->name()->c_str());
         if (event & flatui::kEventWentUp) {
           world_->sushi_index = index;
         }
@@ -655,7 +661,8 @@ void GameMenuState::OptionMenuLevel() {
       size_t index = i + j;
       auto event = ImageButtonWithLabel(
           *button_back_, 60, flatui::Margin(60, 35, 40, 50),
-          config_->world_def()->levels()->Get(index)->name()->c_str());
+          config_->world_def()->levels()->Get(
+            static_cast<flatbuffers::uoffset_t>(index))->name()->c_str());
       if (event & flatui::kEventWentUp && index != world_->level_index) {
         world_->level_index = index;
         LoadWorldDef(world_, world_def_);

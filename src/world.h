@@ -243,7 +243,8 @@ struct World {
     if (sushi_index >= config->sushi_config()->size()) {
       return config->sushi_config()->Get(0);
     } else {
-      return config->sushi_config()->Get(sushi_index);
+      return config->sushi_config()->Get(
+          static_cast<flatbuffers::uoffset_t>(sushi_index));
     }
   }
 
@@ -252,7 +253,8 @@ struct World {
     if (level_index >= config->world_def()->levels()->size()) {
       return config->world_def()->levels()->Get(0);
     } else {
-      return config->world_def()->levels()->Get(level_index);
+      return config->world_def()->levels()->Get(
+          static_cast<flatbuffers::uoffset_t>(level_index));
     }
   }
 

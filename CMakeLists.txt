@@ -15,6 +15,13 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(zooshi)
 
+# Until Firebase C++ ships with debug libraries on Visual Studio, only build
+# release configurations.
+if(MSVC)
+  set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING
+      "Zooshi release configs" FORCE)
+endif()
+
 # Call fplutil to get locations of dependencies and set common build settings.
 # Extra compile flags
 #   /wd4305: trunction from double to float in shadow_controller.cpp
@@ -111,9 +118,6 @@ if(NOT DEFINED firebase_dir)
     set(firebase_dir "${fpl_root}/cpp-firebase/firebase_cpp_sdk")
   endif()
 endif()
-# Firebase currently has a couple warnings which need to be ignored.
-append_flags(CMAKE_CXX_FLAGS
-  "-Wno-error=ignored-qualifiers -Wno-error=pedantic")
 
 # Include FlatBuffers in this project.
 set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "")

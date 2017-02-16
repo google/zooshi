@@ -332,8 +332,10 @@ void GameMenuState::OnEnter(int previous_state) {
     auto attribute_data =
         world_->entity_manager.GetComponentData<AttributesData>(
             world_->active_player_entity);
-    patrons_fed_ = attribute_data->attributes[AttributeDef_PatronsFed];
-    sushi_thrown_ = attribute_data->attributes[AttributeDef_ProjectilesFired];
+    patrons_fed_ = static_cast<int>(
+        attribute_data->attributes[AttributeDef_PatronsFed]);
+    sushi_thrown_ = static_cast<int>(
+        attribute_data->attributes[AttributeDef_ProjectilesFired]);
     corgi::EntityRef raft =
         world_->entity_manager.GetComponent<ServicesComponent>()->raft_entity();
     RailDenizenData *raft_rail_denizen =
