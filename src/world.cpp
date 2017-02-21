@@ -183,15 +183,18 @@ void World::Initialize(
   cardboard_settings_gear =
       asset_manager->FindMaterial("materials/settings_gear.fplmat");
 
-  render_shadows_ = config->rendering_config()->render_shadows_by_default();
-  apply_phong_ = config->rendering_config()->apply_phong_by_default();
-  apply_specular_ = config->rendering_config()->apply_specular_by_default();
+  rendering_options_[kRenderingMonoscopic][kShadowEffect] =
+      config->rendering_config()->render_shadows_by_default();
+  rendering_options_[kRenderingMonoscopic][kPhongShading] =
+      config->rendering_config()->apply_phong_by_default();
+  rendering_options_[kRenderingMonoscopic][kSpecularEffect] =
+      config->rendering_config()->apply_specular_by_default();
 
-  render_shadows_cardboard_ =
+  rendering_options_[kRenderingStereoscopic][kShadowEffect] =
       config->rendering_config()->render_shadows_by_default_cardboard();
-  apply_phong_cardboard_ =
+  rendering_options_[kRenderingStereoscopic][kPhongShading] =
       config->rendering_config()->apply_phong_by_default_cardboard();
-  apply_specular_cardboard_ =
+  rendering_options_[kRenderingStereoscopic][kSpecularEffect] =
       config->rendering_config()->apply_specular_by_default_cardboard();
 
   invites_listener = invites_lstr;
@@ -231,92 +234,44 @@ void World::ResetControllerFacing() {
   }
 }
 
-void World::SetIsInCardboard(bool in_cardboard) {
-  if (is_in_cardboard_ != in_cardboard) {
-    is_in_cardboard_ = in_cardboard;
-    rendering_dirty_ = true;
-// Turn on the Cardboard setting button when in Cardboard mode.
+void World::SetRenderingMode(RenderingMode rendering_mode) {
+  if (rendering_mode == rendering_mode_) return;
+
+  rendering_mode_ = rendering_mode;
+  rendering_dirty_ = true;
 #if FPLBASE_ANDROID_VR
-    fplbase::SetCardboardButtonEnabled(in_cardboard);
+  // Turn on the Cardboard setting button when in Cardboard mode.
+  fplbase::SetCardboardButtonEnabled(rendering_mode == kRenderingStereoscopic);
 #endif  // FPLBASE_ANDROID_VR
+}
+
+void World::SetRenderingOption(RenderingMode rendering_mode, ShaderDefines s,
+                               bool enable_option) {
+  assert(0 <= rendering_mode && rendering_mode <= kNumRenderingModes &&
+         0 <= s && s < kNumShaderDefines);
+
+  // Early out if nothing is being changed.
+  // Prevents unnecessary dirtying.
+  if (rendering_options_[rendering_mode][s] == enable_option) return;
+
+  // Update the option. Mark dirty if the option is currently active.
+  rendering_options_[rendering_mode][s] = enable_option;
+  if (rendering_mode_ == rendering_mode) {
+    rendering_dirty_ = true;
   }
 }
 
-void World::SetRenderingOption(ShaderDefines s, bool enable_option) {
-  switch (s) {
-  case kPhongShading:
-    apply_phong_ = enable_option;
-    break;
-  case kSpecularEffect:
-    apply_specular_ = enable_option;
-    break;
-  case kShadowEffect:
-    render_shadows_ = enable_option;
-    break;
-  default:
-    return;
-  }
-  rendering_dirty_ = true;
+bool World::RenderingOptionEnabled(ShaderDefines s) const {
+  assert(0 <= s && s < kNumShaderDefines);
+  return rendering_options_[rendering_mode_][s];
 }
 
-void World::SetRenderingOptionCardboard(ShaderDefines s, bool enable_option) {
-  switch (s) {
-  case kPhongShading:
-    apply_phong_cardboard_ = enable_option;
-    break;
-  case kSpecularEffect:
-    apply_specular_cardboard_ = enable_option;
-    break;
-  case kShadowEffect:
-    render_shadows_cardboard_ = enable_option;
-    break;
-  default:
-    return;
-  }
-  rendering_dirty_ = true;
+bool World::RenderingOptionEnabled(RenderingMode rendering_mode,
+                                   ShaderDefines s) const {
+  assert(0 <= rendering_mode && rendering_mode <= kNumRenderingModes &&
+         0 <= s && s < kNumShaderDefines);
+  return rendering_options_[rendering_mode][s];
 }
-
-bool World::RenderingOptionEnabled(ShaderDefines s) {
-  switch (s) {
-  case kPhongShading:
-    if (is_in_cardboard_) {
-      return apply_phong_cardboard_;
-    } else {
-      return apply_phong_;
-    }
-  case kSpecularEffect:
-    if (is_in_cardboard_) {
-      return apply_specular_cardboard_;
-    } else {
-      return apply_specular_;
-    }
-  case kShadowEffect:
-    if (is_in_cardboard_) {
-      return render_shadows_cardboard_;
-    } else {
-      return render_shadows_;
-    }
-  default:
-    return false;
-  }
-}
-
-bool World::RenderingOptionEnabledCardboard(ShaderDefines s) {
-  switch (s) {
-    case kPhongShading:
-      return apply_phong_cardboard_;
-    case kSpecularEffect:
-      return apply_specular_cardboard_;
-    case kShadowEffect:
-      return render_shadows_cardboard_;
-    default:
-      return false;
-  }
-}
-
-bool World::RenderingOptionsDirty() { return rendering_dirty_; }
-
-void World::ResetRenderingDirty() { rendering_dirty_ = false; }
 
 void LoadWorldDef(World* world, const WorldDef* world_def) {
   for (auto iter = world->entity_manager.begin();

@@ -183,19 +183,19 @@ void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
   }
 
   if (menu_state_ == kMenuStateStart) {
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
   } else if (menu_state_ == kMenuStateFinished) {
     *next_state = kGameStateGameplay;
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateIntro;
     world_->SetHmdControllerEnabled(true);
-    world_->SetIsInCardboard(true);
+    world_->SetRenderingMode(kRenderingStereoscopic);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateGamepad) {
     *next_state = kGameStateGameplay;
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
     world_->SetActiveController(kControllerGamepad);
   } else if (menu_state_ == kMenuStateQuit) {
     fader_->AdvanceFrame(delta_time);
@@ -362,7 +362,8 @@ void GameMenuState::OnEnter(int previous_state) {
   } else {
     menu_state_ = kMenuStateStart;
 #if FPLBASE_ANDROID_VR
-    if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
+    if (world_->rendering_mode() == kRenderingStereoscopic)
+      menu_state_ = kMenuStateCardboard;
 #endif  // FPLBASE_ANDROID_VR
   }
 
@@ -399,15 +400,18 @@ void GameMenuState::LoadData() {
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
 
-    world_->SetRenderingOption(kShadowEffect, save_data->render_shadows());
-    world_->SetRenderingOption(kPhongShading, save_data->apply_phong());
-    world_->SetRenderingOption(kSpecularEffect, save_data->apply_specular());
-    world_->SetRenderingOptionCardboard(kShadowEffect,
-                                        save_data->render_shadows_cardboard());
-    world_->SetRenderingOptionCardboard(kPhongShading,
-                                        save_data->apply_phong_cardboard());
-    world_->SetRenderingOptionCardboard(kSpecularEffect,
-                                        save_data->apply_specular_cardboard());
+    world_->SetRenderingOption(kRenderingMonoscopic, kShadowEffect,
+                               save_data->render_shadows());
+    world_->SetRenderingOption(kRenderingMonoscopic, kPhongShading,
+                               save_data->apply_phong());
+    world_->SetRenderingOption(kRenderingMonoscopic, kSpecularEffect,
+                               save_data->apply_specular());
+    world_->SetRenderingOption(kRenderingStereoscopic, kShadowEffect,
+                               save_data->render_shadows_cardboard());
+    world_->SetRenderingOption(kRenderingStereoscopic, kPhongShading,
+                               save_data->apply_phong_cardboard());
+    world_->SetRenderingOption(kRenderingStereoscopic, kSpecularEffect,
+                               save_data->apply_specular_cardboard());
 #if FPLBASE_ANDROID_VR
     world_->SetHmdControllerEnabled(save_data->gyroscopic_controls_enabled() !=
                                     0);
@@ -421,15 +425,18 @@ void GameMenuState::SaveData() {
   SaveDataBuilder builder(fbb);
   builder.add_effect_volume(slider_value_effect_);
   builder.add_music_volume(slider_value_music_);
-  builder.add_render_shadows(world_->RenderingOptionEnabled(kShadowEffect));
-  builder.add_apply_phong(world_->RenderingOptionEnabled(kPhongShading));
-  builder.add_apply_specular(world_->RenderingOptionEnabled(kSpecularEffect));
+  builder.add_render_shadows(
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kShadowEffect));
+  builder.add_apply_phong(
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kPhongShading));
+  builder.add_apply_specular(
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kSpecularEffect));
   builder.add_render_shadows_cardboard(
-      world_->RenderingOptionEnabledCardboard(kShadowEffect));
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kShadowEffect));
   builder.add_apply_phong_cardboard(
-      world_->RenderingOptionEnabledCardboard(kPhongShading));
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kPhongShading));
   builder.add_apply_specular_cardboard(
-      world_->RenderingOptionEnabledCardboard(kSpecularEffect));
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kSpecularEffect));
 #if FPLBASE_ANDROID_VR
   builder.add_gyroscopic_controls_enabled(
       world_->GetHmdControllerEnabled() ? 1 : 0);

@@ -91,6 +91,13 @@ enum ShaderDefines {
   kNumShaderDefines
 };
 
+// Different rendering modes can have different values for shader defines.
+enum RenderingMode {
+  kRenderingMonoscopic,
+  kRenderingStereoscopic,
+  kNumRenderingModes
+};
+
 class WorldRenderer;
 struct Config;
 
@@ -102,11 +109,13 @@ struct World {
         is_single_stepping(false),
         sushi_index(0),
         level_index(0),
-        is_in_cardboard_(false) {
+        rendering_mode_(kRenderingMonoscopic),
+        rendering_dirty_(true) {
 #if FPLBASE_ANDROID_VR
     hmd_controller = nullptr;
     onscreen_controller = nullptr;
 #endif  // FPLBASE_ANDROID_VR
+    memset(rendering_options_, 0, sizeof(rendering_options_));
   }
 
   void Initialize(const Config& config, fplbase::InputSystem* input_system,
@@ -204,16 +213,15 @@ struct World {
   // Reset all controllers back to the default facing values.
   void ResetControllerFacing();
 
-  bool is_in_cardboard() const { return is_in_cardboard_; }
-  void SetIsInCardboard(bool in_cardboard);
-
-  void SetRenderingOption(ShaderDefines s, bool enable_option);
-  void SetRenderingOptionCardboard(ShaderDefines s, bool enable_option);
-  bool RenderingOptionEnabled(ShaderDefines s);
-  bool RenderingOptionEnabledCardboard(ShaderDefines s);
-  bool RenderingOptionsDirty();
-
-  void ResetRenderingDirty();
+  RenderingMode rendering_mode() const { return rendering_mode_; }
+  void SetRenderingMode(RenderingMode rendering_mode);
+  void SetRenderingOption(RenderingMode rendering_mode, ShaderDefines s,
+                          bool enable_option);
+  bool RenderingOptionEnabled(ShaderDefines s) const;
+  bool RenderingOptionEnabled(RenderingMode rendering_mode,
+                              ShaderDefines s) const;
+  bool RenderingOptionsDirty() const { return rendering_dirty_; }
+  void ResetRenderingDirty() { rendering_dirty_ = false; }
 
   void SetHmdControllerEnabled(bool enabled) {
 #if FPLBASE_ANDROID_VR
@@ -271,25 +279,11 @@ struct World {
 
  private:
   // Determines if the game is in Cardboard mode (for special rendering).
-  bool is_in_cardboard_;
+  RenderingMode rendering_mode_;
 
-  // Determine if shadows should be turned on.
-  bool render_shadows_;
-
-  // Determine if Phong shading should be turned on.
-  bool apply_phong_;
-
-  // Determine if specular effect should be turned on.
-  bool apply_specular_;
-
-  // Determine if shadows should be turned on in Cardboard mode.
-  bool render_shadows_cardboard_;
-
-  // Determine if Phong shading should be turned on in Cardboard mode.
-  bool apply_phong_cardboard_;
-
-  // Determine if specular effect should be turned on in Cardboard mode.
-  bool apply_specular_cardboard_;
+  // Whether rendering option is enabled in each rendering mode.
+  // We have separate options for VR and non-VR because VR is more taxing.
+  bool rendering_options_[kNumRenderingModes][kNumShaderDefines];
 
   // Whether any rendering option has been modified since last draw call.
   bool rendering_dirty_;

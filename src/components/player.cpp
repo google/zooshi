@@ -160,9 +160,9 @@ mathfu::vec3 PlayerComponent::CalculateProjectileDirection(
   // as we always want to fire down the center.
   if (player_data->input_controller()->last_position().x >= 0 &&
       camera != nullptr &&
-      !entity_manager_->GetComponent<ServicesComponent>()
-           ->world()
-           ->is_in_cardboard()) {
+      entity_manager_->GetComponent<ServicesComponent>()
+              ->world()
+              ->rendering_mode() == kRenderingMonoscopic) {
     const mathfu::vec2 screen_size(
         entity_manager_->GetComponent<CommonServicesComponent>()
             ->renderer()

@@ -105,7 +105,8 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
     audio_engine_->PlaySound(sound_click_);
 
     // Stay in Cardboard unless the back button is pressed.
-    *next_state = world_->is_in_cardboard() && !exit_button_pressed
+    *next_state = world_->rendering_mode() == kRenderingStereoscopic &&
+                          !exit_button_pressed
                       ? kGameStateGameplay
                       : kGameStateGameMenu;
   }

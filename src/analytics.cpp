@@ -36,7 +36,7 @@ const char* kParameterElapsedLevelTime = "elapsed_level_time";
 const char* kParameterControlScheme = "control_scheme";
 
 const char* AnalyticsControlValue(const World* world) {
-  if (world->is_in_cardboard()) return "VR";
+  if (world->rendering_mode() == kRenderingStereoscopic) return "VR";
   if (world->entity_manager
           .GetComponentData<PlayerData>(world->active_player_entity)
           ->input_controller()

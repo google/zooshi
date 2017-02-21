@@ -71,7 +71,7 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int *next_state) {
   if (*next_state == kGameStateGameplay) {
     audio_engine_->PlaySound(sound_continue_);
   } else if (*next_state == kGameStateGameMenu) {
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
     audio_engine_->PlaySound(sound_exit_);
   }
 

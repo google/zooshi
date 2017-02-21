@@ -522,16 +522,19 @@ void GameMenuState::OptionMenuRendering() {
   flatui::Label("Rendering", kButtonSize);
   flatui::EndGroup();
 
-  bool render_shadows = world_->RenderingOptionEnabled(kShadowEffect);
-  bool apply_phong = world_->RenderingOptionEnabled(kPhongShading);
-  bool apply_specular = world_->RenderingOptionEnabled(kSpecularEffect);
+  bool render_shadows =
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kShadowEffect);
+  bool apply_phong =
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kPhongShading);
+  bool apply_specular =
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kSpecularEffect);
 
   bool render_shadows_cardboard =
-      world_->RenderingOptionEnabledCardboard(kShadowEffect);
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kShadowEffect);
   bool apply_phong_cardboard =
-      world_->RenderingOptionEnabledCardboard(kPhongShading);
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kPhongShading);
   bool apply_specular_cardboard =
-      world_->RenderingOptionEnabledCardboard(kSpecularEffect);
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kSpecularEffect);
 
   flatui::StartGroup(flatui::kLayoutHorizontalTop, 10);
   flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter, mathfu::kZeros2f);
@@ -562,13 +565,17 @@ void GameMenuState::OptionMenuRendering() {
   flatui::EndGroup();
   flatui::EndGroup();
 
-  world_->SetRenderingOptionCardboard(kShadowEffect, render_shadows_cardboard);
-  world_->SetRenderingOptionCardboard(kPhongShading, apply_phong_cardboard);
-  world_->SetRenderingOptionCardboard(kSpecularEffect,
-                                      apply_specular_cardboard);
-  world_->SetRenderingOption(kShadowEffect, render_shadows);
-  world_->SetRenderingOption(kPhongShading, apply_phong);
-  world_->SetRenderingOption(kSpecularEffect, apply_specular);
+  world_->SetRenderingOption(kRenderingStereoscopic, kShadowEffect,
+                             render_shadows_cardboard);
+  world_->SetRenderingOption(kRenderingStereoscopic, kPhongShading,
+                             apply_phong_cardboard);
+  world_->SetRenderingOption(kRenderingStereoscopic, kSpecularEffect,
+                             apply_specular_cardboard);
+  world_->SetRenderingOption(kRenderingMonoscopic, kShadowEffect,
+                             render_shadows);
+  world_->SetRenderingOption(kRenderingMonoscopic, kPhongShading, apply_phong);
+  world_->SetRenderingOption(kRenderingMonoscopic, kSpecularEffect,
+                             apply_specular);
 
   SaveData();
 }

@@ -48,6 +48,8 @@ static const vec4 kShadowMapClearColor = vec4(0.99f, 0.99f, 0.99f, 1.0f);
 
 static const char *kDefinesText[] = {"PHONG_SHADING", "SPECULAR_EFFECT",
                                      "SHADOW_EFFECT", "NORMALS"};
+static_assert(FPL_ARRAYSIZE(kDefinesText) == kNumShaderDefines,
+              "Need to update kDefinesText");
 
 const char *kEmptyString = "";
 
@@ -63,7 +65,7 @@ void WorldRenderer::Initialize(World *world) {
 void WorldRenderer::RefreshGlobalShaderDefines(World *world) {
   std::vector<std::string> defines_to_add;
   std::vector<std::string> defines_to_omit;
-  for (int s = kPhongShading; s < kNumShaderDefines; ++s) {
+  for (int s = 0; s < kNumShaderDefines; ++s) {
     ShaderDefines shader_define = static_cast<ShaderDefines>(s);
     if (!world->RenderingOptionEnabled(shader_define)) {
       defines_to_omit.push_back(kDefinesText[shader_define]);
@@ -73,10 +75,18 @@ void WorldRenderer::RefreshGlobalShaderDefines(World *world) {
   world->asset_manager->ResetGlobalShaderDefines(defines_to_add,
                                                  defines_to_omit);
 
+  PushDebugMarker("ShaderCompile");
+
   depth_shader_ = world->asset_manager->FindShader("shaders/render_depth");
   depth_skinned_shader_ =
       world->asset_manager->FindShader("shaders/render_depth_skinned");
   textured_shader_ = world->asset_manager->FindShader("shaders/textured");
+
+  depth_shader_->ReloadIfDirty();
+  depth_skinned_shader_->ReloadIfDirty();
+  textured_shader_->ReloadIfDirty();
+
+  PopDebugMarker();  // ShaderCompile
 
   world->ResetRenderingDirty();
 }

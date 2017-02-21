@@ -114,15 +114,16 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
   // Render black until the loading material itself has loaded.
   auto texture = loading_material->textures()[0];
   if (!fplbase::ValidTextureHandle(texture->id()) ||
-      (world_->is_in_cardboard() &&
-       !fplbase::ValidTextureHandle(world_->cardboard_settings_gear->textures()[0]->id()))) {
+      (world_->rendering_mode() == kRenderingStereoscopic &&
+       !fplbase::ValidTextureHandle(
+           world_->cardboard_settings_gear->textures()[0]->id()))) {
     renderer->ClearFrameBuffer(kZeros4f);
     return;
   }
 
   const vec2 res(renderer->window_size());
   const float aspect_ratio = res.x / res.y;
-  if (world_->is_in_cardboard()) {
+  if (world_->rendering_mode() == kRenderingStereoscopic) {
 #if FPLBASE_ANDROID_VR
     fplbase::Shader *shader_textured = shader_textured_;
     fplbase::HeadMountedDisplayViewSettings view_settings;
