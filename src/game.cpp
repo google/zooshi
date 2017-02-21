@@ -123,7 +123,7 @@ static const int kUpdateRenderPrepCode = 556;
 /// scanned for this version string.  We track which applications are using it
 /// to measure popularity.  You are free to remove it (of course) but we would
 /// appreciate if you left it in.
-static const char kVersion[] = "Fun Propulsion Labs' Zooshi v1.1.1";
+static const char kVersion[] = "Fun Propulsion Labs' Zooshi v1.1";
 
 GameSynchronization::GameSynchronization()
     : renderthread_mutex_(SDL_CreateMutex()),
