@@ -20,10 +20,14 @@ Building for Android    {#zooshi_guide_building_android}
 -   Install the `Google Play services` and `Android Support Library` packages
     from the [SDK Manager][].
 -   Download the [Google Play Games C++ SDK][] and unpack into Zooshi's
-    `dependencies/gpg-cpp-sdk` directory.
+    `dependencies/gpg-cpp-sdk` directory, or set environment variable `GPG_SDK`
+    to the install directory.
     -   For example, if you've fetched Zooshi to `~/zooshi/`, unpack
         the downloaded `gpg-cpp-sdk.v2.0.zip` to
         `~/zooshi/dependencies/gpg-cpp-sdk`.
+-   Download the [Firebase C++ SDK] and unpack into Zooshi's
+    `dependencies/firebase_cpp_sdk` directory, or set environment variable
+    `FIREBASE_SDK` to the install directory.
 
 # Building
 
@@ -70,4 +74,5 @@ If only one device is attached to a workstation, the `-d` argument
   [WebP Precompiled Utilities]: https://developers.google.com/speed/webp/docs/precompiled
   [Windows prerequisites]: @ref building_windows_prerequisites
   [Google Play Games C++ SDK]: http://developers.google.com/games/services/downloads/
+  [Firebase C++ SDK]: https://firebase.google.com/docs/cpp/setup
   [Zooshi]: @ref zooshi_guide_overview
