@@ -21,6 +21,7 @@ set(fplutil_dir_possibilities
     "${dependencies_fplutil_dir}"
     "${fpl_root}/fplutil"
     "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/fplutil"
+    "${CMAKE_CURRENT_LIST_DIR}/../../../libs/fplutil"
     "${CMAKE_CURRENT_LIST_DIR}/../../fplutil"
     "${CMAKE_CURRENT_LIST_DIR}/../../../fplutil"
     "${CMAKE_CURRENT_LIST_DIR}/../../../../fplutil"
