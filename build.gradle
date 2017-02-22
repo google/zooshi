@@ -28,7 +28,7 @@ android {
         manifest.srcFile 'AndroidManifest.xml'
         java.srcDirs = ['src_java']
         res.srcDirs = ['res']
-        assets.srcDirs = ['assets']
+        assets.srcDirs = ['assets', 'built_assets']
       }
     }
 
@@ -68,8 +68,15 @@ android {
     }
 }
 
+repositories {
+  flatDir{
+    dirs System.env.FIREBASE_SDK + '/libs/android'
+  }
+}
+
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile fileTree(dir: 'libs/android', include: ['*.aar'])
   compile 'com.google.android.gms:play-services-base:10.0.1'
   compile 'com.google.android.gms:play-services-games:10.0.1'
   compile 'com.google.android.gms:play-services-nearby:10.0.1'
@@ -78,27 +85,35 @@ dependencies {
   compile 'com.google.firebase:firebase-invites:10.0.1'
   compile 'com.google.firebase:firebase-messaging:10.0.1'
   compile 'com.google.firebase:firebase-config:10.0.1'
+  compile 'com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar'
   compile 'com.android.support:support-v4:23.0+'
 }
 
 apply plugin: 'com.google.gms.google-services'
 
-task copyCardboard(type: Copy) {
-  from '../../../../prebuilts/cardboard-java/CardboardSample/libs'
-  into 'libs'
-}
-
 task copyFplbase(type: Copy) {
-  from '../../libs/fplbase/src_java'
+  def fplbase_dir = ''
+  def github_dir = new File('dependencies/fplbase/src_java')
+  if (github_dir.exists()) {
+    fplbase_dir = github_dir.getPath()
+  } else {
+    def internal_dir = new File('../fplbase/src_java')
+    if (internal_dir.exists()) {
+      fplbase_dir = internal_dir.getPath()
+    } else {
+      def gerrit_dir = new File('../../libs/fplbase/src_java')
+      if (gerrit_dir.exists()) {
+        fplbase_dir = gerrit_dir.getPath();
+      } else {
+        throw new GradleException('Unable to find dependency FPL Base.')
+      }
+    }
+  }
+
+  from fplbase_dir
   into 'src_java'
 }
 
 project.afterEvaluate {
-  preBuild.dependsOn(copyCardboard)
   preBuild.dependsOn(copyFplbase)
-}
-
-dependencies {
-  // TODO(amaurice) Make this inclusion more generic, as it currently assumes the internal layout.
-  compile files(new File('../../../../prebuilts/cpp-firebase/firebase_cpp_sdk/libs/android/libmessaging_java.jar'))
 }
