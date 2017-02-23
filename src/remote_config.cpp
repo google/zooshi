@@ -31,6 +31,10 @@ namespace zooshi {
 const int kRemoteConfigCacheTime = 0;
 
 const char* kConfigRewardedVideoLocation = "rewarded_video_location";
+// The lookup keys for menu labels.
+const char* kConfigMenuPlayGame = "menu_play_game";
+const char* kConfigMenuSendInvite = "menu_send_invite";
+const char* kConfigMenuOfferVideo = "menu_offer_video";
 
 // Can't use this lambda on Visual Studio 2010, so make a function.
 void FetchCompletion(const firebase::Future<void>& /*completed_future*/,
@@ -44,6 +48,10 @@ void InitializeRemoteConfig(const firebase::App& app) {
   // Set the default values.
   static const firebase::remote_config::ConfigKeyValue defaults[] = {
       {kConfigRewardedVideoLocation, "0"},  // 0 = kRewardedVideoLocationPregame
+      // Set menu labels to sensible defaults.
+      {kConfigMenuPlayGame, "Play Game"},
+      {kConfigMenuSendInvite, "Send Invite"},
+      {kConfigMenuOfferVideo, "Earn bonuses before playing"},
   };
 
   size_t default_count = sizeof(defaults) / sizeof(defaults[0]);

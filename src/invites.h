@@ -25,6 +25,10 @@
 
 #include "mathfu/internal/disable_warnings_end.h"
 
+// This determines if only the first ever received invite is handled (when 1),
+// or if all invites are rewarded (when 0).
+#define ZOOSHI_FIRST_INVITE_ONLY 0
+
 namespace fpl {
 namespace zooshi {
 
@@ -56,7 +60,13 @@ class InvitesListener : public firebase::invites::Listener {
   void Reset();
 
   // Does the system currently have an invite to be handled.
-  bool has_pending_invite() { return received_invite_ && !invite_handled_; }
+  bool has_pending_invite() {
+#if ZOOSHI_FIRST_INVITE_ONLY
+    return received_invite_ && !invite_handled_;
+#else
+    return received_invite_;
+#endif
+  }
   // Did the system receive an invitation.
   bool received_invite() const { return received_invite_; }
   // The invitation id of the received invite.

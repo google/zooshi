@@ -27,6 +27,12 @@ const char* kParameterPatronType = "patron_type";
 const char* kEventGameplayStart = "gameplay_start";
 const char* kEventGameplayFinished = "gameplay_finished";
 
+// Events for various menu options.
+const char* kEventMenuSushi = "menu_sushi";
+const char* kEventMenuLevel = "menu_level";
+const char* kEventMenuOptions = "menu_options";
+const char* kEventMenuSendInvite = "menu_send_invite";
+
 // Parameter for tracking elapsed time since gameplay started, to be included
 // with other events, such as gameplay finished to determine how long the
 // gameplay session was.

@@ -16,10 +16,12 @@
 
 #include "mathfu/internal/disable_warnings_begin.h"
 
+#include "firebase/analytics.h"
 #include "firebase/remote_config.h"
 
 #include "mathfu/internal/disable_warnings_end.h"
 
+#include "analytics.h"
 #include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "invites.h"
@@ -132,8 +134,9 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
                        mathfu::vec2(0, -150));
     flatui::SetMargin(flatui::Margin(200, 700, 200, 100));
 
-    auto event = TextButton("Play Game", kMenuSize, flatui::Margin(0),
-                            sound_start_);
+    auto event = TextButton(
+        firebase::remote_config::GetString(kConfigMenuPlayGame).c_str(),
+        kMenuSize, flatui::Margin(0), sound_start_);
     if (event & flatui::kEventWentUp) {
       next_state = kMenuStateFinished;
 #ifdef ANDROID_GAMEPAD
@@ -162,8 +165,11 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     // Since sending invites and admob video are currently not supported on
     // desktop, and the UI space is limited, only offer the option on Android.
 #ifdef __ANDROID__
-    event = TextButton("Send Invite", kMenuSize, flatui::Margin(0));
+    event = TextButton(
+        firebase::remote_config::GetString(kConfigMenuSendInvite).c_str(),
+        kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuSendInvite);
       SendInvite();
       next_state = kMenuStateSendingInvite;
     }
@@ -171,8 +177,9 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
         !world_->admob_helper->rewarded_video_watched() &&
         world_->admob_helper->GetRewardedVideoLocation() ==
             kRewardedVideoLocationPregame) {
-      event = TextButton("Earn bonuses before playing", kMenuSize,
-                         flatui::Margin(0));
+      event = TextButton(
+          firebase::remote_config::GetString(kConfigMenuOfferVideo).c_str(),
+          kMenuSize, flatui::Margin(0));
       if (event & flatui::kEventWentUp) {
         StartRewardedVideo();
       }
@@ -180,6 +187,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
 #endif  // __ANDROID__
     event = TextButton("Options", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuOptions);
       next_state = kMenuStateOptions;
       options_menu_state_ = kOptionsMenuStateMain;
     }
@@ -207,6 +215,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
         ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
                              current_sushi->name()->c_str());
     if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuSushi);
       next_state = kMenuStateOptions;
       options_menu_state_ = kOptionsMenuStateSushi;
     }
@@ -214,6 +223,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
         ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
                              world_->CurrentLevel()->name()->c_str());
     if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuLevel);
       next_state = kMenuStateOptions;
       options_menu_state_ = kOptionsMenuStateLevel;
     }

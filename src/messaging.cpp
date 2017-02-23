@@ -70,6 +70,11 @@ float GetFloat(const firebase::messaging::Message& message,
 void MessageListener::OnMessage(const firebase::messaging::Message& message) {
   SDL_LockMutex(message_mutex_);
 
+  // We want to ignore messages without an id.
+  if (message.message_id.empty()) {
+    return;
+  }
+
   has_pending_message_ = true;
 
   display_message_ =

@@ -36,6 +36,12 @@ extern const char* kParameterPatronType;
 extern const char* kEventGameplayStart;
 extern const char* kEventGameplayFinished;
 
+// Events for various menu options.
+extern const char* kEventMenuSushi;
+extern const char* kEventMenuLevel;
+extern const char* kEventMenuOptions;
+extern const char* kEventMenuSendInvite;
+
 // Parameter for tracking elapsed time since gameplay started, to be included
 // with other events, such as gameplay finished to determine how long the
 // gameplay session was.

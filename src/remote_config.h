@@ -20,7 +20,13 @@
 namespace fpl {
 namespace zooshi {
 
+// The lookup key for where to place the AdMob rewarded video.
 extern const char* kConfigRewardedVideoLocation;
+
+// The lookup keys for various menu labels.
+extern const char* kConfigMenuPlayGame;
+extern const char* kConfigMenuSendInvite;
+extern const char* kConfigMenuOfferVideo;
 
 void InitializeRemoteConfig(const firebase::App& app);
 

@@ -43,7 +43,7 @@
 #include "world.h"
 #include "xp_system.h"
 
-#if defined(PLATFORM_MOBILE)
+#ifdef __ANDROID__
 #define USING_GOOGLE_PLAY_GAMES
 #endif
 

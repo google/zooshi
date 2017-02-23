@@ -444,7 +444,7 @@ bool Game::Initialize(const char *const binary_directory) {
 
 // If this is a mobile platform or the onscreen controller is forced on
 // instance the onscreen controller.
-#if defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
+#if defined(__ANDROID__) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
   {
     OnscreenController *onscreen_controller = new OnscreenController();
     onscreen_controller->set_input_config(&GetInputConfig());
@@ -455,18 +455,18 @@ bool Game::Initialize(const char *const binary_directory) {
     world_.onscreen_controller_ui.set_controller(onscreen_controller);
     world_.onscreen_controller = onscreen_controller;
   }
-#endif  // defined(PLATFORM_MOBILE) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
+#endif  // defined(__ANDROID__) || ZOOSHI_FORCE_ONSCREEN_CONTROLLER
 
 // If this is a desktop platform and we're not forcing the onscreen controller
 // instance the mouse controller.
-#if !defined(PLATFORM_MOBILE) && !ZOOSHI_FORCE_ONSCREEN_CONTROLLER
+#if !defined(__ANDROID__) && !ZOOSHI_FORCE_ONSCREEN_CONTROLLER
   {
     BasePlayerController *controller = new MouseController();
     controller->set_input_config(&GetInputConfig());
     controller->set_input_system(&input_);
     world_.AddController(controller);
   }
-#endif  // !ZOOSHI_FORCE_ONSCREEN_CONTROLLER && !defined(PLATFORM_MOBILE)
+#endif  // !defined(__ANDROID__) && !ZOOSHI_FORCE_ONSCREEN_CONTROLLER
 
 #ifdef ANDROID_GAMEPAD
   {
