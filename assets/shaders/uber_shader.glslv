@@ -49,11 +49,11 @@ varying vec3 vPosition;
 attribute vec3 aNormal;
 varying vec3 vNormal;
 #endif  // PHONG_SHADING
-attribute vec3 aTangent;
-varying vec3 vTangent;
+attribute vec4 aTangent;
+varying vec4 vTangent;
 varying vec3 vObjectSpacePosition;
 varying vec3 vTangentSpaceLightVector;
-varying vec3 vTangentSpaceCameraVector
+varying vec3 vTangentSpaceCameraVector;
 uniform vec3 light_pos;   // in object space
 uniform vec3 camera_pos;  // in object space
 #endif  // NORMALS
@@ -98,7 +98,7 @@ void main()
   vObjectSpacePosition = aPosition.xyz;
 
   vec3 n = normalize(vNormal);
-  vec3 t = normalize(vTangent);
+  vec3 t = normalize(vTangent.xyz);
   vec3 b = normalize(cross(n, t)) * aTangent.w;
 
   mat3 world_to_tangent_matrix = mat3(t, b, n);
