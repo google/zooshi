@@ -13,9 +13,6 @@
 [submodule "dependencies/sdl_mixer"]
 	path = dependencies/sdl_mixer
 	url = http://github.com/google/pindrop.git
-[submodule "dependencies/googletest"]
-	path = dependencies/googletest
-	url = http://github.com/google/fplutil.git
 [submodule "dependencies/mathfu"]
 	path = dependencies/mathfu
 	url = http://github.com/google/mathfu.git
@@ -64,3 +61,6 @@
 [submodule "dependencies/freetype"]
 	path = dependencies/freetype
 	url = git://git.sv.nongnu.org/freetype/freetype2.git
+[submodule "dependencies/googletest"]
+	path = dependencies/googletest
+	url = http://github.com/google/googletest.git
