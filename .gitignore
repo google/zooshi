@@ -10,6 +10,7 @@ assets/anims/
 assets/flatbufferschemas/
 assets/fonts/
 assets/graphs/
+assets/hyphen-data/
 assets/materials/
 assets/meshes/
 assets/rails/
@@ -21,6 +22,7 @@ assets/sounds/*.pinsound
 assets/textures/
 assets/overlays/
 bin/
+built_assets/
 fplbase_assets/
 gen/
 libs/

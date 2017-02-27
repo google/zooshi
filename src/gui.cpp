@@ -39,6 +39,10 @@ using mathfu::vec3;
   _snprintf_s(buffer, count, count, format, __VA_ARGS__)
 #endif  // _WIN32
 
+// Controls whether cardboard mode is enterable through the gui.
+// Currently turned off, as it is not fully supported anymore.
+#define ALLOW_CARDBOARD_MODE 0
+
 namespace fpl {
 namespace zooshi {
 
@@ -145,6 +149,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       }
 #endif
     }
+#if ALLOW_CARDBOARD_MODE
     if (fplbase::SupportsHeadMountedDisplay()) {
       event = TextButton("Cardboard", kMenuSize, flatui::Margin(0),
                          sound_start_);
@@ -152,6 +157,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
         next_state = kMenuStateCardboard;
       }
     }
+#endif  // ALLOW_CARDBOARD_MODE
 #ifdef USING_GOOGLE_PLAY_GAMES
     auto logged_in = gpg_manager_->LoggedIn();
     event = TextButton(*image_gpg_, flatui::Margin(0, 50, 10, 0),

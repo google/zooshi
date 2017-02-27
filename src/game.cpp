@@ -533,7 +533,7 @@ bool Game::Initialize(const char *const binary_directory) {
 #if FPLBASE_ANDROID_VR
   if (fplbase::AndroidGetActivityName() ==
       "com.google.fpl.zooshi.ZooshiHmdActivity") {
-    world_.SetIsInCardboard(true);
+    world_.SetRenderingMode(kRenderingStereoscopic);
   }
 #endif  // FPLBASE_ANDROID_VR
 

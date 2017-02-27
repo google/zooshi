@@ -35,7 +35,8 @@ $(foreach dir,$(wildcard $(DEPENDENCIES_ROOT)) \
               $(wildcard $(FIND_FPLUTIL_DIR)/../fplutil) \
               $(wildcard $(FIND_FPLUTIL_DIR)/../../fplutil) \
               $(wildcard $(FIND_FPLUTIL_DIR)/../../../fplutil) \
-              $(wildcard $(FIND_FPLUTIL_DIR)/../../../../fplutil),\
+              $(wildcard $(FIND_FPLUTIL_DIR)/../../../../fplutil) \
+              $(wildcard $(FIND_FPLUTIL_DIR)/../../../libs/fplutil),\
   $(eval FPLUTIL_DIR?=$(dir)))
 
 ifeq ($(FPLUTIL_DIR),)

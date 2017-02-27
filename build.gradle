@@ -69,7 +69,7 @@ android {
 }
 
 repositories {
-  flatDir{
+  flatDir {
     dirs System.env.FIREBASE_SDK + '/libs/android'
   }
 }
@@ -114,6 +114,25 @@ task copyFplbase(type: Copy) {
   into 'src_java'
 }
 
+task copyCardboard(type: Copy) {
+  def cardboard_dir = ''
+  def dependency_dir = new File('dependencies/cardboard-java')
+  if (dependency_dir.exists()) {
+    cardboard_dir = dependency_dir.getPath()
+  } else {
+    def gerrit_dir = new File('../../../../prebuilts/cardboard-java')
+    if (gerrit_dir.exists()) {
+      cardboard_dir = gerrit_dir.getPath()
+    } else {
+      throw new GradleException('Unable to find dependency Cardboard SDK');
+    }
+  }
+
+  from cardboard_dir + '/CardboardSample/libs'
+  into 'libs'
+}
+
 project.afterEvaluate {
+  preBuild.dependsOn(copyCardboard)
   preBuild.dependsOn(copyFplbase)
 }
