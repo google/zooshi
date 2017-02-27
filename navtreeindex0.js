@@ -1,5 +1,6 @@
 var NAVTREEINDEX0 =
 {
+"@ref zooshi_guide_firebase":[2,3,3],
 "contributing.html":[4],
 "index.html":[],
 "index.html#zooshi_index":[0],
