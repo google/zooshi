@@ -83,12 +83,6 @@
           }
         },
         {
-          "edge_type": "breadboard_module_library_SoundHandle",
-          "edge": {
-            "value": "hit_char"
-          }
-        },
-        {
           "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 2,
