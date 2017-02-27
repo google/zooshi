@@ -41,6 +41,7 @@
         <tab type="user" url="@ref zooshi_guide_controllers"
              title="Controllers"/>
         <tab type="user" url="@ref zooshi_guide_cardboard" title="Cardboard"/>
+        <tab type="user" url="@ref zooshi_guide_firebase" title="Firebase"/>
       </tab>
     </tab>
     <tab type="user" url="@ref zooshi_readme" title="Readme"/>
