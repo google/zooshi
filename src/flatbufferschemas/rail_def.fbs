@@ -20,6 +20,7 @@ table RailDef {
   positions:[fplbase.Vec3];
   total_time:float;
   reliable_distance:float;
+  wraps:bool = true;
 }
 
 root_type RailDef;

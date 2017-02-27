@@ -1,0 +1,36 @@
+// Copyright 2016 Google Inc. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#ifdef WATER
+
+uniform highp float river_offset;
+uniform highp float texture_repeats;
+
+// Get the coordinates for the repeating water texture in a given spot.
+// Since the texture is tiled, the x coordinate can remain the same, but
+// the y coordinate needs to be calculated based on the size of the water
+// texture and its relative position.
+
+highp vec2 CalculateWaterTextureCoordinates(mediump vec2 vertex_coords) {
+  highp float tex_v = vertex_coords.y;
+
+  // This is basically equivalent to tex_v = fract(tex_v * texture_repeats),
+  // except that it makes us less likely to get math errors on devices with
+  // low floating point precision.
+  tex_v = fract(fract(((tex_v / 16.0) * (texture_repeats / 16.0))) * 256.0);
+
+  return vec2(vertex_coords.x, tex_v + fract(-river_offset));
+}
+
+#endif  // WATER

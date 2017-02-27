@@ -24,21 +24,26 @@ pass 'cwebp' as an argument. Additionally, if you would like to clean all
 generated files, you can call this script with the argument 'clean'.
 """
 
-
-import distutils.dir_util
-import glob
-import json
-import os
 import sys
+import glob
+import os
+import json
+
 # The project root directory, which is two levels up from this script's
 # directory.
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                             os.path.pardir))
+
 # Add possible paths that the scene_lab_assets_builder module might be in.
 sys.path.append(os.path.join(PROJECT_ROOT, os.path.pardir, os.path.pardir,
                              'libs', 'scene_lab', 'scripts'))
 sys.path.append(os.path.join(PROJECT_ROOT, 'dependencies',
                              'scene_lab', 'scripts'))
+sys.path.append(os.path.join(PROJECT_ROOT, os.path.pardir, 'scene_lab',
+                             'scripts'))
+sys.path.append(os.path.join(PROJECT_ROOT, os.path.pardir, 'py'))
+
+import distutils.dir_util
 import scene_lab_asset_builder as builder
 
 # ============================================================================
@@ -47,7 +52,7 @@ import scene_lab_asset_builder as builder
 # ============================================================================
 
 # Directory to place processed assets.
-ASSETS_PATH = os.path.join(PROJECT_ROOT, 'assets')
+ASSETS_PATH = os.path.join(PROJECT_ROOT, 'built_assets')
 
 # Directory where unprocessed assets can be found.
 RAW_ASSETS_PATH = os.path.join(PROJECT_ROOT, 'src', 'rawassets')
@@ -113,11 +118,11 @@ FLATBUFFERS_CONVERSION_DATA = [
         schema=PROJECT_SCHEMA_PATH.join('components.fbs'),
         extension='zooentity',
         input_files=[os.path.join(RAW_ASSETS_PATH, 'entity_prototypes.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_rails.json'),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_lights.json'),
                      os.path.join(RAW_ASSETS_PATH, 'entity_list.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_ring.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_decorations.json'),
-                     os.path.join(RAW_ASSETS_PATH, 'entity_level_0.json')]),
+                     os.path.join(RAW_ASSETS_PATH, 'entity_rails.json'),
+                    ] +
+                    glob.glob(os.path.join(RAW_ASSETS_PATH, 'lvl_*.json'))),
     builder.FlatbuffersConversionData(
         schema=PROJECT_SCHEMA_PATH.join('rail_def.fbs'),
         extension='rail',

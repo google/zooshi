@@ -40,16 +40,16 @@ mathfu::vec2 GamepadController::GetDelta() const {
     int device_id = it->first;
     fplbase::Gamepad& gamepad = input_system_->GetGamepad(device_id);
     if (gamepad.GetButton(fplbase::Gamepad::kLeft).is_down()) {
-      delta.x()++;
+      delta.x++;
     }
     if (gamepad.GetButton(fplbase::Gamepad::kRight).is_down()) {
-      delta.x()--;
+      delta.x--;
     }
     if (gamepad.GetButton(fplbase::Gamepad::kUp).is_down()) {
-      delta.y()++;
+      delta.y++;
     }
     if (gamepad.GetButton(fplbase::Gamepad::kDown).is_down()) {
-      delta.y()--;
+      delta.y--;
     }
   }
 #endif
@@ -65,10 +65,10 @@ void GamepadController::UpdateFacing() {
   vec2 delta = GetDelta();
   delta *= input_config_->gamepad_sensitivity();
   if (input_config_->invert_x()) {
-    delta.x() *= -1.0f;
+    delta.x *= -1.0f;
   }
   if (input_config_->invert_y()) {
-    delta.y() *= -1.0f;
+    delta.y *= -1.0f;
   }
 
   // We assume that the player is looking along the x axis, before
@@ -78,8 +78,8 @@ void GamepadController::UpdateFacing() {
       quat::FromAngleAxis(-static_cast<float>(M_PI_2), kCameraUp) *
       facing_vector;
 
-  quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
-  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), kCameraUp);
+  quat pitch_adjustment = quat::FromAngleAxis(delta.y, side_vector);
+  quat yaw_adjustment = quat::FromAngleAxis(delta.x, kCameraUp);
 
   facing_vector = pitch_adjustment * yaw_adjustment * facing_vector;
 

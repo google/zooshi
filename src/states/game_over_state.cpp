@@ -14,9 +14,19 @@
 
 #include "states/game_over_state.h"
 
+#include "analytics.h"
 #include "components/attributes.h"
 #include "components/sound.h"
 #include "config_generated.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
+#include "firebase/analytics.h"
+#include "firebase/analytics/event_names.h"
+#include "firebase/analytics/parameter_names.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/input.h"
 #include "game.h"
 #include "mathfu/constants.h"
@@ -28,6 +38,13 @@
 #include "states/states.h"
 #include "states/states_common.h"
 #include "world.h"
+
+// In windows.h, PlaySound is #defined to be either PlaySoundW or PlaySoundA.
+// We need to undef this macro or AudioEngine::PlaySound() won't compile.
+// TODO(amablue): Change our PlaySound to have a different name (b/30090037).
+#if defined(PlaySound)
+#undef PlaySound
+#endif  // defined(PlaySound)
 
 namespace fpl {
 namespace zooshi {
@@ -58,7 +75,7 @@ void GameOverState::Initialize(fplbase::InputSystem* input_system, World* world,
   background_game_over_ =
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
 }
@@ -88,19 +105,20 @@ void GameOverState::AdvanceFrame(int delta_time, int* next_state) {
     audio_engine_->PlaySound(sound_click_);
 
     // Stay in Cardboard unless the back button is pressed.
-    *next_state = world_->is_in_cardboard() && !exit_button_pressed
+    *next_state = world_->rendering_mode() == kRenderingStereoscopic &&
+                          !exit_button_pressed
                       ? kGameStateGameplay
                       : kGameStateGameMenu;
   }
 }
 
-void GameOverState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void GameOverState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void GameOverState::Render(fplbase::Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -140,6 +158,23 @@ void GameOverState::OnEnter(int /*previous_state*/) {
     gpg_manager_->SubmitScore(leaderboard_id, score);
   }
 #endif
+
+  auto player = world_->player_component.begin()->entity;
+  auto attribute_data =
+      world_->entity_manager.GetComponentData<AttributesData>(player);
+  auto score = attribute_data->attributes[AttributeDef_PatronsFed];
+  firebase::analytics::LogEvent(firebase::analytics::kEventPostScore,
+                                firebase::analytics::kParameterScore,
+                                static_cast<int64_t>(score));
+  firebase::analytics::Parameter parameters[] = {
+      firebase::analytics::Parameter(
+          kParameterElapsedLevelTime,
+          static_cast<float>(input_system_->Time() -
+                             world_->gameplay_start_time)),
+      AnalyticsControlParameter(world_),
+  };
+  firebase::analytics::LogEvent(kEventGameplayFinished, parameters,
+                                sizeof(parameters) / sizeof(parameters[0]));
 
   if (high_score) {
     game_over_channel_ = audio_engine_->PlaySound(sound_high_score_);

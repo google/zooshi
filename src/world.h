@@ -19,15 +19,17 @@
 #include <memory>
 #include <string>
 
+#include "admob.h"
 #include "components/attributes.h"
 #include "components/audio_listener.h"
-#include "components/digit.h"
 #include "components/lap_dependent.h"
+#include "components/light.h"
 #include "components/patron.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/rail_denizen.h"
 #include "components/rail_node.h"
+#include "components/render_3d_text.h"
 #include "components/river.h"
 #include "components/scenery.h"
 #include "components/services.h"
@@ -45,15 +47,27 @@
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
 #include "corgi_component_library/transform.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
+#include "firebase/app.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/render_target.h"
 #include "fplbase/renderer.h"
 #include "inputcontrollers/base_player_controller.h"
 #include "inputcontrollers/gamepad_controller.h"
 #include "inputcontrollers/onscreen_controller.h"
+#include "invites.h"
+#include "messaging.h"
 #include "railmanager.h"
-#include "scene_lab/edit_options.h"
+#include "scene_lab/corgi/corgi_adapter.h"
+#include "scene_lab/corgi/edit_options.h"
 #include "scene_lab/scene_lab.h"
+#include "unlockable_manager.h"
 #include "world_renderer.h"
+#include "xp_system.h"
 
 namespace pindrop {
 
@@ -68,6 +82,22 @@ class AssetManager;
 
 namespace zooshi {
 
+// The #defines that can be applied to a shader.
+enum ShaderDefines {
+  kPhongShading,
+  kSpecularEffect,
+  kShadowEffect,
+  kNormalMaps,
+  kNumShaderDefines
+};
+
+// Different rendering modes can have different values for shader defines.
+enum RenderingMode {
+  kRenderingMonoscopic,
+  kRenderingStereoscopic,
+  kNumRenderingModes
+};
+
 class WorldRenderer;
 struct Config;
 
@@ -77,11 +107,16 @@ struct World {
       : draw_debug_physics(false),
         skip_rendermesh_rendering(false),
         is_single_stepping(false),
-        is_in_cardboard_(false) {
-#ifdef ANDROID_HMD
+        sushi_index(0),
+        // Start on the Easy level, which is at 1.
+        level_index(1),
+        rendering_mode_(kRenderingMonoscopic),
+        rendering_dirty_(true) {
+#if FPLBASE_ANDROID_VR
     hmd_controller = nullptr;
     onscreen_controller = nullptr;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
+    memset(rendering_options_, 0, sizeof(rendering_options_));
   }
 
   void Initialize(const Config& config, fplbase::InputSystem* input_system,
@@ -90,7 +125,10 @@ struct World {
                   flatui::FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine,
                   breadboard::GraphFactory* graph_factory,
-                  fplbase::Renderer* renderer, scene_lab::SceneLab* scene_lab);
+                  fplbase::Renderer* renderer, scene_lab::SceneLab* scene_lab,
+                  UnlockableManager* unlockable_mgr, XpSystem* xp_system,
+                  InvitesListener* invites_lstr, MessageListener* message_lstr,
+                  AdMobHelper* admob_hlpr);
 
   // Entity manager
   corgi::EntityManager entity_manager;
@@ -114,18 +152,19 @@ struct World {
   AudioListenerComponent audio_listener_component;
   SoundComponent sound_component;
   AttributesComponent attributes_component;
-  DigitComponent digit_component;
   RiverComponent river_component;
   RailNodeComponent rail_node_component;
   SceneryComponent scenery_component;
   ServicesComponent services_component;
+  LightComponent light_component;
   corgi::component_library::CommonServicesComponent common_services_component;
   ShadowControllerComponent shadow_controller_component;
   corgi::component_library::MetaComponent meta_component;
-  scene_lab::EditOptionsComponent edit_options_component;
+  scene_lab_corgi::EditOptionsComponent edit_options_component;
   SimpleMovementComponent simple_movement_component;
   LapDependentComponent lap_dependent_component;
   corgi::component_library::GraphComponent graph_component;
+  Render3dTextComponent render_3d_text_component;
 
   // Each player has direct control over one entity.
   corgi::EntityRef active_player_entity;
@@ -135,12 +174,20 @@ struct World {
   fplbase::AssetManager* asset_manager;
   WorldRenderer* world_renderer;
 
+  UnlockableManager* unlockables;
+  XpSystem* xp_system;
+
   std::vector<std::unique_ptr<BasePlayerController>> input_controllers;
   OnscreenControllerUI onscreen_controller_ui;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   BasePlayerController* hmd_controller;
+#endif  // FPLBASE_ANDROID_VR
   BasePlayerController* onscreen_controller;
-#endif  // ANDROID_HMD
+
+  firebase::App* firebase_app;
+  InvitesListener* invites_listener;
+  MessageListener* message_listener;
+  AdMobHelper* admob_helper;
 
   // TODO: Refactor all components so they don't require their source
   // data to remain in memory after their initial load. Then get rid of this,
@@ -167,11 +214,18 @@ struct World {
   // Reset all controllers back to the default facing values.
   void ResetControllerFacing();
 
-  bool is_in_cardboard() const { return is_in_cardboard_; }
-  void SetIsInCardboard(bool in_cardboard);
+  RenderingMode rendering_mode() const { return rendering_mode_; }
+  void SetRenderingMode(RenderingMode rendering_mode);
+  void SetRenderingOption(RenderingMode rendering_mode, ShaderDefines s,
+                          bool enable_option);
+  bool RenderingOptionEnabled(ShaderDefines s) const;
+  bool RenderingOptionEnabled(RenderingMode rendering_mode,
+                              ShaderDefines s) const;
+  bool RenderingOptionsDirty() const { return rendering_dirty_; }
+  void ResetRenderingDirty() { rendering_dirty_ = false; }
 
   void SetHmdControllerEnabled(bool enabled) {
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     // hmd_controller can be NULL if the device does not support a head mounted
     // display like Cardboard (e.g lacks a gyro), onscreen_controller can be
     // NULL if support is compiled out.
@@ -182,22 +236,58 @@ struct World {
     }
 #else
     (void)enabled;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 
   bool GetHmdControllerEnabled() const {
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
     return hmd_controller && hmd_controller->enabled();
 #else
     return false;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
+  }
+
+  // Get the sushi config that should be used during gameplay.
+  const UnlockableConfig* SelectedSushi() const {
+    if (sushi_index >= config->sushi_config()->size()) {
+      return config->sushi_config()->Get(0);
+    } else {
+      return config->sushi_config()->Get(
+          static_cast<flatbuffers::uoffset_t>(sushi_index));
+    }
+  }
+
+  // Get the currently selected level that should be used.
+  const LevelDef* CurrentLevel() const {
+    if (level_index >= config->world_def()->levels()->size()) {
+      return config->world_def()->levels()->Get(0);
+    } else {
+      return config->world_def()->levels()->Get(
+          static_cast<flatbuffers::uoffset_t>(level_index));
+    }
   }
 
   bool is_single_stepping;
 
+  // Records the start time of gameplay, used for analytics.
+  double gameplay_start_time;
+
+  // The index of the sushi to use out of the config.
+  size_t sushi_index;
+
+  // The index of the level layout to use.
+  size_t level_index;
+
  private:
   // Determines if the game is in Cardboard mode (for special rendering).
-  bool is_in_cardboard_;
+  RenderingMode rendering_mode_;
+
+  // Whether rendering option is enabled in each rendering mode.
+  // We have separate options for VR and non-VR because VR is more taxing.
+  bool rendering_options_[kNumRenderingModes][kNumShaderDefines];
+
+  // Whether any rendering option has been modified since last draw call.
+  bool rendering_dirty_;
 };
 
 // Removes all entities from the world, then repopulates it based on the entity

@@ -52,7 +52,7 @@ class GameplayState : public StateNode {
                   pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
@@ -72,7 +72,7 @@ class GameplayState : public StateNode {
   corgi::EntityManager* entity_manager_;
 
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
 #endif
 

@@ -15,9 +15,10 @@
 #ifndef ZOOSHI_LOADING_STATE_H_
 #define ZOOSHI_LOADING_STATE_H_
 
-#include "fplbase/input.h"  // For ANDROID_HMD definition.
-#include "states/state_machine.h"
+#include "config_generated.h"
 #include "fplbase/asset_manager.h"
+#include "fplbase/input.h"  // For FPLBASE_ANDROID_VR definition.
+#include "states/state_machine.h"
 
 namespace pindrop {
 class AudioEngine;
@@ -41,12 +42,11 @@ class LoadingState : public StateNode {
         world_(nullptr),
         banner_rotation_(0.0f){}
   virtual ~LoadingState() {}
-  void Initialize(fplbase::InputSystem *input_system, World *world,
+  void Initialize(fplbase::InputSystem* input_system, World* world,
                   const AssetManifest& asset_manifest,
                   fplbase::AssetManager* asset_manager,
                   pindrop::AudioEngine* audio_engine,
-                  fplbase::Shader* shader_textured,
-                  FullScreenFader* fader);
+                  fplbase::Shader* shader_textured, FullScreenFader* fader);
   virtual void AdvanceFrame(int delta_time, int* next_state);
   virtual void Render(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);

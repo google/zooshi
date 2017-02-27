@@ -1,0 +1,138 @@
+buildscript {
+  repositories {
+    mavenLocal()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.2.1'
+    classpath 'com.google.gms:google-services:3.0.0'
+  }
+}
+
+allprojects {
+  repositories {
+    mavenLocal()
+    jcenter()
+  }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '23.0.3'
+
+    sourceSets {
+      main {
+        jniLibs.srcDirs = ['libs']
+        manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src_java']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['assets', 'built_assets']
+      }
+    }
+
+    defaultConfig {
+        applicationId 'com.google.fpl.zooshi'
+        minSdkVersion 17
+        targetSdkVersion 23
+        versionCode 1
+        versionName '1.0'
+        ndk {
+            // Because of a bug in the older Cardboard SDK Zooshi currently uses, only the
+            // armeabi-v7a ABI is supported. This has been resolved in newer versions,
+            // and this will be fixed when the SDK is updated.
+            abiFilters 'armeabi-v7a'
+        }
+        externalNativeBuild {
+          ndkBuild {
+            arguments = ['-j24', 'NDK_LIBS_OUT=libs']
+          }
+        }
+    }
+    buildTypes {
+      release {
+            // Proguard temporarily disabled until we have a template for
+            // classes referenced from JNI that shouldn't be stripped.
+            //minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt')
+      }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path "jni/Android.mk"
+        }
+    }
+}
+
+repositories {
+  flatDir {
+    dirs System.env.FIREBASE_SDK + '/libs/android'
+  }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile fileTree(dir: 'libs/android', include: ['*.aar'])
+  compile 'com.google.android.gms:play-services-base:10.0.1'
+  compile 'com.google.android.gms:play-services-games:10.0.1'
+  compile 'com.google.android.gms:play-services-nearby:10.0.1'
+  compile 'com.google.firebase:firebase-ads:10.0.1'
+  compile 'com.google.firebase:firebase-core:10.0.1'
+  compile 'com.google.firebase:firebase-invites:10.0.1'
+  compile 'com.google.firebase:firebase-messaging:10.0.1'
+  compile 'com.google.firebase:firebase-config:10.0.1'
+  compile 'com.google.firebase.messaging.cpp:firebase_messaging_cpp@aar'
+  compile 'com.android.support:support-v4:23.0+'
+}
+
+apply plugin: 'com.google.gms.google-services'
+
+task copyFplbase(type: Copy) {
+  def fplbase_dir = ''
+  def github_dir = new File('dependencies/fplbase/src_java')
+  if (github_dir.exists()) {
+    fplbase_dir = github_dir.getPath()
+  } else {
+    def internal_dir = new File('../fplbase/src_java')
+    if (internal_dir.exists()) {
+      fplbase_dir = internal_dir.getPath()
+    } else {
+      def gerrit_dir = new File('../../libs/fplbase/src_java')
+      if (gerrit_dir.exists()) {
+        fplbase_dir = gerrit_dir.getPath();
+      } else {
+        throw new GradleException('Unable to find dependency FPL Base.')
+      }
+    }
+  }
+
+  from fplbase_dir
+  into 'src_java'
+}
+
+task copyCardboard(type: Copy) {
+  def cardboard_dir = ''
+  def dependency_dir = new File('dependencies/cardboard-java')
+  if (dependency_dir.exists()) {
+    cardboard_dir = dependency_dir.getPath()
+  } else {
+    def gerrit_dir = new File('../../../../prebuilts/cardboard-java')
+    if (gerrit_dir.exists()) {
+      cardboard_dir = gerrit_dir.getPath()
+    } else {
+      throw new GradleException('Unable to find dependency Cardboard SDK');
+    }
+  }
+
+  from cardboard_dir + '/CardboardSample/libs'
+  into 'libs'
+}
+
+project.afterEvaluate {
+  preBuild.dependsOn(copyCardboard)
+  preBuild.dependsOn(copyFplbase)
+}

@@ -16,13 +16,19 @@ include "anim_table.fbs";
 
 namespace fpl.zooshi;
 
+table ShaderDef {
+  alias:string;
+  source:string;
+  defines:[string];
+}
+
 // List of paths to all the assets we care about:
 table AssetManifest {
   loading_material:string;
   fader_material:string;
   mesh_list:[string];
   material_list:[string];
-  shader_list:[string];
+  shader_list:[ShaderDef];
   anims:motive.AnimTableFb;
   font_list:[string];
   license_file:string;

@@ -1,14 +1,16 @@
 {
   "window_title": "Zooshi!",
 
+  "license_font":"fonts/NotoSans-Bold.ttf",
+
+  "menu_font":"fonts/RaviPrakash-Regular.ttf",
+
   "audio_config": "audio_config.pinconfig",
 
   "input_config": "input_config.zooinconfig",
 
   "assets_filename": "assets.zooassets",
 
-  "projectile_speed": 40.0,
-  "projectile_upkick": 7.5,
   "projectile_height_offset": -0.5,
   "projectile_forward_offset": 1.6,
   "projectile_min_angular_velocity": { "x": 1, "y": 1, "z": 3 },
@@ -18,137 +20,11 @@
 
   "cardboard_viewport_angle": 1.570796, // 90 degrees
 
-  "river_config" : {
-    "speed_boost" : 0.5,
-    "texture_repeats" : 16,
-    "rail_filename": "rails/player_path.rail",
-    "spline_stepsize": 700.0,
-    "track_height": -1.89,
-    "texture_tile_size": 25.0,
-    "material": "materials/lake_daytime.fplmat",
-    "shader": "shaders/origwater",
-    "default_banks": [
-      { "x_min": -8.5, "x_max": -13.5, "z_min": 3.5, "z_max": 6.2 },
-      { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
-      { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
-      { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
-      { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
-      { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
-      { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
-      { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
-    ],
-    "zones": [
-      {
-        "zone_start": 0.0,
-        "material": "materials/riverbank_grass_daytime.fplmat",
-      },
-      {
-        "zone_start": 0.1,
-        "material": "materials/riverbank_grass_daytime.fplmat",
-        "width": 6
-      },
-      {
-        "zone_start": 0.2,
-        "material": "materials/riverbank_grass_daytime.fplmat",
-        "width": 7
-      },
-      {
-        "zone_start": 0.3,
-        "material": "materials/riverbank_grass_daytime_savanna_daytime.fplmat",
-        "width": 9
-      },
-      {
-        "zone_start": 0.35,
-        "material": "materials/riverbank_savanna_daytime.fplmat",
-        "width": 10,
-      },
-      {
-        "zone_start": 0.45,
-        "material": "materials/riverbank_savanna_daytime.fplmat",
-        "width": 10,
-        "banks": [
-          { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
-          { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
-          { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
-          { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
-          { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
-          { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
-          { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
-          { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
-        ]
-      },
-      {
-        "zone_start": 0.55,
-        "material": "materials/riverbank_savanna_daytime_savanna_sunset.fplmat",
-        "width": 10,
-        "banks": [
-          { "x_min": -12.5, "x_max": -18.5, "z_min": 1.5, "z_max": 2.0 },
-          { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
-          { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
-          { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
-          { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
-          { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
-          { "x_min": 7.5,   "x_max": 9.0,   "z_min": 0.6, "z_max": 0.9 },
-          { "x_min": 12.5,   "x_max": 18.5,  "z_min": 2.5, "z_max": 4.2 }
-        ]
-      },
-      {
-        "zone_start": 0.6,
-        "material": "materials/riverbank_savanna_sunset.fplmat",
-        "width": 10,
-        "banks": [
-          { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
-          { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
-          { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
-          { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
-          { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
-          { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
-          { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
-          { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
-        ]
-      },
-      {
-        "zone_start": 0.7,
-        "material": "materials/riverbank_savanna_sunset_savanna_twilight.fplmat",
-        "width": 10
-      },
-      {
-        "zone_start": 0.75,
-        "material": "materials/riverbank_savanna_twilight.fplmat",
-        "width": 9
-      },
-      {
-        "zone_start": 0.85,
-        "material": "materials/riverbank_savanna_twilight.fplmat",
-        "width": 8
-      },
-      {
-        "zone_start": 0.95,
-        "material": "materials/riverbank_savanna_twilight_grass_daytime.fplmat",
-        "width": 6
-      },
-      {
-        "zone_start": 0.99,
-        "material": "materials/riverbank_grass_daytime.fplmat"
-      }
-    ],
-    "river_index": 3,
-    "default_width": 5.0,
-    "collision_type": "Ground",
-    "collides_with": [
-      "Projectile"
-    ],
-    "mass": 1000.0,
-    "restitution": 0.5,
-    "user_tag": "Ground"
-  },
-
   "rendering_config" : {
+    "render_shadows_by_default": false,
     "shadow_map_resolution": 512,
     "shadow_map_zoom": 2.0,
     "shadow_map_offset": 6.0,
-    "light_position": { "x": 0.0, "y": 0.0, "z": 60 },
-    "shadow_intensity": 0.33,
     "fog_roll_in_dist":1500,
     "fog_max_dist": 3000,
     "fog_color": {"r":0.95, "g":0.9, "b":0.7, "a":1.0},
@@ -156,7 +32,15 @@
     "cull_distance": 50,
     "pop_out_distance": 45,
     "pop_in_distance": 40,
-    "create_shadow_map":false
+    "shadow_map_bias": 0.02,
+    "shadow_map_viewport_angle": 45.0,
+    "apply_phong_by_default": true,
+    "apply_specular_by_default": false,
+    "apply_normal_maps_by_default": false,
+    "render_shadows_by_default_cardboard": false,
+    "apply_phong_by_default_cardboard": true,
+    "apply_specular_by_default_cardboard": false,
+    "apply_normal_maps_by_default_cardboard": false
    },
 
   "scene_lab_config" : {
@@ -205,25 +89,254 @@
     "binary_entity_file_ext": "zooentity"
   },
 
+  "scenery_face_angle_def": {
+    "base": {
+      "modular": true,
+      "min": -3.14159265359,
+      "max": 3.14159265359
+    },
+    "max_velocity": 0.0126,
+    "max_delta": 3.141,
+    "at_target": { "max_difference": 0.03, "max_velocity": 0.0001 },
+    "acceleration_per_difference": 0.000192,
+    "wrong_direction_acceleration_multiplier": 6.0,
+    "max_delta_time": 20
+  },
+
   "world_def": {
     "entity_files": [
       "entity_rails.zooentity",
-      "entity_list.zooentity",
-      "entity_level_0.zooentity",
-      "entity_decorations.zooentity",
-      "entity_ring.zooentity"
+      "entity_lights.zooentity",
+      "entity_list.zooentity"
+    ],
+    "levels": [
+      {
+        "name": "Endless",
+        "entity_files": [
+          "lvl_endless_rail.zooentity",
+          "lvl_endless_list.zooentity",
+          "lvl_endless_patrons.zooentity",
+          "lvl_endless_props.zooentity"
+        ],
+        "river_config": {
+          "material": "materials/lake_daytime.fplmat",
+          "shader": "shaders/water",
+          "default_banks": [
+            { "x_min": -8.5, "x_max": -13.5, "z_min": 3.5, "z_max": 6.2 },
+            { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+            { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+            { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+            { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+            { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+            { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
+            { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
+          ],
+          "zones": [
+            {
+              "zone_start": 0.0,
+              "material": "materials/riverbank_grass_daytime.fplmat"
+            },
+            {
+              "zone_start": 0.1,
+              "material": "materials/riverbank_grass_daytime.fplmat",
+              "width": 6
+            },
+            {
+              "zone_start": 0.2,
+              "material": "materials/riverbank_grass_daytime.fplmat",
+              "width": 7
+            },
+            {
+              "zone_start": 0.3,
+              "material": "materials/riverbank_grass_daytime_savanna_daytime.fplmat",
+              "width": 9
+            },
+            {
+              "zone_start": 0.35,
+              "material": "materials/riverbank_savanna_daytime.fplmat",
+              "width": 10
+            },
+            {
+              "zone_start": 0.45,
+              "material": "materials/riverbank_savanna_daytime.fplmat",
+              "width": 10,
+              "banks": [
+                { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
+                { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+                { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+                { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+                { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+                { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+                { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
+                { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
+              ]
+            },
+            {
+              "zone_start": 0.55,
+              "material": "materials/riverbank_savanna_daytime_savanna_sunset.fplmat",
+              "width": 10,
+              "banks": [
+                { "x_min": -12.5, "x_max": -18.5, "z_min": 1.5, "z_max": 2.0 },
+                { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+                { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+                { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+                { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+                { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+                { "x_min": 7.5,   "x_max": 9.0,   "z_min": 0.6, "z_max": 0.9 },
+                { "x_min": 12.5,   "x_max": 18.5,  "z_min": 2.5, "z_max": 4.2 }
+              ]
+            },
+            {
+              "zone_start": 0.6,
+              "material": "materials/riverbank_savanna_sunset.fplmat",
+              "width": 10,
+              "banks": [
+                { "x_min": -8.5, "x_max": -13.5, "z_min": 2.5, "z_max": 3.2 },
+                { "x_min": -7.5,  "x_max": -8,    "z_min": 0.5, "z_max": 1.0 },
+                { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+                { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+                { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+                { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+                { "x_min": 3.5,   "x_max": 8.0,   "z_min": 0.6, "z_max": 0.9 },
+                { "x_min": 8.5,   "x_max": 13.5,  "z_min": 3.5, "z_max": 6.2 }
+              ]
+            },
+            {
+              "zone_start": 0.7,
+              "material": "materials/riverbank_savanna_sunset_savanna_twilight.fplmat",
+              "width": 10
+            },
+            {
+              "zone_start": 0.75,
+              "material": "materials/riverbank_savanna_twilight.fplmat",
+              "width": 9
+            },
+            {
+              "zone_start": 0.85,
+              "material": "materials/riverbank_savanna_twilight.fplmat",
+              "width": 8
+            },
+            {
+              "zone_start": 0.95,
+              "material": "materials/riverbank_savanna_twilight_grass_daytime.fplmat",
+              "width": 6
+            },
+            {
+              "zone_start": 0.99,
+              "material": "materials/riverbank_grass_daytime.fplmat"
+            }
+          ],
+          "river_index": 3,
+          "collision_type": "Ground",
+          "collides_with": [
+            "Projectile"
+          ],
+          "user_tag": "Ground"
+        }
+      },
+      {
+        "name": "Easy",
+        "entity_files": [
+          "lvl_easy_rail.zooentity",
+          "lvl_easy_list.zooentity",
+          "lvl_easy_patrons.zooentity",
+          "lvl_easy_props.zooentity"
+        ],
+        "river_config": {
+          "material": "materials/lake_daytime.fplmat",
+          "shader": "shaders/water",
+          "default_banks": [
+            { "x_min": -14.0, "x_max": -19.5, "z_min": 4.5, "z_max": 5.6 },
+            { "x_min": -10.0,  "x_max": -12.0,    "z_min": 0.5, "z_max": 1.0 },
+            { "x_min": -0.6,  "x_max": -1.2,  "z_min": 0.2, "z_max": 0.4 },
+            { "x_min": 0,     "x_max": -0.6,  "z_min": 0.0, "z_max": 0.0 },
+            { "x_min": 0,     "x_max": 0.6,   "z_min": 0.0, "z_max": 0.0 },
+            { "x_min": 0.5,   "x_max": 1.2,   "z_min": 0.2, "z_max": 0.4 },
+            { "x_min": 10.0,   "x_max": 12.0,   "z_min": 0.6, "z_max": 0.9 },
+            { "x_min": 14.0,   "x_max": 19.5,  "z_min": 4.5, "z_max": 5.6 }
+          ],
+          "zones": [
+            {
+              "zone_start": 0.0,
+              "material": "materials/riverbank_grass_daytime.fplmat"
+            },
+            {
+              "zone_start": 0.1,
+              "material": "materials/riverbank_grass_daytime.fplmat",
+              "width": 6
+            },
+            {
+              "zone_start": 0.2,
+              "material": "materials/riverbank_grass_daytime.fplmat",
+              "width": 7
+            },
+            {
+              "zone_start": 0.8,
+              "material": "materials/riverbank_grass_daytime.fplmat",
+              "width": 6
+            },
+            {
+              "zone_start": 0.9,
+              "material": "materials/riverbank_grass_daytime.fplmat"
+            }
+          ],
+          "river_index": 3,
+          "collision_type": "Ground",
+          "collides_with": [
+            "Projectile"
+          ],
+          "user_tag": "Ground"
+        }
+      }
     ]
   },
   "gpg_config": {
     "leaderboards": [
-      {"name": "LeaderboardMain", "id": "CgkI7IvL5LUCEAIQCQ"},
+      {"name": "LeaderboardMain", "id": "CgkI7IvL5LUCEAIQCQ"}
     ],
     "achievements": [
       {"name": "ADeliciousCycle", "id": "CgkI7IvL5LUCEAIQBQ"},
       {"name": "AllYouCanEat", "id": "CgkI7IvL5LUCEAIQBg"},
       {"name": "SushiChef", "id": "CgkI7IvL5LUCEAIQAw"},
       {"name": "SushiNinja", "id": "CgkI7IvL5LUCEAIQDQ"},
-      {"name": "SushiSamurai", "id": "CgkI7IvL5LUCEAIQBA"},
+      {"name": "SushiSamurai", "id": "CgkI7IvL5LUCEAIQBA"}
     ]
-  }
+  },
+  "sushi_config": [
+    {
+      "name": "Nigiri",
+      "starts_unlocked": true,
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "Basic tasty sushi",
+        "prototype": "Projectile"
+      }
+    },
+    {
+      "name": "Lobster",
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "Heavy, but delicious",
+        "prototype": "Projectile_Lobster"
+      }
+    },
+    {
+      "name": "Flying Fish",
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "Travels far on its wings",
+        "prototype": "Projectile_FlyingFish"
+      }
+    },
+    {
+      "name": "Pufferfish",
+      "data_type": "SushiConfig",
+      "data": {
+        "description": "So light it floats up",
+        "prototype": "Projectile_Pufferfish",
+        "upkick": -7.5
+      }
+    }
+  ],
+  "xp_for_reward": 100
 }

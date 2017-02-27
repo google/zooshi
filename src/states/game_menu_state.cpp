@@ -17,9 +17,17 @@
 
 #include "components/sound.h"
 #include "config_generated.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
+#include "firebase/admob.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/flatbuffer_utils.h"
 #include "fplbase/input.h"
 #include "input_config_generated.h"
+#include "invites.h"
 #include "mathfu/constants.h"
 #include "mathfu/glsl_mappings.h"
 #include "motive/init.h"
@@ -30,7 +38,7 @@
 #include "states/states_common.h"
 #include "world.h"
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -46,10 +54,10 @@ namespace fpl {
 namespace zooshi {
 
 void GameMenuState::Initialize(
-    fplbase::InputSystem* input_system, World* world, const Config* config,
-    fplbase::AssetManager* asset_manager, flatui::FontManager* font_manager,
-    const AssetManifest* manifest, GPGManager* gpg_manager,
-    pindrop::AudioEngine* audio_engine, FullScreenFader* fader) {
+    fplbase::InputSystem *input_system, World *world, const Config *config,
+    fplbase::AssetManager *asset_manager, flatui::FontManager *font_manager,
+    const AssetManifest *manifest, GPGManager *gpg_manager,
+    pindrop::AudioEngine *audio_engine, FullScreenFader *fader) {
   world_ = world;
 
   // Set references used in GUI.
@@ -81,7 +89,7 @@ void GameMenuState::Initialize(
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
   button_back_ = asset_manager_->LoadTexture("textures/ui_button_back.webp");
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #endif
   slider_back_ =
@@ -91,6 +99,12 @@ void GameMenuState::Initialize(
       "textures/ui_scrollbar_background_vertical.webp");
   scrollbar_foreground_ =
       asset_manager_->LoadTexture("textures/ui_scrollbar_foreground.webp");
+
+  button_checked_ =
+      asset_manager_->LoadTexture("textures/ui_button_checked.webp");
+  button_unchecked_ =
+      asset_manager_->LoadTexture("textures/ui_button_unchecked.webp");
+  cardboard_logo_ = asset_manager_->LoadTexture("textures/cardboard_logo.webp");
 
   if (!fplbase::LoadFile(manifest->about_file()->c_str(), &about_text_)) {
     fplbase::LogError("About text not found.");
@@ -116,46 +130,72 @@ void GameMenuState::Initialize(
   master_bus_ = audio_engine->FindBus("master");
   LoadData();
 
+  patrons_fed_ = 0;
+  sushi_thrown_ = 0;
+  laps_finished_ = 0;
+  total_score_ = 0;
+
+  rewarded_video_state_ = kRewardedVideoStateIdle;
+
   UpdateVolumes();
 }
 
-void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
+void GameMenuState::AdvanceFrame(int delta_time, int *next_state) {
   world_->entity_manager.UpdateComponents(delta_time);
   UpdateMainCamera(&main_camera_, world_);
+
+  if (rewarded_video_state_ == kRewardedVideoStateDisplaying) {
+    HandleRewardedVideo();
+    return;
+  }
 
   bool back_button =
       input_system_->GetButton(fplbase::FPLK_ESCAPE).went_down() ||
       input_system_->GetButton(fplbase::FPLK_AC_BACK).went_down();
   if (back_button) {
+    if (rewarded_video_state_ == kRewardedVideoStateFinished) {
+      // If on the finished screen for rewarded video, clear that state.
+      rewarded_video_state_ = kRewardedVideoStateIdle;
+      return;
+    }
+
     if (menu_state_ == kMenuStateOptions) {
       // Save data when you leave the audio page.
       if (options_menu_state_ == kOptionsMenuStateAudio) {
         SaveData();
       }
-      if (options_menu_state_ == kOptionsMenuStateMain) {
+      if (options_menu_state_ == kOptionsMenuStateMain ||
+          options_menu_state_ == kOptionsMenuStateSushi ||
+          options_menu_state_ == kOptionsMenuStateLevel) {
         menu_state_ = kMenuStateStart;
       } else {
         options_menu_state_ = kOptionsMenuStateMain;
       }
     } else if (menu_state_ == kMenuStateStart) {
       menu_state_ = kMenuStateQuit;
+    } else if (menu_state_ == kMenuStateScoreReview ||
+               menu_state_ == kMenuStateReceivedInvite ||
+               menu_state_ == kMenuStateSendingInvite ||
+               menu_state_ == kMenuStateSentInvite ||
+               menu_state_ == kMenuStateReceivedMessage) {
+      menu_state_ = kMenuStateStart;
     }
   }
 
   if (menu_state_ == kMenuStateStart) {
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
   } else if (menu_state_ == kMenuStateFinished) {
     *next_state = kGameStateGameplay;
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateCardboard) {
     *next_state = kGameStateIntro;
     world_->SetHmdControllerEnabled(true);
-    world_->SetIsInCardboard(true);
+    world_->SetRenderingMode(kRenderingStereoscopic);
     world_->SetActiveController(kControllerDefault);
   } else if (menu_state_ == kMenuStateGamepad) {
     *next_state = kGameStateGameplay;
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
     world_->SetActiveController(kControllerGamepad);
   } else if (menu_state_ == kMenuStateQuit) {
     fader_->AdvanceFrame(delta_time);
@@ -165,24 +205,70 @@ void GameMenuState::AdvanceFrame(int delta_time, int* next_state) {
     if (fader_->Finished()) {
       *next_state = kGameStateExit;
     }
+  } else if (menu_state_ == kMenuStateSendingInvite) {
+    bool did_send, first_sent;
+    if (UpdateSentInviteStatus(&did_send, &first_sent)) {
+      if (did_send) {
+        // Put up a message thanking them for inviting others.
+        // If it was the first time they've sent an invite, reward them.
+        menu_state_ = kMenuStateSentInvite;
+        if (first_sent) {
+          did_earn_unlockable_ =
+              world_->unlockables->UnlockRandom(&earned_unlockable_);
+        }
+      } else {
+        // No invites were sent, so return to normal.
+        menu_state_ = kMenuStateStart;
+      }
+    }
+  }
+
+  // If we are not transitioning to another state, check for received invites
+  // and messages.
+  if (menu_state_ == kMenuStateStart && *next_state == kGameStateGameMenu) {
+    if (world_->invites_listener->has_pending_invite()) {
+      world_->invites_listener->HandlePendingInvite();
+      did_earn_unlockable_ =
+          world_->unlockables->UnlockRandom(&earned_unlockable_);
+      menu_state_ = kMenuStateReceivedInvite;
+    } else if (world_->message_listener->has_pending_message()) {
+      received_message_ =
+          world_->message_listener->HandlePendingMessage(world_);
+      menu_state_ = kMenuStateReceivedMessage;
+    }
   }
 }
 
-void GameMenuState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void GameMenuState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
-void GameMenuState::Render(fplbase::Renderer* renderer) {
-  Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+void GameMenuState::Render(fplbase::Renderer *renderer) {
+  // Ensure assets are instantiated after they've been loaded.
+  // This must be called from the render thread.
+  loading_complete_ = asset_manager_->TryFinalize();
+
+  Camera *cardboard_camera = nullptr;
+#if FPLBASE_ANDROID_VR
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void GameMenuState::HandleUI(fplbase::Renderer* renderer) {
+void GameMenuState::HandleUI(fplbase::Renderer *renderer) {
+  // Don't show game menu until everything has finished loading.
+  if (!loading_complete_) {
+    return;
+  }
+
   // No culling when drawing the menu.
-  renderer->SetCulling(fplbase::Renderer::kNoCulling);
+  renderer->SetCulling(fplbase::kCullingModeNone);
+
+  if (rewarded_video_state_ != kRewardedVideoStateIdle) {
+    rewarded_video_state_ =
+        RewardedVideoMenu(*asset_manager_, *font_manager_, *input_system_);
+    return;
+  }
 
   switch (menu_state_) {
     case kMenuStateStart:
@@ -191,13 +277,43 @@ void GameMenuState::HandleUI(fplbase::Renderer* renderer) {
     case kMenuStateOptions:
       menu_state_ = OptionMenu(*asset_manager_, *font_manager_, *input_system_);
       break;
-
+    case kMenuStateScoreReview:
+      menu_state_ =
+          ScoreReviewMenu(*asset_manager_, *font_manager_, *input_system_);
+      // If leaving the score review page, clear the cached scores.
+      if (menu_state_ != kMenuStateScoreReview) {
+        ResetScore();
+        world_->admob_helper->ResetRewardedVideo();
+      }
+      break;
+    case kMenuStateReceivedInvite:
+      menu_state_ =
+          ReceivedInviteMenu(*asset_manager_, *font_manager_, *input_system_);
+      if (menu_state_ != kMenuStateReceivedInvite) {
+        did_earn_unlockable_ = false;
+      }
+      break;
+    case kMenuStateSentInvite:
+      menu_state_ =
+          SentInviteMenu(*asset_manager_, *font_manager_, *input_system_);
+      if (menu_state_ != kMenuStateSentInvite) {
+        did_earn_unlockable_ = false;
+      }
+      break;
+    case kMenuStateReceivedMessage:
+      menu_state_ =
+          ReceivedMessageMenu(*asset_manager_, *font_manager_, *input_system_);
+      if (menu_state_ != kMenuStateReceivedMessage) {
+        received_message_ = "";
+      }
+      break;
     case kMenuStateQuit: {
       flatui::Run(*asset_manager_, *font_manager_, *input_system_, [&]() {
-        flatui::CustomElement(flatui::GetVirtualResolution(), "fader",
-                           [&](const vec2i& /*pos*/, const vec2i& /*size*/) {
-                             fader_->Render(renderer);
-                           });
+        flatui::CustomElement(
+            flatui::GetVirtualResolution(), "fader",
+            [&](const vec2i & /*pos*/, const vec2i & /*size*/) {
+              fader_->Render(renderer);
+            });
       });
       break;
     }
@@ -207,21 +323,67 @@ void GameMenuState::HandleUI(fplbase::Renderer* renderer) {
   }
 }
 
-void GameMenuState::OnEnter(int /*previous_state*/) {
+void GameMenuState::OnEnter(int previous_state) {
+  // If coming from the gameover state, we want to display the score review,
+  // and preserve the values that we want to display, before resetting the
+  // world.
+  if (previous_state == kGameStateGameOver) {
+    menu_state_ = kMenuStateScoreReview;
+    auto attribute_data =
+        world_->entity_manager.GetComponentData<AttributesData>(
+            world_->active_player_entity);
+    patrons_fed_ = static_cast<int>(
+        attribute_data->attributes[AttributeDef_PatronsFed]);
+    sushi_thrown_ = static_cast<int>(
+        attribute_data->attributes[AttributeDef_ProjectilesFired]);
+    corgi::EntityRef raft =
+        world_->entity_manager.GetComponent<ServicesComponent>()->raft_entity();
+    RailDenizenData *raft_rail_denizen =
+        world_->entity_manager.GetComponentData<RailDenizenData>(raft);
+    assert(raft_rail_denizen);
+    laps_finished_ = raft_rail_denizen->lap_number;
+
+    float accuracy = 0.0f;
+    if (sushi_thrown_) {
+      accuracy =
+          static_cast<float>(patrons_fed_) / static_cast<float>(sushi_thrown_);
+    }
+    total_score_ = static_cast<int>(kScorePatronsFedFactor * patrons_fed_) +
+                   static_cast<int>(kScoreLapsFinishedFactor * laps_finished_) +
+                   static_cast<int>(kScoreAccuracyFactor * accuracy);
+    // Calculate the earned xp based on the total score.
+    earned_xp_ = world_->xp_system->ApplyBonuses(total_score_, true);
+    if (world_->xp_system->GrantXP(earned_xp_)) {
+      did_earn_unlockable_ =
+          world_->unlockables->UnlockRandom(&earned_unlockable_);
+    } else {
+      did_earn_unlockable_ = false;
+    }
+  } else {
+    menu_state_ = kMenuStateStart;
+#if FPLBASE_ANDROID_VR
+    if (world_->rendering_mode() == kRenderingStereoscopic)
+      menu_state_ = kMenuStateCardboard;
+#endif  // FPLBASE_ANDROID_VR
+  }
+
+  loading_complete_ = false;
   LoadWorldDef(world_, world_def_);
   UpdateMainCamera(&main_camera_, world_);
   music_channel_ = audio_engine_->PlaySound(music_menu_);
   world_->player_component.set_state(kPlayerState_Disabled);
   input_system_->SetRelativeMouseMode(false);
   world_->ResetControllerFacing();
-  menu_state_ = kMenuStateStart;
-#ifdef ANDROID_HMD
-  if (world_->is_in_cardboard()) menu_state_ = kMenuStateCardboard;
-#endif  // ANDROID_HMD
   LoadData();
+
+  // We only want to receive messages when in the game menu state.
+  StartReceivingMessages(world_);
 }
 
-void GameMenuState::OnExit(int /*next_state*/) { music_channel_.Stop(); }
+void GameMenuState::OnExit(int /*next_state*/) {
+  music_channel_.Stop();
+  StopReceivingMessages();
+}
 
 void GameMenuState::LoadData() {
   // Set default values.
@@ -232,15 +394,28 @@ void GameMenuState::LoadData() {
   std::string storage_path;
   std::string data;
   auto ret = fplbase::GetStoragePath(kSaveAppName, &storage_path);
-  if (ret && fplbase::LoadPreferences((storage_path + kSaveFileName).c_str(),
-                                      &data)) {
-    auto save_data = GetSaveData(static_cast<const void*>(data.c_str()));
+  if (ret &&
+      fplbase::LoadPreferences((storage_path + kSaveFileName).c_str(), &data)) {
+    auto save_data = GetSaveData(static_cast<const void *>(data.c_str()));
     slider_value_effect_ = save_data->effect_volume();
     slider_value_music_ = save_data->music_volume();
-#ifdef ANDROID_HMD
+
+    world_->SetRenderingOption(kRenderingMonoscopic, kShadowEffect,
+                               save_data->render_shadows());
+    world_->SetRenderingOption(kRenderingMonoscopic, kPhongShading,
+                               save_data->apply_phong());
+    world_->SetRenderingOption(kRenderingMonoscopic, kSpecularEffect,
+                               save_data->apply_specular());
+    world_->SetRenderingOption(kRenderingStereoscopic, kShadowEffect,
+                               save_data->render_shadows_cardboard());
+    world_->SetRenderingOption(kRenderingStereoscopic, kPhongShading,
+                               save_data->apply_phong_cardboard());
+    world_->SetRenderingOption(kRenderingStereoscopic, kSpecularEffect,
+                               save_data->apply_specular_cardboard());
+#if FPLBASE_ANDROID_VR
     world_->SetHmdControllerEnabled(save_data->gyroscopic_controls_enabled() !=
                                     0);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   }
 }
 
@@ -250,10 +425,22 @@ void GameMenuState::SaveData() {
   SaveDataBuilder builder(fbb);
   builder.add_effect_volume(slider_value_effect_);
   builder.add_music_volume(slider_value_music_);
-#ifdef ANDROID_HMD
+  builder.add_render_shadows(
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kShadowEffect));
+  builder.add_apply_phong(
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kPhongShading));
+  builder.add_apply_specular(
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kSpecularEffect));
+  builder.add_render_shadows_cardboard(
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kShadowEffect));
+  builder.add_apply_phong_cardboard(
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kPhongShading));
+  builder.add_apply_specular_cardboard(
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kSpecularEffect));
+#if FPLBASE_ANDROID_VR
   builder.add_gyroscopic_controls_enabled(
       world_->GetHmdControllerEnabled() ? 1 : 0);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   auto offset = builder.Finish();
   FinishSaveDataBuffer(fbb, offset);
 
@@ -262,7 +449,7 @@ void GameMenuState::SaveData() {
   auto ret = fplbase::GetStoragePath(kSaveAppName, &storage_path);
   if (ret) {
     fplbase::SavePreferences((storage_path + kSaveFileName).c_str(),
-                    fbb.GetBufferPointer(), fbb.GetSize());
+                             fbb.GetBufferPointer(), fbb.GetSize());
   }
 }
 
@@ -270,6 +457,52 @@ void GameMenuState::UpdateVolumes() {
   sound_effects_bus_.SetGain(slider_value_effect_);
   voices_bus_.SetGain(slider_value_effect_);
   music_bus_.SetGain(slider_value_music_);
+}
+
+void GameMenuState::ResetScore() {
+  patrons_fed_ = 0;
+  sushi_thrown_ = 0;
+  laps_finished_ = 0;
+  total_score_ = 0;
+  earned_xp_ = 0;
+  did_earn_unlockable_ = false;
+}
+
+void GameMenuState::StartRewardedVideo() {
+  rewarded_video_state_ = kRewardedVideoStateDisplaying;
+  world_->admob_helper->ShowRewardedVideo();
+}
+
+void GameMenuState::HandleRewardedVideo() {
+  if (world_->admob_helper->CheckShowRewardedVideo()) {
+    rewarded_video_state_ = kRewardedVideoStateFinished;
+    // Start loading the next rewarded video now.
+    world_->admob_helper->LoadNewRewardedVideo();
+
+    // If a reward was not earned, return now.
+    if (!world_->admob_helper->rewarded_video_watched())
+      return;
+
+    if (menu_state_ == kMenuStateScoreReview) {
+      // If already on the Score Review state, we want to apply the bonuses
+      // immediately, and give an unlockable if necessary.
+      int reward_value =
+          static_cast<int>(world_->admob_helper->reward_value());
+      earned_xp_ += reward_value;
+      bool earned_reward = world_->xp_system->GrantXP(reward_value);
+      // If an unlockable was not previously granted, grant one now.
+      if (earned_reward && !did_earn_unlockable_) {
+        did_earn_unlockable_ =
+            world_->unlockables->UnlockRandom(&earned_unlockable_);
+      }
+    } else {
+      // Otherwise, we want to use the XP system to handle applying the
+      // bonus.
+      world_->xp_system->AddBonus(BonusApplyType_Addition,
+                                  world_->admob_helper->reward_value(),
+                                  1, UniqueBonusId_AdMobRewardedVideo);
+    }
+  }
 }
 
 }  // zooshi

@@ -50,8 +50,8 @@ SimpleMovementComponent::ExportRawData(const corgi::EntityRef& entity) const {
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  fplbase::Vec3 velocity(data->velocity.x(), data->velocity.y(),
-                         data->velocity.z());
+  fplbase::Vec3 velocity(data->velocity.x, data->velocity.y,
+                         data->velocity.z);
 
   fbb.Finish(CreateSimpleMovementDef(fbb, &velocity));
   return fbb.ReleaseBufferPointer();

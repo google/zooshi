@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_SCENERY_H_
-#define COMPONENTS_SCENERY_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_SCENERY_H_
+#define FPL_ZOOSHI_COMPONENTS_SCENERY_H_
 
 #include "components/rail_denizen.h"
 #include "config_generated.h"
 #include "corgi/component.h"
 #include "mathfu/glsl_mappings.h"
+#include "motive/math/angle.h"
+#include "motive/math/range.h"
+#include "motive/motivator.h"
 
 namespace fpl {
 namespace zooshi {
@@ -31,9 +34,17 @@ enum SceneryState {
   kSceneryDisappear,     // Transitioning from show to hide.
 };
 
+enum SceneryMoveState {
+  kSceneryMoveStateStatic,  // Should not move.
+  kSceneryMoveFaceRaft,     // Turn to face raft.
+};
+
 // Data for scene object components.
 struct SceneryData {
-  SceneryData() : state(kSceneryHide), show_override(kSceneryInvalid) {}
+  SceneryData()
+    : state(kSceneryHide),
+      move_state(kSceneryMoveStateStatic),
+      show_override(kSceneryInvalid) {}
 
   // The child of the scenery entity that has a RenderMeshComponent and
   // an AnimationComponent.
@@ -41,6 +52,15 @@ struct SceneryData {
 
   // Current state of the scenery. See NextState() for state machine.
   SceneryState state;
+
+  // Move behavior for scenery as raft moves.
+  SceneryMoveState move_state;
+
+  // Angle to add onto scenery's trajectory.
+  motive::Motivator1f delta_face_angle;
+
+  // Previous delta_angle.Value().
+  motive::Angle prev_delta_face_angle;
 
   // The type of scenery being animated. Each type has its own animations.
   AnimObject anim_object;
@@ -91,6 +111,8 @@ class SceneryComponent : public corgi::Component<SceneryData> {
                       SceneryData* scenery_data, SceneryState state);
   void SetVisibilityOnOtherChildren(const corgi::EntityRef& scenery,
                                     bool visible);
+  void FaceRaft(const corgi::EntityRef& scenery);
+  void UpdateMovement(const corgi::EntityRef& scenery);
 
   const Config* config_;
 };
@@ -101,4 +123,4 @@ class SceneryComponent : public corgi::Component<SceneryData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::SceneryComponent,
                          fpl::zooshi::SceneryData)
 
-#endif  // COMPONENTS_SCENERY_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_SCENERY_H_

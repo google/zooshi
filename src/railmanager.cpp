@@ -15,6 +15,7 @@
 #include "railmanager.h"
 
 #include <map>
+#include "components/rail_denizen.h"
 #include "components/rail_node.h"
 #include "corgi_component_library/transform.h"
 #include "fplbase/flatbuffer_utils.h"
@@ -42,18 +43,20 @@ void Rail::Initialize(const RailDef *rail_def, float spline_granularity) {
     positions[i] = LoadVec3(rail_def->positions()->Get(i));
   }
   InitializeFromPositions(positions, spline_granularity,
-                          rail_def->reliable_distance(),
-                          rail_def->total_time());
+                          rail_def->reliable_distance(), rail_def->total_time(),
+                          rail_def->wraps());
 }
 
 void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
                                    float spline_granularity,
-                                   float reliable_distance, float total_time) {
+                                   float reliable_distance, float total_time,
+                                   bool wraps) {
   const size_t num_positions = positions.size();
   std::vector<float> times;
   std::vector<vec3_packed> derivatives;
   times.resize(num_positions);
   derivatives.resize(num_positions);
+  wraps_ = wraps;
 
   // Calculate derivates and times from positions.
   motive::CalculateConstSpeedCurveFromPositions<3>(
@@ -69,13 +72,17 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
     position_max = vec3::Max(position_max, position);
   }
 
+  // Create array of splines. Destroyed in Rail's destructor.
+  splines_ = motive::CompactSpline::CreateArray(
+      2 * static_cast<motive::CompactSplineIndex>(num_positions), kDimensions);
+
   // Initialize the compact-splines to have the best precision possible,
   // given the range limits.
   const float kRangeSafeBoundsPercent = 1.1f;
   for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-    splines_[i].Init(motive::Range(position_min[i], position_max[i])
-                         .Lengthen(kRangeSafeBoundsPercent),
-                     spline_granularity);
+    Spline(i)->Init(motive::Range(position_min[i], position_max[i])
+                        .Lengthen(kRangeSafeBoundsPercent),
+                    spline_granularity);
   }
 
   // Initialize the splines. For now, the splines all have key points at the
@@ -86,7 +93,7 @@ void Rail::InitializeFromPositions(const std::vector<vec3_packed> &positions,
     const vec3 position(positions[k]);
     const vec3 derivative(derivatives[k]);
     for (motive::MotiveDimension i = 0; i < kDimensions; ++i) {
-      splines_[i].AddNode(t, position[i], derivative[i]);
+      Spline(i)->AddNode(t, position[i], derivative[i]);
     }
   }
 }
@@ -95,7 +102,7 @@ Rail *RailManager::GetRail(RailId rail_file) {
   if (rail_map.find(rail_file) == rail_map.end()) {
     // New rail, so we load it up:
     std::string rail_def_source;
-    if (!fplbase::LoadFile(rail_file, &rail_def_source)) {
+    if (!fplbase::LoadFile(rail_file.c_str(), &rail_def_source)) {
       return nullptr;
     }
     const RailDef *rail_def = GetRailDef(rail_def_source.c_str());
@@ -124,13 +131,14 @@ Rail *RailManager::GetRailFromComponents(const char *rail_name,
   }
 
   std::vector<vec3_packed> positions;
-  positions.resize(rail_entities.size() + 1);
   const RailNodeData *first_data =
       rail_component->GetComponentData(rail_entities.begin()->second);
   // Extract the total time and reliable distance from the first-listed
   // RailNode for this rail name.
   float total_time = first_data->total_time;
   float reliable_distance = first_data->reliable_distance;
+  bool wraps = first_data->wraps;
+  positions.resize(rail_entities.size() + (wraps ? 1 : 0));
 
   auto *transform_component =
       entity_manager
@@ -140,15 +148,28 @@ Rail *RailManager::GetRailFromComponents(const char *rail_name,
   for (auto iter = rail_entities.begin(); iter != rail_entities.end(); ++iter) {
     positions[i++] = transform_component->WorldPosition(iter->second);
   }
-  // Repeat the first node at the end so we loop.
-  positions[i] =
-      transform_component->WorldPosition(rail_entities.begin()->second);
+  if (wraps) {
+    // Repeat the first node at the end so we loop.
+    positions[i] =
+        transform_component->WorldPosition(rail_entities.begin()->second);
+  }
+
+  // Create a new rail with the requested positions.
+  Rail *new_rail = new Rail();
+  new_rail->InitializeFromPositions(
+      positions, kSplineGranularity, reliable_distance, total_time, wraps);
+
+  // Update anything that may be using the old rail.
+  auto old_rail = rail_map.find(rail_name);
+  if (old_rail != rail_map.end()) {
+    auto *rail_denizen_component =
+        entity_manager->GetComponent<RailDenizenComponent>();
+    rail_denizen_component->ChangeRail(old_rail->second.get(), new_rail);
+  }
 
   // Cache this until we request the rail from these components again.
-  rail_map[rail_name] = std::unique_ptr<Rail>(new Rail());
-  rail_map[rail_name]->InitializeFromPositions(positions, kSplineGranularity,
-                                               reliable_distance, total_time);
-  return rail_map[rail_name].get();
+  rail_map[rail_name] = std::unique_ptr<Rail>(new_rail);
+  return new_rail;
 }
 
 void RailManager::Clear() { rail_map.clear(); }

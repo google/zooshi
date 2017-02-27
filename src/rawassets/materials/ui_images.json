@@ -4,6 +4,8 @@
     "textures/ui_button_back.webp",
     "textures/ui_background_main.webp",
     "textures/ui_background_base.webp",
+    "textures/ui_button_checked.webp",
+    "textures/ui_button_unchecked.webp",
     "textures/ui_scrollbar_background.webp",
     "textures/ui_scrollbar_background_vertical.webp",
     "textures/ui_scrollbar_foreground.webp",
@@ -11,6 +13,7 @@
     "textures/games_achievements_green.webp",
     "textures/games_controller.webp",
     "textures/games_leaderboards_green.webp",
+    "textures/cardboard_logo.webp",
   ],
   "blendmode": "ALPHA",
   "desired_format" : [

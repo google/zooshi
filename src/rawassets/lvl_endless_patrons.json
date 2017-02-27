@@ -1,0 +1,1365 @@
+{
+  "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_0",
+            "prototype": "PatronHungryHippo_First",
+            "comment": "Special Hippo that starts the rail moving."
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 13.49926,
+              "y": 51.499817,
+              "z": -1
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -96.358696
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_1",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -49.358749,
+              "y": -83.494102,
+              "z": 0.57624
+            },
+            "scale": {
+              "x": 1.399999,
+              "y": 1.399999,
+              "z": 1.399999
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 82.489861
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_2",
+            "prototype": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 31.586489,
+              "y": -45.545425,
+              "z": 12
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 56.999996
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_3",
+            "prototype": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 49.453255,
+              "y": -27.417175,
+              "z": 0.495
+            },
+            "scale": {
+              "x": 1.024759,
+              "y": 1.024759,
+              "z": 1.024759
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -40.571941
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_4",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 54.196468,
+              "y": 18.764822,
+              "z": 0.359999
+            },
+            "scale": {
+              "x": 0.999999,
+              "y": 0.999999,
+              "z": 0.999999
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -38.814041
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_5",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 24.318731,
+              "y": -11.625629,
+              "z": 0.484998
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 6.802107
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_6",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 56.214195,
+              "y": -51.061573,
+              "z": 0.234999
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -41.878117
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_7",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -25.7847,
+              "y": -69.66407,
+              "z": 0.435
+            },
+            "scale": {
+              "x": 1.06771,
+              "y": 1.06771,
+              "z": 1.06771
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 127.018051
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_8",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -69.816635,
+              "y": -62.206825,
+              "z": 0.81
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 95.398811
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_9",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -37.807129,
+              "y": -23.409351,
+              "z": 0.622793
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -116.814552
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_10",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 39.923687,
+              "y": -1.012564,
+              "z": 0.409998
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 17.986
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_11",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 31.002163,
+              "y": -66.407402,
+              "z": 0.609998
+            },
+            "scale": {
+              "x": 1.000001,
+              "y": 1.000001,
+              "z": 1.000001
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 136.74173
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_12",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -73.600136,
+              "y": -33.922276,
+              "z": 0.310002
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -174.191528
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_13",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -49.491161,
+              "y": 5.398242,
+              "z": 0.360002
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 175.182312
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_14",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -27.612263,
+              "y": 70.875748,
+              "z": 0.460002
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -114.581924
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_15",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -50.317638,
+              "y": 36.871365,
+              "z": 0.310001
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -139.856827
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_16",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 55.379471,
+              "y": 43.677048,
+              "z": 0.668177
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -66.533142
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_17",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 40.143211,
+              "y": 29.154259,
+              "z": 0.450007
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1.4,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -58.069427
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_18",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 51.644619,
+              "y": -77.435242,
+              "z": 0.425017
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1.4,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -14.331093
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_19",
+            "prototype": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 25.823553,
+              "y": 11.147176,
+              "z": 0.37
+            },
+            "scale": {
+              "x": 1.187151,
+              "y": 1.187151,
+              "z": 1.187151
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 59.25301
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_20",
+            "prototype": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -4.160588,
+              "y": -103.799881,
+              "z": 0.235539
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 29.472868
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_21",
+            "prototype": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -47.78912,
+              "y": -49.969265,
+              "z": 0.320003
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -179.867966
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_22",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -27.053276,
+              "y": 18.56678,
+              "z": 0.550013
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1.4,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -162.966949
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_23",
+            "prototype": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -23.863533,
+              "y": -5.722895,
+              "z": 7.5
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": -0.000024,
+              "y": 8.999962,
+              "z": -105.000069
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_24",
+            "prototype": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 34.391792,
+              "y": 45.385078,
+              "z": 7.100002
+            },
+            "scale": {
+              "x": 1.33171,
+              "y": 1.33171,
+              "z": 1.33171
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -36.00029
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_25",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -41.952106,
+              "y": 54.489338,
+              "z": 0.600008
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1.4,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -48.000004
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_26",
+            "prototype": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -72.945862,
+              "y": 68.081406,
+              "z": 0.394995
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -172.761597
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_27",
+            "prototype": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -21.050825,
+              "y": -102.282661,
+              "z": 11.299999
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 69.000008
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_28",
+            "prototype": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -80.657372,
+              "y": -45.60281,
+              "z": 12.749999
+            },
+            "scale": {
+              "x": 1.000001,
+              "y": 1.000001,
+              "z": 1.000001
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 118.890755
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_29",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 18.691732,
+              "y": -102.188988,
+              "z": 0.509998
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 34.620087
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_30",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -1.753578,
+              "y": -77.56604,
+              "z": 0.674969
+            },
+            "scale": {
+              "x": 1.399997,
+              "y": 1.399997,
+              "z": 1.399997
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 108.487144
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_31",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 37.055145,
+              "y": -95.336952,
+              "z": 0.58499
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 8.591472
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_32",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -65.67321,
+              "y": -17.170767,
+              "z": 0.600017
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1.4,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 152.225906
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_33",
+            "prototype": "PatronHungryHippo"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -76.531998,
+              "y": 30.774479,
+              "z": 0.425003
+            },
+            "scale": {
+              "x": 1.4,
+              "y": 1.4,
+              "z": 1.4
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 105
+            },
+            "child_ids": [
+              "PatronHungryHippo_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_34",
+            "prototype": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -86.350014,
+              "y": 48.832184,
+              "z": 12.899975
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 162
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_35",
+            "prototype": "PatronBankerBird"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -11.287754,
+              "y": 64.677544,
+              "z": 11.674986
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 162
+            },
+            "child_ids": [
+              "PatronBankerBird_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_36",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -49.166569,
+              "y": 78.719055,
+              "z": 0.534963
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": -1.689798,
+              "y": -1.623153,
+              "z": -128.292099
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_37",
+            "prototype": "PatronMoustacheCroc"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 1.268259,
+              "y": 42.905331,
+              "z": 0.460001
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -18.581902
+            },
+            "child_ids": [
+              "PatronMoustacheCroc_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_38",
+            "prototype": "PatronLadyMandrill"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -18.374464,
+              "y": 44.851051,
+              "z": 0.534968
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": -1.689801,
+              "y": -1.623153,
+              "z": -5.292203
+            },
+            "child_ids": [
+              "PatronLadyMandrill_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "patron_39",
+            "prototype": "PatronGiraffette"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -4.977655,
+              "y": 57.661064,
+              "z": 0.394999
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -127.761597
+            },
+            "child_ids": [
+              "PatronGiraffette_RenderMesh"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

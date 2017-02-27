@@ -12,18 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define PHONG_SHADING
+
+#include "shaders/fplbase/phong_shading.glslf_h"
+
 attribute vec4 aPosition;
 attribute vec2 aTexCoord;
 attribute vec3 aNormal;
 varying vec2 vTexCoord;
-varying vec4 vColor;
 
 uniform mat4 model_view_projection;
-uniform vec3 light_pos;    //in object space
 
 // Variables used in lighting:
-uniform vec4 ambient_material;
-uniform vec4 diffuse_material;
+varying lowp vec4 vColor;
+uniform vec3 light_pos;    //in object space
 uniform lowp vec4 color;
 
 void main()
@@ -33,7 +35,11 @@ void main()
 
   gl_Position = position;
 
-  vec3 light_vector = light_pos - aPosition.xyz;
-  float diffuse = max(0.0, dot(normalize(aNormal), normalize(light_vector)));
-  vColor = color * (diffuse_material * diffuse + ambient_material);
+  // Calculate Phong shading:
+  vec3 light_direction = CalculateLightDirection(position.xyz, light_pos);
+  lowp vec4 shading_tint = CalculatePhong(position.xyz, aNormal,
+                                          light_direction);
+
+  // Apply shading tint:
+  vColor = color * shading_tint;
 }

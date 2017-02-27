@@ -40,6 +40,14 @@ class AttributesData {
     // TODO: Move this into a data file.
     attributes[AttributeDef_TargetScore] = 1;
 
+    // Start the game with a last lap score of 0 point.
+    // TODO: Move this into a data file.
+    attributes[AttributeDef_LastLapScore] = 0;
+
+    // Start the game with a last lap num of -1, which means before first lap.
+    // TODO: Move this into a data file.
+    attributes[AttributeDef_LastLapNumber] = -1;
+
     // Start the game with quota requirement going up by 24
     // after the first lap.
     // TODO: Move this into a data file.

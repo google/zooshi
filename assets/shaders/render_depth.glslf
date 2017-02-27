@@ -12,31 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#define SHADOW_EFFECT
+
+#include "shaders/include/shadow_map.glslf_h"
+
 varying vec2 vTexCoord;
 uniform sampler2D texture_unit_0;
 varying highp vec4 vPosition;
+
+// We add in a slight bias, to cut down on shadow acne.
+// (i. e. rounding errors making front surfaces still appear
+// to be in shadow because the depths being compared are too close)
+uniform float bias;
 
 // This shader renders the geometry normally, except instead of coloring
 // according to the texture, it generates a depth map.  (Note - we're assuming
 // that the output texture is GL_UNSIGNED_BYTE, so we have 8 bits per color
 // channel.  Other formats will result in more shadow errors.)
-
-// Problem:  We want the outputted depth value to be as precise as possible.
-// Unfortunately, GLES just gives us 4 channels (RGBA), each of which is
-// only 8 bits of precision.  (Probably)
-// Solution:  Encode a float into 4 separate 8-bit floats!
-// We make a few assumptions here.  The big one is that the number we are
-// encoding is also between 0 and 1.  Basically, we divide our number by various
-// powers of 2^8 - 1, and trim them down to 8 bits of precision via some clever
-// application of swizzling.
-// The most significant bit in this case is stored in the R channel, and the
-// least is stored in the A channel.
-highp vec4 EncodeFloatRGBA(float v) {
-  highp vec4 enc = vec4(1.0, 255.0, 65025.0, 160581375.0) * v;
-  enc = fract(enc);
-  enc -= enc.yzww * vec4(1.0/255.0, 1.0/255.0, 1.0/255.0, 0.0);
-  return enc;
-}
 
 void main() {
   // Normalize the depth.
@@ -44,12 +36,7 @@ void main() {
   // Convert from a range of [-1, 1] to [0, 1]
   depth = (depth + 1.0) / 2.0;
 
-  // We add in a slight bias, to cut down on shadow acne.
-  // (i. e. rounding errors making front surfaces still appear
-  // to be in shadow because the depths being compared are too close)
-  const float bias = 0.007;
-  const float one_minus_bias = 1.0 - bias;
-
+  float one_minus_bias = 1.0 - bias;
   depth = depth * one_minus_bias + bias;
 
   highp vec4 compacted_depth = EncodeFloatRGBA(depth);

@@ -42,7 +42,7 @@ public:
                   const Config* config, FullScreenFader* fader,
                   pindrop::AudioEngine* audio_engine);
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
@@ -71,9 +71,9 @@ protected:
   pindrop::Bus master_bus_;
 
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 };
 
 }  // zooshi

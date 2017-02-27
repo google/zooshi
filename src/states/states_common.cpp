@@ -15,7 +15,7 @@
 #include "fplbase/input.h"
 #include "states/states_common.h"
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -29,20 +29,20 @@ using mathfu::vec2;
 namespace fpl {
 namespace zooshi {
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 static const float kGearSize = 72.0f;
 
 static vec3 CorrectTransform(const mat4& mat) {
   vec3 hmd_translation = (mat * mathfu::kAxisW4f * mat).xyz();
   vec3 corrected_translation =
-      vec3(hmd_translation.x(), -hmd_translation.z(), hmd_translation.y());
+      vec3(hmd_translation.x, -hmd_translation.z, hmd_translation.y);
   return corrected_translation;
 }
 
 static void RenderSettingsGear(fplbase::Renderer& renderer, World* world) {
   vec2i res = renderer.window_size();
-  renderer.set_model_view_projection(mathfu::OrthoHelper<float>(
-      0.0f, static_cast<float>(res.x()), static_cast<float>(res.y()), 0.0f,
+  renderer.set_model_view_projection(mathfu::mat4::Ortho(
+      0.0f, static_cast<float>(res.x), static_cast<float>(res.y), 0.0f,
       -1.0f, 1.0f));
   renderer.set_color(mathfu::kOnes4f);
   auto shader = world->asset_manager->LoadShader("shaders/textured");
@@ -50,15 +50,19 @@ static void RenderSettingsGear(fplbase::Renderer& renderer, World* world) {
   shader->Set(renderer);
 
   fplbase::Mesh::RenderAAQuadAlongX(
-      vec3((res.x() - kGearSize) / 2.0f, res.y() - kGearSize, 0.0f),
-      vec3((res.x() + kGearSize) / 2.0f, res.y(), 0.0f));
+      vec3((res.x - kGearSize) / 2.0f, res.y - kGearSize, 0.0f),
+      vec3((res.x + kGearSize) / 2.0f, res.y, 0.0f));
 }
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
 static void RenderStereoscopic(fplbase::Renderer& renderer, World* world,
                                Camera& camera, Camera* cardboard_camera,
                                fplbase::InputSystem* input_system) {
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
+  // Render shadow map before undistortion occurs.
+  if (world->RenderingOptionEnabled(kShadowEffect)) {
+    world->world_renderer->RenderShadowMap(camera, renderer, world);
+  }
   fplbase::HeadMountedDisplayViewSettings view_settings;
   HeadMountedDisplayRenderStart(input_system->head_mounted_display_input(),
                                 &renderer, mathfu::kZeros4f, true,
@@ -92,19 +96,19 @@ static void RenderStereoscopic(fplbase::Renderer& renderer, World* world,
   (void)camera;
   (void)cardboard_camera;
   (void)input_system;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 }
 
 void RenderWorld(fplbase::Renderer& renderer, World* world, Camera& camera,
                  Camera* cardboard_camera, fplbase::InputSystem* input_system) {
   vec2 window_size = vec2(renderer.window_size());
   world->river_component.UpdateRiverMeshes();
-  if (world->is_in_cardboard()) {
-    window_size.x() = window_size.x() / 2;
+  if (world->rendering_mode() == kRenderingStereoscopic) {
+    window_size.x = window_size.x / 2;
     cardboard_camera->set_viewport_resolution(window_size);
   }
   camera.set_viewport_resolution(window_size);
-  if (world->is_in_cardboard()) {
+  if (world->rendering_mode() == kRenderingStereoscopic) {
     // This takes care of setting/clearing the framebuffer for us.
     RenderStereoscopic(renderer, world, camera, cardboard_camera, input_system);
   } else {
@@ -113,6 +117,9 @@ void RenderWorld(fplbase::Renderer& renderer, World* world, Camera& camera,
     // http://www.seas.upenn.edu/~pcozzi/OpenGLInsights/OpenGLInsights-TileBasedArchitectures.pdf
     renderer.ClearFrameBuffer(mathfu::kZeros4f);
 
+    if (world->RenderingOptionEnabled(kShadowEffect)) {
+      world->world_renderer->RenderShadowMap(camera, renderer, world);
+    }
     world->world_renderer->RenderWorld(camera, renderer, world);
   }
 }

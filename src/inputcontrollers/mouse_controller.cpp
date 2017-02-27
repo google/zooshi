@@ -37,25 +37,26 @@ void MouseController::UpdateFacing() {
   vec2 delta = vec2(input_system_->get_pointers()[0].mousedelta);
 
   // If the mouse hasn't moved, return.
-  if (delta.x() == 0 && delta.y() == 0) return;
+  if (delta.x == 0 && delta.y == 0) return;
 
   delta *= input_config_->mouse_sensitivity();
 
   if (!input_config_->invert_x()) {
-    delta.x() *= -1.0f;
+    delta.x *= -1.0f;
   }
   if (!input_config_->invert_y()) {
-    delta.y() *= -1.0f;
+    delta.y *= -1.0f;
   }
 
   // We assume that the player is looking along the x axis, before
   // camera transformations are applied:
   vec3 facing_vector = facing_.Value();
   vec3 side_vector =
-      quat::FromAngleAxis(-static_cast<float>(M_PI_2), mathfu::kAxisZ3f) * facing_vector;
+      quat::FromAngleAxis(-static_cast<float>(M_PI_2), mathfu::kAxisZ3f) *
+      facing_vector;
 
-  quat pitch_adjustment = quat::FromAngleAxis(delta.y(), side_vector);
-  quat yaw_adjustment = quat::FromAngleAxis(delta.x(), mathfu::kAxisZ3f);
+  quat pitch_adjustment = quat::FromAngleAxis(delta.y, side_vector);
+  quat yaw_adjustment = quat::FromAngleAxis(delta.x, mathfu::kAxisZ3f);
 
   facing_vector = pitch_adjustment * yaw_adjustment * facing_vector;
 

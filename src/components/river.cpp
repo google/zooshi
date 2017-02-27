@@ -24,8 +24,10 @@
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
 #include "corgi_component_library/transform.h"
+#include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
 #include "scene_lab/scene_lab.h"
+#include "world.h"
 
 using mathfu::vec2;
 using mathfu::vec2_packed;
@@ -64,7 +66,9 @@ void RiverComponent::Init() {
   SceneLab* scene_lab = services->scene_lab();
   if (scene_lab) {
     scene_lab->AddOnUpdateEntityCallback(
-        [this](const corgi::EntityRef& /*entity*/) { TriggerRiverUpdate(); });
+        [this](const scene_lab::GenericEntityId& /*entity*/) {
+          TriggerRiverUpdate();
+        });
   }
   river_offset_ = 0;
 }
@@ -88,8 +92,9 @@ void RiverComponent::UpdateAllEntities(corgi::WorldTime /*delta_time*/) {
   corgi::EntityRef raft_entity = services->raft_entity();
   RailDenizenData* rd_raft_data = Data<RailDenizenData>(raft_entity);
   float speed = rd_raft_data->PlaybackRate();
-  speed += services->config()->river_config()->speed_boost();
-  float texture_repeats = services->config()->river_config()->texture_repeats();
+  speed += services->world()->CurrentLevel()->river_config()->speed_boost();
+  float texture_repeats =
+      services->world()->CurrentLevel()->river_config()->texture_repeats();
   river_offset_ += speed / (texture_repeats * texture_repeats);
   river_offset_ -= floor(river_offset_);
 }
@@ -128,10 +133,12 @@ corgi::ComponentInterface::RawDataUniquePtr RiverComponent::ExportRawData(
 // the render thread.  (Warning:  Crashes if you try to call it on the main
 // thread, because it doesn't have access to the opengl context!)
 void RiverComponent::UpdateRiverMeshes() {
+  PushDebugMarker("UpdateRiverMeshes");
   for (auto iter = begin(); iter != end(); ++iter) {
     RiverData* river_data = Data<RiverData>(iter->entity);
     if (river_data->render_mesh_needs_update_) CreateRiverMesh(iter->entity);
   }
+  PopDebugMarker();
 }
 
 // Generates the actual mesh for the river, and adds it to this entitiy's
@@ -145,7 +152,8 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
       fplbase::kTangent4f,  fplbase::kColor4ub,   fplbase::kEND};
   std::vector<vec3_packed> track;
   const RiverConfig* river = entity_manager_->GetComponent<ServicesComponent>()
-                                 ->config()
+                                 ->world()
+                                 ->CurrentLevel()
                                  ->river_config();
 
   RiverData* river_data = Data<RiverData>(entity);
@@ -228,11 +236,17 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   // Construct the actual mesh data for the river:
   std::vector<vec2> offsets(num_bank_contours);
   for (size_t i = 0; i < segment_count; i++) {
-    // River track is circular.
-    const size_t prev_i = i == 0 ? segment_count - 1 : i - 1;
-
     // Get the current position on the track, and the normal (to the side).
-    const vec3 track_delta = vec3(track[i]) - vec3(track[prev_i]);
+    vec3 track_delta;
+    if (i > 0) {
+      track_delta = vec3(track[i]) - vec3(track[i - 1]);
+    } else if (rail->wraps()) {
+      // River track is circular.
+      track_delta = vec3(track[i]) - vec3(track[segment_count - 1]);
+    } else {
+      // Not circular, so point towards the next point.
+      track_delta = vec3(track[1]) - vec3(track[0]);
+    }
     const vec3 track_normal =
         vec3::CrossProduct(track_delta, kAxisZ3f).Normalized();
     const vec3 track_position =
@@ -294,16 +308,16 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
       const vec2 off = offsets[j];
       const vec3 vertex =
           track_position +
-          (off.x() + river_width * (left_bank ? -1 : 1)) * track_normal +
-          off.y() * kAxisZ3f;
+          (off.x + river_width * (left_bank ? -1 : 1)) * track_normal +
+          off.y * kAxisZ3f;
       // The texture is stretched from the side of the river to the far end
       // of the bank. There are two banks, however, separated by the river.
       // We need to know the width of the bank to caluate the `texture_u`
       // coordinate.
       const size_t bank_start = left_bank ? 0 : num_bank_contours - 1;
       const size_t bank_end = left_bank ? river_idx : river_idx + 1;
-      const float bank_width = offsets[bank_start].x() - offsets[bank_end].x();
-      const float texture_u = (off.x() - offsets[bank_end].x()) / bank_width;
+      const float bank_width = offsets[bank_start].x - offsets[bank_end].x;
+      const float texture_u = (off.x - offsets[bank_end].x) / bank_width;
 
       bank_verts.push_back(NormalMappedColorVertex());
       bank_verts.back().pos = vec3_packed(vertex);
@@ -333,7 +347,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     }
 
     // Force the beginning and end to line up in their geometry:
-    if (i == segment_count - 1) {
+    if (i == segment_count - 1 && rail->wraps()) {
       for (size_t j = 0; j < num_bank_contours; j++)
         bank_verts[bank_verts.size() - (8 - j)].pos = bank_verts[j].pos;
     }
@@ -418,7 +432,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   // Create the actual mesh objects, and stuff all the data we just
   // generated into it.
   Mesh* river_mesh =
-      new Mesh(river_verts.data(), static_cast<int>(river_verts.size()),
+      new Mesh(river_verts.data(), river_verts.size(),
                static_cast<int>(sizeof(NormalMappedVertex)), kMeshFormat);
 
   river_mesh->AddIndices(river_indices.data(),
@@ -427,7 +441,10 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
 
   // Add the river mesh to the river entity.
   RenderMeshData* mesh_data = Data<RenderMeshData>(entity);
-  mesh_data->shader = asset_manager->LoadShader(river->shader()->c_str());
+  mesh_data->shaders.push_back(
+      asset_manager->LoadShader(river->shader()->c_str()));
+  mesh_data->shaders.push_back(
+      asset_manager->LoadShader("shaders/render_depth"));
   if (mesh_data->mesh != nullptr) {
     // Mesh's destructor handles cleaning up its GL buffers
     delete mesh_data->mesh;
@@ -436,6 +453,7 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   mesh_data->mesh = river_mesh;
   mesh_data->culling_mask = 0;  // Never cull the river.
   mesh_data->pass_mask = 1 << corgi::RenderPass_Opaque;
+  mesh_data->debug_name = "river";
 
   river_data->banks.resize(num_zones, corgi::EntityRef());
   for (unsigned int zone = 0; zone < num_zones; zone++) {
@@ -465,11 +483,11 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     RenderMeshData* child_render_data =
         Data<RenderMeshData>(river_data->banks[zone]);
     if (bank_material->textures().size() == 1) {
-      child_render_data->shader =
-          asset_manager->LoadShader("shaders/textured_lit");
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/textured_lit"));
     } else {
-      child_render_data->shader =
-          asset_manager->LoadShader("shaders/textured_lit_bank");
+      child_render_data->shaders.push_back(
+          asset_manager->LoadShader("shaders/bank"));
     }
     if (child_render_data->mesh != nullptr) {
       // Mesh's destructor handles cleaning up its GL buffers
@@ -479,6 +497,9 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
     child_render_data->mesh = bank_mesh;
     child_render_data->culling_mask = 0;  // Don't cull the banks for now.
     child_render_data->pass_mask = 1 << corgi::RenderPass_Opaque;
+    std::ostringstream debug_name;
+    debug_name << "river bank" << zone + 1;
+    child_render_data->debug_name = debug_name.str();
   }
 
   // Finalize the static physics mesh created on the river bank.
@@ -494,6 +515,10 @@ void RiverComponent::CreateRiverMesh(corgi::EntityRef& entity) {
   physics_component->FinalizeStaticMesh(entity, collision_type, collides_with,
                                         river->mass(), river->restitution(),
                                         user_tag);
+
+  // We don't want to keep the random number generator set to the same
+  // value every time we generate the river, so reset the seed back to time.
+  srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 void RiverComponent::UpdateRiverMeshes(corgi::EntityRef entity) {

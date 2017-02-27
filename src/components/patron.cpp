@@ -15,14 +15,23 @@
 #include "components/patron.h"
 
 #include <vector>
+#include "analytics.h"
 #include "components/attributes.h"
 #include "components/player.h"
 #include "components/player_projectile.h"
 #include "components/services.h"
 #include "corgi_component_library/animation.h"
 #include "corgi_component_library/graph.h"
+#include "corgi_component_library/meta.h"
 #include "corgi_component_library/physics.h"
 #include "corgi_component_library/rendermesh.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
+#include "firebase/analytics.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/reflection.h"
 #include "mathfu/glsl_mappings.h"
@@ -38,6 +47,7 @@ namespace zooshi {
 using corgi::component_library::AnimationComponent;
 using corgi::component_library::AnimationData;
 using corgi::component_library::CollisionData;
+using corgi::component_library::MetaData;
 using corgi::component_library::PhysicsComponent;
 using corgi::component_library::PhysicsData;
 using corgi::component_library::RenderMeshComponent;
@@ -59,7 +69,7 @@ static const float kHeightRangeBuffer = 0.05f;
 
 static inline vec3 ZeroHeight(const vec3& v) {
   vec3 v_copy = v;
-  v_copy.z() = 0.0f;
+  v_copy.z = 0.0f;
   return v_copy;
 }
 
@@ -182,20 +192,22 @@ corgi::ComponentInterface::RawDataUniquePtr PatronComponent::ExportRawData(
   auto patience_fb = SaveInterpolants(fbb, data->patience);
   auto pop_in_radius_fb = SaveInterpolants(fbb, data->pop_in_radius);
 
+  // Output the PatronEvents first because we can't output them when building
+  // the PatronDef (can't be nested).
+  std::vector<flatbuffers::Offset<fpl::PatronEvent>> events(
+      data->events.size());
+  for (size_t i = 0; i < data->events.size(); ++i) {
+    const PatronEvent& event = data->events[i];
+    events[i] = CreatePatronEvent(fbb, event.action, event.time);
+  }
+  auto events_fb = fbb.CreateVector(events);
+
   // Get all the on_collision events
   PatronDefBuilder builder(fbb);
   builder.add_min_lap(data->min_lap);
   builder.add_max_lap(data->max_lap);
   builder.add_patience(patience_fb);
-  if (data->events.size() > 0) {
-    std::vector<flatbuffers::Offset<fpl::PatronEvent>> events_flat(
-        data->events.size());
-    for (size_t i = 0; i < data->events.size(); ++i) {
-      const PatronEvent& event = data->events[i];
-      events_flat[i] = CreatePatronEvent(fbb, event.action, event.time);
-    }
-    builder.add_events(fbb.CreateVector(events_flat));
-  }
+  builder.add_events(events_fb);
   builder.add_pop_in_radius(pop_in_radius_fb);
   builder.add_pop_out_radius(data->pop_out_radius);
   builder.add_target_tag(target_tag);
@@ -267,6 +279,10 @@ void PatronComponent::PostLoadFixup() {
 
     // Initialize state machine.
     SetState(kPatronStateLayingDown, patron_data);
+
+    // Reset the last lap the patron stood up.
+    patron_data->last_lap_upright = -1.0f;
+    patron_data->last_lap_fed = -1.0f;
 
     // Cache the index into the physics target body.
     const PhysicsData* physics_data = Data<PhysicsData>(patron);
@@ -341,11 +357,9 @@ void PatronComponent::UpdateMovement(const EntityRef& patron) {
   }
 
   if (patron_data->move_state == kPatronMoveStateMoveToTarget) {
+    // Wait at target before returning to idle position.
     if (ShouldReturnToIdle(patron)) {
-      const vec3 raft_position = RaftPosition();
-      const motive::Angle return_angle = motive::Angle::FromYXVector(
-          raft_position - patron_data->return_position);
-      MoveToTarget(patron, patron_data->return_position, return_angle,
+      MoveToTarget(patron, patron_data->return_position, ReturnAngle(patron),
                    patron_data->return_time);
       SetMoveState(kPatronMoveStateReturn, patron_data);
     }
@@ -368,7 +382,7 @@ void PatronComponent::FaceRaft(const corgi::EntityRef& patron) {
   const TransformData* transform_data = Data<TransformData>(patron);
   const motive::Angle to_raft(
       motive::Angle::FromYXVector(raft - transform_data->position));
-  const motive::Angle face(transform_data->orientation.ToEulerAngles().z());
+  const motive::Angle face(transform_data->orientation.ToEulerAngles().z);
   const motive::Angle error(to_raft - face);
   PatronData* patron_data = Data<PatronData>(patron);
   if (error.Abs() > patron_data->max_face_angle_away_from_raft) {
@@ -559,7 +573,7 @@ void PatronComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
                 corgi::kMillisecondsPerSecond *
                     patron_data->rail_accelerate_time);
           }
-        }  // fallthrough
+        } FPL_FALLTHROUGH_INTENDED
 
         case kPatronStateUpright:
           Animate(patron_data, PatronAction_Idle);
@@ -648,9 +662,9 @@ void PatronComponent::HandleCollision(const corgi::EntityRef& patron_entity,
       SetState(patron_data->play_eating_animation ? kPatronStateEating
                                                   : kPatronStateSatisfied,
                patron_data);
-      Animate(patron_data, patron_data->play_eating_animation
-                               ? PatronAction_Eat
-                               : PatronAction_Satisfied);
+      Animate(patron_data,
+              patron_data->play_eating_animation ? PatronAction_Eat
+                                                 : PatronAction_Satisfied);
       patron_data->last_lap_fed = raft_rail_denizen->total_lap_progress;
 
       // Disable rail movement after they have been fed
@@ -662,6 +676,17 @@ void PatronComponent::HandleCollision(const corgi::EntityRef& patron_entity,
       SpawnPointDisplay(patron_entity);
       // Delete the projectile, as it has been consumed.
       entity_manager_->DeleteEntity(proj_entity);
+
+      // Track in Analytics that the patron was fed.
+      MetaData* meta_data = Data<MetaData>(patron_entity);
+      firebase::analytics::Parameter parameters[] = {
+          firebase::analytics::Parameter(kParameterPatronType,
+                                         meta_data->prototype.c_str()),
+          AnalyticsControlParameter(
+              entity_manager_->GetComponent<ServicesComponent>()->world()),
+      };
+      firebase::analytics::LogEvent(kEventPatronFed, parameters,
+                                    sizeof(parameters) / sizeof(parameters[0]));
     }
   }
 }
@@ -739,8 +764,8 @@ motive::Range PatronComponent::TargetHeightRange(
                         &target_max);
 
   // Return the heights.
-  return motive::Range(target_min.z() + kHeightRangeBuffer,
-                       target_max.z() - kHeightRangeBuffer);
+  return motive::Range(target_min.z + kHeightRangeBuffer,
+                       target_max.z - kHeightRangeBuffer);
 }
 
 bool PatronComponent::RaftExists() const {
@@ -781,6 +806,7 @@ const EntityRef* PatronComponent::ClosestProjectile(
                       patron_data->max_catch_distance_for_search;
   float closest_dist_sq = max_dist_sq;
   vec3 closest_position_xy = mathfu::kZeros3f;
+  auto physics_component = entity_manager_->GetComponent<PhysicsComponent>();
   for (auto it = projectile_component->begin();
        it != projectile_component->end(); ++it) {
     // Get movement state of projectile.
@@ -826,8 +852,8 @@ const EntityRef* PatronComponent::ClosestProjectile(
     // Get the closest time at a catchable height.
     const float closest_t = CalculateClosestTimeInHeightRange(
         closest_t_ignore_height, patron_data->catch_time_for_search,
-        target_height_range, projectile_position.z(), projectile_velocity.z(),
-        config_->gravity());
+        target_height_range, projectile_position.z, projectile_velocity.z,
+        physics_component->GravityForEntity(it->entity));
     if (!patron_data->catch_time_for_search.Contains(closest_t)) continue;
 
     // Calculate the projectile position at `closest_t`.
@@ -868,7 +894,7 @@ const EntityRef* PatronComponent::ClosestProjectile(
     const vec3 direction =
         (closest_position_xy - return_position_xy).Normalized();
     *closest_position = return_position_xy + clamped_dist * direction;
-    closest_position->z() = patron_transform->position.z();
+    closest_position->z = patron_transform->position.z;
   }
   return closest_ref;
 }
@@ -909,7 +935,7 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
   PatronData* patron_data = Data<PatronData>(patron);
   const vec3 position = patron_transform->position;
   const motive::Angle face_angle(
-      patron_transform->orientation.ToEulerAngles().z());
+      patron_transform->orientation.ToEulerAngles().z);
 
   // At `target_time` we want to achieve these deltas so that our position and
   // face angle with equal `target_position` and `target_face_angle`.
@@ -932,7 +958,7 @@ void PatronComponent::MoveToTarget(const EntityRef& patron,
 
   const motive::Range angle_range(-motive::kPi, motive::kPi);
   patron_data->delta_face_angle.InitializeWithTarget(
-      motive::SplineInit(angle_range, true), motive_engine,
+      motive::SplineInit(angle_range), motive_engine,
       motive::CurrentToTarget1f(0.0f, 0.0f, delta_face_angle.ToRadians(), 0.0f,
                                 target_time_ms));
 }
@@ -959,6 +985,23 @@ bool PatronComponent::ShouldReturnToIdle(const corgi::EntityRef& patron) const {
   }
   // If all the checks fail, assume something is wrong, and return to idle.
   return true;
+}
+
+motive::Angle PatronComponent::ReturnAngle(
+    const corgi::EntityRef& patron) const {
+  const PatronData* patron_data = Data<PatronData>(patron);
+  const RailDenizenData* rail_denizen_data = Data<RailDenizenData>(patron);
+
+  if (rail_denizen_data != nullptr) {
+    // Patron moves on rails, so rotate towards rail orientation.
+    return motive::Angle(
+        rail_denizen_data->rail_orientation.ToEulerAngles().z);
+  } else {
+    // Rotate towards previous idle position.
+    const vec3 raft_position = RaftPosition();
+    return motive::Angle::FromYXVector(raft_position -
+                                       patron_data->return_position);
+  }
 }
 
 }  // zooshi

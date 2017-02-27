@@ -1,0 +1,62 @@
+{
+  "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "prototype": "Light"
+          }
+        },
+        {
+          "data_type": "LightDef",
+          "data": {
+            "shadow_intensity": 0.33,
+            "diffuse_color": {
+              "r": 0.4155,
+              "g": 0.778,
+              "b": 0.68,
+              "a": 1.0
+            },
+            "ambient_color": {
+              "r": 0.7,
+              "g": 0.67,
+              "b": 0.67,
+              "a": 1.0
+            },
+            "specular_color": {
+              "r": 0.9333,
+              "g": 0.6588,
+              "b": 0.1372,
+              "a": 1.0
+            },
+            "specular_exponent": 16.0,
+            "diffuse_intensity": 1.0,
+            "ambient_intensity": 1.0,
+            "specular_intensity": 1.0
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 60
+            },
+            "scale": {
+              "x": 1000,
+              "y": 1000,
+              "z": 1000
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

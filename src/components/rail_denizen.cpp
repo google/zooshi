@@ -35,6 +35,7 @@
 #include "motive/init.h"
 #include "rail_def_generated.h"
 #include "scene_lab/scene_lab.h"
+#include "scene_lab/corgi/corgi_adapter.h"
 
 using mathfu::vec3;
 using corgi::component_library::GraphData;
@@ -59,30 +60,30 @@ void Rail::Positions(float delta_time,
       static_cast<size_t>(std::floor(EndTime() / delta_time)) + 1;
   positions->resize(num_positions);
 
-  motive::CompactSpline::BulkYs<3>(splines_, 0.0f, delta_time, num_positions,
+  motive::CompactSpline::BulkYs<3>(Splines(), 0.0f, delta_time, num_positions,
                                    &(*positions)[0]);
 }
 
 vec3 Rail::PositionCalculatedSlowly(float time) const {
   vec3 position;
   for (int i = 0; i < kDimensions; ++i) {
-    position[i] = splines_[i].YCalculatedSlowly(time);
+    position[i] = Spline(i)->YCalculatedSlowly(time);
   }
   return position;
 }
 
-void RailDenizenData::Initialize(const Rail& rail,
+void RailDenizenData::Initialize(const Rail& r,
                                  motive::MotiveEngine& engine) {
   const motive::SplinePlayback playback(start_time, true,
                                         initial_playback_rate);
   motivator.Initialize(motive::SplineInit(), &engine);
-  motivator.SetSplines(rail.splines(), playback);
+  motivator.SetSplines(r.Splines(), playback);
   // The interpolated orientation converges towards the target orientation
   // at a non-linear rate that is affected by delta-time and
   // orientation_convergence_rate, this hack estimates the look-ahead for the
   // convergence time given roughly a 60Hz update rate.
   orientation_motivator.Initialize(motive::SplineInit(), &engine);
-  orientation_motivator.SetSplines(rail.splines(), playback);
+  orientation_motivator.SetSplines(r.Splines(), playback);
   if (orientation_convergence_rate != 0.0f) {
     orientation_motivator.SetSplineTime(static_cast<motive::MotiveTime>(
         1.0f / logf(0.5f + orientation_convergence_rate) *
@@ -90,6 +91,7 @@ void RailDenizenData::Initialize(const Rail& rail,
   }
   playback_rate.InitializeWithTarget(motive::SplineInit(), &engine,
                                      motive::Current1f(initial_playback_rate));
+  rail = &r;
 }
 
 void RailDenizenData::SetPlaybackRate(float rate, float transition_time) {
@@ -101,11 +103,20 @@ void RailDenizenComponent::Init() {
   ServicesComponent* services =
       entity_manager_->GetComponent<ServicesComponent>();
   // Scene Lab is not guaranteed to be present in all versions of the game.
-  // Only set up callbacks if we actually have a Scene Lab.
   SceneLab* scene_lab = services->scene_lab();
+  // Only set up callbacks if we actually have a Scene Lab.
   if (scene_lab) {
     scene_lab->AddOnUpdateEntityCallback(
-        [this](const corgi::EntityRef& entity) { UpdateRailNodeData(entity); });
+        [this](const scene_lab::GenericEntityId& id) {
+          // Use CorgiAdapter to convert GenericEntityId to corgi::EntityRef.
+          corgi::EntityRef entity =
+              static_cast<scene_lab_corgi::CorgiAdapter*>(
+                  entity_manager_->GetComponent<ServicesComponent>()
+                      ->scene_lab()
+                      ->entity_system_adapter())
+                  ->GetEntityRef(id);
+          UpdateRailNodeData(entity);
+        });
     scene_lab->AddOnEnterEditorCallback([this]() { OnEnterEditor(); });
     scene_lab->AddOnExitEditorCallback([this]() { PostLoadFixup(); });
   }
@@ -130,9 +141,24 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
       const motive::Motivator3f& motivator =
           convergence_rate == 0.0f ? rail_denizen_data->motivator
                                    : rail_denizen_data->orientation_motivator;
+
+      // Rotating towards the Z axis is a bit complicated, because we want that
+      // rotation to happen in local space (so the front of the raft goes up),
+      // but rotation on the XY plane should happen in world space. So we need
+      // to separate the two rotations from each other to accomplish this.
+      vec3 world_direction = motivator.Direction();
+      const float z_length = world_direction.z;
+      world_direction.z = 0.0f;
+      const float xy_length = world_direction.Length();
+      float z_angle(atan2f(z_length, xy_length));
+      if (z_angle < -M_PI) {
+        z_angle = M_PI;
+      }
+
       mathfu::quat target_orientation =
           rail_denizen_data->rail_orientation *
-          mathfu::quat::RotateFromTo(motivator.Direction(), mathfu::kAxisY3f);
+          mathfu::quat::FromAngleAxis(z_angle, -mathfu::kAxisX3f) *
+          mathfu::quat::RotateFromTo(world_direction, mathfu::kAxisY3f);
       // Convergence is disabled when the playback rate is zero as
       // it's possible for the slerp to yield an invalid quaternion
       // with angles approaching zero.
@@ -156,11 +182,15 @@ void RailDenizenComponent::UpdateAllEntities(corgi::WorldTime delta_time) {
     rail_denizen_data->lap_progress =
         static_cast<float>(rail_denizen_data->motivator.SplineTime()) / total;
 
+    bool use_lap_end =
+        rail_denizen_data->lap_end > 0 && rail_denizen_data->lap_end < 1;
     // When the motivator has looped all the way back to the beginning of the
     // spline, the SplineTime returns back to 0. We can exploit this fact to
     // determine when a lap has been completed, by comparing against the
     // previous lap amount.
-    if (rail_denizen_data->lap_progress < previous_progress) {
+    if ((use_lap_end && previous_progress < rail_denizen_data->lap_end &&
+         rail_denizen_data->lap_progress >= rail_denizen_data->lap_end) ||
+        (!use_lap_end && rail_denizen_data->lap_progress < previous_progress)) {
       rail_denizen_data->lap_number++;
       GraphData* graph_data = Data<GraphData>(iter->entity);
       if (graph_data) {
@@ -212,6 +242,7 @@ void RailDenizenComponent::AddFromRawData(corgi::EntityRef& entity,
   data->inherit_transform_data =
       rail_denizen_def->inherit_transform_data() ? true : false;
   data->enabled = rail_denizen_def->enabled() ? true : false;
+  data->lap_end = rail_denizen_def->lap_end();
 
   entity_manager_->AddEntityToComponent<TransformComponent>(entity);
 
@@ -244,14 +275,14 @@ corgi::ComponentInterface::RawDataUniquePtr RailDenizenComponent::ExportRawData(
   if (data == nullptr) return nullptr;
 
   flatbuffers::FlatBufferBuilder fbb;
-  fplbase::Vec3 rail_offset(data->internal_rail_offset.x(),
-                            data->internal_rail_offset.y(),
-                            data->internal_rail_offset.z());
+  fplbase::Vec3 rail_offset(data->internal_rail_offset.x,
+                            data->internal_rail_offset.y,
+                            data->internal_rail_offset.z);
   mathfu::vec3 euler = data->internal_rail_orientation.ToEulerAngles();
-  fplbase::Vec3 rail_orientation(euler.x(), euler.y(), euler.z());
-  fplbase::Vec3 rail_scale(data->internal_rail_scale.x(),
-                           data->internal_rail_scale.y(),
-                           data->internal_rail_scale.z());
+  fplbase::Vec3 rail_orientation(euler.x, euler.y, euler.z);
+  fplbase::Vec3 rail_scale(data->internal_rail_scale.x,
+                           data->internal_rail_scale.y,
+                           data->internal_rail_scale.z);
 
   auto rail_name =
       data->rail_name != "" ? fbb.CreateString(data->rail_name) : 0;
@@ -269,6 +300,7 @@ corgi::ComponentInterface::RawDataUniquePtr RailDenizenComponent::ExportRawData(
   builder.add_update_orientation(data->update_orientation);
   builder.add_inherit_transform_data(data->inherit_transform_data);
   builder.add_enabled(data->enabled);
+  builder.add_lap_end(data->lap_end);
 
   fbb.Finish(builder.Finish());
   return fbb.ReleaseBufferPointer();
@@ -322,6 +354,22 @@ void RailDenizenComponent::OnEnterEditor() {
                         rail_data->internal_rail_orientation.Inverse();
       td->scale = rail_data->rail_scale / rail_data->internal_rail_scale;
     }
+  }
+}
+
+void RailDenizenComponent::ChangeRail(const Rail* old_rail,
+                                      const Rail* new_rail) {
+  motive::MotiveEngine& motive_engine =
+      entity_manager_->GetComponent<AnimationComponent>()->engine();
+
+  for (auto iter = component_data_.begin(); iter != component_data_.end();
+       ++iter) {
+    RailDenizenData* rail_denizen_data = GetComponentData(iter->entity);
+    if (!rail_denizen_data->enabled || rail_denizen_data->rail != old_rail) {
+      continue;
+    }
+
+    rail_denizen_data->Initialize(*new_rail, motive_engine);
   }
 }
 

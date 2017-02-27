@@ -28,11 +28,17 @@ class WorldRenderer {
   // Initialize the world renderer.  Must be called before any other functions.
   void Initialize(World* world);
 
+  // Refresh global shader defines with current rendering options.
+  void RefreshGlobalShaderDefines(World* world);
+
   // Call this before you call RenderWorld - it takes care of clearing
   // the frame, setting up the shadowmap, etc.
   void RenderPrep(const corgi::CameraInterface& camera,
-                  fplbase::Renderer& renderer,
                   World* world);
+
+  // Render the shadowmap from the current camera.
+  void RenderShadowMap(const corgi::CameraInterface& camera,
+                       fplbase::Renderer& renderer, World* world);
 
   // Render the world, viewed from the current camera.
   void RenderWorld(const corgi::CameraInterface& camera,
@@ -51,13 +57,8 @@ class WorldRenderer {
 
  private:
   fplbase::Shader* depth_shader_;
+  fplbase::Shader* depth_skinned_shader_;
   fplbase::Shader* textured_shader_;
-  fplbase::Shader* textured_shadowed_shader_;
-  fplbase::Shader* textured_lit_shader_;
-  fplbase::Shader* textured_lit_cutout_shader_;
-  fplbase::Shader* textured_lit_bank_shader_;
-  fplbase::Shader* textured_skinned_lit_shader_;
-  fplbase::Shader* river_shader_;
   Camera light_camera_;
   fplbase::RenderTarget shadow_map_;
 
@@ -67,6 +68,8 @@ class WorldRenderer {
                        fplbase::Renderer& renderer, World* world);
 
   void SetFogUniforms(fplbase::Shader* shader, World* world);
+
+  void SetLightingUniforms(fplbase::Shader* shader, World* world);
 };
 
 }  // zooshi

@@ -4,7 +4,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceForest"
           }
@@ -20,7 +20,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceRainforest"
           }
@@ -36,7 +36,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceRiver"
           }
@@ -52,7 +52,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "AmbianceWind"
           }
@@ -71,13 +71,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "CycleOnly"
           }
@@ -90,15 +90,9 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RiverRail"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data": {
-            "child_ids": ["Raft"]
           }
         },
         {
@@ -117,13 +111,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Raft"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0.0,
@@ -143,15 +143,131 @@
               "EndHungryHippo",
               "EndLadyMandrill",
               "EndMoustacheCroc",
-              "EndLovelyGiraffette",
+              "EndLovelyGiraffette"
             ]
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 4,
+                    "y": 5,
+                    "z": 0.2
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0.3
+                },
+                "mass": 100.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file": "meshes/raft.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
+            "culling": ["ViewAngle", "Distance"]
+          }
+        }
+      ]
+    },
+
+    // Raft without Sign
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Raft_Signless"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 0.0,
+              "y": 2.0,
+              "z": -1.7
+            },
+            "scale": {
+              "x": 0.8,
+              "y": 0.8,
+              "z": 0.8
+            },
+            "child_ids": [
+              "RaftShrimp",
+              "RaftSalmon",
+              "EndBankerBird",
+              "EndHungryHippo",
+              "EndLadyMandrill",
+              "EndMoustacheCroc",
+              "EndLovelyGiraffette"
+            ]
+          }
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 4,
+                    "y": 5,
+                    "z": 0.2
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0.3
+                },
+                "mass": 100.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Raycast",
+                  "Projectile"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
+          "data" : {
+            "source_file": "meshes/raft.fplmesh",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -162,16 +278,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "IntroBox"
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file": "meshes/introbox.fplmesh",
-            "shader": "shaders/textured_opaque",
+            "shaders": [
+              "shaders/textured_opaque",
+              "shaders/textured_opaque"
+            ],
             "culling": ["Distance"],
             "visible": false
           }
@@ -183,13 +302,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RaftShrimp"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -1.7, "y": 1.7, "z": 0.5 },
             "scale": { "x": 200, "y": 200, "z": 200 },
@@ -197,10 +316,13 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_shrimp.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -211,13 +333,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RaftSalmon"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -1.4, "y": 2.8, "z": 0.5 },
             "scale": { "x": 200, "y": 200, "z": 200 },
@@ -225,282 +347,14 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
-          }
-        }
-      ]
-    },
-
-
-    // Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "Digit"
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "render_pass" : ["Alpha"],
-            "shader": "shaders/textured_lit_cutout",
-            "digit_mesh_list": [
-              "meshes/digit_0.fplmesh",
-              "meshes/digit_1.fplmesh",
-              "meshes/digit_2.fplmesh",
-              "meshes/digit_3.fplmesh",
-              "meshes/digit_4.fplmesh",
-              "meshes/digit_5.fplmesh",
-              "meshes/digit_6.fplmesh",
-              "meshes/digit_7.fplmesh",
-              "meshes/digit_8.fplmesh",
-              "meshes/digit_9.fplmesh"
-            ]
-          }
-        }
-      ]
-    },
-
-    // Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "HundredsDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -0.07,
-              "y": -1.21,
-              "z": 0.55
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 100,
-            "attrib": "PatronsFed"
-          }
-        }
-      ]
-    },
-
-    // Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TensDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.02,
-              "y": -1.21,
-              "z": 0.55
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 10,
-            "attrib": "PatronsFed"
-          }
-        }
-      ]
-    },
-
-    // Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "OnesDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.11,
-              "y": -1.21,
-              "z": 0.55
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 1,
-            "attrib": "PatronsFed"
-          }
-        }
-      ]
-    },
-
-    // Target Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TargetScoreHundredsDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.26,
-              "y": -1.21,
-              "z": 0.54
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 100,
-            "attrib": "TargetScore"
-          }
-        }
-      ]
-    },
-    // Target Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TargetScoreTensDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.35,
-              "y": -1.21,
-              "z": 0.54
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 10,
-            "attrib": "TargetScore"
-          }
-        }
-      ]
-    },
-
-    // Target Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "TargetScoreOnesDigit",
-            "prototype": "Digit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.44,
-              "y": -1.21,
-              "z": 0.54
-            },
-            "scale": {
-              "x": 0.12,
-              "y": 0.12,
-              "z": 0.12
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        {
-          "data_type": "DigitDef",
-          "data" : {
-            "divisor": 1,
-            "attrib": "TargetScore"
           }
         }
       ]
@@ -510,13 +364,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Sign"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 2.5,
@@ -534,20 +388,219 @@
               "z": 45.0
             },
             "child_ids": [
-              "OnesDigit",
-              "TensDigit",
-              "HundredsDigit",
-              "TargetScoreOnesDigit",
-              "TargetScoreTensDigit",
-              "TargetScoreHundredsDigit"
+              "ScoreBoard"
             ]
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/raft_sign.fplmesh",
-            "shader": "shaders/textured_lit_cutout",
+            "shaders": [
+              "shaders/textured_lit"
+            ],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Score Board
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "ScoreBoard"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -0.42,
+              "y": 0,
+              "z": 0.515
+            },
+            "scale": {
+              "x": 0.115,
+              "y": 0.1,
+              "z": 0.3
+            },
+            "orientation": {
+              "x": 0,
+              "y": 2,
+              "z": -180
+            },
+            "child_ids": [
+              "HeartMeterLine",
+              "GateClosedIcon",
+              "GateOpenIcon",
+            ]
+          }
+        },
+        {
+          "data_type": "corgi_GraphDef",
+          "data": {
+            "filename_list": [
+              "graphs/score_board.bbgraph"
+            ]
+          }
+        }
+      ]
+    },
+
+    // Heart Meter Line
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "HeartMeterLine"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "scale": {
+              "x": 1,
+              "y": 0.5,
+              "z": 1
+            },
+            "child_ids": [
+              "HeartIcon"
+            ]
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/heart_meter_line.fplmesh",
+            "shaders": [
+              "shaders/textured"
+            ],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Heart Icon
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "HeartIcon"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -5.5,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 2,
+              "z": 0.3
+            },
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/heart.fplmesh",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Gate Closed Icon
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "GateClosedIcon"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -6.9,
+              "y": 0.1,
+              "z": -0.29
+            },
+            "scale": {
+              "x": 1.5,
+              "y": 1,
+              "z": 0.575
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            }
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/gate_closed_icon.fplmesh",
+            "shaders": [
+              "shaders/textured"
+            ],
+            "render_pass" : ["Alpha"]
+          }
+        }
+      ]
+    },
+
+    // Gate Open Icon
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "GateOpenIcon"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -6.9,
+              "y": 0.1,
+              "z": -0.29
+            },
+            "scale": {
+              "x": 1.5,
+              "y": 1,
+              "z": 0.575
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            }
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/gate_open_icon.fplmesh",
+            "shaders": [
+              "shaders/textured"
+            ],
             "render_pass" : ["Alpha"]
           }
         }
@@ -558,34 +611,37 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RailNode"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "render_option": "OnlyInEditor"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {"x":20,"y":20,"z":20}
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"],
             "visible": false
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -620,19 +676,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GroundPhysics"
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "CycleOnly"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0.0,
@@ -642,7 +698,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -674,7 +730,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PlayerPrototype"
           }
@@ -684,7 +740,7 @@
           "data": {}
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0.0,
@@ -700,7 +756,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/new_lap.bbgraph",
@@ -721,14 +777,34 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "PlayerPrototype_Single",
+            "prototype": "PlayerPrototype"
+          }
+        },
+        {
+          "data_type": "corgi_GraphDef",
+          "data" : {
+            "filename_list": [
+              "graphs/single_lap.bbgraph",
+              "graphs/on_fire.bbgraph"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PlayerPrototype_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 5.0,
@@ -744,13 +820,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -761,7 +837,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -838,7 +914,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/mandrill.bbgraph"
@@ -879,7 +955,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -890,14 +966,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronLadyMandrill_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 3.0,
@@ -917,10 +993,13 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/lady_mandrill_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass" : ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -932,13 +1011,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -949,7 +1028,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1003,7 +1082,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/croc.bbgraph"
@@ -1044,7 +1123,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1054,14 +1133,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronMoustacheCroc_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 0.01,
@@ -1081,10 +1160,13 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/crocodile_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1096,13 +1178,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1113,7 +1195,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1189,7 +1271,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/hippo.bbgraph"
@@ -1230,7 +1312,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1240,14 +1322,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronHungryHippo_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 1,
@@ -1267,10 +1349,13 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/hippo_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1280,14 +1365,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronHungryHippo_First",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1363,7 +1448,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/first_hippo.bbgraph",
@@ -1408,13 +1493,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronBankerBirdNoRail"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1425,7 +1510,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1456,7 +1541,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/bird.bbgraph"
@@ -1496,7 +1581,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1506,7 +1591,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronBankerBird",
             "prototype": "PatronBankerBirdNoRail"
@@ -1528,14 +1613,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronBankerBird_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 0.5,
@@ -1555,10 +1640,13 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/bird_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1570,13 +1658,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1587,7 +1675,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -1664,7 +1752,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/giraffe.bbgraph"
@@ -1705,7 +1793,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -1715,14 +1803,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id" : "PatronGiraffette_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": {
               "x": 0.014,
@@ -1742,10 +1830,13 @@
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/giraffe_rig.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "render_pass": ["Opaque"],
             "culling": ["ViewAngle", "Distance"]
           }
@@ -1757,14 +1848,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndMoustacheCroc",
             "prototype": "PatronMoustacheCroc"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 8,
@@ -1803,14 +1894,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndBankerBird",
             "prototype": "PatronBankerBirdNoRail"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 4,
@@ -1849,14 +1940,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndHungryHippo",
             "prototype": "PatronHungryHippo"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -1895,14 +1986,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndLovelyGiraffette",
             "prototype": "PatronGiraffette"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 7,
@@ -1941,14 +2032,14 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "EndLadyMandrill",
             "prototype": "PatronLadyMandrill"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": -6,
@@ -1989,19 +2080,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Projectile"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "Projectile_RenderMesh" ]
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2029,7 +2120,7 @@
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data" : {
             "filename_list": [
               "graphs/sushi.bbgraph"
@@ -2054,26 +2145,152 @@
         }
       ]
     },
+    // Projectile_Lobster
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Projectile_Lobster",
+            "prototype": "Projectile"
+          }
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.53,
+                    "y": 0.22,
+                    "z": 0.22
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0.05
+                },
+                "restitution": 1.0,
+                "collision_type": "Projectile",
+                "collides_with": [
+                  "Patron",
+                  "Ground"
+                ]
+              }
+            ],
+            "gravity_multiplier": 2.0
+          }
+        }
+      ]
+    },
+    // Projectile_FlyingFish
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Projectile_FlyingFish",
+            "prototype": "Projectile"
+          }
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.53,
+                    "y": 0.22,
+                    "z": 0.22
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0.05
+                },
+                "restitution": 1.0,
+                "collision_type": "Projectile",
+                "collides_with": [
+                  "Patron",
+                  "Ground"
+                ]
+              }
+            ],
+            "gravity_multiplier": 0.5
+          }
+        }
+      ]
+    },
+    // Projectile_Pufferfish
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Projectile_Pufferfish",
+            "prototype": "Projectile"
+          }
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.53,
+                    "y": 0.22,
+                    "z": 0.22
+                  }
+                },
+                "offset": {
+                  "x": 0.0,
+                  "y": 0.0,
+                  "z": 0.05
+                },
+                "restitution": 1.0,
+                "collision_type": "Projectile",
+                "collides_with": [
+                  "Patron",
+                  "Ground"
+                ]
+              }
+            ],
+            "gravity_multiplier": -1.0
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Projectile_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": { "x": 200.0, "y": 200.0, "z": 200.0 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data": {
             "source_file": "meshes/sushi_salmon.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2084,29 +2301,32 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Ground"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": 0.0, "y": 0.0, "z": 0.0 },
             "scale": { "x": 50.0, "y": 50.0, "z": 50.0 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/ground.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured",
+              "shaders/render_depth"
+            ],
             "culling": [],
             "visible": false
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "render_option": "OnlyInEditor"
           }
@@ -2118,29 +2338,33 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "MidGroundTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": 0.0, "y": 0.0, "z": 0.0 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_saturated.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         },
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]
@@ -2150,13 +2374,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SkyBox"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": ["SkyBox_RenderMesh"]
           }
@@ -2167,46 +2391,122 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SkyBox_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/skybox_daytime.fplmesh",
-            "shader": "shaders/textured_opaque",
+            "shaders": [
+              "shaders/textured_opaque"
+            ],
             "culling": []
           }
         }
       ]
     },
 
+    // Light Main
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Light"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "render_option": "OnlyInEditor"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "corgi_RenderMeshDef",
+          "data" : {
+            "source_file":"meshes/sun_light.fplmesh",
+            "shaders": [
+              "shaders/color",
+              "shaders/render_depth"
+            ],
+            "culling": ["Distance"],
+            "visible": false,
+            "tint": {     // yellow tint
+              "r": 1.0,
+              "g": 1.0,
+              "b": 0.0,
+              "a": 1.0
+            }
+          }
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 0.005,
+                    "y": 0.005,
+                    "z": 0.005
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                },
+                "mass": 40.0,
+                "restitution": 1.0,
+                "collision_type": "Raycast",
+                "collides_with": [
+                  "Raycast"
+                ]
+              }
+            ],
+            "kinematic": true
+          }
+        }
+      ]
+    },
+
+    // Grass Dense
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassDense_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_dense.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2217,7 +2517,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmallest"
           }
@@ -2229,19 +2529,19 @@
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockSmallest_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2276,22 +2576,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmallest_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.012, "y": 0.074, "z": 0.069 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smallest.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2302,13 +2605,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmaller"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockSmaller_RenderMesh" ]
           }
@@ -2320,13 +2623,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2361,23 +2664,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockSmaller_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.059, "y": -0.024, "z": -0.017 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_smaller.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2388,13 +2694,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockShort_RenderMesh" ]
           }
@@ -2406,13 +2712,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2444,25 +2750,75 @@
       ]
     },
 
+    // Light Main
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "LightPrototype"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef"
+        },
+        {
+          "data_type": "corgi_PhysicsDef",
+          "data": {
+            "shapes": [
+              {
+                "data_type": "BulletBoxDef",
+                "data": {
+                  "half_extents": {
+                    "x": 5.3,
+                    "y": 1.3,
+                    "z": 1.2
+                  }
+                },
+                "offset": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 7.8
+                },
+                "mass": 40.0,
+                "restitution": 0.3,
+                "collision_type": "Ground",
+                "collides_with": [
+                  "Projectile",
+                  "Raycast"
+                ],
+                "user_tag": "mid"
+              }
+            ],
+            "kinematic": true
+          }
+        }
+      ]
+    },
+
+    // Grass Dense
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockShort_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": 0.078, "y": -0.094, "z": -0.339 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_short.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2473,25 +2829,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockMid_Base"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockMid_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2525,7 +2881,7 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockMid",
             "prototype": "RockMid_Base"
@@ -2542,22 +2898,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockMid_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.146, "y": 0.291, "z": -1.627 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_mid.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2568,13 +2927,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "RockTall_RenderMesh" ]
           }
@@ -2586,13 +2945,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2627,22 +2986,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "RockTall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": { "x": -0.059, "y": 0.192, "z": -2.739 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/rock_tall.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -2653,23 +3015,16 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GatePrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [
-              "Gate_RenderMesh",
-              "GateScoreSlash",
-              "GateOnesDigit",
-              "GateTensDigit",
-              "GateHundredsDigit",
-              "GateTargetScoreOnesDigit",
-              "GateTargetScoreTensDigit",
-              "GateTargetScoreHundredsDigit"
+              "Gate_RenderMesh"
             ]
           }
         },
@@ -2680,13 +3035,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "GraphDef",
+          "data_type": "corgi_GraphDef",
           "data": {
             "filename_list": [
               "graphs/gate.bbgraph"
@@ -2694,7 +3049,7 @@
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -2775,243 +3130,57 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "Gate_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef"
+          "data_type": "corgi_TransformDef"
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/gate.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
-        }
-      ]
-    },
-
-    // Gate Score Slash
-    {
-      "component_list": [
+        },
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_GraphDef",
           "data": {
-            "entity_id": "GateScoreSlash"
+            "filename_list": [
+              "graphs/score.bbgraph"
+            ]
           }
         },
         {
-          "data_type": "TransformDef",
-          "data": {
-            "position": { "x": 0, "y": 1.55, "z": 6.8 },
-            "scale": { "x": 0.6, "y": 0.12, "z": 0.6 },
-            "orientation": { "x": 0, "y": 0, "z": 180 }
-          }
-        },
-        {
-          "data_type": "RenderMeshDef",
+          "data_type" : "Render3dTextDef",
           "data" : {
-            "source_file":"meshes/slash.fplmesh",
-            "shader": "shaders/textured_lit_cutout",
-            "culling": ["ViewAngle", "Distance"],
-            "render_pass" : ["Alpha"]
-          }
-        }
-      ]
-    },
-
-    // Gate Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateHundredsDigit",
-            "prototype": "HundredsDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 1.2,
-              "y": 1.55,
-              "z": 6.8
+            "animation_bone": 4, // Gate Sign
+            "canvas_size": 5,
+            "font": "fonts/RaviPrakash-Regular.ttf",
+            "label_size": 100,
+            "translation": {
+              "x": 0,
+              "y": 6.67,
+              "z": 0.3
+            },
+            "rotation": { // Degrees
+              "x": 0,
+              "y": 180,
+              "z": 180
             },
             "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
+              "x": 0.0095,
+              "y": 0.0095,
+              "z": 0
             },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTensDigit",
-            "prototype": "TensDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.8,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateOnesDigit",
-            "prototype": "OnesDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": 0.4,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Target Score Hundreds Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTargetScoreHundredsDigit",
-            "prototype": "TargetScoreHundredsDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -0.4,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Target Score Tens Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTargetScoreTensDigit",
-            "prototype": "TargetScoreTensDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -0.8,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
-          }
-        }
-      ]
-    },
-    // Gate Target Score Ones Digit
-    {
-      "component_list": [
-        {
-          "data_type": "MetaDef",
-          "data": {
-            "entity_id": "GateTargetScoreOnesDigit",
-            "prototype": "TargetScoreOnesDigit"
-          }
-        },
-        {
-          "data_type": "TransformDef",
-          "data" : {
-            "position": {
-              "x": -1.2,
-              "y": 1.55,
-              "z": 6.8
-            },
-            "scale": {
-              "x": 0.6,
-              "y": 0.12,
-              "z": 0.6
-            },
-            "orientation": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 180.0
-            }
+            "text": ""
           }
         }
       ]
@@ -3021,13 +3190,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernShort"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "FernShort_RenderMesh" ]
           }
@@ -3039,7 +3208,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3050,21 +3219,24 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernShort_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_short.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3075,13 +3247,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernMid"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "FernMid_RenderMesh" ]
           }
@@ -3093,7 +3265,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3104,22 +3276,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernMid_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_mid.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"],
           }
         }
@@ -3130,13 +3305,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernTall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "FernTall_RenderMesh" ]
           }
@@ -3148,13 +3323,13 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "PhysicsDef",
+          "data_type": "corgi_PhysicsDef",
           "data": {
             "shapes": [
               {
@@ -3188,52 +3363,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FernTall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/fern_tall.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
-            "culling": ["ViewAngle", "Distance"],
-          }
-        },
-        {
-          "data_type": "PhysicsDef",
-          "data": {
-            "shapes": [
-              {
-                "data_type": "BulletBoxDef",
-                "data": {
-                  "half_extents": {
-                    "x": 0.5,
-                    "y": 0.5,
-                    "z": 1,
-                  }
-                },
-                "offset": {
-                  "x": 0,
-                  "y": 0.1,
-                  "z": 0
-                },
-                "mass": 60.0,
-                "restitution": 0.3,
-                "collision_type": "Ground",
-                "collides_with": [
-                  "Raycast"
-                ]
-              }
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
             ],
-            "kinematic": true
+            "culling": ["ViewAngle", "Distance"],
           }
         }
       ]
@@ -3243,13 +3392,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassDense"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "GrassDense_RenderMesh" ]
           }
@@ -3261,7 +3410,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3273,13 +3422,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassSmall"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "GrassSmall_RenderMesh" ]
           }
@@ -3291,7 +3440,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3302,21 +3451,24 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassSmall_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_small.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3327,13 +3479,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassWide"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "GrassWide_RenderMesh" ]
           }
@@ -3345,7 +3497,7 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3356,21 +3508,24 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "GrassWide_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/grass_wide.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3381,13 +3536,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "LogProp"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "LogProp_RenderMesh" ]
           }
@@ -3395,11 +3550,11 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "PointerOnly"
           }
@@ -3409,21 +3564,24 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "LogProp_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },                  {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/log.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3434,19 +3592,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SavannaTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "SavannaTree_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "PointerOnly"
           }
@@ -3454,7 +3612,8 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]
@@ -3462,22 +3621,25 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SavannaTree_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/savanna_tree_01.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3488,19 +3650,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "BaobabTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "BaobabTree_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3508,7 +3670,8 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]
@@ -3516,23 +3679,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "BaobabTree_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": { "x": 0.01, "y": 0.01, "z": 0.01 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_03.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3543,19 +3709,19 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SwampTree"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "child_ids": [ "SwampTree_RenderMesh" ]
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
@@ -3563,7 +3729,8 @@
         {
           "data_type": "SceneryDef",
           "data": {
-            "anim_object": "Scenery"
+            "anim_object": "Scenery",
+            "faces_raft": true
           }
         }
       ]
@@ -3571,23 +3738,26 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "SwampTree_RenderMesh",
             "prototype": "RenderMeshPrototype"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "scale": { "x": 0.01, "y": 0.01, "z": 0.01 }
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/tree_04.fplmesh",
-            "shader": "shaders/textured_lit",
+            "shaders": [
+              "shaders/textured_lit",
+              "shaders/render_depth"
+            ],
             "culling": ["ViewAngle", "Distance"]
           }
         }
@@ -3597,13 +3767,13 @@
     {
       "component_list": [
         {
-          "data_type": "MetaDef",
+          "data_type": "corgi_MetaDef",
           "data": {
             "entity_id": "FloatingPointDisplay"
           }
         },
         {
-          "data_type": "TransformDef",
+          "data_type": "corgi_TransformDef",
           "data": {
             "position": {
               "x": 0,
@@ -3611,9 +3781,9 @@
               "z": 0
             },
             "scale": {
-              "x": 50,
-              "y": 50,
-              "z": 50
+              "x": 0.2,
+              "y": 0.2,
+              "z": 0.2
             },
           }
         },
@@ -3624,24 +3794,33 @@
           }
         },
         {
-          "data_type": "EditOptionsDef",
+          "data_type": "scene_lab_EditOptionsDef",
           "data": {
             "selection_option": "Any"
           }
         },
         {
-          "data_type": "AnimationDef",
+          "data_type": "corgi_AnimationDef",
           "data": {
             "anim_table_object": "fpl.AnimObject.Heart",
             "anim_table_start_idx": 0
           }
         },
         {
-          "data_type": "RenderMeshDef",
+          "data_type": "corgi_RenderMeshDef",
           "data" : {
             "source_file":"meshes/heart.fplmesh",
-            "shader": "shaders/textured_skinned_lit",
+            "shaders": [
+              "shaders/skinned",
+              "shaders/render_depth_skinned"
+            ],
             "culling": ["ViewAngle", "Distance"],
+            "tint": {     // red tint
+              "r": 0.86,
+              "g": 0.14,
+              "b": 0.14,
+              "a": 1.0
+            }
           }
         },
         {

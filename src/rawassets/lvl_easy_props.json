@@ -1,0 +1,1686 @@
+{
+  "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$8ca0-3cc2-c81d-108e",
+            "prototype": "LogProp"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -6.068404,
+              "y": 15.140335,
+              "z": 0.925
+            },
+            "scale": {
+              "x": 1.094713,
+              "y": 1.094713,
+              "z": 1.094713
+            },
+            "orientation": {
+              "x": 6.299666,
+              "y": -14.699995,
+              "z": 54.900009
+            },
+            "child_ids": [
+              "LogProp_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$c5e4-cde5-e9e0-7dda",
+            "prototype": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -35.899296,
+              "y": 1.197933,
+              "z": 0.820293
+            },
+            "scale": {
+              "x": 7.23556,
+              "y": 7.23556,
+              "z": 7.23556
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -51.000011
+            },
+            "child_ids": [
+              "BaobabTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$9a63-b21a-4e4d-72a4",
+            "prototype": "SwampTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -24.616478,
+              "y": 100.217308,
+              "z": -0.499999
+            },
+            "scale": {
+              "x": 8.958027,
+              "y": 8.958027,
+              "z": 8.958027
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -123.999985
+            },
+            "child_ids": [
+              "SwampTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$5534-585c-0c1b-0d09",
+            "prototype": "FernTall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -24.875351,
+              "y": 27.989212,
+              "z": 0.525002
+            },
+            "scale": {
+              "x": 2.18287,
+              "y": 2.18287,
+              "z": 2.18287
+            },
+            "orientation": {
+              "x": 12.000002,
+              "y": 24,
+              "z": -90
+            },
+            "child_ids": [
+              "FernTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$86c5-9e1d-d5c6-77ac",
+            "prototype": "FernMid"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -20.252468,
+              "y": 22.34605,
+              "z": 0.075004
+            },
+            "scale": {
+              "x": 2.52695,
+              "y": 2.52695,
+              "z": 2.52695
+            },
+            "orientation": {
+              "x": 36.599911,
+              "y": -10.1999,
+              "z": -148.199005
+            },
+            "child_ids": [
+              "FernMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$ce23-7807-5245-0409",
+            "prototype": "FernShort"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -11.647586,
+              "y": 26.222645,
+              "z": 0.475001
+            },
+            "scale": {
+              "x": 3.116702,
+              "y": 3.116702,
+              "z": 3.116702
+            },
+            "orientation": {
+              "x": 0.000001,
+              "y": 4.19999,
+              "z": -135
+            },
+            "child_ids": [
+              "FernShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$bde6-c04b-512d-9db7",
+            "prototype": "RockTall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -9.582497,
+              "y": -0.30431,
+              "z": 4.650013
+            },
+            "scale": {
+              "x": 1.1025,
+              "y": 1.1025,
+              "z": 1.5025
+            },
+            "orientation": {
+              "x": -6.03044,
+              "y": 2.7003,
+              "z": 9.87143
+            },
+            "child_ids": [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$6c65-2c0c-621e-a408",
+            "prototype": "RockMid"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -15.784454,
+              "y": -4.6022,
+              "z": 3.175
+            },
+            "scale": {
+              "x": 1.21551,
+              "y": 1.21551,
+              "z": 1.21551
+            },
+            "orientation": {
+              "x": 11.400002,
+              "y": 1.2,
+              "z": -63.000107
+            },
+            "child_ids": [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$7c7c-a28b-5106-b0cb",
+            "prototype": "RockShort"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -21.217356,
+              "y": 10.614559,
+              "z": 2.45
+            },
+            "scale": {
+              "x": 1.973342,
+              "y": 1.973342,
+              "z": 1.973342
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 41.999996
+            },
+            "child_ids": [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$cda4-6bbc-d03e-5382",
+            "prototype": "RockSmaller"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -12.856667,
+              "y": 10.424965,
+              "z": 0.750005
+            },
+            "scale": {
+              "x": 2.747028,
+              "y": 3.188301,
+              "z": 3.747028
+            },
+            "orientation": {
+              "x": -0.847072,
+              "y": -1.588293,
+              "z": 28.076715
+            },
+            "child_ids": [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$188e-8cae-ecd9-b928",
+            "prototype": "RockSmallest"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -20.258438,
+              "y": 2.145897,
+              "z": 0.8
+            },
+            "scale": {
+              "x": 2.776175,
+              "y": 2.776175,
+              "z": 2.776175
+            },
+            "orientation": {
+              "x": 19.200001,
+              "y": -0,
+              "z": 0
+            },
+            "child_ids": [
+              "RockSmallest_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$7dce-99b7-a061-3035",
+            "prototype": "GrassDense"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -19.453571,
+              "y": 33.611839,
+              "z": 0.425003
+            },
+            "scale": {
+              "x": 2.171054,
+              "y": 2.171054,
+              "z": 2.171054
+            },
+            "orientation": {
+              "x": 3,
+              "y": -3.000002,
+              "z": 135
+            },
+            "child_ids": [
+              "GrassDense_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$8b42-9e29-c038-9512",
+            "prototype": "GrassSmall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -24.067621,
+              "y": 21.068834,
+              "z": 2.125
+            },
+            "scale": {
+              "x": 2.079768,
+              "y": 2.079768,
+              "z": 2.079768
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 41.999996
+            },
+            "child_ids": [
+              "GrassSmall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$3e2d-9e64-ed52-d977",
+            "prototype": "GrassWide"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -30.688068,
+              "y": 27.890209,
+              "z": 1.974999
+            },
+            "scale": {
+              "x": 1.938088,
+              "y": 1.938088,
+              "z": 1.938088
+            },
+            "orientation": {
+              "x": 2.382648,
+              "y": -0.0305,
+              "z": 49.710918
+            },
+            "child_ids": [
+              "GrassWide_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$0192-eae5-c158-6518",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -16.574219,
+              "y": -26.076269,
+              "z": 0.000004
+            },
+            "scale": {
+              "x": 7.57603,
+              "y": 7.57603,
+              "z": 7.57603
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -38.308018
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$7dba-06a5-5840-1a9c",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -30.67841,
+              "y": -16.383221,
+              "z": 4.125008
+            },
+            "scale": {
+              "x": 0.613134,
+              "y": 0.613134,
+              "z": 0.613134
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -51.000011
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$6362-aa15-6b20-2a16",
+            "prototype": "RockShort"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -80.813118,
+              "y": 42.441956,
+              "z": 2.45
+            },
+            "scale": {
+              "x": 1.973342,
+              "y": 1.973342,
+              "z": 1.973342
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 41.999996
+            },
+            "child_ids": [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$6d06-80c6-2208-7111",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -87.654503,
+              "y": 41.501842,
+              "z": 0.000004
+            },
+            "scale": {
+              "x": 7.57603,
+              "y": 7.57603,
+              "z": 7.57603
+            },
+            "orientation": {
+              "x": 0.000012,
+              "y": 0.000014,
+              "z": 45.708874
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$18ac-b009-a282-6c97",
+            "prototype": "RockMid"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -85.507019,
+              "y": 50.601192,
+              "z": 2.224996
+            },
+            "scale": {
+              "x": 3,
+              "y": 1.5,
+              "z": 1.5
+            },
+            "orientation": {
+              "x": 11.399998,
+              "y": 1.200001,
+              "z": 90.735092
+            },
+            "child_ids": [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$b953-a18a-25a9-a4ea",
+            "prototype": "RockShort"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -81.957191,
+              "y": 57.102715,
+              "z": 2.45
+            },
+            "scale": {
+              "x": 1.973342,
+              "y": 1.973342,
+              "z": 1.973342
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -77.35775
+            },
+            "child_ids": [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$36c5-296d-97c9-02b2",
+            "prototype": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -79.82299,
+              "y": 61.167522,
+              "z": 0.820293
+            },
+            "scale": {
+              "x": 7.23556,
+              "y": 7.23556,
+              "z": 7.23556
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 172.453537
+            },
+            "child_ids": [
+              "BaobabTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$4c0c-0d60-121c-9331",
+            "prototype": "RockSmaller"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -83.685173,
+              "y": 54.316654,
+              "z": 0.750005
+            },
+            "scale": {
+              "x": 2.747028,
+              "y": 3.188301,
+              "z": 3.747028
+            },
+            "orientation": {
+              "x": -0.847072,
+              "y": -1.588294,
+              "z": 28.076715
+            },
+            "child_ids": [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$8a10-dca2-028d-0534",
+            "prototype": "RockSmaller"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -83.483673,
+              "y": 44.565559,
+              "z": 0.750005
+            },
+            "scale": {
+              "x": 2.747028,
+              "y": 3.188301,
+              "z": 3.747028
+            },
+            "orientation": {
+              "x": -0.847072,
+              "y": -1.588294,
+              "z": 28.076715
+            },
+            "child_ids": [
+              "RockSmaller_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$0ee5-c55e-970d-9b13",
+            "prototype": "SwampTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -86.498405,
+              "y": 55.699364,
+              "z": -0.499999
+            },
+            "scale": {
+              "x": 8.958027,
+              "y": 8.958027,
+              "z": 8.958027
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 114.715431
+            },
+            "child_ids": [
+              "SwampTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$64e0-d0bc-6b3d-11a0",
+            "prototype": "LogProp"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 60.719486,
+              "y": 20.63348,
+              "z": 0.925
+            },
+            "scale": {
+              "x": 2.5091,
+              "y": 2.5091,
+              "z": 2.5091
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            },
+            "child_ids": [
+              "LogProp_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$da38-7250-50a7-ce2e",
+            "prototype": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -31.014408,
+              "y": 35.45723,
+              "z": 0.820293
+            },
+            "scale": {
+              "x": 7.23556,
+              "y": 7.23556,
+              "z": 7.23556
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -51.000011
+            },
+            "child_ids": [
+              "BaobabTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$a68c-4caa-c006-d6ec",
+            "prototype": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 10.479219,
+              "y": 105.638512,
+              "z": 0.820293
+            },
+            "scale": {
+              "x": 7.23556,
+              "y": 7.23556,
+              "z": 7.23556
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -135.016891
+            },
+            "child_ids": [
+              "BaobabTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$5480-2375-4e6e-4877",
+            "prototype": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 28.185997,
+              "y": 58.347027,
+              "z": 0.820293
+            },
+            "scale": {
+              "x": 7.23556,
+              "y": 7.23556,
+              "z": 7.23556
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -9.878701
+            },
+            "child_ids": [
+              "BaobabTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$9117-ea18-6137-6389",
+            "prototype": "BaobabTree"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 71.590652,
+              "y": 12.354586,
+              "z": 0.820293
+            },
+            "scale": {
+              "x": 7.23556,
+              "y": 7.23556,
+              "z": 7.23556
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -9.878701
+            },
+            "child_ids": [
+              "BaobabTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$0eee-4552-56ab-cbd8",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -40.124592,
+              "y": 71.12339,
+              "z": 0.625008
+            },
+            "scale": {
+              "x": 0.613134,
+              "y": 0.613134,
+              "z": 0.613134
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -154.132401
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$0961-3459-a436-e27b",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -8.644663,
+              "y": 53.025909,
+              "z": 0.625008
+            },
+            "scale": {
+              "x": 0.613134,
+              "y": 0.613134,
+              "z": 0.613134
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -85.377472
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$c405-c1b6-5bc9-a355",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 44.189819,
+              "y": 96.87101,
+              "z": 0.625008
+            },
+            "scale": {
+              "x": 0.613134,
+              "y": 0.613134,
+              "z": 0.613134
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -119.754936
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$379d-677c-069b-9338",
+            "prototype": "SavannaTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 41.541309,
+              "y": 48.28648,
+              "z": 0.625008
+            },
+            "scale": {
+              "x": 0.613134,
+              "y": 0.613134,
+              "z": 0.613134
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 34.943665
+            },
+            "child_ids": [
+              "SavannaTree_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$8c34-3bc3-8da7-dc06",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 3.760069,
+              "y": 46.70541,
+              "z": 0.000004
+            },
+            "scale": {
+              "x": 4.883579,
+              "y": 4.883579,
+              "z": 4.883579
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -88.910805
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$3e58-38dc-2872-b76c",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -63.982944,
+              "y": 72.220352,
+              "z": 0.000004
+            },
+            "scale": {
+              "x": 4.883579,
+              "y": 4.883579,
+              "z": 4.883579
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -123.288277
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$357d-7d1d-acbc-b69b",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 72.472778,
+              "y": 70.709312,
+              "z": 0.000004
+            },
+            "scale": {
+              "x": 4.883579,
+              "y": 4.883579,
+              "z": 4.883579
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -88.910805
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$7d84-0453-0d3e-a014",
+            "prototype": "MidGroundTree"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_AnimationDef",
+          "data": {
+            "anim_table_object": 9
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 44.521141,
+              "y": 13.046602,
+              "z": 0.000004
+            },
+            "scale": {
+              "x": 4.883579,
+              "y": 4.883579,
+              "z": 4.883579
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -2.967158
+            }
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$3058-0937-305d-e522",
+            "prototype": "RockShort"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -59.931805,
+              "y": 35.184978,
+              "z": 2.45
+            },
+            "scale": {
+              "x": 1.973342,
+              "y": 1.973342,
+              "z": 1.973342
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 41.999996
+            },
+            "child_ids": [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$e8b9-705b-bc5b-b747",
+            "prototype": "RockShort"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -14.330477,
+              "y": 90.126495,
+              "z": 2.45
+            },
+            "scale": {
+              "x": 1.973342,
+              "y": 1.973342,
+              "z": 1.973342
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 41.999996
+            },
+            "child_ids": [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$7be6-7ba6-e84e-8d54",
+            "prototype": "RockShort"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 75.460358,
+              "y": 46.635571,
+              "z": 2.45
+            },
+            "scale": {
+              "x": 1.973342,
+              "y": 1.973342,
+              "z": 1.973342
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": 179.509857
+            },
+            "child_ids": [
+              "RockShort_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$71eb-83d1-d22c-d35d",
+            "prototype": "RockTall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -61.934753,
+              "y": 64.115379,
+              "z": 4.650013
+            },
+            "scale": {
+              "x": 1.1025,
+              "y": 1.1025,
+              "z": 1.5025
+            },
+            "orientation": {
+              "x": -6.03044,
+              "y": 2.7003,
+              "z": 9.87143
+            },
+            "child_ids": [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$11e8-6154-ae02-7e91",
+            "prototype": "RockTall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 10.947215,
+              "y": 64.224602,
+              "z": 4.650013
+            },
+            "scale": {
+              "x": 1.1025,
+              "y": 1.1025,
+              "z": 1.5025
+            },
+            "orientation": {
+              "x": -6.030439,
+              "y": 2.7003,
+              "z": -76.072243
+            },
+            "child_ids": [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$426b-990c-7052-9247",
+            "prototype": "RockTall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 59.852959,
+              "y": -9.427103,
+              "z": 4.650013
+            },
+            "scale": {
+              "x": 1.1025,
+              "y": 1.1025,
+              "z": 1.5025
+            },
+            "orientation": {
+              "x": -6.030439,
+              "y": 2.7003,
+              "z": -76.072243
+            },
+            "child_ids": [
+              "RockTall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$8631-c43d-05c0-71b4",
+            "prototype": "RockMid"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -29.674902,
+              "y": 43.241867,
+              "z": 3.175
+            },
+            "scale": {
+              "x": 1.21551,
+              "y": 1.21551,
+              "z": 1.21551
+            },
+            "orientation": {
+              "x": 11.400002,
+              "y": 1.2,
+              "z": -63.000107
+            },
+            "child_ids": [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$aa46-5a4d-23c8-11a9",
+            "prototype": "RockMid"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 25.195091,
+              "y": 98.65274,
+              "z": 1.999996
+            },
+            "scale": {
+              "x": 1.21551,
+              "y": 1.21551,
+              "z": 1.21551
+            },
+            "orientation": {
+              "x": 11.400002,
+              "y": 1.199998,
+              "z": -63.000114
+            },
+            "child_ids": [
+              "RockMid_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$ed40-e385-89b6-2312",
+            "prototype": "GrassSmall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -33.928169,
+              "y": 46.648746,
+              "z": 2.125
+            },
+            "scale": {
+              "x": 2.079768,
+              "y": 2.079768,
+              "z": 2.079768
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 41.999996
+            },
+            "child_ids": [
+              "GrassSmall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$0601-5ccd-30ad-c8b5",
+            "prototype": "GrassSmall"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": 2.809597,
+              "y": 94.72213,
+              "z": 2.125
+            },
+            "scale": {
+              "x": 2.079768,
+              "y": 2.079768,
+              "z": 2.079768
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -95.509872
+            },
+            "child_ids": [
+              "GrassSmall_RenderMesh"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

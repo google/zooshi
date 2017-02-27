@@ -21,6 +21,12 @@ namespace fpl;
 table SaveData {
   effect_volume:float;
   music_volume:float;
+  render_shadows:bool;
+  apply_phong:bool;
+  apply_specular:bool;
+  render_shadows_cardboard:bool;
+  apply_phong_cardboard:bool;
+  apply_specular_cardboard:bool;
   // Only used on touch devices that support head mounted displays
   // (Android at the moment).
   gyroscopic_controls_enabled:byte = 1;

@@ -49,7 +49,7 @@ void IntroState::Initialize(fplbase::InputSystem* input_system, World* world,
   fader_ = fader;
   master_bus_ = audio_engine->FindBus(kMasterBus);
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #else
   (void)config;
@@ -105,15 +105,15 @@ void IntroState::AdvanceFrame(int delta_time, int* next_state) {
   }
 }
 
-void IntroState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void IntroState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void IntroState::Render(fplbase::Renderer* renderer) {
   Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera = &cardboard_camera_;
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
   if (!fader_->Finished()) {
     renderer->set_model_view_projection(
@@ -125,9 +125,9 @@ void IntroState::Render(fplbase::Renderer* renderer) {
 void IntroState::OnEnter(int /*previous_state*/) {
   world_->player_component.set_state(kPlayerState_Active);
   UpdateMainCamera(&main_camera_, world_);
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   input_system_->head_mounted_display_input().ResetHeadTracker();
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
   // Move the player inside the intro box.
   auto player = world_->player_component.begin()->entity;
   auto player_transform =

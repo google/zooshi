@@ -3,7 +3,6 @@
   "fader_material" : "materials/pixel_1x1.fplmat",
   "mesh_list" : [
     "meshes/sushi_salmon.fplmesh",
-    "meshes/candy_cane.fplmesh",
     "meshes/sushi_shrimp.fplmesh",
     "meshes/lady_mandrill_rig.fplmesh",
     "meshes/crocodile_rig.fplmesh",
@@ -28,22 +27,14 @@
     "meshes/grass_small.fplmesh",
     "meshes/grass_wide.fplmesh",
     "meshes/raft_sign.fplmesh",
-    "meshes/digit_0.fplmesh",
-    "meshes/digit_1.fplmesh",
-    "meshes/digit_2.fplmesh",
-    "meshes/digit_3.fplmesh",
-    "meshes/digit_4.fplmesh",
-    "meshes/digit_5.fplmesh",
-    "meshes/digit_6.fplmesh",
-    "meshes/digit_7.fplmesh",
-    "meshes/digit_8.fplmesh",
-    "meshes/digit_9.fplmesh",
     "meshes/tree_03.fplmesh",
     "meshes/tree_04.fplmesh",
     "meshes/log.fplmesh",
     "meshes/savanna_tree_01.fplmesh",
     "meshes/heart.fplmesh",
-    "meshes/slash.fplmesh"
+    "meshes/point_light.fplmesh",
+    "meshes/sun_light.fplmesh",
+    "meshes/spot_light.fplmesh"
   ],
   "material_list": [
     "materials/lake_daytime.fplmat",
@@ -54,17 +45,50 @@
     "materials/settings_gear.fplmat"
   ],
   "shader_list": [
-    "shaders/color",
-    "shaders/lit_textured_normal",
-    "shaders/origwater",
-    "shaders/render_depth",
-    "shaders/textured",
-    "shaders/textured_lit",
-    "shaders/textured_lit_bank",
-    "shaders/textured_lit_cutout",
-    "shaders/textured_skinned_lit",
-    "shaders/textured_opaque",
-    "shaders/textured_shadowed"
+    // Shaders derived from uber shader
+    {
+      "alias": "shaders/bank",
+      "source": "shaders/uber_shader",
+      "defines": ["TEXTURED", "BANK", "FOG_EFFECT", "PHONG_SHADING"]
+    },
+    {
+      "alias": "shaders/skinned",
+      "source": "shaders/uber_shader",
+      "defines": ["TEXTURED", "SKINNED", "FOG_EFFECT"]
+    },
+    {
+      "alias": "shaders/textured",
+      "source": "shaders/uber_shader",
+      "defines": ["TEXTURED"]
+    },
+    {
+      "alias": "shaders/textured_lit",
+      "source": "shaders/uber_shader",
+      "defines": ["TEXTURED", "FOG_EFFECT", "PHONG_SHADING"]
+    },
+    {
+      "alias": "shaders/textured_opaque",
+      "source": "shaders/uber_shader",
+      "defines": ["TEXTURED"]
+    },
+    {
+      "alias": "shaders/water",
+      "source": "shaders/uber_shader",
+      "defines": ["WATER"],
+    },
+    // Other shaders
+    {
+      "source": "shaders/render_depth_skinned"
+    },
+    {
+      "source": "shaders/render_depth"
+    },
+    {
+      "source": "shaders/textured_lit_cutout"
+    },
+    {
+      "source": "shaders/color"
+    }
   ],
   "anims": {
     "lists" : [

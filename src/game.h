@@ -41,8 +41,9 @@
 #include "states/state_machine.h"
 #include "states/states.h"
 #include "world.h"
+#include "xp_system.h"
 
-#if defined(PLATFORM_MOBILE)
+#ifdef __ANDROID__
 #define USING_GOOGLE_PLAY_GAMES
 #endif
 
@@ -175,8 +176,12 @@ class Game {
   breadboard::module_library::DefaultGraphFactory graph_factory_;
 
   // Shaders we use.
-  fplbase::Shader* shader_lit_textured_normal_;
   fplbase::Shader* shader_textured_;
+
+  firebase::App* firebase_app_;
+  InvitesListener invites_listener_;
+  MessageListener message_listener_;
+  AdMobHelper admob_helper_;
 
 #if DISPLAY_FRAMERATE_HISTOGRAM
   // Profiling data.
@@ -209,6 +214,12 @@ class Game {
 
   // Name of the optional overlay to load assets from.
   static std::string overlay_name_;
+
+  // The progression system to track unlockables.
+  UnlockableManager unlockable_manager_;
+
+  // The XP system, used to grant rewards after playing.
+  XpSystem xp_system_;
 };
 
 }  // zooshi

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "game.h"
 #include "states/pause_state.h"
+#include "game.h"
 
 #include "flatui/flatui.h"
 #include "flatui/flatui_common.h"
@@ -28,11 +28,11 @@ using flatui::TextButton;
 
 static const auto kPauseStateButtonSize = 100.0f;
 
-void PauseState::Initialize(fplbase::InputSystem* input_system, World* world,
-                            const Config* config,
-                            fplbase::AssetManager* asset_manager,
-                            flatui::FontManager* font_manager,
-                            pindrop::AudioEngine* audio_engine) {
+void PauseState::Initialize(fplbase::InputSystem *input_system, World *world,
+                            const Config *config,
+                            fplbase::AssetManager *asset_manager,
+                            flatui::FontManager *font_manager,
+                            pindrop::AudioEngine *audio_engine) {
   asset_manager_ = asset_manager;
   font_manager_ = font_manager;
   input_system_ = input_system;
@@ -45,14 +45,14 @@ void PauseState::Initialize(fplbase::InputSystem* input_system, World* world,
   background_paused_ =
       asset_manager_->LoadTexture("textures/ui_background_base.webp");
 
-#ifdef ANDROID_HMD
+  config_ = config;
+
+#if FPLBASE_ANDROID_VR
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
-#else
-  (void)config;
 #endif
 }
 
-void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
+void PauseState::AdvanceFrame(int /*delta_time*/, int *next_state) {
   UpdateMainCamera(&main_camera_, world_);
 
   *next_state = next_state_;
@@ -71,16 +71,16 @@ void PauseState::AdvanceFrame(int /*delta_time*/, int* next_state) {
   if (*next_state == kGameStateGameplay) {
     audio_engine_->PlaySound(sound_continue_);
   } else if (*next_state == kGameStateGameMenu) {
-    world_->SetIsInCardboard(false);
+    world_->SetRenderingMode(kRenderingMonoscopic);
     audio_engine_->PlaySound(sound_exit_);
   }
 
   next_state_ = kGameStatePause;
 }
 
-GameState PauseState::PauseMenu(fplbase::AssetManager& assetman,
-                                flatui::FontManager& fontman,
-                                fplbase::InputSystem& input) {
+GameState PauseState::PauseMenu(fplbase::AssetManager &assetman,
+                                flatui::FontManager &fontman,
+                                fplbase::InputSystem &input) {
   GameState next_state = kGameStatePause;
 
   flatui::Run(assetman, fontman, input, [&]() {
@@ -100,6 +100,7 @@ GameState PauseState::PauseMenu(fplbase::AssetManager& assetman,
     flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
                           mathfu::vec2(0, -50));
     flatui::SetTextColor(kColorBrown);
+    flatui::SetTextFont(config_->menu_font()->c_str());
 
     auto event =
         TextButton("Continue", kPauseStateButtonSize, flatui::Margin(2));
@@ -119,21 +120,21 @@ GameState PauseState::PauseMenu(fplbase::AssetManager& assetman,
   return next_state;
 }
 
-void PauseState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void PauseState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
-void PauseState::Render(fplbase::Renderer* renderer) {
-  Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+void PauseState::Render(fplbase::Renderer *renderer) {
+  Camera *cardboard_camera = nullptr;
+#if FPLBASE_ANDROID_VR
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
 }
 
-void PauseState::HandleUI(fplbase::Renderer* renderer) {
+void PauseState::HandleUI(fplbase::Renderer *renderer) {
   // No culling when drawing the menu.
-  renderer->SetCulling(fplbase::Renderer::kNoCulling);
+  renderer->SetCulling(fplbase::kCullingModeNone);
   next_state_ = PauseMenu(*asset_manager_, *font_manager_, *input_system_);
 }
 

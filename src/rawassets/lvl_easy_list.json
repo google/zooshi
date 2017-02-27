@@ -1,0 +1,128 @@
+{
+  "entity_list": [
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_GraphDef",
+          "data": {
+          }
+        },
+        {
+          "data_type": "RailDenizenDef",
+          "data": {
+            "rail_name": "player_path",
+            "rail_offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rail_orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 0
+            },
+            "rail_scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "lap_end": 0.65
+          }
+        },
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "$6288-e1c3-3742-4a1a",
+            "prototype": "RiverRail"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -80.004166,
+              "y": 49.99786,
+              "z": 2
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "orientation": {
+              "x": 0,
+              "y": -0,
+              "z": 90
+            },
+            "child_ids": [
+              "ActivePlayer",
+              "Raft_Signless"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "ActivePlayer",
+            "prototype": "PlayerPrototype_Single"
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "RiverDef",
+          "data": {
+            "rail_name": "player_path",
+            "random_seed": 123456789
+          }
+        }
+      ]
+    },
+    {
+      "component_list": [
+        {
+          "data_type": "corgi_MetaDef",
+          "data": {
+            "entity_id": "Gate",
+            "prototype": "GatePrototype"
+          }
+        },
+        {
+          "data_type": "scene_lab_EditOptionsDef",
+          "data": {
+            "selection_option": "Any"
+          }
+        },
+        {
+          "data_type": "corgi_TransformDef",
+          "data": {
+            "position": {
+              "x": -61,
+              "y": 50,
+              "z": 0
+            },
+            "scale": {
+              "x": 1.656012,
+              "y": 1.656012,
+              "z": 1.656012
+            },
+            "orientation": {
+              "x": 0,
+              "y": 0,
+              "z": -90
+            },
+            "child_ids": [
+              "Gate_RenderMesh"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

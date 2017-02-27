@@ -15,6 +15,30 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(zooshi)
 
+# Until Firebase C++ ships with debug libraries on Visual Studio, only build
+# release configurations.
+if(MSVC)
+  set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING
+      "Zooshi release configs" FORCE)
+endif()
+
+# Call fplutil to get locations of dependencies and set common build settings.
+# Extra compile flags
+#   /wd4305: trunction from double to float in shadow_controller.cpp
+include("cmake/find_fplutil.cmake")
+include("${fplutil_dir}/buildutil/cmake_common.txt")
+set_common_build_variables("/wd4305")
+
+# Zooshi requires the Firebase SDK.
+if (NOT EXISTS "${firebase_sdk_dir}")
+  message(ERROR "Cannot find Firebase SDK. Please set FIREBASE_SDK environment variable and delete CMake cache.")
+endif()
+
+# In-tree build of the Zooshi directory.
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
+  set(zooshi_in_tree_build ON)
+endif()
+
 # Compile the game with the debug flag
 set(ZOOSHI_DEBUG ON)
 
@@ -25,59 +49,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Temporary files (like object files) created while compiling projects.
 set(tmp_dir ${CMAKE_BINARY_DIR}/obj)
-
-# Directory which contains the source for 3rd party libraries.
-if(NOT DEFINED third_party_root)
-  get_filename_component(
-    third_party_root "${CMAKE_CURRENT_LIST_DIR}/../../../../external"
-    REALPATH)
-endif()
-
-# Directory which contains source for FPL libraries.
-if(NOT DEFINED fpl_root)
-  get_filename_component(
-      fpl_root "${CMAKE_CURRENT_LIST_DIR}/../../libs" REALPATH)
-endif()
-
-# If the dependencies directory exists, assume this is the root directory for
-# all libraries required by this project.
-if(NOT DEFINED dependencies_root)
-  set(dependencies_root "${CMAKE_CURRENT_SOURCE_DIR}/dependencies")
-  if(EXISTS "${dependencies_root}")
-    set(third_party_root "${dependencies_root}")
-    set(fpl_root "${dependencies_root}")
-  endif()
-endif()
-
-# Configurable locations of dependencies of this project.
-set(dependencies_gtest_dir "${fpl_root}/googletest"
-    CACHE PATH "Directory containing the GoogleTest library.")
-set(dependencies_flatbuffers_dir "${fpl_root}/flatbuffers"
-    CACHE PATH "Directory containing the Flatbuffers library.")
-set(dependencies_fplutil_dir "${fpl_root}/fplutil"
-    CACHE PATH "Directory containing the fplutil library.")
-set(dependencies_breadboard_dir "${fpl_root}/breadboard"
-    CACHE PATH "Directory containing the breadboard library.")
-set(dependencies_module_library_dir
-    "${dependencies_breadboard_dir}/module_library" CACHE PATH
-    "Directory containing the breadboard module library.")
-set(dependencies_pindrop_dir "${fpl_root}/pindrop"
-    CACHE PATH "Directory containing the pindrop library.")
-set(dependencies_fplbase_dir "${fpl_root}/fplbase"
-    CACHE PATH "Directory containing the FPLBase library.")
-set(dependencies_corgi_dir "${fpl_root}/corgi"
-    CACHE PATH "Directory containing the CORGI library.")
-set(dependencies_flatui_dir "${fpl_root}/flatui"
-    CACHE PATH "Directory containing the FlatUI library.")
-set(dependencies_mathfu_dir "${fpl_root}/mathfu"
-    CACHE PATH "Directory containing the MathFu library.")
-set(dependencies_motive_dir "${fpl_root}/motive"
-    CACHE PATH "Directory containing the motive animation library.")
-set(dependencies_scene_lab_dir "${fpl_root}/scene_lab"
-    CACHE PATH "Directory containing the Scene Lab library.")
-set(dependencies_corgi_component_library_dir
-    "${dependencies_corgi_dir}/component_library"
-    CACHE PATH "Directory containing the CORGI component library")
 
 # Option to enable / disable the build of cwebp from source.
 option(zooshi_build_cwebp "Build cwebp from source." OFF)
@@ -102,6 +73,7 @@ endif()
 if(NOT TARGET motive)
   set(motive_build_samples OFF CACHE BOOL "")
   set(motive_build_tests OFF CACHE BOOL "")
+  set(motive_build_viewer OFF CACHE BOOL "")
   if(zooshi_profile_motive)
     set(motive_enable_benchmarks ON CACHE BOOL "")
     add_definitions(-DBENCHMARK_MOTIVE)
@@ -138,6 +110,15 @@ if(NOT TARGET scene_lab)
   add_subdirectory("${dependencies_scene_lab_dir}" ${tmp_dir}/scene_lab)
 endif()
 
+if(NOT DEFINED firebase_dir)
+  get_filename_component(firebase_dir
+      "${CMAKE_CURRENT_LIST_DIR}/../../../../prebuilts/cpp-firebase/firebase_cpp_sdk"
+      REALPATH)
+  if (NOT EXISTS "${firebase_dir}")
+    set(firebase_dir "${fpl_root}/cpp-firebase/firebase_cpp_sdk")
+  endif()
+endif()
+
 # Include FlatBuffers in this project.
 set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "")
 if(NOT TARGET flatc)
@@ -147,7 +128,7 @@ endif()
 # Generate source files for all FlatBuffers schema files under the src
 # directory.
 set(FLATBUFFERS_GENERATED_INCLUDES_DIR
-    ${CMAKE_SOURCE_DIR}/${CMAKE_FILES_DIRECTORY}/include/zooshi)
+    ${CMAKE_CURRENT_BINARY_DIR}/include/zooshi)
 file(GLOB_RECURSE FLATBUFFERS_SCHEMAS ${CMAKE_CURRENT_LIST_DIR}/src/*.fbs)
 
 set(FLATBUFFERS_SCHEMA_INCLUDES
@@ -180,11 +161,20 @@ if(zooshi_build_cwebp)
   set(cwebp_depends cwebp)
 endif()
 
+# Run the asset pipeline.
+# If we're building out-of-tree, we have to copy the zooshi/assets directory
+# to its out-of-tree location.
+if (NOT DEFINED zooshi_in_tree_build)
+  set(zooshi_asset_copy_src "${CMAKE_CURRENT_LIST_DIR}/assets")
+  set(zooshi_asset_copy_dest "${CMAKE_BINARY_DIR}/assets")
+endif()
 add_custom_target(assets
   COMMAND python ${CMAKE_CURRENT_LIST_DIR}/scripts/build_assets.py
   --copy_tree
+  ${zooshi_asset_copy_src} ${zooshi_asset_copy_dest}
   ${CMAKE_CURRENT_LIST_DIR}/src/rawassets/fonts ${CMAKE_BINARY_DIR}/assets/fonts
   ${dependencies_flatui_dir}/assets/shaders ${CMAKE_BINARY_DIR}/assets/shaders
+  ${dependencies_flatui_dir}/assets/hyphen-data ${CMAKE_BINARY_DIR}/assets/hyphen-data
   ${dependencies_fplbase_dir}/shaders ${CMAKE_BINARY_DIR}/assets/shaders
   --flatc $<TARGET_FILE:flatc>
   ${cwebp_option}
@@ -193,6 +183,10 @@ add_custom_target(assets
 
 # zooshi source files.
 set(zooshi_SRCS
+    src/admob.cpp
+    src/admob.h
+    src/analytics.cpp
+    src/analytics.h
     src/camera.cpp
     src/camera.h
     src/common.h
@@ -200,10 +194,10 @@ set(zooshi_SRCS
     src/components/attributes.h
     src/components/audio_listener.cpp
     src/components/audio_listener.h
-    src/components/digit.cpp
-    src/components/digit.h
     src/components/lap_dependent.cpp
     src/components/lap_dependent.h
+    src/components/light.cpp
+    src/components/light.h
     src/components/patron.cpp
     src/components/patron.h
     src/components/player.cpp
@@ -214,6 +208,8 @@ set(zooshi_SRCS
     src/components/rail_denizen.h
     src/components/rail_node.cpp
     src/components/rail_node.h
+    src/components/render_3d_text.cpp
+    src/components/render_3d_text.h
     src/components/river.cpp
     src/components/river.h
     src/components/scenery.cpp
@@ -243,7 +239,11 @@ set(zooshi_SRCS
     src/inputcontrollers/onscreen_controller.h
     src/inputcontrollers/mouse_controller.cpp
     src/inputcontrollers/mouse_controller.h
+    src/invites.cpp
+    src/invites.h
     src/main.cpp
+    src/messaging.cpp
+    src/messaging.h
     src/modules/attributes.cpp
     src/modules/attributes.h
     src/modules/gpg.cpp
@@ -256,10 +256,14 @@ set(zooshi_SRCS
     src/modules/rail_denizen.h
     src/modules/state.cpp
     src/modules/state.h
+    src/modules/ui_string.cpp
+    src/modules/ui_string.h
     src/modules/zooshi.cpp
     src/modules/zooshi.h
     src/railmanager.cpp
     src/railmanager.h
+    src/remote_config.cpp
+    src/remote_config.h
     src/states/game_over_state.cpp
     src/states/game_over_state.h
     src/states/game_menu_state.cpp
@@ -278,13 +282,14 @@ set(zooshi_SRCS
     src/states/states_common.h
     src/states/scene_lab_state.cpp
     src/states/scene_lab_state.h
+    src/unlockable_manager.cpp
+    src/unlockable_manager.h
     src/world.cpp
     src/world.h
     src/world_renderer.cpp
     src/world_renderer.h
-    # For outputting flatbuffer files as json.
-    ${dependencies_flatbuffers_dir}/src/idl_parser.cpp
-    ${dependencies_flatbuffers_dir}/src/idl_gen_text.cpp
+    src/xp_system.cpp
+    src/xp_system.h
 )
 
 # Includes for this project.
@@ -329,30 +334,10 @@ include_directories(${dependencies_flatui_dir}/include)
 include_directories(${dependencies_motive_dir}/include)
 include_directories(${dependencies_pindrop_dir}/include)
 include_directories(${dependencies_scene_lab_dir}/include)
+include_directories(${firebase_sdk_dir}/include)
 
 # SDL includes.
 include_directories(${SDL2_BINARY_DIR}/include ${SDL2_SOURCE_DIR}/include)
-
-# Detect clang
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
-  set(CMAKE_COMPILER_IS_CLANGXX 1)
-endif()
-
-# Compiler flags.
-set(C_FLAGS_WARNINGS "")
-if(MSVC)
-  # C4127: Conditional expression is constant.
-  # C4305: Truncation from 'type1' to 'type2'.
-  set(C_FLAGS_WARNINGS "/W4 /WX /wd4127 /wd4305")
-elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR
-       CMAKE_COMPILER_IS_CLANGXX)
-  add_definitions(-g)
-  set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -pedantic -Werror -Wextra -Wno-unused-function")
-  # -Wno-unused-function is because of webp encode.h
-endif()
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_FLAGS_WARNINGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${C_FLAGS_WARNINGS}")
 
 set (SDL_LIBRARIES SDL2-static)
 if(WIN32)
@@ -367,6 +352,12 @@ if(ZOOSHI_DEBUG)
   #add_definitions(-D_DEBUG)
 endif()
 
+if(fplbase_debug_markers)
+  add_definitions(-DFPLBASE_ENABLE_DEBUG_MARKERS)
+endif()
+
+add_definitions(-DZOOSHI_DEFINE_SIZED_OPERATOR_DELETE)
+
 # Executable target.
 add_executable(zooshi ${zooshi_SRCS})
 
@@ -380,13 +371,20 @@ target_link_libraries(zooshi
   motive
   fplbase
   flatui
-  flatbuffers
   breadboard
   corgi
   corgi_component_library
   breadboard_module_library
   scene_lab
-  pindrop)
+  flatbuffers
+  pindrop
+  firebase_admob
+  firebase_analytics
+  firebase_invites
+  firebase_messaging
+  firebase_config
+  firebase_app
+)
 
 # Create a zipped tar of all the necessary files to run the game.
 add_custom_target(export

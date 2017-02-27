@@ -42,6 +42,11 @@ enum MenuState {
   kMenuStateFinished,
   kMenuStateCardboard,
   kMenuStateGamepad,
+  kMenuStateScoreReview,
+  kMenuStateReceivedInvite,
+  kMenuStateSendingInvite,
+  kMenuStateSentInvite,
+  kMenuStateReceivedMessage,
   kMenuStateQuit,
 };
 
@@ -50,9 +55,18 @@ enum OptionsMenuState {
   kOptionsMenuStateAbout,
   kOptionsMenuStateLicenses,
   kOptionsMenuStateAudio,
+  kOptionsMenuStateRendering,
+  kOptionsMenuStateSushi,
+  kOptionsMenuStateLevel,
 };
 
-// Constant defintions for UI elements. Colors, button sizes etc.
+enum RewardedVideoState {
+  kRewardedVideoStateIdle,
+  kRewardedVideoStateDisplaying,
+  kRewardedVideoStateFinished,
+};
+
+// Constant definitions for UI elements. Colors, button sizes etc.
 const auto kColorBrown = mathfu::vec4(0.37f, 0.24f, 0.09f, 0.85f);
 const auto kColorLightBrown = mathfu::vec4(0.82f, 0.77f, 0.60f, 0.85f);
 const auto kColorLightGray = mathfu::vec4(0.4f, 0.4f, 0.4f, 0.85f);
@@ -68,6 +82,13 @@ const auto kButtonSize = 140.0f;
 #endif
 const auto kAudioOptionButtonSize = 100.0f;
 const auto kScrollAreaSize = mathfu::vec2(900, 500);
+const auto kScoreSmallSize = 50.0f;
+const auto kScoreTextSize = 75.0f;
+const auto kWrappedLabelSize = mathfu::vec2(800, 600);
+// Values used to determine the end score.
+const auto kScorePatronsFedFactor = 1.0f;
+const auto kScoreLapsFinishedFactor = 15.0f;
+const auto kScoreAccuracyFactor = 50.0f;
 
 const auto kEffectVolumeDefault = 1.0f;
 const auto kMusicVolumeDefault = 1.0f;
@@ -86,7 +107,7 @@ class GameMenuState : public StateNode {
                   pindrop::AudioEngine* audio_engine, FullScreenFader* fader);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
@@ -103,6 +124,27 @@ class GameMenuState : public StateNode {
   void OptionMenuLicenses();
   void OptionMenuAbout();
   void OptionMenuAudio();
+  void OptionMenuRendering();
+  void OptionMenuSushi();
+  void OptionMenuLevel();
+  MenuState ScoreReviewMenu(fplbase::AssetManager& assetman,
+                            flatui::FontManager& fontman,
+                            fplbase::InputSystem& input);
+  MenuState ReceivedInviteMenu(fplbase::AssetManager& assetman,
+                               flatui::FontManager& fontman,
+                               fplbase::InputSystem& input);
+  MenuState SentInviteMenu(fplbase::AssetManager& assetman,
+                           flatui::FontManager& fontman,
+                           fplbase::InputSystem& input);
+  MenuState ReceivedMessageMenu(fplbase::AssetManager& assetman,
+                                flatui::FontManager& fontman,
+                                fplbase::InputSystem& input);
+  // The rewarded menu is a special case, as we don't want to change the actual
+  // menu state that is happening, as it could potentially be called from
+  // various states, and we want to go back to the same state.
+  RewardedVideoState RewardedVideoMenu(fplbase::AssetManager& assetman,
+                                       flatui::FontManager& fontman,
+                                       fplbase::InputSystem& input);
 
   // Instance a text button that plays a sound when selected.
   flatui::Event TextButton(const char* text, float size,
@@ -132,6 +174,13 @@ class GameMenuState : public StateNode {
   flatui::Event PlayButtonSound(flatui::Event event,
                                 pindrop::SoundHandle& sound);
 
+  void EmptyMenuBackground(fplbase::AssetManager& assetman,
+                           flatui::FontManager& fontman,
+                           fplbase::InputSystem& input,
+                           const std::function<void()>& gui_definition);
+  bool DisplayMessageBackButton();
+  void DisplayMessageUnlockable();
+
   // Save/Load data to strage using FlatBuffres binary data.
   void SaveData();
   void LoadData();
@@ -139,12 +188,24 @@ class GameMenuState : public StateNode {
   // Set sound volumes based on volume settings.
   void UpdateVolumes();
 
+  // Reset the variables concerning score.
+  void ResetScore();
+
+  // Start playing a rewarded video, which takes over the menu.
+  void StartRewardedVideo();
+  // Should be called every frame to manage the rewarded video.
+  void HandleRewardedVideo();
+
+  // Set to true when the render thread detects that all assets have been
+  // loaded. The update thread then shows game menu.
+  bool loading_complete_;
+
   // The world to display in the background.
   World* world_;
 
   // The camera(s) to use to render the background world.
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
 #endif
 
@@ -195,6 +256,9 @@ class GameMenuState : public StateNode {
   fplbase::Texture* slider_knob_;
   fplbase::Texture* scrollbar_back_;
   fplbase::Texture* scrollbar_foreground_;
+  fplbase::Texture* button_checked_;
+  fplbase::Texture* button_unchecked_;
+  fplbase::Texture* cardboard_logo_;
 #ifdef USING_GOOGLE_PLAY_GAMES
   fplbase::Texture* image_gpg_;
   fplbase::Texture* image_leaderboard_;
@@ -217,6 +281,27 @@ class GameMenuState : public StateNode {
   pindrop::Bus voices_bus_;
   pindrop::Bus music_bus_;
   pindrop::Bus master_bus_;
+
+  // Values used by the score review page.
+  // The number of patrons fed in the last game.
+  int patrons_fed_;
+  // The number of sushi thrown in the last game.
+  int sushi_thrown_;
+  // Number of laps finished.
+  int laps_finished_;
+  // The total score from the last game.
+  int total_score_;
+  // The amount of xp earned (this includes multipliers, etc).
+  int earned_xp_;
+  // The unlockable that was unlocked. A bool is used to track validity.
+  Unlockable earned_unlockable_;
+  bool did_earn_unlockable_;
+  // The message to display on the message received screen.
+  std::string received_message_;
+
+  // Track the state of the UI managing rewarded video, which is done external
+  // to the MenuState to allow rewarded video offered at different states.
+  RewardedVideoState rewarded_video_state_;
 };
 
 }  // zooshi

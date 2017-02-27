@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_SHADOWCONTROLLER_H_
-#define COMPONENTS_SHADOWCONTROLLER_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_SHADOWCONTROLLER_H_
+#define FPL_ZOOSHI_COMPONENTS_SHADOWCONTROLLER_H_
 
 #include "components_generated.h"
 #include "corgi/component.h"
@@ -45,4 +45,4 @@ class ShadowControllerComponent
 CORGI_REGISTER_COMPONENT(fpl::zooshi::ShadowControllerComponent,
                          fpl::zooshi::ShadowControllerData)
 
-#endif  // COMPONENTS_SHADOWCONTROLLER_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_SHADOWCONTROLLER_H_

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_LAP_DEPENDENT_H_
-#define COMPONENTS_LAP_DEPENDENT_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_LAP_DEPENDENT_H_
+#define FPL_ZOOSHI_COMPONENTS_LAP_DEPENDENT_H_
 
 #include "components_generated.h"
 #include "corgi/component.h"
@@ -54,4 +54,4 @@ class LapDependentComponent : public corgi::Component<LapDependentData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::LapDependentComponent,
                          fpl::zooshi::LapDependentData)
 
-#endif  // COMPONENTS_LAP_DEPENDENT_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_LAP_DEPENDENT_H_

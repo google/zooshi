@@ -177,9 +177,9 @@ depends upon, so download the source from [GitHub][] using:
   [Pindrop]: http://google.github.io/pindrop/
   [Scene Lab]: https://google.github.io/scene_lab/
   [SDL]: https://www.libsdl.org/
-  [stackoverflow.com]: http://www.stackoverflow.com
+  [stackoverflow.com]: http://stackoverflow.com/search?q=zooshi
   [WebP]: https://developers.google.com/speed/webp/?hl=en
   [Windows]: http://windows.microsoft.com
   [Zooshi]: @ref zooshi_index
-  [Zooshi Google Group]: http://group.google.com/group/zooshi
+  [Zooshi Google Group]: http://groups.google.com/group/zooshi
   [Zooshi Issues Tracker]: http://github.com/google/zooshi/issues

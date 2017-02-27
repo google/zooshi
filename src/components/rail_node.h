@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_RAIL_NODE_H_
-#define COMPONENTS_RAIL_NODE_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_RAIL_NODE_H_
+#define FPL_ZOOSHI_COMPONENTS_RAIL_NODE_H_
 
 #include <string>
 #include "components_generated.h"
@@ -25,11 +25,13 @@ namespace zooshi {
 
 // Data for scene object components.
 struct RailNodeData {
-  RailNodeData() : ordering(0), total_time(-1), reliable_distance(-1) {}
+  RailNodeData()
+      : ordering(0), total_time(-1), reliable_distance(-1), wraps(true) {}
   float ordering;
   std::string rail_name;
   float total_time;
   float reliable_distance;
+  bool wraps;
 };
 
 class RailNodeComponent : public corgi::Component<RailNodeData> {
@@ -47,4 +49,4 @@ class RailNodeComponent : public corgi::Component<RailNodeData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::RailNodeComponent,
                          fpl::zooshi::RailNodeData)
 
-#endif  // COMPONENTS_RAIL_NODE_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_RAIL_NODE_H_

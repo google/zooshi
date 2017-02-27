@@ -30,10 +30,5 @@ public class ZooshiActivity extends FPLActivity {
     super.onCreate(savedInstanceState);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
   }
-
-  @Override
-  protected Drawable GetCardboardButtonDrawable() {
-    return new ColorDrawable(Color.TRANSPARENT);
-  }
 }
 

@@ -19,8 +19,7 @@
 #include "fplbase/asset_manager.h"
 #include "fplbase/material.h"
 #include "inputcontrollers/gamepad_controller.h"
-#include "mathfu/vector_2.h"
-#include "mathfu/vector_4.h"
+#include "mathfu/vector.h"
 
 namespace fpl {
 namespace zooshi {

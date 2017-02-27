@@ -37,7 +37,7 @@ class GameOverState : public StateNode {
                   GPGManager* gpg_manager_, pindrop::AudioEngine* audio_engine);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
   virtual void OnExit(int next_state);
@@ -51,7 +51,7 @@ class GameOverState : public StateNode {
 
   // The camera(s) to use to render the background world.
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
 #endif
 

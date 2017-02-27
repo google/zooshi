@@ -20,6 +20,7 @@ varying mediump vec4 vPosition;
 uniform mat4 model_view_projection;
 attribute vec2 aTexCoord;
 varying vec2 vTexCoord;
+
 void main()
 {
   vTexCoord = aTexCoord;

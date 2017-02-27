@@ -12,10 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "world.h"
+
 #include "breadboard/graph_factory.h"
 #include "components_generated.h"
 #include "config_generated.h"
 #include "corgi_component_library/default_entity_factory.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
+#include "firebase/analytics.h"
+#include "firebase/invites.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "flatbuffers/flatbuffers.h"
 #include "fplbase/input.h"
 #include "fplbase/render_target.h"
@@ -25,9 +35,8 @@
 #include "motive/init.h"
 #include "motive/math/angle.h"
 #include "rail_def_generated.h"
-#include "world.h"
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
 #endif
 
@@ -47,21 +56,24 @@ static const char kEntityLibraryFile[] = "entity_prototypes.zooentity";
 static const char kComponentDefBinarySchema[] =
     "flatbufferschemas/components.bfbs";
 
-void World::Initialize(const Config& config_,
-                       fplbase::InputSystem* input_system,
-                       fplbase::AssetManager* asset_mgr,
-                       WorldRenderer* worldrenderer,
-                       flatui::FontManager* font_manager,
-                       pindrop::AudioEngine* audio_engine,
-                       breadboard::GraphFactory* graph_factory,
-                       fplbase::Renderer* renderer, SceneLab* scene_lab) {
+void World::Initialize(
+    const Config& config_, fplbase::InputSystem* input_system,
+    fplbase::AssetManager* asset_mgr, WorldRenderer* worldrenderer,
+    flatui::FontManager* font_manager, pindrop::AudioEngine* audio_engine,
+    breadboard::GraphFactory* graph_factory, fplbase::Renderer* renderer,
+    SceneLab* scene_lab, UnlockableManager* unlockable_mgr, XpSystem* xpsystem,
+    InvitesListener* invites_lstr, MessageListener* message_lstr,
+    AdMobHelper* admob_hlpr) {
   entity_factory.reset(new corgi::component_library::DefaultEntityFactory());
   motive::SplineInit::Register();
   motive::MatrixInit::Register();
+  motive::OvershootInit::Register();
   motive::RigInit::Register();
 
   asset_manager = asset_mgr;
   world_renderer = worldrenderer;
+  unlockables = unlockable_mgr;
+  xp_system = xpsystem;
 
   config = &config_;
 
@@ -79,77 +91,80 @@ void World::Initialize(const Config& config_,
 
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&common_services_component),
-      ComponentDataUnion_ServicesDef, "CommonServicesDef");
+      ComponentDataUnion_ServicesDef, "corgi.CommonServicesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&services_component),
-      ComponentDataUnion_ServicesDef, "ServicesDef");
+      ComponentDataUnion_ServicesDef, "corgi.ServicesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&graph_component),
-      ComponentDataUnion_GraphDef, "GraphDef");
+      ComponentDataUnion_corgi_GraphDef, "corgi.GraphDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&attributes_component),
-      ComponentDataUnion_AttributesDef, "AttributesDef");
+      ComponentDataUnion_AttributesDef, "fpl.AttributesDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_denizen_component),
-      ComponentDataUnion_RailDenizenDef, "RailDenizenDef");
+      ComponentDataUnion_RailDenizenDef, "fpl.RailDenizenDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&simple_movement_component),
-      ComponentDataUnion_SimpleMovementDef, "SimpleMovementDef");
+      ComponentDataUnion_SimpleMovementDef, "fpl.SimpleMovementDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&lap_dependent_component),
-      ComponentDataUnion_LapDependentDef, "LapDependentDef");
+      ComponentDataUnion_LapDependentDef, "fpl.LapDependentDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&player_component),
-      ComponentDataUnion_PlayerDef, "PlayerDef");
+      ComponentDataUnion_PlayerDef, "fpl.PlayerDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&player_projectile_component),
-      ComponentDataUnion_PlayerProjectileDef, "PlayerProjectileDef");
+      ComponentDataUnion_PlayerProjectileDef, "fpl.PlayerProjectileDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&render_mesh_component),
-      ComponentDataUnion_RenderMeshDef, "RenderMeshDef");
+      ComponentDataUnion_corgi_RenderMeshDef, "corgi.RenderMeshDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&physics_component),
-      ComponentDataUnion_PhysicsDef, "PhysicsDef");
+      ComponentDataUnion_corgi_PhysicsDef, "corgi.PhysicsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&patron_component),
-      ComponentDataUnion_PatronDef, "PatronDef");
+      ComponentDataUnion_PatronDef, "fpl.PatronDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&time_limit_component),
-      ComponentDataUnion_TimeLimitDef, "TimeLimitDef");
+      ComponentDataUnion_TimeLimitDef, "fpl.TimeLimitDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&audio_listener_component),
-      ComponentDataUnion_ListenerDef, "ListenerDef");
+      ComponentDataUnion_ListenerDef, "fpl.ListenerDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&sound_component),
-      ComponentDataUnion_SoundDef, "SoundDef");
-  entity_factory->SetComponentType(
-      entity_manager.RegisterComponent(&digit_component),
-      ComponentDataUnion_DigitDef, "DigitDef");
+      ComponentDataUnion_SoundDef, "fpl.SoundDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&river_component),
-      ComponentDataUnion_RiverDef, "RiverDef");
+      ComponentDataUnion_RiverDef, "fpl.RiverDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&shadow_controller_component),
-      ComponentDataUnion_ShadowControllerDef, "ShadowControllerDef");
+      ComponentDataUnion_ShadowControllerDef, "fpl.ShadowControllerDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&meta_component),
-      ComponentDataUnion_MetaDef, "MetaDef");
+      ComponentDataUnion_corgi_MetaDef, "corgi.MetaDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&edit_options_component),
-      ComponentDataUnion_EditOptionsDef, "EditOptionsDef");
+      ComponentDataUnion_scene_lab_EditOptionsDef, "scene_lab.EditOptionsDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&scenery_component),
-      ComponentDataUnion_SceneryDef, "SceneryDef");
+      ComponentDataUnion_SceneryDef, "fpl.SceneryDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&animation_component),
-      ComponentDataUnion_AnimationDef, "AnimationDef");
+      ComponentDataUnion_corgi_AnimationDef, "corgi.AnimationDef");
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&rail_node_component),
-      ComponentDataUnion_RailNodeDef, "RailNodeDef");
+      ComponentDataUnion_RailNodeDef, "fpl.RailNodeDef");
+  entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&render_3d_text_component),
+      ComponentDataUnion_Render3dTextDef, "fpl.Render3dTextDef");
+  entity_factory->SetComponentType(
+      entity_manager.RegisterComponent(&light_component),
+      ComponentDataUnion_LightDef, "fpl.LightDef");
   // Make sure you register TransformComponent after any components that use it.
   entity_factory->SetComponentType(
       entity_manager.RegisterComponent(&transform_component),
-      ComponentDataUnion_TransformDef, "TransformDef");
+      ComponentDataUnion_corgi_TransformDef, "corgi.TransformDef");
 
   physics_component.set_collision_callback(&PatronComponent::CollisionHandler,
                                            &patron_component);
@@ -167,6 +182,24 @@ void World::Initialize(const Config& config_,
 
   cardboard_settings_gear =
       asset_manager->FindMaterial("materials/settings_gear.fplmat");
+
+  rendering_options_[kRenderingMonoscopic][kShadowEffect] =
+      config->rendering_config()->render_shadows_by_default();
+  rendering_options_[kRenderingMonoscopic][kPhongShading] =
+      config->rendering_config()->apply_phong_by_default();
+  rendering_options_[kRenderingMonoscopic][kSpecularEffect] =
+      config->rendering_config()->apply_specular_by_default();
+
+  rendering_options_[kRenderingStereoscopic][kShadowEffect] =
+      config->rendering_config()->render_shadows_by_default_cardboard();
+  rendering_options_[kRenderingStereoscopic][kPhongShading] =
+      config->rendering_config()->apply_phong_by_default_cardboard();
+  rendering_options_[kRenderingStereoscopic][kSpecularEffect] =
+      config->rendering_config()->apply_specular_by_default_cardboard();
+
+  invites_listener = invites_lstr;
+  message_listener = message_lstr;
+  admob_helper = admob_hlpr;
 }
 
 void World::AddController(BasePlayerController* controller) {
@@ -201,14 +234,43 @@ void World::ResetControllerFacing() {
   }
 }
 
-void World::SetIsInCardboard(bool in_cardboard) {
-  if (is_in_cardboard_ != in_cardboard) {
-    is_in_cardboard_ = in_cardboard;
-// Turn on the Cardboard setting button when in Cardboard mode.
-#ifdef ANDROID_HMD
-    fplbase::SetCardboardButtonEnabled(in_cardboard);
-#endif  // ANDROID_HMD
+void World::SetRenderingMode(RenderingMode rendering_mode) {
+  if (rendering_mode == rendering_mode_) return;
+
+  rendering_mode_ = rendering_mode;
+  rendering_dirty_ = true;
+#if FPLBASE_ANDROID_VR
+  // Turn on the Cardboard setting button when in Cardboard mode.
+  fplbase::SetCardboardButtonEnabled(rendering_mode == kRenderingStereoscopic);
+#endif  // FPLBASE_ANDROID_VR
+}
+
+void World::SetRenderingOption(RenderingMode rendering_mode, ShaderDefines s,
+                               bool enable_option) {
+  assert(0 <= rendering_mode && rendering_mode <= kNumRenderingModes &&
+         0 <= s && s < kNumShaderDefines);
+
+  // Early out if nothing is being changed.
+  // Prevents unnecessary dirtying.
+  if (rendering_options_[rendering_mode][s] == enable_option) return;
+
+  // Update the option. Mark dirty if the option is currently active.
+  rendering_options_[rendering_mode][s] = enable_option;
+  if (rendering_mode_ == rendering_mode) {
+    rendering_dirty_ = true;
   }
+}
+
+bool World::RenderingOptionEnabled(ShaderDefines s) const {
+  assert(0 <= s && s < kNumShaderDefines);
+  return rendering_options_[rendering_mode_][s];
+}
+
+bool World::RenderingOptionEnabled(RenderingMode rendering_mode,
+                                   ShaderDefines s) const {
+  assert(0 <= rendering_mode && rendering_mode <= kNumRenderingModes &&
+         0 <= s && s < kNumShaderDefines);
+  return rendering_options_[rendering_mode][s];
 }
 
 void LoadWorldDef(World* world, const WorldDef* world_def) {
@@ -221,6 +283,14 @@ void LoadWorldDef(World* world, const WorldDef* world_def) {
   for (size_t i = 0; i < world_def->entity_files()->size(); i++) {
     flatbuffers::uoffset_t index = static_cast<flatbuffers::uoffset_t>(i);
     const char* filename = world_def->entity_files()->Get(index)->c_str();
+    world->entity_factory->LoadEntitiesFromFile(filename,
+                                                &world->entity_manager);
+  }
+  const LevelDef* level_def = world_def->levels()->Get(
+    static_cast<flatbuffers::uoffset_t>(world->level_index));
+  for (size_t i = 0; i < level_def->entity_files()->size(); i++) {
+    const char* filename = level_def->entity_files()->Get(
+      static_cast<flatbuffers::uoffset_t>(i))->c_str();
     world->entity_factory->LoadEntitiesFromFile(filename,
                                                 &world->entity_manager);
   }

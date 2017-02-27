@@ -22,9 +22,9 @@
 #include "fplbase/glplatform.h"
 #include "fplbase/input.h"
 #include "fplbase/material.h"
-#if ANDROID_HMD
+#if FPLBASE_ANDROID_VR
 #include "fplbase/renderer_hmd.h"
-#endif // ANDROID_HMD
+#endif // FPLBASE_ANDROID_VR
 #include "fplbase/shader.h"
 #include "fplbase/utilities.h"
 #include "full_screen_fader.h"
@@ -32,7 +32,7 @@
 #include "mathfu/glsl_mappings.h"
 #include "mathfu/matrix.h"
 #include "mathfu/quaternion.h"
-#include "mathfu/vector_4.h"
+#include "mathfu/vector.h"
 #include "pindrop/pindrop.h"
 #include "states/states.h"
 #include "states/states_common.h"
@@ -56,8 +56,7 @@ using mathfu::vec4;
 static const corgi::WorldTime kLoadingScreenFadeInTime = 400;
 static const corgi::WorldTime kLoadingScreenFadeOutTime = 200;
 
-void LoadingState::Initialize(fplbase::InputSystem *input_system,
-                              World *world,
+void LoadingState::Initialize(fplbase::InputSystem* input_system, World* world,
                               const AssetManifest& asset_manifest,
                               fplbase::AssetManager* asset_manager,
                               pindrop::AudioEngine* audio_engine,
@@ -84,19 +83,19 @@ void LoadingState::AdvanceFrame(int delta_time, int* next_state) {
     *next_state = kGameStateGameMenu;
   }
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   // Get the direction vector from the HMD input.
   const fplbase::HeadMountedDisplayInput& head_mounted_display_input =
     input_system_->head_mounted_display_input();
   const vec3 hmd_forward = head_mounted_display_input.forward();
-  const vec2 forward = vec2(hmd_forward.x(), -hmd_forward.z()).Normalized();
-  const float rotation = atan2(forward.x(), forward.y());
+  const vec2 forward = vec2(hmd_forward.x, -hmd_forward.z).Normalized();
+  const float rotation = atan2(forward.x, forward.y);
   // Rate of convergence (angle moved = 0.5 * convergence * time) to the
   // target rotation angle.
   static const float kConvergenceRate = 2.0f;
   banner_rotation_ += (((M_PI * 2) - rotation) - banner_rotation_) *
     kConvergenceRate * std::min(delta_time / 1000.0f, 1.0f);
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 
 }
 
@@ -114,17 +113,18 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
 
   // Render black until the loading material itself has loaded.
   auto texture = loading_material->textures()[0];
-  if (!texture->id() ||
-      (world_->is_in_cardboard() &&
-       !world_->cardboard_settings_gear->textures()[0]->id())) {
+  if (!fplbase::ValidTextureHandle(texture->id()) ||
+      (world_->rendering_mode() == kRenderingStereoscopic &&
+       !fplbase::ValidTextureHandle(
+           world_->cardboard_settings_gear->textures()[0]->id()))) {
     renderer->ClearFrameBuffer(kZeros4f);
     return;
   }
 
   const vec2 res(renderer->window_size());
-  const float aspect_ratio = res.x() / res.y();
-  if (world_->is_in_cardboard()) {
-#if ANDROID_HMD
+  const float aspect_ratio = res.x / res.y;
+  if (world_->rendering_mode() == kRenderingStereoscopic) {
+#if FPLBASE_ANDROID_VR
     fplbase::Shader *shader_textured = shader_textured_;
     fplbase::HeadMountedDisplayViewSettings view_settings;
     HeadMountedDisplayRenderStart(input_system_->head_mounted_display_input(),
@@ -144,18 +144,18 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
       loading_material->Set(*renderer);
       shader_textured->Set(*renderer);
       auto vp = view_settings.viewport_extents[i];
-      glViewport(vp.x(), vp.y(), vp.z(), vp.w());
+      glViewport(vp.x, vp.y, vp.z, vp.w);
 
       // Render the loading banner floating in front of the viewer.
       const vec2 size = vec2(texture->size()).Normalized() * 50.0f;
       // Place the banner just in front and behind the camera.
       static const float kDistance = -120.0f;
-      const vec3 bottom_left(-size.x(), size.y(), kDistance);
-      const vec3 top_right(size.x(), -size.y(), kDistance);
+      const vec3 bottom_left(-size.x, size.y, kDistance);
+      const vec3 top_right(size.x, -size.y, kDistance);
       fplbase::Mesh::RenderAAQuadAlongX(bottom_left, top_right);
     }
     HeadMountedDisplayRenderEnd(renderer, true);
-#endif // ANDROID_HMD
+#endif // FPLBASE_ANDROID_VR
   } else {
     // Always clear the background.
     renderer->ClearFrameBuffer(kOnes4f);
@@ -177,15 +177,15 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
     // Only scale the image by 2, 1, or 0.5 so that it remains crisp.
     // We assume the loading texture is square and that the screen is wider
     // than it is high, so only check height.
-    const int window_y = renderer->window_size().y();
-    const int image_y = texture->original_size().y();
+    const int window_y = renderer->window_size().y;
+    const int image_y = texture->original_size().y;
     const float scale = image_y * 2 <= window_y ? 2.0f :
                         image_y > window_y ? 0.5f : 1.0f;
 
     // Render the overlay in front on the screen.
-    const vec2 size = scale * vec2(texture->size()) / res.y();
-    const vec3 bottom_left(-size.x(), size.y(), 0.0f);
-    const vec3 top_right(size.x(), -size.y(), 0.0f);
+    const vec2 size = scale * vec2(texture->size()) / res.y;
+    const vec3 bottom_left(-size.x, size.y, 0.0f);
+    const vec3 top_right(size.x, -size.y, 0.0f);
     fplbase::Mesh::RenderAAQuadAlongX(bottom_left, top_right);
   }
 
@@ -208,9 +208,9 @@ void LoadingState::Render(fplbase::Renderer* renderer) {
 }
 
 void LoadingState::OnEnter(int /*previous_state*/) {
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   input_system_->head_mounted_display_input().ResetHeadTracker();
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
 }
 
 

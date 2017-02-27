@@ -5,10 +5,10 @@
       "name": "console_print",
       "input_edge_list": [
         {
-          "edge_type": "Pulse"
+          "edge_type": "breadboard_module_library_Pulse"
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 5,
             "edge_index": 0
@@ -21,7 +21,7 @@
       "name": "player_entity",
       "input_edge_list": [
         {
-          "edge_type": "Pulse"
+          "edge_type": "breadboard_module_library_Pulse"
         }
       ]
     },
@@ -30,7 +30,7 @@
       "name": "attributes",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 1,
             "edge_index": 0
@@ -43,14 +43,14 @@
       "name": "get_attribute",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 2,
             "edge_index": 0
           }
         },
         {
-          "edge_type": "Int",
+          "edge_type": "breadboard_module_library_Int",
           "edge": {
             "value": 1
           }
@@ -62,7 +62,7 @@
       "name": "float_to_string",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 3,
             "edge_index": 0
@@ -75,13 +75,13 @@
       "name": "concat",
       "input_edge_list": [
         {
-          "edge_type": "String",
+          "edge_type": "breadboard_module_library_String",
           "edge": {
             "value": "Attrib: "
           }
         },
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 4,
             "edge_index": 0
@@ -94,7 +94,7 @@
       "name": "float_to_string",
       "input_edge_list": [
         {
-          "edge_type": "OutputEdgeTarget",
+          "edge_type": "breadboard_module_library_OutputEdgeTarget",
           "edge": {
             "node_index": 3,
             "edge_index": 0

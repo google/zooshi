@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_RAIL_DENIZEN_H_
-#define COMPONENTS_RAIL_DENIZEN_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_RAIL_DENIZEN_H_
+#define FPL_ZOOSHI_COMPONENTS_RAIL_DENIZEN_H_
 
 #include <string>
 #include <vector>
@@ -51,7 +51,9 @@ struct RailDenizenData {
         orientation_convergence_rate(0.0f),
         update_orientation(false),
         inherit_transform_data(false),
-        enabled(true) {}
+        enabled(true),
+        lap_end(0.0f),
+        rail(nullptr) {}
 
   void Initialize(const Rail& rail, motive::MotiveEngine& engine);
 
@@ -104,6 +106,10 @@ struct RailDenizenData {
   bool update_orientation;
   bool inherit_transform_data;
   bool enabled;
+  // Percentage of when a lap ends. Values outside of (0,1] are treated as 1,
+  // because the motivator wraps to 0 instead of increasing past 1.
+  float lap_end;
+  const Rail* rail;
 };
 
 class RailDenizenComponent : public corgi::Component<RailDenizenData> {
@@ -122,6 +128,9 @@ class RailDenizenComponent : public corgi::Component<RailDenizenData> {
   // This needs to be called after the entities have been loaded from data.
   void PostLoadFixup();
 
+  // When a Rail is reloaded, we need to reinitialize any data that uses it.
+  void ChangeRail(const Rail* old_rail, const Rail* new_rail);
+
  private:
   void InitializeRail(corgi::EntityRef&);
   void OnEnterEditor();
@@ -133,4 +142,4 @@ class RailDenizenComponent : public corgi::Component<RailDenizenData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::RailDenizenComponent,
                          fpl::zooshi::RailDenizenData)
 
-#endif  // COMPONENTS_RAIL_DENIZEN_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_RAIL_DENIZEN_H_

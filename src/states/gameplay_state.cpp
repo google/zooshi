@@ -12,17 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "game.h"
 #include "states/gameplay_state.h"
 
-#include "fplbase/input.h"
+#include "analytics.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
+#include "firebase/analytics.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
 #include "fplbase/asset_manager.h"
+#include "fplbase/input.h"
 #include "full_screen_fader.h"
+#include "game.h"
 #include "input_config_generated.h"
 #include "mathfu/glsl_mappings.h"
 #include "states/states.h"
 #include "states/states_common.h"
 #include "world.h"
+
+// In windows.h, PlaySound is #defined to be either PlaySoundW or PlaySoundA.
+// We need to undef this macro or AudioEngine::PlaySound() won't compile.
+// TODO(amablue): Change our PlaySound to have a different name (b/30090037).
+#if defined(PlaySound)
+#undef PlaySound
+#endif  // defined(PlaySound)
 
 using mathfu::vec2i;
 using mathfu::vec2;
@@ -32,8 +47,8 @@ namespace zooshi {
 
 // Update music gain based on lap number. This logic will eventually live in
 // an event graph.
-static void UpdateMusic(corgi::EntityManager* entity_manager,
-                        int* previous_lap, float* percent, int delta_time,
+static void UpdateMusic(corgi::EntityManager* entity_manager, int* previous_lap,
+                        float* percent, int delta_time,
                         pindrop::Channel* music_channel_1,
                         pindrop::Channel* music_channel_2,
                         pindrop::Channel* music_channel_3) {
@@ -98,7 +113,11 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
                      input_system_->GetButton(fplbase::FPLK_1).went_down() ||
                      world_->is_single_stepping)) {
     if (!world_->is_single_stepping) {
-      scene_lab_->SetInitialCamera(main_camera_);
+      scene_lab::GenericCamera camera;
+      camera.position = main_camera_.position();
+      camera.facing = main_camera_.facing();
+      camera.up = main_camera_.up();
+      scene_lab_->SetInitialCamera(camera);
     }
     *next_state = kGameStateSceneLab;
     world_->is_single_stepping = false;
@@ -113,14 +132,14 @@ void GameplayState::AdvanceFrame(int delta_time, int* next_state) {
   fader_->AdvanceFrame(delta_time);
 }
 
-void GameplayState::RenderPrep(fplbase::Renderer* renderer) {
-  world_->world_renderer->RenderPrep(main_camera_, *renderer, world_);
+void GameplayState::RenderPrep() {
+  world_->world_renderer->RenderPrep(main_camera_, world_);
 }
 
 void GameplayState::Render(fplbase::Renderer* renderer) {
   if (!world_->asset_manager) return;
   Camera* cardboard_camera = nullptr;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera = &cardboard_camera_;
 #endif
   RenderWorld(*renderer, world_, main_camera_, cardboard_camera, input_system_);
@@ -158,7 +177,7 @@ void GameplayState::Initialize(
   music_gameplay_lap_2_ = audio_engine->GetSoundHandle("music_gameplay_lap_2");
   music_gameplay_lap_3_ = audio_engine->GetSoundHandle("music_gameplay_lap_3");
 
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   cardboard_camera_.set_viewport_angle(config->cardboard_viewport_angle());
 #else
   (void)config;
@@ -192,16 +211,25 @@ void GameplayState::OnEnter(int previous_state) {
         audio_engine_->PlaySound(music_gameplay_lap_3_, mathfu::kZeros3f, 0.0f);
   }
 
-  if (world_->is_in_cardboard()) {
-#ifdef ANDROID_HMD
+  if (world_->rendering_mode() == kRenderingStereoscopic) {
+#if FPLBASE_ANDROID_VR
     world_->services_component.set_camera(&cardboard_camera_);
 #endif
   } else {
     world_->services_component.set_camera(&main_camera_);
   }
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   input_system_->head_mounted_display_input().ResetHeadTracker();
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
+
+  // Perform Analytics
+  if (previous_state != kGameStatePause) {
+    // Set the start time, so elapsed time can be tracked.
+    world_->gameplay_start_time = input_system_->Time();
+    firebase::analytics::LogEvent(kEventGameplayStart,
+                                  kParameterControlScheme,
+                                  AnalyticsControlValue(world_));
+  }
 }
 
 void GameplayState::OnExit(int next_state) {

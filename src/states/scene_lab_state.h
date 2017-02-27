@@ -47,10 +47,10 @@ class SceneLabState : public StateNode {
 
   void Initialize(fplbase::Renderer* renderer,
                   fplbase::InputSystem* input_system,
-                  scene_lab::SceneLab* scene_lab, World* world);
+                  scene_lab_corgi::CorgiAdapter* corgi_adapter, World* world);
 
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
@@ -62,6 +62,7 @@ class SceneLabState : public StateNode {
   fplbase::InputSystem* input_system_;
   Camera* camera_;
   scene_lab::SceneLab* scene_lab_;
+  scene_lab_corgi::CorgiAdapter* corgi_adapter_;
 };
 
 }  // zooshi

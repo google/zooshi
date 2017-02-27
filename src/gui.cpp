@@ -13,12 +13,35 @@
 // limitations under the License.
 
 #include "game.h"
+
+#include "mathfu/internal/disable_warnings_begin.h"
+
+#include "firebase/analytics.h"
+#include "firebase/remote_config.h"
+
+#include "mathfu/internal/disable_warnings_end.h"
+
+#include "analytics.h"
+#include "fplbase/debug_markers.h"
 #include "fplbase/utilities.h"
+#include "invites.h"
 #include "states/game_menu_state.h"
 #include "states/states_common.h"
+#include "remote_config.h"
+
+#include <iostream>
 
 using mathfu::vec2;
 using mathfu::vec3;
+
+#ifdef _WIN32
+#define snprintf(buffer, count, format, ...) \
+  _snprintf_s(buffer, count, count, format, __VA_ARGS__)
+#endif  // _WIN32
+
+// Controls whether cardboard mode is enterable through the gui.
+// Currently turned off, as it is not fully supported anymore.
+#define ALLOW_CARDBOARD_MODE 0
 
 namespace fpl {
 namespace zooshi {
@@ -88,6 +111,8 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
                                    fplbase::InputSystem& input) {
   MenuState next_state = kMenuStateStart;
 
+  PushDebugMarker("StartMenu");
+
   // Run() accepts a lambda function that is executed 2 times,
   // one for a layout pass and another one in a render pass.
   // In the lambda callback, the user can call Widget APIs to put widget in a
@@ -104,6 +129,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
     flatui::EndGroup();
 
     flatui::SetTextColor(kColorBrown);
+    flatui::SetTextFont(config_->menu_font()->c_str());
 
     // Menu items. Note that we are layering 2 layouts here
     // (background + menu items).
@@ -112,8 +138,9 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
                        mathfu::vec2(0, -150));
     flatui::SetMargin(flatui::Margin(200, 700, 200, 100));
 
-    auto event = TextButton("Play Game", kMenuSize, flatui::Margin(0),
-                            sound_start_);
+    auto event = TextButton(
+        firebase::remote_config::GetString(kConfigMenuPlayGame).c_str(),
+        kMenuSize, flatui::Margin(0), sound_start_);
     if (event & flatui::kEventWentUp) {
       next_state = kMenuStateFinished;
 #ifdef ANDROID_GAMEPAD
@@ -122,6 +149,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       }
 #endif
     }
+#if ALLOW_CARDBOARD_MODE
     if (fplbase::SupportsHeadMountedDisplay()) {
       event = TextButton("Cardboard", kMenuSize, flatui::Margin(0),
                          sound_start_);
@@ -129,6 +157,7 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
         next_state = kMenuStateCardboard;
       }
     }
+#endif  // ALLOW_CARDBOARD_MODE
 #ifdef USING_GOOGLE_PLAY_GAMES
     auto logged_in = gpg_manager_->LoggedIn();
     event = TextButton(*image_gpg_, flatui::Margin(0, 50, 10, 0),
@@ -139,9 +168,34 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       gpg_manager_->ToggleSignIn();
     }
 #endif
+    // Since sending invites and admob video are currently not supported on
+    // desktop, and the UI space is limited, only offer the option on Android.
+#ifdef __ANDROID__
+    event = TextButton(
+        firebase::remote_config::GetString(kConfigMenuSendInvite).c_str(),
+        kMenuSize, flatui::Margin(0));
+    if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuSendInvite);
+      SendInvite();
+      next_state = kMenuStateSendingInvite;
+    }
+    if (world_->admob_helper->rewarded_video_available() &&
+        !world_->admob_helper->rewarded_video_watched() &&
+        world_->admob_helper->GetRewardedVideoLocation() ==
+            kRewardedVideoLocationPregame) {
+      event = TextButton(
+          firebase::remote_config::GetString(kConfigMenuOfferVideo).c_str(),
+          kMenuSize, flatui::Margin(0));
+      if (event & flatui::kEventWentUp) {
+        StartRewardedVideo();
+      }
+    }
+#endif  // __ANDROID__
     event = TextButton("Options", kMenuSize, flatui::Margin(0));
     if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuOptions);
       next_state = kMenuStateOptions;
+      options_menu_state_ = kOptionsMenuStateMain;
     }
     event = TextButton("Quit", kMenuSize, flatui::Margin(0), sound_exit_);
     if (event & flatui::kEventWentUp) {
@@ -156,8 +210,34 @@ MenuState GameMenuState::StartMenu(fplbase::AssetManager& assetman,
       next_state = kMenuStateQuit;
     }
     flatui::EndGroup();
+
+    // Sushi selection is done offset to the right of the menu layout.
+    const UnlockableConfig* current_sushi = world_->SelectedSushi();
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 20);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(375, 100));
+    flatui::SetTextColor(kColorLightBrown);
+    event =
+        ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
+                             current_sushi->name()->c_str());
+    if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuSushi);
+      next_state = kMenuStateOptions;
+      options_menu_state_ = kOptionsMenuStateSushi;
+    }
+    event =
+        ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
+                             world_->CurrentLevel()->name()->c_str());
+    if (event & flatui::kEventWentUp) {
+      firebase::analytics::LogEvent(kEventMenuLevel);
+      next_state = kMenuStateOptions;
+      options_menu_state_ = kOptionsMenuStateLevel;
+    }
+    flatui::EndGroup();
     flatui::EndGroup();
   });
+
+  PopDebugMarker(); // StartMenu
 
   return next_state;
 }
@@ -166,6 +246,8 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
                                     flatui::FontManager& fontman,
                                     fplbase::InputSystem& input) {
   MenuState next_state = kMenuStateOptions;
+
+  PushDebugMarker("OptionMenu");
 
   // FlatUI UI definitions.
   flatui::Run(assetman, fontman, input, [&]() {
@@ -181,6 +263,7 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
     flatui::EndGroup();
 
     flatui::SetTextColor(kColorBrown);
+    flatui::SetTextFont(config_->menu_font()->c_str());
 
     // Menu items.
     flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
@@ -200,6 +283,15 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
       case kOptionsMenuStateAudio:
         OptionMenuAudio();
         break;
+      case kOptionsMenuStateRendering:
+        OptionMenuRendering();
+        break;
+      case kOptionsMenuStateSushi:
+        OptionMenuSushi();
+        break;
+      case kOptionsMenuStateLevel:
+        OptionMenuLevel();
+        break;
       default:
         break;
     }
@@ -217,11 +309,14 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
                                       flatui::Margin(60, 35, 40, 50), "Back",
                                       sound_exit_);
     if (event & flatui::kEventWentUp) {
-      // Save data when you leave the audio page.
-      if (options_menu_state_ == kOptionsMenuStateAudio) {
+      // Save data when you leave the audio or rendering page.
+      if (options_menu_state_ == kOptionsMenuStateAudio ||
+          options_menu_state_ == kOptionsMenuStateRendering) {
         SaveData();
       }
-      if (options_menu_state_ == kOptionsMenuStateMain) {
+      if (options_menu_state_ == kOptionsMenuStateMain ||
+          options_menu_state_ == kOptionsMenuStateSushi ||
+          options_menu_state_ == kOptionsMenuStateLevel) {
         next_state = kMenuStateStart;
       } else {
         options_menu_state_ = kOptionsMenuStateMain;
@@ -232,6 +327,8 @@ MenuState GameMenuState::OptionMenu(fplbase::AssetManager& assetman,
 
     flatui::EndGroup();  // Overlay group.
   });
+
+  PopDebugMarker(); // OptionMenu
 
   return next_state;
 }
@@ -286,7 +383,12 @@ void GameMenuState::OptionMenuMain() {
     options_menu_state_ = kOptionsMenuStateAudio;
   }
 
-#ifdef ANDROID_HMD
+  if (TextButton("Rendering", kButtonSize, flatui::Margin(2)) &
+      flatui::kEventWentUp) {
+    options_menu_state_ = kOptionsMenuStateRendering;
+  }
+
+#if FPLBASE_ANDROID_VR
   // If the device supports a head mounted display allow the user to toggle
   // between gyroscopic and onscreen controls.
   if (fplbase::SupportsHeadMountedDisplay()) {
@@ -298,7 +400,13 @@ void GameMenuState::OptionMenuMain() {
       SaveData();
     }
   }
-#endif  // ANDROID_HMD
+#endif  // FPLBASE_ANDROID_VR
+
+  if (TextButton("Clear Cache", kButtonSize, flatui::Margin(2)) &
+      flatui::kEventWentUp) {
+    world_->unlockables->LockAll();
+    world_->invites_listener->Reset();
+  }
 }
 
 void GameMenuState::OptionMenuAbout() {
@@ -311,32 +419,33 @@ void GameMenuState::OptionMenuAbout() {
   flatui::EndGroup();
 
   flatui::SetTextColor(kColorDarkGray);
-  flatui::SetTextFont("fonts/NotoSans-Bold.ttf");
+  flatui::SetTextFont(config_->license_font()->c_str());
 
   flatui::StartGroup(flatui::kLayoutHorizontalCenter);
   flatui::SetMargin(flatui::Margin(50, 0, 0, 0));
   flatui::StartGroup(flatui::kLayoutVerticalCenter, 0, "scroll");
   flatui::StartScroll(kScrollAreaSize, &scroll_offset_);
-  flatui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x(), 0));
+  flatui::Label(about_text_.c_str(), 35, vec2(kScrollAreaSize.x, 0),
+                flatui::kTextAlignmentLeftJustify);
   vec2 scroll_size = flatui::GroupSize();
   flatui::EndScroll();
   flatui::EndGroup();
 
   // Normalize the scroll offset to use for the scroll bar value.
-  auto scroll_height = (scroll_size.y() - kScrollAreaSize.y());
+  auto scroll_height = (scroll_size.y - kScrollAreaSize.y);
   if (scroll_height > 0) {
-    auto scrollbar_value = scroll_offset_.y() / scroll_height;
+    auto scrollbar_value = scroll_offset_.y / scroll_height;
     flatui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
-                   vec2(35, kScrollAreaSize.y()),
-                   kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
+                   vec2(35, kScrollAreaSize.y),
+                   kScrollAreaSize.y / scroll_size.y, "LicenseScrollBar",
                    &scrollbar_value);
 
     // Convert back the scroll bar value to the scroll offset.
-    scroll_offset_.y() = scrollbar_value * scroll_height;
+    scroll_offset_.y = scrollbar_value * scroll_height;
   }
 
   flatui::EndGroup();
-  flatui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
+  flatui::SetTextFont(config_->menu_font()->c_str());
 }
 
 void GameMenuState::OptionMenuLicenses() {
@@ -349,7 +458,7 @@ void GameMenuState::OptionMenuLicenses() {
   flatui::EndGroup();
 
   flatui::SetTextColor(kColorDarkGray);
-  flatui::SetTextFont("fonts/NotoSans-Bold.ttf");
+  flatui::SetTextFont(config_->license_font()->c_str());
 
   flatui::StartGroup(flatui::kLayoutHorizontalCenter);
   flatui::SetMargin(flatui::Margin(50, 0, 0, 0));
@@ -359,26 +468,31 @@ void GameMenuState::OptionMenuLicenses() {
   auto event = flatui::CheckEvent(true);
   if (!flatui::IsLastEventPointerType())
     flatui::EventBackground(event);
-  flatui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x(), 0));
+
+  flatui::EnableTextHyphenation(true);
+  flatui::Label(license_text_.c_str(), 25, vec2(kScrollAreaSize.x, 0),
+                flatui::kTextAlignmentLeftJustify);
+  flatui::EnableTextHyphenation(false);
+
   vec2 scroll_size = flatui::GroupSize();
   flatui::EndScroll();
   flatui::EndGroup();
 
   // Normalize the scroll offset to use for the scroll bar value.
-  auto scroll_height = (scroll_size.y() - kScrollAreaSize.y());
+  auto scroll_height = (scroll_size.y - kScrollAreaSize.y);
   if (scroll_height > 0) {
-    auto scrollbar_value = scroll_offset_.y() / scroll_height;
+    auto scrollbar_value = scroll_offset_.y / scroll_height;
     flatui::ScrollBar(*scrollbar_back_, *scrollbar_foreground_,
-                   vec2(35, kScrollAreaSize.y()),
-                   kScrollAreaSize.y() / scroll_size.y(), "LicenseScrollBar",
+                   vec2(35, kScrollAreaSize.y),
+                   kScrollAreaSize.y / scroll_size.y, "LicenseScrollBar",
                    &scrollbar_value);
 
     // Convert back the scroll bar value to the scroll offset.
-    scroll_offset_.y() = scrollbar_value * scroll_height;
+    scroll_offset_.y = scrollbar_value * scroll_height;
   }
 
   flatui::EndGroup();
-  flatui::SetTextFont("fonts/RaviPrakash-Regular.ttf");
+  flatui::SetTextFont(config_->menu_font()->c_str());
 }
 
 void GameMenuState::OptionMenuAudio() {
@@ -413,6 +527,433 @@ void GameMenuState::OptionMenuAudio() {
       original_effect_volume != slider_value_effect_) {
     UpdateVolumes();
   }
+}
+
+void GameMenuState::OptionMenuRendering() {
+  flatui::SetMargin(flatui::Margin(200, 200, 200, 100));
+
+  flatui::StartGroup(flatui::kLayoutVerticalLeft, 50, "menu");
+  flatui::SetMargin(flatui::Margin(0, 50, 0, 50));
+  flatui::SetTextColor(kColorBrown);
+  flatui::Label("Rendering", kButtonSize);
+  flatui::EndGroup();
+
+  bool render_shadows =
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kShadowEffect);
+  bool apply_phong =
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kPhongShading);
+  bool apply_specular =
+      world_->RenderingOptionEnabled(kRenderingMonoscopic, kSpecularEffect);
+
+  bool render_shadows_cardboard =
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kShadowEffect);
+  bool apply_phong_cardboard =
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kPhongShading);
+  bool apply_specular_cardboard =
+      world_->RenderingOptionEnabled(kRenderingStereoscopic, kSpecularEffect);
+
+  flatui::StartGroup(flatui::kLayoutHorizontalTop, 10);
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter, mathfu::kZeros2f);
+
+  if (fplbase::SupportsHeadMountedDisplay()) {
+    flatui::StartGroup(flatui::kLayoutVerticalLeft, 20);
+    flatui::SetMargin(flatui::Margin(0, 50, 0, 50));
+    flatui::Image(*cardboard_logo_, kButtonSize);
+    flatui::CheckBox(*button_checked_, *button_unchecked_, "", kButtonSize,
+                     flatui::Margin(0), &render_shadows_cardboard);
+    flatui::CheckBox(*button_checked_, *button_unchecked_, "", kButtonSize,
+                     flatui::Margin(0), &apply_phong_cardboard);
+    flatui::CheckBox(*button_checked_, *button_unchecked_, "", kButtonSize,
+                     flatui::Margin(0), &apply_specular_cardboard);
+    flatui::EndGroup();
+  }
+
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 20);
+  flatui::StartGroup(flatui::kLayoutVerticalLeft, 20);
+  flatui::SetMargin(flatui::Margin(0, 70 + kButtonSize, 0, 50));
+  flatui::CheckBox(*button_checked_, *button_unchecked_, "Shadows", kButtonSize,
+                   flatui::Margin(6, 0), &render_shadows);
+  flatui::CheckBox(*button_checked_, *button_unchecked_, "Phong Shading",
+                   kButtonSize, flatui::Margin(6, 0), &apply_phong);
+  flatui::CheckBox(*button_checked_, *button_unchecked_, "Specular",
+                   kButtonSize, flatui::Margin(6, 0), &apply_specular);
+  flatui::EndGroup();
+  flatui::EndGroup();
+  flatui::EndGroup();
+
+  world_->SetRenderingOption(kRenderingStereoscopic, kShadowEffect,
+                             render_shadows_cardboard);
+  world_->SetRenderingOption(kRenderingStereoscopic, kPhongShading,
+                             apply_phong_cardboard);
+  world_->SetRenderingOption(kRenderingStereoscopic, kSpecularEffect,
+                             apply_specular_cardboard);
+  world_->SetRenderingOption(kRenderingMonoscopic, kShadowEffect,
+                             render_shadows);
+  world_->SetRenderingOption(kRenderingMonoscopic, kPhongShading, apply_phong);
+  world_->SetRenderingOption(kRenderingMonoscopic, kSpecularEffect,
+                             apply_specular);
+
+  SaveData();
+}
+
+void GameMenuState::OptionMenuSushi() {
+  flatui::SetMargin(flatui::Margin(200, 400, 200, 100));
+
+  // Render information about the currently selected sushi.
+  const UnlockableConfig* current_sushi = world_->SelectedSushi();
+  const SushiConfig* sushi_data =
+      static_cast<const SushiConfig*>(current_sushi->data());
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 10, "menu");
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                        mathfu::vec2(30, -210));
+  flatui::SetTextColor(kColorBrown);
+  flatui::Label(current_sushi->name()->c_str(), kButtonSize);
+  flatui::SetTextColor(kColorDarkGray);
+  flatui::Label(sushi_data->description()->c_str(), kButtonSize - 5);
+  flatui::EndGroup();
+
+  // Render the different sushi types that can be selected.
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 20);
+  flatui::SetTextColor(kColorLightBrown);
+  const size_t kSushiPerLine = 3;
+  for (size_t i = 0; i < config_->sushi_config()->size(); i += kSushiPerLine) {
+    flatui::StartGroup(flatui::kLayoutHorizontalCenter, 20);
+    for (size_t j = 0;
+         j < kSushiPerLine && i + j < config_->sushi_config()->size(); ++j) {
+      size_t index = i + j;
+      // TODO(amaurice) Replace with artwork for each sushi type.
+      if (world_->unlockables->is_unlocked(UnlockableType_Sushi, index)) {
+        auto event = ImageButtonWithLabel(
+            *button_back_, 60, flatui::Margin(60, 35, 40, 50),
+            config_->sushi_config()->Get(
+                static_cast<flatbuffers::uoffset_t>(index))->name()->c_str());
+        if (event & flatui::kEventWentUp) {
+          world_->sushi_index = index;
+        }
+      } else {
+        ImageButtonWithLabel(*button_back_, 60, flatui::Margin(60, 35, 40, 50),
+                             "  ?????  ");
+      }
+    }
+    flatui::EndGroup();
+  }
+  flatui::EndGroup();
+
+  // Temporary debug buttons to trigger unlocking a random sushi,
+  // and relocking all of them.
+  flatui::StartGroup(flatui::kLayoutHorizontalBottom);
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
+                        mathfu::vec2(0, -50));
+  {
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      flatui::Margin(60, 35, 40, 50), "Unlock");
+    if (event & flatui::kEventWentUp) {
+      world_->unlockables->UnlockRandom(nullptr);
+    }
+  }
+  {
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      flatui::Margin(60, 35, 40, 50), "Reset");
+    if (event & flatui::kEventWentUp) {
+      world_->unlockables->LockAll();
+    }
+  }
+  flatui::EndGroup();
+}
+
+void GameMenuState::OptionMenuLevel() {
+  flatui::SetMargin(flatui::Margin(200, 400, 200, 100));
+
+  // Render information about the currently selected level.
+  const LevelDef* current_level = world_->CurrentLevel();
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 10, "menu");
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                        mathfu::vec2(30, -210));
+  flatui::SetTextColor(kColorBrown);
+  flatui::Label(current_level->name()->c_str(), kButtonSize);
+  flatui::EndGroup();
+
+  // Render the different levels that can be selected.
+  flatui::StartGroup(flatui::kLayoutVerticalCenter, 20);
+  flatui::SetTextColor(kColorLightBrown);
+  const size_t kLevelPerLine = 3;
+  const size_t level_count = config_->world_def()->levels()->size();
+  for (size_t i = 0; i < level_count; i += kLevelPerLine) {
+    flatui::StartGroup(flatui::kLayoutHorizontalCenter, 20);
+    for (size_t j = 0; j < kLevelPerLine && i + j < level_count; ++j) {
+      size_t index = i + j;
+      auto event = ImageButtonWithLabel(
+          *button_back_, 60, flatui::Margin(60, 35, 40, 50),
+          config_->world_def()->levels()->Get(
+            static_cast<flatbuffers::uoffset_t>(index))->name()->c_str());
+      if (event & flatui::kEventWentUp && index != world_->level_index) {
+        world_->level_index = index;
+        LoadWorldDef(world_, world_def_);
+      }
+    }
+    flatui::EndGroup();
+  }
+  flatui::EndGroup();
+}
+
+void GameMenuState::EmptyMenuBackground(
+    fplbase::AssetManager& assetman, flatui::FontManager& fontman,
+    fplbase::InputSystem& input, const std::function<void()>& gui_definition) {
+  flatui::Run(assetman, fontman, input, [&]() {
+    flatui::StartGroup(flatui::kLayoutOverlay, 0);
+    flatui::StartGroup(flatui::kLayoutHorizontalTop, 0);
+    // Background image.
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 0);
+    // Positioning the UI slightly above of the center.
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(0, -150));
+    flatui::Image(*background_options_, 1400);
+    flatui::EndGroup();
+
+    gui_definition();
+
+    flatui::EndGroup();
+    flatui::EndGroup();
+  });
+}
+
+bool GameMenuState::DisplayMessageBackButton() {
+  flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);
+  flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
+                        mathfu::vec2(0, -125));
+  flatui::SetTextColor(kColorLightBrown);
+  auto event = ImageButtonWithLabel(*button_back_, 60,
+                                    flatui::Margin(60, 35, 40, 50), "Back");
+  flatui::EndGroup();
+  return event & flatui::kEventWentUp;
+}
+
+void GameMenuState::DisplayMessageUnlockable() {
+  if (did_earn_unlockable_) {
+    const int kBufferSize = 64;
+    char buffer[kBufferSize];
+    snprintf(buffer, kBufferSize, "%s unlocked!",
+             earned_unlockable_.config->name()->c_str());
+    flatui::Label(buffer, kScoreTextSize);
+  }
+}
+
+MenuState GameMenuState::ScoreReviewMenu(fplbase::AssetManager& assetman,
+                                         flatui::FontManager& fontman,
+                                         fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateScoreReview;
+
+  PushDebugMarker("ScoreReviewMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    // Display the game end values, along with the score.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalRight, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(-75, -200));
+    flatui::Label("Patrons Fed:", kScoreSmallSize);
+    flatui::Label("Sushi Thrown:", kScoreSmallSize);
+    flatui::Label("Laps Finished:", kScoreSmallSize);
+    flatui::Label("Final Score:", kScoreTextSize);
+    flatui::EndGroup();
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(175, -200));
+    const int kBufferSize = 64;
+    char buffer[kBufferSize];
+    snprintf(buffer, kBufferSize, "%d", patrons_fed_);
+    flatui::Label(buffer, kScoreSmallSize);
+    snprintf(buffer, kBufferSize, "%d", sushi_thrown_);
+    flatui::Label(buffer, kScoreSmallSize);
+    snprintf(buffer, kBufferSize, "%d", laps_finished_);
+    flatui::Label(buffer, kScoreSmallSize);
+    snprintf(buffer, kBufferSize, "%d", total_score_);
+    flatui::Label(buffer, kScoreTextSize);
+    flatui::EndGroup();
+
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::vec2(0, 100));
+
+    snprintf(buffer, kBufferSize, "%d XP earned", earned_xp_);
+    flatui::Label(buffer, kScoreTextSize);
+    if (did_earn_unlockable_) {
+      snprintf(buffer, kBufferSize, "%s unlocked!",
+               earned_unlockable_.config->name()->c_str());
+      flatui::Label(buffer, kScoreTextSize);
+    }
+    if (world_->unlockables->remaining_locked_total() > 0) {
+      snprintf(buffer, kBufferSize, "%d XP until next reward",
+               world_->xp_system->xp_until_reward());
+      flatui::Label(buffer, kScoreTextSize);
+    } else {
+      flatui::Label("Everything has been unlocked!", kScoreTextSize);
+    }
+    flatui::EndGroup();
+
+    if (world_->admob_helper->rewarded_video_available() &&
+        !world_->admob_helper->rewarded_video_watched() &&
+        world_->admob_helper->GetRewardedVideoLocation() ==
+        kRewardedVideoLocationScoreScreen) {
+      flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+      flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                            mathfu::vec2(400, 10));
+      flatui::SetTextColor(kColorLightBrown);
+      auto event = ImageButtonWithLabel(
+          *button_back_, 60, flatui::Margin(60, 35, 40, 50), "Bonus XP");
+      if (event & flatui::kEventWentUp) {
+        StartRewardedVideo();
+      }
+      flatui::EndGroup();
+    }
+
+    flatui::StartGroup(flatui::kLayoutHorizontalBottom, 150);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignBottom,
+                          mathfu::vec2(0, -125));
+    flatui::SetTextColor(kColorLightBrown);
+    auto event = ImageButtonWithLabel(*button_back_, 60,
+                                      flatui::Margin(60, 35, 40, 50), "Menu");
+    if (event & flatui::kEventWentUp) {
+      next_state = kMenuStateStart;
+    }
+    event = ImageButtonWithLabel(*button_back_, 60,
+                                 flatui::Margin(60, 35, 40, 50), "Retry");
+    if (event & flatui::kEventWentUp) {
+      next_state = kMenuStateFinished;
+    }
+    flatui::EndGroup();
+  });
+
+  PopDebugMarker();  // ScoreReviewMenu
+
+  return next_state;
+}
+
+MenuState GameMenuState::ReceivedInviteMenu(fplbase::AssetManager& assetman,
+                                            flatui::FontManager& fontman,
+                                            fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateReceivedInvite;
+
+  PushDebugMarker("ReceivedInviteMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    // Display a message indicating an invite was received.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+    flatui::Label("Thanks for trying Zooshi!", kButtonSize);
+    DisplayMessageUnlockable();
+    flatui::EndGroup();
+
+    if (DisplayMessageBackButton()) {
+      next_state = kMenuStateStart;
+    }
+  });
+
+  PopDebugMarker();  // ReceivedInviteMenu
+
+  return next_state;
+}
+
+MenuState GameMenuState::SentInviteMenu(fplbase::AssetManager& assetman,
+                                        flatui::FontManager& fontman,
+                                        fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateSentInvite;
+
+  PushDebugMarker("SentInviteMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    // Display a message indicating invitations were sent.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+    flatui::Label("Thanks for inviting others to Zooshi!", kButtonSize);
+    DisplayMessageUnlockable();
+    flatui::EndGroup();
+
+    if (DisplayMessageBackButton()) {
+      next_state = kMenuStateStart;
+    }
+  });
+
+  PopDebugMarker();  // SentInviteMenu
+
+  return next_state;
+}
+
+MenuState GameMenuState::ReceivedMessageMenu(fplbase::AssetManager& assetman,
+                                             flatui::FontManager& fontman,
+                                             fplbase::InputSystem& input) {
+  MenuState next_state = kMenuStateReceivedMessage;
+
+  PushDebugMarker("ReceivedMessageMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    // Display the message that was received.
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+    flatui::Label(received_message_.c_str(), kButtonSize, kWrappedLabelSize,
+                  flatui::kTextAlignmentCenter);
+    flatui::EndGroup();
+
+    if (DisplayMessageBackButton()) {
+      next_state = kMenuStateStart;
+    }
+  });
+
+  PopDebugMarker();  // ReceivedMessageMenu
+
+  return next_state;
+}
+
+RewardedVideoState GameMenuState::RewardedVideoMenu(
+    fplbase::AssetManager& assetman, flatui::FontManager& fontman,
+    fplbase::InputSystem& input) {
+  RewardedVideoState next_state = rewarded_video_state_;
+
+  PushDebugMarker("AdMobVideoMenu");
+
+  EmptyMenuBackground(assetman, fontman, input, [&]() {
+    flatui::SetTextColor(kColorBrown);
+    flatui::StartGroup(flatui::kLayoutVerticalCenter, 10);
+    flatui::PositionGroup(flatui::kAlignCenter, flatui::kAlignCenter,
+                          mathfu::kZeros2f);
+
+    // We want to show different things based on the AdMob state.
+    if (rewarded_video_state_ == kRewardedVideoStateDisplaying) {
+      if (world_->admob_helper->rewarded_video_status() ==
+          kAdMobStatusLoading) {
+        flatui::Label("Loading video, please wait...", kButtonSize);
+      } else {
+        flatui::Label("Video loaded, please enjoy!", kButtonSize);
+      }
+    } else {
+      if (world_->admob_helper->rewarded_video_watched()) {
+        const char* label = menu_state_ == kMenuStateScoreReview
+                                ? "A bonus has been granted!"
+                                : "A bonus will be applied to your next game";
+        flatui::Label(label, kButtonSize, kWrappedLabelSize,
+                      flatui::kTextAlignmentCenter);
+      } else {
+        flatui::Label("The full video needs to be watched for the bonus",
+                      kButtonSize, kWrappedLabelSize,
+                      flatui::kTextAlignmentCenter);
+      }
+      if (DisplayMessageBackButton()) {
+        next_state = kRewardedVideoStateIdle;
+      }
+    }
+
+    flatui::EndGroup();
+  });
+
+  PopDebugMarker();  // AdMobVideoMenu
+
+  return next_state;
 }
 
 }  // zooshi

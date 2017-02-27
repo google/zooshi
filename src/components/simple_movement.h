@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef COMPONENTS_SIMPLE_MOVEMENT_H_
-#define COMPONENTS_SIMPLE_MOVEMENT_H_
+#ifndef FPL_ZOOSHI_COMPONENTS_SIMPLE_MOVEMENT_H_
+#define FPL_ZOOSHI_COMPONENTS_SIMPLE_MOVEMENT_H_
 
 #include "components_generated.h"
 #include "corgi/component.h"
@@ -49,4 +49,4 @@ class SimpleMovementComponent : public corgi::Component<SimpleMovementData> {
 CORGI_REGISTER_COMPONENT(fpl::zooshi::SimpleMovementComponent,
                          fpl::zooshi::SimpleMovementData)
 
-#endif  // COMPONENTS_SIMPLE_MOVEMENT_H_
+#endif  // FPL_ZOOSHI_COMPONENTS_SIMPLE_MOVEMENT_H_

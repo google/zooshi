@@ -38,7 +38,7 @@ class PauseState : public StateNode {
                   flatui::FontManager* font_manager,
                   pindrop::AudioEngine* audio_engine);
   virtual void AdvanceFrame(int delta_time, int* next_state);
-  virtual void RenderPrep(fplbase::Renderer* renderer);
+  virtual void RenderPrep();
   virtual void Render(fplbase::Renderer* renderer);
   virtual void HandleUI(fplbase::Renderer* renderer);
   virtual void OnEnter(int previous_state);
@@ -70,11 +70,14 @@ class PauseState : public StateNode {
   // Texture used in paused UI .
   fplbase::Texture* background_paused_;
 
+  // Asset manifest used to retrieve configurations.
+  const Config* config_;
+
   // The next menu state.
   GameState next_state_;
 
   Camera main_camera_;
-#ifdef ANDROID_HMD
+#if FPLBASE_ANDROID_VR
   Camera cardboard_camera_;
 #endif
 };
