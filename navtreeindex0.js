@@ -1,6 +1,5 @@
 var NAVTREEINDEX0 =
 {
-"@ref zooshi_guide_firebase":[2,3,3],
 "contributing.html":[4],
 "index.html":[],
 "index.html#zooshi_index":[0],
@@ -14,6 +13,7 @@ var NAVTREEINDEX0 =
 "zooshi_guide_building_windows.html":[2,0,3],
 "zooshi_guide_cardboard.html":[2,3,2],
 "zooshi_guide_controllers.html":[2,3,1],
+"zooshi_guide_firebase.html":[2,3,3],
 "zooshi_guide_gameplay.html":[1],
 "zooshi_guide_gameplay_cardboard.html":[1,0],
 "zooshi_guide_gamestates.html":[2,3,0],

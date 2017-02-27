@@ -7,8 +7,8 @@
 
 var indexSectionsWithContent =
 {
-  0: "bcgmoz",
-  1: "bcgmoz"
+  0: "bcfgmoz",
+  1: "bcfgmoz"
 };
 
 var indexSectionNames =

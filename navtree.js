@@ -18,7 +18,7 @@ var NAVTREE =
         [ "Game States", "zooshi_guide_gamestates.html", null ],
         [ "Controllers", "zooshi_guide_controllers.html", null ],
         [ "Cardboard", "zooshi_guide_cardboard.html", null ],
-        [ "Firebase", "@ref zooshi_guide_firebase", null ]
+        [ "Firebase", "zooshi_guide_firebase.html", null ]
       ] ]
     ] ],
     [ "Readme", "zooshi_readme.html", null ],
@@ -28,7 +28,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"@ref zooshi_guide_firebase"
+"contributing.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['overview',['Overview',['../zooshi_guide_overview.html',1,'']]]
+  ['modifying_20assets',['Modifying Assets',['../zooshi_guide_assets.html',1,'']]]
 ];

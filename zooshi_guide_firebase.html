@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>Zooshi: Components</title>
+<title>Zooshi: Firebase</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -134,7 +134,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="zooshi_guide_gameplay.html"><span>Gameplay</span></a></li>
-      <li class="current"><a href="zooshi_guide_overview.html"><span>Programmer's&#160;Guide</span></a></li>
+      <li><a href="zooshi_guide_overview.html"><span>Programmer's&#160;Guide</span></a></li>
       <li><a href="zooshi_readme.html"><span>Readme</span></a></li>
       <li><a href="contributing.html"><span>Contributing</span></a></li>
       <li>
@@ -155,22 +155,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="zooshi_guide_building.html"><span>Building</span></a></li>
-      <li><a href="zooshi_guide_assets.html"><span>Modifying&#160;Assets</span></a></li>
-      <li><a href="zooshi_guide_play_games_services.html"><span>Set&#160;Up&#160;Google&#160;Play&#160;Games&#160;Services</span></a></li>
-      <li class="current"><a href="usergroup0.html"><span>Components</span></a></li>
-    </ul>
-  </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="zooshi_guide_gamestates.html"><span>Game&#160;States</span></a></li>
-      <li><a href="zooshi_guide_controllers.html"><span>Controllers</span></a></li>
-      <li><a href="zooshi_guide_cardboard.html"><span>Cardboard</span></a></li>
-      <li><a href="zooshi_guide_firebase.html"><span>Firebase</span></a></li>
-    </ul>
-  </div>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -183,7 +167,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('usergroup0.html','');});
+$(document).ready(function(){initNavTree('zooshi_guide_firebase.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -202,16 +186,33 @@ $(document).ready(function(){initNavTree('usergroup0.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Components</div>  </div>
+<div class="title">Firebase </div>  </div>
 </div><!--header-->
 <div class="contents">
-<ul>
-<li><a href="zooshi_guide_gamestates.html"><span>Game&#160;States</span></a></li>
-<li><a href="zooshi_guide_controllers.html"><span>Controllers</span></a></li>
-<li><a href="zooshi_guide_cardboard.html"><span>Cardboard</span></a></li>
-<li><a href="zooshi_guide_firebase.html"><span>Firebase</span></a></li>
-</ul>
-</div><!-- contents -->
+<div class="textblock"><h1><a class="anchor" id="firebase_introduction"></a>
+Introduction</h1>
+<p>This document outlines how the <a href="https://firebase.google.com/docs/cpp/setup">Firebase C++ SDK</a> is used in <a class="el" href="index.html#zooshi_index">Zooshi</a>. For additional samples on how to integrate Firebase, be sure to check out <a href="https://firebase.google.com/docs/samples">Firebase Samples</a>.</p>
+<h1><a class="anchor" id="firebase_overview"></a>
+Overview</h1>
+<p>Firebase makes it easy to add backend services and analytics to your mobile games on iOS and Android. With the Firebase C++ SDK, you can access Firebase services directly in your C++ code, without having to write any Java or Swift (or Objective-C) code.</p>
+<h1><a class="anchor" id="firebase_admob"></a>
+AdMob</h1>
+<p><a href="https://firebase.google.com/docs/admob/cpp/quick-start">Firebase AdMob</a> is used to offer <a href="https://firebase.google.com/docs/admob/cpp/rewarded-video">Rewarded Video</a> ads to the user, in exchange for bonus XP granted upon playing the level. The relevant code can be found in (admob.h/.cpp).</p>
+<h1><a class="anchor" id="firebase_analytics"></a>
+Analytics</h1>
+<p><a href="https://firebase.google.com/docs/analytics/cpp/start">Firebase Analytics</a> is used to collect analytics from various events, such as when a level is started, or when a patron is fed. The relevant code can be found in (analytics.h/.cpp).</p>
+<h1><a class="anchor" id="firebase_messaging"></a>
+Cloud Messaging</h1>
+<p><a href="https://firebase.google.com/docs/cloud-messaging/cpp/client">Firebase Cloud Messaging</a> is used to deliver messages to users, which can call users into playing, and can include rewards. The relevant code can be found in (messaging.h/.cpp).</p>
+<h1><a class="anchor" id="firebase_invites"></a>
+Invites</h1>
+<p><a href="https://firebase.google.com/docs/invites/cpp">Firebase Invites</a> lets users invite others to try Zooshi with app referals via email, which gets rewarded with unlockables. The relevant code can be found in (invites.h/.cpp).</p>
+<h1><a class="anchor" id="firebase_remote_config"></a>
+Remote Config</h1>
+<p><a href="https://firebase.google.com/docs/remote-config/use-config-cpp">Firebase Remote Config</a> is used to allow modification of menu items within Zooshi without needing to push new versions, through the Firebase console. The relevant code can be found in (remote_config.h/.cpp).</p>
+<p><br/>
+ </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- Google Analytics -->
 <script>
