@@ -108,7 +108,8 @@ struct World {
         skip_rendermesh_rendering(false),
         is_single_stepping(false),
         sushi_index(0),
-        level_index(0),
+        // Start on the Easy level, which is at 1.
+        level_index(1),
         rendering_mode_(kRenderingMonoscopic),
         rendering_dirty_(true) {
 #if FPLBASE_ANDROID_VR
