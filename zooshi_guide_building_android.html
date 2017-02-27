@@ -192,8 +192,9 @@ $(document).ready(function(){initNavTree('zooshi_guide_building_android.html',''
 <div class="textblock"><h1>Version Requirements</h1>
 <p><a class="el" href="zooshi_guide_overview.html">Zooshi</a> is known to build with the following tool versions:</p>
 <ul>
-<li><a href="http://developer.android.com/tools/sdk/ndk/index.html">Android NDK</a>: android-ndk-r10e</li>
-<li><a href="http://developer.android.com/sdk/index.html">Android SDK</a>: Android 5.0 (API Level 21)</li>
+<li><a href="https://developer.android.com/studio/install.html">Android Studio</a>: 2.2.3</li>
+<li><a href="http://developer.android.com/sdk/index.html">Android SDK</a>: Android 7.1.1 Nougat (API Level 25)</li>
+<li><a href="http://developer.android.com/tools/sdk/ndk/index.html">Android NDK</a>: 13.1.3345770</li>
 <li><a href="https://developers.google.com/speed/webp/docs/cwebp">cwebp</a>: 0.4.0 (downloaded from the <a href="https://developers.google.com/speed/webp/docs/precompiled">WebP Precompiled Utilities</a>)</li>
 <li><a href="https://www.python.org/download/releases/2.7/">Python</a>: 2.7.6</li>
 </ul>
@@ -206,30 +207,40 @@ $(document).ready(function(){initNavTree('zooshi_guide_building_android.html',''
 </ul>
 </li>
 <li>Install <a href="http://google.github.io/fplutil/fplutil_prerequisites.html">fplutil prerequisites</a>.</li>
-<li>Install the <code>Google Play services</code> package from the <a href="https://developer.android.com/sdk/installing/adding-packages.html">SDK Manager</a>.</li>
-<li>Download the <a href="http://developers.google.com/games/services/downloads/">Google Play Games C++ SDK</a> and unpack into Zooshi's <code>dependencies/gpg-cpp-sdk</code> directory.<ul>
+<li>Install <a href="https://developer.android.com/studio/install.html">Android Studio</a>.</li>
+<li>Install the <code>NDK</code>, <code>Google Play services</code>, and <code>Android Support Repository</code> packages from the <a href="https://developer.android.com/sdk/installing/adding-packages.html">SDK Manager</a>. You can access the SDK Manager through Android Studio.</li>
+<li><p class="startli">Configure Gradle by creating a <code>local.properties</code> file in your Zooshi directory that gives the locations of the Android SDK and NDK. It should look something like this:</p>
+<p class="startli">sdk.dir=/usr/local/google/home/username/Android/Sdk ndk.dir=/usr/local/google/home/username/Android/Sdk/ndk-bundle</p>
+</li>
+<li>Download the <a href="http://developers.google.com/games/services/downloads/">Google Play Games C++ SDK</a> and unpack into Zooshi's <code>dependencies/gpg-cpp-sdk</code> directory, or set environment variable <code>GPG_SDK</code> to the install directory.<ul>
 <li>For example, if you've fetched Zooshi to <code>~/zooshi/</code>, unpack the downloaded <code>gpg-cpp-sdk.v2.0.zip</code> to <code>~/zooshi/dependencies/gpg-cpp-sdk</code>.</li>
+</ul>
+</li>
+<li>Download the <a href="https://firebase.google.com/docs/cpp/setup">Firebase C++ SDK</a> and unpack into Zooshi's <code>dependencies/firebase_cpp_sdk</code> directory, or set environment variable <code>FIREBASE_SDK</code> to the install directory.</li>
+<li>Register your Android app with Firebase.<ul>
+<li>Create a new app on the <a href="https://firebase.google.com/console/">Firebase console</a>, and attach your Android app to it.<ul>
+<li>You can use "com.google.fpl.zooshi" as the Package Name while you're testing.</li>
+<li>To <a href="https://developers.google.com/android/guides/client-auth">generate a SHA1</a> run this command on Mac and Linux, ``` keytool -exportcert -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore ``` or this command on Windows, ``` keytool -exportcert -list -v -alias androiddebugkey -keystore USERPROFILE%.android\debug.keystore ```</li>
+<li>If keytool reports that you do not have a debug.keystore, you can <a href="http://developer.android.com/tools/publishing/app-signing.html#signing-manually">create one with</a>, ``` keytool -genkey -v -keystore ~/.android/debug.keystore -storepass android -alias androiddebugkey -keypass android -dname "CN=Android Debug,O=Android,C=US" ``<code></code></li>
+</ul>
+</li>
+<li><code>Add the</code>google-services.json` file that you downloaded from Firebase console to the Zooshi directory. This file identifies your Android app to the Firebase backend.</li>
+<li>For further details please refer to the <a href="https://firebase.google.com/docs/android/setup">general instructions for setting up an Android app with Firebase</a>.</li>
 </ul>
 </li>
 </ul>
 <h1>Building</h1>
-<p>The <a class="el" href="zooshi_guide_overview.html">Zooshi</a> project has an <code>AndroidManifest.xml</code> file, which contains details about how to build an Android package (apk).</p>
-<p>To build the project:</p>
+<p>The <a class="el" href="zooshi_guide_overview.html">Zooshi</a> project has a <code>build.gradle</code> file, which contains details about how to build an Android package (apk).</p>
+<p>To build for Android:</p>
 <ul>
 <li>Open a command line window.</li>
 <li>Go to the <a class="el" href="zooshi_guide_overview.html">Zooshi</a> directory.</li>
-<li>Run <a href="http://google.github.io/fplutil/build_all_android.html">build_all_android</a> to build the project.</li>
+<li>Run <code>gradlew</code> to build the project.</li>
 </ul>
-<p>For example: </p>
-<pre class="fragment">cd zooshi
-./dependencies/fplutil/bin/build_all_android -E dependencies jni/libs
-</pre><h1>Installing and Running the Game</h1>
-<p>Install the game using <a href="http://google.github.io/fplutil/build_all_android.html">build_all_android</a>.</p>
-<p>For example, the following will install and run the game on a device attached to the workstation with the serial number <code>ADA123123</code>. </p>
-<pre class="fragment">cd zooshi
-./dependencies/fplutil/bin/build_all_android -E dependencies jni/libs -d ADA123123 -i -r -S
-</pre><p>If only one device is attached to a workstation, the <code>-d</code> argument (which selects a device) can be omitted.</p>
-<p><br/>
+<h1>Installing the Game</h1>
+<p>You can use the <a href="https://developer.android.com/studio/command-line/adb.html">Android Debug Bridge</a> (adb) to install the game. This tool is in the <a href="http://developer.android.com/sdk/index.html">Android SDK</a> directory. Attach an Android phone to your desktop with a USB cable, and ensure <a href="https://developers.google.com/web/tools/chrome-devtools/remote-debugging/">remote debugging</a> is enabled on your phone, then run: </p>
+<pre class="fragment">adb install build/outputs/apk/zooshi-debug.apk
+</pre><p><br/>
  </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
@@ -239,7 +250,7 @@ $(document).ready(function(){initNavTree('zooshi_guide_building_android.html',''
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-46159502-1', 'google.github.io');
+ga('create', 'UA-49880327-7', 'google.github.io');
 ga('send', 'pageview');
 </script>
 </body>
