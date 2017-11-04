@@ -4,6 +4,13 @@ Zooshi   {#zooshi_readme}
 [Zooshi][] is a game in which players travel on a raft down an endless river
 and toss sushi into the mouths of well-dressed animal patrons.
 
+## New!
+
+[Zooshi][] now integrates FPLs Firebase SDK. Access Firebase entirely from your C++ code,
+without having to write any Java code (on Android) or Objective-C/Swift code (on iOS).The SDK also
+translates many language-specific idioms used by Firebase into an interface more familiar to
+C++ developers. Find out more at https://firebase.google.com/games
+
 ## Motivation
 
 [Zooshi][] serves as a demonstration of how to build cross-platform
