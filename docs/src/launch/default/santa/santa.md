@@ -1,6 +1,6 @@
-Zooshi Santa Mode    {#zooshi_launch_santa}
+Zooshi Santa Mode
 =================
-
+```
 \htmlonly
 <script>
   /**
@@ -22,6 +22,7 @@ Zooshi Santa Mode    {#zooshi_launch_santa}
   $( document ).ready(hideSidebar);
 </script>
 \endhtmlonly
+```
 
 ## Install Zooshi
 
@@ -29,7 +30,7 @@ Before you can play Zooshi in Santa mode, you have to install the game.
 If you have not done so already, please click on the button below to install
 Zooshi.
 
-\htmlonly
+
 <a class="browser-android" href="market://details?id=com.google.fpl.zooshi">
   <img src="install_button.png" alt="Click here to install."
       style="height: 15em"/>
@@ -38,7 +39,7 @@ Zooshi.
   <img src="install_button.png" alt="Click here to install."
       style="height: 15em"/>
 </a>
-\endhtmlonly
+
 
 ## Play Zooshi in Santa mode
 
@@ -46,7 +47,7 @@ Zooshi.
   If you have already installed Zooshi, just click the button below to launch
   Zooshi in Santa mode!
 
-  \htmlonly
+
   <br>
   <a href="intent://google.github.io/zooshi/launch/default/santa#Intent;scheme=http;package=com.google.fpl.zooshi;end">
     <img src="zooshi_santa_button.png"
@@ -54,7 +55,7 @@ Zooshi.
             style="height: 15em"/>
   </a>
   <br><br>
-  \endhtmlonly
+
 
   *Note: If you did not already install Zooshi from the link above, the button
   will take you to the `Play Store` to install Zooshi first. After installing,
