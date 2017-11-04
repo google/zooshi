@@ -7,79 +7,80 @@ Zooshi    {#zooshi_index}
 [Zooshi][] is a game in which players travel on a raft down an endless river
 and toss sushi into the mouths of well-dressed animal patrons. It is written
 in cross-platform C++.
-
+```
 \htmlonly
 <iframe width="560" height="315"
     src="https://www.youtube.com/embed/3B5KCE3AC6Y"
     frameborder="0" allowfullscreen>
 </iframe>
 \endhtmlonly
+````
 
 ## Motivation
 
-[Zooshi][] demonstrates a quick and fun game that primarily targets
-[Google Cardboard][] using native C++ APIs. The game shows how to use
+[Zooshi] demonstrates a quick and fun game that primarily targets
+[Google Cardboard] using native C++ APIs. The game shows how to use
 several open source technology components developed at Google.
 <table style="border: 0; padding: 3em">
 <tr>
   <td>
-    <img src="info_panel_breadboard.png" style="height: 20em"/>
-    [Breadboard][], an event system that allows game components to communicate
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_breadboard.png" style="height: 20em"/>
+    [Breadboard], an event system that allows game components to communicate
     with each other, without being tightly coupled.
   </td>
 </tr>
 <tr>
   <td>
-    <img src="info_panel_corgi.png" style="height: 20em"/>
-    [CORGI][], a simple, yet flexible, [entity-component system][] that
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_corgi.png" style="height: 20em"/>
+    [CORGI], a simple, yet flexible, [entity-component system][] that
     decouples the systems within the game.
   </td>
 </tr>
 <tr>
   <td>
-    <img src="info_panel_flatbuffers.png" style="height: 20em"/>
-    [FlatBuffers][], a fast serialization system is used to store the game's
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_flatbuffers.png" style="height: 20em"/>
+    [FlatBuffers], a fast serialization system is used to store the game's
     data. The game configuration data is stored in JSON files which are
     converted to FlatBuffer binary files using the flatc compiler.
   </td>
 </tr>
 <tr>
   <td>
-    <img src="info_panel_flatui.png" style="height: 20em"/>
-    [FlatUI][], an immediate-mode GUI designed specifically with games in mind.
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_flatui.png" style="height: 20em"/>
+    [FlatUI], an immediate-mode GUI designed specifically with games in mind.
     The game uses FlatUI to generate all of the menus in the game.
   </td>
 </tr>
 <tr>
   <td>
-    <img src="info_panel_fplbase.png" style="height: 20em"/>
-    [fplbase][], is as a thin renderer and asset management library used by the
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_fplbase.png" style="height: 20em"/>
+    [fplbase], is as a thin renderer and asset management library used by the
     game.
   </td>
 </tr>
 <tr>
   <td>
-    <img src="info_panel_google_play_games.png" style="height: 20em"/>
-    [Google Play Games Services][] is used to share scores and reward players
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_google_play_games.png" style="height: 20em"/>
+    [Google Play Games Services] is used to share scores and reward players
     with achievements.
   </td>
 </tr>
 <tr>
   <td>
-    <img src="info_panel_mathfu_motive.png" style="height: 20em"/>
-    [MathFu][], a geometry math library optimized for ARM and x86 processors.
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_mathfu_motive.png" style="height: 20em"/>
+    [MathFu], a geometry math library optimized for ARM and x86 processors.
     The game uses MathFu data types for two and three dimensional vectors, and
-    for the 4x4 matrices used by the [fplbase][] rendering system, and also by
-    the [Motive][] animation system.
+    for the 4x4 matrices used by the [fplbase] rendering system, and also by
+    the [Motive] animation system.
 
-    [Motive][], a memory efficient and performant animation library. The game
+    [Motive], a memory efficient and performant animation library. The game
     uses Motive for all of the animation.
   </td>
 </tr>
 <tr>
   <td>
-    <img src="info_panel_pindrop.png" style="height: 20em"/>
-    [Pindrop][], a simple audio engine designed with games in mind. It handles
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_pindrop.png" style="height: 20em"/>
+    [Pindrop], a simple audio engine designed with games in mind. It handles
     all the audio of the game.
   </td>
 </tr>
@@ -93,42 +94,42 @@ several open source technology components developed at Google.
 </tr>
 <tr>
   <td>
-    <img src="info_panel_webp.png" style="height: 20em"/>
-    [WebP][], an image compression technology, is used to compress textures
+    <img src="https://github.com/google/zooshi/blob/master/docs/src/programmers_guide/info_panel_scene_lab.png" style="height: 20em"/>
+    [WebP], an image compression technology, is used to compress textures
     which reduces the size of the final game package and ultimately reduces
     download time.
   </td>
 </tr>
 </table>
 
-In addition, [fplutil][] is used to build, deploy, and run the game,
+In addition, [fplutil] is used to build, deploy, and run the game,
 build and archive the game, and profile the game's CPU performance.
 
 ## Functionality
 
-[Zooshi][] is a cross-platform, open-source game that supports:
+[Zooshi] is a cross-platform, open-source game that supports:
 
    * Bluetooth controllers
    * Touch controls
    * Google Play Games Services sign-in and leaderboards
    * Android devices
       - Phones and tablets
-      - Virtual reality via a [Google Cardboard][] device
+      - Virtual reality via a [Google Cardboard] device
 
 ## Supported Platforms
 
-[Zooshi][] has been tested on the following platforms:
+[Zooshi] has been tested on the following platforms:
 
-   * [Nexus Player][], an [Android TV][] device
-   * [Android][] phones and tablets
-   * [Linux][] (x86_64)
-   * [OS X][]
-   * [Windows][]
+   * [Nexus Player], an [Android TV] device
+   * [Android] phones and tablets
+   * [Linux] (x86_64)
+   * [OS X]
+   * [Windows]
 
-We use [SDL][] as our cross platform layer.
+We use [SDL] as our cross platform layer.
 The game is written entirely in C++, with the exception of one Java file used
-only on Android builds. The game can be compiled using [Linux][], [OS X][] or
-[Windows][].
+only on Android builds. The game can be compiled using [Linux], [OS X] or
+[Windows].
 
 ## Download
 
@@ -138,8 +139,8 @@ only on Android builds. The game can be compiled using [Linux][], [OS X][] or
    * [Google Play][]
      (binary for Android)
 
-**Important**: [Zooshi][] uses submodules to reference other components it
-depends upon, so download the source from [GitHub][] using:
+**Important**: [Zooshi] uses submodules to reference other components it
+depends upon, so download the source from [GitHub] using:
 
 ~~~{.sh}
     git clone --recursive https://github.com/google/zooshi.git
@@ -148,9 +149,9 @@ depends upon, so download the source from [GitHub][] using:
 ## Feedback and Reporting Bugs
 
    * Discuss Zooshi with other developers and users on the
-     [Zooshi Google Group][].
-   * File issues on the [Zooshi Issues Tracker][].
-   * Post your questions to [stackoverflow.com][] with a mention of
+     [Zooshi Google Group].
+   * File issues on the [Zooshi Issues Tracker].
+   * Post your questions to [stackoverflow.com] with a mention of
      **zooshi**.
 
 <br>
